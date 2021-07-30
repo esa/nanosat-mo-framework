@@ -91,7 +91,7 @@ The parameters for the SupervisorSimulator should be:
 |-----------------|------------------------------------------------------------------------------------------------------|
 | exec.args       | esa.mo.nmf.nanosatmosupervisor.NanosatMOSupervisorBasicImpl                                          |
 | exec.executable | PATH\_TO\_YOUR\_JAVA\_BIN\_DIRECTORY/java                                                            |
-| exec.workingdir | PATH\_TO\_THE\_NMF/sdk/sdk-package/target/nmf-sdk-2.0.0-SNAPSHOT/bin/space/nanosat-mo-supervisor-sim |
+| exec.workingdir | PATH\_TO\_THE\_NMF/sdk/sdk-package/target/nmf-sdk-2.1.0-SNAPSHOT/bin/space/nanosat-mo-supervisor-sim |
 
 The parameters for the CTT should be:
 
@@ -99,11 +99,11 @@ The parameters for the CTT should be:
 |-----------------|-----------------------------------------------------------------------------------------------|
 | exec.args       | -classpath %classpath esa.mo.nmf.ctt.guis.ConsumerTestToolGUI                                 |
 | exec.executable | PATH\_TO\_YOUR\_JAVA\_BIN\_DIRECTORY/java                                                     |
-| exec.workingdir | PATH\_TO\_THE\_NMF/sdk/sdk-package/target/nmf-sdk-2.0.0-SNAPSHOT/bin/tools/consumer-test-tool |
+| exec.workingdir | PATH\_TO\_THE\_NMF/sdk/sdk-package/target/nmf-sdk-2.1.0-SNAPSHOT/bin/tools/consumer-test-tool |
 
 You are now able to run the SupervisorSimulator and the CTT.
 
-You can apply the above parameters for your ground software and also for your space apps. Just make sure to enter the correct main classes and the working directories of the compiled apps (e.g. `sdk-package/target/nmf-sdk-2.0.0-SNAPSHOT/bin/space/apps/APPNAME`).
+You can apply the above parameters for your ground software and also for your space apps. Just make sure to enter the correct main classes and the working directories of the compiled apps (e.g. `sdk-package/target/nmf-sdk-2.1.0-SNAPSHOT/bin/space/apps/APPNAME`).
 
 ### Fixing the "Plugin execution not covered by lifecycle configuration" message
 
@@ -210,14 +210,12 @@ Bug Reports can be submitted on: [Bug Reports]
 
 ## License
 
-The NanoSat MO Framework is **licensed** under the **[European Space Agency Public License - v2.0]**.
+The NanoSat MO Framework is **licensed** under the **[European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4]**.
 
 [![][ESAImage]][website]
 
-[NMFImage]: http://nanosat-mo-framework.github.io/img/NMF_logo_1124_63.png
 [ESAImage]: http://www.esa.int/esalogo/images/logotype/img_colorlogo_darkblue.gif
-[here]: https://nanosat-mo-framework.github.io/
-[European Space Agency Public License - v2.0]: https://github.com/esa/CCSDS_MO_TRANS/blob/master/LICENCE.md
+[European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4]: https://github.com/esa/nanosat-mo-framework/blob/master/LICENCE.md
 [GitHub]: https://github.com/esa
 [Bug Reports]: https://github.com/esa/nanosat-mo-framework/issues
 [website]: http://www.esa.int/

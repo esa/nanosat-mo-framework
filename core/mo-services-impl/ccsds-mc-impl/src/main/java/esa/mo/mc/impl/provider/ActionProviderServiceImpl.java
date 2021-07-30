@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -174,9 +174,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
             //body of AcceptanceEvent is true? -> issue #187
             // requirement: 3.2.8.e
             manager.getActivityTrackingService().publishAcceptanceEventOperation(interaction, true, null, saSource); // requirement: f, g
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -198,9 +196,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
                     new ObjectKey(ConfigurationProviderSingleton.getDomain(), actionInstId)); // requirement: 3.2.8.f  
             //body of AcceptanceEvent is value of "accepted"? -> issue #187
             manager.getActivityTrackingService().publishAcceptanceEventOperation(interaction, accepted, null, source); // requirement: 3.2.8.e, f, g  
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
         }
 

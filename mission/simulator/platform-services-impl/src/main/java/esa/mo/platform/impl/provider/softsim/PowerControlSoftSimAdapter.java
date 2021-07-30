@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -27,18 +27,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import opssat.simulator.main.ESASimulator;
-import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALHelper;
-import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MALStandardError;
-import org.ccsds.moims.mo.mal.structures.BooleanList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.UIntegerList;
 import org.ccsds.moims.mo.platform.powercontrol.structures.Device;
 import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceList;
 import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceType;
@@ -81,21 +73,21 @@ public class PowerControlSoftSimAdapter implements PowerControlAdapterInterface
 
   private void initDevices()
   {
-    addDevice(new Device(true, new Long(0), new Identifier(
+    addDevice(new Device(true, 0L, new Identifier(
         "Attitude Determination and Control System"), DeviceType.ADCS), SimPayloadDevice.FineADCS);
-    addDevice(new Device(true, new Long(10), new Identifier(
+    addDevice(new Device(true, 10L, new Identifier(
         "Satellite Experimental Processing Platform 1"), DeviceType.OBC), SimPayloadDevice.SEPP1);
-    addDevice(new Device(true, new Long(11), new Identifier(
+    addDevice(new Device(true, 11L, new Identifier(
         "Satellite Experimental Processing Platform 2"), DeviceType.OBC), SimPayloadDevice.SEPP2);
-    addDevice(new Device(false, new Long(2), new Identifier("S-Band Transceiver"), DeviceType.SBAND),
+    addDevice(new Device(false, 2L, new Identifier("S-Band Transceiver"), DeviceType.SBAND),
         SimPayloadDevice.SBandTRX);
-    addDevice(new Device(false, new Long(3), new Identifier("X-Band Transmitter"), DeviceType.XBAND),
+    addDevice(new Device(false, 3L, new Identifier("X-Band Transmitter"), DeviceType.XBAND),
         SimPayloadDevice.XBandTRX);
-    addDevice(new Device(false, new Long(4), new Identifier("Software Defined Radio"),
+    addDevice(new Device(false, 4L, new Identifier("Software Defined Radio"),
         DeviceType.SDR), SimPayloadDevice.SDR);
-    addDevice(new Device(false, new Long(5), new Identifier("Optical Receiver"), DeviceType.OPTRX),
+    addDevice(new Device(false, 5L, new Identifier("Optical Receiver"), DeviceType.OPTRX),
         SimPayloadDevice.OpticalRX);
-    addDevice(new Device(false, new Long(6), new Identifier("HD Camera"), DeviceType.CAMERA),
+    addDevice(new Device(false, 6L, new Identifier("HD Camera"), DeviceType.CAMERA),
         SimPayloadDevice.HDCamera);
   }
 

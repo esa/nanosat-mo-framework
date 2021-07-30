@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -137,7 +137,7 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter
     this.nmf = nmfProvider;
   }
 
-  private static enum AttitudeModeEnum
+  private enum AttitudeModeEnum
   {
     IDLE, BDOT, SUNPOINTING, SINGLESPINNING, TARGETTRACKING, NADIRPOINTING
   }
@@ -165,22 +165,17 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter
 
   public void startPeriodicAlertsPublishing()
   {
-    this.periodicAlertTimer.scheduleTask(new Thread()
-    {
-      @Override
-      public void run()
-      {
-        AttributeValueList atts = new AttributeValueList();
-        AttributeValue att = new AttributeValue(new Union("This is an Alert!"));
-        atts.add(att);
+    this.periodicAlertTimer.scheduleTask(new Thread(() -> {
+      AttributeValueList atts = new AttributeValueList();
+      AttributeValue att = new AttributeValue(new Union("This is an Alert!"));
+      atts.add(att);
 
-        try {
-          nmf.publishAlertEvent("10SecondsAlert", atts);
-        } catch (NMFException ex) {
-          LOGGER.log(Level.SEVERE, null, ex);
-        }
+      try {
+        nmf.publishAlertEvent("10SecondsAlert", atts);
+      } catch (NMFException ex) {
+        LOGGER.log(Level.SEVERE, null, ex);
       }
-    }, 0, 10, TimeUnit.SECONDS, true); // 10 seconds
+    }), 0, 10, TimeUnit.SECONDS, true); // 10 seconds
   }
 
   @Override

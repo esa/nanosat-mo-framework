@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -43,16 +43,16 @@ public class TaskScheduler
   public TaskScheduler(int corePoolSize)
   {
     scheduler = new ScheduledThreadPoolExecutor(corePoolSize);
-    scheduled = new HashMap<Integer, ScheduledFuture<?>>();
-    ids = new ArrayList<Integer>();
+    scheduled = new HashMap<>();
+    ids = new ArrayList<>();
     nextId = 0;
     daemon = false;
   }
 
   public TaskScheduler(int corePoolSize, boolean isDaemon){
     scheduler = new ScheduledThreadPoolExecutor(corePoolSize);
-    scheduled = new HashMap<Integer, ScheduledFuture<?>>();
-    ids = new ArrayList<Integer>();
+    scheduled = new HashMap<>();
+    ids = new ArrayList<>();
     nextId = 0;
     daemon = isDaemon;
   }

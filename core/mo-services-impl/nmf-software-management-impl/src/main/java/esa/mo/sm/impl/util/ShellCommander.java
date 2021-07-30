@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -56,11 +56,31 @@ public class ShellCommander {
             error.join(DEATH_TIMEOUT);
             output.join(DEATH_TIMEOUT);
             proc.destroyForcibly();
-//            String out = "Output:\n" + output.getMessage() + "\nError:\n" + error.getMessage();
             
             return output.getMessage();
         } catch (InterruptedException ex) {
             Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return "";
+    }
+   
+    public String runCommandAndGetOutputMessageAndError(String cmd) {
+        try {
+            Process proc = this.runCommand(cmd, null);
+            StreamWrapper error = new StreamWrapper(proc.getErrorStream(), "ERROR");
+            StreamWrapper output = new StreamWrapper(proc.getInputStream(), "OUTPUT");
+            error.start();
+            output.start();
+            
+            error.join(DEATH_TIMEOUT);
+            output.join(DEATH_TIMEOUT);
+            proc.destroyForcibly();
+            
+            return output.getMessage() + error.getMessage();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE, 
+                    "The command could not be executed!", ex);
         }
         
         return "";
@@ -75,29 +95,15 @@ public class ShellCommander {
             } else if (osValidator.isWindows()) {
                 proc = Runtime.getRuntime().exec(new String[]{"cmd", "/c", cmd}, null, dirPath);
             } else {
-                Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE, "Unknown OS");
+                Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE, 
+                        "The command could not executed due to an Unknown OS!");
                 return null;
             }
 
-//            StreamWrapper error = new StreamWrapper(proc.getErrorStream(), "ERROR");
-//            StreamWrapper output = new StreamWrapper(proc.getInputStream(), "OUTPUT");
-//            int exitVal = 0;
-
-//            error.start();
-//            output.start();
-            
-//            System.out.println("Output:\n" + output.getMessage() + "\nError:\n" + error.getMessage());
-
-//            error.join(DEATH_TIMEOUT);
-//            output.join(DEATH_TIMEOUT);
-//            proc.destroy();
-//            exitVal = proc.waitFor();
-
-//            System.out.println("Output:\n" + output.getMessage() + "\nError:\n" + error.getMessage());
-            
             return proc;
         } catch (IOException ex) {
-            Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE, 
+                    "The command could not be executed!", ex);
         }
 
         return null;
@@ -118,10 +124,6 @@ public class ShellCommander {
             this.type = type;
         }
 
-        private String getOutput() {
-            return message;
-        }
-
         @Override
         public void run() {
             this.setName("ShellCommander_StreamWrapper");
@@ -135,8 +137,8 @@ public class ShellCommander {
                 }
                 message = buffer.toString();
             } catch (IOException ioe) {
-                Logger.getLogger(ShellCommander.class.getName()).log(Level.INFO, "Error: " + ioe);
-//                ioe.printStackTrace();
+                Logger.getLogger(ShellCommander.class.getName()).log(Level.INFO, 
+                        "Error: ", ioe);
             }
         }
     }

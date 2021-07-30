@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -149,7 +149,7 @@ public class ProviderTabPanel extends javax.swing.JPanel {
             // MC
             if (services.getMCServices() != null) {
                 if (services.getMCServices().getActionService() != null) {
-                    ActionConsumerPanel panel = new ActionConsumerPanel(services.getMCServices().getActionService());
+                    ActionConsumerPanel panel = new ActionConsumerPanel(services);
                     int count = serviceTabs.getTabCount();
                     serviceTabs.insertTab("Action service", null, panel, "Action Tab", count);
                     panel.init();

@@ -7,7 +7,7 @@
  *  ----------------------------------------------------------------------------
  *  System                : ESA NanoSat MO Framework
  *  ----------------------------------------------------------------------------
- *  Licensed under the European Space Agency Public License, Version 2.0
+ *  Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  *  You may not use this file except in compliance with the License.
  * 
  *  Except as expressly set forth in this License, the Software is provided to
@@ -40,7 +40,7 @@ import javax.sound.sampled.AudioSystem;
 
 public class WavFile
 {
-	private enum IOState {READING, WRITING, CLOSED};
+	private enum IOState {READING, WRITING, CLOSED}
 	private final static int BUFFER_SIZE = 4096;
 
 	private final static int FMT_CHUNK_ID = 0x20746D66;
@@ -291,7 +291,7 @@ public class WavFile
 				// Check if we've found the format chunk,
 				// If not, throw an exception as we need the format information
 				// before we can read the data chunk
-				if (foundFormat == false) throw new WavFileException("Data chunk found before Format chunk");
+				if (!foundFormat) throw new WavFileException("Data chunk found before Format chunk");
 
 				// Check that the chunkSize (wav data length) is a multiple of the
 				// block align (bytes per frame)
@@ -313,7 +313,7 @@ public class WavFile
 		}
 
 		// Throw an exception if no data chunk has been found
-		if (foundData == false) throw new WavFileException("Did not find a data chunk");
+		if (!foundData) throw new WavFileException("Did not find a data chunk");
 
 		// Calculate the scaling factor for converting to a normalised double
 		if (wavFile.validBits > 8)

@@ -7,7 +7,7 @@
  *  ----------------------------------------------------------------------------
  *  System                : ESA NanoSat MO Framework
  *  ----------------------------------------------------------------------------
- *  Licensed under the European Space Agency Public License, Version 2.0
+ *  Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  *  You may not use this file except in compliance with the License.
  * 
  *  Except as expressly set forth in this License, the Software is provided to
@@ -99,6 +99,7 @@ public class CommandDescriptor implements Serializable {
     for (ArgumentTemplate t : templateList) {
       if (t.getDescription().equals(description)) {
         found = true;
+        break;
       }
     }
     if (!found) {
@@ -136,7 +137,7 @@ public class CommandDescriptor implements Serializable {
   }
 
   private ArrayList<ArgumentDescriptor> parseMethodBodyStringForArgList(String methodBody) {
-    ArrayList<ArgumentDescriptor> result = new ArrayList<ArgumentDescriptor>();
+    ArrayList<ArgumentDescriptor> result = new ArrayList<>();
     String argsBody = methodBody.substring(methodBody.indexOf("(", 0) + 1);
     argsBody = argsBody.substring(0, argsBody.length() - 1);
     this.logger.log(Level.ALL, "argsBody is [" + argsBody + "]");
@@ -149,50 +150,74 @@ public class CommandDescriptor implements Serializable {
         String[] splitArgs = s.split(" ");
 
         this.logger.log(Level.ALL, "arg type [" + splitArgs[0] + "]");
-        if (splitArgs[0].equals("byte")) {
-          byte data = 0;
-          ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
-          result.add(argDescriptor);
-        } else if (splitArgs[0].equals("long")) {
-          long data = 0;
-          ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
-          result.add(argDescriptor);
-        } else if (splitArgs[0].equals("int")) {
-          int data = 0;
-          ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
-          result.add(argDescriptor);
-        } else if (splitArgs[0].equals("String")) {
-          String data = "String";
-          ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
-          result.add(argDescriptor);
-        } else if (splitArgs[0].equals("byte[]")) {
-          byte[] data = new byte[] { (byte) 0x00, 0x00 };
-          ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
-          result.add(argDescriptor);
-        } else if (splitArgs[0].equals("float")) {
-          float data = (float) 0.0;
-          ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
-          result.add(argDescriptor);
-        } else if (splitArgs[0].equals("int[]")) {
-          int[] data = new int[] { 0, 0 };
-          ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
-          result.add(argDescriptor);
-        } else if (splitArgs[0].equals("long[]")) {
-          long[] data = new long[] { 0, 0 };
-          ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
-          result.add(argDescriptor);
-        } else if (splitArgs[0].equals("double")) {
-          double data = 0.0;
-          ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
-          result.add(argDescriptor);
-        } else if (splitArgs[0].equals("double[]")) {
-          double[] data = new double[] { 0, 0 };
-          ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
-          result.add(argDescriptor);
-        } else if (splitArgs[0].equals("float[]")) {
-          float[] data = new float[] { (float) 0.0, (float) 0.0 };// (float) 0.0;
-          ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
-          result.add(argDescriptor);
+        switch (splitArgs[0]) {
+          case "byte": {
+            byte data = 0;
+            ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
+            result.add(argDescriptor);
+            break;
+          }
+          case "long": {
+            long data = 0;
+            ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
+            result.add(argDescriptor);
+            break;
+          }
+          case "int": {
+            int data = 0;
+            ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
+            result.add(argDescriptor);
+            break;
+          }
+          case "String": {
+            String data = "String";
+            ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
+            result.add(argDescriptor);
+            break;
+          }
+          case "byte[]": {
+            byte[] data = new byte[]{(byte) 0x00, 0x00};
+            ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
+            result.add(argDescriptor);
+            break;
+          }
+          case "float": {
+            float data = (float) 0.0;
+            ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
+            result.add(argDescriptor);
+            break;
+          }
+          case "int[]": {
+            int[] data = new int[]{0, 0};
+            ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
+            result.add(argDescriptor);
+            break;
+          }
+          case "long[]": {
+            long[] data = new long[]{0, 0};
+            ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
+            result.add(argDescriptor);
+            break;
+          }
+          case "double": {
+            double data = 0.0;
+            ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
+            result.add(argDescriptor);
+            break;
+          }
+          case "double[]": {
+            double[] data = new double[]{0, 0};
+            ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
+            result.add(argDescriptor);
+            break;
+          }
+          case "float[]": {
+            float[] data = new float[]{(float) 0.0, (float) 0.0};// (float) 0.0;
+
+            ArgumentDescriptor argDescriptor = new ArgumentDescriptor(data, splitArgs[1]);
+            result.add(argDescriptor);
+            break;
+          }
         }
       }
     }
@@ -207,7 +232,7 @@ public class CommandDescriptor implements Serializable {
     this.comment = comment;
     this.internalID = internalID;
     this.inputArgList = parseMethodBodyStringForArgList(methodBody);
-    this.templateList = new ArrayList<ArgumentTemplate>();
+    this.templateList = new ArrayList<>();
     this.templateList.add(new ArgumentTemplate(KEYWORD_DEFAULT, getInputArgs()));
 
     if (comment.equals("")) {
@@ -248,7 +273,7 @@ public class CommandDescriptor implements Serializable {
 
   private ArrayList<ArgumentDescriptor> deepCopyArgDescriptorList(
       ArrayList<ArgumentDescriptor> data) {
-    ArrayList<ArgumentDescriptor> newInputArgs = new ArrayList<ArgumentDescriptor>();
+    ArrayList<ArgumentDescriptor> newInputArgs = new ArrayList<>();
     for (ArgumentDescriptor argDesc : data) {
       ArgumentDescriptor newArgDesc = new ArgumentDescriptor(argDesc.getType(), argDesc.getName());
       newInputArgs.add(newArgDesc);
@@ -537,7 +562,7 @@ public class CommandDescriptor implements Serializable {
 
   public void setInputArgsFromArrayList(ArrayList<Object> data) {
     // Set input data in the blind, from an outside call
-    this.inputArgList = new ArrayList<ArgumentDescriptor>();
+    this.inputArgList = new ArrayList<>();
     if (data != null) {
       for (Object obj : data) {
         this.inputArgList.add(new ArgumentDescriptor(obj, "external"));
@@ -552,7 +577,7 @@ public class CommandDescriptor implements Serializable {
     String dataOk = "ParseOk";
 
     if (this.inputArgList.isEmpty()) {
-      ;// Do nothing, input parameters will be treated as void anyway
+      // Do nothing, input parameters will be treated as void anyway
     } else if (this.inputArgList.size() == 1) {
       dataOk = checkSingleArg(inputArgListString, 0);
     } else {
@@ -579,7 +604,7 @@ public class CommandDescriptor implements Serializable {
   }
 
   public ArrayList<Object> getInputArgObjList() {
-    ArrayList<Object> inputArgObjList = new ArrayList<Object>();
+    ArrayList<Object> inputArgObjList = new ArrayList<>();
     for (ArgumentDescriptor obj : this.inputArgList) {
       inputArgObjList.add(obj.getType());
     }

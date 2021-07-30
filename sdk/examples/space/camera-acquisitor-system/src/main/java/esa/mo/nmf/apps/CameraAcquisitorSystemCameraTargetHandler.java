@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -52,7 +52,7 @@ import org.orekit.time.TimeScalesFactory;
 /**
  * Class handling acquisition of targets and the corresponding actions
  *
- * @author Kevin Otto <Kevin@KevinOtto.de>
+ * @author Kevin Otto
  */
 public class CameraAcquisitorSystemCameraTargetHandler
 {
@@ -199,7 +199,7 @@ public class CameraAcquisitorSystemCameraTargetHandler
     archiveQuery.setDomain(null);
     archiveQuery.setNetwork(null);
     archiveQuery.setProvider(null);
-    archiveQuery.setRelated(new Long(0));
+    archiveQuery.setRelated(0L);
     archiveQuery.setSource(null);
     archiveQuery.setStartTime(null);
     archiveQuery.setEndTime(null);

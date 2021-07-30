@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : CCSDS MO Generic Encoder Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigInteger;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
@@ -46,7 +47,7 @@ import org.ccsds.moims.mo.mal.structures.UShort;
  */
 public abstract class GENEncoder implements MALListEncoder
 {
-  protected static final Charset UTF8_CHARSET = Charset.forName("UTF-8");
+  protected static final Charset UTF8_CHARSET = StandardCharsets.UTF_8;
   protected static final String ENCODING_EXCEPTION_STR = "Bad encoding";
   protected final StreamHolder outputStream;
 

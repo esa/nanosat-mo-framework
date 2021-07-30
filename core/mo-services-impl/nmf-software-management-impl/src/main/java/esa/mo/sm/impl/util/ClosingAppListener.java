@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -66,14 +66,12 @@ public class ClosingAppListener extends EventReceivedListener {
 
             try { // Send update to consumer stating that the app is stopped
                 interaction.sendUpdate(objId);
-            } catch (MALInteractionException ex) {
-                LOGGER.log(Level.SEVERE, null, ex);
-            } catch (MALException ex) {
+            } catch (MALInteractionException | MALException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
             }
 
             // If so, then close the connection to the service
-            eventService.closeConnection();
+            eventService.close();
 
             synchronized (semaphore) {
                 this.appClosed = true;

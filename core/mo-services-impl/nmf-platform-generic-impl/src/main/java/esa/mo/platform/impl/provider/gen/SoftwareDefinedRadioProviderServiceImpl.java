@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -178,13 +178,7 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
 
       publisher.publish(hdrlst, iqComponentsList);
 
-    } catch (IllegalArgumentException ex) {
-      Logger.getLogger(SoftwareDefinedRadioProviderServiceImpl.class.getName()).log(Level.WARNING,
-          "Exception during publishing process on the provider {0}", ex);
-    } catch (MALException ex) {
-      Logger.getLogger(SoftwareDefinedRadioProviderServiceImpl.class.getName()).log(Level.WARNING,
-          "Exception during publishing process on the provider {0}", ex);
-    } catch (MALInteractionException ex) {
+    } catch (IllegalArgumentException | MALInteractionException | MALException ex) {
       Logger.getLogger(SoftwareDefinedRadioProviderServiceImpl.class.getName()).log(Level.WARNING,
           "Exception during publishing process on the provider {0}", ex);
     }

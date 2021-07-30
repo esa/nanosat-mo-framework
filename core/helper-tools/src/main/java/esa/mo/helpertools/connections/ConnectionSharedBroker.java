@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -84,20 +84,11 @@ public class ConnectionSharedBroker {
         Logger.getLogger(ConnectionSharedBroker.class.getName()).log(Level.INFO, "Shared Broker URI: {0}", brokerBinding.getURI());
 
         // Write the URIs on a text file
-        BufferedWriter wrt = null;
-        try {
-            wrt = new BufferedWriter(new FileWriter(HelperMisc.SHARED_BROKER_URI, true));
+        try (BufferedWriter wrt = new BufferedWriter(new FileWriter(HelperMisc.SHARED_BROKER_URI, true))) {
             wrt.append(HelperConnections.PROPERTY_SHARED_BROKER + "=" + brokerBinding.getURI());
             wrt.newLine();
         } catch (IOException ex) {
             Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING, "Unable to write URI information to properties file {0}", ex);
-        } finally {
-            if (wrt != null) {
-                try {
-                    wrt.close();
-                } catch (IOException ex) {
-                }
-            }
         }
 
         return brokerBinding;
@@ -125,18 +116,9 @@ public class ConnectionSharedBroker {
      * Clears the URI links file for the shared broker
      */
     public static void resetURILinksFile() {
-        BufferedWriter wrt = null;
-        try {
-            wrt = new BufferedWriter(new FileWriter(HelperMisc.SHARED_BROKER_URI, false));
+        try (BufferedWriter wrt = new BufferedWriter(new FileWriter(HelperMisc.SHARED_BROKER_URI, false))) {
         } catch (IOException ex) {
             Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING, "Unable to reset URI information from properties file {0}", ex);
-        } finally {
-            if (wrt != null) {
-                try {
-                    wrt.close();
-                } catch (IOException ex) {
-                }
-            }
         }
     }
 

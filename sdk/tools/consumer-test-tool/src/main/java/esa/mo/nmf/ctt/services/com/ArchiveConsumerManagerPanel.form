@@ -99,7 +99,7 @@
           <Font name="Tahoma" size="18" style="1"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="Archive Manager"/>
+        <Property name="text" type="java.lang.String" value="COM Archive Manager"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>

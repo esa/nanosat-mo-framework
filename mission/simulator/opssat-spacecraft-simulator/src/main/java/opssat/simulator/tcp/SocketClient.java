@@ -7,7 +7,7 @@
  *  ----------------------------------------------------------------------------
  *  System                : ESA NanoSat MO Framework
  *  ----------------------------------------------------------------------------
- *  Licensed under the European Space Agency Public License, Version 2.0
+ *  Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  *  You may not use this file except in compliance with the License.
  * 
  *  Except as expressly set forth in this License, the Software is provided to
@@ -24,7 +24,6 @@ package opssat.simulator.tcp;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;

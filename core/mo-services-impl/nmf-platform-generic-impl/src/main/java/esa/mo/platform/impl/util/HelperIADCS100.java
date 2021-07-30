@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -22,12 +22,11 @@ package esa.mo.platform.impl.util;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import org.ccsds.moims.mo.mal.structures.DoubleList;
+
 import org.ccsds.moims.mo.mal.structures.FloatList;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.WheelsSpeed;
 import org.ccsds.moims.mo.platform.structures.VectorF3D;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetry;
 
 /**
  *

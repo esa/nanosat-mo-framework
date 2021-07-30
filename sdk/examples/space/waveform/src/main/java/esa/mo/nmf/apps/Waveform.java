@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -62,7 +62,7 @@ public class Waveform
   private TaskScheduler tasker = null;
   private double amplitude = 1.0;
   private double frequency = 1.0;
-  private long refresh = 100;
+  private long refresh = 1000;
   private boolean started = false;
 
   public Waveform()
@@ -97,19 +97,14 @@ public class Waveform
     started = true;
     Logger.getLogger(Waveform.class.getName()).log(Level.FINE,
               "Starting wave");
-    this.tasker.scheduleTask(new Thread()
-    {
-      @Override
-      public void run()
-      {
-        try {
-          pushVal();
-        } catch (NMFException ex) {
-          Logger.getLogger(Waveform.class.getName()).log(Level.SEVERE,
-              "The sine value could not be pushed!", ex);
-        }
+    this.tasker.scheduleTask(new Thread(() -> {
+      try {
+        pushVal();
+      } catch (NMFException ex) {
+        Logger.getLogger(Waveform.class.getName()).log(Level.SEVERE,
+            "The sine value could not be pushed!", ex);
       }
-    }, 0, refresh, TimeUnit.MICROSECONDS, true); // conversion to milliseconds
+    }), 0, refresh, TimeUnit.MICROSECONDS, true); // conversion to milliseconds
   }
 
   public void stopWave()
@@ -245,7 +240,6 @@ public class Waveform
         while(loggers.hasMoreElements())
           sb.append("- "+loggers.nextElement()+"\n");
         Logger.getLogger(Waveform.class.getName()).log(Level.INFO, sb.toString());
-        Logger.getLogger(Waveform.class.getName()).log(Level.INFO, Logger.getLogger(Waveform.class.getName()).getLevel().toString());
         return new UInteger(0);
       }
       if (idntfr.getValue().equals("stop")) {

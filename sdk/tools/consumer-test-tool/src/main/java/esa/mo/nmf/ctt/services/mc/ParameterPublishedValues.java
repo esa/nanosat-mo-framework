@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -112,7 +112,7 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
                     final int index = (int) ((5 * numberOfColumns) * Math.floor(objId / (5)) + objId % numberOfColumns);
 
                     if ((0 <= index) && (index < labels.length)) {
-                        String nameId = "(" + String.valueOf(objId) + ") " + updateHeader.getKey().getFirstSubKey().getValue();
+                        String nameId = "(" + objId + ") " + updateHeader.getKey().getFirstSubKey().getValue();
                         UOctet validityState = parameterValue.getValidityState();
                         String validity = ValidityState.fromNumericValue(new UInteger(validityState.getValue())).toString();
                         String rawValue = HelperAttributes.attribute2string(parameterValue.getRawValue());

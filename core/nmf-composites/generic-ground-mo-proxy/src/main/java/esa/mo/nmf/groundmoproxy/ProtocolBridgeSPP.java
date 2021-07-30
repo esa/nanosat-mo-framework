@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -49,7 +49,7 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
     private MALEndpoint epB;
     private VirtualSPPURIsManager virtualSPPURI;
 
-    public void init(final String protocol, final Map properties) throws MALException, Exception {
+    public void init(final String protocol, final Map properties) throws Exception {
         transportA = createTransport(PROTOCOL_SPP, properties);
         transportB = createTransport(protocol, properties);
 

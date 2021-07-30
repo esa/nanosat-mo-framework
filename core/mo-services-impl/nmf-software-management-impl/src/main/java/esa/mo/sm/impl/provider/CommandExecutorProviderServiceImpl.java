@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -20,7 +20,6 @@
  */
 package esa.mo.sm.impl.provider;
 
-import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
 import esa.mo.com.impl.provider.EventProviderServiceImpl;
 import esa.mo.com.impl.util.COMServicesProvider;
@@ -30,7 +29,6 @@ import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.sm.impl.util.OSValidator;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,7 +54,6 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.IntegerList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.StringList;
-import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
@@ -145,26 +142,6 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
     return ret.toArray(new String[0]);
   }
 
-  public static synchronized long getProcessPid(Process p) throws IOException
-  {
-    long pid;
-
-    try {
-      if (p.getClass().getName().equals("java.lang.UNIXProcess")) {
-        Field f = p.getClass().getDeclaredField("pid");
-        f.setAccessible(true);
-        pid = f.getLong(p);
-        f.setAccessible(false);
-      } else {
-        throw new IOException("Trying to resolve PID on an unsupported platform");
-      }
-    } catch (IllegalAccessException | IllegalArgumentException | NoSuchFieldException
-        | SecurityException ex) {
-      throw new IOException("Exception when trying to resolve PID", ex);
-    }
-    return pid;
-  }
-
   @Override
   public Long runCommand(CommandDetails command, MALInteraction interaction) throws
       MALInteractionException, MALException
@@ -216,15 +193,15 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
       LOGGER.log(Level.SEVERE, null, ex);
       throw new MALException("Cannot start the process!", ex);
     }
-
+    long pid;
     try {
-          long pid = getProcessPid(proc);
-          command.setPid(new UInteger(pid));
-          updateCommandDetails(storedCommandObject, command);
-          return storedCommandObject;
-      } catch (IOException ex) {
-          throw new MALException("The process PID could not be determined!", ex);
-      }
+      pid = ProcessExecutionHandler.getProcessPid(proc);
+    } catch (IOException ex) {
+      pid = -1;
+    }
+    command.setPid(pid);
+    updateCommandDetails(storedCommandObject, command);
+    return storedCommandObject;
   }
 
   private void commandOutputEvent(final Long objId, final String outputText,

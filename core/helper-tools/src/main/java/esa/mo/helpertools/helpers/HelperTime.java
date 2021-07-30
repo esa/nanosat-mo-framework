@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -21,9 +21,12 @@
 package esa.mo.helpertools.helpers;
 
 import java.text.Format;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.Time;
 
@@ -32,6 +35,8 @@ import org.ccsds.moims.mo.mal.structures.Time;
  */
 public class HelperTime {
 
+  private static final Logger LOGGER = Logger.getLogger(HelperTime.class.getName());
+
   private final static String DATE_PATTERN = "yyyy-MM-dd HH:mm:ss.SSS";
   private final static long ONE_MILLION = 1000000;
 
@@ -39,7 +44,7 @@ public class HelperTime {
    * Converts a FineTime MAL data type timestamp into a readable string
    *
    * @param timestamp Time
-   * @return The String with the time
+   * @return The String with the time. Format is {@value #DATE_PATTERN}.
    * @throws java.lang.IllegalArgumentException If timestamp == null.
    */
   public static String time2readableString(FineTime timestamp) throws IllegalArgumentException {
@@ -55,7 +60,7 @@ public class HelperTime {
    * Converts a Time MAL data type timestamp into a readable string
    *
    * @param timestamp Time
-   * @return The String with the time
+   * @return The String with the time. Format is {@value #DATE_PATTERN}.
    * @throws java.lang.IllegalArgumentException If timestamp == null
    */
   public static String time2readableString(Time timestamp) throws IllegalArgumentException {
@@ -66,6 +71,42 @@ public class HelperTime {
     SimpleDateFormat format = new SimpleDateFormat(DATE_PATTERN);
     format.setTimeZone(TimeZone.getTimeZone("UTC"));
     return format.format(date);
+  }
+
+  /**
+   * Converts a readable time string to a MAL FineTime data type.
+   * 
+   * @param time The readable time string. Expected format is {@value #DATE_PATTERN}.
+   * @return The MAL FineTime object or null if ParseException occurred
+   */
+  public static FineTime readableString2FineTime(String time) {
+    SimpleDateFormat format = new SimpleDateFormat(DATE_PATTERN);
+    Date date;
+    try {
+      date = format.parse(time);
+    } catch (ParseException e) {
+      LOGGER.log(Level.SEVERE, String.format("Error while parsing %s", time), e);
+      return null;
+    }
+    return new FineTime(date.getTime() * ONE_MILLION);
+  }
+
+  /**
+   * Converts a readable time string to a MAL Time data type.
+   * 
+   * @param time The readable time string. Expected format is {@value #DATE_PATTERN}.
+   * @return The MAL Time object or null if a ParseException occurred
+   */
+  public static Time readableString2Time(String time) {
+    SimpleDateFormat format = new SimpleDateFormat(DATE_PATTERN);
+    Date date;
+    try {
+      date = format.parse(time);
+    } catch (ParseException e) {
+      LOGGER.log(Level.SEVERE, String.format("Error while parsing %s", time), e);
+      return null;
+    }
+    return new Time(date.getTime());
   }
 
   /**
@@ -104,9 +145,8 @@ public class HelperTime {
   }
 
   /**
-   * Returns just the fractional part of a time value that is represented in
-   * nanoseconds. So, for 12.34567890123 seconds, we would expect to get the
-   * integer: 567890123 nanoseconds
+   * Returns just the fractional part of a time value that is represented in nanoseconds. So, for
+   * 12.34567890123 seconds, we would expect to get the integer: 567890123 nanoseconds
    *
    * @param nano The time in nanoseconds
    * @return The fractional part of time in nanoseconds
@@ -116,8 +156,8 @@ public class HelperTime {
   }
 
   /**
-   * Remove the milliseconds component from the timestamp, then converts to nano
-   * and adds the missing nano fractional part.
+   * Remove the milliseconds component from the timestamp, then converts to nano and adds the
+   * missing nano fractional part.
    *
    * @param timestamp The timestamp in SQL timestamp
    * @return The time in nanoseconds

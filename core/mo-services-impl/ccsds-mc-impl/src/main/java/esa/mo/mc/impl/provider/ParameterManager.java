@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -84,10 +84,9 @@ public class ParameterManager extends MCManager
     this.parametersMonitoring = parametersMonitoring;
 
     if (super.getArchiveService() == null) {  // No Archive?
-      this.uniqueObjIdIdentity = new Long(0); // The zeroth value will not be used (reserved for the wildcard)
-      this.uniqueObjIdDef = new Long(0); // The zeroth value will not be used (reserved for the wildcard)
-      this.uniqueObjIdPVal = new Long(0); // The zeroth value will not be used (reserved for the wildcard)
-//            this.load(); // Load the file
+      this.uniqueObjIdIdentity = 0L; // The zeroth value will not be used (reserved for the wildcard)
+      this.uniqueObjIdDef = 0L; // The zeroth value will not be used (reserved for the wildcard)
+      this.uniqueObjIdPVal = 0L; // The zeroth value will not be used (reserved for the wildcard)
     } else {
       // With Archive...
 
@@ -191,9 +190,7 @@ public class ParameterManager extends MCManager
         if (objIds.size() == 1) {
           return objIds.get(0);
         }
-      } catch (MALException ex) {
-        Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-      } catch (MALInteractionException ex) {
+      } catch (MALException | MALInteractionException ex) {
         Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
       }
       return null;
@@ -222,7 +219,7 @@ public class ParameterManager extends MCManager
 
       for (int i = 0; i < relatedList.size(); i++) {
         ArchiveDetails archiveDetails = new ArchiveDetails();
-        archiveDetails.setInstId(new Long(0));
+        archiveDetails.setInstId(0L);
         archiveDetails.setDetails(new ObjectDetails(relatedList.get(i), sourcesList.get(i)));
         archiveDetails.setNetwork(ConfigurationProviderSingleton.getNetwork());
         archiveDetails.setTimestamp(timestamps.get(i));
@@ -243,9 +240,7 @@ public class ParameterManager extends MCManager
         if (objIds.size() == pVals.size()) {
           return objIds;
         }
-      } catch (MALException ex) {
-        Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-      } catch (MALInteractionException ex) {
+      } catch (MALException | MALInteractionException ex) {
         Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
       }
     }
@@ -437,7 +432,7 @@ public class ParameterManager extends MCManager
     final ParameterConversion conversion = pDef.getConversion();
 
     //expression didnt fail 
-    if (validityExpression == null || evalExpression == true) {
+    if (validityExpression == null || evalExpression) {
       //conversions didnt fail
       if (conversion == null || convertedValue != null) { // requirement: 3.3.3.k
         return getAsUOctet(ValidityState.VALID);
@@ -544,10 +539,7 @@ public class ParameterManager extends MCManager
         //add to providers local list
         newIdPair = new ObjectInstancePair(identityId, defIds.get(0));
 
-      } catch (MALException ex) {
-        Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-        return null;
-      } catch (MALInteractionException ex) {
+      } catch (MALException | MALInteractionException ex) {
         Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
         return null;
       }
@@ -593,9 +585,7 @@ public class ParameterManager extends MCManager
 
         newDefId = defIds.get(0);
 
-      } catch (MALException ex) {
-        Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-      } catch (MALInteractionException ex) {
+      } catch (MALException | MALInteractionException ex) {
         Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
       }
     }
@@ -613,10 +603,7 @@ public class ParameterManager extends MCManager
    */
   protected boolean delete(Long identityId)
   { // requirement: 3.3.2.d
-    if (this.deleteIdentity(identityId)) {
-      return true;
-    }
-    return false;
+    return this.deleteIdentity(identityId);
   }
 
   /**
@@ -689,8 +676,7 @@ public class ParameterManager extends MCManager
       if (cla == ParameterStatusListener.class) {
         Boolean setSuccessful = parametersMonitoring.onSetValue(newRawValues);
       }
-    } catch (NoSuchMethodException ex) {
-    } catch (SecurityException ex) {
+    } catch (NoSuchMethodException | SecurityException ex) {
     }
     // else use old procedure:
 

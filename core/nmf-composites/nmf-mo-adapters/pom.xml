@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+    You may not use this file except in compliance with the License.
+
+    Except as expressly set forth in this License, the Software is provided to
+    You on an "as is" basis and without warranties of any kind, including without
+    limitation merchantability, fitness for a particular purpose, absence of
+    defects or errors, accuracy or non-infringement of intellectual property rights.
+
+    See the License for the specific language governing permissions and limitations under the License.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>int.esa.nmf</groupId>
+    <artifactId>parent</artifactId>
+    <version>2.1.0-SNAPSHOT</version>
+    <relativePath>../../../parent/pom.xml</relativePath>
+  </parent>
+  <groupId>int.esa.nmf.core</groupId>
+  <artifactId>nmf-mo-adapters-reactor</artifactId>
+  <packaging>pom</packaging>
+  <name>ESA NMF Core Reactor - MO Adapters</name>
+  <organization>
+    <name>ESA</name>
+    <url>http://www.esa.int</url>
+  </organization>
+  <licenses>
+    <license>
+      <name>European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4</name>
+      <url>https://raw.github.com/esa/nanosat-mo-framework/master/LICENCE.md</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <scm>
+    <connection>scm:git:git@github.com:esa/nanosat-mo-framework.git</connection>
+    <developerConnection>scm:git:git@github.com:esa/nanosat-mo-framework.git</developerConnection>
+    <url>https://github.com/esa/nanosat-mo-framework</url>
+  </scm>
+  <developers>
+    <developer>
+      <id>TanguySoto</id>
+      <name>Tanguy Soto</name>
+      <url>https://tanguyso.to</url>
+    </developer>
+  </developers>
+  <properties>
+    <maven.deploy.skip>true</maven.deploy.skip>
+    <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
+  </properties>
+  <modules>
+    <module>space-mo-adapter</module>
+    <module>ground-mo-adapter</module>
+    <module>common-mo-adapter</module>
+  </modules>
+</project>

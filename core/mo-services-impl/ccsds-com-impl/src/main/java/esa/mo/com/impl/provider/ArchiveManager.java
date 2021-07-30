@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -34,7 +34,6 @@ import esa.mo.com.impl.archive.entities.COMObjectEntity;
 import esa.mo.com.impl.archive.fast.FastObjectType;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.ArchiveHelper;
@@ -115,19 +114,16 @@ public class ArchiveManager {
 
         final ArchiveManager manager = this;
 
-        this.dbProcessor.submitExternalTask2(new Runnable() {
-            @Override
-            public void run() {
-                synchronized (manager) {
-                    Logger.getLogger(ArchiveManager.class.getName()).log(Level.FINE,
-                            "Initializing Fast classes!");
-                    fastDomain.init();
-                    fastObjectType.init();
-                    fastNetwork.init();
-                    fastProviderURI.init();
-                    Logger.getLogger(ArchiveManager.class.getName()).log(Level.FINE,
-                            "The Fast classes are initialized!");
-                }
+        this.dbProcessor.submitExternalTask2(() -> {
+            synchronized (manager) {
+                Logger.getLogger(ArchiveManager.class.getName()).log(Level.FINE,
+                        "Initializing Fast classes!");
+                fastDomain.init();
+                fastObjectType.init();
+                fastNetwork.init();
+                fastProviderURI.init();
+                Logger.getLogger(ArchiveManager.class.getName()).log(Level.FINE,
+                        "The Fast classes are initialized!");
             }
         });
     }
@@ -143,13 +139,10 @@ public class ArchiveManager {
 
     void close() {
         // Forces the code to wait until all the stores are flushed
-        this.dbProcessor.stopInteractions(new Callable() {
-            @Override
-            public Integer call() {
-                dbBackend.createEntityManager();
-                dbBackend.closeEntityManager();
-                return null;
-            }
+        this.dbProcessor.stopInteractions(() -> {
+            dbBackend.createEntityManager();
+            dbBackend.closeEntityManager();
+            return null;
         });
 
         this.eventService = null; // Remove the pointer to avoid publishing more stuff
@@ -164,24 +157,21 @@ public class ArchiveManager {
     public synchronized void resetTable() {
         Logger.getLogger(ArchiveManager.class.getName()).info("Reset table triggered!");
 
-        this.dbProcessor.resetMainTable(new Callable() {
-            @Override
-            public Integer call() {
-                dbBackend.createEntityManager();
-                dbBackend.getEM().getTransaction().begin();
-                dbBackend.getEM().createQuery("DELETE FROM COMObjectEntity").executeUpdate();
-                dbBackend.getEM().getTransaction().commit();
+        this.dbProcessor.resetMainTable(() -> {
+            dbBackend.createEntityManager();
+            dbBackend.getEM().getTransaction().begin();
+            dbBackend.getEM().createQuery("DELETE FROM COMObjectEntity").executeUpdate();
+            dbBackend.getEM().getTransaction().commit();
 
-                fastObjId.resetFastIDs();
-                fastDomain.resetFastDomain();
-                fastNetwork.resetFastNetwork();
-                fastProviderURI.resetFastProviderURI();
+            fastObjId.resetFastIDs();
+            fastDomain.resetFastDomain();
+            fastNetwork.resetFastNetwork();
+            fastProviderURI.resetFastProviderURI();
 
-                dbBackend.getEM().close();
-                dbBackend.restartEMF();
+            dbBackend.getEM().close();
+            dbBackend.restartEMF();
 
-                return null;
-            }
+            return null;
         });
     }
 
@@ -323,7 +313,7 @@ public class ArchiveManager {
             final ArchiveDetailsList lArchiveDetails, final ElementList objects, final MALInteraction interaction) {
         final int domainId = this.fastDomain.getDomainId(domain);
         final Integer objTypeId = this.fastObjectType.getObjectTypeId(objType);
-        final ArrayList<COMObjectEntity> newObjs = new ArrayList<COMObjectEntity>();
+        final ArrayList<COMObjectEntity> newObjs = new ArrayList<>();
         final LongList objIds = new LongList();
 
         // Generate the object Ids if needed and the persistence objects to be stored
@@ -374,7 +364,7 @@ public class ArchiveManager {
         final ArrayList<COMObjectEntity> perObjs = this.queryCOMObjectEntity(objType, archiveQuery, filter);
 
         // Convert COMObjectEntity to ArchivePersistenceObject
-        final ArrayList<ArchivePersistenceObject> outs = new ArrayList<ArchivePersistenceObject>(perObjs.size());
+        final ArrayList<ArchivePersistenceObject> outs = new ArrayList<>(perObjs.size());
         IdentifierList domain;
 
         for (COMObjectEntity perObj : perObjs) {
@@ -431,7 +421,7 @@ public class ArchiveManager {
 
         // Cycle the Filters
         for (CompositeFilter compositeFilter : compositeFilterList) {
-            tmpPerObjs = new ArrayList<ArchivePersistenceObject>();
+            tmpPerObjs = new ArrayList<>();
 
             if (compositeFilter == null) {
                 continue;
@@ -610,14 +600,11 @@ public class ArchiveManager {
 
     private Runnable generatePublishEventsThread(final ObjectType comObject, final ObjectType objType,
             final IdentifierList domain, final LongList objIds, final MALInteraction interaction) {
-        return new Runnable() {
-            @Override
-            public void run() {
-                // Generate and Publish the Events - requirement: 3.4.2.1
-                generateAndPublishEvents(comObject,
-                        ArchiveManager.generateSources(objType, domain, objIds),
-                        interaction);
-            }
+        return () -> {
+            // Generate and Publish the Events - requirement: 3.4.2.1
+            generateAndPublishEvents(comObject,
+                    ArchiveManager.generateSources(objType, domain, objIds),
+                    interaction);
         };
     }
 

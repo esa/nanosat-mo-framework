@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -130,9 +130,7 @@ public class HeartbeatConsumerServiceImpl extends ConsumerServiceImpl {
             heartbeatSubscription = ConnectionConsumer.subscriptionWildcardRandom();
             try {
                 heartbeatService.beatRegister(heartbeatSubscription, adapter);
-            } catch (MALInteractionException ex) {
-                Logger.getLogger(HeartbeatConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALException ex) {
+            } catch (MALInteractionException | MALException ex) {
                 Logger.getLogger(HeartbeatConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -151,9 +149,7 @@ public class HeartbeatConsumerServiceImpl extends ConsumerServiceImpl {
                 IdentifierList ids = new IdentifierList();
                 ids.add(heartbeatSubscription.getSubscriptionId());
                 heartbeatService.beatDeregister(ids);
-            } catch (MALInteractionException ex) {
-                Logger.getLogger(HeartbeatConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALException ex) {
+            } catch (MALInteractionException | MALException ex) {
                 Logger.getLogger(HeartbeatConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

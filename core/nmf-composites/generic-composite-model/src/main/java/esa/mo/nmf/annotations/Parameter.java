@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -26,9 +26,35 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Parameters are not allowed to be null on initialization!
+ * Declares a class field as a Parameter and exposes it on MC Parameter interface.
  *
- * @author Kevin Otto <Kevin@KevinOtto.de>
+ * Parameters are not allowed to be null upon initialization.
+ *
+ * <p>
+ * Example:
+ * <pre>
+ * public class ExampleMCAdapter extends MonitorAndControlNMFAdapter
+ * {
+ *   <b>&#64;Parameter(</b>
+ *       description = "The Magnetometer X component",
+ *       rawUnit = "microTesla",
+ *       generationEnabled = false,
+ *       onGetFunction = "onGetMagneticField_X",
+ *       readOnly = true,
+ *       reportIntervalSeconds = 2)
+ *   Float MagneticField_X = 0.0f;
+ *   <b>&#64;Parameter(</b>
+ *       description = "The Magnetometer Y component",
+ *       rawUnit = "microTesla",
+ *       generationEnabled = false,
+ *       onGetFunction = "onGetMagneticField_Y",
+ *       readOnly = true,
+ *       reportIntervalSeconds = 2)
+ *   Float MagneticField_Y = 0.0f;
+ * }
+ * </pre>
+ *
+ * @author Kevin Otto
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
@@ -40,14 +66,14 @@ public @interface Parameter
    *
    * default: ""
    */
-  public String name() default "";
+  String name() default "";
 
   /**
    * The description of this parameter
    *
    * default: ""
    */
-  public String description() default "";
+  String description() default "";
 
   /**
    * MAL Type of this parameter.
@@ -55,28 +81,28 @@ public @interface Parameter
    * default: auto generated: only possible when directly using Attribute as field type (linke
    * UInteger, Integer, UShort, ...) or build in java types (int, double, String ...)
    */
-  public String malType() default "";
+  String malType() default "";
 
   /**
    * The raw unit of this parameter examples: rad, m/s ...
    *
    * default: ""
    */
-  public String rawUnit() default "";
+  String rawUnit() default "";
 
   /**
    * if generation should be enabled
    *
    * default: false
    */
-  public boolean generationEnabled() default true;
+  boolean generationEnabled() default true;
 
   /**
    * How often the parameter will be reported (in Seconds)
    *
    * default: every 0 seconds which disables automatic generation interval
    */
-  public double reportIntervalSeconds() default 0.0;
+  double reportIntervalSeconds() default 0.0;
 
   /**
    * Name of the field containing a ParameterExpression instance containing the validity expression
@@ -84,7 +110,7 @@ public @interface Parameter
    *
    * default: no validity check
    */
-  public String validityExpressionFieldName() default "";
+  String validityExpressionFieldName() default "";
 
   /**
    * Name of the field containing a ParameterConversion instance containing the conversion for this
@@ -92,14 +118,14 @@ public @interface Parameter
    *
    * default: no conversion
    */
-  public String conversionFunctionName() default "";
+  String conversionFunctionName() default "";
 
   /**
    * If this parameter should be read only. Parameters which are final are always read only!
    *
    * default: false
    */
-  public boolean readOnly() default false;
+  boolean readOnly() default false;
 
   /**
    * The name of the function that will be called, every time the Parameter is get (before its value
@@ -110,13 +136,13 @@ public @interface Parameter
    *
    * default: no function is called
    */
-  public String onGetFunction() default "";
+  String onGetFunction() default "";
 
   /**
    * array of Aggregation ids this parameter belongs to.
    *
    * @return
    */
-  public String[] aggregations() default {};
+  String[] aggregations() default {};
 
 }

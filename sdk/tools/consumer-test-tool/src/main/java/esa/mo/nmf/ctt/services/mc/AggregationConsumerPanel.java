@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -87,9 +87,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         Subscription subscription = ConnectionConsumer.subscriptionWildcard();
         try {
             serviceMCAggregation.getAggregationStub().monitorValueRegister(subscription, new AggregationConsumerAdapter());
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -125,7 +123,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("Aggregation Service");
+        jLabel6.setText("Aggregation Service - Definitions");
         jLabel6.setToolTipText("");
 
         jScrollPane2.setHorizontalScrollBar(null);
@@ -165,109 +163,57 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         parameterTab.setLayout(new java.awt.GridLayout(2, 1));
 
         getValueButtonAgg1.setText("getValue");
-        getValueButtonAgg1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                getValueButtonAgg1ActionPerformed(evt);
-            }
-        });
+        getValueButtonAgg1.addActionListener(evt -> getValueButtonAgg1ActionPerformed(evt));
         jPanel1.add(getValueButtonAgg1);
 
         getValueAllButtonAgg.setText("getValue(0)");
-        getValueAllButtonAgg.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                getValueAllButtonAggActionPerformed(evt);
-            }
-        });
+        getValueAllButtonAgg.addActionListener(evt -> getValueAllButtonAggActionPerformed(evt));
         jPanel1.add(getValueAllButtonAgg);
 
         enableDefinitionButtonAgg.setText("enableGeneration");
-        enableDefinitionButtonAgg.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                enableDefinitionButtonAggActionPerformed(evt);
-            }
-        });
+        enableDefinitionButtonAgg.addActionListener(evt -> enableDefinitionButtonAggActionPerformed(evt));
         jPanel1.add(enableDefinitionButtonAgg);
 
         enableDefinitionAllAgg.setText("enableGeneration(group=false, 0)");
-        enableDefinitionAllAgg.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                enableDefinitionAllAggActionPerformed(evt);
-            }
-        });
+        enableDefinitionAllAgg.addActionListener(evt -> enableDefinitionAllAggActionPerformed(evt));
         jPanel1.add(enableDefinitionAllAgg);
 
         enableFilterButtonAgg.setText("enableFilter");
-        enableFilterButtonAgg.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                enableFilterButtonAggActionPerformed(evt);
-            }
-        });
+        enableFilterButtonAgg.addActionListener(evt -> enableFilterButtonAggActionPerformed(evt));
         jPanel1.add(enableFilterButtonAgg);
 
         enableFilterAllAgg.setText("enableFilter(group=false, 0)");
-        enableFilterAllAgg.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                enableFilterAllAggActionPerformed(evt);
-            }
-        });
+        enableFilterAllAgg.addActionListener(evt -> enableFilterAllAggActionPerformed(evt));
         jPanel1.add(enableFilterAllAgg);
 
         parameterTab.add(jPanel1);
 
         addDefinitionButton.setText("addDefinition");
-        addDefinitionButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addDefinitionButtonActionPerformed(evt);
-            }
-        });
+        addDefinitionButton.addActionListener(evt -> addDefinitionButtonActionPerformed(evt));
         jPanel5.add(addDefinitionButton);
 
         updateDefinitionButton.setText("updateDefinition");
-        updateDefinitionButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateDefinitionButtonActionPerformed(evt);
-            }
-        });
+        updateDefinitionButton.addActionListener(evt -> updateDefinitionButtonActionPerformed(evt));
         jPanel5.add(updateDefinitionButton);
 
         removeDefinitionButton.setText("removeDefinition");
-        removeDefinitionButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeDefinitionButtonActionPerformed(evt);
-            }
-        });
+        removeDefinitionButton.addActionListener(evt -> removeDefinitionButtonActionPerformed(evt));
         jPanel5.add(removeDefinitionButton);
 
         listDefinitionButton.setText("listDefinition()");
-        listDefinitionButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                listDefinitionButtonActionPerformed(evt);
-            }
-        });
+        listDefinitionButton.addActionListener(evt -> listDefinitionButtonActionPerformed(evt));
         jPanel5.add(listDefinitionButton);
 
         listDefinitionAllButton.setText("listDefinition(\"*\")");
-        listDefinitionAllButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                listDefinitionAllButtonActionPerformed(evt);
-            }
-        });
+        listDefinitionAllButton.addActionListener(evt -> listDefinitionAllButtonActionPerformed(evt));
         jPanel5.add(listDefinitionAllButton);
 
         removeDefinitionAllButton.setText("removeDefinition(0)");
-        removeDefinitionAllButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeDefinitionAllButtonActionPerformed(evt);
-            }
-        });
+        removeDefinitionAllButton.addActionListener(evt -> removeDefinitionAllButtonActionPerformed(evt));
         jPanel5.add(removeDefinitionAllButton);
 
         msgBoxOn.setText("Display Published AggregationValues");
-        msgBoxOn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                msgBoxOnActionPerformed(evt);
-            }
-        });
+        msgBoxOn.addActionListener(evt -> msgBoxOnActionPerformed(evt));
         jPanel5.add(msgBoxOn);
 
         parameterTab.add(jPanel5);
@@ -312,9 +258,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
             }
 
             JOptionPane.showMessageDialog(null, str.toString(), "Returned List from the Provider", JOptionPane.PLAIN_MESSAGE);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_listDefinitionButtonActionPerformed
@@ -370,10 +314,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
 
             // Add the Action Definition to the table
             aggregationTable.addEntry(requestList.get(0).getName(), comObject);
-        } catch (MALInteractionException ex) {
-            JOptionPane.showMessageDialog(null, "There was an error with the submitted Aggregation Definition.", "Error", JOptionPane.PLAIN_MESSAGE);
-            Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             JOptionPane.showMessageDialog(null, "There was an error with the submitted Aggregation Definition.", "Error", JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -400,9 +341,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCAggregation.getAggregationStub().updateDefinition(objIds, defs);
             this.listDefinitionAllButtonActionPerformed(null);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_updateDefinitionButtonActionPerformed
@@ -418,9 +357,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCAggregation.getAggregationStub().removeAggregation(longlist);
             aggregationTable.removeSelectedEntry();
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_removeDefinitionButtonActionPerformed
@@ -461,9 +398,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
                 }
             }
             );
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -477,9 +412,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCAggregation.getAggregationStub().removeAggregation(longlist);
             aggregationTable.removeAllEntries();
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_removeDefinitionAllButtonActionPerformed
@@ -508,9 +441,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCAggregation.getAggregationStub().enableGeneration(false, BoolPairList);
             aggregationTable.switchEnabledstatusAll(!curState);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -528,9 +459,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCAggregation.getAggregationStub().enableGeneration(false, BoolPairList);
             aggregationTable.switchEnabledstatus(!curState);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_enableDefinitionButtonAggActionPerformed
@@ -576,9 +505,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
 
             JOptionPane.showMessageDialog(null, str.toString(), "Returned List from the Provider", JOptionPane.PLAIN_MESSAGE);
 
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_getValueAllButtonAggActionPerformed
@@ -597,9 +524,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         try {
             serviceMCAggregation.getAggregationStub().enableFilter(false, boolPairList);  // false: no group service
             aggregationTable.switchFilterEnabledstatusAll(!curState);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -618,9 +543,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         try {
             serviceMCAggregation.getAggregationStub().enableFilter(false, boolPairList);
             aggregationTable.switchFilterEnabledstatus(!curState);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -666,9 +589,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
 
             JOptionPane.showMessageDialog(null, str.toString(), "Returned List from the Provider", JOptionPane.PLAIN_MESSAGE);
 
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_getValueButtonAgg1ActionPerformed

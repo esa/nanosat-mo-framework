@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -37,7 +37,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -75,7 +75,7 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
     protected long startTime;
 
     protected PersistProviderConfiguration providerConfiguration;
-    protected final ArrayList<ReconfigurableService> reconfigurableServices = new ArrayList<ReconfigurableService>();
+    protected final ArrayList<ReconfigurableService> reconfigurableServices = new ArrayList<>();
 
     /**
      * Initializes the NMF provider using a monitoring and control adapter that
@@ -163,7 +163,7 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
         }
 
         ParameterInstance instance = new ParameterInstance(new Identifier(name), (Attribute) obj, null, null);
-        ArrayList<ParameterInstance> parameters = new ArrayList<ParameterInstance>(1); // We just add 1 element
+        ArrayList<ParameterInstance> parameters = new ArrayList<>(1); // We just add 1 element
         parameters.add(instance);
 
         return this.getMCServices().getParameterService().pushMultipleParameterValues(parameters, storeIt);
@@ -258,7 +258,7 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
 
             try {
                 // Get the text out of that file...
-                InputStreamReader isr = new InputStreamReader(new FileInputStream(file), Charset.forName("UTF-8"));
+                InputStreamReader isr = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8);
                 BufferedReader br = new BufferedReader(isr);
 
                 try {
@@ -279,9 +279,7 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
     }
 
     public final void writeCentralDirectoryServiceURI(final String centralDirectoryURI, final String secondaryURI) {
-        BufferedWriter wrt = null;
-        try { // Reset the file
-            wrt = new BufferedWriter(new FileWriter(Const.FILENAME_CENTRAL_DIRECTORY_SERVICE, false));
+        try (BufferedWriter wrt = new BufferedWriter(new FileWriter(Const.FILENAME_CENTRAL_DIRECTORY_SERVICE, false))) { // Reset the file
             if (secondaryURI != null) {
                 wrt.write(secondaryURI);
                 wrt.write("\n");
@@ -291,13 +289,6 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
         } catch (IOException ex) {
             Logger.getLogger(NMFProvider.class.getName()).log(Level.WARNING,
                     "Unable to reset URI information from properties file {0}", ex);
-        } finally {
-            if (wrt != null) {
-                try {
-                    wrt.close();
-                } catch (IOException ex) {
-                }
-            }
         }
     }
 

@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -216,9 +216,7 @@ public class DemoGPSData {
                     if (PARAMETER_GPS_ALTITUDE.equals(identifier.getValue())) {
                         return (Attribute) HelperAttributes.javaType2Attribute(pos.getBodyElement0().getAltitude());
                     }
-                } catch (IOException ex) {
-                    Logger.getLogger(DemoGPSData.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (NMFException ex) {
+                } catch (IOException | NMFException ex) {
                     Logger.getLogger(DemoGPSData.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
@@ -238,9 +236,7 @@ public class DemoGPSData {
 
                     try {
                         connector.getPlatformServices().getGPSService().getSatellitesInfo(new AdapterImpl());
-                    } catch (IOException ex) {
-                        Logger.getLogger(DemoGPSData.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (NMFException ex) {
+                    } catch (IOException | NMFException ex) {
                         Logger.getLogger(DemoGPSData.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
@@ -252,9 +248,7 @@ public class DemoGPSData {
 
                     return (Attribute) HelperAttributes.javaType2Attribute(nOfSats.get(0));
                 }
-            } catch (MALException ex) {
-                Logger.getLogger(DemoGPSData.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
+            } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(DemoGPSData.class.getName()).log(Level.SEVERE, null, ex);
             }
 

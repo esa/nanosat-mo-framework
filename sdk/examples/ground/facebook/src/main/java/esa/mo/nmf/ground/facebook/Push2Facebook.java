@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -25,12 +25,16 @@ import com.restfb.FacebookClient;
 import com.restfb.Parameter;
 import com.restfb.Version;
 import com.restfb.types.FacebookType;
-import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
-import esa.mo.nmf.groundmoadapter.SimpleDataReceivedListener;
+import esa.mo.nmf.commonmoadapter.SimpleDataReceivedListener;
+import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
+import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
+import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.structures.URI;
+
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
@@ -44,34 +48,26 @@ public class Push2Facebook
 {
 
   private static final Logger LOGGER = Logger.getLogger(Push2Facebook.class.getName());
+
+  private static final String APP_PREFIX = "App: ";
   private static final String TOKEN_FILENAME = "token.properties";
-  private GroundMOAdapterImpl gma;
   private final String ACCESS_TOKEN;
 
-  public Push2Facebook()
-  {
-
-    ConnectionConsumer connection = new ConnectionConsumer();
+  public Push2Facebook(String directoryURI, String providerName) {
 
     try {
-      connection.loadURIs();
-    } catch (MalformedURLException | FileNotFoundException ex) {
-      LOGGER.log(Level.SEVERE, "The URIs could not be loaded from a file.", ex);
-    }
+      registerDataListener(directoryURI, providerName);
 
-    gma = new GroundMOAdapterImpl(connection);
-    gma.addDataReceivedListener(new DataReceivedAdapter());
+      final java.util.Properties sysProps = System.getProperties();
 
-    final java.util.Properties sysProps = System.getProperties();
-
-    // Load the properties out of the file
-    File file = new File(System.getProperty(TOKEN_FILENAME, TOKEN_FILENAME));
-    if (file.exists()) {
-      try {
+      // Load the properties out of the file
+      File file = new File(System.getProperty(TOKEN_FILENAME, TOKEN_FILENAME));
+      if (file.exists()) {
         sysProps.putAll(HelperMisc.loadProperties(file.toURI().toURL(), TOKEN_FILENAME));
-      } catch (MalformedURLException ex) {
-        LOGGER.log(Level.SEVERE, null, ex);
       }
+    }
+    catch (MalformedURLException | MALInteractionException | MALException e) {
+      LOGGER.log(Level.SEVERE, null, e);
     }
 
     ACCESS_TOKEN = System.getProperty("access_token", "null");
@@ -85,7 +81,45 @@ public class Push2Facebook
    */
   public static void main(final String args[]) throws Exception
   {
-    Push2Facebook demo = new Push2Facebook();
+    if (args.length != 2) {
+      System.err.println("Please give supervisor directory URI as a first argument and a provider name," +
+              " which to connect as the second argument!");
+      System.err.println("e.g. maltcp://123.123.123.123:1024/nanosat-mo-supervisor-Directory publish-clock");
+      System.exit(1);
+    }
+    Push2Facebook demo = new Push2Facebook(args[0], args[1]);
+  }
+
+  /**
+   * Registers the data listener to the given provider.
+   *
+   * @param directoryURI - directory URI
+   * @param providerName - provider name which to connect to
+   * @throws MalformedURLException
+   * @throws MALInteractionException
+   * @throws MALException
+   */
+  private void registerDataListener(String directoryURI, String providerName) throws MalformedURLException,
+          MALInteractionException, MALException {
+
+    ProviderSummaryList providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(
+            new URI(directoryURI));
+
+    GroundMOAdapterImpl gma = null;
+    if (!providers.isEmpty()) {
+      for (ProviderSummary provider : providers) {
+        if (provider.getProviderName().toString().equals(APP_PREFIX + providerName)) {
+          gma = new GroundMOAdapterImpl(provider);
+          gma.addDataReceivedListener(new DataReceivedAdapter());
+          break;
+        }
+      }
+
+      if(gma == null)
+      {
+        throw new RuntimeException("Failed to connect to the provider. No such provider found - " + providerName);
+      }
+    }
   }
 
   public class DataReceivedAdapter extends SimpleDataReceivedListener

@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -49,14 +49,14 @@ public class FastDomain {
     private HashMap<Integer, IdentifierList> fastIDreverse;
 
     public FastDomain(final DatabaseBackend dbBackend) {
-        this.fastID = new HashMap<IdentifierList, Integer>();
-        this.fastIDreverse = new HashMap<Integer, IdentifierList>();
+        this.fastID = new HashMap<>();
+        this.fastIDreverse = new HashMap<>();
         this.dbBackend = dbBackend;
     }
 
     public synchronized void resetFastDomain() {
-        this.fastID = new HashMap<IdentifierList, Integer>();
-        this.fastIDreverse = new HashMap<Integer, IdentifierList>();
+        this.fastID = new HashMap<>();
+        this.fastIDreverse = new HashMap<>();
         uniqueId = new AtomicInteger(0);
 
         dbBackend.getEM().getTransaction().begin();

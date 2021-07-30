@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -45,7 +45,7 @@ public class ProtocolBridge {
     private MALEndpoint epA;
     private MALEndpoint epB;
 
-    public void init(final String protocolA, final String protocolB, final Map properties) throws MALException, Exception {
+    public void init(final String protocolA, final String protocolB, final Map properties) throws Exception {
         transportA = createTransport(protocolA, properties);
         transportB = createTransport(protocolB, properties);
         epA = createEndpoint(protocolA, transportA);
@@ -107,10 +107,7 @@ public class ProtocolBridge {
                 MALMessage dMsg = cloneForwardMessage(destination, srcMessage);
                 System.out.println("Injecting message...");
                 destination.sendMessage(dMsg);
-            } catch (MALException ex) {
-                Logger.getLogger(ProtocolBridge.class.getName()).log(Level.SEVERE, null, ex);
-                // ToDo need to bounce this back to source... maybe
-            } catch (MALTransmitErrorException ex) {
+            } catch (MALException | MALTransmitErrorException ex) {
                 Logger.getLogger(ProtocolBridge.class.getName()).log(Level.SEVERE, null, ex);
                 // ToDo need to bounce this back to source... maybe
             }

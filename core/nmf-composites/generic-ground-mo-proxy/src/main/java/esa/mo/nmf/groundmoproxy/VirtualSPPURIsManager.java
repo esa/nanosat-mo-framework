@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -34,8 +34,8 @@ public class VirtualSPPURIsManager {
     private final int apidRangeEnd;
     private final static int SOURDEID_RANGE_START = 0; // Set by SPP
     private final static int SOURDEID_RANGE_END = 255;
-    private final HashMap<String, String> virtualAPIDsMap = new HashMap<String, String>();
-    private final HashMap<String, String> reverseMap = new HashMap<String, String>();
+    private final HashMap<String, String> virtualAPIDsMap = new HashMap<>();
+    private final HashMap<String, String> reverseMap = new HashMap<>();
     private final AtomicInteger uniqueAPID;
     private final AtomicInteger uniqueSourceId;
     private final Object MUTEX = new Object();

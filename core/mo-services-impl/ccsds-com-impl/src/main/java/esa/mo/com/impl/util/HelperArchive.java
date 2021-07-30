@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -209,7 +209,7 @@ public class HelperArchive {
     public static ArchiveDetailsList generateArchiveDetailsList(final Long related,
             final ObjectId source, final Identifier network, final URI provider, final FineTime timestamp) {
         final ArchiveDetails archiveDetails = new ArchiveDetails();
-        archiveDetails.setInstId(Long.valueOf(0));
+        archiveDetails.setInstId(0L);
         archiveDetails.setDetails(new ObjectDetails(related, source));
         archiveDetails.setNetwork(network);
         archiveDetails.setTimestamp(timestamp);
@@ -435,7 +435,7 @@ public class HelperArchive {
                     return null;
                 }
 
-                List<ArchivePersistenceObject> all = new ArrayList<ArchivePersistenceObject>();
+                List<ArchivePersistenceObject> all = new ArrayList<>();
 
                 for (int i = 0; i < objDetails.size(); i++) {
                     ArchivePersistenceObject tmp = new ArchivePersistenceObject(
@@ -521,7 +521,7 @@ public class HelperArchive {
                     return null;
                 }
 
-                List<ArchivePersistenceObject> all = new ArrayList<ArchivePersistenceObject>();
+                List<ArchivePersistenceObject> all = new ArrayList<>();
 
                 for (int i = 0; i < objDetails.size(); i++) {
                     Element objBody = null;

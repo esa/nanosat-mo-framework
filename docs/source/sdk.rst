@@ -56,15 +56,18 @@ You can run a CubeSat simulator to try out your app in a playground environment 
 
 In order to do this, Please do the following:
 
-1. Run the Supervisor, go to **sdk/sdk-package/target/nmf-sdk-2.0.0-SNAPSHOT/home/nmf/nanosat-mo-supervisor-sim/** and run **nanosat-mo-supervisor-sim.sh**.
+1. Run the Supervisor, go to **sdk/sdk-package/target/nmf-sdk-2.1.0-SNAPSHOT/home/nmf/nanosat-mo-supervisor-sim/** and run **nanosat-mo-supervisor-sim.sh**.
 
-2. Run the CTT, go to **sdk/sdk-package/target/nmf-sdk-2.0.0-SNAPSHOT/home/nmf/consumer-test-tool/** and run **consumer-test-tool.sh**.
+2. Run the CTT, go to **sdk/sdk-package/target/nmf-sdk-2.1.0-SNAPSHOT/home/nmf/consumer-test-tool/** and run **consumer-test-tool.sh**.
 
 Connecting to the Supervisor using CTT
 ---------------------------------------
 The supervisor outputs a URI on the console. This URI follows the pattern 
 ``maltcp://SOME_ADDRESS:PORT/nanosat-mo-supervisor-Directory``
 Paste this URI into the field in the **Communication Settings** tab of the CTT and click the button **Fetch information**. In the *Providers List*, the supervisor should show up. The table on the right side should list some services. Now click the button **Connect to Selected Provider** which results in a new tab appearing next to the **Communication Settings**. You now have a working connection to the supervisor and are able to start apps and check messages.
+
+.. image:: _images/CTT_presentation.png
+   :width: 600
 
 Running and connecting to an App
 --------------------------------

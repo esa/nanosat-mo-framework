@@ -7,7 +7,7 @@
  *  ----------------------------------------------------------------------------
  *  System                : ESA NanoSat MO Framework
  *  ----------------------------------------------------------------------------
- *  Licensed under the European Space Agency Public License, Version 2.0
+ *  Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  *  You may not use this file except in compliance with the License.
  * 
  *  Except as expressly set forth in this License, the Software is provided to
@@ -59,7 +59,7 @@ public class TCPServerReceiveOnly extends Thread {
         Thread.currentThread().setName("sim-" + this.getClass().getSimpleName() + "-" + port);
         String clientSentence = null;
         ServerSocket welcomeSocket = null;
-        while (true && !shouldClose) {
+        while (!shouldClose) {
             try {
                 welcomeSocket = new ServerSocket(port);
                 this.logger.log(Level.INFO,"Created ServerSocket on port [" + port + "]");
@@ -75,7 +75,7 @@ public class TCPServerReceiveOnly extends Thread {
                 BufferedReader inFromClient;
                 try {
                     inFromClient = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
-                    while (true && !shouldClose) {
+                    while (!shouldClose) {
                         try {
                             clientSentence = inFromClient.readLine();
                             if (clientSentence == null) {

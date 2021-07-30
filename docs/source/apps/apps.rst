@@ -32,7 +32,7 @@ If you need to use OreKit in your App and don't want to use custom orekit-data, 
 	<dependency>
 	  <groupId>int.esa.nmf.sdk</groupId>
 	  <artifactId>orekit-resources</artifactId>
-	  <version>2.0.0-SNAPSHOT</version>
+	  <version>2.1.0-SNAPSHOT</version>
 	  <type>jar</type>
 	</dependency>
 

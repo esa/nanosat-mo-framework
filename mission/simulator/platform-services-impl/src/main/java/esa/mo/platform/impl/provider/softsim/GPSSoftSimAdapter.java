@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -23,8 +23,6 @@ package esa.mo.platform.impl.provider.softsim;
 import java.io.IOException;
 
 import esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import opssat.simulator.main.ESASimulator;
 import org.ccsds.moims.mo.platform.gps.structures.TwoLineElementSet;
 import org.orekit.propagation.analytical.tle.TLE;

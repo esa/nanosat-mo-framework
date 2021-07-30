@@ -59,7 +59,7 @@ public class CheckLinkMonitorManager {
         this.adapter = new CheckLinkMonitorAdapter(this);
         this.eventService = eventService;
         this.checkManager = checkManager;
-        this.notifyList = new HashMap<Long, List<Long>>();
+        this.notifyList = new HashMap<>();
     }
 
     /**
@@ -76,7 +76,7 @@ public class CheckLinkMonitorManager {
         for (Long compoundedCheckLink : compoundedCheckLinks) {
             List<Long> currentChecksToNotify = notifyList.get(compoundedCheckLink);
             if (currentChecksToNotify == null) {
-                currentChecksToNotify = new ArrayList<Long>();
+                currentChecksToNotify = new ArrayList<>();
             }
             currentChecksToNotify.add(checkLinkId);
             notifyList.put(compoundedCheckLink, currentChecksToNotify);
@@ -128,9 +128,7 @@ public class CheckLinkMonitorManager {
     private synchronized void registerForCheckTranisitionEvents() {
         try {
             eventService.monitorEventRegister(subscriptionKeys(new Identifier("AllCheckTransitions"), new Identifier("4"), 0L, 0L, 0L), adapter);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(CheckLinkMonitorManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(CheckLinkMonitorManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -143,9 +141,7 @@ public class CheckLinkMonitorManager {
             IdentifierList subIdentifiers = new IdentifierList();
             subIdentifiers.add(new Identifier("AllCheckTransitions"));
             eventService.monitorEventDeregister(subIdentifiers);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(CheckLinkMonitorManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(CheckLinkMonitorManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

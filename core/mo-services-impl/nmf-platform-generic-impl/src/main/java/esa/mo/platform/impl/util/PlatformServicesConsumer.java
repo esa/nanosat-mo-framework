@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -115,11 +115,7 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
       if (details != null) {
         powerControlService = new PowerControlConsumerServiceImpl(details, comServices, authenticationID, localNamePrefix);
       }
-    } catch (MALException ex) {
-      Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (MalformedURLException ex) {
-      Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (MALInteractionException ex) {
+    } catch (MALException | MALInteractionException | MalformedURLException ex) {
       Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
     }
   }
@@ -222,27 +218,27 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
   public void closeConnections()
   {
     if (this.autonomousADCSService != null) {
-      this.autonomousADCSService.closeConnection();
+      this.autonomousADCSService.close();
     }
 
     if (this.cameraService != null) {
-      this.cameraService.closeConnection();
+      this.cameraService.close();
     }
 
     if (this.gpsService != null) {
-      this.gpsService.closeConnection();
+      this.gpsService.close();
     }
 
     if (this.odrService != null) {
-      this.odrService.closeConnection();
+      this.odrService.close();
     }
 
     if (this.sdrService != null) {
-      this.sdrService.closeConnection();
+      this.sdrService.close();
     }
 
     if (this.powerControlService != null) {
-      this.powerControlService.closeConnection();
+      this.powerControlService.close();
     }
   }
 

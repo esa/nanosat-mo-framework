@@ -7,7 +7,7 @@
  *  ----------------------------------------------------------------------------
  *  System                : ESA NanoSat MO Framework
  *  ----------------------------------------------------------------------------
- *  Licensed under the European Space Agency Public License, Version 2.0
+ *  Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  *  You may not use this file except in compliance with the License.
  * 
  *  Except as expressly set forth in this License, the Software is provided to
@@ -291,7 +291,7 @@ public class SimulatorNode extends TaskNode
 
   private LinkedList<GPSSatInView> getSatsInView()
   {
-    LinkedList<GPSSatInView> tempResult = new LinkedList<GPSSatInView>();
+    LinkedList<GPSSatInView> tempResult = new LinkedList<>();
     if (this.simulatorHeader.isUseOrekitPropagator()) {
       tempResult = this.orekitCore.getSatsInViewAsList();
     } else {
@@ -343,7 +343,7 @@ public class SimulatorNode extends TaskNode
 
   private void makeSimulatorDeviceBindings()
   {
-    hMapSDData = new HashMap<DevDatPBind, ArgumentDescriptor>();
+    hMapSDData = new HashMap<>();
     int i = 0;
     this.hMapSDData.put(DevDatPBind.Camera_CameraBuffer,
         simulatorDevices.get(INTERFACE_CAMERA).getDataList().get(i++));
@@ -442,12 +442,12 @@ public class SimulatorNode extends TaskNode
     if (simulatorHeader.getKeplerElements() != null) {
       String[] list = simulatorHeader.getKeplerElements().split(";");
       if (list.length == 6) {
-        OPS_SAT_A = Double.valueOf(list[0]);
-        OPS_SAT_E = Double.valueOf(list[1]);
-        OPS_SAT_ORBIT_I = Double.valueOf(list[2]);
-        OPS_SAT_RAAN = Double.valueOf(list[3]);
-        OPS_SAT_ARG_PER = Double.valueOf(list[4]);
-        OPS_SAT_TRUE_ANOMALY = Double.valueOf(list[5]);
+        OPS_SAT_A = Double.parseDouble(list[0]);
+        OPS_SAT_E = Double.parseDouble(list[1]);
+        OPS_SAT_ORBIT_I = Double.parseDouble(list[2]);
+        OPS_SAT_RAAN = Double.parseDouble(list[3]);
+        OPS_SAT_ARG_PER = Double.parseDouble(list[4]);
+        OPS_SAT_TRUE_ANOMALY = Double.parseDouble(list[5]);
 
       } else {
         displayKeplerElementsWarning = true;
@@ -532,11 +532,11 @@ public class SimulatorNode extends TaskNode
         new SimulatorTimer(TIMER_CELESTIA_DATA, TIMER_CELESTIA_INTERVAL));
     // super.getTimers().put(TIMER_SCIENCE1_DATA, new
     // SimulatorTimer(TIMER_SCIENCE1_DATA, TIMER_SCIENCE1_DATA_INTERVAL));
-    interfaceFilesList = new LinkedList<File>();
-    simulatorDevices = new LinkedList<SimulatorDeviceData>();
-    commandsList = new LinkedList<CommandDescriptor>();
-    commandsQueue = new LinkedList<CommandDescriptor>();
-    commandsResults = new LinkedList<CommandResult>();
+    interfaceFilesList = new LinkedList<>();
+    simulatorDevices = new LinkedList<>();
+    commandsList = new LinkedList<>();
+    commandsQueue = new LinkedList<>();
+    commandsResults = new LinkedList<>();
     String workingdir = System.getProperty("user.dir");
     this.logger.log(Level.ALL, "Workingdir is [" + workingdir + "]");
     File interfacesFolderCheck = new File(workingdir);
@@ -641,43 +641,17 @@ public class SimulatorNode extends TaskNode
     }
   }
 
-  private ArrayList<String> getLinesFromInputStream(InputStream fileName)
+  private ArrayList<String> readLinesFromInputStream(InputStream fileName)
   {
 
     if (fileName != null) {
-      ArrayList<String> result = new ArrayList<String>();
+      ArrayList<String> result = new ArrayList<>();
       try {
         BufferedReader in = new BufferedReader(new InputStreamReader(fileName));
-        String line;
-        while ((line = in.readLine()) != null) {
-          result.add(line);
-        }
-
-      } catch (FileNotFoundException ex) {
-        Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
-      } catch (IOException ex) {
-        Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
-      }
-      return result;
-    } else {
-      this.logger.log(Level.WARNING,
-          "InputStream [" + fileName.toString() + "] could not be accessed!");
-      return null;
-    }
-  }
-
-  private void loadMethodsDescriptionFromResources()
-  {
-    String fileName = "descriptions.txt";
-    ClassLoader classLoader = getClass().getClassLoader();
-    InputStream result = classLoader.getResourceAsStream(fileName);
-    if (result != null) {
-      ArrayList<String> data = getLinesFromInputStream(result);
-      if (data != null) {
         String description = null;
         boolean skipRead;
-        boolean skipNewLine;
-        for (String line : data) {
+        String line;
+        while ((line = in.readLine()) != null) {
           skipRead = false;
           if (line.equals("/**")) {
             description = "";
@@ -695,14 +669,31 @@ public class SimulatorNode extends TaskNode
                 }
               }
             }
-
           }
           if (!skipRead && !line.contains("<pre>") && !line.contains("</pre>")) {
             description += line + "\n";
 
           }
         }
+
+      } catch (IOException ex) {
+        Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
       }
+      return result;
+    } else {
+      this.logger.log(Level.WARNING,
+          "InputStream [" + fileName.toString() + "] could not be accessed!");
+      return null;
+    }
+  }
+
+  private void loadMethodsDescriptionFromResources()
+  {
+    String fileName = "descriptions.txt";
+    ClassLoader classLoader = getClass().getClassLoader();
+    InputStream istream = classLoader.getResourceAsStream(fileName);
+    if (istream != null) {
+      readLinesFromInputStream(istream);
     } else {
       this.logger.log(Level.WARNING, "Error reading resource file!");
     }
@@ -734,32 +725,42 @@ public class SimulatorNode extends TaskNode
       for (String test : bodyWords) {
         this.logger.log(Level.FINEST, "Processing [+" + test + "+]");
         String returnString = "";
-        if (test.equals("java.lang.String")) {
-          foundData = true;
-          returnString = "String";
-        } else if (test.equals("byte[]")) {
-          foundData = true;
-          returnString = "byte[]";
-        } else if (test.equals("float")) {
-          foundData = true;
-          returnString = "float";
-        } else if (test.equals("void")) {
-          foundData = true;
-          returnString = "void";
-        } else if (test.equals("double")) {
-          foundData = true;
-          returnString = "double";
-        } else if (test.equals("double[]")) {
-          foundData = true;
-          returnString = "double[]";
-        } else if (test.equals("int")) {
-          foundData = true;
-          returnString = "int";
-        } else if (test.equals("long")) {
-          foundData = true;
-          returnString = "long";
-        } else {
-          foundData = false;
+        switch (test) {
+          case "java.lang.String":
+            foundData = true;
+            returnString = "String";
+            break;
+          case "byte[]":
+            foundData = true;
+            returnString = "byte[]";
+            break;
+          case "float":
+            foundData = true;
+            returnString = "float";
+            break;
+          case "void":
+            foundData = true;
+            returnString = "void";
+            break;
+          case "double":
+            foundData = true;
+            returnString = "double";
+            break;
+          case "double[]":
+            foundData = true;
+            returnString = "double[]";
+            break;
+          case "int":
+            foundData = true;
+            returnString = "int";
+            break;
+          case "long":
+            foundData = true;
+            returnString = "long";
+            break;
+          default:
+            foundData = false;
+            break;
         }
         j++;
         if (foundData) {
@@ -894,7 +895,7 @@ public class SimulatorNode extends TaskNode
         while ((line = in.readLine()) != null) {
           List<String> items = Arrays.asList(line.split(" "));
           if (line.startsWith("#")) {
-            ;// comment line
+            // comment line
           } else if (items.size() != 1) {
             this.logger.log(Level.SEVERE,
                 "Read from filter file: size of line [" + line + "]  was invalid!");
@@ -905,13 +906,13 @@ public class SimulatorNode extends TaskNode
             fieldName = items.get(0);
             int test = 0;
             try {
-              test = Integer.valueOf(fieldName);
+              test = Integer.parseInt(fieldName);
             } catch (NumberFormatException ex) {
               this.logger.log(Level.SEVERE, ex.toString());
             }
             if (checkInternalIDExists(test)) {
               this.logger.log(Level.FINE, "Found valid command ID [" + fieldName + "]");
-              CommandDescriptor c = getCommandDescriptorForID(Integer.valueOf(fieldName));
+              CommandDescriptor c = getCommandDescriptorForID(Integer.parseInt(fieldName));
               c.setVisible(true);
             }
 
@@ -920,8 +921,6 @@ public class SimulatorNode extends TaskNode
         }
 
         in.close();
-      } catch (FileNotFoundException ex) {
-        Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
       } catch (IOException ex) {
         Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
       }
@@ -949,6 +948,7 @@ public class SimulatorNode extends TaskNode
       try {
         BufferedReader in = new BufferedReader(new FileReader(headerFile.getAbsolutePath()));
         String line;
+        label:
         while ((line = in.readLine()) != null) {
 
           List<String> items = Arrays.asList(line.split("="));
@@ -964,55 +964,71 @@ public class SimulatorNode extends TaskNode
             fieldName = items.get(0);
             fieldValue = items.get(1);
 
-            if (fieldName.equals("startModels")) {
-              simulatorHeader.setAutoStartSystem(Boolean.valueOf(fieldValue));
-            } else if (fieldName.equals("startTime")) {
-              simulatorHeader.setAutoStartTime(Boolean.valueOf(fieldValue));
-            } else if (fieldName.equals("timeFactor")) {
-              int newTimeFactor = Integer.parseInt(fieldValue);
-              if (simulatorHeader.validateTimeFactor(newTimeFactor)) {
-                simulatorHeader.setTimeFactor(newTimeFactor);
-              } else {
-                this.logger.log(Level.SEVERE, "Read from header file: timeFactor is invalid!");
-                dataOk = false;
+            switch (fieldName) {
+              case "startModels":
+                simulatorHeader.setAutoStartSystem(Boolean.parseBoolean(fieldValue));
+                break;
+              case "startTime":
+                simulatorHeader.setAutoStartTime(Boolean.parseBoolean(fieldValue));
+                break;
+              case "timeFactor":
+                int newTimeFactor = Integer.parseInt(fieldValue);
+                if (simulatorHeader.validateTimeFactor(newTimeFactor)) {
+                  simulatorHeader.setTimeFactor(newTimeFactor);
+                } else {
+                  this.logger.log(Level.SEVERE, "Read from header file: timeFactor is invalid!");
+                  dataOk = false;
+                  break label;
+                }
+                break;
+              case "startDate":
+                Date startDate = simulatorHeader.parseStringIntoDate(fieldValue);
+                if (startDate != null) {
+                  simulatorHeader.setStartDate(startDate);
+                } else {
+                  this.logger.log(Level.SEVERE, "Read from header file: startDate is invalid!");
+                  dataOk = false;
+                  break label;
+                }
+                break;
+              case "endDate":
+                Date endDate = simulatorHeader.parseStringIntoDate(fieldValue);
+                if (endDate != null) {
+                  simulatorHeader.setEndDate(endDate);
+                } else {
+                  this.logger.log(Level.SEVERE, "Read from header file: endDate is invalid!");
+                  dataOk = false;
+                  break label;
+                }
+                break;
+              case "keplerElements":
+                simulatorHeader.setKeplerElements(String.valueOf(fieldValue));
+                break;
+              case "orekit":
+                simulatorHeader.setUseOrekitPropagator(Boolean.parseBoolean(fieldValue));
+                break;
+              case "orekitPropagator":
+                simulatorHeader.setOrekitPropagator(String.valueOf(fieldValue));
+                break;
+              case "orekitTLE1": {
+                String tempResult = String.valueOf(fieldValue);
+                simulatorHeader.setOrekitTLE1(tempResult.substring(1, tempResult.length() - 1));
                 break;
               }
-            } else if (fieldName.equals("startDate")) {
-              Date startDate = simulatorHeader.parseStringIntoDate(fieldValue);
-              if (startDate != null) {
-                simulatorHeader.setStartDate(startDate);
-              } else {
-                this.logger.log(Level.SEVERE, "Read from header file: startDate is invalid!");
-                dataOk = false;
+              case "orekitTLE2": {
+                String tempResult = String.valueOf(fieldValue);
+                simulatorHeader.setOrekitTLE2(tempResult.substring(1, tempResult.length() - 1));
                 break;
               }
-            } else if (fieldName.equals("endDate")) {
-              Date endDate = simulatorHeader.parseStringIntoDate(fieldValue);
-              if (endDate != null) {
-                simulatorHeader.setEndDate(endDate);
-              } else {
-                this.logger.log(Level.SEVERE, "Read from header file: endDate is invalid!");
-                dataOk = false;
+              case "celestia":
+                simulatorHeader.setUseCelestia(Boolean.parseBoolean(fieldValue));
                 break;
-              }
-            } else if (fieldName.equals("keplerElements")) {
-              simulatorHeader.setKeplerElements(String.valueOf(fieldValue));
-            } else if (fieldName.equals("orekit")) {
-              simulatorHeader.setUseOrekitPropagator(Boolean.valueOf(fieldValue));
-            } else if (fieldName.equals("orekitPropagator")) {
-              simulatorHeader.setOrekitPropagator(String.valueOf(fieldValue));
-            } else if (fieldName.equals("orekitTLE1")) {
-              String tempResult = String.valueOf(fieldValue);
-              simulatorHeader.setOrekitTLE1(tempResult.substring(1, tempResult.length() - 1));
-            } else if (fieldName.equals("orekitTLE2")) {
-              String tempResult = String.valueOf(fieldValue);
-              simulatorHeader.setOrekitTLE2(tempResult.substring(1, tempResult.length() - 1));
-            } else if (fieldName.equals("celestia")) {
-              simulatorHeader.setUseCelestia(Boolean.valueOf(fieldValue));
-            } else if (fieldName.equals("celestiaPort")) {
-              simulatorHeader.setCelestiaPort(Integer.valueOf(fieldValue));
-            } else if (fieldName.equals("updateFromInternet")) {
-              simulatorHeader.setUpdateInternet(Boolean.valueOf(fieldValue));
+              case "celestiaPort":
+                simulatorHeader.setCelestiaPort(Integer.parseInt(fieldValue));
+                break;
+              case "updateFromInternet":
+                simulatorHeader.setUpdateInternet(Boolean.parseBoolean(fieldValue));
+                break;
             }
           }
           // validate start is before after
@@ -1024,8 +1040,6 @@ public class SimulatorNode extends TaskNode
 
         }
         in.close();
-      } catch (FileNotFoundException ex) {
-        Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
       } catch (IOException ex) {
         Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
       }
@@ -1117,6 +1131,7 @@ public class SimulatorNode extends TaskNode
     for (CommandDescriptor c : commandsList) {
       if (c.getInternalID() == internalID) {
         found = true;
+        break;
       }
     }
     return found;
@@ -1143,7 +1158,7 @@ public class SimulatorNode extends TaskNode
             break;
           }
         }
-        if (found == true) {
+        if (found) {
           break;
         }
 
@@ -1171,7 +1186,7 @@ public class SimulatorNode extends TaskNode
   {
     BufferedWriter outScheduler = null;
     File schedulerFile = null;
-    schedulerData = new LinkedList<SimulatorSchedulerPiece>();
+    schedulerData = new LinkedList<>();
     boolean errorsExist = false;
     boolean minorErrorsExist = false;
     boolean sortingRequired = false;
@@ -1187,7 +1202,6 @@ public class SimulatorNode extends TaskNode
         } catch (IOException ex) {
           Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
         }
-        ;
 
         String line;
         while ((line = in.readLine()) != null) {
@@ -1201,7 +1215,7 @@ public class SimulatorNode extends TaskNode
               long def1Value = SimulatorSchedulerPiece.getMillisFromDDDDDHHMMSSmmm(items.get(0));
               long def2Value = -1;
               try {
-                def2Value = Long.valueOf(items.get(1));
+                def2Value = Long.parseLong(items.get(1));
               } catch (NumberFormatException ex) {
                 Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
               }
@@ -1214,12 +1228,10 @@ public class SimulatorNode extends TaskNode
                   minorErrorsExist = true;
                 } else {
                   // both values are not valid, disregard this row
-                  ;
                 }
               }
               if (def1Value == def2Value) {
                 // time definition is consistent
-                ;
               } else {
                 // def2Value is not matching a valid def1Value, update it
                 def2Value = def1Value;
@@ -1266,8 +1278,6 @@ public class SimulatorNode extends TaskNode
           }
         }
         in.close();
-      } catch (FileNotFoundException ex) {
-        Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
       } catch (IOException ex) {
         Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
       }
@@ -1364,8 +1374,6 @@ public class SimulatorNode extends TaskNode
           }
         }
         in.close();
-      } catch (FileNotFoundException ex) {
-        Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
       } catch (IOException ex) {
         Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
       }
@@ -1381,9 +1389,7 @@ public class SimulatorNode extends TaskNode
   {
     try {
       Integer.parseInt(s);
-    } catch (NumberFormatException e) {
-      return false;
-    } catch (NullPointerException e) {
+    } catch (NumberFormatException | NullPointerException e) {
       return false;
     }
     // only got here if we didn't return false
@@ -1399,7 +1405,6 @@ public class SimulatorNode extends TaskNode
     } catch (IOException ex) {
       Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
     }
-    ;
     try {
       outScheduler.write("#Simulator scheduler data file\n");
       outScheduler.write(
@@ -1444,7 +1449,6 @@ public class SimulatorNode extends TaskNode
     } catch (IOException ex) {
       Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
     }
-    ;
     if (obj != null) {
       LinkedList<CommandDescriptor> castedObj = (LinkedList<CommandDescriptor>) obj;
       for (CommandDescriptor c : castedObj) {
@@ -1498,7 +1502,7 @@ public class SimulatorNode extends TaskNode
         simulatorData.toggleTimeRunning();
       } else if (data.startsWith("TimeFactor")) {
         String[] bits = data.split(":");
-        simulatorData.setTimeFactor(Integer.valueOf(bits[bits.length - 1]));
+        simulatorData.setTimeFactor(Integer.parseInt(bits[bits.length - 1]));
       }
     } else if (obj instanceof CommandDescriptor) {
       commandsQueue.offer((CommandDescriptor) obj);
@@ -1712,7 +1716,7 @@ public class SimulatorNode extends TaskNode
     }
     if (sendList) {
       sendList = false;
-      LinkedList<Object> newDataOut = new LinkedList<Object>();
+      LinkedList<Object> newDataOut = new LinkedList<>();
       newDataOut.addAll(commandsList);
       newDataOut.addAll(simulatorDevices);
       return newDataOut;
@@ -1825,18 +1829,18 @@ public class SimulatorNode extends TaskNode
 
           String[] quaternions = qData.split(" ");
           if (quaternions.length == 4) {
-            q[0] = Float.valueOf(quaternions[0]);
-            q[1] = Float.valueOf(quaternions[1]);
-            q[2] = Float.valueOf(quaternions[2]);
-            q[3] = Float.valueOf(quaternions[3]);
+            q[0] = Float.parseFloat(quaternions[0]);
+            q[1] = Float.parseFloat(quaternions[1]);
+            q[2] = Float.parseFloat(quaternions[2]);
+            q[3] = Float.parseFloat(quaternions[3]);
             data.setQ(q);
           } else if (quaternions.length == 3) {
             // 0 heading
             // 1 roll
             // 2 pitch
-            double yaw = Double.valueOf(quaternions[0]);
-            double pitch = Double.valueOf(quaternions[2]);
-            double roll = Double.valueOf(quaternions[1]);
+            double yaw = Double.parseDouble(quaternions[0]);
+            double pitch = Double.parseDouble(quaternions[2]);
+            double roll = Double.parseDouble(quaternions[1]);
             // System.out.println("yaw=["+yaw+"] pitch=["+pitch+"] roll=["+roll+"]");
             this.orekitCore.putQuaternionsInVectorFromYPR(yaw, pitch, roll, q);
             data.setQ(q);
@@ -3307,7 +3311,7 @@ public class SimulatorNode extends TaskNode
                 if (this.quaternionTcpServer != null) {
                   this.quaternionTcpServer.setShouldClose(true);
                 }
-                this.quaternionTcpServer = new TCPServerReceiveOnly(Integer.valueOf(words[1]),
+                this.quaternionTcpServer = new TCPServerReceiveOnly(Integer.parseInt(words[1]),
                     this.logger);
                 this.quaternionTcpServer.start();
               } else if ("cameraScript".equals(words[0])) {
@@ -3963,15 +3967,7 @@ public class SimulatorNode extends TaskNode
           globalResult = "CommandID [" + c.getInternalID() + "] unknown";
           commandResult.setCommandFailed(true);
       }
-    } catch (ClassCastException e) {
-      String errorString = e.toString();
-      commandResult.setOutput(errorString);
-      commandResult.setCommandFailed(true);
-    } catch (IndexOutOfBoundsException e) {
-      String errorString = e.toString();
-      commandResult.setOutput(errorString);
-      commandResult.setCommandFailed(true);
-    } catch (IOException e) {
+    } catch (IndexOutOfBoundsException | IOException e) {
       String errorString = e.toString();
       commandResult.setOutput(errorString);
       commandResult.setCommandFailed(true);

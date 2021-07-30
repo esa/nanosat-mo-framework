@@ -7,7 +7,7 @@
  *  ----------------------------------------------------------------------------
  *  System                : ESA NanoSat MO Framework
  *  ----------------------------------------------------------------------------
- *  Licensed under the European Space Agency Public License, Version 2.0
+ *  Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  *  You may not use this file except in compliance with the License.
  * 
  *  Except as expressly set forth in this License, the Software is provided to
@@ -327,7 +327,7 @@ public class GuiMainWindow implements Runnable {
 
     // Initializations
 
-    hashTableDataOutAgregate = new Hashtable<String, WholeTextAreaObject>();
+    hashTableDataOutAgregate = new Hashtable<>();
     this.frame = new JFrame("OPS-SAT Simulator");
     this.frame.setIconImage(createImageIconFromBMPResource("ESA-logo.png").getImage());
     this.lblSimulatorData = new JLabel("SimulatorData");
@@ -509,7 +509,6 @@ public class GuiMainWindow implements Runnable {
           newCommandsList.addAll(commandsList);
           parent.addGUIInteraction(newCommandsList);
         } else {
-          ;
         }
       }
     });
@@ -659,8 +658,8 @@ public class GuiMainWindow implements Runnable {
 
     JLabel lblMode = new JLabel("Image selection mode:");
 
-    final JComboBox<String> selectMode = new JComboBox<String>();
-    selectMode.setModel(new DefaultComboBoxModel<String>(new String[] { "Fixed", "Random" }));
+    final JComboBox<String> selectMode = new JComboBox<>();
+    selectMode.setModel(new DefaultComboBoxModel<>(new String[]{"Fixed", "Random"}));
     selectMode.addItemListener(new ItemListener() {
       @Override
       public void itemStateChanged(ItemEvent arg0) {
@@ -1144,7 +1143,6 @@ public class GuiMainWindow implements Runnable {
           frame.getContentPane().add(panelLoader);
         } else {
           frame.getContentPane().add(panelTop, BorderLayout.NORTH);
-          ;
           frame.getContentPane().add(panelTabbed);
           GuiMainWindow.this.refreshPlatformProperties();
         }
@@ -1216,7 +1214,7 @@ public class GuiMainWindow implements Runnable {
             handleSchedulerList((LinkedList<SimulatorSchedulerPiece>) result);
           } else if (testItem instanceof CommandDescriptor) {
 
-            commandsList = new LinkedList<CommandDescriptor>();// (LinkedList<CommandDescriptor>)
+            commandsList = new LinkedList<>();// (LinkedList<CommandDescriptor>)
                                                                // result;
             int obj = 0;
             int visibleItems = 0;
@@ -1229,14 +1227,10 @@ public class GuiMainWindow implements Runnable {
                 visibleItems++;
               }
             }
-            if (visibleItems > 0) {
-              putManualCommandsInCombo(false);
-            } else {
-              putManualCommandsInCombo(true);
-            }
+            putManualCommandsInCombo(visibleItems <= 0);
             showMessageConsole(
                 preamble + ";Received commands list with [" + commandsList.size() + "] methods");
-            LinkedList<SimulatorDeviceData> devicesList = new LinkedList<SimulatorDeviceData>();// (LinkedList<CommandDescriptor>)
+            LinkedList<SimulatorDeviceData> devicesList = new LinkedList<>();// (LinkedList<CommandDescriptor>)
                                                                                                 // result;
             while (obj < linkedListResult.size()
                 && linkedListResult.get(obj) instanceof SimulatorDeviceData) {

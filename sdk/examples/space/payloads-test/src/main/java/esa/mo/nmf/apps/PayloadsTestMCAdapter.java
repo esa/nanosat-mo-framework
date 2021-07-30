@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -64,6 +64,8 @@ import org.ccsds.moims.mo.platform.autonomousadcs.structures.*;
 import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
 import org.ccsds.moims.mo.platform.camera.structures.PixelResolution;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
+import org.ccsds.moims.mo.platform.gps.structures.Position;
+import org.ccsds.moims.mo.platform.gps.structures.PositionList;
 import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
 import org.ccsds.moims.mo.platform.structures.VectorF3D;
 
@@ -72,21 +74,21 @@ import org.ccsds.moims.mo.platform.structures.VectorF3D;
  */
 //add aggregations:
 @Aggregation(
-    id = "Magnetometer_Aggregation",
+    id = PayloadsTestMCAdapter.AGGREGATION_MAG,
     description = "Aggregates Magnetometer components: X, Y, Z.",
     reportInterval = 10,
     sendUnchanged = true,
     sampleInterval = 3)
 @Aggregation(
-    id = "GPS_Aggregation",
+    id = PayloadsTestMCAdapter.AGGREGATION_GPS,
     description = "Aggregates: GPS Latitude, GPS Longitude, GPS Altitude.",
     reportInterval = 10,
     sendUnchanged = true,
     sampleInterval = 3)
 public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
 {
-  private static final String AGGREGATION_GPS = "GPS_Aggregation";
-  private static final String AGGREGATION_MAG = "Magnetometer_Aggregation";
+  public static final String AGGREGATION_MAG = "Magnetometer_Aggregation";
+  public static final String AGGREGATION_GPS = "GPS_Aggregation";
   private static final String PARAMETER_ADCS_MODE = "ADCS_ModeOperation";
   private static final String PARAMETER_ADCS_DURATION = "ADCS_RemainingControlDuration";
   private static final String PARAMETER_ANGULAR_VELOCITY_X = "AngularVelocity_X";
@@ -245,7 +247,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
     this.nmf = nmfProvider;
   }
 
-  private static enum AttitudeModeEnum
+  private enum AttitudeModeEnum
   {
     IDLE, BDOT, SUNPOINTING, SINGLESPINNING, TARGETTRACKING, NADIRPOINTING, VECTORPOINTING
   }
@@ -416,9 +418,22 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
   public void onGetAltitude()
   {
     try {
-      GPS_Altitude =
-          nmf.getPlatformServices().getGPSService().getLastKnownPosition().getBodyElement0().getAltitude();
-    } catch (NMFException | IOException | MALInteractionException | MALException ex) {
+      final Semaphore sem = new Semaphore(0);
+      final PositionList pos = new PositionList();
+      class AdapterImpl extends GPSAdapter {
+
+        @Override
+        public void getPositionResponseReceived(MALMessageHeader msgHeader, Position position,
+                Map qosProperties) {
+                  pos.add(position);
+                  sem.release();
+        }
+    }
+        nmf.getPlatformServices().getGPSService().getPosition(new AdapterImpl());
+
+        sem.acquire();
+        GPS_Altitude = pos.get(0).getAltitude();
+    } catch (NMFException | IOException | MALInteractionException | MALException | InterruptedException ex){
       LOGGER.log(Level.SEVERE, null, ex);
       GPS_Altitude = null;
     }
@@ -511,7 +526,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
       @ActionParameter(name = "margin", rawUnit = "degree") float margin)
   {
     return actionsHandler.executeAdcsModeAction(holdDuration,
-        new AttitudeModeVectorPointing(new VectorF3D(x, y, z), new Float(margin)), this);
+        new AttitudeModeVectorPointing(new VectorF3D(x, y, z), margin), this);
   }
 
   @Action(description = "Unsets the spacecraft's attitude.")

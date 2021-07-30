@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -53,11 +53,7 @@ public class CommunicationsTopPanel extends javax.swing.JPanel {
         jLabel2.setText("Directory service URI:");
 
         connect_button.setText("Connect");
-        connect_button.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                connect_buttonActionPerformed(evt);
-            }
-        });
+        connect_button.addActionListener(this::connect_buttonActionPerformed);
 
         jButton1.setText("Manual Connection");
 

@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -292,9 +292,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                         if (tmpQueryFilter != null) { // requirement: 3.4.4.2.7
                             perObjs = ArchiveManager.filterQuery(perObjs, (CompositeFilterSet) tmpQueryFilter);  // requirement: 3.4.4.2.10
                         }
-                    } catch (SecurityException ex) {
-                        invIndexList.add(new UInteger(index));
-                    } catch (IllegalArgumentException ex) {
+                    } catch (SecurityException | IllegalArgumentException ex) {
                         invIndexList.add(new UInteger(index));
                     }
                 }
@@ -309,7 +307,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                         latestPerObj = perObj; // It is newer than the current
                     }
                 }
-                perObjs = new ArrayList<ArchivePersistenceObject>();
+                perObjs = new ArrayList<>();
                 perObjs.add(latestPerObj);
             }
 
@@ -354,7 +352,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                     ArchiveDetailsList outArchDetLst = new ArchiveDetailsList();
                     outArchDetLst.add(perObjs.get(j).getArchiveDetails());
 
-                    if (returnObjBody == true) {
+                    if (returnObjBody) {
                         // requirement: 3.4.4.2.1
                         try {  // Let's try to generate the list...
                             outObjectList = HelperMisc.element2elementList(perObjs.get(j).getObject());
@@ -389,7 +387,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                 ArchiveDetailsList outArchiveDetailsList = new ArchiveDetailsList();
                 ElementList outObjectList = null;
 
-                if (returnObjBody == true && !perObjs.isEmpty()) { // requirement: 3.4.4.2.24
+                if (returnObjBody && !perObjs.isEmpty()) { // requirement: 3.4.4.2.24
                     try {
                         outObjectList = HelperMisc.element2elementList(perObjs.get(0).getObject());
                     } catch (Exception ex) {
@@ -467,9 +465,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                         if (tmpQueryFilter != null) { // requirement: 3.4.4.2.7
                             perObjs = ArchiveManager.filterQuery(perObjs, (CompositeFilterSet) tmpQueryFilter);  // requirement: 3.4.4.2.10
                         }
-                    } catch (SecurityException ex) {
-                        invIndexList.add(new UInteger(index));
-                    } catch (IllegalArgumentException ex) {
+                    } catch (SecurityException | IllegalArgumentException ex) {
                         invIndexList.add(new UInteger(index));
                     }
                 }
@@ -484,7 +480,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                         latestPerObj = perObj; // It is newer than the current
                     }
                 }
-                perObjs = new ArrayList<ArchivePersistenceObject>();
+                perObjs = new ArrayList<>();
                 perObjs.add(latestPerObj);
             }
 
@@ -498,7 +494,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                 }
             }
 
-            outLong.add(new Long(perObjs.size())); // requirement: 3.4.5.2.2
+            outLong.add((long) perObjs.size()); // requirement: 3.4.5.2.2
         }
 
         // Errors
@@ -593,7 +589,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             }
 
             // The errors have to be before the store operation to fulfil requirement: 3.4.6.2.13
-            if (returnObjId == true) { // requirement: 3.4.6.2.1 and 3.4.6.2.14
+            if (returnObjId) { // requirement: 3.4.6.2.1 and 3.4.6.2.14
                 // Execute the store operation (objType, domain, archiveDetails, objs)
                 LongList outLongLst = manager.insertEntries(objType, domain, lArchiveDetailsList, lElementList, interaction); // requirement: 3.4.6.2.15
                 // requirement: 3.4.6.2.15 (the operation returns the objIds with the same order)

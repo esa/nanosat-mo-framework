@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -43,6 +43,7 @@ import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
+import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
@@ -108,7 +109,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("Parameter Service");
+        jLabel6.setText("Parameter Service - Definitions");
         jLabel6.setToolTipText("");
 
         jScrollPane2.setHorizontalScrollBar(null);
@@ -148,77 +149,41 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
         parameterTab.setLayout(new java.awt.GridLayout(2, 1));
 
         getValueButton.setText("getValue");
-        getValueButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                getValueButtonActionPerformed(evt);
-            }
-        });
+        getValueButton.addActionListener(evt -> getValueButtonActionPerformed(evt));
         jPanel1.add(getValueButton);
 
         setValueButton.setText("setValue");
-        setValueButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                setValueButtonActionPerformed(evt);
-            }
-        });
+        setValueButton.addActionListener(evt -> setValueButtonActionPerformed(evt));
         jPanel1.add(setValueButton);
 
         enableDefinitionAllAgg.setText("enableGeneration(group=false, 0)");
-        enableDefinitionAllAgg.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                enableDefinitionAllAggActionPerformed(evt);
-            }
-        });
+        enableDefinitionAllAgg.addActionListener(evt -> enableDefinitionAllAggActionPerformed(evt));
         jPanel1.add(enableDefinitionAllAgg);
 
         enableDefinitionButtonAgg.setText("enableGeneration");
-        enableDefinitionButtonAgg.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                enableDefinitionButtonAggActionPerformed(evt);
-            }
-        });
+        enableDefinitionButtonAgg.addActionListener(evt -> enableDefinitionButtonAggActionPerformed(evt));
         jPanel1.add(enableDefinitionButtonAgg);
 
         parameterTab.add(jPanel1);
 
         addDefinitionButton.setText("addDefinition");
-        addDefinitionButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addDefinitionButtonActionPerformed(evt);
-            }
-        });
+        addDefinitionButton.addActionListener(evt -> addDefinitionButtonActionPerformed(evt));
         jPanel5.add(addDefinitionButton);
 
         updateDefinitionButton.setText("updateDefinition");
-        updateDefinitionButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateDefinitionButtonActionPerformed(evt);
-            }
-        });
+        updateDefinitionButton.addActionListener(evt -> updateDefinitionButtonActionPerformed(evt));
         jPanel5.add(updateDefinitionButton);
 
         removeDefinitionButton.setText("removeDefinition");
-        removeDefinitionButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeDefinitionButtonActionPerformed(evt);
-            }
-        });
+        removeDefinitionButton.addActionListener(evt -> removeDefinitionButtonActionPerformed(evt));
         jPanel5.add(removeDefinitionButton);
 
         listDefinitionAllButton.setText("listDefinition(\"*\")");
-        listDefinitionAllButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                listDefinitionAllButtonActionPerformed(evt);
-            }
-        });
+        listDefinitionAllButton.addActionListener(evt -> listDefinitionAllButtonActionPerformed(evt));
         jPanel5.add(listDefinitionAllButton);
 
         removeDefinitionAllButton.setText("removeDefinition(0)");
-        removeDefinitionAllButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeDefinitionAllButtonActionPerformed(evt);
-            }
-        });
+        removeDefinitionAllButton.addActionListener(evt -> removeDefinitionAllButtonActionPerformed(evt));
         jPanel5.add(removeDefinitionAllButton);
 
         parameterTab.add(jPanel5);
@@ -296,10 +261,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
             
             // Add the Parameter Definition to the table
             parameterTable.addEntry(request.getName(), comObject);
-        } catch (MALInteractionException ex) {
-            JOptionPane.showMessageDialog(null, "There was an error with the submitted parameter definition.", "Error", JOptionPane.PLAIN_MESSAGE);
-            Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             JOptionPane.showMessageDialog(null, "There was an error with the submitted parameter definition.", "Error", JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InterruptedException ex) {
@@ -328,9 +290,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCParameter.getParameterStub().updateDefinition(objIds, defs);
             this.listDefinitionAllButtonActionPerformed(null);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_updateDefinitionButtonActionPerformed
@@ -347,9 +307,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCParameter.getParameterStub().removeParameter(longlist);
             parameterTable.removeSelectedEntry();
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_removeDefinitionButtonActionPerformed
@@ -391,9 +349,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
                 }
             }
             );
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -407,9 +363,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCParameter.getParameterStub().removeParameter(longlist);
             parameterTable.removeAllEntries();
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_removeDefinitionAllButtonActionPerformed
@@ -438,9 +392,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCParameter.getParameterStub().enableGeneration(false, BoolPairList);
             parameterTable.switchEnabledstatusAll(!curState);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_enableDefinitionAllAggActionPerformed
@@ -457,9 +409,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCParameter.getParameterStub().enableGeneration(false, BoolPairList);
             parameterTable.switchEnabledstatus(!curState);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_enableDefinitionButtonAggActionPerformed
@@ -478,7 +428,20 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
             
             StringBuilder str = new StringBuilder();
             for (int i = 0; i < values.size(); i++) {
-                str.append("The value for objId ").append(values.get(i).getParamId().toString()).append(" is:").append("\n").append(values.get(i).getValue().toString()).append("\n");
+                str.append("The value for objId ")
+                        .append(values.get(i).getParamId().toString())
+                        .append(" is:");
+                
+                UOctet validityState = values.get(i).getValue().getValidityState();
+                Attribute rawValue = values.get(i).getValue().getRawValue();
+                Attribute convertedValue = values.get(i).getValue().getConvertedValue();
+                str.append("\nvalidityState: ");
+                str.append(validityState == null ? "null" : validityState.toString());
+                str.append("\nrawValue: ");
+                str.append(rawValue == null ? "null" : rawValue.toString());
+                str.append("\nconvertedValue: ");
+                str.append(convertedValue == null ? "null" : convertedValue);
+                str.append("\n");
 
                 Attribute attribute = values.get(i).getValue().getRawValue();
                 if (attribute instanceof Blob){
@@ -494,9 +457,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
             }
 
             JOptionPane.showMessageDialog(null, str.toString(), "Returned Values from the Provider", JOptionPane.PLAIN_MESSAGE);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_getValueButtonActionPerformed
@@ -521,9 +482,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
 
         try {
             serviceMCParameter.getParameterStub().setValue(newValues);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_setValueButtonActionPerformed

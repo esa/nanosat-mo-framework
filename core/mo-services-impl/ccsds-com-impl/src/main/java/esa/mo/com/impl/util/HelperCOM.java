@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -407,9 +407,7 @@ public class HelperCOM {
 //                            obj = ((Enumeration) obj).getNumericValue();
                 }
             }
-        } catch (IllegalArgumentException ex) {
-            throw new NoSuchFieldException();
-        } catch (IllegalAccessException ex) {
+        } catch (IllegalArgumentException | IllegalAccessException ex) {
             throw new NoSuchFieldException();
         }
 
@@ -445,6 +443,6 @@ public class HelperCOM {
         final Random random = new Random();
         return ConnectionConsumer.subscriptionKeys(
                 new Identifier(identifier + random.nextInt()),
-                new Identifier("*"), secondEntityKey, new Long(0), new Long(0));
+                new Identifier("*"), secondEntityKey, 0L, 0L);
     }
 }

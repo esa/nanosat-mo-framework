@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -66,7 +66,6 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
         super.startTime = System.currentTimeMillis();
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
         ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
-        HelperMisc.setInputProcessorsProperty();
 
         // Create provider name to be registerd on the Directory service...
         super.providerName = System.getProperty(HelperMisc.PROP_MO_APP_NAME) + PROVIDER_SUFFIX_NAME;

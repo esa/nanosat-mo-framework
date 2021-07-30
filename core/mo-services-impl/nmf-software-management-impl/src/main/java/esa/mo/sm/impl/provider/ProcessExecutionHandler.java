@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -23,7 +23,7 @@ package esa.mo.sm.impl.provider;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.TimerTask;
+import java.lang.reflect.Field;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -59,9 +59,9 @@ public class ProcessExecutionHandler
      * @param exitCode Application exit code
      */
     void processStopped(Long objId, int exitCode);
-  };
+  }
 
-  private final TaskScheduler timer = new TaskScheduler(1);
+    private final TaskScheduler timer = new TaskScheduler(1);
   private static final int PERIOD_PUB = 2 * 1000; // Publish every 2 seconds
   private final Long objId;
   private Thread stdoutReader;
@@ -111,6 +111,26 @@ public class ProcessExecutionHandler
     }
   }
 
+  public static synchronized long getProcessPid(Process p) throws IOException
+  {
+    long pid;
+
+    try {
+      if (p.getClass().getName().equals("java.lang.UNIXProcess")) {
+        Field f = p.getClass().getDeclaredField("pid");
+        f.setAccessible(true);
+        pid = f.getLong(p);
+        f.setAccessible(false);
+      } else {
+        throw new IOException("Trying to resolve PID on an unsupported platform");
+      }
+    } catch (IllegalAccessException | IllegalArgumentException | NoSuchFieldException
+        | SecurityException ex) {
+      throw new IOException("Exception when trying to resolve PID", ex);
+    }
+    return pid;
+  }
+
   public void monitorProcess(final Process process)
   {
     this.process = process;
@@ -119,10 +139,16 @@ public class ProcessExecutionHandler
     final StringBuffer stderrBuf = new StringBuffer();
     // Every PERIOD_PUB seconds, publish the String data
     timer.scheduleTask(new TimerTaskImpl(stdoutBuf, stderrBuf), 0, PERIOD_PUB, TimeUnit.MILLISECONDS, false);
+    long pid;
+    try {
+      pid = ProcessExecutionHandler.getProcessPid(process);
+    } catch (IOException ex) {
+      pid = -1;
+    }
     stdoutReader = createReaderThread(stdoutBuf, new BufferedReader(new InputStreamReader(
-        process.getInputStream())));
+        process.getInputStream())), "STDOUT_" + pid);
     stderrReader = createReaderThread(stderrBuf, new BufferedReader(new InputStreamReader(
-        process.getErrorStream())));
+        process.getErrorStream())), "STDERR_" + pid);
     stdoutReader.start();
     stderrReader.start();
     new Thread()
@@ -132,23 +158,27 @@ public class ProcessExecutionHandler
       {
         try {
           int exitCode = process.waitFor();
-          cb.processStopped(objId, exitCode);
+          if (cb != null) {
+            cb.processStopped(objId, exitCode);
+          }
         } catch (InterruptedException ex) {
           // Thread interrupted, pretend the application exited succesfully
-          cb.processStopped(objId, 0);
+          if (cb != null) {
+            cb.processStopped(objId, 0);
+          }
         }
       }
     }.start();
   }
 
-  private Thread createReaderThread(final StringBuffer buf, final BufferedReader br)
+  private Thread createReaderThread(final StringBuffer buf, final BufferedReader br, final String name)
   {
     return new Thread()
     {
       @Override
       public void run()
       {
-        this.setName("ProcessExecutionHandler_ReaderThread");
+        this.setName("ProcessExecutionHandler_ReaderThread_" + name);
         try {
           String line;
           while ((line = br.readLine()) != null) {

@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -89,7 +89,7 @@ public class HelperAttributes {
       }
 
       if (((Union) in).getTypeShortForm().equals(Union.OCTET_TYPE_SHORT_FORM)) { // 7
-        return new Double((short) ((Union) in).getOctetValue());
+        return (double) (short) ((Union) in).getOctetValue();
       }
 
       if (((Union) in).getTypeShortForm().equals(Union.SHORT_TYPE_SHORT_FORM)) { // 9
@@ -288,10 +288,10 @@ public class HelperAttributes {
   }
 
   /**
-   * Creates an instance of a MAL attribute from attribute name
+   * Creates an object instance from attribute name
    *
    * @param attributeName The Attribute name
-   * @return The Attribute object
+   * @return The object
    * @throws java.lang.IllegalArgumentException If attributeName == null
    */
   public static Object attributeName2object(String attributeName) throws IllegalArgumentException {
@@ -309,34 +309,34 @@ public class HelperAttributes {
       return new Duration();
     }
     if (attributeName.equals("Float")) {
-      return new Float(0);
+      return (float) 0;
     }
     if (attributeName.equals("Double")) {
-      return new Double(0);
+      return (double) 0;
     }
     if (attributeName.equals("Identifier")) {
       return new Identifier();
     }
     if (attributeName.equals("Octet")) {
-      return new Byte((byte) 0);
+      return (byte) 0;
     }
     if (attributeName.equals("UOctet")) {
       return new UOctet();
     }
     if (attributeName.equals("Short")) {
-      return new Short((short) 0);
+      return (short) 0;
     }
     if (attributeName.equals("UShort")) {
       return new UShort();
     }
     if (attributeName.equals("Integer")) {
-      return new Integer((int) 0);
+      return (int) 0;
     }
     if (attributeName.equals("UInteger")) {
       return new UInteger();
     }
     if (attributeName.equals("Long")) {
-      return new Long(0);
+      return 0L;
     }
     if (attributeName.equals("ULong")) {
       return new ULong();
@@ -361,6 +361,33 @@ public class HelperAttributes {
   }
 
   /**
+   * Creates an instance of a MAL attribute from attribute name
+   *
+   * @param attributeName The Attribute name
+   * @return The Attribute instance
+   * @throws java.lang.IllegalArgumentException If attributeName == null
+   */
+  public static Attribute attributeName2Attribute(String attributeName) throws IllegalArgumentException {
+    Object obj = attributeName2object(attributeName);
+
+    // We got a Attribute already
+    if(obj instanceof Attribute) {
+      return (Attribute) obj;
+    }
+    // We got a Java object
+    else if(obj != null){
+      // Make it an attribute
+      obj = javaType2Attribute(obj);
+
+      if(obj instanceof Attribute) {
+        return (Attribute) obj;
+      }
+    }
+
+    return null;
+  }
+
+  /**
    * Sets a value into any MAL Attribute object. The value provided must be a
    * string. The method takes care of doing the appropriate conversion to fit the
    * correct set type.
@@ -371,7 +398,7 @@ public class HelperAttributes {
    * @throws java.lang.IllegalArgumentException If value == null
    */
   public static Object string2attribute(Object in, String value)
-      throws NumberFormatException, IllegalArgumentException {
+      throws IllegalArgumentException {
     if (value == null) {
       throw new IllegalArgumentException("The value must not be null.");
     }
@@ -601,58 +628,58 @@ public class HelperAttributes {
    */
   public static String typeShortForm2attributeName(Integer typeShortForm) {
 
-    if (typeShortForm == 1) {
+    if (typeShortForm == Attribute.BLOB_TYPE_SHORT_FORM) {
       return "Blob";
     }
-    if (typeShortForm == 2) {
+    if (typeShortForm == Attribute.BOOLEAN_TYPE_SHORT_FORM) {
       return "Boolean";
     }
-    if (typeShortForm == 3) {
+    if (typeShortForm == Attribute.DURATION_TYPE_SHORT_FORM) {
       return "Duration";
     }
-    if (typeShortForm == 4) {
+    if (typeShortForm == Attribute.FLOAT_TYPE_SHORT_FORM) {
       return "Float";
     }
-    if (typeShortForm == 5) {
+    if (typeShortForm == Attribute.DOUBLE_TYPE_SHORT_FORM) {
       return "Double";
     }
-    if (typeShortForm == 6) {
+    if (typeShortForm == Attribute.IDENTIFIER_TYPE_SHORT_FORM) {
       return "Identifier";
     }
-    if (typeShortForm == 7) {
+    if (typeShortForm == Attribute.OCTET_TYPE_SHORT_FORM) {
       return "Octet";
     }
-    if (typeShortForm == 8) {
+    if (typeShortForm == Attribute.UOCTET_TYPE_SHORT_FORM) {
       return "UOctet";
     }
-    if (typeShortForm == 9) {
+    if (typeShortForm == Attribute.SHORT_TYPE_SHORT_FORM) {
       return "Short";
     }
-    if (typeShortForm == 10) {
+    if (typeShortForm == Attribute.USHORT_TYPE_SHORT_FORM) {
       return "UShort";
     }
-    if (typeShortForm == 11) {
+    if (typeShortForm == Attribute.INTEGER_TYPE_SHORT_FORM) {
       return "Integer";
     }
-    if (typeShortForm == 12) {
+    if (typeShortForm == Attribute.UINTEGER_TYPE_SHORT_FORM) {
       return "UInteger";
     }
-    if (typeShortForm == 13) {
+    if (typeShortForm == Attribute.LONG_TYPE_SHORT_FORM) {
       return "Long";
     }
-    if (typeShortForm == 14) {
+    if (typeShortForm == Attribute.ULONG_TYPE_SHORT_FORM) {
       return "ULong";
     }
-    if (typeShortForm == 15) {
+    if (typeShortForm == Attribute.STRING_TYPE_SHORT_FORM) {
       return "String";
     }
-    if (typeShortForm == 16) {
+    if (typeShortForm == Attribute.TIME_TYPE_SHORT_FORM) {
       return "Time";
     }
-    if (typeShortForm == 17) {
+    if (typeShortForm == Attribute.FINETIME_TYPE_SHORT_FORM) {
       return "FineTime";
     }
-    if (typeShortForm == 18) {
+    if (typeShortForm == Attribute.URI_TYPE_SHORT_FORM) {
       return "URI";
     }
     if (typeShortForm == SERIAL_OBJECT_RAW_TYPE.intValue()) {
@@ -675,58 +702,58 @@ public class HelperAttributes {
       throw new IllegalArgumentException("ArgumentName must not be null.");
     }
     if (attributeName.equals("Blob")) {
-      return 1;
+      return Attribute.BLOB_TYPE_SHORT_FORM;
     }
     if (attributeName.equals("Boolean")) {
-      return 2;
+      return Attribute.BOOLEAN_TYPE_SHORT_FORM;
     }
     if (attributeName.equals("Duration")) {
-      return 3;
+      return Attribute.DURATION_TYPE_SHORT_FORM;
     }
     if (attributeName.equals("Float")) {
-      return 4;
+      return Attribute.FLOAT_TYPE_SHORT_FORM;
     }
     if (attributeName.equals("Double")) {
-      return 5;
+      return Attribute.DOUBLE_TYPE_SHORT_FORM;
     }
     if (attributeName.equals("Identifier")) {
-      return 6;
+      return Attribute.IDENTIFIER_TYPE_SHORT_FORM;
     }
     if (attributeName.equals("Octet")) {
-      return 7;
+      return Attribute.OCTET_TYPE_SHORT_FORM;
     }
     if (attributeName.equals("UOctet")) {
-      return 8;
+      return Attribute.UOCTET_TYPE_SHORT_FORM;
     }
     if (attributeName.equals("Short")) {
-      return 9;
+      return Attribute.SHORT_TYPE_SHORT_FORM;
     }
     if (attributeName.equals("UShort")) {
-      return 10;
+      return Attribute.USHORT_TYPE_SHORT_FORM;
     }
     if (attributeName.equals("Integer")) {
-      return 11;
+      return Attribute.INTEGER_TYPE_SHORT_FORM;
     }
     if (attributeName.equals("UInteger")) {
-      return 12;
+      return Attribute.UINTEGER_TYPE_SHORT_FORM;
     }
     if (attributeName.equals("Long")) {
-      return 13;
+      return Attribute.LONG_TYPE_SHORT_FORM;
     }
     if (attributeName.equals("ULong")) {
-      return 14;
+      return Attribute.ULONG_TYPE_SHORT_FORM;
     }
     if (attributeName.equals("String")) {
-      return 15;
+      return Attribute.STRING_TYPE_SHORT_FORM;
     }
     if (attributeName.equals("Time")) {
-      return 16;
+      return Attribute.TIME_TYPE_SHORT_FORM;
     }
     if (attributeName.equals("FineTime")) {
-      return 17;
+      return Attribute.FINETIME_TYPE_SHORT_FORM;
     }
     if (attributeName.equals("URI")) {
-      return 18;
+      return Attribute.URI_TYPE_SHORT_FORM;
     }
     if (attributeName.equals(SERIAL_OBJECT_STRING)) {
       return SERIAL_OBJECT_RAW_TYPE.intValue();

@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -65,7 +65,7 @@ public class EventConsumerPanel extends javax.swing.JPanel {
     public EventConsumerPanel(EventConsumerServiceImpl eventService, final ArchiveConsumerServiceImpl archiveService) {
         initComponents();
         serviceCOMEvent = eventService;
-        comObjects = new ArrayList<ArchivePersistenceObject>();
+        comObjects = new ArrayList<>();
 
         String[] parameterTableCol = new String[]{
             "Timestamp", "Source URI", "From Service", "Event name", "Domain",

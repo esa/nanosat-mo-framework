@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -48,7 +48,7 @@ public interface ParameterStatusListener
    * @throws java.io.IOException if the parameter value could not be acquired
    */
   @Deprecated
-  public default Attribute onGetValue(Identifier identifier, Byte rawType) throws IOException
+  default Attribute onGetValue(Identifier identifier, Byte rawType) throws IOException
   {
     throw new UnsupportedOperationException("Not supported yet.");
   }
@@ -64,7 +64,7 @@ public interface ParameterStatusListener
    * @return The value of the parameter that was requested
    * @throws java.io.IOException if the parameter value could not be acquired
    */
-  public default Attribute onGetValue(Long parameterID) throws IOException
+  default Attribute onGetValue(Long parameterID) throws IOException
   {
     throw new UnsupportedOperationException("Not supported yet.");
   }
@@ -78,7 +78,7 @@ public interface ParameterStatusListener
    * @return True if the value was set successfully, false if not
    */
   @Deprecated
-  public default Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values)
+  default Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values)
   {
     throw new UnsupportedOperationException("Not supported yet.");
   }
@@ -90,7 +90,7 @@ public interface ParameterStatusListener
    * @param newRawValues The new values to be set at the parameter
    * @return True if the value was set successfully, false if not
    */
-  public default Boolean onSetValue(ParameterRawValueList newRawValues)
+  default Boolean onSetValue(ParameterRawValueList newRawValues)
   {// This function needs to be implement here to ensure backwards compatibility
     throw new UnsupportedOperationException("Not supported yet.");
   }
@@ -106,8 +106,8 @@ public interface ParameterStatusListener
    * greater than 127. if null then there are no custom mechanisms and values, and the standard ones
    * must be used
    */
-  public ParameterValue getValueWithCustomValidityState(Attribute rawValue,
-      ParameterDefinitionDetails pDef);
+  ParameterValue getValueWithCustomValidityState(Attribute rawValue,
+                                                 ParameterDefinitionDetails pDef);
 
   /**
    * Checks if a Parameter is read-only
@@ -116,7 +116,7 @@ public interface ParameterStatusListener
    * @return True, if it is read-only. False, if you can set it.
    */
   @Deprecated
-  public boolean isReadOnly(Identifier name);
+  boolean isReadOnly(Identifier name);
 
   /**
    * Checks if a Parameter is read-only
@@ -124,7 +124,7 @@ public interface ParameterStatusListener
    * @param parameterID id of the parameter
    * @return True, if it is read-only. False, if you can set it.
    */
-  default public boolean isReadOnly(Long parameterID)
+  default boolean isReadOnly(Long parameterID)
   {
     throw new UnsupportedOperationException("Not supported yet.");
   }

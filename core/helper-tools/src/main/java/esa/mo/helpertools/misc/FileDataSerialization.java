@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -63,7 +63,7 @@ public class FileDataSerialization {
    * @throws java.lang.IllegalArgumentException If filename == null
    */
   public static Object serializeDataIn(String filename)
-      throws FileNotFoundException, IOException, ClassNotFoundException, IllegalArgumentException {
+      throws IOException, ClassNotFoundException, IllegalArgumentException {
     if (filename == null) {
       throw new IllegalArgumentException("Filename must not be null for deserialization.");
     }

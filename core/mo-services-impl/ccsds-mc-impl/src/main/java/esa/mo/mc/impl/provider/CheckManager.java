@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -42,8 +42,6 @@ import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.provider.MALInteraction;
-import org.ccsds.moims.mo.mal.structures.DurationList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
@@ -96,10 +94,10 @@ public final class CheckManager extends CheckLinksManager {
         this.checkServiceEnabled = true;
         if (super.getArchiveService() == null) {  // No Archive?
             // The zeroth value will not be used (reserved for the wildcard)
-            this.uniqueObjIdIdentity = new Long(0);
-            this.uniqueObjIdActDef = new Long(0);
-            this.uniqueObjIdLink = new Long(0);
-            this.uniqueObjIdLinkDef = new Long(0);
+            this.uniqueObjIdIdentity = 0L;
+            this.uniqueObjIdActDef = 0L;
+            this.uniqueObjIdLink = 0L;
+            this.uniqueObjIdLinkDef = 0L;
         } else {
 
         }
@@ -271,9 +269,6 @@ public final class CheckManager extends CheckLinksManager {
                         null);
                 newIdPair = new ObjectInstancePair(identityId, actDefIds.get(0));
 
-            } catch (MALException ex) {
-                Logger.getLogger(CheckManager.class.getName()).log(Level.SEVERE, null, ex);
-                return null;
             } catch (MALInteractionException ex) {
                 Logger.getLogger(CheckManager.class.getName()).log(Level.SEVERE, null, ex);
                 return null;
@@ -311,8 +306,6 @@ public final class CheckManager extends CheckLinksManager {
                         defs,
                         null);
                 actDefId = actDefIds.get(0);
-            } catch (MALException ex) {
-                Logger.getLogger(CheckManager.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MALInteractionException ex) {
                 Logger.getLogger(CheckManager.class.getName()).log(Level.SEVERE, null, ex);
             } catch (Exception ex) {
@@ -351,9 +344,7 @@ public final class CheckManager extends CheckLinksManager {
                     null);
             newCheckLinkDefId = checkLinkDefIds.get(0);
 
-        } catch (MALException ex) {
-            Logger.getLogger(CheckManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALInteractionException ex) {
+        } catch (MALException | MALInteractionException ex) {
             Logger.getLogger(CheckManager.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -394,9 +385,7 @@ public final class CheckManager extends CheckLinksManager {
                         null);
                 checkLinkDefId = checkLinkDefIds.get(0);
 
-            } catch (MALException ex) {
-                Logger.getLogger(CheckManager.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
+            } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(CheckManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -113,9 +113,7 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
 
                 subs = new SubscriptionList();
                 tmConsumer.close();
-            } catch (MALException ex) {
-                Logger.getLogger(EventConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
+            } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(EventConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -183,9 +181,7 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
         try {  // Register with the subscription key provided
             this.getEventStub().monitorEventRegister(subscription, new EventReceivedAdapter());
             subs.add(subscription);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(EventConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(EventConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -195,7 +191,7 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
      *
      */
     @Override
-    public void closeConnection() {
+    protected void closeConnection() {
         // Close old connection
         if (tmConsumer != null) {
             try {

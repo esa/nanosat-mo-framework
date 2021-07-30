@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -25,7 +25,6 @@ import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.Format;
@@ -273,15 +272,11 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter
           fos.flush();
           fos.close();
         }
-      } catch (FileNotFoundException ex) {
-        Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
-      } catch (IOException ex) {
-        Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
-      } catch (MALException ex) {
+      } catch (MALException | IOException ex) {
         Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
       }
 
-      try { // Stored
+        try { // Stored
         connector.reportActionExecutionProgress(true, 0, 3, TOTAL_STAGES, actionInstanceObjId);
       } catch (NMFException ex) {
         Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE,

@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -45,8 +45,8 @@ public class SimpleDemoPackageCreation {
     }
 
     public static void createPackage() {
-        ArrayList<String> files = new ArrayList<String>();
-        ArrayList<String> newLocations = new ArrayList<String>();
+        ArrayList<String> files = new ArrayList<>();
+        ArrayList<String> newLocations = new ArrayList<>();
 
         String myAppFilename = "myApp.filetype";
         String dummyFolder = "myInstalledApp";
@@ -66,21 +66,21 @@ public class SimpleDemoPackageCreation {
                 "\n------------- Package 1 Generation -------------\n");
 
         // Package 1
-        NMFPackageDetails details = new NMFPackageDetails("TestPackage", "1.0", timestamp, "noclass");
+        NMFPackageDetails details = new NMFPackageDetails("TestPackage", "1.0", timestamp, "noclass", "96m");
         NMFPackageCreator.nmfPackageCreator(details, files, newLocations);
 
         Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.INFO,
                 "\n------------- Package 2 Generation -------------\n");
 
         // Package 2
-        NMFPackageDetails details2 = new NMFPackageDetails("TestPackage", "2.0", timestamp, "noclass");
+        NMFPackageDetails details2 = new NMFPackageDetails("TestPackage", "2.0", timestamp, "noclass", "96m");
         NMFPackageCreator.nmfPackageCreator(details2, files, newLocations);
 
         Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.INFO,
                 "\n------------- Package 3 Generation -------------\n");
 
         // Package 3
-        NMFPackageDetails details3 = new NMFPackageDetails("TestPackage", "3.0", timestamp, "noclass");
+        NMFPackageDetails details3 = new NMFPackageDetails("TestPackage", "3.0", timestamp, "noclass", "96m");
         NMFPackageCreator.nmfPackageCreator(details3, files, newLocations);
 
         // If Yes:

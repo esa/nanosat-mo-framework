@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -50,13 +50,9 @@ import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.common.configuration.ConfigurationHelper;
 import org.ccsds.moims.mo.common.directory.body.PublishProviderResponse;
-import org.ccsds.moims.mo.common.directory.structures.AddressDetailsList;
-import org.ccsds.moims.mo.common.directory.structures.ProviderDetails;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.common.directory.structures.PublishDetails;
-import org.ccsds.moims.mo.common.directory.structures.ServiceCapability;
-import org.ccsds.moims.mo.common.directory.structures.ServiceCapabilityList;
 import org.ccsds.moims.mo.common.directory.structures.ServiceFilter;
 import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALContextFactory;
@@ -98,7 +94,6 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
         super.startTime = System.currentTimeMillis();
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
         ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
-        HelperMisc.setInputProcessorsProperty();
 
         // Create provider name to be registerd on the Directory service...
         String appName = "Unknown";
@@ -205,7 +200,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                     }
 
                     // Select the best transport for IPC and convert to a ConnectionConsumer object
-                    final ProviderSummary filteredConnections = NanoSatMOConnectorImpl.selectBestIPCTransport(supervisorConnections.get(0));
+                    final ProviderSummary filteredConnections = HelperCommon.selectBestIPCTransport(supervisorConnections.get(0));
                     final ConnectionConsumer supervisorCCPlat = HelperCommon.providerSummaryToConnectionConsumer(filteredConnections);
 
                     // Connect to them...
@@ -221,9 +216,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                             "The NanoSat MO Connector was expecting a single NMF Platform services provider!"
                             + " Instead it found {0}.", supervisorConnections.size());
                 }
-            } catch (MALException ex) {
-                LOGGER.log(Level.SEVERE, null, ex);
-            } catch (MalformedURLException ex) {
+            } catch (MALException | MalformedURLException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
             } catch (MALInteractionException ex) {
                 LOGGER.log(Level.SEVERE,
@@ -259,7 +252,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
 
                     final PublishProviderResponse response = centralDirectory.getDirectoryStub().publishProvider(publishDetails);
                     this.appDirectoryServiceId = response.getBodyElement0();
-                    centralDirectory.closeConnection(); // Close the connection to the Directory service
+                    centralDirectory.close(); // Close the connection to the Directory service
                     LOGGER.log(Level.INFO,
                             "Populated! And the connection to the Directory service has been successfully closed!");
                 }
@@ -320,45 +313,6 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
         return this.appDirectoryServiceId;
     }
 
-    private static ProviderSummary selectBestIPCTransport(final ProviderSummary provider) {
-        final ProviderSummary newSummary = new ProviderSummary();
-        newSummary.setProviderKey(provider.getProviderKey());
-        newSummary.setProviderName(provider.getProviderName());
-
-        final ProviderDetails details = new ProviderDetails();
-        newSummary.setProviderDetails(details);
-        details.setProviderAddresses(provider.getProviderDetails().getProviderAddresses());
-
-        final ServiceCapabilityList oldCapabilities = provider.getProviderDetails().getServiceCapabilities();
-        final ServiceCapabilityList newCapabilities = new ServiceCapabilityList();
-
-        for (int i = 0; i < oldCapabilities.size(); i++) {
-            AddressDetailsList addresses = oldCapabilities.get(i).getServiceAddresses();
-            ServiceCapability cap = new ServiceCapability();
-            cap.setServiceKey(oldCapabilities.get(i).getServiceKey());
-            cap.setServiceProperties(oldCapabilities.get(i).getServiceProperties());
-            cap.setSupportedCapabilities(oldCapabilities.get(i).getSupportedCapabilities());
-
-            try {
-                final int bestIndex = AppsLauncherManager.getBestIPCServiceAddressIndex(addresses);
-
-                // Select only the best address for IPC
-                AddressDetailsList newAddresses = new AddressDetailsList();
-                newAddresses.add(addresses.get(bestIndex));
-                cap.setServiceAddresses(newAddresses);
-            } catch (IllegalArgumentException ex) {
-                LOGGER.log(Level.SEVERE,
-                        "The best IPC service address index could not be determined!", ex);
-            }
-
-            newCapabilities.add(cap);
-        }
-
-        details.setServiceCapabilities(newCapabilities);
-
-        return newSummary;
-    }
-
     /**
      * It closes the application gracefully.
      *
@@ -370,7 +324,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
             long time = System.currentTimeMillis();
 
             // We can close the connection to the Supervisor
-            this.serviceCOMEvent.closeConnection();
+            this.serviceCOMEvent.close();
 
             // Acknowledge the reception of the request to close (Closing...)
             Long eventId = this.getCOMServices().getEventService().generateAndStoreEvent(
@@ -408,10 +362,8 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                 try {
                     DirectoryConsumerServiceImpl directoryServiceConsumer = new DirectoryConsumerServiceImpl(centralDirectoryURI);
                     directoryServiceConsumer.getDirectoryStub().withdrawProvider(this.getAppDirectoryId());
-                    directoryServiceConsumer.closeConnection();
-                } catch (MALException ex) {
-                    LOGGER.log(Level.SEVERE, null, ex);
-                } catch (MalformedURLException ex) {
+                    directoryServiceConsumer.close();
+                } catch (MALException | MalformedURLException ex) {
                     LOGGER.log(Level.SEVERE, null, ex);
                 } catch (MALInteractionException ex) {
                     LOGGER.log(Level.SEVERE,

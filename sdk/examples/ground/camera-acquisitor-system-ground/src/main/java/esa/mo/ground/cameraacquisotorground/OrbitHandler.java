@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -22,9 +22,9 @@ package esa.mo.ground.cameraacquisotorground;
 
 import esa.mo.ground.restservice.Pass;
 import esa.mo.ground.restservice.PositionAndTime;
-import java.util.Comparator;
+
 import java.util.LinkedList;
-import java.util.TreeSet;
+
 import org.hipparchus.util.FastMath;
 import org.orekit.bodies.CelestialBodyFactory;
 import org.orekit.bodies.GeodeticPoint;
@@ -48,7 +48,7 @@ import org.orekit.utils.PVCoordinatesProvider;
 /**
  * Class for calculating passes and propagating orbits.
  *
- * @author Kevin Otto <Kevin@KevinOtto.de>
+ * @author Kevin Otto
  */
 public class OrbitHandler
 {
@@ -58,7 +58,7 @@ public class OrbitHandler
    * photograph will be taken at a daytime pass NIGHTTIME: the photograph will be taken at a
    * nighttime pass
    */
-  public static enum TimeModeEnum
+  public enum TimeModeEnum
   {
     ANY, DAYTIME, NIGHTTIME
   }

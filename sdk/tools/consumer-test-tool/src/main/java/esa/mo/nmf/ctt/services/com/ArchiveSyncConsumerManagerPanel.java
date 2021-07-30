@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -275,53 +275,25 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
         jLabel6.setToolTipText("");
 
         jButtonGetTime.setText("getTime");
-        jButtonGetTime.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonGetTimeActionPerformed(evt);
-            }
-        });
+        jButtonGetTime.addActionListener(this::jButtonGetTimeActionPerformed);
 
         retrieveAuto.setText("retrieveAuto");
-        retrieveAuto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                retrieveAutoActionPerformed(evt);
-            }
-        });
+        retrieveAuto.addActionListener(this::retrieveAutoActionPerformed);
 
         jButtonQuery.setText("---");
-        jButtonQuery.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonQueryActionPerformed(evt);
-            }
-        });
+        jButtonQuery.addActionListener(this::jButtonQueryActionPerformed);
 
         jButtonDelete.setText("---");
-        jButtonDelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonDeleteActionPerformed(evt);
-            }
-        });
+        jButtonDelete.addActionListener(this::jButtonDeleteActionPerformed);
 
         jButtonRetrieve.setText("retrieveRange");
-        jButtonRetrieve.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonRetrieveActionPerformed(evt);
-            }
-        });
+        jButtonRetrieve.addActionListener(this::jButtonRetrieveActionPerformed);
 
         jButtonUpdate.setText("retrieveRangeAgain");
-        jButtonUpdate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonUpdateActionPerformed(evt);
-            }
-        });
+        jButtonUpdate.addActionListener(this::jButtonUpdateActionPerformed);
 
         jButtonCount.setText("---");
-        jButtonCount.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCountActionPerformed(evt);
-            }
-        });
+        jButtonCount.addActionListener(this::jButtonCountActionPerformed);
 
         tabs.setToolTipText("");
         tabs.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -332,46 +304,22 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
         tabs.addTab("Home", homeTab);
 
         jButtonStoreConversions.setText("---");
-        jButtonStoreConversions.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonStoreConversionsActionPerformed(evt);
-            }
-        });
+        jButtonStoreConversions.addActionListener(this::jButtonStoreConversionsActionPerformed);
 
         jButtonStoreActions.setText("---");
-        jButtonStoreActions.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonStoreActionsActionPerformed(evt);
-            }
-        });
+        jButtonStoreActions.addActionListener(this::jButtonStoreActionsActionPerformed);
 
         jButtonStoreGroups.setText("---");
-        jButtonStoreGroups.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonStoreGroupsActionPerformed(evt);
-            }
-        });
+        jButtonStoreGroups.addActionListener(this::jButtonStoreGroupsActionPerformed);
 
-        TBoxStore.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TBoxStoreActionPerformed(evt);
-            }
-        });
+        TBoxStore.addActionListener(this::TBoxStoreActionPerformed);
 
         jButtonDeleteAll.setText("---");
         jButtonDeleteAll.setEnabled(false);
-        jButtonDeleteAll.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonDeleteAllActionPerformed(evt);
-            }
-        });
+        jButtonDeleteAll.addActionListener(this::jButtonDeleteAllActionPerformed);
 
         test_button.setText("---");
-        test_button.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                test_buttonActionPerformed(evt);
-            }
-        });
+        test_button.addActionListener(this::test_buttonActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -446,9 +394,7 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
             Logger.getLogger(ArchiveSyncConsumerManagerPanel.class.getName()).log(Level.INFO,
                     "Current time: " + response.getBodyElement0()
                     + " - Last sync: " + response.getBodyElement0());
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ArchiveSyncConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ArchiveSyncConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButtonGetTimeActionPerformed
@@ -552,9 +498,7 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
 
         try {
             serviceCOMArchiveSync.getArchiveSyncStub().retrieveRange(from, until, objTypes, new Identifier(""), adapter);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ArchiveSyncConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ArchiveSyncConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButtonRetrieveActionPerformed
@@ -766,7 +710,7 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
         archiveQuery.setDomain(null);
         archiveQuery.setNetwork(null);
         archiveQuery.setProvider(null);
-        archiveQuery.setRelated(new Long(0));
+        archiveQuery.setRelated(0L);
         archiveQuery.setSource(null);
         archiveQuery.setStartTime(null);
         archiveQuery.setEndTime(null);

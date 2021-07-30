@@ -7,7 +7,7 @@
  *  ----------------------------------------------------------------------------
  *  System                : ESA NanoSat MO Framework
  *  ----------------------------------------------------------------------------
- *  Licensed under the European Space Agency Public License, Version 2.0
+ *  Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  *  You may not use this file except in compliance with the License.
  * 
  *  Except as expressly set forth in this License, the Software is provided to
@@ -78,12 +78,12 @@ public class ArgumentDescriptor implements Serializable {
         } else if (type.startsWith("int[")) {
             String partial=type.substring(4);
             partial=partial.substring(0,partial.length()-1);
-            int newData[] = new int[Integer.valueOf(partial)];
+            int newData[] = new int[Integer.parseInt(partial)];
             this.type = newData;
         } else if (type.startsWith("float[")) {
             String partial=type.substring(6);
             partial=partial.substring(0,partial.length()-1);
-            float newData[] = new float[Integer.valueOf(partial)];
+            float newData[] = new float[Integer.parseInt(partial)];
             this.type = newData;
         } else if (type.equals("double")) {
             double newData = (double) 0.0;

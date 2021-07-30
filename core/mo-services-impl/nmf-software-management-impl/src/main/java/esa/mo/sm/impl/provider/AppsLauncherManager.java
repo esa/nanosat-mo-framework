@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -26,6 +26,7 @@ import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.DefinitionsManager;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.com.impl.util.HelperCOM;
+import esa.mo.common.impl.util.HelperCommon;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
@@ -49,7 +50,6 @@ import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectType;
-import org.ccsds.moims.mo.common.directory.structures.AddressDetails;
 import org.ccsds.moims.mo.common.directory.structures.AddressDetailsList;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.common.directory.structures.ServiceCapabilityList;
@@ -61,7 +61,6 @@ import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.mal.structures.StringList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
@@ -76,7 +75,7 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetailsL
 public class AppsLauncherManager extends DefinitionsManager
 {
 
-  private static final int APP_STOP_TIMEOUT = 5000;
+  private static final int APP_STOP_TIMEOUT = 15000;
   private static final Logger LOGGER = Logger.getLogger(AppsLauncherManager.class.getName());
 
   private final OSValidator osValidator = new OSValidator();
@@ -488,13 +487,12 @@ public class AppsLauncherManager extends DefinitionsManager
     this.setRunning(handler.getObjId(), true, interaction); // Update the Archive
   }
 
-  protected boolean killAppProcess(final Long appInstId, MALInteraction interaction) throws
-      MALException, MALInteractionException
+  protected boolean killAppProcess(final Long appInstId, MALInteraction interaction)
   {
     AppDetails app = (AppDetails) this.getDef(appInstId); // get it from the list of available apps
 
     LOGGER.log(Level.INFO,
-        "Killing {0} app in.", app.getName().getValue());
+        "Killing app: {0}", app.getName().getValue());
     ProcessExecutionHandler handler = handlers.get(appInstId);
 
     if (handler == null) {
@@ -518,13 +516,12 @@ public class AppsLauncherManager extends DefinitionsManager
     return true;
   }
 
-  protected boolean stopNativeApp(final Long appInstId, StopAppInteraction interaction) throws
+  protected boolean stopNativeApp(final Long appInstId, StopAppInteraction interaction, boolean onlyNativeComponent) throws
       IOException, MALInteractionException, MALException
   {
-    ProcessExecutionHandler handler = handlers.get(appInstId);
     AppDetails app = (AppDetails) this.getDef(appInstId); // get it from the list of available apps
 
-    // Go to the folder where the app are installed
+    // Go to the folder where the app is installed
     final File appFolder
         = new File(appsFolderPath + File.separator + app.getName().getValue());
     Map<String, String> env = new HashMap<>();
@@ -553,21 +550,10 @@ public class AppsLauncherManager extends DefinitionsManager
           new Object[]{app.getName().getValue(), APP_STOP_TIMEOUT});
       proc.destroyForcibly();
     }
-
-    if (handler == null) {
-      app.setRunning(false);
-      return false;
-    }
-
-    if (handler.getProcess() == null) {
-      app.setRunning(false);
+    if (onlyNativeComponent) {
       return true;
     }
-
-    handler.close();
-    this.setRunning(handler.getObjId(), false, interaction.getInteraction()); // Update the Archive
-    handlers.remove(appInstId); // Get rid of it!
-    return true;
+    return killAppProcess(appInstId, interaction.getInteraction());
   }
 
   protected void stopNMFApp(final Long appInstId, final Identifier appDirectoryServiceName,
@@ -608,13 +594,15 @@ public class AppsLauncherManager extends DefinitionsManager
 
     final URI uri = interaction.getInteraction().getMessageHeader().getURIFrom();
 
-    try {
-      IdentifierList eventBodies = new IdentifierList(1);
-      eventBodies.add(appDirectoryServiceName);
-      super.getCOMServices().getEventService().publishEvent(uri, objId, objType, appInstId,
-          eventSource, eventBodies);
-    } catch (IOException ex) {
-      LOGGER.log(Level.SEVERE, null, ex);
+    if (appDirectoryServiceName != null) {
+      try {
+        IdentifierList eventBodies = new IdentifierList(1);
+        eventBodies.add(appDirectoryServiceName);
+        super.getCOMServices().getEventService().publishEvent(uri, objId, objType, appInstId,
+            eventSource, eventBodies);
+      } catch (IOException ex) {
+        LOGGER.log(Level.SEVERE, null, ex);
+      }
     }
 
     if (listener != null) {
@@ -652,23 +640,23 @@ public class AppsLauncherManager extends DefinitionsManager
           + File.separator + "stop_" + curr.getName().getValue() + fileExt);
       boolean stopExists = stopScript.exists();
       if (curr.getCategory().getValue().equalsIgnoreCase("NMF_App")) {
-        this.stopNMFApp(appInstId, appDirectoryServiceNames.get(i), appConnections.get(i), interaction);
+        if (appDirectoryServiceNames.get(i) == null) {
+          LOGGER.log(Level.WARNING, "appDirectoryServiceName null for ''{0}'' app, falling back to kill",
+            new Object[]{curr.getName().getValue()});
+            this.killAppProcess(appInstId, interaction.getInteraction());
+        } else if (appConnections.get(i) == null) {
+          LOGGER.log(Level.WARNING, "appConnection null for ''{0}'' app, falling back to kill",
+            new Object[]{curr.getName().getValue()});
+            this.killAppProcess(appInstId, interaction.getInteraction());
+        } else {
+          this.stopNMFApp(appInstId, appDirectoryServiceNames.get(i), appConnections.get(i), interaction);
+        }
         if (stopExists) {
-          Map<String, String> env = new HashMap<>();
-          assembleAppLauncherEnvironment("", env);
-          final File appFolder
-              = new File(appsFolderPath + File.separator + curr.getName().getValue());
-          final String[] appLauncherCommand = assembleAppStopCommand(appFolder.getAbsolutePath(),
-              curr.getName().getValue(), curr.getRunAs(), EnvironmentUtils.toStrings(env));
-          final ProcessBuilder pb = new ProcessBuilder(appLauncherCommand);
-          pb.environment().clear();
-          pb.directory(appFolder);
           LOGGER.log(Level.INFO,
-              "Stopping native component of ''{0}'' app in dir: {1}, using launcher command: {2}",
-              new Object[]{curr.getName().getValue(), appFolder.getAbsolutePath(), Arrays.toString(
-                appLauncherCommand)});
+              "Stopping native component of ''{0}'' app",
+              new Object[]{curr.getName().getValue()});
           try {
-            final Process proc = pb.start();
+            this.stopNativeApp(appInstId, interaction, true);
           } catch (IOException ex) {
             Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE,
                 "Stopping native component failed", ex);
@@ -678,11 +666,11 @@ public class AppsLauncherManager extends DefinitionsManager
         if (!stopExists) {
           LOGGER.log(Level.INFO, "No stop script present for app {0}. Killing the process.",
               curr.getName());
-          this.killAppProcess(appInstIds.get(i), interaction.getInteraction());
+          this.killAppProcess(appInstId, interaction.getInteraction());
         } else {
           try {
             LOGGER.log(Level.INFO, "Stop script present for app {0}. Invoking it.", curr.getName());
-            this.stopNativeApp(appInstIds.get(i), interaction);
+            this.stopNativeApp(appInstId, interaction, false);
           } catch (IOException ex) {
             Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.SEVERE,
                 "Stopping native app failed", ex);
@@ -729,74 +717,12 @@ public class AppsLauncherManager extends DefinitionsManager
 
     final AddressDetailsList addresses = capabilities.get(0).getServiceAddresses();
 
-    int bestIndex = AppsLauncherManager.getBestIPCServiceAddressIndex(addresses);
+    int bestIndex = HelperCommon.getBestIPCServiceAddressIndex(addresses);
     SingleConnectionDetails connectionDetails = new SingleConnectionDetails();
     connectionDetails.setProviderURI(addresses.get(bestIndex).getServiceURI());
     connectionDetails.setBrokerURI(addresses.get(bestIndex).getBrokerURI());
     connectionDetails.setDomain(providersList.get(0).getProviderKey().getDomain());
     return connectionDetails;
-  }
-
-  public static int getBestIPCServiceAddressIndex(AddressDetailsList addresses) throws
-      IllegalArgumentException
-  {
-    if (addresses.isEmpty()) {
-      throw new IllegalArgumentException("The addresses argument cannot be null.");
-    }
-
-    if (addresses.size() == 1) { // Well, there is only one...
-      return 0;
-    }
-
-    // Well, if there are more than one, then it means we can pick...
-    // My preference would be, in order: tcp/ip, rmi, other, spp
-    // SPP is in last because usually this is the transport supposed
-    // to be used on the ground-to-space link and not internally.
-    StringList availableTransports = AppsLauncherManager.getAvailableTransports(addresses);
-
-    int index = AppsLauncherManager.getTransportIndex(availableTransports, "tcpip");
-    if (index != -1) {
-      return index;
-    }
-
-    index = AppsLauncherManager.getTransportIndex(availableTransports, "rmi");
-    if (index != -1) {
-      return index;
-    }
-
-    index = AppsLauncherManager.getTransportIndex(availableTransports, "malspp");
-
-    // If could not be found nor it is not the first one
-    if (index == -1 || index != 0) { // Then let's pick the first one
-      return 0;
-    } else {
-      // It was found and it is the first one (0)
-      // Then let's select the second (index == 1) transport available...
-      return 1;
-    }
-  }
-
-  private static StringList getAvailableTransports(AddressDetailsList addresses)
-  {
-    StringList transports = new StringList(); // List of transport names
-
-    for (AddressDetails address : addresses) {
-      // The name of the transport is always before ":"
-      String[] parts = address.getServiceURI().toString().split(":");
-      transports.add(parts[0]);
-    }
-
-    return transports;
-  }
-
-  private static int getTransportIndex(StringList transports, String findString)
-  {
-    for (int i = 0; i < transports.size(); i++) {
-      if (findString.equals(transports.get(i))) {
-        return i;  // match
-      }
-    }
-    return -1;
   }
 
   private static boolean isJustRunningStatusChange(final AppDetails previousAppDetails,

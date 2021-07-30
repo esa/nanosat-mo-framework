@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -237,13 +237,7 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
             IdentifierList subIds = new IdentifierList();
             subIds.add(subId);
             eventServiceConsumer.getEventStub().monitorEventDeregister(subIds);
-        } catch (MALException ex) {
-            Logger.getLogger(ConfigurationProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            interaction.sendError(null);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ConfigurationProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            interaction.sendError(null);
-        } catch (MalformedURLException ex) {
+        } catch (MALException | MalformedURLException | MALInteractionException ex) {
             Logger.getLogger(ConfigurationProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             interaction.sendError(null);
         }
@@ -291,8 +285,6 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
 
             return xmlFile;
 
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(ConfigurationProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(ConfigurationProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -317,8 +309,6 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
 */
 //            ConfigurationObjectDetails decodedElement = (ConfigurationObjectDetails) xmlEIS.readElement(new ConfigurationObjectDetails(), null);
 
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(ConfigurationProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(ConfigurationProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }

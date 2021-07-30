@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -41,10 +41,10 @@ public interface ExternalStatisticFunctionsInterface {
      * MC Standard.
      * @return The corresponding Statistic Function
      */
-    public StatisticFunctionDetails getCustomStatisticFunction (Long statFuncId);
+    StatisticFunctionDetails getCustomStatisticFunction(Long statFuncId);
     
     
-    public StatisticValue generateCustomStatisticValue(Long statFuncId, TimeList times, AttributeValueList values);
+    StatisticValue generateCustomStatisticValue(Long statFuncId, TimeList times, AttributeValueList values);
 
     
     

@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -79,7 +79,6 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
     super.startTime = System.currentTimeMillis();
     HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
     ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
-    HelperMisc.setInputProcessorsProperty();
 
     // Enforce the App Name property to be Const.NANOSAT_MO_SUPERVISOR_NAME
     System.setProperty(HelperMisc.PROP_MO_APP_NAME, Const.NANOSAT_MO_SUPERVISOR_NAME);
@@ -99,8 +98,8 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
       this.packageManagementService.init(comServices, packageManagementBackend);
       this.comServices.initArchiveSync();
       super.reconfigurableServices.add(this.appsLauncherService);
-      this.appsLauncherService.setStdPerApp(stdQuota);
-      this.comServices.getArchiveSyncService().setQuota(stdQuota);
+      this.appsLauncherService.setStdQuotaPerApp(stdQuota);
+      this.comServices.getArchiveSyncService().setStdQuota(stdQuota);
       this.startMCServices(mcAdapter);
       this.initPlatformServices(comServices);
     } catch (MALException ex) {

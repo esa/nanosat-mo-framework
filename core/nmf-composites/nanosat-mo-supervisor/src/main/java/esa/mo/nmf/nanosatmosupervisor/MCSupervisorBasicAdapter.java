@@ -6,16 +6,16 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
  * You on an "as is" basis and without warranties of any kind, including without
  * limitation merchantability, fitness for a particular purpose, absence of
  * defects or errors, accuracy or non-infringement of intellectual property rights.
- * 
+ *
  * See the License for the specific language governing permissions and
- * limitations under the License. 
+ * limitations under the License.
  * ----------------------------------------------------------------------------
  */
 package esa.mo.nmf.nanosatmosupervisor;
@@ -27,7 +27,8 @@ import java.util.Date;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import javax.xml.bind.JAXBException;
+import javax.xml.stream.XMLStreamException;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MALStandardError;
@@ -35,14 +36,16 @@ import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
-
+import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
 import esa.mo.nmf.annotations.Action;
 import esa.mo.nmf.annotations.ActionParameter;
 import esa.mo.nmf.annotations.Parameter;
+import esa.mo.nmf.nanosatmosupervisor.parameter.OBSWParameterManager;
 import esa.mo.sm.impl.util.OSValidator;
 import esa.mo.sm.impl.util.ShellCommander;
+import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
@@ -73,7 +76,7 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
 
   @Parameter(description = "The Current partition where the OS is running. Only works for linux", generationEnabled = false, onGetFunction = "onGetOSPartition", readOnly = true, reportIntervalSeconds = 10)
   public String OSPartition = "";
-  
+
   @Parameter(generationEnabled = false, readOnly = true, reportIntervalSeconds = 10)
   public float attitudeQuatA;
   @Parameter(generationEnabled = false, readOnly = true, reportIntervalSeconds = 10)
@@ -82,31 +85,63 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
   public float attitudeQuatC;
   @Parameter(generationEnabled = false, readOnly = true, reportIntervalSeconds = 10)
   public float attitudeQuatD;
-  
-  private static final Duration ATTITUDE_MONITORING_INTERVAL = new Duration(1.0);
-  
+
+  @Parameter(generationEnabled = false, readOnly = false, reportIntervalSeconds = 10)
+  public Duration attitudeMonitoringInterval = new Duration(0.0);
+
+  /**
+   * Manages the OBSW parameter provisioning
+   */
+  private OBSWParameterManager obswParameterManager;
 
   public MCSupervisorBasicAdapter() {
   }
+
   public void setNmfSupervisor(NanoSatMOSupervisor supervisor) {
     nmfSupervisor = supervisor;
   }
 
-  public void startAdcsAttitudeMonitoring()
-  {
+  @Override
+  public void initialRegistrations(MCRegistration registrationObject) {
+    super.initialRegistrations(registrationObject);
+
+    if (registrationObject == null) {
+      return;
+    }
+
+    /* OBSW PARAMETERS PROXIES */
+    try {
+      obswParameterManager = new OBSWParameterManager(getClass().getClassLoader().getResourceAsStream("Datapool.xml"));
+      obswParameterManager.registerParametersProxies(registrationObject);
+    } catch (IOException | JAXBException | XMLStreamException e) {
+      LOGGER.log(Level.SEVERE, "Couldn't register OBSW parameters proxies", e);
+    }
+  }
+
+  @Override
+  public Attribute onGetValue(Long parameterID) throws IOException {
+    // see if id matches one of the OBSW parameter proxies
+    if (obswParameterManager != null) {
+      if (obswParameterManager.isOBSWParameterProxy(parameterID)) {
+        return obswParameterManager.getValue(parameterID);
+      }
+    }
+
+    // otherwise it's one of the annotated internal parameters
+    return super.onGetValue(parameterID);
+  }
+
+  public void startAdcsAttitudeMonitoring() {
     try {
       // Subscribe monitorAttitude
-      nmfSupervisor.getPlatformServices().getAutonomousADCSService().monitorAttitudeRegister(
-          ConnectionConsumer.subscriptionWildcard(),
-          new ADCSDataHandler()
-      );
-      nmfSupervisor.getPlatformServices().getAutonomousADCSService().enableMonitoring(true,
-          ATTITUDE_MONITORING_INTERVAL);
+      nmfSupervisor.getPlatformServices().getAutonomousADCSService()
+          .monitorAttitudeRegister(ConnectionConsumer.subscriptionWildcard(), new ADCSDataHandler());
+      configureMonitoring();
     } catch (IOException | MALInteractionException | MALException | NMFException ex) {
       LOGGER.log(Level.SEVERE, "Error when setting up attitude monitoring.", ex);
     }
   }
-  
+
   public class ADCSDataHandler extends AutonomousADCSAdapter
   {
     @Override
@@ -129,7 +164,7 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
       }
     }
   }
-  
+
   public void onGetOSVersion() {
     if (osValidator.isWindows()) {
       OSVersion = shellCommander.runCommandAndGetOutputMessage(CMD_WINDOWS_VERSION);
@@ -142,6 +177,28 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
     if (osValidator.isUnix()) {
       OSPartition = shellCommander.runCommandAndGetOutputMessage(CMD_CURRENT_PARTITION);
     }
+  }
+
+  private void configureMonitoring() throws IOException, MALInteractionException, MALException, NMFException
+  {
+    if (attitudeMonitoringInterval.getValue() >= 0.1) {
+      nmfSupervisor.getPlatformServices().getAutonomousADCSService().enableMonitoring(true,
+          attitudeMonitoringInterval);
+    } else {
+      nmfSupervisor.getPlatformServices().getAutonomousADCSService().enableMonitoring(false,
+          attitudeMonitoringInterval);
+    }
+  }
+
+  @Action(name = "ADCS.configureMonitoring")
+  public UInteger configureMonitoringAction(Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
+    try {
+      configureMonitoring();
+    } catch (IOException | MALInteractionException | MALException | NMFException ex) {
+      LOGGER.log(Level.SEVERE, "Error when setting up attitude monitoring.", ex);
+      return new UInteger(1);
+    }
+    return null;
   }
 
   @Action(name = "NMEA_Sentence", description = "Adds <CR><LF> to a raw NMEA query and forwards it to the GNSS Provider")
@@ -170,7 +227,7 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
   @Action(name = "ADCS.sunpointing")
   public UInteger adcsSunPointing(Long actionInstanceObjId, boolean reportProgress,
       MALInteraction interaction) {
-    
+
     try {
       nmfSupervisor.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(null, new AttitudeModeSunPointing());
     } catch (MALInteractionException | MALException | IOException | NMFException ex) {
@@ -183,7 +240,7 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
   @Action(name = "ADCS.nadirPointing")
   public UInteger adcsNadirPointing(Long actionInstanceObjId, boolean reportProgress,
       MALInteraction interaction, @ActionParameter(name = "duration") Duration duration) {
-    
+
     try {
       nmfSupervisor.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(duration, new AttitudeModeSunPointing());
     } catch (MALInteractionException | MALException | IOException | NMFException ex) {
@@ -196,7 +253,7 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
   @Action(name = "ADCS.unsetAttitude")
   public UInteger adcsUnsetAttitude(Long actionInstanceObjId, boolean reportProgress,
       MALInteraction interaction) {
-    
+
     try {
       nmfSupervisor.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(new Duration(0), null);
     } catch (MALInteractionException | MALException | IOException | NMFException ex) {

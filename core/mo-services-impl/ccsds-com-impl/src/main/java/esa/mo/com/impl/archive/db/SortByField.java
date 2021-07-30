@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -132,9 +132,7 @@ public class SortByField implements Comparator {
                 obj1 = this.field.get(((ArchivePersistenceObject) in1).getArchiveDetails());
                 obj2 = this.field.get(((ArchivePersistenceObject) in2).getArchiveDetails());
             }
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalAccessException | IllegalArgumentException e) {
             throw new RuntimeException(e);
         } catch (SecurityException ex) {
             Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -235,7 +233,7 @@ public class SortByField implements Comparator {
         ObjectType tmpObjType;
         ArrayList<ArchivePersistenceObject> stackA = perObjs;
         ArrayList<ArchivePersistenceObject> stackB;
-        ArrayList<ArchivePersistenceObject> stackOut = new ArrayList<ArchivePersistenceObject>();
+        ArrayList<ArchivePersistenceObject> stackOut = new ArrayList<>();
 
         // Requirement 3.4.4.2.27: 
         // "Each domain/object type pair shall be sorted separately from other domain/object type 
@@ -244,7 +242,7 @@ public class SortByField implements Comparator {
             // What is the current zeroth pair?
             tmpDomain = stackA.get(0).getDomain();
             tmpObjType = stackA.get(0).getObjectType();
-            stackB = new ArrayList<ArchivePersistenceObject>();
+            stackB = new ArrayList<>();
 
             // Make a stack B with all the equal pairs domain+objType
             for (int index = 0; index < stackA.size(); index++) { // Let's cycle the complete stack A

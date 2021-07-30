@@ -7,7 +7,7 @@
  *  ----------------------------------------------------------------------------
  *  System                : ESA NanoSat MO Framework
  *  ----------------------------------------------------------------------------
- *  Licensed under the European Space Agency Public License, Version 2.0
+ *  Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  *  You may not use this file except in compliance with the License.
  * 
  *  Except as expressly set forth in this License, the Software is provided to
@@ -68,11 +68,11 @@ public class SimulatorSchedulerPiece implements Serializable {
             else
             {
                 try {
-                return Long.valueOf(words.get(0))*24*60*60*1000 +
-                       Long.valueOf(words.get(1))*60*60*1000 +
-                       Long.valueOf(words.get(2))*60*1000 +
-                       Long.valueOf(words.get(3))*1000 +
-                       Long.valueOf(words.get(4));
+                return Long.parseLong(words.get(0))*24*60*60*1000 +
+                       Long.parseLong(words.get(1))*60*60*1000 +
+                       Long.parseLong(words.get(2))*60*1000 +
+                       Long.parseLong(words.get(3))*1000 +
+                       Long.parseLong(words.get(4));
                 }
                 catch (NumberFormatException ex)
                 {

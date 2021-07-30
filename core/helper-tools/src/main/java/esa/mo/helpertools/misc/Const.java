@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -42,4 +42,6 @@ public class Const
   public static final String NANOSAT_MO_SUPERVISOR_NAME = "nanosat-mo-supervisor";
   public final static String NANOSAT_MO_GROUND_PROXY_NAME = "ground-mo-proxy";
   public final static String NMF_PACKAGE_SUFFIX = "nmfpack";
+  public final static String PLATFORM_IADCS_CACHING_PERIOD = "esa.mo.nmf.platform.iadcs.caching.period";
+  public final static String PLATFORM_GNSS_CACHING_PERIOD = "esa.mo.nmf.platform.gnss.caching.period";
 }

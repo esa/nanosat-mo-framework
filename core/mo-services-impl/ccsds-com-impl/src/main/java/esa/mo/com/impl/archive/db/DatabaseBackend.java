@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -201,7 +201,7 @@ public class DatabaseBackend {
     private void createEMFactory() {
         // Is the status of the dropTable flag on?
         boolean dropTable = "true".equals(System.getProperty(DROP_TABLE_PROPERTY));
-        Map<String, String> persistenceMap = new HashMap<String, String>();
+        Map<String, String> persistenceMap = new HashMap<>();
 
         // Add the url property of the connection to the database
         persistenceMap.put("javax.persistence.jdbc.url", this.url);

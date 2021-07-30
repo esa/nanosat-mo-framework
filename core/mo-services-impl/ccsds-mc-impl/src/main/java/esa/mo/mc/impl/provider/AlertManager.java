@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -51,7 +51,7 @@ public final class AlertManager extends MCManager {
         super(comServices);
 
         if (super.getArchiveService() == null) {  // No Archive?
-            this.uniqueObjIdDef = new Long(0); // The zeroth value will not be used (reserved for the wildcard)
+            this.uniqueObjIdDef = 0L; // The zeroth value will not be used (reserved for the wildcard)
         } else {
 
         }
@@ -109,9 +109,7 @@ public final class AlertManager extends MCManager {
 
                 //add to providers local list
                 newIdPair = new ObjectInstancePair(identityId, defIds.get(0));
-            } catch (MALException ex) {
-                Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
+            } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -141,9 +139,7 @@ public final class AlertManager extends MCManager {
                         null);
 
                 newDefId = defIds.get(0);
-            } catch (MALException ex) {
-                Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
+            } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -153,10 +149,7 @@ public final class AlertManager extends MCManager {
     }
 
     public boolean delete(Long objId) {
-        if (this.deleteIdentity(objId)) {
-            return true;
-        }
-        return false;
+        return this.deleteIdentity(objId);
     }
 
     public Long setGenerationEnabled(final Long identityId, final Boolean bool,

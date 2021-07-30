@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -152,19 +152,19 @@ public class SMServicesConsumer
   public void closeConnections()
   {
     if (this.packageManagementService != null) {
-      this.packageManagementService.closeConnection();
+      this.packageManagementService.close();
     }
 
     if (this.appsLauncherService != null) {
-      this.appsLauncherService.closeConnection();
+      this.appsLauncherService.close();
     }
 
     if (this.commandExecutorService != null) {
-      this.commandExecutorService.closeConnection();
+      this.commandExecutorService.close();
     }
 
     if (this.heartbeatService != null) {
-      this.heartbeatService.closeConnection();
+      this.heartbeatService.close();
     }
   }
 

@@ -12,6 +12,7 @@
     <replace file="newShellScript" token="@NMF_HOME@" value="${nmf_home}"/>
     <replace file="newShellScript" token="@NMF_LIB@" value="${nmf_lib}"/>
     <replace file="newShellScript" token="@PLATFORM@" value="${platform}"/>
+    <replace file="newShellScript" token="@MAX_HEAP@" value="${max_heap}"/>
     <move file="newShellScript" toFile="${id}.sh"/>
     <chmod file="${id}.sh" perm="0777"/>
     <mkdir dir="${fulloutput}"/>

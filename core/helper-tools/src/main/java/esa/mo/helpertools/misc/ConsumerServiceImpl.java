@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -36,12 +36,12 @@ import org.ccsds.moims.mo.mal.structures.URI;
 /**
  * An abstract class to be extended by specific service consumers.
  */
-public abstract class ConsumerServiceImpl
+public abstract class ConsumerServiceImpl implements AutoCloseable
 {
 
     protected ConnectionConsumer connection = new ConnectionConsumer();
 
-    protected HashMap<Identifier, Object> servicesMap = new HashMap<Identifier, Object>();
+    protected HashMap<Identifier, Object> servicesMap = new HashMap<>();
 
     protected MALConsumer tmConsumer;
 
@@ -62,10 +62,16 @@ public abstract class ConsumerServiceImpl
         return servicesMap;
     }
 
+    @Override
+    public void close()
+    {
+        closeConnection();
+    }
+
     /**
      * Closes the tmConsumer connection
      */
-    public void closeConnection()
+    protected void closeConnection()
     {
         // Close old connection
         if (tmConsumer != null)

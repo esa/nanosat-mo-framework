@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -156,43 +156,19 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel
     jPanel1.setPreferredSize(new java.awt.Dimension(419, 23));
 
     runAppButton.setText("runApp");
-    runAppButton.addActionListener(new java.awt.event.ActionListener()
-    {
-      public void actionPerformed(java.awt.event.ActionEvent evt)
-      {
-        runAppButtonActionPerformed(evt);
-      }
-    });
+    runAppButton.addActionListener(evt -> runAppButtonActionPerformed(evt));
     jPanel1.add(runAppButton);
 
     stopAppButton.setText("stopApp");
-    stopAppButton.addActionListener(new java.awt.event.ActionListener()
-    {
-      public void actionPerformed(java.awt.event.ActionEvent evt)
-      {
-        stopAppButtonActionPerformed(evt);
-      }
-    });
+    stopAppButton.addActionListener(evt -> stopAppButtonActionPerformed(evt));
     jPanel1.add(stopAppButton);
 
     killAppButton.setText("killApp");
-    killAppButton.addActionListener(new java.awt.event.ActionListener()
-    {
-      public void actionPerformed(java.awt.event.ActionEvent evt)
-      {
-        killAppButtonActionPerformed(evt);
-      }
-    });
+    killAppButton.addActionListener(evt -> killAppButtonActionPerformed(evt));
     jPanel1.add(killAppButton);
 
     listAppAllButton.setText("listApp(\"*\")");
-    listAppAllButton.addActionListener(new java.awt.event.ActionListener()
-    {
-      public void actionPerformed(java.awt.event.ActionEvent evt)
-      {
-        listAppAllButtonActionPerformed(evt);
-      }
-    });
+    listAppAllButton.addActionListener(evt -> listAppAllButtonActionPerformed(evt));
     jPanel1.add(listAppAllButton);
 
     parameterTab.add(jPanel1);
@@ -241,9 +217,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel
             for (int i = 0; i < appInstIds.size(); i++) {
               Long objId = appInstIds.get(i);
 
-              if (outputBuffers.get(objId) == null) {
-                outputBuffers.put(objId, new StringBuffer());
-              }
+              outputBuffers.computeIfAbsent(objId, k -> new StringBuffer());
             }
 
             LOGGER.log(Level.INFO,

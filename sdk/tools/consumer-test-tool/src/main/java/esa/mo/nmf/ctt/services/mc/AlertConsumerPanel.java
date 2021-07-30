@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -101,7 +101,7 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("Alert Service");
+        jLabel6.setText("Alert Service - Definitions");
         jLabel6.setToolTipText("");
 
         jScrollPane2.setHorizontalScrollBar(null);
@@ -141,69 +141,37 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         parameterTab.setLayout(new java.awt.GridLayout(2, 1));
 
         enableDefinitionAllAgg.setText("enableGeneration(group=false, 0)");
-        enableDefinitionAllAgg.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                enableDefinitionAllAggActionPerformed(evt);
-            }
-        });
+        enableDefinitionAllAgg.addActionListener(evt -> enableDefinitionAllAggActionPerformed(evt));
         jPanel1.add(enableDefinitionAllAgg);
 
         enableDefinitionButtonAgg.setText("enableGeneration");
-        enableDefinitionButtonAgg.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                enableDefinitionButtonAggActionPerformed(evt);
-            }
-        });
+        enableDefinitionButtonAgg.addActionListener(evt -> enableDefinitionButtonAggActionPerformed(evt));
         jPanel1.add(enableDefinitionButtonAgg);
 
         listDefinitionButton.setText("listDefinition()");
-        listDefinitionButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                listDefinitionButtonActionPerformed(evt);
-            }
-        });
+        listDefinitionButton.addActionListener(evt -> listDefinitionButtonActionPerformed(evt));
         jPanel1.add(listDefinitionButton);
 
         parameterTab.add(jPanel1);
 
         addDefinitionButton.setText("addDefinition");
-        addDefinitionButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addDefinitionButtonActionPerformed(evt);
-            }
-        });
+        addDefinitionButton.addActionListener(evt -> addDefinitionButtonActionPerformed(evt));
         jPanel5.add(addDefinitionButton);
 
         updateDefinitionButton.setText("updateDefinition");
-        updateDefinitionButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateDefinitionButtonActionPerformed(evt);
-            }
-        });
+        updateDefinitionButton.addActionListener(evt -> updateDefinitionButtonActionPerformed(evt));
         jPanel5.add(updateDefinitionButton);
 
         removeDefinitionButton.setText("removeDefinition");
-        removeDefinitionButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeDefinitionButtonActionPerformed(evt);
-            }
-        });
+        removeDefinitionButton.addActionListener(evt -> removeDefinitionButtonActionPerformed(evt));
         jPanel5.add(removeDefinitionButton);
 
         listDefinitionAllButton.setText("listDefinition(\"*\")");
-        listDefinitionAllButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                listDefinitionAllButtonActionPerformed(evt);
-            }
-        });
+        listDefinitionAllButton.addActionListener(evt -> listDefinitionAllButtonActionPerformed(evt));
         jPanel5.add(listDefinitionAllButton);
 
         removeDefinitionAllButton.setText("removeDefinition(0)");
-        removeDefinitionAllButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeDefinitionAllButtonActionPerformed(evt);
-            }
-        });
+        removeDefinitionAllButton.addActionListener(evt -> removeDefinitionAllButtonActionPerformed(evt));
         jPanel5.add(removeDefinitionAllButton);
 
         parameterTab.add(jPanel5);
@@ -246,9 +214,7 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
             }
 
             JOptionPane.showMessageDialog(null, str.toString(), "Returned List from the Provider", JOptionPane.PLAIN_MESSAGE);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_listDefinitionButtonActionPerformed
@@ -300,10 +266,7 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
             // Add the Action Definition to the table
             alertTable.addEntry(requestList.get(0).getName(), comObject);
 
-        } catch (MALInteractionException ex) {
-            JOptionPane.showMessageDialog(null, "There was an error with the submitted alert instance.", "Error", JOptionPane.PLAIN_MESSAGE);
-            Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             JOptionPane.showMessageDialog(null, "There was an error with the submitted alert instance.", "Error", JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InterruptedException ex) {
@@ -332,9 +295,7 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCAlert.getAlertStub().updateDefinition(objIds, defs);
             this.listDefinitionAllButtonActionPerformed(null);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_updateDefinitionButtonActionPerformed
@@ -351,9 +312,7 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCAlert.getAlertStub().removeAlert(longlist);
             alertTable.removeSelectedEntry();
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_removeDefinitionButtonActionPerformed
@@ -395,12 +354,10 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
                 }
             }
             );
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }//GEN-LAST:event_listDefinitionAllButtonActionPerformed
 
     private void removeDefinitionAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeDefinitionAllButtonActionPerformed
@@ -410,9 +367,7 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCAlert.getAlertStub().removeAlert(longlist);
             alertTable.removeAllEntries();
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_removeDefinitionAllButtonActionPerformed
@@ -442,9 +397,7 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCAlert.getAlertStub().enableGeneration(false, BoolPairList);
             alertTable.switchEnabledstatusAll(!curState);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_enableDefinitionAllAggActionPerformed
@@ -465,9 +418,7 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCAlert.getAlertStub().enableGeneration(false, BoolPairList);
             alertTable.switchEnabledstatus(!curState);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_enableDefinitionButtonAggActionPerformed

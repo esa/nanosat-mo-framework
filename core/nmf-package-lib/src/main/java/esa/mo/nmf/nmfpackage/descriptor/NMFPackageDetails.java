@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -30,13 +30,15 @@ public class NMFPackageDetails {
     private final String version;
     private final String timestamp;
     private final String mainclass;
+    private final String maxHeap;
 
     public NMFPackageDetails(final String packageName, final String version,
-            final String timestamp, final String mainclass) {
+                             final String timestamp, final String mainclass, final String maxHeap) {
         this.packageName = packageName;
         this.version = version;
         this.timestamp = timestamp;
         this.mainclass = mainclass;
+        this.maxHeap = maxHeap;
     }
 
     public String getPackageName() {
@@ -55,4 +57,5 @@ public class NMFPackageDetails {
         return mainclass;
     }
 
+    public String getMaxHeap() { return maxHeap; }
 }

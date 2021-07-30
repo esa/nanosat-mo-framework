@@ -7,7 +7,7 @@
  *  ----------------------------------------------------------------------------
  *  System                : ESA NanoSat MO Framework
  *  ----------------------------------------------------------------------------
- *  Licensed under the European Space Agency Public License, Version 2.0
+ *  Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  *  You may not use this file except in compliance with the License.
  * 
  *  Except as expressly set forth in this License, the Software is provided to
@@ -25,6 +25,7 @@ package opssat.simulator.tcp;
  *
  * @author Cezar Suteu
  */
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -37,7 +38,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Vector;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -75,8 +75,8 @@ public class MultiThreadedSocketServer extends Thread {
     this.listenURL = listenURL;
     this.parent = centralNode;
     this.listenPort = listenPort;
-    this.clientSockets = new LinkedList<ClientServiceThreadSender>();
-    this.hMapManualCommandsList = new HashMap<ClientServiceThreadSender, LinkedList<String>>();
+    this.clientSockets = new LinkedList<>();
+    this.hMapManualCommandsList = new HashMap<>();
 
   }
 
@@ -223,8 +223,8 @@ public class MultiThreadedSocketServer extends Thread {
       this.parent = parent;
       this.logger = parent.getLogger();
       logger.log(Level.FINE, "Created ClientServiceThreadReceiver");
-      toClient = new ConcurrentLinkedQueue<Object>();
-      listCommands = new LinkedList<String>();
+      toClient = new ConcurrentLinkedQueue<>();
+      listCommands = new LinkedList<>();
     }
 
     public void run() {
@@ -251,18 +251,13 @@ public class MultiThreadedSocketServer extends Thread {
           try {
             // read incoming stream
             clientCommand = in.readObject();
-          } catch (java.io.EOFException ex) {
-            logger.log(Level.INFO,
-                "Disconnected Client Address - " + myClientSocket.getInetAddress().getHostName());
-            m_bRunThread = false;
-          } catch (SocketException ex) {
+          } catch (EOFException | SocketException ex) {
             logger.log(Level.INFO,
                 "Disconnected Client Address - " + myClientSocket.getInetAddress().getHostName());
             m_bRunThread = false;
           }
-          if (clientCommand != null) {
+            if (clientCommand != null) {
             if (clientCommand instanceof Integer) {
-              ;
             } else {
               logger.log(Level.ALL, "Received data");
               if (clientCommand != null) {
@@ -355,7 +350,7 @@ public class MultiThreadedSocketServer extends Thread {
       this.parent = parent;
       this.logger = parent.getLogger();
       logger.log(Level.FINE, "Created ClientServiceThread");
-      toClient = new ConcurrentLinkedQueue<Object>();
+      toClient = new ConcurrentLinkedQueue<>();
       toClient.add("PWD:" + System.getProperty("user.dir"));
     }
 
@@ -387,7 +382,6 @@ public class MultiThreadedSocketServer extends Thread {
               out.writeObject(toClientObj);
             } catch (SocketException ex) {
               m_bRunThread = false;
-              ;
             }
           }
           if (!ServerOn) {
@@ -405,7 +399,6 @@ public class MultiThreadedSocketServer extends Thread {
           try {
             out.close();
           } catch (SocketException ex) {
-            ;
           }
           myClientSocket.close();
           logger.log(Level.FINE, "...Stopped");

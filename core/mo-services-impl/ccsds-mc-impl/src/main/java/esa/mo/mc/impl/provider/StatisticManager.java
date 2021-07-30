@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -89,16 +89,16 @@ public final class StatisticManager {
         this.parameterManager = parameterManager;
         this.externalStatFunctions = externalStatFunctions;
 
-        this.statFunctions = new HashMap<Long, StatisticFunctionDetails>();
-        this.statLinks = new HashMap<Long, StatisticCreationRequest>();
-        this.statEvaluationReports = new HashMap<Long, StatisticEvaluationReport>();
-        this.statLinkDefIdsByStatLinkIds = new HashMap<Long, Long>();
+        this.statFunctions = new HashMap<>();
+        this.statLinks = new HashMap<>();
+        this.statEvaluationReports = new HashMap<>();
+        this.statLinkDefIdsByStatLinkIds = new HashMap<>();
         this.dataSets = new DataSets();
 
         if (comServices != null) {  // Do we have COM services?
             if (comServices.getArchiveService() == null) {  // No Archive?
-                this.uniqueObjIdLink = new Long(0); // The zeroth value will not be used (reserved for the wildcard)
-                this.uniqueObjIdAIns = new Long(0); // The zeroth value will not be used (reserved for the wildcard)
+                this.uniqueObjIdLink = 0L; // The zeroth value will not be used (reserved for the wildcard)
+                this.uniqueObjIdAIns = 0L; // The zeroth value will not be used (reserved for the wildcard)
 //            this.load(); // Load the file
             } else {
 
@@ -106,10 +106,10 @@ public final class StatisticManager {
         }
 
         // Insert the default statistic functions requirements: 3.6.4.a, b, c, d, e
-        this.statFunctions.put(new Long(1), new StatisticFunctionDetails(new Identifier(STR_STAT_FUNC_NAME_MAXIMUM), ""));
-        this.statFunctions.put(new Long(2), new StatisticFunctionDetails(new Identifier(STR_STAT_FUNC_NAME_MINIMUM), ""));
-        this.statFunctions.put(new Long(3), new StatisticFunctionDetails(new Identifier(STR_STAT_FUNC_NAME_MEAN_AVERAGE), ""));
-        this.statFunctions.put(new Long(4), new StatisticFunctionDetails(new Identifier(STR_STAT_FUNC_NAME_STD_DEVIATION), ""));
+        this.statFunctions.put(1L, new StatisticFunctionDetails(new Identifier(STR_STAT_FUNC_NAME_MAXIMUM), ""));
+        this.statFunctions.put(2L, new StatisticFunctionDetails(new Identifier(STR_STAT_FUNC_NAME_MINIMUM), ""));
+        this.statFunctions.put(3L, new StatisticFunctionDetails(new Identifier(STR_STAT_FUNC_NAME_MEAN_AVERAGE), ""));
+        this.statFunctions.put(4L, new StatisticFunctionDetails(new Identifier(STR_STAT_FUNC_NAME_STD_DEVIATION), ""));
 
     }
 
@@ -193,9 +193,7 @@ public final class StatisticManager {
                     return objIds.get(0);
                 }
 
-            } catch (MALException ex) {
-                Logger.getLogger(StatisticManager.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
+            } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(StatisticManager.class.getName()).log(Level.SEVERE, null, ex);
             }
 
@@ -298,10 +296,7 @@ public final class StatisticManager {
 
                 newLinkDefId = linkDefIds.get(0);
 
-            } catch (MALException ex) {
-                Logger.getLogger(StatisticManager.class.getName()).log(Level.SEVERE, null, ex);
-                return null;
-            } catch (MALInteractionException ex) {
+            } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(StatisticManager.class.getName()).log(Level.SEVERE, null, ex);
                 return null;
             }
@@ -331,10 +326,7 @@ public final class StatisticManager {
                         null);
 
                 newLinkDefId = linkDefIds.get(0);
-            } catch (MALException ex) {
-                Logger.getLogger(StatisticManager.class.getName()).log(Level.SEVERE, null, ex);
-                return null;
-            } catch (MALInteractionException ex) {
+            } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(StatisticManager.class.getName()).log(Level.SEVERE, null, ex);
                 return null;
             }
@@ -493,7 +485,7 @@ public final class StatisticManager {
         //----------------------------------------------------------------
 
         //requirement: 3.6.3.j report double value
-        statValue.setValue((Attribute) HelperAttributes.javaType2Attribute(new Double(mean)));
+        statValue.setValue((Attribute) HelperAttributes.javaType2Attribute(mean));
         statValue.setValueTime(null); // StatisticValue structure: "Shall be NULL if not applicable for cases such as 'mean average'."
 
         return statValue;
@@ -533,7 +525,7 @@ public final class StatisticManager {
         variance = Math.sqrt(variance);
 
         //requirement: 3.6.3.k report double value
-        statValue.setValue((Attribute) HelperAttributes.javaType2Attribute(new Double(variance)));
+        statValue.setValue((Attribute) HelperAttributes.javaType2Attribute(variance));
         statValue.setValueTime(null); // StatisticValue structure: "Shall be NULL if not applicable for cases such as 'mean average'."
 
         return statValue;
@@ -577,8 +569,8 @@ public final class StatisticManager {
 
     public class DataSets {
 
-        private final HashMap<Long, AttributeValueList> dataSets = new HashMap<Long, AttributeValueList>();
-        private final HashMap<Long, TimeList> timeSets = new HashMap<Long, TimeList>();
+        private final HashMap<Long, AttributeValueList> dataSets = new HashMap<>();
+        private final HashMap<Long, TimeList> timeSets = new HashMap<>();
         private final Semaphore semaphore = new Semaphore(1);
 
         public void lock() {

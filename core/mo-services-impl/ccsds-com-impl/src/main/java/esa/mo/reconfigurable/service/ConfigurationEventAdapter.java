@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -135,7 +135,7 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
                 ObjectType objType = ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE;
 
                 ArchiveDetails archiveDetails = new ArchiveDetails();
-                archiveDetails.setInstId(new Long(0));
+                archiveDetails.setInstId(0L);
                 archiveDetails.setDetails(new ObjectDetails(updateHeaderList.get(i).getKey().getThirdSubKey(), null));  // Event objId
                 archiveDetails.setNetwork(msgHeader.getNetworkZone());
                 archiveDetails.setTimestamp(HelperTime.getTimestamp());
@@ -158,10 +158,7 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
 
                     // Publish event: Success with the objId of the Configuration stored
                     this.publishConfigurationStoredSuccess(objId, updateHeaderList.get(i).getKey().getThirdSubKey());
-                } catch (MALException ex) {
-                    // Publish event: Failure with the objId of the Configuration stored
-                    this.publishConfigurationStoredFailure(updateHeaderList.get(i).getKey().getThirdSubKey());  // Event objId
-                } catch (MALInteractionException ex) {
+                } catch (MALException | MALInteractionException ex) {
                     // Publish event: Failure with the objId of the Configuration stored
                     this.publishConfigurationStoredFailure(updateHeaderList.get(i).getKey().getThirdSubKey());  // Event objId
                 }

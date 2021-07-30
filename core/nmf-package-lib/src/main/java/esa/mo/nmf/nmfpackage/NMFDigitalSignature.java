@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -53,9 +53,7 @@ public class NMFDigitalSignature {
             keyGen.initialize(1024, random);
 
             return keyGen.generateKeyPair();
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(NMFDigitalSignature.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NoSuchProviderException ex) {
+        } catch (NoSuchAlgorithmException | NoSuchProviderException ex) {
             Logger.getLogger(NMFDigitalSignature.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -77,17 +75,9 @@ public class NMFDigitalSignature {
             bufin.close();
 
             return dsa.sign(); // Returns the signature
-        } catch (NoSuchAlgorithmException ex) {
+        } catch (NoSuchProviderException | SignatureException | FileNotFoundException | InvalidKeyException ex) {
             Logger.getLogger(NMFDigitalSignature.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NoSuchProviderException ex) {
-            Logger.getLogger(NMFDigitalSignature.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvalidKeyException ex) {
-            Logger.getLogger(NMFDigitalSignature.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(NMFDigitalSignature.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SignatureException ex) {
-            Logger.getLogger(NMFDigitalSignature.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+        } catch (NoSuchAlgorithmException | IOException ex) {
             Logger.getLogger(NMFDigitalSignature.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -121,17 +111,9 @@ public class NMFDigitalSignature {
             bufin.close();
 
             return sig.verify(signatureToVerify);
-        } catch (NoSuchAlgorithmException ex) {
+        } catch (NoSuchProviderException | FileNotFoundException | InvalidKeyException ex) {
             Logger.getLogger(NMFDigitalSignature.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NoSuchProviderException ex) {
-            Logger.getLogger(NMFDigitalSignature.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvalidKeyException ex) {
-            Logger.getLogger(NMFDigitalSignature.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(NMFDigitalSignature.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(NMFDigitalSignature.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SignatureException ex) {
+        } catch (NoSuchAlgorithmException | SignatureException | IOException ex) {
             Logger.getLogger(NMFDigitalSignature.class.getName()).log(Level.SEVERE, null, ex);
         }
 

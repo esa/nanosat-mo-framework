@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -98,7 +98,7 @@ public class PersistProviderConfiguration {
             objIds = new LongList(reconfigurableServices.size());
 
             for (int i = 0; i < reconfigurableServices.size(); i++) {
-                Long confObjId = new Long(i + 1);
+                Long confObjId = (long) (i + 1);
                 final PersistLatestServiceConfigurationAdapter persistLatestConfig
                         = new PersistLatestServiceConfigurationAdapter(reconfigurableServices.get(i), confObjId, this.archiveService, this.executor);
 
@@ -142,9 +142,7 @@ public class PersistProviderConfiguration {
                     details,
                     providerNameList,
                     null);
-        } catch (MALException ex) {
-            Logger.getLogger(PersistProviderConfiguration.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALInteractionException ex) {
+        } catch (MALException | MALInteractionException ex) {
             Logger.getLogger(PersistProviderConfiguration.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

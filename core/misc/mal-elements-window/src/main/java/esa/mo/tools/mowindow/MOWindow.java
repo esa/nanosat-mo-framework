@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -49,17 +49,31 @@ public final class MOWindow extends javax.swing.JDialog {
     /**
      * Creates new form MOWindow
      *
-     * @param obj
-     * @param editable
+     * @param obj MAL Object to visualise in the window.
+     * @param editable Should the object be editable.
      */
     public MOWindow(Object obj, boolean editable) {
+        this(obj, editable, null);
+    }
+    /**
+     * Creates new form MOWindow
+     *
+     * @param obj MAL Object to visualise in the window.
+     * @param editable Should the object be editable.
+     * @param title Title of the window. Will use class name if empty or null.
+     */
+    public MOWindow(Object obj, boolean editable, String title) {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setModal(true);
         componentsPanel.setLayout(new BoxLayout(componentsPanel, BoxLayout.PAGE_AXIS));
 
-        String className = obj.getClass().getSimpleName();
-        this.setTitle(className);  // Set Title
+        if (title != null && !title.trim().isEmpty()) {
+            this.setTitle(title);
+        } else {
+            String className = obj.getClass().getSimpleName();
+            this.setTitle(className);
+        }
         this.receivedObj = obj;
         this.editable = editable;
 
@@ -130,12 +144,7 @@ public final class MOWindow extends javax.swing.JDialog {
 
             }
 
-            java.awt.event.ActionListener actionListener = new java.awt.event.ActionListener() {
-                @Override
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    buttonAddActionPerformed(evt);
-                }
-            };
+            java.awt.event.ActionListener actionListener = this::buttonAddActionPerformed;
 
             MOelementListBlank moElementListBlank = new MOelementListBlank(actionListener, editable);
             componentsPanel.add(moElementListBlank);
@@ -295,11 +304,7 @@ public final class MOWindow extends javax.swing.JDialog {
         bottomPanel.setPreferredSize(new java.awt.Dimension(452, 40));
 
         button.setText("Submit");
-        button.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonActionPerformed(evt);
-            }
-        });
+        button.addActionListener(this::buttonActionPerformed);
 
         javax.swing.GroupLayout bottomPanelLayout = new javax.swing.GroupLayout(bottomPanel);
         bottomPanel.setLayout(bottomPanelLayout);
@@ -403,21 +408,13 @@ public final class MOWindow extends javax.swing.JDialog {
                             fields[i + 6].set(this.receivedObj, fieldUnion.get(object));
                         }
 
-                    } catch (NoSuchFieldException ex1) {
-                        Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex1);
-                    } catch (SecurityException ex1) {
-                        Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex1);
-                    } catch (IllegalArgumentException ex1) {
-                        Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex1);
-                    } catch (IllegalAccessException ex1) {
+                    } catch (NoSuchFieldException | IllegalAccessException | IllegalArgumentException | SecurityException ex1) {
                         Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex1);
                     }
                 } else {
                     try {
                         fields[i + 6].set(this.receivedObj, object);
-                    } catch (IllegalArgumentException ex) {
-                        Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (IllegalAccessException ex) {
+                    } catch (IllegalArgumentException | IllegalAccessException ex) {
                         Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }

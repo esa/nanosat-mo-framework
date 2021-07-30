@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -70,7 +70,7 @@ public class ReceiptVersion1 {
         }
 
         final NMFPackageDetails details = new NMFPackageDetails(name, 
-                version, timestamp, "");
+                version, timestamp, "", "96m");
         final NMFPackageDescriptor descriptor = new NMFPackageDescriptor(details);
         String path;
         long crc;
@@ -110,7 +110,7 @@ public class ReceiptVersion1 {
         for (NMFPackageFile f : descriptor.getFiles()) {
             bw.write(FILE_PATH + f.getPath());
             bw.newLine();
-            bw.write(FILE_CRC + String.valueOf(f.getCRC()));
+            bw.write(FILE_CRC + f.getCRC());
             bw.newLine();
         }
     }

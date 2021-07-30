@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -88,7 +88,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
     private final Dictionary dictionary = new Dictionary();
 
-    private final HashMap<Long, Dispatcher> dispatchers = new HashMap<Long, Dispatcher>();
+    private final HashMap<Long, Dispatcher> dispatchers = new HashMap<>();
 
     private final ExecutorService executor = Executors.newCachedThreadPool();
 
@@ -104,7 +104,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
     private FineTime latestSync;
 
-    private Quota quota;
+    private Quota stdQuota;
 
     public ArchiveSyncProviderServiceImpl(SingleConnectionDetails connectionToArchiveService)
     {
@@ -121,11 +121,8 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
                                                           authenticationId,
                                                           localNamePrefix);
         }
-        catch (MALException ex)
-        {
-            Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (MalformedURLException ex)
+        catch (MALException | MalformedURLException ex)
+
         {
             Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -137,9 +134,9 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
      * @param quota The same Quota object that is passed to the AppsLauncherProviderServiceImpl using its setStdPerApp
      *              method.
      */
-    public void setQuota(Quota quota)
+    public void setStdQuota(Quota quota)
     {
-        this.quota = quota;
+        this.stdQuota = quota;
     }
 
     /**
@@ -249,7 +246,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
             archiveQuery.setDomain(null);
             archiveQuery.setNetwork(null);
             archiveQuery.setProvider(null);
-            archiveQuery.setRelated(new Long(0));
+            archiveQuery.setRelated(0L);
             archiveQuery.setSource(null);
             archiveQuery.setSortFieldName(null);
 
@@ -356,14 +353,16 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
     {
 
         // A temporary queue to hold the objects that were queried
-        private final LinkedBlockingQueue<COMObjectEntity> tempQueue = new LinkedBlockingQueue<COMObjectEntity>();
+        private final LinkedBlockingQueue<COMObjectEntity> tempQueue = new LinkedBlockingQueue<>();
+
 
         private final RetrieveRangeInteraction interaction;
 
         // These chunks are already compressed!
-        private final ArrayList<byte[]> chunksFlushed = new ArrayList<byte[]>();
+        private final ArrayList<byte[]> chunksFlushed = new ArrayList<>();
 
-        private final LinkedBlockingQueue<byte[]> dataToFlush = new LinkedBlockingQueue<byte[]>();
+        private final LinkedBlockingQueue<byte[]> dataToFlush = new LinkedBlockingQueue<>();
+
 
         private int chunkSize = 200;
 
@@ -390,7 +389,6 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
                 try
                 {
                     int chunkSizePramInt = Integer.parseInt(chunkSizeParam);
-
                     this.chunkSize = chunkSizePramInt;
                 }
                 catch (NumberFormatException e)
@@ -518,11 +516,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
             {
                 interaction.sendUpdate(new Blob(aChunk), new UInteger(index));
             }
-            catch (MALInteractionException ex)
-            {
-                Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            catch (MALException ex)
+            catch (MALInteractionException | MALException ex)
             {
                 Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -664,7 +658,9 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
                 {
                     return;
                 }
-                HashSet<Long> clearedIds = new HashSet<Long>();
+                
+                HashSet<Long> clearedIds = new HashSet<>();
+
                 if (objDetails != null)
                 {
                     queryResults.addAll(objDetails);
@@ -684,20 +680,13 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
                 {
                     Thread.sleep(1000);
                     LongList deleted = archive.getArchiveStub().delete(type, domain, objInstIds);
-                    if (quota != null)
+
+                    if (stdQuota != null)
                     {
-                        quota.clean(clearedIds);
+                        stdQuota.clean(clearedIds);
                     }
                 }
-                catch (MALInteractionException ex)
-                {
-                    Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                catch (MALException ex)
-                {
-                    Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                catch (InterruptedException ex)
+                catch (MALInteractionException | InterruptedException | MALException ex)
                 {
                     Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }

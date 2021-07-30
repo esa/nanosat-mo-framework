@@ -7,7 +7,7 @@
  *  ----------------------------------------------------------------------------
  *  System                : ESA NanoSat MO Framework
  *  ----------------------------------------------------------------------------
- *  Licensed under the European Space Agency Public License, Version 2.0
+ *  Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  *  You may not use this file except in compliance with the License.
  * 
  *  Except as expressly set forth in this License, the Software is provided to
@@ -92,8 +92,8 @@ public class GuiApp {
     ConsoleHandler consoleHandler = (new ConsoleHandler());
     consoleHandler.setFormatter(new LoggerFormatter1Line(GuiMainWindow.class.getName()));
     logger.addHandler(consoleHandler);
-    fromServerQueue = new ConcurrentLinkedQueue<Object>();
-    toServerQueue = new ConcurrentLinkedQueue<Object>();
+    fromServerQueue = new ConcurrentLinkedQueue<>();
+    toServerQueue = new ConcurrentLinkedQueue<>();
     this.targetURL = targetURL;
     this.targetPort = targetPort;
     guiMainWindow = new GuiMainWindow(this, targetURL, targetPort);

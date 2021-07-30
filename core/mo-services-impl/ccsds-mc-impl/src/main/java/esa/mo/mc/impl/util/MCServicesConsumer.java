@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -114,11 +114,7 @@ public class MCServicesConsumer {
             if (details != null) {
                 aggregationService = new AggregationConsumerServiceImpl(details, comServices, authenticationId, localNamePrefix);
             }
-        } catch (MALException ex) {
-            Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALInteractionException ex) {
+        } catch (MALException | MALInteractionException | MalformedURLException ex) {
             Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -192,27 +188,27 @@ public class MCServicesConsumer {
      */
     public void closeConnections() {
         if (this.actionService != null) {
-            this.actionService.closeConnection();
+            this.actionService.close();
         }
 
         if (this.parameterService != null) {
-            this.parameterService.closeConnection();
+            this.parameterService.close();
         }
 
         if (this.alertService != null) {
-            this.alertService.closeConnection();
+            this.alertService.close();
         }
 
         if (this.checkService != null) {
-            this.checkService.closeConnection();
+            this.checkService.close();
         }
 
         if (this.statisticService != null) {
-            this.statisticService.closeConnection();
+            this.statisticService.close();
         }
 
         if (this.aggregationService != null) {
-            this.aggregationService.closeConnection();
+            this.aggregationService.close();
         }
     }
 

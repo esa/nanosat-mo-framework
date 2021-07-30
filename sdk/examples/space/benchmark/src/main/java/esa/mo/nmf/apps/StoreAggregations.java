@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -60,7 +60,7 @@ public class StoreAggregations {
             AggregationParameterSet aa = new AggregationParameterSet();
             aa.setDomain(null);
             LongList lissssst = new LongList();
-            lissssst.add(new Long(65));
+            lissssst.add(65L);
             aa.setParameters(lissssst);
             aa.setSampleInterval(new Duration(43));
             aa.setReportFilter(null);
@@ -127,9 +127,7 @@ public class StoreAggregations {
 
                 }
 
-            } catch (MALException ex) {
-                Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
+            } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
             long estimatedTime = System.nanoTime() - startTime;

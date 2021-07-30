@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -251,7 +251,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton
       final CameraSettings settings, MALInteraction interaction) throws MALInteractionException,
       MALException
   {
-    if (enable == false) {
+    if (!enable) {
       cameraInUse = false;
       publishTimer.stopLast();
     } else {
@@ -285,18 +285,13 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton
       int period = (int) (streamingRate.getValue() * 1000); // In milliseconds
 
       //publishTimer = new TaskScheduler(1);
-      publishTimer.scheduleTask(new Thread()
-      {
-        @Override
-        public void run()
-        {
-          if (running) {
-            if (cameraInUse) {
-              streamPicturesUpdate(firstEntityKey, settings);
-            }
+      publishTimer.scheduleTask(new Thread(() -> {
+        if (running) {
+          if (cameraInUse) {
+            streamPicturesUpdate(firstEntityKey, settings);
           }
         }
-      }, period, period, TimeUnit.MILLISECONDS, true);
+      }), period, period, TimeUnit.MILLISECONDS, true);
     }
   }
 

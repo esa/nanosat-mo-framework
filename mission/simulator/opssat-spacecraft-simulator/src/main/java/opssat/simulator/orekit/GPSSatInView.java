@@ -7,7 +7,7 @@
  *  ----------------------------------------------------------------------------
  *  System                : ESA NanoSat MO Framework
  *  ----------------------------------------------------------------------------
- *  Licensed under the European Space Agency Public License, Version 2.0
+ *  Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  *  You may not use this file except in compliance with the License.
  * 
  *  Except as expressly set forth in this License, the Software is provided to
@@ -64,7 +64,7 @@ public class GPSSatInView {
         this.distance = distance;
         String prn = name.substring(name.indexOf("(")+1,name.indexOf(")"));
         String[] prnWords=prn.split(" ");
-        this.prn=Integer.valueOf(prnWords[1]);
+        this.prn=Integer.parseInt(prnWords[1]);
     }
 
     public String getName() {

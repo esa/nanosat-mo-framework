@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -31,7 +31,6 @@ public class InstrumentsSimulator {
     private final Orbit darkDusk;
     private final GPS gps;
     private final FineADCS fineADCS;
-    private final Camera camera;
     private int mode = 0;
     private double temperature = 0;
     private byte[] picture = null;
@@ -47,7 +46,6 @@ public class InstrumentsSimulator {
         this.darkDusk = new Orbit ( 7021, 98.05*(Math.PI/180), (340)*(Math.PI/180), (0)*(Math.PI/180), 0);
         
         this.gps = new GPS(darkDusk);
-        this.camera = new Camera();
         this.fineADCS = new FineADCS(darkDusk);
            
     }
@@ -98,18 +96,6 @@ public class InstrumentsSimulator {
 
     public double getTemperature(){
         return this.temperature;
-    }
-
-    public Boolean takePicture(int seconds){
-        
-        this.picture = this.camera.takePicture(seconds);
-
-        return (this.picture != null);
-    }
-    
-    public byte[] getPicture (){
-        this.picture = this.camera.takePicture(0);
-        return this.picture;
     }
 
 }

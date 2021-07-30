@@ -7,7 +7,7 @@
  *  ----------------------------------------------------------------------------
  *  System                : ESA NanoSat MO Framework
  *  ----------------------------------------------------------------------------
- *  Licensed under the European Space Agency Public License, Version 2.0
+ *  Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  *  You may not use this file except in compliance with the License.
  * 
  *  Except as expressly set forth in this License, the Software is provided to
@@ -51,8 +51,8 @@ public class CentralNode extends TaskNode {
   public CentralNode(ConcurrentLinkedQueue<Object> queueIn, ConcurrentLinkedQueue<Object> queueOut,
       String name, int delay, Level logLevel, Level consoleLogLevel, ESASimulator sim) {
     super(queueIn, queueOut, name, delay, logLevel, consoleLogLevel);
-    this.qFromGUI = new ConcurrentLinkedQueue<Object>();
-    this.qToCelestia = new ConcurrentLinkedQueue<Object>();
+    this.qFromGUI = new ConcurrentLinkedQueue<>();
+    this.qToCelestia = new ConcurrentLinkedQueue<>();
     this.parent = sim;
   }
 
@@ -69,8 +69,8 @@ public class CentralNode extends TaskNode {
       String listenURL, String name, int delay, Level logLevel, Level consoleLogLevel,
       ESASimulator sim) {
     super(queueIn, queueOut, name, delay, logLevel, consoleLogLevel);
-    this.qFromGUI = new ConcurrentLinkedQueue<Object>();
-    this.qToCelestia = new ConcurrentLinkedQueue<Object>();
+    this.qFromGUI = new ConcurrentLinkedQueue<>();
+    this.qToCelestia = new ConcurrentLinkedQueue<>();
     super.getLogObject().log(Level.FINE, "Creating listener on URL [" + listenURL + "]..");
     this.multiThreadedSocketServer = new MultiThreadedSocketServer(listenURL, this,
         MultiThreadedSocketServer.DEFAULT_SOCKET_PORT, super.getLogObject());
@@ -91,7 +91,6 @@ public class CentralNode extends TaskNode {
     if (obj instanceof CelestiaData && this.celestiaInterfaceServer != null) {
       this.celestiaInterfaceServer.putDataInBuffer(obj);
     } else if (this.multiThreadedSocketServer == null) {
-      ;
     } else {
       if (obj instanceof SimulatorHeader && !this.celestiaInitDone) {
         SimulatorHeader centralHeader = (SimulatorHeader) obj;
@@ -108,7 +107,6 @@ public class CentralNode extends TaskNode {
 
   @Override
   void coreRun() {
-    ;
   }
 
   @Override

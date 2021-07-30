@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Licensed under the European Space Agency Public License, Version 2.0
+    Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
     You may not use this file except in compliance with the License.
 
     Except as expressly set forth in this License, the Software is provided to
@@ -15,7 +15,7 @@
   <parent>
     <groupId>int.esa.nmf</groupId>
     <artifactId>parent</artifactId>
-    <version>2.0.0-SNAPSHOT</version>
+    <version>2.1.0-SNAPSHOT</version>
     <relativePath>../../parent/pom.xml</relativePath>
   </parent>
   <groupId>int.esa.nmf.core.moservices</groupId>
@@ -30,7 +30,7 @@
   </organization>
   <licenses>
     <license>
-      <name>The European Space Agency Public License, Version 2.0</name>
+      <name>European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4</name>
       <url>https://raw.github.com/esa/nanosat-mo-framework/master/LICENCE.md</url>
       <distribution>repo</distribution>
       <comments>This license only applies to the POM file. The XML/Schema files are owned by CCSDS.</comments>
@@ -53,12 +53,6 @@
     <resources>
       <resource>
         <directory>src/main/resources</directory>
-      </resource>
-      <resource>
-        <directory>${basedir}/..</directory>
-        <includes>
-          <include>LICENCE.md</include>
-        </includes>
       </resource>
     </resources>
     <plugins>

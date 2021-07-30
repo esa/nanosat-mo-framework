@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -59,9 +59,7 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame
     try {
       // Set cross-platform Java L&F (also called "Metal")
       UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-    } catch (UnsupportedLookAndFeelException e) {
-    } catch (ClassNotFoundException e) {
-    } catch (InstantiationException e) {
+    } catch (UnsupportedLookAndFeelException | InstantiationException | ClassNotFoundException e) {
     } catch (IllegalAccessException e) {
       // handle exception
     }
@@ -70,14 +68,7 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame
     final ConsumerTestToolGUI gui = new ConsumerTestToolGUI(name);
     gui.insertDirectoryServiceTab("");
 
-    EventQueue.invokeLater(new Runnable()
-    {
-      @Override
-      public void run()
-      {
-        gui.setVisible(true);
-      }
-    });
+    EventQueue.invokeLater(() -> gui.setVisible(true));
   }
 
   /**

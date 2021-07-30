@@ -33,7 +33,7 @@ import org.ccsds.moims.mo.mc.check.structures.CheckResult;
 public class CheckLinkEvaluation {
 
     public CheckLinkEvaluation(CheckResult lastCheckResult) {
-        this.evaluationResults = new ArrayList<EvaluationResult>();
+        this.evaluationResults = new ArrayList<>();
         this.lastCheckResult = lastCheckResult;
         this.lastCheckResultTime = new Time(System.currentTimeMillis());
     }
@@ -43,7 +43,7 @@ public class CheckLinkEvaluation {
     private Time lastCheckResultTime;
     private int refValueCounter;
     private Attribute refParamValue;
-    HashMap<Long, Attribute> sampleTimes = new HashMap<Long, Attribute>();
+    HashMap<Long, Attribute> sampleTimes = new HashMap<>();
 
     public Time getLastCheckResultTime() {
         return lastCheckResultTime;

@@ -45,8 +45,8 @@ class CheckLinksManager extends MCManager {
     public CheckLinksManager(COMServicesProvider comServices) {
         super(comServices);
 //        this.checkIdentityDefIds = new HashMap<Long, Long>();
-        this.checkLinkDetails = new HashMap<Long, CheckLinkDetails>();
-        this.checkLinkIds = new HashMap<Long, Long>();
+        this.checkLinkDetails = new HashMap<>();
+        this.checkLinkIds = new HashMap<>();
         this.checkLinkLinks = new HashMap<Long, ObjectDetails>();
     }
 

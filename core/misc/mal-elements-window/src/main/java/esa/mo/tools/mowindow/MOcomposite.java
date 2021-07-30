@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -36,18 +36,13 @@ public class MOcomposite extends MOelement{
         
         // Make a button and put it in the middle Panel
         button = new javax.swing.JToggleButton();
-        button.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonActionPerformed(evt);
-            }
-        });
+        button.addActionListener(this::buttonActionPerformed);
         
         super.middlePanel.add(button);
 
         
         // Set the text
-        if (editable == true) {
+        if (editable) {
             this.button.setText("Edit");
         } else {
             this.button.setText("View");
@@ -80,7 +75,7 @@ public class MOcomposite extends MOelement{
         }
 
         // Set text
-        if (editable == true) {
+        if (editable) {
             this.button.setText("Edit");
         }
         

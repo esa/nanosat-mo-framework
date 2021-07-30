@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -149,11 +149,7 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
                 checkLinkMonitorManager = new CheckLinkMonitorManager(eventServiceConsumer.getEventStub(), manager);
             }
 
-        } catch (MALException ex) {
-            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MalformedURLException ex) {
+        } catch (MALException | MalformedURLException | MALInteractionException ex) {
             Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -956,7 +952,7 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
         private boolean active = false; // Flag that determines if the Manager is on or off
 
         public PeriodicCheckingManager() {
-            sampleTimerList = new HashMap<Long, TaskScheduler>();
+            sampleTimerList = new HashMap<>();
 
         }
 
@@ -1025,22 +1021,20 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
 
         private void startTimer(final Long checkLinkId, Duration interval) {  // requirement: 3.7.2.11
 
-            sampleTimerList.get(checkLinkId).scheduleTask(new Thread() {
-                @Override
-                public void run() { // Periodic Checking
-                    if (active) {
-                        try {
-                            final ObjectId paramId = manager.getCheckLinkLinks(checkLinkId).getSource();
-                            //todo: the source link should be the ObjectId-of the parameterValue
-                            manager.executeCheck(checkLinkId,
-                                    paramId == null ? null : parameterManager.getParameterValue(manager.getCheckLinkLinks(checkLinkId).getSource().getKey().getInstId()),
-                                    false, false, null);
-                        } catch (MALInteractionException ex) {
-                            Logger.getLogger(CheckProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                        }
+            // the time has to be converted to milliseconds by multiplying by 1000
+            sampleTimerList.get(checkLinkId).scheduleTask(new Thread(() -> { // Periodic Checking
+                if (active) {
+                    try {
+                        final ObjectId paramId = manager.getCheckLinkLinks(checkLinkId).getSource();
+                        //todo: the source link should be the ObjectId-of the parameterValue
+                        manager.executeCheck(checkLinkId,
+                                paramId == null ? null : parameterManager.getParameterValue(manager.getCheckLinkLinks(checkLinkId).getSource().getKey().getInstId()),
+                                false, false, null);
+                    } catch (MALInteractionException ex) {
+                        Logger.getLogger(CheckProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                } // the time has to be converted to milliseconds by multiplying by 1000
-            }, 0, (int) (interval.getValue() * 1000), TimeUnit.MILLISECONDS, true); // requirement: 3.6.2.g
+                }
+            }), 0, (int) (interval.getValue() * 1000), TimeUnit.MILLISECONDS, true); // requirement: 3.6.2.g
         }
 
         private void stopTimer(Long objId) {
@@ -1055,7 +1049,7 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
         private boolean active = false; // Flag that determines if the Manager is on or off
 
         public PeriodicReportingMaxManager() {
-            updateTimerList = new HashMap<Long, TaskScheduler>();
+            updateTimerList = new HashMap<>();
         }
 
         public void refreshAll() {
@@ -1117,20 +1111,17 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
         }
 
         private void startUpdatesTimer(final Long checkLinkId, final Duration interval) {
-            updateTimerList.get(checkLinkId).scheduleTask(new Thread() {
-
-                @Override
-                public void run() {
-                    try {
-                        //paramId is null for compound check
-                        final ObjectId paramSource = manager.getCheckLinkLinks(checkLinkId).getSource();
-                        //requirement: 3.5.4.m -> Source Object = null
-                        manager.executeCheck(checkLinkId, paramSource == null ? null : parameterManager.getParameterValue(paramSource.getKey().getInstId()), false, true, null);
-                    } catch (MALInteractionException ex) {
-                        Logger.getLogger(CheckProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                } // the time is being converted to milliseconds by multiplying by 1000  (starting delay included)
-            }, (int) (interval.getValue() * 1000), (int) (interval.getValue() * 1000), TimeUnit.MILLISECONDS,
+            // the time is being converted to milliseconds by multiplying by 1000  (starting delay included)
+            updateTimerList.get(checkLinkId).scheduleTask(new Thread(() -> {
+                try {
+                    //paramId is null for compound check
+                    final ObjectId paramSource = manager.getCheckLinkLinks(checkLinkId).getSource();
+                    //requirement: 3.5.4.m -> Source Object = null
+                    manager.executeCheck(checkLinkId, paramSource == null ? null : parameterManager.getParameterValue(paramSource.getKey().getInstId()), false, true, null);
+                } catch (MALInteractionException ex) {
+                    Logger.getLogger(CheckProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }), (int) (interval.getValue() * 1000), (int) (interval.getValue() * 1000), TimeUnit.MILLISECONDS,
             true); // requirement: 3.5.3.ff
         }
 

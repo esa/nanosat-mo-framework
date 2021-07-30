@@ -7,7 +7,7 @@
  *  ----------------------------------------------------------------------------
  *  System                : ESA NanoSat MO Framework
  *  ----------------------------------------------------------------------------
- *  Licensed under the European Space Agency Public License, Version 2.0
+ *  Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  *  You may not use this file except in compliance with the License.
  * 
  *  Except as expressly set forth in this License, the Software is provided to
@@ -138,7 +138,7 @@ public class SFTPBrowser extends JFrame implements Comparator<ChannelSftp.LsEntr
           String folder = (String) table.getValueAt(row, 0);
           sb.append("/").append(folder);
           tfName.setText(sb.toString());
-          Timer timer = new Timer(timerinterval.intValue(), new ActionListener() {
+          Timer timer = new Timer(timerinterval, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
               if (doubleClick) {
@@ -166,12 +166,9 @@ public class SFTPBrowser extends JFrame implements Comparator<ChannelSftp.LsEntr
     tfName.setColumns(10);
 
     JButton btnSubmit = new JButton("Select");
-    btnSubmit.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent arg0) {
-        mainGui.setPathFromSFTP(sb.toString());
-        SFTPBrowser.this.dispose();
-      }
+    btnSubmit.addActionListener(arg0 -> {
+      mainGui.setPathFromSFTP(sb.toString());
+      SFTPBrowser.this.dispose();
     });
     springLayout.putConstraint(SpringLayout.NORTH, btnSubmit, 5, SpringLayout.SOUTH, tfName);
     springLayout.putConstraint(SpringLayout.EAST, btnSubmit, 0, SpringLayout.EAST, scrollPane);
@@ -204,8 +201,7 @@ public class SFTPBrowser extends JFrame implements Comparator<ChannelSftp.LsEntr
         predicate = x -> x.getAttrs().isDir();
       }
       List<ChannelSftp.LsEntry> filteredFiles = files.stream().filter(predicate)
-          .collect(Collectors.toList());
-      Collections.sort(filteredFiles, (Comparator<ChannelSftp.LsEntry>) this);
+              .sorted((Comparator<ChannelSftp.LsEntry>) this).collect(Collectors.toList());
       for (ChannelSftp.LsEntry e : filteredFiles) {
         String key = e.getFilename();
         dtm.addRow(new String[] { key });

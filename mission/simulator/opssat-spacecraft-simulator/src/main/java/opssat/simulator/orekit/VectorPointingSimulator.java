@@ -7,7 +7,7 @@
  *  ----------------------------------------------------------------------------
  *  System                : ESA NanoSat MO Framework
  *  ----------------------------------------------------------------------------
- *  Licensed under the European Space Agency Public License, Version 2.0
+ *  Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  *  You may not use this file except in compliance with the License.
  *
  *  Except as expressly set forth in this License, the Software is provided to
@@ -41,7 +41,7 @@ import org.orekit.utils.PVCoordinatesProvider;
 /**
  * for more information see AutonomousADCSOPSSATAdapter VectorPointing Mode in NMF-OPSSAT
  *
- * @author Kevin Otto <Kevin@KevinOtto.de>
+ * @author Kevin Otto
  */
 public class VectorPointingSimulator implements AttitudeProvider
 {

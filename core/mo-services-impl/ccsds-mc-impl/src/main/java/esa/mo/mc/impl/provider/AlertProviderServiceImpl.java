@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -586,9 +586,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
 //            InstanceBooleanPairList ids = new InstanceBooleanPairList();
 //            ids.add(new InstanceBooleanPair(identityId, true));
 //            this.enableGeneration(true, ids, interaction); // Enable the reporting for this Alert Definition
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(AlertProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AlertProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return identityId;

@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -20,6 +20,7 @@
  */
 package esa.mo.platform.impl.provider.gen;
 
+import esa.mo.helpertools.misc.Const;
 import esa.mo.platform.impl.util.HelperGPS;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -34,33 +35,49 @@ import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
 public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface
 {
   private static final Logger LOGGER = Logger.getLogger(GPSNMEAonlyAdapter.class.getName());
+  private final int resultCacheValidityMs;
+
+  private Position lastPosition = null;
+  private SatelliteInfoList lastSatInfo = null;
+  private long lastPositionTime = 0;
+  private long lastSatInfoTime = 0;
+
+
+  public GPSNMEAonlyAdapter()
+  {
+    resultCacheValidityMs = Integer.valueOf(System.getProperty(Const.PLATFORM_GNSS_CACHING_PERIOD, "1000"));
+  }
 
   @Override
-  public Position getCurrentPosition()
+  public synchronized Position getCurrentPosition()
   {
+    if (System.currentTimeMillis() - lastPositionTime < resultCacheValidityMs)
+      return lastPosition;
     String nmeaLog = "";
     try {
-      nmeaLog = HelperGPS.sanitizeNMEALog(this.getNMEASentence("LOG GPGGALONG\r\n").trim());
+      lastPosition = null;
+      String fullNmeaResponse = this.getNMEASentence("LOG GPGGALONG\r\n");
+      nmeaLog = HelperGPS.sanitizeNMEALog(fullNmeaResponse.trim());
       if (!nmeaLog.startsWith("$GPGGA")) {
         LOGGER.log(Level.SEVERE, "Unexpected response format: {0}", nmeaLog);
       } else {
-        return HelperGPS.gpggalong2Position(nmeaLog);
+        lastPosition = HelperGPS.gpggalong2Position(nmeaLog);
       }
-    } catch (NumberFormatException ex1) {
-      LOGGER.log(Level.SEVERE,
-          "Number format exception! The gpggalong string is: " + nmeaLog, ex1);
     } catch (IOException ex) {
-      LOGGER.log(Level.SEVERE,
-          "The current position could not be retrieved!", ex);
+      LOGGER.log(Level.FINE,
+          "The current position could not be retrieved! The receiver is likely offline or not returning proper position.", ex);
     }
-
-    return null;
+    lastPositionTime = System.currentTimeMillis();
+    return lastPosition;
   }
 
   @Override
   public SatelliteInfoList getSatelliteInfoList()
   {
+    if (System.currentTimeMillis() - lastSatInfoTime < resultCacheValidityMs)
+      return lastSatInfo;
     try {
+      lastSatInfo = null;
       String nmeaLog = HelperGPS.sanitizeNMEALog(this.getNMEASentence("LOG GPGSV\r\n").trim());
       if (!nmeaLog.startsWith("$GPGSV")) {
         LOGGER.log(Level.SEVERE, "Unexpected response format: {0}", nmeaLog);
@@ -70,8 +87,8 @@ public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface
     } catch (IOException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
     }
-
-    return null;
+    lastSatInfoTime = System.currentTimeMillis();
+    return lastSatInfo;
   }
 
   @Override

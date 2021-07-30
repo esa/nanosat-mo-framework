@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -22,7 +22,6 @@ package esa.mo.helpertools.connections;
 
 import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
-import java.security.SecureRandom;
 import java.util.Properties;
 import java.util.Random;
 import org.ccsds.moims.mo.mal.MALContext;
@@ -338,7 +337,7 @@ public class ConnectionConsumer {
      */
     public static Subscription subscriptionWildcardRandom() {
         final Random random = new Random();
-        final Identifier subscriptionId = new Identifier("SUB" + Integer.toString(random.nextInt()));
+        final Identifier subscriptionId = new Identifier("SUB" + random.nextInt());
         return ConnectionConsumer.subscriptionWildcard(subscriptionId);
     }
 

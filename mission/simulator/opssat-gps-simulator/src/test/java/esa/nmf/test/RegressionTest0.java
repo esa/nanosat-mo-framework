@@ -43,15 +43,6 @@ public class RegressionTest0 {
     }
 
     @Test
-    public void test4() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest0.test4");
-        opssat.simulator.Camera camera0 = new opssat.simulator.Camera();
-        byte[] byteArray2 = camera0.takePicture(0.0f);
-        org.junit.Assert.assertNull(byteArray2);
-    }
-
-    @Test
     public void test5() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test5");
@@ -70,14 +61,5 @@ public class RegressionTest0 {
         java.util.Date date8 = null;
         opssat.simulator.Orbit.OrbitParameters orbitParameters9 = new opssat.simulator.Orbit.OrbitParameters((double) 'a', (double) 7, (double) 6, vector6, date8);
         org.junit.Assert.assertTrue("'" + double7 + "' != '" + 10.0d + "'", double7 == 10.0d);
-    }
-
-    @Test
-    public void test7() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest0.test7");
-        opssat.simulator.InstrumentsSimulator instrumentsSimulator0 = new opssat.simulator.InstrumentsSimulator();
-        java.lang.Boolean boolean2 = instrumentsSimulator0.takePicture((int) (short) 100);
-        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + false + "'", boolean2.equals(false));
     }
 }

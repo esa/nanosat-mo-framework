@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -82,16 +82,16 @@ public final class AggregationManager extends MCManager {
         super(comServices);
         this.parameterManager = parameterManager;
 
-        this.isFilterTriggered = new HashMap<Long, Boolean>();
-        this.periodicAggregationValuesLast = new HashMap<Long, AggregationValue>();
-        this.periodicAggregationValuesCurrent = new HashMap<Long, AggregationValue>();
-        this.latestSampleTimeList = new HashMap<Long, TimeList>();
-        this.sampleCountList = new HashMap<Long, ArrayList<Integer>>();
+        this.isFilterTriggered = new HashMap<>();
+        this.periodicAggregationValuesLast = new HashMap<>();
+        this.periodicAggregationValuesCurrent = new HashMap<>();
+        this.latestSampleTimeList = new HashMap<>();
+        this.sampleCountList = new HashMap<>();
 
         if (super.getArchiveService() == null) {  // No Archive?
-            this.uniqueObjIdIdentity = new Long(0); // The zeroth value will not be used (reserved for the wildcard)
-            this.uniqueObjIdDef = new Long(0); // The zeroth value will not be used (reserved for the wildcard)
-            this.uniqueObjIdAVal = new Long(0); // The zeroth value will not be used (reserved for the wildcard)
+            this.uniqueObjIdIdentity = 0L; // The zeroth value will not be used (reserved for the wildcard)
+            this.uniqueObjIdDef = 0L; // The zeroth value will not be used (reserved for the wildcard)
+            this.uniqueObjIdAVal = 0L; // The zeroth value will not be used (reserved for the wildcard)
         }
     }
 
@@ -114,7 +114,7 @@ public final class AggregationManager extends MCManager {
             //initialize timList with the amount of parameterSets
             //final int parameterSetsCount = getAggregationDefinition(identityId).getParameterSets().size();
             latestSampleTimeList.put(identityId, new TimeList());
-            sampleCountList.put(identityId, new ArrayList<Integer>());
+            sampleCountList.put(identityId, new ArrayList<>());
 
             this.populateAggregationValues(identityId);
         }
@@ -217,9 +217,7 @@ public final class AggregationManager extends MCManager {
                 if (objIds.size() == 1) {
                     return objIds.get(0);
                 }
-            } catch (MALException ex) {
-                Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
+            } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
 
@@ -814,10 +812,7 @@ public final class AggregationManager extends MCManager {
                 //add to providers local list
                 newIdPair = new ObjectInstancePair(identityId, defIds.get(0));
 
-            } catch (MALException ex) {
-                Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-                return null;
-            } catch (MALInteractionException ex) {
+            } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
                 return null;
             }
@@ -866,9 +861,7 @@ public final class AggregationManager extends MCManager {
                         null);
 
                 newDefId = defIds.get(0);
-            } catch (MALException ex) {
-                Logger.getLogger(AggregationManager.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
+            } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(AggregationManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

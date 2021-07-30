@@ -291,8 +291,8 @@
           <mal:field canBeNull="false" comment="The command line passed to the executing shell instance." name="command">
             <mal:type area="MAL" list="false" name="String"/>
           </mal:field>
-          <mal:field canBeNull="true" comment="Assigned Process ID of the spawned shell instance. Shall be NULL if the execution has not started yet." name="pid">
-            <mal:type area="MAL" list="false" name="UInteger"/>
+          <mal:field canBeNull="true" comment="Assigned Process ID of the spawned shell instance. Shall be NULL if the execution has not started yet. -1 if the PID cannot be determined." name="pid">
+            <mal:type area="MAL" list="false" name="Long"/>
           </mal:field>
           <mal:field canBeNull="true" comment="Exit code of the command. Shall be NULL if the execution has not completed yet." name="exitCode">
             <mal:type area="MAL" list="false" name="Integer"/>

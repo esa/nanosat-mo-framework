@@ -27,7 +27,7 @@ In short, you will need to: clone a repository, change some configuration files,
      <isExp>true</isExp>
      <expId>000</expId>
      <expApid>1024</expApid>
-     <expVersion>2.0.0-SNAPSHOT</expVersion>
+     <expVersion>2.1.0-SNAPSHOT</expVersion>
    </properties>
    <dependencies>
      <dependency>
@@ -37,11 +37,33 @@ In short, you will need to: clone a repository, change some configuration files,
      </dependency>
    </dependencies>
 
-6. In the ``artifactItems`` configuration of the ``expLib`` execution of the maven-dependency-plugin inside the ``exp`` profile you need to add the Maven qualifier of your app and of any external dependency that you used. This will result in those dependencies being copied to your ``lib`` directory for your SEPP package.
+6. In the default ``artifactItem`` configuration of the ``expLib`` execution of the maven-dependency-plugin inside the ``exp`` profile you need to change the Maven qualifiers to match those of your app. You must also add an ``artifactItem`` for each external dependency that you app has.
 
-.. note::
+.. code-block:: xml
+   :linenos:
+   :emphasize-lines: 4,5,7,13,14,15,16,17,18,19,20
 
-   If your app requires additional dependencies, you can add them in the same manner as the app itself. Just add it as a ``<dependency>`` inside the ``exp`` profile.
+   <artifactItems>
+      <artifactItem>
+        <!-- Change the following 3 properties to match the information of your app -->
+        <groupId>int.esa.nmf.sdk.examples.space</groupId>
+        <artifactId>publish-clock</artifactId>
+        <!-- The declared version is arbitrary and does not have to match the NMF version -->
+        <version>2.1.0-SNAPSHOT</version>
+        <!-- Do not change this -->
+        <type>jar</type>
+        <overWrite>true</overWrite>
+        <outputDirectory>${esa.nmf.mission.opssat.assembly.outputdir}/experimenter-package/home/exp${expId}/lib/</outputDirectory>
+      </artifactItem>
+      <artifactItem>
+        <groupId>com.example</groupId>
+        <artifactId>your_dependency</artifactId>
+        <version>x.x.x</version>
+        <type>jar</type>
+        <overWrite>true</overWrite>
+        <outputDirectory>${esa.nmf.mission.opssat.assembly.outputdir}/experimenter-package/home/exp${expId}/lib/</outputDirectory>
+      </artifactItem>
+    <artifactItems>
 
 7. Open the file ``copy.xml`` in the ``opssat-package`` folder. In the target ``copyExp`` edit the filter for ``MAIN_CLASS_NAME``. You can also add additional copy tasks to package additional files that your app requires. These copy tasks will be executed by the ``Maven AntRun Plugin``.
 
@@ -69,6 +91,6 @@ In short, you will need to: clone a repository, change some configuration files,
 
 8. Invoke ``mvn clean install -Pexp`` in the ``opssat-package`` directory.
 
-9. Go to the folder ``target/nmf-opssat-VERSION/experimenter-package/`` and you will find the directory structure to package your app as an IPK for OPS-SAT.
+9. Go to the folder ``target/nmf-ops-sat-VERSION/experimenter-package/`` and you will find the directory structure to package your app as an IPK for OPS-SAT.
 
 10. Zip the generated directory structure and send it to OPS-SAT's Flight Control Team (FCT) by following the guide instructions in: https://opssat1.esoc.esa.int/projects/experimenter-information/wiki/Building_and_submitting_your_application_to_ESOC

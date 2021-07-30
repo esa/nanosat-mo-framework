@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -85,7 +85,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton
   private boolean running = false;
   private final ConnectionProvider connection = new ConnectionProvider();
   protected final HashMap<Long, PublishDetails> providersAvailable
-      = new HashMap<Long, PublishDetails>();
+      = new HashMap<>();
   protected final Object MUTEX = new Object();
   private COMServicesProvider comServices;
 
@@ -232,7 +232,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton
     final HashMap<Long, PublishDetails> list;
 
     synchronized (MUTEX) {
-      list = new HashMap<Long, PublishDetails>(providersAvailable);
+      list = new HashMap<>(providersAvailable);
     }
 
     LongList keys = new LongList();
@@ -325,6 +325,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton
             for (UInteger proCap : filter.getRequiredCapabilities()) {
               if (cap.equals(proCap)) {
                 capExists = true;
+                break;
               }
             }
           }
@@ -386,7 +387,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton
     PublishProviderResponse response = new PublishProviderResponse();
 
     synchronized (MUTEX) {
-      final HashMap<Long, PublishDetails> list = new HashMap<Long, PublishDetails>(providersAvailable);
+      final HashMap<Long, PublishDetails> list = new HashMap<>(providersAvailable);
 
       // Do we already have this provider in the Directory service?
       for (Long key : list.keySet()) {

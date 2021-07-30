@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -73,11 +73,7 @@ public class CommonServicesConsumer {
             if (details != null) {
                 loginService = new LoginConsumerServiceImpl(details, comServices, authenticationId, localNamePrefix);
             }
-        } catch (MALException ex) {
-            Logger.getLogger(CommonServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(CommonServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALInteractionException ex) {
+        } catch (MALException | MALInteractionException | MalformedURLException ex) {
             Logger.getLogger(CommonServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -122,15 +118,15 @@ public class CommonServicesConsumer {
      */
     public void closeConnections() {
         if (this.directoryService != null) {
-            this.directoryService.closeConnection();
+            this.directoryService.close();
         }
 
         if (this.configurationService != null) {
-            this.configurationService.closeConnection();
+            this.configurationService.close();
         }
 
         if (this.loginService != null) {
-            this.loginService.closeConnection();
+            this.loginService.close();
         }
     }
 

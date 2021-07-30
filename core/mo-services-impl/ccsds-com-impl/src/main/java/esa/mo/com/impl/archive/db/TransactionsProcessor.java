@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -76,7 +76,7 @@ public class TransactionsProcessor {
 
   public TransactionsProcessor(DatabaseBackend dbBackend) {
     this.dbBackend = dbBackend;
-    this.storeQueue = new LinkedBlockingQueue<StoreCOMObjectsContainer>();
+    this.storeQueue = new LinkedBlockingQueue<>();
     this.sequencialStoring = new AtomicBoolean(false);
   }
 
@@ -125,9 +125,7 @@ public class TransactionsProcessor {
 
     try {
       return future.get();
-    } catch (InterruptedException ex) {
-      Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (ExecutionException ex) {
+    } catch (InterruptedException | ExecutionException ex) {
       Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
     }
 
@@ -148,9 +146,7 @@ public class TransactionsProcessor {
 
     try {
       return future.get();
-    } catch (InterruptedException ex) {
-      Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (ExecutionException ex) {
+    } catch (InterruptedException | ExecutionException ex) {
       Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
     }
 
@@ -177,9 +173,7 @@ public class TransactionsProcessor {
 
     try {
       return future.get();
-    } catch (InterruptedException ex) {
-      Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (ExecutionException ex) {
+    } catch (InterruptedException | ExecutionException ex) {
       Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
     }
 
@@ -412,7 +406,7 @@ public class TransactionsProcessor {
 
       // FYI: SELECT objectTypeId, objId, domainId, network, OBJ, providerURI, relatedLink,
       // sourceLinkDomainId, sourceLinkObjId, sourceLinkObjectTypeId, timestampArchiveDetails FROM COMObjectEntity
-      final ArrayList<COMObjectEntity> perObjs = new ArrayList<COMObjectEntity>(resultList.size());
+      final ArrayList<COMObjectEntity> perObjs = new ArrayList<>(resultList.size());
 
       // Conversion from the raw SQL response into a COMObjectEntity
       for (Object obj : resultList) {
@@ -474,9 +468,7 @@ public class TransactionsProcessor {
 
     try {
       return future.get();
-    } catch (InterruptedException ex) {
-      Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (ExecutionException ex) {
+    } catch (InterruptedException | ExecutionException ex) {
       Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
     }
 
@@ -491,9 +483,7 @@ public class TransactionsProcessor {
     try {
       Integer dummyInt = nullValue.get(); // Dummy code to Force a wait until the actual restart is done!
       Logger.getLogger(TransactionsProcessor.class.getName()).info("Reset table callback!");
-    } catch (InterruptedException ex) {
-      Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (ExecutionException ex) {
+    } catch (InterruptedException | ExecutionException ex) {
       Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
     }
   }
@@ -504,9 +494,7 @@ public class TransactionsProcessor {
 
     try {
       nullValue.get(); // Dummy code to Force a wait until the actual restart is done!
-    } catch (InterruptedException ex) {
-      Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (ExecutionException ex) {
+    } catch (InterruptedException | ExecutionException ex) {
       Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
     }
   }

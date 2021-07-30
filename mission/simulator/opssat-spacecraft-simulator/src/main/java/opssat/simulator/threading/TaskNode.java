@@ -7,7 +7,7 @@
  *  ----------------------------------------------------------------------------
  *  System                : ESA NanoSat MO Framework
  *  ----------------------------------------------------------------------------
- *  Licensed under the European Space Agency Public License, Version 2.0
+ *  Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  *  You may not use this file except in compliance with the License.
  * 
  *  Except as expressly set forth in this License, the Software is provided to
@@ -120,7 +120,7 @@ public abstract class TaskNode implements Runnable {
         this.name = name;
         initLogging(logLevel,consoleLogLevel);
         
-        this.timers = new Hashtable<String, SimulatorTimer>();
+        this.timers = new Hashtable<>();
         
         this.timers.put(TIMER_ALIVE, new SimulatorTimer(TIMER_ALIVE, TIMER_ALIVE_INTERVAL));
         

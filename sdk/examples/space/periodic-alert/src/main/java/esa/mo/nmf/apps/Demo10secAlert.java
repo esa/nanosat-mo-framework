@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -49,17 +49,14 @@ public class Demo10secAlert {
         this.connector.init(new Adapter());
         this.timer = new TaskScheduler(1);
 
-        this.timer.scheduleTask(new Thread() {
-            @Override
-            public void run() {
-                try {
-                    connector.publishAlertEvent("10SecondsAlert", null);
-                } catch (NMFException ex) {
-                    Logger.getLogger(Demo10secAlert.class.getName()).log(Level.SEVERE,
-                            "The Alert could not be published to the consumer!", ex);
-                }
+        this.timer.scheduleTask(new Thread(() -> {
+            try {
+                connector.publishAlertEvent("10SecondsAlert", null);
+            } catch (NMFException ex) {
+                Logger.getLogger(Demo10secAlert.class.getName()).log(Level.SEVERE,
+                        "The Alert could not be published to the consumer!", ex);
             }
-        }, 0, 10, TimeUnit.SECONDS, true); // 10 seconds
+        }), 0, 10, TimeUnit.SECONDS, true); // 10 seconds
     }
 
     /**

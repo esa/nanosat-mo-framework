@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -183,7 +183,7 @@ public class ArchiveSyncGenAdapter extends org.ccsds.moims.mo.com.archivesync.co
     }
 
     public ArrayList<byte[]> getReceivedChunks() {
-        return new ArrayList<byte[]>(receivedChunks.values());
+        return new ArrayList<>(receivedChunks.values());
     }
 
 }

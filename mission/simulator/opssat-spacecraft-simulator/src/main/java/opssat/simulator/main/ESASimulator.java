@@ -7,7 +7,7 @@
  *  ----------------------------------------------------------------------------
  *  System                : ESA NanoSat MO Framework
  *  ----------------------------------------------------------------------------
- *  Licensed under the European Space Agency Public License, Version 2.0
+ *  Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  *  You may not use this file except in compliance with the License.
  * 
  *  Except as expressly set forth in this License, the Software is provided to
@@ -78,7 +78,7 @@ public class ESASimulator extends GenericSimulator {
           while ((line = in.readLine()) != null) {
 
             if (line.startsWith("#")) {
-              ;// comment line
+                // comment line
             } else {
               String split[] = line.split("=");
               if (split.length == 2) {
@@ -125,8 +125,8 @@ public class ESASimulator extends GenericSimulator {
   // Entry stub for lightweight component
   public ESASimulator() {
     initProperties();
-    ConcurrentLinkedQueue<Object> qSimToGUI = new ConcurrentLinkedQueue<Object>();
-    ConcurrentLinkedQueue<Object> qGUIToSim = new ConcurrentLinkedQueue<Object>();
+    ConcurrentLinkedQueue<Object> qSimToGUI = new ConcurrentLinkedQueue<>();
+    ConcurrentLinkedQueue<Object> qGUIToSim = new ConcurrentLinkedQueue<>();
     simulatorNode = new SimulatorNode(qGUIToSim, qSimToGUI, "Sim", 10, this.simulatorLoggingLevel,
         this.consoleLoggingLevel);
     initDevices();
@@ -138,8 +138,8 @@ public class ESASimulator extends GenericSimulator {
     initProperties();
     final CentralNode centralNode;
 
-    ConcurrentLinkedQueue<Object> qSimToCentral = new ConcurrentLinkedQueue<Object>();
-    ConcurrentLinkedQueue<Object> qCentralToSim = new ConcurrentLinkedQueue<Object>();
+    ConcurrentLinkedQueue<Object> qSimToCentral = new ConcurrentLinkedQueue<>();
+    ConcurrentLinkedQueue<Object> qCentralToSim = new ConcurrentLinkedQueue<>();
 
     simulatorNode = new SimulatorNode(qCentralToSim, qSimToCentral, "Sim", 100,
         this.simulatorLoggingLevel, this.consoleLoggingLevel);

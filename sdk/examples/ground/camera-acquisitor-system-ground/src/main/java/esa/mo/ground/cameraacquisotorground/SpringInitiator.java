@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -26,7 +26,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  *
- * @author Kevin Otto <Kevin@KevinOtto.de>
+ * @author Kevin Otto
  */
 @SpringBootApplication
 public class SpringInitiator
@@ -34,13 +34,14 @@ public class SpringInitiator
 
   /**
    * Main command line entry point.
-   *
-   * @param args the command line arguments
+   * This Demo should be used with Camera Acquisition System provider.
+   * @param args the command line arguments - directoryURI and port for tomcat
    */
   public static void main(final String args[])
   {
     if (args.length != 2) {
-      System.err.println("Please give directoryURI as first argument and Port as second argument!");
+      System.err.println("Please give directoryURI as first argument and an open port number for Tomcat as second argument!");
+      System.err.println("e.g. maltcp://123.123.123.123:1024/nanosat-mo-supervisor-Directory 1050");
       System.exit(1);
     }
     SpringApplication app = new SpringApplication(CameraAcquisitorGround.class);

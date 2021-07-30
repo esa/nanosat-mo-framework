@@ -7,7 +7,7 @@
  *  ----------------------------------------------------------------------------
  *  System                : ESA NanoSat MO Framework
  *  ----------------------------------------------------------------------------
- *  Licensed under the European Space Agency Public License, Version 2.0
+ *  Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  *  You may not use this file except in compliance with the License.
  * 
  *  Except as expressly set forth in this License, the Software is provided to
@@ -39,12 +39,11 @@ public class PFDIR extends GenericPeripheral implements IFDIR{
     @Override
     @InternalData (internalID=5001,commandIDs={"",""},argNames={"cmdID","data"})
     public byte[] runRawCommand(int cmdID,byte[] data) {
-        ArrayList<Object> argObject = new ArrayList<Object>();
+        ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(cmdID);
         argObject.add(data);
         return (byte[]) super.getSimulatorNode().runGenericMethod(5001,argObject);
-    };
+    }
 
 
-    
 }

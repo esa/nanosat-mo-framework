@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under the European Space Agency Public License, Version 2.0
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -86,12 +86,10 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
         Subscription subscription = ConnectionConsumer.subscriptionWildcard();
         try {
             serviceMCStatistic.getStatisticStub().monitorStatisticsRegister(subscription, new StatisticConsumerAdapter());
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-    
+
     }
 
     /**
@@ -121,7 +119,7 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("Statistic Service");
+        jLabel6.setText("Statistic Service - Definitions");
         jLabel6.setToolTipText("");
 
         jScrollPane2.setHorizontalScrollBar(null);
@@ -161,77 +159,41 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
         parameterTab.setLayout(new java.awt.GridLayout(2, 1));
 
         enableDefinitionAllAgg.setText("enableGeneration(group=false, 0)");
-        enableDefinitionAllAgg.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                enableDefinitionAllAggActionPerformed(evt);
-            }
-        });
+        enableDefinitionAllAgg.addActionListener(evt -> enableDefinitionAllAggActionPerformed(evt));
         jPanel1.add(enableDefinitionAllAgg);
 
         enableDefinitionButtonAgg.setText("enableGeneration");
-        enableDefinitionButtonAgg.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                enableDefinitionButtonAggActionPerformed(evt);
-            }
-        });
+        enableDefinitionButtonAgg.addActionListener(evt -> enableDefinitionButtonAggActionPerformed(evt));
         jPanel1.add(enableDefinitionButtonAgg);
 
         listDefinitionButton.setText("listDefinition()");
-        listDefinitionButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                listDefinitionButtonActionPerformed(evt);
-            }
-        });
+        listDefinitionButton.addActionListener(evt -> listDefinitionButtonActionPerformed(evt));
         jPanel1.add(listDefinitionButton);
 
         msgBoxOn2.setText("Display Published Statistic Values");
-        msgBoxOn2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                msgBoxOn2ActionPerformed(evt);
-            }
-        });
+        msgBoxOn2.addActionListener(evt -> msgBoxOn2ActionPerformed(evt));
         jPanel1.add(msgBoxOn2);
 
         parameterTab.add(jPanel1);
 
         addLinkButton.setText("addParameterEvaluation");
-        addLinkButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addLinkButtonActionPerformed(evt);
-            }
-        });
+        addLinkButton.addActionListener(evt -> addLinkButtonActionPerformed(evt));
         jPanel5.add(addLinkButton);
 
         updateLinkButton.setText("updateParameterEvaluation");
-        updateLinkButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateLinkButtonActionPerformed(evt);
-            }
-        });
+        updateLinkButton.addActionListener(evt -> updateLinkButtonActionPerformed(evt));
         jPanel5.add(updateLinkButton);
 
         removeLinkButton.setText("removeParameterEvaluation");
-        removeLinkButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeLinkButtonActionPerformed(evt);
-            }
-        });
+        removeLinkButton.addActionListener(evt -> removeLinkButtonActionPerformed(evt));
         jPanel5.add(removeLinkButton);
 
         listDefinitionAllButton.setText("listDefinition(\"*\")");
-        listDefinitionAllButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                listDefinitionAllButtonActionPerformed(evt);
-            }
-        });
+        listDefinitionAllButton.addActionListener(evt -> listDefinitionAllButtonActionPerformed(evt));
         jPanel5.add(listDefinitionAllButton);
 
         removeLinkAllButton.setText("removeParameterEvaluation(0)");
-        removeLinkAllButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeLinkAllButtonActionPerformed(evt);
-            }
-        });
+        removeLinkAllButton.addActionListener(evt -> removeLinkAllButtonActionPerformed(evt));
         jPanel5.add(removeLinkAllButton);
 
         parameterTab.add(jPanel5);
@@ -273,14 +235,14 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
         
         ObjectKey paramId = new ObjectKey();
         paramId.setDomain(serviceMCParameter.getConnectionDetails().getDomain());
-        paramId.setInstId(new Long(3));
+        paramId.setInstId(3L);
 //        statLink.setParameterId(paramId);
         
 
         StatisticCreationRequest request = new StatisticCreationRequest();
         request.setLinkDetails(statLinkDetails);
         request.setParameterId(paramId);
-        request.setStatFuncInstId(new Long(1));
+        request.setStatFuncInstId(1L);
         
         MOWindow statDefinitionWindow = new MOWindow(request, true);
         
@@ -308,10 +270,7 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
 
             // Add the Statistic Link to the table
             statisticTable.addEntry(new Identifier("MyStat!"), comObject);
-        } catch (MALInteractionException ex) {
-            JOptionPane.showMessageDialog(null, "There was an error with the submitted statistic link.", "Error", JOptionPane.PLAIN_MESSAGE);
-            Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             JOptionPane.showMessageDialog(null, "There was an error with the submitted statistic link.", "Error", JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InterruptedException ex) {
@@ -341,12 +300,10 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCStatistic.getStatisticStub().updateParameterEvaluation(objIds, links);
             this.listDefinitionAllButtonActionPerformed(null);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }//GEN-LAST:event_updateLinkButtonActionPerformed
 
     private void removeLinkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeLinkButtonActionPerformed
@@ -361,9 +318,7 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCStatistic.getStatisticStub().removeParameterEvaluation(longlist);
             statisticTable.removeSelectedEntry();
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -386,9 +341,7 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCStatistic.getStatisticStub().removeParameterEvaluation(longlist);
             statisticTable.removeAllEntries();
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -419,9 +372,7 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCStatistic.getStatisticStub().enableReporting(false, BoolPairList);
             statisticTable.switchEnabledstatusAll(!curState);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_enableDefinitionAllAggActionPerformed
@@ -438,9 +389,7 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCStatistic.getStatisticStub().enableReporting(false, BoolPairList);
             statisticTable.switchEnabledstatus(!curState);
-        } catch (MALInteractionException ex) {
-            Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
+        } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_enableDefinitionButtonAggActionPerformed

@@ -49,7 +49,7 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
 
 public class CheckLinkEvaluationManager {
 
-    private final HashMap<Long, CheckLinkEvaluation> checkLinkEvaluations = new HashMap<Long, CheckLinkEvaluation>(); //contains fields belonging the evaluations (CheckLinkEvaluation) of a checkLink (Long)
+    private final HashMap<Long, CheckLinkEvaluation> checkLinkEvaluations = new HashMap<>(); //contains fields belonging the evaluations (CheckLinkEvaluation) of a checkLink (Long)
     private ParameterManager parameterManager;
 
     public CheckLinkEvaluationManager(ParameterManager parameterManager) {
@@ -196,11 +196,8 @@ public class CheckLinkEvaluationManager {
         //hack start
 //        details.getCondition().setParameterId(new ObjectKey(domain, parameterManager.getDefinitionId(conParamIdentityId)));
         //hack end
-        if (!conditionEvaluation) {
-            // Does the condition evaluate to TRUE?
-            return true;
-        }
-        return false;
+        // Does the condition evaluate to TRUE?
+        return !conditionEvaluation;
     }
 
     private boolean isParameterValueValid(ParameterValue pVal, boolean usingRaw) {
@@ -246,7 +243,7 @@ public class CheckLinkEvaluationManager {
         }
         if (actCheckDefinition instanceof CompoundCheckDefinition) {
             //get the last results of the referenced check links
-            List<CheckLinkEvaluation> currCheckLinkEvaluations = new ArrayList<CheckLinkEvaluation>();
+            List<CheckLinkEvaluation> currCheckLinkEvaluations = new ArrayList<>();
             final CompoundCheckDefinition compoundCheckDef = (CompoundCheckDefinition) actCheckDefinition;
             for (Long refCheckLinkId : compoundCheckDef.getCheckLinkIds()) {
                 currCheckLinkEvaluations.add(this.get(refCheckLinkId));
@@ -310,11 +307,8 @@ public class CheckLinkEvaluationManager {
         }
 
         //check if a new check result shall be calculated
-        if (maxNominalCount >= actCheckDef.getNominalCount().getValue()
-                || maxViolationCount >= actCheckDef.getViolationCount().getValue()) {
-            return true;
-        }
-        return false;
+        return maxNominalCount >= actCheckDef.getNominalCount().getValue()
+                || maxViolationCount >= actCheckDef.getViolationCount().getValue();
 
     }
 
