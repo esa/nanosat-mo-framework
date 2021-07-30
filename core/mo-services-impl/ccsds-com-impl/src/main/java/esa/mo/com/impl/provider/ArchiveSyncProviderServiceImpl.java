@@ -122,6 +122,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
                                                           localNamePrefix);
         }
         catch (MALException | MalformedURLException ex)
+
         {
             Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -354,12 +355,14 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         // A temporary queue to hold the objects that were queried
         private final LinkedBlockingQueue<COMObjectEntity> tempQueue = new LinkedBlockingQueue<>();
 
+
         private final RetrieveRangeInteraction interaction;
 
         // These chunks are already compressed!
         private final ArrayList<byte[]> chunksFlushed = new ArrayList<>();
 
         private final LinkedBlockingQueue<byte[]> dataToFlush = new LinkedBlockingQueue<>();
+
 
         private int chunkSize = 200;
 
@@ -386,7 +389,6 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
                 try
                 {
                     int chunkSizePramInt = Integer.parseInt(chunkSizeParam);
-
                     this.chunkSize = chunkSizePramInt;
                 }
                 catch (NumberFormatException e)
@@ -656,7 +658,9 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
                 {
                     return;
                 }
+                
                 HashSet<Long> clearedIds = new HashSet<>();
+
                 if (objDetails != null)
                 {
                     queryResults.addAll(objDetails);
@@ -676,6 +680,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
                 {
                     Thread.sleep(1000);
                     LongList deleted = archive.getArchiveStub().delete(type, domain, objInstIds);
+
                     if (stdQuota != null)
                     {
                         stdQuota.clean(clearedIds);
