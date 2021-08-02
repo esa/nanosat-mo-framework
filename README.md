@@ -50,7 +50,7 @@ The source code of the NanoSat MO Framework can be found on [GitHub].
 
 ## Bugs Reporting
 
-Bug Reports can be submitted on: [Bug Reports]
+Bug Reports can be submitted on: [Issues]
 
 Or directly in the respective source code repository.
 
@@ -64,6 +64,6 @@ The NanoSat MO Framework is **licensed** under the **[European Space Agency Publ
 [European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4]: https://github.com/esa/nanosat-mo-framework/blob/master/LICENCE.md
 [GitHub]: https://github.com/esa/nanosat-mo-framework
 [Releases]: https://github.com/esa/nanosat-mo-framework/releases
-[Bug Reports]: https://github.com/esa/nanosat-mo-framework/issues
+[Issues]: https://gitlab.com/esa/NMF/nmf-issues/-/issues
 [website]: http://www.esa.int/
 [NanoSat MO Framework]: https://nanosat-mo-framework.github.io/
