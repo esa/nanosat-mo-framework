@@ -240,7 +240,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter
             "The action progress could not be reported!", ex);
       }
 
-      final String folder = "snaps";
+      final String folder = "toGround";
       File dir = new File(folder);
       dir.mkdirs();
 

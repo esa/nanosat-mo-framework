@@ -94,7 +94,7 @@ public class PayloadsTestCameraDataHandler extends CameraAdapter
       LOGGER.log(Level.SEVERE,
           "The action progress could not be reported!", ex);
     }
-    final String folder = "snaps";
+    final String folder = "toGround";
     File dir = new File(folder);
     dir.mkdirs();
     Date date = new Date(System.currentTimeMillis());
