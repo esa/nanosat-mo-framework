@@ -87,7 +87,7 @@ In the end, we use ``ImageIO.write(sobel, "bmp", new File(filenamePrefix + "sobe
 .. code-block:: java
    :linenos:
 
-   final String folder = "snaps";
+   final String folder = "toGround";
    File dir = new File(folder);
    dir.mkdirs();
 
@@ -124,7 +124,7 @@ Therefore, our finished code for ``takePictureReceived`` looks as follows:
 .. code-block:: java
    :linenos:
 
-   final String folder = "snaps";
+   final String folder = "toGround";
    File dir = new File(folder);
    dir.mkdirs();
 
