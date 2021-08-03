@@ -145,6 +145,9 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         timerName = getTimerName();
 
         dispatchersCleanupTimer = new Timer(timerName);
+
+        final String msg = MessageFormat.format("Dispatchers cleanup timer created {0}", timerName);
+        Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.INFO, msg);
     }
 
     private static synchronized String getTimerName()
@@ -219,6 +222,10 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
             dispatchersCleanupTimer = new Timer(timerName);
 
+            final String msg = MessageFormat.format("Dispatchers cleanup timer re-created {0}", timerName);
+
+            Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.INFO, msg);
+
             if (null != archiveSyncServiceProvider)
             {
                 archiveSyncServiceProvider.close();
@@ -253,6 +260,10 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         final TimerTask timerTask = new CleaningTimerTask(interactionTicket);
         timerTasks.put(interactionTicket, timerTask);
         dispatchersCleanupTimer.schedule(timerTask, DISPATCHERS_CLEANUP_INTERVAL_IN_MILISECONDS);
+        final String msg = MessageFormat.format(
+                "Dispatcher cleaning task created and scheduled in timer for transaction {0}, it will be triggered in {1} seconds.",
+                interactionTicket, DISPATCHERS_CLEANUP_INTERVAL_IN_MILISECONDS / 1000);
+        Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.INFO, msg);
 
         interaction.sendAcknowledgement(interactionTicket);
 
@@ -320,6 +331,11 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         timerTasks.put(transactionTicket, timerTask);
         dispatchersCleanupTimer.schedule(timerTask, DISPATCHERS_CLEANUP_INTERVAL_IN_MILISECONDS);
 
+        final String msg = MessageFormat.format(
+                "Dispatcher cleaning task re-created and scheduled in timer for transaction {0}, it will be triggered in {1} seconds.",
+                transactionTicket, DISPATCHERS_CLEANUP_INTERVAL_IN_MILISECONDS / 1000);
+        Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.INFO, msg);
+
         interaction.sendAcknowledgement();
 
         if (missingIndexes.size() == 2 && missingIndexes.get(1).getValue() == 0)
@@ -360,6 +376,10 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         timerTask.cancel();
         dispatchersCleanupTimer.purge();
         timerTasks.remove(transactionTicket);
+
+        final String msg =
+                MessageFormat.format("Dispatcher cleaning task for transaction {0} removed.", transactionTicket);
+        Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.INFO, msg);
     }
 
     @Override
@@ -417,12 +437,17 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         }
 
         lastSync.set(lastSyncTime);
+
+        final String msg = MessageFormat.format("Last sync time for transaction {0} is set.", transactionTicket);
+        Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.INFO, msg);
     }
 
     private void cleanDispatcher(Long transactionTicket, Dispatcher dispatcher)
     {
         dispatcher.clear();
         dispatchers.remove(transactionTicket);
+        final String msg = MessageFormat.format("Dispatcher for transaction {0} removed.", transactionTicket);
+        Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.INFO, msg);
     }
 
     private class CleaningTimerTask extends TimerTask
@@ -441,6 +466,10 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         @Override
         public void run()
         {
+            final String msg =
+                    MessageFormat.format("Dispatcher cleaning task for transaction {0} started.", transactionTicket);
+            Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.INFO, msg);
+
             final Dispatcher dispatcher = dispatchers.get(this.transactionTicket);
 
             if (null != dispatcher)
@@ -449,6 +478,10 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
             }
 
             cleanTimerTask(this.transactionTicket, this);
+
+            final String msg1 =
+                    MessageFormat.format("Dispatcher cleaning task for transaction {0} ended.", transactionTicket);
+            Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.INFO, msg1);
         }
     }
 
