@@ -7,7 +7,7 @@ import ij.process.*;
 
 public class Debayer_Image implements PlugInFilter {
 
-  ImagePlus imp;
+  ImagePlus image;
   ImageProcessor ip;
   int width;
   int height;
@@ -22,19 +22,25 @@ public class Debayer_Image implements PlugInFilter {
   int algorithm;
 
   public int setup(String arg, ImagePlus imp) {
+    return setup(arg, imp, false);
+  }
+  public int setup(String arg, ImagePlus imp, boolean nonDestructive) {
     IJ.register(Debayer_Image.class);
     if (IJ.versionLessThan("1.32c"))
       return DONE;
     imp.unlock();
-    this.imp = imp;
+    this.image = imp;
+    if (nonDestructive) {
+      this.image = imp.createImagePlus();
+    }
     this.algorithm = Integer.parseInt(arg);
     return DOES_16;
   }
 
   public void run(ImageProcessor ip) {
-    width = imp.getWidth();
-    height = imp.getHeight();
-    ImageStack rgb = new ImageStack(width, height, imp.getProcessor().getColorModel());
+    width = image.getWidth();
+    height = image.getHeight();
+    ImageStack rgb = new ImageStack(width, height, image.getProcessor().getColorModel());
     String[] orders = { "R-G-R-G", "B-G-B-G", "G-R-G-R", "G-B-G-B"
     };
     String[] algorithms = { "Replication", "Bilinear", "Smooth Hue", "Adaptive Smooth Hue"
@@ -61,28 +67,33 @@ public class Debayer_Image implements PlugInFilter {
     if (stackHist)
       options = options + " use";
 
-    if (algorithm == 0)
-      rgb = replicate_decode(row_order);
-    else if (algorithm == 1)
-      rgb = average_decode(row_order);
-    else if (algorithm == 2)
-      rgb = smooth_decode(row_order);
-    else if (algorithm == 3)
-      rgb = adaptive_decode(row_order);
-    ImagePlus rgb_imp = imp.createImagePlus();
-    rgb_imp.setStack("RGB Stack", rgb);
-    rgb_imp.setCalibration(imp.getCalibration());
-//		rgb_imp.show();
-    WindowManager.setTempCurrentImage(rgb_imp);
-
+    switch (algorithm) {
+      case 0:
+          rgb = replicate_decode(row_order);
+          break;
+      case 1:
+          rgb = average_decode(row_order);
+          break;
+      case 2:
+          rgb = smooth_decode(row_order);
+          break;
+      case 3:
+          rgb = adaptive_decode(row_order);
+          break;
+      default:
+          break;
+    }
+    // Replace picture with the decoded stack
+    image.setStack("RGB Stack", rgb);
+    WindowManager.setTempCurrentImage(image);
     if (median)
       IJ.run("Median...", "radius=" + med_radius + " stack");
     if (gauss)
       IJ.run("Median...", "radius=" + gauss_radius + " stack");
-//		if (normalize || equalize) IJ.run("Enhance Contrast", options);
+    WindowManager.setTempCurrentImage(null);
 
     ContrastEnhancerOpt cont = new ContrastEnhancerOpt();
-    cont.setImage(IJ.getImage());
+    cont.setImage(image);
     cont.setSaturated(0.5);
     cont.setEqualize(equalize);
     cont.setNormalize(normalize);
@@ -90,48 +101,21 @@ public class Debayer_Image implements PlugInFilter {
     cont.setProcessStack(true);
     cont.run("");
 
-//                if (showColour) IJ.run("Convert Stack to RGB");
     RGBStackConverterOpt obj = new RGBStackConverterOpt();
-    obj.setImage(IJ.getImage());
+    obj.setImage(image);
     obj.run("");
-
-    ImagePlus output = IJ.getImage();
-    imp = output;
-//                output.show();
-
-    /*
-     * BufferedImage img_buf = output.getBufferedImage(); File outputfile = new
-     * File("image.png"); try { ImageIO.write(img_buf, "png", outputfile); } catch
-     * (IOException ex) {
-     * Logger.getLogger(Debayer_Image.class.getName()).log(Level.SEVERE, null, ex);
-     * }
-     */
   }
 
   public ImagePlus getImage() {
-    return imp;
+    return image;
   }
 
-  /*
-   * public static Object runPlugIn(String commandName, String className, String
-   * arg) { if (arg==null) arg = ""; Object thePlugIn=null; try { Class c =
-   * Class.forName(className); thePlugIn = c.newInstance(); if (thePlugIn
-   * instanceof PlugIn) ((PlugIn)thePlugIn).run(arg); else new
-   * PlugInFilterRunner(thePlugIn, commandName, arg); } catch
-   * (ClassNotFoundException e) { // if (IJ.getApplet()==null) //
-   * log("Plugin or class not found: \"" + className + "\"\n(" + e+")"); } catch
-   * (InstantiationException e) { // log("Unable to load plugin (ins)"); } catch
-   * (IllegalAccessException e) { //
-   * log("Unable to load plugin, possibly \nbecause it is not public."); } //
-   * redirectErrorMessages = false; return thePlugIn; }
-   */
-
   ImageStack replicate_decode(int row_order) { // Replication algorithm
-    ip = imp.getProcessor();
-    width = imp.getWidth();
-    height = imp.getHeight();
+    ip = image.getProcessor();
+    width = image.getWidth();
+    height = image.getHeight();
     int one = 0;
-    ImageStack rgb = new ImageStack(width, height, imp.getProcessor().getColorModel());
+    ImageStack rgb = new ImageStack(width, height, image.getProcessor().getColorModel());
     ImageProcessor r = new ShortProcessor(width, height);
     ImageProcessor g = new ShortProcessor(width, height);
     ImageProcessor b = new ShortProcessor(width, height);
@@ -238,14 +222,14 @@ public class Debayer_Image implements PlugInFilter {
   }
 
   ImageStack average_decode(int row_order) { // Bilinear algorithm
-    ip = imp.getProcessor();
-    width = imp.getWidth();
-    height = imp.getHeight();
+    ip = image.getProcessor();
+    width = image.getWidth();
+    height = image.getHeight();
     int one = 0;
     int two = 0;
     int three = 0;
     int four = 0;
-    ImageStack rgb = new ImageStack(width, height, imp.getProcessor().getColorModel());
+    ImageStack rgb = new ImageStack(width, height, image.getProcessor().getColorModel());
     ImageProcessor r = new ShortProcessor(width, height);
     ImageProcessor g = new ShortProcessor(width, height);
     ImageProcessor b = new ShortProcessor(width, height);
@@ -384,9 +368,9 @@ public class Debayer_Image implements PlugInFilter {
   }
 
   ImageStack smooth_decode(int row_order) { // Smooth Hue algorithm
-    ip = imp.getProcessor();
-    width = imp.getWidth();
-    height = imp.getHeight();
+    ip = image.getProcessor();
+    width = image.getWidth();
+    height = image.getHeight();
     double G1 = 0;
     double G2 = 0;
     double G3 = 0;
@@ -404,7 +388,7 @@ public class Debayer_Image implements PlugInFilter {
     double R2 = 0;
     double R3 = 0;
     double R4 = 0;
-    ImageStack rgb = new ImageStack(width, height, imp.getProcessor().getColorModel());
+    ImageStack rgb = new ImageStack(width, height, image.getProcessor().getColorModel());
     ImageProcessor r = new ShortProcessor(width, height);
     ImageProcessor g = new ShortProcessor(width, height);
     ImageProcessor b = new ShortProcessor(width, height);
@@ -632,9 +616,9 @@ public class Debayer_Image implements PlugInFilter {
   }
 
   ImageStack adaptive_decode(int row_order) { // Adaptive Smooth Hue algorithm (Edge detecting)
-    ip = imp.getProcessor();
-    width = imp.getWidth();
-    height = imp.getHeight();
+    ip = image.getProcessor();
+    width = image.getWidth();
+    height = image.getHeight();
     double G1 = 0;
     double G2 = 0;
     double G3 = 0;
@@ -658,7 +642,7 @@ public class Debayer_Image implements PlugInFilter {
     double S = 0;
     double E = 0;
     double W = 0;
-    ImageStack rgb = new ImageStack(width, height, imp.getProcessor().getColorModel());
+    ImageStack rgb = new ImageStack(width, height, image.getProcessor().getColorModel());
     ImageProcessor r = new ShortProcessor(width, height);
     ImageProcessor g = new ShortProcessor(width, height);
     ImageProcessor b = new ShortProcessor(width, height);
