@@ -170,7 +170,7 @@ public class CameraAcquisitorSystemCameraHandler
       //
 
       // create photos folder
-      final String folder = "photos";
+      final String folder = "toGround";
       File dir = new File(folder);
       dir.mkdirs();
 
