@@ -25,6 +25,7 @@ import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.nmf.NMFProvider;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperMisc;
+import esa.mo.helpertools.misc.AppShutdownGuard;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
@@ -145,6 +146,7 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
     @Override
     public final void closeGracefully(final ObjectId source) {
         try {
+            AppShutdownGuard.start();
             long time = System.currentTimeMillis();
 
             // Acknowledge the reception of the request to close (Closing...)

@@ -90,7 +90,7 @@ public class OPSSATCameraDebayering {
 
         return outImage.getBufferedImage();
     }
-    
+
     private static ImagePlus processImage(ImagePlus imp, int algorithm) {
         Debayer_Image debayeringFilter = new Debayer_Image();
         debayeringFilter.setup(String.valueOf(algorithm), imp);
