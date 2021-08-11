@@ -234,7 +234,7 @@ class GetLogs implements Runnable {
 
 
 @Command(name = "list",
-    description = "Lists the COM archive providers URIs found in a central directory")
+    description = "Lists the COM archive providers URIs found in a central directory")
 class ListArchiveProviders implements Runnable {
   @Option(names = {"-h", "--help"}, usageHelp = true, description = "display a help message")
   boolean helpRequested;
