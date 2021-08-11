@@ -33,19 +33,22 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import esa.mo.nmf.log_browser.adapters.*;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQueryList;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectType;
+import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
+import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
+import org.ccsds.moims.mo.common.directory.structures.ServiceCapability;
+import org.ccsds.moims.mo.common.login.LoginHelper;
+import org.ccsds.moims.mo.common.login.body.LoginResponse;
+import org.ccsds.moims.mo.common.login.structures.Profile;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.structures.FineTime;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.UOctet;
-import org.ccsds.moims.mo.mal.structures.URI;
-import org.ccsds.moims.mo.mal.structures.UShort;
+import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
 import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorHelper;
@@ -53,17 +56,10 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
-import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.nmf.NMFConsumer;
-import esa.mo.nmf.log_browser.adapters.ArchiveToAppAdapter;
-import esa.mo.nmf.log_browser.adapters.ArchiveToAppListAdapter;
-import esa.mo.nmf.log_browser.adapters.ArchiveToJsonAdapter;
-import esa.mo.nmf.log_browser.adapters.ArchiveToLogAdapter;
-import esa.mo.nmf.log_browser.adapters.QueryStatusProvider;
 
 /**
  * Actual implementation of the available commands.
@@ -73,6 +69,8 @@ import esa.mo.nmf.log_browser.adapters.QueryStatusProvider;
 public class CommandsImplementations {
 
   private static final Logger LOGGER = Logger.getLogger(CommandsImplementations.class.getName());
+
+  private static NMFConsumer consumer = null;
 
   /**
    * Dumps to a JSON file the raw SQLite tables content of a COM archive.
@@ -89,7 +87,7 @@ public class CommandsImplementations {
       return;
     }
 
-    // root JSON object
+    // root JSON object
     JSONArray tables = new JSONArray();
 
     // parse DB
@@ -103,7 +101,7 @@ public class CommandsImplementations {
         ResultSet rowsRs = conn.createStatement().executeQuery(selectAllQuery);
         ResultSetMetaData rowsRsMeta = rowsRs.getMetaData();
 
-        // table JSON object
+        // table JSON object
         JSONArray rows = new JSONArray();
         JSONObject jsonTable = new JSONObject();
         jsonTable.put(table, rows);
@@ -153,6 +151,11 @@ public class CommandsImplementations {
   public static void dumpFormattedArchive(String databaseFile, String providerURI, String domainId,
       String comType, String startTime, String endTime, String jsonFile) {
     NMFConsumer.initHelpers();
+    createConsumer(providerURI);
+
+    if(consumer == null) {
+      return;
+    }
 
     // prepare comType filter
     int areaNumber = 0;
@@ -182,7 +185,7 @@ public class CommandsImplementations {
     FineTime startTimeF = startTime == null ? null : HelperTime.readableString2FineTime(startTime);
     FineTime endTimeF = endTime == null ? null : HelperTime.readableString2FineTime(endTime);
     ArchiveQuery archiveQuery =
-        new ArchiveQuery(domain, null, null, new Long(0), null, startTimeF, endTimeF, null, null);
+        new ArchiveQuery(domain, null, null, 0L, null, startTimeF, endTimeF, null, null);
     archiveQueryList.add(archiveQuery);
 
     // spawn our local provider on top of the given database file if needed
@@ -195,12 +198,13 @@ public class CommandsImplementations {
 
     // execute query
     ArchiveToJsonAdapter adapter = new ArchiveToJsonAdapter(jsonFile);
-    queryArchive(providerURI, objectsTypes, archiveQueryList, adapter, adapter);
+    queryArchive(objectsTypes, archiveQueryList, adapter, adapter);
 
     // shutdown local provider if used
     if (localProvider != null) {
       localProvider.close();
     }
+    closeConsumer();
   }
 
   /**
@@ -217,7 +221,11 @@ public class CommandsImplementations {
   public static void listLogs(String databaseFile, String providerURI, String domainId,
       String startTime, String endTime) {
     NMFConsumer.initHelpers();
+    createConsumer(providerURI);
 
+    if(consumer == null) {
+      return;
+    }
     // Query all objects from SoftwareManagement area filtering for
     // StandardOutput and StandardError events and App object is done in the query adapter
     ObjectType objectsTypes =
@@ -238,12 +246,12 @@ public class CommandsImplementations {
     FineTime startTimeF = startTime == null ? null : HelperTime.readableString2FineTime(startTime);
     FineTime endTimeF = endTime == null ? null : HelperTime.readableString2FineTime(endTime);
     ArchiveQuery archiveQuery =
-        new ArchiveQuery(domain, null, null, new Long(0), null, startTimeF, endTimeF, null, null);
+        new ArchiveQuery(domain, null, null, 0L, null, startTimeF, endTimeF, null, null);
     archiveQueryList.add(archiveQuery);
 
     // execute query
     ArchiveToAppListAdapter adapter = new ArchiveToAppListAdapter();
-    queryArchive(providerURI, objectsTypes, archiveQueryList, adapter, adapter);
+    queryArchive(objectsTypes, archiveQueryList, adapter, adapter);
 
     // shutdown local provider if used
     if (localProvider != null) {
@@ -260,6 +268,7 @@ public class CommandsImplementations {
         System.out.println("\t - " + appName);
       }
     }
+    closeConsumer();
   }
 
   /**
@@ -278,7 +287,11 @@ public class CommandsImplementations {
   public static void getLogs(String databaseFile, String providerURI, String appName,
       String domainId, String startTime, String endTime, String logFile) {
     NMFConsumer.initHelpers();
+    createConsumer(providerURI);
 
+    if(consumer == null) {
+      return;
+    }
     // Query all objects from SoftwareManagement area and CommandExecutor service,
     // filtering for StandardOutput and StandardError events is done in the query adapter
     ObjectType objectsTypes =
@@ -296,7 +309,7 @@ public class CommandsImplementations {
 
     // Query archive for the App object id
     IdentifierList domain = domainId == null ? null : HelperMisc.domainId2domain(domainId);
-    ObjectId appObjectId = getAppObjectId(providerURI, appName, domain);
+    ObjectId appObjectId = getAppObjectId(appName, domain);
 
     if (appObjectId == null) {
       if (databaseFile == null) {
@@ -306,6 +319,7 @@ public class CommandsImplementations {
         LOGGER.log(Level.SEVERE, String.format("Couldn't find App with name %s in database at %s",
             appName, databaseFile));
       }
+      closeConsumer();
       return;
     }
 
@@ -313,30 +327,30 @@ public class CommandsImplementations {
     ArchiveQueryList archiveQueryList = new ArchiveQueryList();
     FineTime startTimeF = startTime == null ? null : HelperTime.readableString2FineTime(startTime);
     FineTime endTimeF = endTime == null ? null : HelperTime.readableString2FineTime(endTime);
-    ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, new Long(0), appObjectId,
+    ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L, appObjectId,
         startTimeF, endTimeF, null, null);
     archiveQueryList.add(archiveQuery);
 
     // execute query
     ArchiveToLogAdapter adapter = new ArchiveToLogAdapter(logFile);
-    queryArchive(providerURI, objectsTypes, archiveQueryList, adapter, adapter);
+    queryArchive(objectsTypes, archiveQueryList, adapter, adapter);
 
     // shutdown local provider if used
     if (localProvider != null) {
       localProvider.close();
     }
+    closeConsumer();
   }
 
   /**
    * Search a COM archive provider content to find the ObjectId of an App of the CommandExecutor
    * service of the SoftwareManagement.
    *
-   * @param centralDirectoryServiceURI URI of the central directory to use
    * @param appName Name of the NMF app we want the logs for
    * @param domain Restricts the search to objects in a specific domain ID
    * @return the ObjectId of the found App or null if not found
    */
-  private static ObjectId getAppObjectId(String providerURI, String appName,
+  private static ObjectId getAppObjectId(String appName,
       IdentifierList domain) {
     // SoftwareManagement.AppsLaunch.App object type
     ObjectType appType = new ObjectType(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER,
@@ -346,48 +360,32 @@ public class CommandsImplementations {
     // prepare domain filter
     ArchiveQueryList archiveQueryList = new ArchiveQueryList();
     ArchiveQuery archiveQuery =
-        new ArchiveQuery(domain, null, null, new Long(0), null, null, null, null, null);
+        new ArchiveQuery(domain, null, null, 0L, null, null, null, null, null);
     archiveQueryList.add(archiveQuery);
 
     // execute query
     ArchiveToAppAdapter adapter = new ArchiveToAppAdapter(appName);
-    queryArchive(providerURI, appType, archiveQueryList, adapter, adapter);
+    queryArchive(appType, archiveQueryList, adapter, adapter);
     return adapter.getAppObjectId();
   }
 
   /**
    * Queries objects from a COM archive provider.
    *
-   * @param providerURI The URI of the remote COM archive provider
    * @param objectsTypes COM types of objects to query
    * @param archiveQueryList Archive query object used for filtering
    * @param adapter Archive adapter receiving the query answer messages
    * @param queryStatusProvider Interface providing the status of the query
    */
-  private static void queryArchive(String providerURI, ObjectType objectsTypes,
-      ArchiveQueryList archiveQueryList, ArchiveAdapter adapter,
-      QueryStatusProvider queryStatusProvider) {
-    // connect to the provider
-    SingleConnectionDetails connectionDetails = new SingleConnectionDetails();
-    connectionDetails.setProviderURI(providerURI);
-    IdentifierList domain = new IdentifierList();
-    Identifier wildCard = new Identifier("*");
-    domain.add(wildCard);
-    connectionDetails.setDomain(domain);
-    ArchiveConsumerServiceImpl archiveConsumer = null;
-    try {
-      archiveConsumer = new ArchiveConsumerServiceImpl(connectionDetails);
-    } catch (MalformedURLException | MALException e) {
-      LOGGER.log(Level.SEVERE,
-          String.format("Error when connectiong to archive provider at %s", providerURI), e);
-      return;
-    }
-
+  private static void queryArchive(ObjectType objectsTypes,
+    ArchiveQueryList archiveQueryList, ArchiveAdapter adapter,
+    QueryStatusProvider queryStatusProvider) {
     // run the query
     try {
-      archiveConsumer.getArchiveStub().query(true, objectsTypes, archiveQueryList, null, adapter);
+      consumer.getCOMServices().getArchiveService().getArchiveStub().query(true, objectsTypes, archiveQueryList, null, adapter);
     } catch (MALInteractionException | MALException e) {
       LOGGER.log(Level.SEVERE, "Error when querying archive", e);
+      return;
     }
 
     // wait for query to end
@@ -397,7 +395,100 @@ public class CommandsImplementations {
       } catch (InterruptedException e) {
       }
     }
-    archiveConsumer.close();
+  }
+
+  private static void createConsumer(String providerURI) {
+    try {
+      String tempURI = providerURI.contains("Archive") ?
+                    providerURI.replace("Archive", "Directory") : providerURI;
+      ProviderSummaryList providerSummaryList = NMFConsumer.retrieveProvidersFromDirectory(new URI(tempURI));
+      ProviderSummary provider = null;
+      for(ProviderSummary summary : providerSummaryList) {
+          for(ServiceCapability capability : summary.getProviderDetails().getServiceCapabilities()) {
+
+            for(int i = 0; i < capability.getServiceAddresses().size(); ++i) {
+              if(capability.getServiceAddresses().get(i).getServiceURI().toString().startsWith("malspp")) {
+                capability.getServiceAddresses().remove(i);
+                --i;
+              }
+            }
+
+            if(capability.getServiceAddresses().stream().anyMatch(address -> address.getServiceURI().equals(new URI(tempURI)))) {
+              provider = summary;
+              break;
+            }
+          }
+          if(provider != null) {
+            break;
+          }
+      }
+
+      if(provider == null) {
+        LOGGER.log(Level.SEVERE, "Provider not found!");
+        return;
+      }
+
+      NMFConsumer consumer = new NMFConsumer(provider);
+      consumer.init();
+
+      if(consumer.getCommonServices().getLoginService() != null &&
+         consumer.getCommonServices().getLoginService().getLoginStub() != null) {
+        System.out.println("\nLogin required for " + provider.getProviderName());
+
+        String login = System.console().readLine("Login: ");
+        char[] password = System.console().readPassword("Password: ");
+
+        LongList rolesIds = consumer.getCommonServices().getLoginService().getLoginStub().listRoles(new Identifier(login), String.valueOf(password));
+
+        ArchiveToRolesAdapter adapter = new ArchiveToRolesAdapter();
+        consumer.getCOMServices()
+                .getArchiveService()
+                .getArchiveStub()
+                .retrieve(LoginHelper.LOGINROLE_OBJECT_TYPE,
+                          consumer.getCommonServices().getLoginService().getConnectionDetails().getDomain(),
+                          rolesIds,
+                          adapter);
+
+        while (!adapter.isQueryOver()) {
+          try {
+            Thread.sleep(500);
+          } catch (InterruptedException ignored) {
+          }
+        }
+
+        Long roleId = null;
+        if(!adapter.getRolesIds().isEmpty()) {
+          System.out.println("Available roles: ");
+          for(int i = 0; i < adapter.getRolesIds().size(); ++i) {
+            System.out.println((i + 1) + " - " + adapter.getRolesNames().get(i));
+          }
+          int index = Integer.parseInt(System.console().readLine("Select role id: ")) - 1;
+          if(index >= 0 && index < adapter.getRolesIds().size()) {
+            roleId = adapter.getRolesIds().get(index);
+          }
+        }
+
+        LoginResponse response = consumer.getCommonServices().getLoginService().getLoginStub()
+                                         .login(new Profile(new Identifier(login), roleId), String.valueOf(password));
+        consumer.setAuthenticationId(response.getBodyElement0());
+        System.out.println("Login successful!");
+      }
+      CommandsImplementations.consumer = consumer;
+    } catch (MALException | MalformedURLException | MALInteractionException e) {
+      LOGGER.log(Level.SEVERE, "Error when creating consumer", e);
+      closeConsumer();
+    }
+  }
+
+  private static void closeConsumer() {
+    if(consumer != null) {
+      consumer.getCommonServices().closeConnections();
+      consumer.getCOMServices().closeConnections();
+      consumer.getMCServices().closeConnections();
+      consumer.getPlatformServices().closeConnections();
+      consumer.getSMServices().closeConnections();
+      consumer = null;
+    }
   }
 
   /**
