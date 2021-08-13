@@ -269,7 +269,7 @@ public class RegressionTest0
       System.out.format("%n%s%n", "RegressionTest0.test0016");
     }
     try {
-      float float1 = esa.mo.platform.impl.util.HelperGPS.DDMMpMMMMMMM2degrees("[100, 1, 1, -1, 10]");
+      float float1 = esa.mo.platform.impl.util.HelperGPS.degMinutes2Degrees("[100, 1, 1, -1, 10]");
       org.junit.Assert.fail("Expected exception of type java.io.IOException; message: null");
     } catch (java.io.IOException e) {
     }
@@ -1293,7 +1293,7 @@ public class RegressionTest0
       System.out.format("%n%s%n", "RegressionTest0.test0071");
     }
     try {
-      float float1 = esa.mo.platform.impl.util.HelperGPS.DDMMpMMMMMMM2degrees("hi!");
+      float float1 = esa.mo.platform.impl.util.HelperGPS.degMinutes2Degrees("hi!");
       org.junit.Assert.fail("Expected exception of type java.io.IOException; message: null");
     } catch (java.io.IOException e) {
     }
@@ -1547,7 +1547,7 @@ public class RegressionTest0
       System.out.format("%n%s%n", "RegressionTest0.test0086");
     }
     try {
-      float float1 = esa.mo.platform.impl.util.HelperGPS.DDDMMpMMMMMMM2degrees("14");
+      float float1 = esa.mo.platform.impl.util.HelperGPS.degMinutes2Degrees("14");
       org.junit.Assert.fail("Expected exception of type java.io.IOException; message: null");
     } catch (java.io.IOException e) {
     }
@@ -1560,7 +1560,7 @@ public class RegressionTest0
       System.out.format("%n%s%n", "RegressionTest0.test0087");
     }
     try {
-      float float1 = esa.mo.platform.impl.util.HelperGPS.DDDMMpMMMMMMM2degrees("[1]");
+      float float1 = esa.mo.platform.impl.util.HelperGPS.degMinutes2Degrees("[1]");
       org.junit.Assert.fail("Expected exception of type java.io.IOException; message: null");
     } catch (java.io.IOException e) {
     }
@@ -1663,7 +1663,7 @@ public class RegressionTest0
       System.out.format("%n%s%n", "RegressionTest0.test0093");
     }
     try {
-      float float1 = esa.mo.platform.impl.util.HelperGPS.DDDMMpMMMMMMM2degrees("[1, 10, -1, 1]");
+      float float1 = esa.mo.platform.impl.util.HelperGPS.degMinutes2Degrees("[1, 10, -1, 1]");
       org.junit.Assert.fail("Expected exception of type java.io.IOException; message: null");
     } catch (java.io.IOException e) {
     }
@@ -1785,7 +1785,7 @@ public class RegressionTest0
       System.out.format("%n%s%n", "RegressionTest0.test0099");
     }
     try {
-      float float1 = esa.mo.platform.impl.util.HelperGPS.DDDMMpMMMMMMM2degrees("[0.0]");
+      float float1 = esa.mo.platform.impl.util.HelperGPS.degMinutes2Degrees("[0.0]");
       org.junit.Assert.fail("Expected exception of type java.io.IOException; message: null");
     } catch (java.io.IOException e) {
     }
@@ -1851,7 +1851,7 @@ public class RegressionTest0
       System.out.format("%n%s%n", "RegressionTest0.test0103");
     }
     try {
-      float float1 = esa.mo.platform.impl.util.HelperGPS.DDDMMpMMMMMMM2degrees("[false]");
+      float float1 = esa.mo.platform.impl.util.HelperGPS.degMinutes2Degrees("[false]");
       org.junit.Assert.fail("Expected exception of type java.io.IOException; message: null");
     } catch (java.io.IOException e) {
     }
@@ -1865,7 +1865,7 @@ public class RegressionTest0
     }
     try {
       float float1 =
-          esa.mo.platform.impl.util.HelperGPS.DDMMpMMMMMMM2degrees("[1, 281475010265070]");
+          esa.mo.platform.impl.util.HelperGPS.degMinutes2Degrees("[1, 281475010265070]");
       org.junit.Assert.fail("Expected exception of type java.io.IOException; message: null");
     } catch (java.io.IOException e) {
     }
@@ -2051,7 +2051,7 @@ public class RegressionTest0
       System.out.format("%n%s%n", "RegressionTest0.test0114");
     }
     try {
-      float float1 = esa.mo.platform.impl.util.HelperGPS.DDDMMpMMMMMMM2degrees("[false, false]");
+      float float1 = esa.mo.platform.impl.util.HelperGPS.degMinutes2Degrees("[false, false]");
       org.junit.Assert.fail("Expected exception of type java.io.IOException; message: null");
     } catch (java.io.IOException e) {
     }
@@ -2190,7 +2190,7 @@ public class RegressionTest0
       System.out.format("%n%s%n", "RegressionTest0.test0123");
     }
     try {
-      float float1 = esa.mo.platform.impl.util.HelperGPS.DDDMMpMMMMMMM2degrees("");
+      float float1 = esa.mo.platform.impl.util.HelperGPS.degMinutes2Degrees("");
       org.junit.Assert.fail("Expected exception of type java.io.IOException; message: null");
     } catch (java.io.IOException e) {
     }
@@ -2203,7 +2203,7 @@ public class RegressionTest0
       System.out.format("%n%s%n", "RegressionTest0.test0124");
     }
     try {
-      float float1 = esa.mo.platform.impl.util.HelperGPS.DDMMpMMMMMMM2degrees("[10.0]");
+      float float1 = esa.mo.platform.impl.util.HelperGPS.degMinutes2Degrees("[10.0]");
       org.junit.Assert.fail("Expected exception of type java.io.IOException; message: null");
     } catch (java.io.IOException e) {
     }
@@ -2508,7 +2508,7 @@ public class RegressionTest0
       System.out.format("%n%s%n", "RegressionTest0.test0138");
     }
     try {
-      float float1 = esa.mo.platform.impl.util.HelperGPS.DDDMMpMMMMMMM2degrees("15.0");
+      float float1 = esa.mo.platform.impl.util.HelperGPS.degMinutes2Degrees("15.0");
       org.junit.Assert.fail("Expected exception of type java.io.IOException; message: null");
     } catch (java.io.IOException e) {
     }
@@ -2648,7 +2648,7 @@ public class RegressionTest0
       System.out.format("%n%s%n", "RegressionTest0.test0146");
     }
     try {
-      float float1 = esa.mo.platform.impl.util.HelperGPS.DDDMMpMMMMMMM2degrees("281475010265070");
+      float float1 = esa.mo.platform.impl.util.HelperGPS.degMinutes2Degrees("281475010265070");
       org.junit.Assert.fail("Expected exception of type java.io.IOException; message: null");
     } catch (java.io.IOException e) {
     }
@@ -2831,7 +2831,7 @@ public class RegressionTest0
       System.out.format("%n%s%n", "RegressionTest0.test0156");
     }
     try {
-      float float1 = esa.mo.platform.impl.util.HelperGPS.DDDMMpMMMMMMM2degrees("36.0");
+      float float1 = esa.mo.platform.impl.util.HelperGPS.degMinutes2Degrees("36.0");
       org.junit.Assert.fail("Expected exception of type java.io.IOException; message: null");
     } catch (java.io.IOException e) {
     }
@@ -3518,7 +3518,7 @@ public class RegressionTest0
       System.out.format("%n%s%n", "RegressionTest0.test0195");
     }
     try {
-      float float1 = esa.mo.platform.impl.util.HelperGPS.DDMMpMMMMMMM2degrees("[1, 100, 1, 0]");
+      float float1 = esa.mo.platform.impl.util.HelperGPS.degMinutes2Degrees("[1, 100, 1, 0]");
       org.junit.Assert.fail("Expected exception of type java.io.IOException; message: null");
     } catch (java.io.IOException e) {
     }
@@ -3697,7 +3697,7 @@ public class RegressionTest0
       System.out.format("%n%s%n", "RegressionTest0.test0206");
     }
     try {
-      float float1 = esa.mo.platform.impl.util.HelperGPS.DDDMMpMMMMMMM2degrees("[]");
+      float float1 = esa.mo.platform.impl.util.HelperGPS.degMinutes2Degrees("[]");
       org.junit.Assert.fail("Expected exception of type java.io.IOException; message: null");
     } catch (java.io.IOException e) {
     }
@@ -3710,7 +3710,7 @@ public class RegressionTest0
       System.out.format("%n%s%n", "RegressionTest0.test0207");
     }
     try {
-      float float1 = esa.mo.platform.impl.util.HelperGPS.DDMMpMMMMMMM2degrees("100.0");
+      float float1 = esa.mo.platform.impl.util.HelperGPS.degMinutes2Degrees("100.0");
       org.junit.Assert.fail("Expected exception of type java.io.IOException; message: null");
     } catch (java.io.IOException e) {
     }
@@ -3780,7 +3780,7 @@ public class RegressionTest0
       System.out.format("%n%s%n", "RegressionTest0.test0211");
     }
     try {
-      float float1 = esa.mo.platform.impl.util.HelperGPS.DDDMMpMMMMMMM2degrees("true");
+      float float1 = esa.mo.platform.impl.util.HelperGPS.degMinutes2Degrees("true");
       org.junit.Assert.fail("Expected exception of type java.io.IOException; message: null");
     } catch (java.io.IOException e) {
     }
@@ -4138,7 +4138,7 @@ public class RegressionTest0
       System.out.format("%n%s%n", "RegressionTest0.test0230");
     }
     try {
-      float float1 = esa.mo.platform.impl.util.HelperGPS.DDMMpMMMMMMM2degrees("8");
+      float float1 = esa.mo.platform.impl.util.HelperGPS.degMinutes2Degrees("8");
       org.junit.Assert.fail("Expected exception of type java.io.IOException; message: null");
     } catch (java.io.IOException e) {
     }
@@ -4301,7 +4301,7 @@ public class RegressionTest0
       System.out.format("%n%s%n", "RegressionTest0.test0240");
     }
     try {
-      float float1 = esa.mo.platform.impl.util.HelperGPS.DDDMMpMMMMMMM2degrees(
+      float float1 = esa.mo.platform.impl.util.HelperGPS.degMinutes2Degrees(
           "[-1, 281475010265083, 281475010265070, 281474993487883, 281474993487885, 281474993487872, 281475010265070, 281474993487885, 281474993487889, -1, 281475010265086, 281475010265078, 4294967295, 281474993487874, 281474993487885, 281474993487886, 1, 281475010265086, 281475010265075, 281474993487876, 281474993487878, 281474993487889, -1, 100, 281474993487875]");
       org.junit.Assert.fail("Expected exception of type java.io.IOException; message: null");
     } catch (java.io.IOException e) {
@@ -4315,7 +4315,7 @@ public class RegressionTest0
       System.out.format("%n%s%n", "RegressionTest0.test0241");
     }
     try {
-      float float1 = esa.mo.platform.impl.util.HelperGPS.DDMMpMMMMMMM2degrees("[true]");
+      float float1 = esa.mo.platform.impl.util.HelperGPS.degMinutes2Degrees("[true]");
       org.junit.Assert.fail("Expected exception of type java.io.IOException; message: null");
     } catch (java.io.IOException e) {
     }
@@ -4662,7 +4662,7 @@ public class RegressionTest0
       System.out.format("%n%s%n", "RegressionTest0.test0254");
     }
     try {
-      float float1 = esa.mo.platform.impl.util.HelperGPS.DDMMpMMMMMMM2degrees(
+      float float1 = esa.mo.platform.impl.util.HelperGPS.degMinutes2Degrees(
           "[10.0, -1.0, -1.0, 10.0]");
       org.junit.Assert.fail("Expected exception of type java.io.IOException; message: null");
     } catch (java.io.IOException e) {
@@ -5163,7 +5163,7 @@ public class RegressionTest0
       System.out.format("%n%s%n", "RegressionTest0.test0276");
     }
     try {
-      float float1 = esa.mo.platform.impl.util.HelperGPS.DDMMpMMMMMMM2degrees("");
+      float float1 = esa.mo.platform.impl.util.HelperGPS.degMinutes2Degrees("");
       org.junit.Assert.fail("Expected exception of type java.io.IOException; message: null");
     } catch (java.io.IOException e) {
     }
@@ -5707,7 +5707,7 @@ public class RegressionTest0
       System.out.format("%n%s%n", "RegressionTest0.test0303");
     }
     try {
-      float float1 = esa.mo.platform.impl.util.HelperGPS.DDDMMpMMMMMMM2degrees(
+      float float1 = esa.mo.platform.impl.util.HelperGPS.degMinutes2Degrees(
           "[1, 281475010265070, 10]");
       org.junit.Assert.fail("Expected exception of type java.io.IOException; message: null");
     } catch (java.io.IOException e) {
@@ -5890,7 +5890,7 @@ public class RegressionTest0
       System.out.format("%n%s%n", "RegressionTest0.test0315");
     }
     try {
-      float float1 = esa.mo.platform.impl.util.HelperGPS.DDDMMpMMMMMMM2degrees("[1, 100, 1, 0]");
+      float float1 = esa.mo.platform.impl.util.HelperGPS.degMinutes2Degrees("[1, 100, 1, 0]");
       org.junit.Assert.fail("Expected exception of type java.io.IOException; message: null");
     } catch (java.io.IOException e) {
     }
@@ -6086,7 +6086,7 @@ public class RegressionTest0
       System.out.format("%n%s%n", "RegressionTest0.test0327");
     }
     try {
-      float float1 = esa.mo.platform.impl.util.HelperGPS.DDDMMpMMMMMMM2degrees("[true, false]");
+      float float1 = esa.mo.platform.impl.util.HelperGPS.degMinutes2Degrees("[true, false]");
       org.junit.Assert.fail(
           "Expected exception of type java.lang.NumberFormatException; message: For input string: \"[tr\"");
     } catch (java.lang.NumberFormatException e) {
@@ -6264,7 +6264,7 @@ public class RegressionTest0
       System.out.format("%n%s%n", "RegressionTest0.test0336");
     }
     try {
-      float float1 = esa.mo.platform.impl.util.HelperGPS.DDDMMpMMMMMMM2degrees(
+      float float1 = esa.mo.platform.impl.util.HelperGPS.degMinutes2Degrees(
           "[[100, 1, -1, 10], , , [100, 1, -1, 10], ]");
       org.junit.Assert.fail("Expected exception of type java.io.IOException; message: null");
     } catch (java.io.IOException e) {
@@ -7090,7 +7090,7 @@ public class RegressionTest0
       System.out.format("%n%s%n", "RegressionTest0.test0375");
     }
     try {
-      float float1 = esa.mo.platform.impl.util.HelperGPS.DDDMMpMMMMMMM2degrees("5");
+      float float1 = esa.mo.platform.impl.util.HelperGPS.degMinutes2Degrees("5");
       org.junit.Assert.fail("Expected exception of type java.io.IOException; message: null");
     } catch (java.io.IOException e) {
     }
@@ -7976,7 +7976,7 @@ public class RegressionTest0
       System.out.format("%n%s%n", "RegressionTest0.test0412");
     }
     try {
-      float float1 = esa.mo.platform.impl.util.HelperGPS.DDDMMpMMMMMMM2degrees("[true]");
+      float float1 = esa.mo.platform.impl.util.HelperGPS.degMinutes2Degrees("[true]");
       org.junit.Assert.fail("Expected exception of type java.io.IOException; message: null");
     } catch (java.io.IOException e) {
     }
@@ -8115,7 +8115,7 @@ public class RegressionTest0
       System.out.format("%n%s%n", "RegressionTest0.test0421");
     }
     try {
-      float float1 = esa.mo.platform.impl.util.HelperGPS.DDDMMpMMMMMMM2degrees("[255]");
+      float float1 = esa.mo.platform.impl.util.HelperGPS.degMinutes2Degrees("[255]");
       org.junit.Assert.fail("Expected exception of type java.io.IOException; message: null");
     } catch (java.io.IOException e) {
     }
@@ -8411,7 +8411,7 @@ public class RegressionTest0
       System.out.format("%n%s%n", "RegressionTest0.test0437");
     }
     try {
-      float float1 = esa.mo.platform.impl.util.HelperGPS.DDDMMpMMMMMMM2degrees("[52]");
+      float float1 = esa.mo.platform.impl.util.HelperGPS.degMinutes2Degrees("[52]");
       org.junit.Assert.fail("Expected exception of type java.io.IOException; message: null");
     } catch (java.io.IOException e) {
     }
@@ -8868,7 +8868,7 @@ public class RegressionTest0
       System.out.format("%n%s%n", "RegressionTest0.test0448");
     }
     try {
-      float float1 = esa.mo.platform.impl.util.HelperGPS.DDMMpMMMMMMM2degrees("[1, 10, -1, 1]");
+      float float1 = esa.mo.platform.impl.util.HelperGPS.degMinutes2Degrees("[1, 10, -1, 1]");
       org.junit.Assert.fail("Expected exception of type java.io.IOException; message: null");
     } catch (java.io.IOException e) {
     }
@@ -9681,7 +9681,7 @@ public class RegressionTest0
       System.out.format("%n%s%n", "RegressionTest0.test0487");
     }
     try {
-      float float1 = esa.mo.platform.impl.util.HelperGPS.DDDMMpMMMMMMM2degrees("36");
+      float float1 = esa.mo.platform.impl.util.HelperGPS.degMinutes2Degrees("36");
       org.junit.Assert.fail("Expected exception of type java.io.IOException; message: null");
     } catch (java.io.IOException e) {
     }

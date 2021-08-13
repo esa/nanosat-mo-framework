@@ -295,7 +295,7 @@ public class PGPS extends GenericPeripheral implements IGPS {
       }
     }
 
-    public static double DDDMMpMMMMMMM2degrees(String DDDMMpMMMMMMM) {
+    public static double degMinutes2Degrees(String DDDMMpMMMMMMM) {
       if (DDDMMpMMMMMMM.length() == 13) {
         return Double.parseDouble(DDDMMpMMMMMMM.substring(0, 3))
             + (Double.parseDouble(DDDMMpMMMMMMM.substring(3, 5))
