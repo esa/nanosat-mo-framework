@@ -3710,7 +3710,7 @@ public class RegressionTest0
       System.out.format("%n%s%n", "RegressionTest0.test0207");
     }
     try {
-      float float1 = esa.mo.platform.impl.util.HelperGPS.degMinutes2Degrees("100.0");
+      float float1 = esa.mo.platform.impl.util.HelperGPS.degMinutes2Degrees("10.0");
       org.junit.Assert.fail("Expected exception of type java.io.IOException; message: null");
     } catch (java.io.IOException e) {
     }
@@ -6088,8 +6088,8 @@ public class RegressionTest0
     try {
       float float1 = esa.mo.platform.impl.util.HelperGPS.degMinutes2Degrees("[true, false]");
       org.junit.Assert.fail(
-          "Expected exception of type java.lang.NumberFormatException; message: For input string: \"[tr\"");
-    } catch (java.lang.NumberFormatException e) {
+          "Expected exception of type java.io.IOException; message: Did not find decimal in [true, false]");
+    } catch (java.io.IOException e) {
     }
   }
 
