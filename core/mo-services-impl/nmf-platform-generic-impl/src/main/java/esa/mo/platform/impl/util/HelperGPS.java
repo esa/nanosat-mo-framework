@@ -21,6 +21,7 @@
 package esa.mo.platform.impl.util;
 
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.TimeZone;
 import org.ccsds.moims.mo.mal.structures.Time;
@@ -257,12 +258,16 @@ public class HelperGPS
       throw new IOException("Wrong string length for '" + in + "'");
     }
     int decimalAt = in.indexOf('.', 0);
-    if(decimalAt == -1)
-    {
+    if(decimalAt == -1) {
       throw new IOException("Did not find decimal in " + in);
     }
+    try {
     return Float.parseFloat(in.substring(0, decimalAt-2))
         + Float.parseFloat(in.substring(decimalAt-2, len)) / 60;
+    }
+    catch (NumberFormatException e) {
+      throw new IOException("Failed to parse degrees and minutes.", e);
+    }
   }
 
   /**
