@@ -825,32 +825,48 @@
             <mal:type area="MAL" list="false" name="Composite" />
           </mal:extends>
           <mal:field canBeNull="true"
-                     comment="The azimuth of the satellite." name="azimuth">
+                     comment="The azimuth of the satellite [deg]" name="azimuth">
             <mal:type area="MAL" list="false" name="Float" />
           </mal:field>
           <mal:field canBeNull="true"
-                     comment="The elevation of the satellite." name="elevation">
+                     comment="The elevation of the satellite [deg]" name="elevation">
             <mal:type area="MAL" list="false" name="Float" />
           </mal:field>
           <mal:field canBeNull="true"
-                     comment="The pseudorandom noise number." name="prn">
+                     comment="The pseudorandom noise number" name="prn">
             <mal:type area="MAL" list="false" name="Integer" />
           </mal:field>
           <mal:field canBeNull="true"
-                     comment="The almanac of the satellite." name="almanac">
+                     comment="Calculated pseudorange [m]" name="psr">
+            <mal:type area="MAL" list="false" name="Double" />
+          </mal:field>
+          <mal:field canBeNull="true"
+                     comment="Pseudorange std deviation" name="psrDev">
             <mal:type area="MAL" list="false" name="Float" />
           </mal:field>
           <mal:field canBeNull="true"
-                     comment="The ephemeris of the satellite." name="ephemeris">
+                     comment="Calculated carrier phase (accumulated Doppler range) [cycles]" name="adr">
+            <mal:type area="MAL" list="false" name="Double" />
+          </mal:field>
+          <mal:field canBeNull="true"
+                     comment="Calculated carrier phase std deviation" name="adrDev">
             <mal:type area="MAL" list="false" name="Float" />
           </mal:field>
           <mal:field canBeNull="true"
-                     comment="The time of the fix." name="recentFix">
-            <mal:type area="MAL" list="false" name="Time" />
+                     comment="Instantaneous carrier Doppler frequency" name="dopp">
+            <mal:type area="MAL" list="false" name="Float" />
           </mal:field>
           <mal:field canBeNull="true"
-                     comment="Space vehicle number." name="svn">
+                     comment="Signal to noise ratio" name="snr">
+            <mal:type area="MAL" list="false" name="Float" />
+          </mal:field>
+          <mal:field canBeNull="true"
+                     comment="Tracking Status" name="trackingStatus">
             <mal:type area="MAL" list="false" name="UInteger" />
+          </mal:field>
+          <mal:field canBeNull="true"
+                     comment="Time of continuous tracking [s]" name="locktime">
+            <mal:type area="MAL" list="false" name="Float" />
           </mal:field>
         </mal:composite>
         <mal:composite

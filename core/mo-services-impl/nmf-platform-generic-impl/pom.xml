@@ -28,6 +28,9 @@
     <name>ESA</name>
     <url>http://www.esa.int</url>
   </organization>
+  <properties>
+    <maven.test.skip>false</maven.test.skip>
+  </properties>
   <licenses>
     <license>
       <name>European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4</name>

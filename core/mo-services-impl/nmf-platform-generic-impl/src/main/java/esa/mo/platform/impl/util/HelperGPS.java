@@ -64,23 +64,11 @@ public class HelperGPS
     public final static int NUMBER_MSGS = 1;
     public final static int CURRENT_MSG = 2;
     public final static int NUMBER_SATS = 3;
-    public final static int SAT1_PRN = 4;
-    public final static int SAT1_ELEV = 5;
-    public final static int SAT1_AZ = 6;
-    public final static int SAT1_SNR = 7;
-    public final static int SAT2_PRN = 8;
-    public final static int SAT2_ELEV = 9;
-    public final static int SAT2_AZ = 10;
-    public final static int SAT2_SNR = 11;
-    public final static int SAT3_PRN = 12;
-    public final static int SAT3_ELEV = 13;
-    public final static int SAT3_AZ = 14;
-    public final static int SAT3_SNR = 15;
-    public final static int SAT4_PRN = 16;
-    public final static int SAT4_ELEV = 17;
-    public final static int SAT4_AZ = 18;
-    public final static int SAT4_SNR = 19;
-    public final static int CHECKSUM = 20;
+    public final static int SAT_PRN = 4;
+    public final static int SAT_ELEV = 5;
+    public final static int SAT_AZ = 6;
+    public final static int SAT_SNR = 7;
+    public final static int MIN_CHECKSUM = 8;
   }
 
   public static class BESTXYZ_FIELD
@@ -115,7 +103,6 @@ public class HelperGPS
     public final static int GALILEO_AND_BEIDOU_SIG_MASK = 26;
     public final static int GPS_AND_GLONASS_SIG_MASK = 27;
   }
-
   /**
    * Converts a GPGGA NMEA sentence into a Position object.
    *
@@ -125,22 +112,46 @@ public class HelperGPS
    */
   public static Position gpggalong2Position(String gpgga) throws IOException
   {
+    return gpgga2Position(gpgga);
+  }
+
+  /**
+   * Converts a GPGGA NMEA sentence into a Position object.
+   *
+   * @param gpgga GPGGA NMEA sentence
+   * @return Position object
+   * @throws java.io.IOException
+   */
+  public static Position gpgga2Position(String gpgga) throws IOException
+  {
     Position pos = new Position();
     String[] items = gpgga.split(",");
     try {
       pos.setAltitude(Float.parseFloat(items[GPGGA_GEN_COL.ALTITUDE]));
       pos.setLatitude(
-          DDMMpMMMMMMM2degrees(items[GPGGA_GEN_COL.LAT]) * ((items[GPGGA_GEN_COL.LAT_DIR]).equals("S")
+          degMinutes2Degrees(items[GPGGA_GEN_COL.LAT]) * ((items[GPGGA_GEN_COL.LAT_DIR]).equals("S")
           ? -1 : 1));
       pos.setLongitude(
-          DDDMMpMMMMMMM2degrees(items[GPGGA_GEN_COL.LONG]) * ((items[GPGGA_GEN_COL.LONG_DIR]).equals(
+          degMinutes2Degrees(items[GPGGA_GEN_COL.LONG]) * ((items[GPGGA_GEN_COL.LONG_DIR]).equals(
           "W") ? -1 : 1));
 
       PositionExtraDetails posExtraDetails = new PositionExtraDetails();
-      posExtraDetails.setFixQuality(Integer.parseInt(items[GPGGA_GEN_COL.QUAL]));
-      posExtraDetails.setHdop(Float.parseFloat(items[GPGGA_GEN_COL.HDOP]));
-      posExtraDetails.setNumberOfSatellites(Integer.parseInt(items[GPGGA_GEN_COL.SATS_IN_USE]));
-      posExtraDetails.setUndulation(Float.parseFloat(items[GPGGA_GEN_COL.UNDULATION]));
+      if(items[GPGGA_GEN_COL.QUAL].length() != 0)
+        posExtraDetails.setFixQuality(Integer.parseInt(items[GPGGA_GEN_COL.QUAL]));
+      else
+        posExtraDetails.setFixQuality(null);
+      if(items[GPGGA_GEN_COL.HDOP].length() != 0)
+        posExtraDetails.setHdop(Float.parseFloat(items[GPGGA_GEN_COL.HDOP]));
+      else
+        posExtraDetails.setHdop(null);
+      if(items[GPGGA_GEN_COL.SATS_IN_USE].length() != 0)
+        posExtraDetails.setNumberOfSatellites(Integer.parseInt(items[GPGGA_GEN_COL.SATS_IN_USE]));
+      else
+        posExtraDetails.setNumberOfSatellites(null);
+      if(items[GPGGA_GEN_COL.UNDULATION].length() != 0)
+        posExtraDetails.setUndulation(Float.parseFloat(items[GPGGA_GEN_COL.UNDULATION]));
+      else
+        posExtraDetails.setUndulation(null);
 
       /*
       * Time needs to be calculated, because GGA message only contains
@@ -202,55 +213,36 @@ public class HelperGPS
       for (String sentence : sentences) {
         String[] words = sentence.split(",|\\*");
         int count = words.length;
-        int expectedSize = GPGSV_COL.CHECKSUM + 1;
-        if (count == expectedSize) {
-          int satCount = 0;
-          if ("$GPGSV".equals(words[GPGSV_COL.HEADER])) {
-            int totalSats = Integer.parseInt(words[GPGSV_COL.NUMBER_SATS]);
-            for (int i = 0; i < 4; i++) {
-              float azimuth = 0, elevation = 0;
-              int prn = 0;
-              float almanac = 0, ephemeris = 0;
-              Time recentFix = new Time();
-              UInteger svn = new UInteger();
-              switch (i) {
-                case 0:
-                  azimuth = Float.parseFloat(words[GPGSV_COL.SAT1_AZ]);
-                  elevation = Float.parseFloat(words[GPGSV_COL.SAT1_ELEV]);
-                  prn = Integer.parseInt(words[GPGSV_COL.SAT1_PRN]);
-                  break;
-                case 1:
-                  azimuth = Float.parseFloat(words[GPGSV_COL.SAT2_AZ]);
-                  elevation = Float.parseFloat(words[GPGSV_COL.SAT2_ELEV]);
-                  prn = Integer.parseInt(words[GPGSV_COL.SAT2_PRN]);
-                  break;
-                case 2:
-                  azimuth = Float.parseFloat(words[GPGSV_COL.SAT3_AZ]);
-                  elevation = Float.parseFloat(words[GPGSV_COL.SAT3_ELEV]);
-                  prn = Integer.parseInt(words[GPGSV_COL.SAT3_PRN]);
-                  break;
-                case 3:
-                  azimuth = Float.parseFloat(words[GPGSV_COL.SAT4_AZ]);
-                  elevation = Float.parseFloat(words[GPGSV_COL.SAT4_ELEV]);
-                  prn = Integer.parseInt(words[GPGSV_COL.SAT4_PRN]);
-                  break;
-                default:
-                  break;
-              }
-              if (satCount++ < totalSats && prn > 0) {
-                sats.add(
-                    new SatelliteInfo(azimuth, elevation, prn, almanac, ephemeris, recentFix, svn));
-              }
-            }
-          } else {
-            throw new IOException("public static SatelliteInfoList gpgsv2SatelliteInfoList: Sentence ["
-                + sentence + "] has wrong header [" + words[GPGSV_COL.HEADER] + "], expected [$GPGSV]");
-          }
-        } else {
-          throw new IOException("public static SatelliteInfoList gpgsv2SatelliteInfoList: Sentence ["
-              + sentence + "] has wrong GPS sentence size [" + count + "], expected [" + expectedSize + "]");
+        int sentenceSatCount = (count - 5) / 4;
+        if (sentenceSatCount <= 0 || sentenceSatCount > 4) {
+          throw new IOException("Sentence [" + sentence + "] has calculated [" + sentenceSatCount + "] sat count");
         }
+        int expectedSize = sentenceSatCount * 4 + 5;
+        if (count != expectedSize) {
+          throw new IOException("Sentence [" + sentence + "] has wrong GPS sentence size [" + count + "], expected minimum [" + expectedSize + "]");
 
+        }
+        if (!"$GPGSV".equals(words[GPGSV_COL.HEADER])) {
+          throw new IOException("Sentence [" + sentence + "] has wrong header ["
+          + words[GPGSV_COL.HEADER] + "], expected [$GPGSV]");
+        }
+        for (int satOffset = 0, i = 0; i < sentenceSatCount; i++, satOffset += 4) {
+          float azimuth = 0, elevation = 0;
+          Float snr;
+          int prn;
+          prn = Integer.parseInt(words[satOffset + GPGSV_COL.SAT_PRN]);
+          elevation = Float.parseFloat(words[satOffset + GPGSV_COL.SAT_ELEV]);
+          azimuth = Float.parseFloat(words[satOffset + GPGSV_COL.SAT_AZ]);
+          try {
+            snr = Float.parseFloat(words[satOffset + GPGSV_COL.SAT_SNR]);
+          } catch (NumberFormatException e) {
+            snr = null; // Workaround for OEM615 not sending SNR of some sats
+          }
+          if (prn > 0) {
+            sats.add(
+                new SatelliteInfo(azimuth, elevation, prn, null, null, null, null, null, snr, null, null));
+          }
+        }
       }
       return sats;
     } catch (NumberFormatException e) {
@@ -258,26 +250,19 @@ public class HelperGPS
     }
   }
 
-  public static float DDMMpMMMMMMM2degrees(String DDMMpMMMMMMM) throws IOException
+  public static float degMinutes2Degrees(String in) throws IOException
   {
-    if (DDMMpMMMMMMM.length() == 12) {
-      return Float.parseFloat(DDMMpMMMMMMM.substring(0, 2))
-          + (Float.parseFloat(DDMMpMMMMMMM.substring(2, 4)) + Float.parseFloat(
-          DDMMpMMMMMMM.substring(5, 12)) / 1000000) / 60;
-    } else {
-      throw new IOException("Input string length != 12");
+    int len = in.length();
+    if (len < 4 || len > 13) {
+      throw new IOException("Wrong string length for '" + in + "'");
     }
-  }
-
-  public static float DDDMMpMMMMMMM2degrees(String DDDMMpMMMMMMM) throws IOException
-  {
-    if (DDDMMpMMMMMMM.length() == 13) {
-      return Float.parseFloat(DDDMMpMMMMMMM.substring(0, 3))
-          + (Float.parseFloat(DDDMMpMMMMMMM.substring(3, 5)) + Float.parseFloat(
-          DDDMMpMMMMMMM.substring(6, 13)) / 1000000) / 60;
-    } else {
-      throw new IOException("Input string length != 13");
+    int decimalAt = in.indexOf('.', 0);
+    if(decimalAt == -1)
+    {
+      throw new IOException("Did not find decimal in " + in);
     }
+    return Float.parseFloat(in.substring(0, decimalAt-2))
+        + Float.parseFloat(in.substring(decimalAt-2, len)) / 60;
   }
 
   /**
