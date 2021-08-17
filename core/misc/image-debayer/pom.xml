@@ -44,9 +44,15 @@
   </scm>
   <dependencies>
     <dependency>
-        <groupId>net.imagej</groupId>
-        <artifactId>ij</artifactId>
-        <version>1.53j</version>
+      <groupId>net.imagej</groupId>
+      <artifactId>ij</artifactId>
+      <version>1.53j</version>
+      <exclusions>
+        <exclusion>
+          <groupId>com.sun</groupId>
+          <artifactId>tools</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
   <distributionManagement>
@@ -68,8 +74,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
   </properties>
   <build>
-    <resources>
-    </resources>
+    <resources></resources>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
