@@ -413,7 +413,17 @@ public class CommandsImplementations {
               }
             }
 
-            if(capability.getServiceAddresses().stream().anyMatch(address -> address.getServiceURI().equals(new URI(tempURI)))) {
+            if(capability.getServiceAddresses().stream().anyMatch(address -> {
+              if(tempURI.contains("localhost")) {
+                return address.getServiceURI().equals(new URI(tempURI)) ||
+                       address.getServiceURI().equals(new URI(tempURI.replace("localhost", "127.0.0.1")));
+              } else if(tempURI.contains("127.0.0.1")) {
+                return address.getServiceURI().equals(new URI(tempURI)) ||
+                       address.getServiceURI().equals(new URI(tempURI.replace("127.0.0.1", "localhost")));
+              } else {
+                return address.getServiceURI().equals(new URI(tempURI));
+              }
+            })) {
               provider = summary;
               break;
             }
