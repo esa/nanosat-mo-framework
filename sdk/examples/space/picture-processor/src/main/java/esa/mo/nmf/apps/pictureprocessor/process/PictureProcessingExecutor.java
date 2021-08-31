@@ -20,9 +20,11 @@
  */
 package esa.mo.nmf.apps.pictureprocessor.process;
 
+import esa.mo.nmf.AppStorage;
 import static esa.mo.nmf.apps.pictureprocessor.utils.FileUtils.createDirectoriesIfNotExist;
 import static esa.mo.nmf.apps.pictureprocessor.utils.FileUtils.newOutpuStreamSafe;
 import static esa.mo.nmf.apps.pictureprocessor.utils.FileUtils.stripFileNameExtension;
+import java.io.File;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -109,7 +111,8 @@ public class PictureProcessingExecutor {
     }
 
     private static OutputStream initLogStream(Path fileName) {
-        Path logFileName = createDirectoriesIfNotExist(Paths.get(LOG_PATH))
+        String path = AppStorage.getAppUserdataDir() + File.separator + LOG_PATH;
+        Path logFileName = createDirectoriesIfNotExist(Paths.get(path))
                 .resolve(logFileName(stripFileNameExtension(fileName)));
         return newOutpuStreamSafe(logFileName);
     }

@@ -38,10 +38,7 @@ public class PictureProcessorApp {
 
     public PictureProcessorApp() {
         NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
-        File userdata = AppStorage.getAppUserdataDir();
-        String path = userdata + File.separator + "pictures";
-        Path outputFolder = createDirectoriesIfNotExist(Paths.get(path));
-        connector.init(new PictureProcessorMCAdapter(connector, outputFolder));
+        connector.init(new PictureProcessorMCAdapter(connector));
     }
 
     /**

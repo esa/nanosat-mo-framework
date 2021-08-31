@@ -21,6 +21,7 @@
 package esa.mo.nmf.apps.pictureprocessor.mo;
 
 import static esa.mo.helpertools.helpers.HelperAttributes.attribute2JavaType;
+import esa.mo.nmf.AppStorage;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -55,6 +56,9 @@ import esa.mo.nmf.NMFException;
 import esa.mo.nmf.NMFInterface;
 import esa.mo.nmf.NMFProvider;
 import esa.mo.nmf.apps.pictureprocessor.process.ProcessEventListener;
+import static esa.mo.nmf.apps.pictureprocessor.utils.FileUtils.createDirectoriesIfNotExist;
+import java.io.File;
+import java.nio.file.Paths;
 
 /**
  * The adapter for the NMF App
@@ -69,11 +73,9 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
 
     private final Map<Long, PictureReceivedAdapter> processMap = new ConcurrentHashMap<>();
     private final NMFInterface connector;
-    private final Path outputFolder;
 
-    public PictureProcessorMCAdapter(NMFProvider connector, Path outputFolder) {
+    public PictureProcessorMCAdapter(NMFProvider connector) {
         this.connector = connector;
-        this.outputFolder = outputFolder;
     }
 
     @Override
@@ -165,6 +167,10 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
         LOG.info("Process Max duration " + maxProcessingDurationSeconds);
         LOG.info("Process Request Id " + actionInstanceObjId);
 
+        File userdata = AppStorage.getAppUserdataDir();
+        String path = userdata + File.separator + "pictures";
+        Path outputFolder = createDirectoriesIfNotExist(Paths.get(path));
+        
         PictureReceivedAdapter adapter = new PictureReceivedAdapter(
                 this,
                 actionInstanceObjId,
