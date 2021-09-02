@@ -45,11 +45,7 @@ import org.ccsds.moims.mo.com.archive.structures.CompositeFilterList;
 import org.ccsds.moims.mo.com.archive.structures.CompositeFilterSet;
 import org.ccsds.moims.mo.com.archive.structures.ExpressionOperator;
 import org.ccsds.moims.mo.com.archive.structures.QueryFilter;
-import org.ccsds.moims.mo.com.structures.ObjectDetails;
-import org.ccsds.moims.mo.com.structures.ObjectId;
-import org.ccsds.moims.mo.com.structures.ObjectIdList;
-import org.ccsds.moims.mo.com.structures.ObjectKey;
-import org.ccsds.moims.mo.com.structures.ObjectType;
+import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -402,6 +398,37 @@ public class ArchiveManager {
 
             return this.dbProcessor.query(objTypeIds, archiveQuery, domainIds,
                     providerURIId, networkId, sourceLink, filter);
+        } else {
+            return new ArrayList<>();
+        }
+    }
+
+    public ArrayList<COMObjectEntity> queryCOMObjectEntity(final ObjectTypeList objTypes,
+            final ArchiveQuery archiveQuery, final QueryFilter filter) {
+        final IntegerList objTypeIds = new IntegerList();
+        for(ObjectType objType : objTypes) {
+            objTypeIds.addAll(this.fastObjectType.getObjectTypeIds(objType));
+        }
+
+        if(!objTypeIds.isEmpty()) {
+
+            final IntegerList domainIds = this.fastDomain.getDomainIds(archiveQuery.getDomain());
+            final Integer providerURIId = (archiveQuery.getProvider() != null) ? this.fastProviderURI.getProviderURIId(archiveQuery.getProvider()) : null;
+            final Integer networkId = (archiveQuery.getNetwork() != null) ? this.fastNetwork.getNetworkId(archiveQuery.getNetwork()) : null;
+            final SourceLinkContainer sourceLink = this.createSourceContainerFromObjectId(archiveQuery.getSource());
+
+            if (archiveQuery.getSource() != null) {
+                if (archiveQuery.getSource().getKey().getDomain() != null) {
+                    sourceLink.setDomainIds(this.fastDomain.getDomainIds(archiveQuery.getSource().getKey().getDomain()));
+                }
+
+                if (archiveQuery.getSource().getKey().getTypeShortForm() != null) {
+                    sourceLink.setObjectTypeIds(this.fastObjectType.getObjectTypeIds(archiveQuery.getSource().getType()));
+                }
+            }
+
+            return this.dbProcessor.query(objTypeIds, archiveQuery, domainIds,
+                                          providerURIId, networkId, sourceLink, filter);
         } else {
             return new ArrayList<>();
         }
