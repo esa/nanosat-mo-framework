@@ -54,6 +54,7 @@ import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQueryList;
+import org.ccsds.moims.mo.com.archive.structures.PaginationFilter;
 import org.ccsds.moims.mo.com.archivesync.ArchiveSyncHelper;
 import org.ccsds.moims.mo.com.archivesync.body.GetTimeResponse;
 import org.ccsds.moims.mo.com.archivesync.provider.ArchiveSyncInheritanceSkeleton;
@@ -90,6 +91,10 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
     private static final long DISPATCHERS_CLEANUP_INTERVAL_IN_MILISECONDS = 600000L; //10 minutes
 
+    private static final String CHUNK_SIZE_PROPERTY = "esa.nmf.archive.sync.chunk.size";
+
+    private static final String OBJECTS_LIMIT_PROPERTY = "esa.nmf.archive.sync.objects.limit";
+
     private static long timerCounter = 0;
 
     private final ConnectionProvider connection = new ConnectionProvider();
@@ -122,6 +127,8 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
     private Timer dispatchersCleanupTimer;
 
+    private int objectsLimit;
+
     public ArchiveSyncProviderServiceImpl(SingleConnectionDetails connectionToArchiveService)
     {
         this(connectionToArchiveService, null, null);
@@ -146,8 +153,28 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
         dispatchersCleanupTimer = new Timer(timerName);
 
-        final String msg = MessageFormat.format("Dispatchers cleanup timer created {0}", timerName);
+        String msg = MessageFormat.format("Dispatchers cleanup timer created {0}", timerName);
         Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.INFO, msg);
+
+        try
+        {
+            objectsLimit = Integer.parseInt(System.getProperty(OBJECTS_LIMIT_PROPERTY, "10000"));
+            msg = MessageFormat.format("{0} = {1}", OBJECTS_LIMIT_PROPERTY, objectsLimit);
+            Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.INFO, msg);
+
+            if(objectsLimit >= 30000)
+            {
+                msg = "Using a large objects limit may cause the archive sync to fail due to too long data transfer. " +
+                      "Consider changing the limit to a smaller amount";
+                Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.WARNING, msg);
+            }
+        }
+        catch(NumberFormatException ex)
+        {
+            objectsLimit = 10000;
+            msg = MessageFormat.format("Error when parsing {0} property. Using the default value of 10000", OBJECTS_LIMIT_PROPERTY);
+            Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.WARNING, msg);
+        }
     }
 
     private static synchronized String getTimerName()
@@ -273,32 +300,31 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         executor.execute(processQueriedObjs);
         executor.execute(flushProcessedObjs);
 
-        ArrayList<COMObjectEntity> perObjs;
+        ArchiveQuery archiveQuery = new ArchiveQuery();
+        archiveQuery.setStartTime(from);
+        archiveQuery.setEndTime(until);
+        archiveQuery.setDomain(null);
+        archiveQuery.setNetwork(null);
+        archiveQuery.setProvider(null);
+        archiveQuery.setRelated(0L);
+        archiveQuery.setSource(null);
+        archiveQuery.setSortFieldName(null);
+        archiveQuery.setSortOrder(true);
 
-        for (ObjectType objectType : objectTypes)
-        {
-            ArchiveQuery archiveQuery = new ArchiveQuery();
-            archiveQuery.setStartTime(from);
-            archiveQuery.setEndTime(until);
-            archiveQuery.setDomain(null);
-            archiveQuery.setNetwork(null);
-            archiveQuery.setProvider(null);
-            archiveQuery.setRelated(0L);
-            archiveQuery.setSource(null);
-            archiveQuery.setSortFieldName(null);
+        PaginationFilter filter = new PaginationFilter();
+        filter.setLimit(new UInteger(objectsLimit));
+        filter.setOffset(new UInteger(0));
 
-            perObjs = manager.queryCOMObjectEntity(objectType, archiveQuery, null);
-            latestSync = until;
-            dispatcher.addObjects(perObjs);
-        }
+        ArrayList<COMObjectEntity> perObjs = manager.queryCOMObjectEntity(objectTypes, archiveQuery, filter);
+        latestSync = perObjs.get(perObjs.size() - 1).getTimestamp();
 
+        dispatcher.addObjects(perObjs);
         dispatcher.setQueriesAreDone(true);
 
-        Long lastSyncTime = HelperTime.getTimestamp().getValue();
-        syncTimes.put(interactionTicket, lastSyncTime);
+        syncTimes.put(interactionTicket, latestSync.getValue());
 
         Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName())
-                .log(Level.INFO, "Stage 1: The objects were queried and are now being sent back to the consumer!");
+                .log(Level.INFO, "Stage 1: " + perObjs.size() + " objects were queried and are now being sent back to the consumer!");
     }
 
     @Override
@@ -516,7 +542,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
             this.interaction = interaction;
             this.archive = archive;
 
-            String chunkSizeParam = System.getProperty("esa.nmf.archive.sync.chunk.size");
+            String chunkSizeParam = System.getProperty(CHUNK_SIZE_PROPERTY);
 
             if (null != chunkSizeParam && !"".equals(chunkSizeParam))
             {
@@ -528,12 +554,12 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
                 catch (NumberFormatException e)
                 {
                     Logger.getLogger(Dispatcher.class.getName()).log(Level.WARNING, MessageFormat.format(
-                            "Unexpected NumberFormatException on esa.nmf.archive.sync.chunk.size ! {0}",
+                            "Unexpected NumberFormatException on {0} ! {1}", CHUNK_SIZE_PROPERTY,
                             e.getMessage()), e);
                 }
             }
 
-            final String msg = MessageFormat.format("esa.nmf.archive.sync.chunk.size = {0}", this.chunkSize);
+            final String msg = MessageFormat.format("{0} = {1}", CHUNK_SIZE_PROPERTY, this.chunkSize);
             Logger.getLogger(Dispatcher.class.getName()).log(Level.INFO, msg);
 
             String queuePollTimeout = System.getProperty("esa.nmf.archive.sync.queue.poll.timeout");
