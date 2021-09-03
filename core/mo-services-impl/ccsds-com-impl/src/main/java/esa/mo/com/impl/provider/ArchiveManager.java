@@ -655,4 +655,7 @@ public class ArchiveManager {
         return fastObjectType;
     }
 
+    public DatabaseBackend getDbBackend() {
+        return dbBackend;
+    }
 }
