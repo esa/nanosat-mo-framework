@@ -319,8 +319,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
   }
 
   private AttitudeMode getActiveAttitudeMode() {
-    final AttitudeMode activeAttitudeMode = adapter.getActiveAttitudeMode();
-    return activeAttitudeMode;
+      return adapter.getActiveAttitudeMode();
   }
 
   @Override

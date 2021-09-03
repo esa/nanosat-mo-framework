@@ -591,9 +591,8 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             // The errors have to be before the store operation to fulfil requirement: 3.4.6.2.13
             if (returnObjId) { // requirement: 3.4.6.2.1 and 3.4.6.2.14
                 // Execute the store operation (objType, domain, archiveDetails, objs)
-                LongList outLongLst = manager.insertEntries(objType, domain, lArchiveDetailsList, lElementList, interaction); // requirement: 3.4.6.2.15
                 // requirement: 3.4.6.2.15 (the operation returns the objIds with the same order)
-                return outLongLst;
+                return manager.insertEntries(objType, domain, lArchiveDetailsList, lElementList, interaction);
             } else {
                 // Cannot be Threaded because is does not lock the access to the db and out of order will happen
                 manager.insertEntriesFast(objType, domain, lArchiveDetailsList, lElementList, interaction); // requirement: 3.4.6.2.15
@@ -709,8 +708,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             }
 
             // requirement: 3.4.8.2.4 and 3.4.8.2.7
-            LongList outObjIds = manager.removeEntries(lObjectType, lIdentifierList, toBeDeleted, interaction);
-            return outObjIds; // requirement: 3.4.8.2.8
+            return manager.removeEntries(lObjectType, lIdentifierList, toBeDeleted, interaction); // requirement: 3.4.8.2.8
         }
     }
 
