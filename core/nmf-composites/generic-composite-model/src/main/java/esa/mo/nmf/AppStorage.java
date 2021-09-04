@@ -116,7 +116,7 @@ public class AppStorage {
 
     private static StringBuilder pathToUserAppDir() {
         StringBuilder path = new StringBuilder();
-        path.append((String) System.getProperty("user.home"));
+        path.append(System.getProperty("user.home"));
         path.append(File.separator);
         path.append(FOLDER_USER_NMF_DIR);
         path.append(File.separator);

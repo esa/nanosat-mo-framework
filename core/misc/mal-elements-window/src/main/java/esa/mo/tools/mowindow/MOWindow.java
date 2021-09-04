@@ -138,7 +138,7 @@ public final class MOWindow extends javax.swing.JDialog {
                 } else {
                     MOelementList moElementList = new MOelementList(this,
                             String.valueOf(componentsPanel.getComponentCount()),
-                            (Element) list.get(i), editable, (list.get(i) == null));
+                            list.get(i), editable, (list.get(i) == null));
                     componentsPanel.add(moElementList);
                 }
 
@@ -175,7 +175,7 @@ public final class MOWindow extends javax.swing.JDialog {
 
                 if (fieldObject instanceof Attribute) {
                     MOattribute moField = new MOattribute(fields[i].getName(),
-                            (Element) fieldObject, editable, fieldObjectIsNull);
+                            fieldObject, editable, fieldObjectIsNull);
                     componentsPanel.add(moField);
                     continue;
                 }
@@ -189,7 +189,7 @@ public final class MOWindow extends javax.swing.JDialog {
 
                 if (fieldObject == null) {  // It is unknown or type "Attribute"
                     MOattribute moField = new MOattribute(fields[i].getName(),
-                            (Element) fieldObject, editable, fieldObjectIsNull);
+                            fieldObject, editable, fieldObjectIsNull);
                     componentsPanel.add(moField);
                     continue;
                 }

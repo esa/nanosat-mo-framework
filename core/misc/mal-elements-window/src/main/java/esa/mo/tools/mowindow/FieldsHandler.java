@@ -134,11 +134,11 @@ public class FieldsHandler {
                 String name = constructor.getName();
                 try {
                     if (name.equals("java.lang.Boolean")) {
-                        return HelperAttributes.javaType2Attribute((Boolean) constructor.newInstance(true));
+                        return HelperAttributes.javaType2Attribute(constructor.newInstance(true));
                     }
 
                     if (name.equals("java.lang.String")) {
-                        return HelperAttributes.javaType2Attribute((String) constructor.newInstance(""));
+                        return HelperAttributes.javaType2Attribute(constructor.newInstance(""));
                     }
 
                     if (name.equals("java.lang.Byte")) {

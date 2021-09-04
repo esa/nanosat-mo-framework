@@ -429,7 +429,7 @@ public class Debayer_Image implements PlugInFilter {
         }
       }
 
-      g.putPixel(0, 0, (int) ((ip.getPixel(0, 1) + ip.getPixel(1, 0)) / 2));
+      g.putPixel(0, 0, (ip.getPixel(0, 1) + ip.getPixel(1, 0)) / 2);
 
       for (int y = 0; y < height; y += 2) {
         for (int x = 0; x < width; x += 2) {
@@ -537,7 +537,7 @@ public class Debayer_Image implements PlugInFilter {
         }
       }
 
-      g.putPixel(0, 0, (int) ((ip.getPixel(0, 1) + ip.getPixel(1, 0)) / 2));
+      g.putPixel(0, 0, (ip.getPixel(0, 1) + ip.getPixel(1, 0)) / 2);
 
       for (int y = 1; y < height; y += 2) {
         for (int x = 0; x < width; x += 2) {
@@ -735,7 +735,7 @@ public class Debayer_Image implements PlugInFilter {
         }
       }
 
-      g.putPixel(0, 0, (int) ((ip.getPixel(0, 1) + ip.getPixel(1, 0)) / 2));
+      g.putPixel(0, 0, (ip.getPixel(0, 1) + ip.getPixel(1, 0)) / 2);
 
       for (int y = 0; y < height; y += 2) {
         for (int x = 0; x < width; x += 2) {
@@ -895,7 +895,7 @@ public class Debayer_Image implements PlugInFilter {
         }
       }
 
-      g.putPixel(0, 0, (int) ((ip.getPixel(0, 1) + ip.getPixel(1, 0)) / 2));
+      g.putPixel(0, 0, (ip.getPixel(0, 1) + ip.getPixel(1, 0)) / 2);
 
       for (int y = 1; y < height; y += 2) {
         for (int x = 0; x < width; x += 2) {

@@ -133,7 +133,7 @@ public class StoreAggregations {
             long estimatedTime = System.nanoTime() - startTime;
             Logger.getLogger(BenchmarkApp.class.getName()).log(Level.INFO,
                     "Total time: " + numberOfObjs + " objects in {0} nanoseconds", estimatedTime);
-            float objectPerSec = numberOfObjs / ((float) ((float) estimatedTime / (float) 1000000000));
+            float objectPerSec = numberOfObjs / ((float) estimatedTime / (float) 1000000000);
             float averageTimePerObj = 1 / objectPerSec;
             Logger.getLogger(BenchmarkApp.class.getName()).log(Level.INFO,
                     "Objects per second: " + objectPerSec + " (average: " + averageTimePerObj + " sec)");

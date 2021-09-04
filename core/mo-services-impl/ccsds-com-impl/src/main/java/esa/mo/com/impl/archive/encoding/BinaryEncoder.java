@@ -67,7 +67,7 @@ public class BinaryEncoder extends GENEncoder
       }
       else
       {
-        outputStream.addBytes((byte[]) null);
+        outputStream.addBytes(null);
       }
     }
     catch (IOException ex)
@@ -100,7 +100,7 @@ public class BinaryEncoder extends GENEncoder
       }
       else
       {
-        outputStream.addBytes((byte[]) null);
+        outputStream.addBytes(null);
       }
     }
     catch (IOException ex)
@@ -120,7 +120,7 @@ public class BinaryEncoder extends GENEncoder
       }
       else
       {
-        outputStream.addBytes((byte[]) null);
+        outputStream.addBytes(null);
       }
     }
     catch (IOException ex)
@@ -140,7 +140,7 @@ public class BinaryEncoder extends GENEncoder
       }
       else
       {
-        outputStream.addBytes((byte[]) null);
+        outputStream.addBytes(null);
       }
     }
     catch (IOException ex)
@@ -160,7 +160,7 @@ public class BinaryEncoder extends GENEncoder
       }
       else
       {
-        outputStream.addBytes((byte[]) null);
+        outputStream.addBytes(null);
       }
     }
     catch (IOException ex)

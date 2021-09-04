@@ -65,7 +65,7 @@ public class CommandDescriptor implements Serializable {
       dataResult = data.toString();
     }
     if (data instanceof Properties) {
-      dataResult = ((Properties) data).toString();
+      dataResult = data.toString();
     }
     if (data instanceof CommandDescriptor) {
       dataResult = data.toString();
@@ -138,7 +138,7 @@ public class CommandDescriptor implements Serializable {
 
   private ArrayList<ArgumentDescriptor> parseMethodBodyStringForArgList(String methodBody) {
     ArrayList<ArgumentDescriptor> result = new ArrayList<>();
-    String argsBody = methodBody.substring(methodBody.indexOf("(", 0) + 1);
+    String argsBody = methodBody.substring(methodBody.indexOf("(") + 1);
     argsBody = argsBody.substring(0, argsBody.length() - 1);
     this.logger.log(Level.ALL, "argsBody is [" + argsBody + "]");
     if (argsBody.equals("")) {

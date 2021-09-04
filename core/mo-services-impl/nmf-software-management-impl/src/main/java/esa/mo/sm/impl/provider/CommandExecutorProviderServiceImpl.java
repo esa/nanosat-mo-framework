@@ -233,7 +233,7 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
     URI sourceURI = connection.getPrimaryConnectionDetails().getProviderURI();
     ObjectId source = new ObjectId(CommandExecutorHelper.COMMAND_OBJECT_TYPE, new ObjectKey(domain,
         objId));
-    Element eventBody = new Union((Integer) exitCode);
+    Element eventBody = new Union(exitCode);
     IntegerList eventBodyList = new IntegerList(1);
     eventBodyList.add(exitCode);
     final Long eventObjId = eventService.generateAndStoreEvent(

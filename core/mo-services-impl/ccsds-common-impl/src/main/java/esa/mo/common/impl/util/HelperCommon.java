@@ -197,7 +197,7 @@ public class HelperCommon {
       index = getTransportIndex(availableTransports, "malspp");
 
       // If could not be found nor it is not the first one
-      if (index == -1 || index != 0) { // Then let's pick the first one
+      if (index != 0) { // Then let's pick the first one
         return 0;
       } else {
         // It was found and it is the first one (0)

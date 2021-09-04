@@ -82,14 +82,14 @@ public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNM
             return (Attribute) ret;
         } else {
             // First try to convert it into a MO type...
-            Object moType = (Object) HelperAttributes.javaType2Attribute(ret);
+            Object moType = HelperAttributes.javaType2Attribute(ret);
 
             if (moType instanceof Attribute) { // Was it succcessfully converted from Java to Attribute?
                 return (Attribute) moType;
             }
 
             try { // Thy to serialize the object and put it inside a Blob
-                return (Attribute) HelperAttributes.serialObject2blobAttribute(ret);
+                return HelperAttributes.serialObject2blobAttribute(ret);
             } catch (IOException ex) {
                 Logger.getLogger(SimpleMonitorAndControlAdapter.class.getName()).log(Level.SEVERE, null, ex);
             }

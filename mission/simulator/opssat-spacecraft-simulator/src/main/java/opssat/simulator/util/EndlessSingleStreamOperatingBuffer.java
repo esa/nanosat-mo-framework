@@ -34,7 +34,7 @@ public class EndlessSingleStreamOperatingBuffer extends GenericFileBasedOperatin
     }
 
     public byte[] getDataAsByteArray(int quantityOfData) {
-        int bytesNo=(Integer) quantityOfData;
+        int bytesNo= quantityOfData;
         byte[] result=new byte[bytesNo];
         byte[] tempData=(byte[])super.getDataBuffer();
         int capacity=tempData.length;
@@ -57,6 +57,6 @@ public class EndlessSingleStreamOperatingBuffer extends GenericFileBasedOperatin
     public void setDataFromByteArray(byte[] directData)
     {
         super.setOperatingIndex(0);
-        super.setDataBuffer((Object) directData);
+        super.setDataBuffer(directData);
     }
 }

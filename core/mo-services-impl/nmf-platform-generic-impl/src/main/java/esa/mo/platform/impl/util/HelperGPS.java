@@ -257,7 +257,7 @@ public class HelperGPS
     if (len < 4 || len > 13) {
       throw new IOException("Wrong string length for '" + in + "'");
     }
-    int decimalAt = in.indexOf('.', 0);
+    int decimalAt = in.indexOf('.');
     if(decimalAt == -1) {
       throw new IOException("Did not find decimal in " + in);
     }

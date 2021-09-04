@@ -305,23 +305,23 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
         
         CheckDefinitionDetails checkDefinition = null;
         
-        if ("ConstantCheckDefinition".equals(s.toString())){
+        if ("ConstantCheckDefinition".equals(s)){
             checkDefinition = new ConstantCheckDefinition();
         }
 
-        if ("ReferenceCheckDefinition".equals(s.toString())){
+        if ("ReferenceCheckDefinition".equals(s)){
             checkDefinition = new ReferenceCheckDefinition();
         }
 
-        if ("DeltaCheckDefinition".equals(s.toString())){
+        if ("DeltaCheckDefinition".equals(s)){
             checkDefinition = new DeltaCheckDefinition();
         }
 
-        if ("LimitCheckDefinition".equals(s.toString())){
+        if ("LimitCheckDefinition".equals(s)){
             checkDefinition = new LimitCheckDefinition();
         }
 
-        if ("CompoundCheckDefinition".equals(s.toString())){
+        if ("CompoundCheckDefinition".equals(s)){
             checkDefinition = new CompoundCheckDefinition();
          }
 
@@ -331,7 +331,7 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
 
         try {
             checkDefinitionList = (CheckDefinitionDetailsList) HelperMisc.element2elementList(checkDefinition);
-            checkDefinitionList.add((CheckDefinitionDetails) checkDefinitionWindow.getObject());
+            checkDefinitionList.add(checkDefinitionWindow.getObject());
             StringList checkNames = new StringList();
             checkNames.add("AcheckDefinition");
 
@@ -383,7 +383,7 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
 
         try {
             checkDefinitionList = (CheckDefinitionDetailsList) HelperMisc.element2elementList(moObject.getObject());
-            checkDefinitionList.add((CheckDefinitionDetails) moObject.getObject());
+            checkDefinitionList.add(moObject.getObject());
             this.serviceMCCheck.getCheckStub().updateDefinition(objIds, checkDefinitionList);
             this.listDefinitionAllButtonActionPerformed(null);
         } catch (InterruptedIOException ex) {

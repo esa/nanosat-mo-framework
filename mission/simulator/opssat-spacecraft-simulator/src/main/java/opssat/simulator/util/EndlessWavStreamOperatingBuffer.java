@@ -34,7 +34,7 @@ public class EndlessWavStreamOperatingBuffer extends GenericWavFileBasedOperatin
     }
     
     public double[] getDataAsDoubleArray(int quantityOfData) {
-        int bytesNo=(Integer) quantityOfData;
+        int bytesNo= quantityOfData;
         double[] result=new double[bytesNo];
         double[] tempData=(double[])super.getDataBuffer();
         int capacity=tempData.length;
@@ -58,6 +58,6 @@ public class EndlessWavStreamOperatingBuffer extends GenericWavFileBasedOperatin
     public void setDataFromByteArray(byte[] directData)
     {
         super.setOperatingIndex(0);
-        super.setDataBuffer((Object) directData);
+        super.setDataBuffer(directData);
     }
 }

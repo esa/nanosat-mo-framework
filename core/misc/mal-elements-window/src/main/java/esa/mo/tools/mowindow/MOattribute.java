@@ -55,13 +55,13 @@ public class MOattribute extends MOelement {
     public Object getObject(){
 
         if (super.object == null && super.fieldSelectableAttribute.isEnabled()){  // Unknown attribute
-            long index = (long) super.fieldSelectableAttribute.getSelectedIndex();
+            long index = super.fieldSelectableAttribute.getSelectedIndex();
             if (index == 0){
                 index = Attribute.STRING_TYPE_SHORT_FORM;  // If nothing was selected, then just consider it as a String
             }
             
             Long shortForm = Attribute.ABSOLUTE_AREA_SERVICE_NUMBER + index;
-            super.object = (Element) MALContextFactory.getElementFactoryRegistry().lookupElementFactory(shortForm).createElement();
+            super.object = MALContextFactory.getElementFactoryRegistry().lookupElementFactory(shortForm).createElement();
         }
         
         try {
