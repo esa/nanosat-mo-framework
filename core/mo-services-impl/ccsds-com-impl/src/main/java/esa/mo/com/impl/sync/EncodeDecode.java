@@ -27,10 +27,6 @@ import esa.mo.com.impl.provider.ArchiveManager;
 import esa.mo.com.impl.provider.ArchiveSyncProviderServiceImpl;
 import esa.mo.com.impl.util.COMObjectStructure;
 import esa.mo.helpertools.helpers.HelperMisc;
-import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archivesync.consumer.ArchiveSyncStub;
 import org.ccsds.moims.mo.com.structures.ObjectDetails;
@@ -40,14 +36,18 @@ import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALElementFactory;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.structures.Blob;
-import org.ccsds.moims.mo.mal.structures.Element;
-import org.ccsds.moims.mo.mal.structures.FineTime;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.IntegerList;
-import org.ccsds.moims.mo.mal.structures.StringList;
-import org.ccsds.moims.mo.mal.structures.URI;
+import org.ccsds.moims.mo.mal.structures.*;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 /**
  * Encodes and decodes COM objects to and from bytes.
@@ -67,56 +67,13 @@ public class EncodeDecode {
     public static byte[] encodeToByteArray(final COMObjectEntity entity,
             ArchiveManager manager, Dictionary dictionary) {
         try {
-            final ByteArrayOutputStream bodyBaos = new ByteArrayOutputStream();
-            final BinaryEncoder be = new BinaryEncoder(bodyBaos);
+            final ByteArrayOutputStream outputBytesStream = new ByteArrayOutputStream();
+            final BinaryEncoder encoder = new BinaryEncoder(outputBytesStream);
 
-            Identifier network = manager.getFastNetwork().getNetwork(entity.getNetwork());
-            Integer wordId1 = dictionary.getWordId(network.getValue());
-            be.encodeShort(wordId1.shortValue());
+            encodeEntity(entity, manager, dictionary, encoder);
 
-            URI providerURI = manager.getFastProviderURI().getProviderURI(entity.getProviderURI());
-            Integer wordId2 = dictionary.getWordId(providerURI.getValue());
-            be.encodeShort(wordId2.shortValue());
-
-            ObjectType objType = manager.getFastObjectType().getObjectType(entity.getObjectTypeId());
-            be.encodeElement(objType);
-
-            // --- Source Link ---
-            if (entity.getSourceLink().getDomainId() == null) {
-                be.encodeNullableShort(null);
-            } else {
-                IdentifierList sourceDomain = manager.getFastDomain().getDomain(entity.getSourceLink().getDomainId());
-                Integer wordId3 = dictionary.getWordId(HelperMisc.domain2domainId(sourceDomain));
-                be.encodeNullableShort(wordId3.shortValue());
-            }
-
-            if (entity.getSourceLink().getObjectTypeId() == null) {
-                be.encodeNullableElement(null);
-            } else {
-                ObjectType sourceObjType = manager.getFastObjectType().getObjectType(entity.getSourceLink().getObjectTypeId());
-                be.encodeNullableElement(sourceObjType);
-            }
-
-            if (entity.getSourceLink().getObjectTypeId() == null) {
-                be.encodeNullableLong(null);
-            } else {
-                Long sourceObjId = entity.getSourceLink().getObjId();
-                be.encodeNullableLong(sourceObjId);
-            }
-            // -------------------
-
-            Long relatedLink = entity.getRelatedLink();
-            be.encodeNullableLong(relatedLink);
-
-            byte[] array = entity.getObjectEncoded();
-            Blob value = (array == null) ? null : new Blob(array);
-            be.encodeNullableBlob(value);
-
-            be.encodeLong(entity.getObjectId());
-            be.encodeFineTime(entity.getTimestamp());
-
-            byte[] output = bodyBaos.toByteArray();
-            be.close();
+            byte[] output = outputBytesStream.toByteArray();
+            encoder.close();
 
             return output;
         } catch (Exception ex) {
@@ -135,74 +92,206 @@ public class EncodeDecode {
      * @param domain The domain of the COM objects to decode
      * @return The list of decoded COM objects
      */
-    public static ArrayList<COMObjectStructure> decodeFromByteArrayList(ArrayList<byte[]> chunks,
+    public static ArrayList<COMObjectStructure> decodeFromByteArrayList(List<byte[]> chunks,
             Dictionary dictionary, ArchiveSyncStub archiveSyncService, IdentifierList domain) {
-        ArrayList<COMObjectStructure> objs = new ArrayList<>();
-
         if (chunks.isEmpty()) {
             return null;
         }
 
         int chunkSize = chunks.get(0).length; // We assume all chunks have the same size
         int totalSize = chunkSize * (chunks.size() - 1) + chunks.get(chunks.size() - 1).length;
-        byte[] myArray = new byte[totalSize];
+        byte[] bytes = new byte[totalSize];
 
         for (int i = 0; i < totalSize; i++) {
             int slot = i % chunkSize;
             int chunkNumber = i / chunkSize;
-            myArray[i] = chunks.get(chunkNumber)[slot];
+            bytes[i] = chunks.get(chunkNumber)[slot];
         }
 
-        final BinaryDecoder bd = new BinaryDecoder(myArray);
+        return decodeFromByteArray(dictionary, archiveSyncService, domain, bytes);
+    }
+
+    public static byte[] encodeToCompressedByteArray(final List<COMObjectEntity> entities,
+                                                           ArchiveManager manager,
+                                                           Dictionary dictionary) {
+        try {
+            ByteArrayOutputStream bytesOutputStream = new ByteArrayOutputStream();
+            BinaryEncoder encoder = new BinaryEncoder(bytesOutputStream);
+
+            for(COMObjectEntity entity : entities) {
+                encodeEntity(entity, manager, dictionary, encoder);
+            }
+
+            byte[] uncompressedOutput = bytesOutputStream.toByteArray();
+            encoder.close();
+            Logger.getLogger(EncodeDecode.class.getName()).log(Level.INFO, "Uncompressed objects size: " + uncompressedOutput.length + " bytes");
+
+            ByteArrayOutputStream compressedBytesOutputStream = new ByteArrayOutputStream();
+            GZIPOutputStream gzip = new GZIPOutputStream(compressedBytesOutputStream);
+            gzip.write(uncompressedOutput);
+            gzip.close();
+            byte[] compressedBytes = compressedBytesOutputStream.toByteArray();
+            compressedBytesOutputStream.close();
+
+            byte[] uncompressedSize = ByteBuffer.allocate(4).putInt(uncompressedOutput.length).array();
+            byte[] output = new byte[4 + compressedBytes.length];
+
+            System.arraycopy(uncompressedSize, 0, output, 0, 4);
+            System.arraycopy(compressedBytes, 0, output, 4, compressedBytes.length);
+
+            Logger.getLogger(EncodeDecode.class.getName()).log(Level.INFO, "Compressed objects size: " + compressedBytes.length + " bytes");
+
+            return output;
+        } catch (Exception ex) {
+            Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return new byte[0]; // Return an empty byte array
+    }
+
+    public static ArrayList<COMObjectStructure> decodeFromCompressedByteArrayList(List<byte[]> chunks,
+                                                                                  Dictionary dictionary,
+                                                                                  ArchiveSyncStub archiveSyncService,
+                                                                                  IdentifierList domain) {
+        if (chunks.isEmpty()) {
+            return null;
+        }
+
+        int chunkSize = chunks.get(0).length; // We assume all chunks have the same size
+        int totalCompressedSize = chunkSize * (chunks.size() - 1) + chunks.get(chunks.size() - 1).length;
+
+        byte[] compressedBytes = new byte[totalCompressedSize - 4];
+
+        byte[] uncompressedSizeBytes = new byte[4]; // first 4 bytes are the size of uncompressed data
+        System.arraycopy(chunks.get(0), 0, uncompressedSizeBytes, 0, 4);
+        int uncompressedSize = ByteBuffer.wrap(uncompressedSizeBytes).getInt();
+
+        for (int i = 0; i < totalCompressedSize - 4; i++) {
+            int slot = (i + 4) % chunkSize;
+            int chunkNumber = (i + 4) / chunkSize;
+            compressedBytes[i] = chunks.get(chunkNumber)[slot];
+        }
+
+        ByteArrayInputStream bytesInputStream = new ByteArrayInputStream(compressedBytes);
+        byte[] bytes = new byte[uncompressedSize];
+        try {
+            GZIPInputStream gzip = new GZIPInputStream(bytesInputStream, uncompressedSize);
+            gzip.read(bytes);
+            gzip.close();
+            bytesInputStream.close();
+        } catch (IOException ex) {
+            Logger.getLogger(EncodeDecode.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+
+        return decodeFromByteArray(dictionary, archiveSyncService, domain, bytes);
+    }
+
+    private static void encodeEntity(COMObjectEntity entity,
+                                     ArchiveManager manager,
+                                     Dictionary dictionary,
+                                     BinaryEncoder encoder) throws Exception {
+        Identifier network = manager.getFastNetwork().getNetwork(entity.getNetwork());
+        Integer networkId = dictionary.getWordId(network.getValue());
+        encoder.encodeShort(networkId.shortValue());
+
+        URI providerURI = manager.getFastProviderURI().getProviderURI(entity.getProviderURI());
+        Integer providerURIId = dictionary.getWordId(providerURI.getValue());
+        encoder.encodeShort(providerURIId.shortValue());
+
+        ObjectType objType = manager.getFastObjectType().getObjectType(entity.getObjectTypeId());
+        encoder.encodeElement(objType);
+
+        // --- Source Link ---
+        if (entity.getSourceLink().getDomainId() == null) {
+            encoder.encodeNullableShort(null);
+        } else {
+            IdentifierList sourceDomain = manager.getFastDomain().getDomain(entity.getSourceLink().getDomainId());
+            Integer sourceDomainId = dictionary.getWordId(HelperMisc.domain2domainId(sourceDomain));
+            encoder.encodeNullableShort(sourceDomainId.shortValue());
+        }
+
+        if (entity.getSourceLink().getObjectTypeId() == null) {
+            encoder.encodeNullableElement(null);
+        } else {
+            ObjectType sourceObjType = manager.getFastObjectType().getObjectType(entity.getSourceLink().getObjectTypeId());
+            encoder.encodeNullableElement(sourceObjType);
+        }
+
+        if (entity.getSourceLink().getObjectTypeId() == null) {
+            encoder.encodeNullableLong(null);
+        } else {
+            Long sourceObjId = entity.getSourceLink().getObjId();
+            encoder.encodeNullableLong(sourceObjId);
+        }
+        // -------------------
+
+        Long relatedLink = entity.getRelatedLink();
+        encoder.encodeNullableLong(relatedLink);
+
+        byte[] array = entity.getObjectEncoded();
+        Blob value = (array == null) ? null : new Blob(array);
+        encoder.encodeNullableBlob(value);
+
+        encoder.encodeLong(entity.getObjectId());
+        encoder.encodeFineTime(entity.getTimestamp());
+    }
+
+    private static ArrayList<COMObjectStructure> decodeFromByteArray(Dictionary dictionary,
+                                                                     ArchiveSyncStub archiveSyncService,
+                                                                     IdentifierList domain,
+                                                                     byte[] bytes) {
+        ArrayList<COMObjectStructure> objs = new ArrayList<>();
+        final BinaryDecoder decoder = new BinaryDecoder(bytes);
         boolean stillDecoding = true;
 
         while (stillDecoding) {
             try {
-                Short wordIdNet = bd.decodeShort();
-                Short wordIdProv = bd.decodeShort();
-                ObjectType objType = (ObjectType) bd.decodeElement(new ObjectType());
+                Short networkId = decoder.decodeShort();
+                Short providerURIId = decoder.decodeShort();
+                ObjectType objType = (ObjectType) decoder.decodeElement(new ObjectType());
 
                 // --- Source Link ---
-                Short sourceDomainId = bd.decodeNullableShort();
-                ObjectType sourceObjType = (ObjectType) bd.decodeNullableElement(new ObjectType());
-                Long sourceObjId = bd.decodeNullableLong();
+                Short sourceDomainId = decoder.decodeNullableShort();
+                ObjectType sourceObjType = (ObjectType) decoder.decodeNullableElement(new ObjectType());
+                Long sourceObjId = decoder.decodeNullableLong();
                 // -------------------
 
-                Long relatedLink = bd.decodeNullableLong();
-                Blob blob = bd.decodeNullableBlob();
-                Element elem = null;
+                Long relatedLink = decoder.decodeNullableLong();
+                Blob blob = decoder.decodeNullableBlob();
+                Element element = null;
 
                 if (blob != null) {
                     try {
-                        final BinaryDecoder binDec = new BinaryDecoder(blob.getValue());
-                        final MALElementFactory eleFact = MALContextFactory.getElementFactoryRegistry().lookupElementFactory(binDec.decodeLong());
-                        elem = binDec.decodeNullableElement((Element) eleFact.createElement());
+                        final BinaryDecoder blobDecoder = new BinaryDecoder(blob.getValue());
+                        final MALElementFactory elementFactory = MALContextFactory.getElementFactoryRegistry().lookupElementFactory(blobDecoder.decodeLong());
+                        element = blobDecoder.decodeNullableElement((Element) elementFactory.createElement());
                     } catch (MALException ex) {
                         Logger.getLogger(COMObjectEntity.class.getName()).log(Level.SEVERE,
-                                "The object body could not be decoded! Usually happens when there's "
-                                + "an update in the APIs. (1) ", ex);
+                                                                              "The object body could not be decoded! Usually happens when there's "
+                                                                              + "an update in the APIs. (1) ", ex);
                     } catch (IllegalArgumentException ex) {
                         Logger.getLogger(COMObjectEntity.class.getName()).log(Level.SEVERE,
-                                "The object body could not be decoded! Usually happens when there's "
-                                + "an update in the APIs. (2) ", ex);
+                                                                              "The object body could not be decoded! Usually happens when there's "
+                                                                              + "an update in the APIs. (2) ", ex);
                     } catch (Exception ex) {
                         Logger.getLogger(COMObjectEntity.class.getName()).log(Level.SEVERE,
-                                "The object body could not be decoded! Usually happens when there's "
-                                + "an update in the APIs. (3) ", ex);
+                                                                              "The object body could not be decoded! Usually happens when there's "
+                                                                              + "an update in the APIs. (3) ", ex);
                     }
                 }
 
-                Long objId = bd.decodeLong();
-                FineTime timestamp = bd.decodeFineTime();
+                Long objId = decoder.decodeLong();
+                FineTime timestamp = decoder.decodeFineTime();
 
                 IntegerList ids = new IntegerList();
 
-                if (!dictionary.exists((int) wordIdNet)) {
-                    ids.add((int) wordIdNet);
+                if (!dictionary.exists((int) networkId)) {
+                    ids.add((int) networkId);
                 }
 
-                if (!dictionary.exists((int) wordIdProv)) {
-                    ids.add((int) wordIdProv);
+                if (!dictionary.exists((int) providerURIId)) {
+                    ids.add((int) providerURIId);
                 }
 
                 if (sourceDomainId != null) {
@@ -218,12 +307,12 @@ public class EncodeDecode {
                     for (int j = 0; j < ids.size(); j++) {
                         dictionary.defineWord(ids.get(j), strings.get(j));
                         Logger.getLogger(COMObjectEntity.class.getName()).log(Level.FINE,
-                                "Defining id: " + ids.get(j) + " as word: " + strings.get(j));
+                                                                              "Defining id: " + ids.get(j) + " as word: " + strings.get(j));
                     }
                 }
 
-                Identifier network = new Identifier(dictionary.getWord((int) wordIdNet));
-                URI providerURI = new URI(dictionary.getWord((int) wordIdProv));
+                Identifier network = new Identifier(dictionary.getWord((int) networkId));
+                URI providerURI = new URI(dictionary.getWord((int) providerURIId));
                 IdentifierList sourceDomain;
                 if (sourceDomainId != null) {
                     sourceDomain = HelperMisc.domainId2domain(dictionary.getWord((int) sourceDomainId));
@@ -232,15 +321,15 @@ public class EncodeDecode {
                 }
 
                 ObjectId objectId = (sourceObjType == null)
-                        ? null
-                        : new ObjectId(sourceObjType, new ObjectKey(sourceDomain, sourceObjId));
+                                    ? null
+                                    : new ObjectId(sourceObjType, new ObjectKey(sourceDomain, sourceObjId));
 
                 ObjectDetails objDetails = new ObjectDetails(relatedLink, objectId);
 
                 ArchiveDetails archDetails = new ArchiveDetails(objId, objDetails,
-                        network, timestamp, providerURI);
+                                                                network, timestamp, providerURI);
 
-                objs.add(new COMObjectStructure(domain, objType, archDetails, elem));
+                objs.add(new COMObjectStructure(domain, objType, archDetails, element));
             } catch (ArrayIndexOutOfBoundsException ex) {
                 stillDecoding = false;
             } catch (Exception ex) {
