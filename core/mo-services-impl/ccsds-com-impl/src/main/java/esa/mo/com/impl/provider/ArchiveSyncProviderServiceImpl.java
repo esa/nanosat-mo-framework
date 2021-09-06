@@ -30,25 +30,6 @@ import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.helpertools.misc.Const;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
 import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
@@ -62,24 +43,22 @@ import org.ccsds.moims.mo.com.archivesync.provider.RetrieveRangeAgainInteraction
 import org.ccsds.moims.mo.com.archivesync.provider.RetrieveRangeInteraction;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.com.structures.ObjectTypeList;
-import org.ccsds.moims.mo.mal.MALContextFactory;
-import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALHelper;
-import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MALStandardError;
+import org.ccsds.moims.mo.mal.*;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
-import org.ccsds.moims.mo.mal.structures.Blob;
-import org.ccsds.moims.mo.mal.structures.ElementList;
-import org.ccsds.moims.mo.mal.structures.FineTime;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.IntegerList;
-import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.mal.structures.StringList;
-import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mal.structures.UIntegerList;
+import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.text.MessageFormat;
+import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
  * Archive Sync service Provider.
@@ -294,12 +273,6 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
         interaction.sendAcknowledgement(interactionTicket);
 
-        Runnable processQueriedObjs = dispatcher.getProcessingRunnable();
-        Runnable flushProcessedObjs = dispatcher.getFlushingRunnable();
-
-        executor.execute(processQueriedObjs);
-        executor.execute(flushProcessedObjs);
-
         ArchiveQuery archiveQuery = new ArchiveQuery();
         archiveQuery.setStartTime(from);
         archiveQuery.setEndTime(until);
@@ -319,12 +292,11 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         latestSync = perObjs.get(perObjs.size() - 1).getTimestamp();
 
         dispatcher.addObjects(perObjs);
-        dispatcher.setQueriesAreDone(true);
+        Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName())
+              .log(Level.INFO, "Stage 1: " + perObjs.size() + " objects were queried and are now being sent back to the consumer!");
 
         syncTimes.put(interactionTicket, latestSync.getValue());
-
-        Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName())
-                .log(Level.INFO, "Stage 1: " + perObjs.size() + " objects were queried and are now being sent back to the consumer!");
+        executor.execute(dispatcher::flushData);
     }
 
     @Override
@@ -514,26 +486,16 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
     private class Dispatcher
     {
-
-        // A temporary queue to hold the objects that were queried
-        private final LinkedBlockingQueue<COMObjectEntity> tempQueue = new LinkedBlockingQueue<>();
-
         private final RetrieveRangeInteraction interaction;
 
         // These chunks are already compressed!
         private final ArrayList<byte[]> chunksFlushed = new ArrayList<>();
 
-        private final LinkedBlockingQueue<byte[]> dataToFlush = new LinkedBlockingQueue<>();
+        private byte[] dataToFlush = null;
 
         private final ArchiveConsumerServiceImpl archive;
 
         private int chunkSize = 200;
-
-        private int pollTiemout = 1000;
-
-        private boolean queriesAreDone = false;
-
-        private boolean processingIsDone = false;
 
         private int numberOfChunks = 0;
 
@@ -561,34 +523,11 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
             final String msg = MessageFormat.format("{0} = {1}", CHUNK_SIZE_PROPERTY, this.chunkSize);
             Logger.getLogger(Dispatcher.class.getName()).log(Level.INFO, msg);
-
-            String queuePollTimeout = System.getProperty("esa.nmf.archive.sync.queue.poll.timeout");
-
-            if (null != queuePollTimeout && !"".equals(queuePollTimeout))
-            {
-
-                try
-                {
-
-                    this.pollTiemout = Integer.parseInt(queuePollTimeout);
-                }
-                catch (NumberFormatException e)
-                {
-                    Logger.getLogger(Dispatcher.class.getName()).log(Level.WARNING, MessageFormat.format(
-                            "Unexpected NumberFormatException on esa.nmf.archive.sync.queue.poll.timeout ! {0}",
-                            e.getMessage()), e);
-                }
-            }
-
-            final String info = MessageFormat.format("esa.nmf.archive.sync.queue.poll.timeout = {0}", this.pollTiemout);
-            Logger.getLogger(Dispatcher.class.getName()).log(Level.INFO, info);
         }
 
         private void clear()
         {
-            tempQueue.clear();
             chunksFlushed.clear();
-            dataToFlush.clear();
         }
 
         public byte[] getFlushedChunk(int index)
@@ -606,155 +545,67 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
             return numberOfChunks;
         }
 
-        public void addObjects(final List<COMObjectEntity> list)
+        public void addObjects(final List<COMObjectEntity> entities)
         {
-            // "addAll()" might not be thread-safe. "add" is for sure!
-            tempQueue.addAll(list);
+            dataToFlush = EncodeDecode.encodeToCompressedByteArray(entities, manager, dictionary);
         }
 
-        public void setQueriesAreDone(final boolean done)
+        public void flushData()
         {
-            this.queriesAreDone = done;
-        }
+            numberOfChunks = dataToFlush.length / chunkSize + (dataToFlush.length % chunkSize != 0 ? 1 : 0);
+            byte[] aChunk = new byte[chunkSize];
 
-        public Runnable getProcessingRunnable()
-        {
-            return () ->
+            for(int i = 0; i < numberOfChunks - (dataToFlush.length % chunkSize != 0 ? 1 : 0); ++i)
             {
-                int counter = 0;
+                System.arraycopy(dataToFlush, chunkSize * i, aChunk, 0, chunkSize);
+                sendUpdateToConsumer(i, aChunk);
+            }
 
-                try
-                {
-                    boolean exit = false;
-
-                    while (!exit)
-                    {
-                        boolean done = queriesAreDone;
-                        COMObjectEntity entity = tempQueue.poll(pollTiemout, TimeUnit.MILLISECONDS);
-
-                        if (entity != null)
-                        {
-                            byte[] objAsByteArray = EncodeDecode.encodeToByteArray(entity, manager, dictionary);
-                            // Compress here?
-                            // compression algorithm can go here!
-                            dataToFlush.add(objAsByteArray);
-                            counter++;
-                        }
-                        else
-                        {
-                            if (done)
-                            {
-                                exit = true;
-                            }
-                        }
-                    }
-                }
-                catch (InterruptedException ex)
-                {
-                    Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                    Thread.currentThread().interrupt();
-                }
-
-                processingIsDone = true;
-                final String message = MessageFormat.format(
-                        "Stage 2: The objects were all successfully processed! {0} objects in total!", counter);
-                Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.INFO, message);
-            };
-        }
-
-        public Runnable getFlushingRunnable()
-        {
-            return () ->
+            // Flush the last byte array!
+            if(dataToFlush.length % chunkSize != 0)
             {
-                try
+                byte[] lastChunk = new byte[dataToFlush.length - (numberOfChunks - 1) * chunkSize]; // We need to trim to fit!
+                System.arraycopy(dataToFlush, chunkSize * (numberOfChunks - 1), lastChunk, 0, lastChunk.length);
+                sendUpdateToConsumer(numberOfChunks - 1, lastChunk);
+            }
+
+            try
+            {
+                interaction.sendResponse(new UInteger(numberOfChunks));
+            }
+            catch (MALInteractionException | MALException ex)
+            {
+                Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName())
+                      .log(Level.SEVERE, MessageFormat.format(UNEXPECTED_EXCEPTION_0, ex.getMessage()), ex);
+            }
+
+            final String msg =
+                    MessageFormat.format("Stage 3: The objects were all successfully flushed! {0} chunks in total!",
+                                         numberOfChunks);
+            Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.INFO, msg);
+
+            boolean purge = Boolean.parseBoolean(System.getProperty(Const.ARCHIVESYNC_PURGE_ARCHIVE_PROPERTY,
+                                                                    Const.ARCHIVESYNC_PURGE_ARCHIVE_DEFAULT));
+            if (purge)
+            { // This block cleans up the archive after sync if the option is enabled
+                ArchiveQueryList aql = new ArchiveQueryList();
+                aql.add(new ArchiveQuery(null, null, null, 0L, null, new FineTime(0), latestSync, null, null));
+
+                for (ToDelete type : ToDelete.values())
                 {
-                    boolean exit = false;
-                    int index = 0;
-                    byte[] aChunk = new byte[chunkSize];
-                    int pos = 0;
-
-                    while (!exit)
-                    {
-                        boolean done = processingIsDone;
-                        byte[] data = dataToFlush.poll(pollTiemout, TimeUnit.MILLISECONDS);
-
-                        if (data != null)
-                        {
-                            for (byte datum : data)
-                            {
-                                aChunk[pos] = datum;
-                                pos++;
-
-                                if (pos == chunkSize)
-                                {
-                                    sendUpdateToConsumer(index, aChunk);
-                                    index++;
-                                    pos = 0;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            if (done)
-                            {
-                                exit = true;
-
-                                // Flush the last byte array!
-                                byte[] lastChunk = new byte[pos]; // We need to trim to fit!
-                                System.arraycopy(aChunk, 0, lastChunk, 0, pos);
-
-                                sendUpdateToConsumer(index, lastChunk);
-                                index++;
-                            }
-                        }
-                    }
-
                     try
                     {
-                        interaction.sendResponse(new UInteger(index));
-                        numberOfChunks = index;
+                        archive.getArchiveStub().query(false, type.getType(), aql, null,
+                                                       new ObjectsReceivedAdapter(archive, type.getType()));
                     }
                     catch (MALInteractionException | MALException ex)
                     {
                         Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName())
-                                .log(Level.SEVERE, MessageFormat.format(UNEXPECTED_EXCEPTION_0, ex.getMessage()), ex);
+                              .log(Level.SEVERE, MessageFormat.format(UNEXPECTED_EXCEPTION_0, ex.getMessage()),
+                                   ex);
                     }
                 }
-                catch (InterruptedException ex)
-                {
-                    Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName())
-                            .log(Level.SEVERE, MessageFormat.format(UNEXPECTED_EXCEPTION_0, ex.getMessage()), ex);
-                    Thread.currentThread().interrupt();
-                }
-
-                final String msg =
-                        MessageFormat.format("Stage 3: The objects were all successfully flushed! {0} chunks in total!",
-                                             numberOfChunks);
-                Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.INFO, msg);
-
-                boolean purge = Boolean.parseBoolean(System.getProperty(Const.ARCHIVESYNC_PURGE_ARCHIVE_PROPERTY,
-                                                                        Const.ARCHIVESYNC_PURGE_ARCHIVE_DEFAULT));
-                if (purge)
-                { // This block cleans up the archive after sync if the option is enabled
-                    ArchiveQueryList aql = new ArchiveQueryList();
-                    aql.add(new ArchiveQuery(null, null, null, 0L, null, new FineTime(0), latestSync, null, null));
-
-                    for (ToDelete type : ToDelete.values())
-                    {
-                        try
-                        {
-                            archive.getArchiveStub().query(false, type.getType(), aql, null,
-                                                           new ObjectsReceivedAdapter(archive, type.getType()));
-                        }
-                        catch (MALInteractionException | MALException ex)
-                        {
-                            Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName())
-                                    .log(Level.SEVERE, MessageFormat.format(UNEXPECTED_EXCEPTION_0, ex.getMessage()),
-                                         ex);
-                        }
-                    }
-                }
-            };
+            }
         }
 
         public void sendUpdateToConsumer(int index, byte[] aChunk)

@@ -175,7 +175,7 @@ public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
         // Convert the byte arrays into COM Objects
         ArrayList<byte[]> chunks = adapter.getReceivedChunks();
 
-        ArrayList<COMObjectStructure> objs = EncodeDecode.decodeFromByteArrayList(chunks,
+        ArrayList<COMObjectStructure> objs = EncodeDecode.decodeFromCompressedByteArrayList(chunks,
                 dictionary, archiveSyncService, this.connectionDetails.getDomain());
 
         try {
