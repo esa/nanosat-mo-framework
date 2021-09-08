@@ -82,6 +82,9 @@
     <module>publish-clock</module>
     <module>serialized-object</module>
     <module>waveform</module>
+    <module>mp-space-demo</module>
+    <module>autonomy</module>
+    <module>mp-autonomy-demo</module>
   </modules>
 
 </project>

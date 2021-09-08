@@ -135,6 +135,34 @@ public class HelperArchive {
     }
 
     /**
+     * Generates a ArchiveDetailsList structure with multiple ArchiveDetails objects.
+     * The object instance identifier will be set as 0. The operation will use
+     * the submitted related, source and interaction fields to fill-in the
+     * objects.
+     *
+     * @param related Related fields
+     * @param source Source field
+     * @param interaction Interaction
+     * @return The ArchiveDetailsList object
+     */
+    public static ArchiveDetailsList generateArchiveDetailsList(LongList relatedIds, ObjectId source, MALInteraction interaction) {
+        final ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
+
+        FineTime timestamp = HelperTime.getTimestamp();
+        for (Long relatedId : relatedIds) {
+            final ArchiveDetails archiveDetails = new ArchiveDetails();
+            archiveDetails.setInstId(0L);
+            archiveDetails.setDetails(new ObjectDetails(relatedId, source));
+            archiveDetails.setNetwork(interaction.getMessageHeader().getNetworkZone());
+            archiveDetails.setTimestamp(timestamp);
+            archiveDetails.setProvider(interaction.getMessageHeader().getURIFrom());
+            archiveDetailsList.add(archiveDetails);
+        }
+
+        return archiveDetailsList;
+    }
+
+    /**
      * Please consider using the same method but with the provider URI directly
      * as argument instead of the connectionDetails object
      *

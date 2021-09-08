@@ -113,6 +113,21 @@
     </dependency>
     <dependency>
       <groupId>int.esa.nmf.sdk.examples.space</groupId>
+      <artifactId>mp-space-demo</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>int.esa.nmf.sdk.examples.space</groupId>
+      <artifactId>mp-autonomy-demo</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>int.esa.nmf.sdk.examples.ground</groupId>
+      <artifactId>mp-ground-demo</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>int.esa.nmf.sdk.examples.space</groupId>
       <artifactId>benchmark</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -350,6 +365,17 @@
                   <fileset dir="${basedir}/src/main/resources/space-common"/>
                   <fileset dir="${basedir}/src/main/resources/space-app-root"/>
                   <fileset dir="${basedir}/../examples/space/picture-processor/src/main/resources/scripts/imageEditor"/>
+                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/mp-demo">
+                  <fileset dir="${basedir}/src/main/resources/space-common"/>
+                  <fileset dir="${basedir}/src/main/resources/space-app-root"/>
+                  <fileset dir="${basedir}/src/main/resources/ground-consumer-root"/>
+                </copy>
+                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/mp-autonomy-demo">
+                  <fileset dir="${basedir}/src/main/resources/space-common"/>
+                  <fileset dir="${basedir}/src/main/resources/space-app-root"/>
+                  <fileset dir="${basedir}/src/main/resources/ground-consumer-root"/>
+                  <fileset dir="${basedir}/../examples/space/autonomy/src/main/external-resources"/>
+                  <fileset dir="${basedir}/../examples/space/mp-autonomy-demo/src/main/external-resources"/>
                 </copy>
               </target>
             </configuration>

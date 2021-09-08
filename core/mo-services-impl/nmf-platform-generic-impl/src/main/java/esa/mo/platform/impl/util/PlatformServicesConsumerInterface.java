@@ -23,6 +23,7 @@ package esa.mo.platform.impl.util;
 import java.io.IOException;
 import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSStub;
 import org.ccsds.moims.mo.platform.camera.consumer.CameraStub;
+import org.ccsds.moims.mo.platform.clock.consumer.ClockStub;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSStub;
 import org.ccsds.moims.mo.platform.opticaldatareceiver.consumer.OpticalDataReceiverStub;
 import org.ccsds.moims.mo.platform.powercontrol.consumer.PowerControlStub;
@@ -46,5 +47,7 @@ public interface PlatformServicesConsumerInterface
   SoftwareDefinedRadioStub getSoftwareDefinedRadioService() throws IOException;
 
   PowerControlStub getPowerControlService() throws IOException;
+
+  ClockStub getClockService() throws IOException;
 
 }

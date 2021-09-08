@@ -1,0 +1,91 @@
+package esa.mo.platform.impl.provider.gen;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.COMHelper;
+import org.ccsds.moims.mo.mal.MALContextFactory;
+import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.MALHelper;
+import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.provider.MALInteraction;
+import org.ccsds.moims.mo.mal.provider.MALProvider;
+import org.ccsds.moims.mo.mal.structures.Time;
+import org.ccsds.moims.mo.platform.PlatformHelper;
+import org.ccsds.moims.mo.platform.clock.ClockHelper;
+import org.ccsds.moims.mo.platform.clock.provider.ClockInheritanceSkeleton;
+import esa.mo.helpertools.connections.ConnectionProvider;
+
+public class ClockProviderServiceImpl extends ClockInheritanceSkeleton {
+
+    private static final Logger LOGGER = Logger.getLogger(ClockProviderServiceImpl.class.getName());
+    private MALProvider clockServiceProvider;
+    private boolean initialiased = false;
+    private final ConnectionProvider connection = new ConnectionProvider();
+    private ClockAdapterInterface adapter;
+
+    /**
+     * creates the MAL objects, the publisher used to create updates and starts the publishing thread
+     *
+     * @param adapter     The Clock adapter
+     * @throws MALException On initialisation error.
+     */
+    public synchronized void init(ClockAdapterInterface adapter) throws MALException {
+        if (!initialiased) {
+            if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
+                MALHelper.init(MALContextFactory.getElementFactoryRegistry());
+            }
+
+            if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME,
+                PlatformHelper.PLATFORM_AREA_VERSION) == null) {
+                PlatformHelper.init(MALContextFactory.getElementFactoryRegistry());
+            }
+
+            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null) {
+                COMHelper.init(MALContextFactory.getElementFactoryRegistry());
+            }
+
+            try {
+                ClockHelper.init(MALContextFactory.getElementFactoryRegistry());
+            } catch (MALException ex) {
+                // nothing to be done..
+            }
+        }
+
+        // Shut down old service transport
+        if (null != clockServiceProvider) {
+            connection.closeAll();
+        }
+
+        this.adapter = adapter;
+        clockServiceProvider = connection.startService(ClockHelper.CLOCK_SERVICE_NAME.toString(),
+            ClockHelper.CLOCK_SERVICE, this);
+
+        initialiased = true;
+        LOGGER.info("Clock service READY");
+    }
+
+    /**
+    * Closes all running threads and releases the MAL resources.
+    */
+    public void close() {
+        try {
+            if (null != clockServiceProvider) {
+                clockServiceProvider.close();
+            }
+
+            connection.closeAll();
+        } catch (MALException ex) {
+            LOGGER.log(Level.WARNING, "Exception during close down of the provider {0}", ex);
+        }
+}
+
+    @Override
+    public Time getTime(MALInteraction interaction) throws MALInteractionException, MALException {
+        return this.adapter.getTime();
+    }
+
+    @Override
+    public Integer getTimeFactor(MALInteraction interaction) throws MALInteractionException, MALException {
+        return this.adapter.getTimeFactor();
+    }
+}

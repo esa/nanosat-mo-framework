@@ -2,7 +2,7 @@
   <property name="outputDir" value="${esa.nmf.sdk.assembly.outputdir}/home"/>
   <property name="repoName" value="nmf/lib"/>
   <target name="build" depends="emit-ctt, emit-log-browser, emit-simulator-gui, emit-space-supervisor, emit-space-app-all-mc-services,
-  emit-space-app-publish-clock, emit-space-app-camera, emit-space-app-benchmark, emit-space-app-payloads-test, emit-space-app-waveform, emit-space-app-camera-acquisitor-system, emit-space-app-picture-processor">
+  emit-space-app-publish-clock, emit-space-app-camera, emit-space-app-benchmark, emit-space-app-payloads-test, emit-space-app-waveform, emit-space-app-camera-acquisitor-system, emit-space-app-picture-processor, emit-space-app-mp-demo, emit-ground-app-mp-demo, emit-space-app-mp-autonomy-demo">
     <!--This empty target is used as the top level target. Add your app targets to the depends attribute! -->
   </target>
   <target name="emit-ctt">
@@ -218,6 +218,54 @@
       <property name="nmf_home" value="%cd%\..\nmf"/>
       <property name="nmf_lib" value="`cd ../nmf/lib > /dev/null; pwd`"/>
       <property name="binDir" value="picture-processor"/>
+  <target name="emit-space-app-mp-demo">
+    <ant antfile="antpkg/build_shell_script.xml">
+      <property name="mainClass" value="esa.mo.nmf.apps.MPSpaceDemo"/>
+      <property name="id" value="start_mp-demo"/>
+      <property name="nmf_home" value="`cd ../nmf > /dev/null; pwd`"/>
+      <property name="nmf_lib" value="`cd ../nmf/lib > /dev/null; pwd`"/>
+      <property name="binDir" value="mp-demo"/>
+    </ant>
+    <ant antfile="antpkg/build_batch_script.xml">
+      <property name="mainClass" value="esa.mo.nmf.apps.MPSpaceDemo"/>
+      <property name="id" value="start_mp-demo"/>
+      <property name="nmf_home" value="%cd%\..\nmf"/>
+      <property name="nmf_lib" value="`cd ../nmf/lib > /dev/null; pwd`"/>
+      <property name="binDir" value="mp-demo"/>
+    </ant>
+  </target>
+
+  <target name="emit-space-app-mp-autonomy-demo">
+    <ant antfile="antpkg/build_shell_script.xml">
+      <property name="mainClass" value="esa.mo.nmf.apps.MPAutonomyDemo"/>
+      <property name="id" value="start_mp-autonomy-demo"/>
+      <property name="nmf_home" value="`cd ../nmf > /dev/null; pwd`"/>
+      <property name="nmf_lib" value="`cd ../nmf/lib > /dev/null; pwd`"/>
+      <property name="binDir" value="mp-autonomy-demo"/>
+    </ant>
+    <ant antfile="antpkg/build_batch_script.xml">
+      <property name="mainClass" value="esa.mo.nmf.apps.MPAutonomyDemo"/>
+      <property name="id" value="start_mp-autonomy-demo"/>
+      <property name="nmf_home" value="%cd%\..\nmf"/>
+      <property name="nmf_lib" value="`cd ../nmf/lib > /dev/null; pwd`"/>
+      <property name="binDir" value="mp-autonomy-demo"/>
+    </ant>
+  </target>
+
+  <target name="emit-ground-app-mp-demo">
+    <ant antfile="antpkg/build_shell_script.xml">
+      <property name="mainClass" value="esa.mo.ground.mp.MPGroundDemo"/>
+      <property name="id" value="start_mp-ground-demo"/>
+      <property name="nmf_home" value="`cd ../nmf > /dev/null; pwd`"/>
+      <property name="nmf_lib" value="`cd ../nmf/lib > /dev/null; pwd`"/>
+      <property name="binDir" value="mp-ground-demo"/>
+    </ant>
+    <ant antfile="antpkg/build_batch_script.xml">
+      <property name="mainClass" value="esa.mo.ground.mp.MPGroundDemo"/>
+      <property name="id" value="start_mp-ground-demo"/>
+      <property name="nmf_home" value="%cd%\..\nmf"/>
+      <property name="nmf_lib" value="`cd ../nmf/lib > /dev/null; pwd`"/>
+      <property name="binDir" value="mp-ground-demo"/>
     </ant>
   </target>
 </project>

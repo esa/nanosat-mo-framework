@@ -1804,6 +1804,16 @@ public class SimulatorNode extends TaskNode
     return null;
   }
 
+  public long getSimulatedTime()
+  {
+    return this.simulatorData.getCurrentTime().getTime();
+  }
+
+  public int getTimeFactor()
+  {
+    return this.simulatorData.getTimeFactor();
+  }
+
   public SimulatorSpacecraftState getSpacecraftState()
   {
     if (this.simulatorHeader.isUseOrekitPropagator()) {

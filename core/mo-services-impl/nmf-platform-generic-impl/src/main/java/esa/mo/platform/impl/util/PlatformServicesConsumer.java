@@ -22,6 +22,7 @@ package esa.mo.platform.impl.util;
 
 import esa.mo.com.impl.util.COMServicesConsumer;
 import esa.mo.platform.impl.consumer.CameraConsumerServiceImpl;
+import esa.mo.platform.impl.consumer.ClockConsumerServiceImpl;
 import esa.mo.platform.impl.consumer.GPSConsumerServiceImpl;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
@@ -40,6 +41,8 @@ import org.ccsds.moims.mo.platform.autonomousadcs.AutonomousADCSHelper;
 import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSStub;
 import org.ccsds.moims.mo.platform.camera.CameraHelper;
 import org.ccsds.moims.mo.platform.camera.consumer.CameraStub;
+import org.ccsds.moims.mo.platform.clock.ClockHelper;
+import org.ccsds.moims.mo.platform.clock.consumer.ClockStub;
 import org.ccsds.moims.mo.platform.gps.GPSHelper;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSStub;
 import org.ccsds.moims.mo.platform.opticaldatareceiver.OpticalDataReceiverHelper;
@@ -62,6 +65,7 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
   private OpticalDataReceiverConsumerServiceImpl odrService;
   private SoftwareDefinedRadioConsumerServiceImpl sdrService;
   private PowerControlConsumerServiceImpl powerControlService;
+  private ClockConsumerServiceImpl clockService;
 
   public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices)
   {
@@ -114,6 +118,13 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
               PowerControlHelper.POWERCONTROL_SERVICE_NAME);
       if (details != null) {
         powerControlService = new PowerControlConsumerServiceImpl(details, comServices, authenticationID, localNamePrefix);
+      }
+
+      // Initialize the Clock service
+      details = connectionConsumer.getServicesDetails().get(
+          ClockHelper.CLOCK_SERVICE_NAME);
+      if (details != null) {
+        clockService = new ClockConsumerServiceImpl(details, comServices);
       }
     } catch (MALException | MALInteractionException | MalformedURLException ex) {
       Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
@@ -180,6 +191,16 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
     return this.powerControlService.getPowerControlStub();
   }
 
+  @Override
+  public ClockStub getClockService() throws IOException
+  {
+    if (this.clockService == null) {
+      throw new IOException("The service consumer is not connected to the provider.");
+    }
+
+    return this.clockService.getClockStub();
+  }
+
   // Setters
   public void setAutonomousADCSService(AutonomousADCSConsumerServiceImpl autonomousADCSService)
   {
@@ -209,6 +230,11 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
   public void setPowerControlService(PowerControlConsumerServiceImpl powerControlService)
   {
     this.powerControlService = powerControlService;
+  }
+
+  public void setClockService(ClockConsumerServiceImpl clockService)
+  {
+    this.clockService = clockService;
   }
 
   /**
@@ -265,6 +291,10 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
 
     if (this.powerControlService != null) {
       this.powerControlService.setAuthenticationId(authenticationId);
+    }
+
+    if (this.clockService != null) {
+      this.clockService.closeConnection();
     }
   }
 

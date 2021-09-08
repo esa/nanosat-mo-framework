@@ -445,4 +445,21 @@ public class HelperCOM {
                 new Identifier(identifier + random.nextInt()),
                 new Identifier("*"), secondEntityKey, 0L, 0L);
     }
+
+    /**
+     * Creates a subscription object for the Event service. This subscription
+     * selects all the COM Events of a certain source.
+     *
+     * @param identifier A name identifier for the subscription
+     * @param sourceType The source type containing the area, service, and version
+     * of the source to be selected.
+     * @return
+     */
+    public static Subscription generateCOMEventSubscriptionBySourceType(String identifier, ObjectType sourceType) {
+        final Long fourthEntityKey = 0xFFFFFFFFFFFFFFFFL & HelperCOM.generateSubKey(sourceType);
+        final Random random = new Random();
+        return ConnectionConsumer.subscriptionKeys(
+                new Identifier(identifier + random.nextInt()),
+                new Identifier("*"), new Long(0), new Long(0), fourthEntityKey);
+    }
 }
