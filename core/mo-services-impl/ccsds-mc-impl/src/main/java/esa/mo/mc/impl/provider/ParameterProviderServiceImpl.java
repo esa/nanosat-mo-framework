@@ -21,14 +21,18 @@
 package esa.mo.mc.impl.provider;
 
 import esa.mo.com.impl.consumer.EventConsumerServiceImpl;
+import esa.mo.com.impl.provider.ArchiveSyncProviderServiceImpl;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.helpertools.misc.TaskScheduler;
 import esa.mo.mc.impl.util.GroupRetrieval;
+import esa.mo.mc.impl.util.MCServicesHelper;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 import esa.mo.reconfigurable.service.ReconfigurableService;
+
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -102,6 +106,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
     private MALProvider parameterServiceProvider;
     private boolean initialiased = false;
     private boolean running = false;
+    private boolean storeParametersInCOMArchive = true;
     private MonitorValuePublisher publisher;
     private boolean isRegistered = false;
     private final Object lock = new Object();
@@ -164,6 +169,10 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         periodicReportingManager.init(); // Initialize the Periodic Reporting Manager
 
         groupService.init(manager.getArchiveService());
+
+        storeParametersInCOMArchive = Boolean.parseBoolean(System.getProperty(MCServicesHelper.STORE_IN_ARCHIVE_PROPERTY, "true"));
+        String msg = MessageFormat.format("{0} = {1}", MCServicesHelper.STORE_IN_ARCHIVE_PROPERTY, storeParametersInCOMArchive);
+        Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.INFO, msg);
 
         initialiased = true;
         Logger.getLogger(ParameterProviderServiceImpl.class.getName()).info("Parameter service READY");
@@ -410,7 +419,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
         //for the parameters where values have to be published (generation is enabled)
         if (!toPublishParamInstances.isEmpty()) {
-            pushMultipleParameterValues(toPublishParamInstances, true);
+            pushMultipleParameterValues(toPublishParamInstances, storeParametersInCOMArchive);
         }
         //for the parameters where values do not have to be published (generation is disabled)
         if (!noPublishParamValList.isEmpty()) {
@@ -787,7 +796,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
          * refreshes the interval for periodic updates of the parameter with the
          * given identityId
          *
-         * @param objId the identityId of the Parameter
+         * @param identityId the identityId of the Parameter
          *
          */
         public void refresh(Long identityId) {
@@ -930,7 +939,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
      * of true will be returned because no error happened.
      */
     public Boolean pushMultipleParameterValues(final List<ParameterInstance> parameters) {
-        return this.pushMultipleParameterValues(parameters, true);
+        return this.pushMultipleParameterValues(parameters, storeParametersInCOMArchive);
     }
 
     /**
@@ -1080,6 +1089,16 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
      * @param identityId the id of the parameter identity
      */
     private void publishPeriodicParameterUpdate(final Long identityId) {
+        publishPeriodicParameterUpdate(identityId, storeParametersInCOMArchive);
+    }
+
+    /**
+     * publishes a periodic parameter update for the given parameter
+     *
+     * @param identityId the id of the parameter identity
+     * @param storeInCOMArchive flag indicating whether or not the parameter should be stored in the archive
+     */
+    private void publishPeriodicParameterUpdate(final Long identityId, boolean storeInCOMArchive) {
         try {
             /*
             Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.INFO,
@@ -1091,7 +1110,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             
             ArrayList<ParameterInstance> parameters = new ArrayList<>(1);
             parameters.add(new ParameterInstance(name, parameterValue, null, HelperTime.getTimestampMillis()));
-            this.pushMultipleParameterValues(parameters);
+            this.pushMultipleParameterValues(parameters, storeInCOMArchive);
         } catch (IllegalArgumentException | MALInteractionException ex) {
             Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.WARNING,
                     "Exception during publishing process on the provider {0}", ex);

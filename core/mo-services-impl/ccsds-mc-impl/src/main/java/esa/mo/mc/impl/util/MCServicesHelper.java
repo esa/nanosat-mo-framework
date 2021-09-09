@@ -108,6 +108,8 @@ public class MCServicesHelper {
     public static final int GROUP_IDENTITY_OBJECT_NUMBER = 1;
     public static final int GROUP_DEFINITION_OBJECT_NUMBER = 2;
 
+    public static final String STORE_IN_ARCHIVE_PROPERTY = "esa.nmf.parameters.storeInArchive";
+
     // alert objects
     private static final ObjectType alertIdentityObjType
             = new ObjectType(AlertDefinitionDetails.AREA_SHORT_FORM,
