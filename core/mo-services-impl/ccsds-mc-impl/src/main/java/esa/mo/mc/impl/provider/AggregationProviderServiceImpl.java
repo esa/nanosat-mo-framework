@@ -27,13 +27,17 @@ import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.helpertools.misc.TaskScheduler;
 import esa.mo.mc.impl.util.GroupRetrieval;
+import esa.mo.mc.impl.util.MCServicesHelper;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 import esa.mo.reconfigurable.service.ReconfigurableService;
+
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
@@ -88,6 +92,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
     private MALProvider aggregationServiceProvider;
     private boolean initialiased = false;
     private boolean running = false;
+    private boolean storeAggregationsInCOMArchive = true;
     private MonitorValuePublisher publisher;
     private final Object lock = new Object();
     private boolean isRegistered = false;
@@ -96,6 +101,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
     private PeriodicSamplingManager periodicSamplingManager;
     private final ConnectionProvider connection = new ConnectionProvider();
     private ConfigurationChangeListener configurationAdapter;
+    private final AtomicLong aValUniqueObjId = new AtomicLong(System.currentTimeMillis());
 
     /**
      * creates the MAL objects, the publisher used to create updates and starts
@@ -154,6 +160,10 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         periodicReportingManager.init(); // Initialize the Periodic Reporting Manager
         periodicSamplingManager.init(); // Initialize the Periodic Sampling Manager
 
+        storeAggregationsInCOMArchive = Boolean.parseBoolean(System.getProperty(MCServicesHelper.STORE_IN_ARCHIVE_PROPERTY, "true"));
+        String msg = MessageFormat.format("{0} = {1}", MCServicesHelper.STORE_IN_ARCHIVE_PROPERTY, storeAggregationsInCOMArchive);
+        Logger.getLogger(AggregationProviderServiceImpl.class.getName()).log(Level.INFO, msg);
+
         initialiased = true;
         Logger.getLogger(AggregationProviderServiceImpl.class.getName()).info("Aggregation service READY");
     }
@@ -192,7 +202,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
      * @return true if it was successfully published, false otherwise
      */
     private boolean publishPeriodicAggregationUpdate(final Long objId, final AggregationValue aVal) {
-        return publishAggregationUpdate(objId, aVal, null, null); //requirement: 3.7.4.j
+        return publishAggregationUpdate(objId, aVal, null, null, storeAggregationsInCOMArchive); //requirement: 3.7.4.j
     }
 
     /**
@@ -202,10 +212,11 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
      * @param aVal the value to be published
      * @param source the id of the object that caused the update to be generated
      * @param timestamp the timestamp of the update. if null a new timestamp
+     * @param storeInCOMArchive flag indicating whether or not the aggregation should be stored in the archive
      * will be generated
      * @return true if it was successfully published, false otherwise
      */
-    private boolean publishAggregationUpdate(final Long identityId, final AggregationValue aVal, final ObjectId source, final Time timestamp) {
+    private boolean publishAggregationUpdate(final Long identityId, final AggregationValue aVal, final ObjectId source, final Time timestamp, boolean storeInCOMArchive) {
         try {
             synchronized (lock) {
                 if (!isRegistered) {
@@ -228,10 +239,16 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             if (time == null) {
                 time = HelperTime.getTimestampMillis(); //  requirement: 3.7.7.2.e
             }
-            //requirement 3.7.6.b
-            final Long aValObjId = manager.storeAndGenerateAValobjId(
-                aVal, definitionId, source, connection.getPrimaryConnectionDetails().getProviderURI(),
-                HelperTime.timeToFineTime(time));
+
+            Long aValObjId;
+            if(storeInCOMArchive) {
+                //requirement 3.7.6.b
+                aValObjId = manager.storeAndGenerateAValobjId(aVal, definitionId, source,
+                                                              connection.getPrimaryConnectionDetails().getProviderURI(),
+                                                              HelperTime.timeToFineTime(time));
+            } else {
+                aValObjId = aValUniqueObjId.incrementAndGet();
+            }
 
             // requirements: 3.7.7.2.a , 3.7.7.2.b , 3.7.7.2.c , 3.7.7.2.d
             final EntityKey ekey = new EntityKey(new Identifier(manager.getName(identityId).toString()), identityId, definitionId, aValObjId);
@@ -260,7 +277,6 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
      * checked.
      *
      * @param identityId the id of the aggregations identity
-     * @return
      */
     private void publishImmediatePeriodicUpdate(Long identityId) {
         //get the parameter-values of each parameter-set
@@ -757,7 +773,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             return false;
         }
         //publish! requirement: 3.7.3.j
-        if (!publishAggregationUpdate(identityId, manager.getAggregationValue(identityId, GenerationMode.ADHOC), source, timestamp)) {
+        if (!publishAggregationUpdate(identityId, manager.getAggregationValue(identityId, GenerationMode.ADHOC), source, timestamp, storeAggregationsInCOMArchive)) {
             return false;
         }
 
@@ -798,7 +814,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             return false;
         }
         //publish! requirement: 3.7.3.j
-        if (!publishAggregationUpdate(identityId, manager.getAggregationValue(identityId, GenerationMode.ADHOC), source, timestamp)) {
+        if (!publishAggregationUpdate(identityId, manager.getAggregationValue(identityId, GenerationMode.ADHOC), source, timestamp, storeAggregationsInCOMArchive)) {
             return false;
         }
         //if the push value was published during a periodic update reset the timers //not standarized, impl. specific
