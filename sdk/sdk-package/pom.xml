@@ -364,7 +364,8 @@
                 <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/picture-processor">
                   <fileset dir="${basedir}/src/main/resources/space-common"/>
                   <fileset dir="${basedir}/src/main/resources/space-app-root"/>
-                  <fileset dir="${basedir}/../examples/space/picture-processor/src/main/resources/scripts/imageEditor"/>
+		  <fileset dir="${basedir}/../examples/space/picture-processor/src/main/resources/scripts/imageEditor"/>
+                </copy>
                 <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/mp-demo">
                   <fileset dir="${basedir}/src/main/resources/space-common"/>
                   <fileset dir="${basedir}/src/main/resources/space-app-root"/>

@@ -218,6 +218,8 @@
       <property name="nmf_home" value="%cd%\..\nmf"/>
       <property name="nmf_lib" value="`cd ../nmf/lib > /dev/null; pwd`"/>
       <property name="binDir" value="picture-processor"/>
+    </ant>
+  </target>
   <target name="emit-space-app-mp-demo">
     <ant antfile="antpkg/build_shell_script.xml">
       <property name="mainClass" value="esa.mo.nmf.apps.MPSpaceDemo"/>

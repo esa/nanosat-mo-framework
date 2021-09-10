@@ -294,7 +294,7 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
     }
 
     if (this.clockService != null) {
-      this.clockService.closeConnection();
+      this.clockService.close();
     }
   }
 

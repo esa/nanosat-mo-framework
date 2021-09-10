@@ -495,6 +495,7 @@ public class CommandsImplementations {
       consumer.getCommonServices().closeConnections();
       consumer.getCOMServices().closeConnections();
       consumer.getMCServices().closeConnections();
+      consumer.getMPServices().closeConnections();
       consumer.getPlatformServices().closeConnections();
       consumer.getSMServices().closeConnections();
       consumer = null;

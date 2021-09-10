@@ -92,23 +92,23 @@ public class MPServicesConsumer {
      */
     public void closeConnections() {
         if (this.pimService != null) {
-            this.pimService.closeConnection();
+            this.pimService.close();
         }
 
         if (this.planningRequestService != null) {
-            this.planningRequestService.closeConnection();
+            this.planningRequestService.close();
         }
 
         if (this.planDistributionService != null) {
-            this.planDistributionService.closeConnection();
+            this.planDistributionService.close();
         }
 
         if (this.planEditService != null) {
-            this.planEditService.closeConnection();
+            this.planEditService.close();
         }
 
         if (this.planExecutionControlService != null) {
-            this.planExecutionControlService.closeConnection();
+            this.planExecutionControlService.close();
         }
     }
 }

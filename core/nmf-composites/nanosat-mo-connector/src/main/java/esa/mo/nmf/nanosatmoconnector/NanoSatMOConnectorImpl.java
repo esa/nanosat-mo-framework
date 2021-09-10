@@ -310,7 +310,6 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
         super.startTime = System.currentTimeMillis();
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
         ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
-        HelperMisc.setInputProcessorsProperty();
 
         // Create provider name to be registerd on the Directory service...
         String appName = "Unknown";
@@ -384,7 +383,6 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
         super.startTime = System.currentTimeMillis();
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
         ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
-        HelperMisc.setInputProcessorsProperty();
 
         // Create provider name to be registerd on the Directory service...
         String appName = "Unknown";
@@ -491,7 +489,8 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                     }
 
                     // Select the best transport for IPC and convert to a ConnectionConsumer object
-                    final ProviderSummary filteredConnections = NanoSatMOConnectorImpl.selectBestIPCTransport(supervisorConnections.get(0));
+                    final ProviderSummary filteredConnections =
+                            HelperCommon.selectBestIPCTransport(supervisorConnections.get(0));
                     final ConnectionConsumer supervisorCCPlat = HelperCommon.providerSummaryToConnectionConsumer(filteredConnections);
 
                     // Connect to them...
@@ -547,7 +546,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
 
                     final PublishProviderResponse response = centralDirectory.getDirectoryStub().publishProvider(publishDetails);
                     this.appDirectoryServiceId = response.getBodyElement0();
-                    centralDirectory.closeConnection(); // Close the connection to the Directory service
+                    centralDirectory.close(); // Close the connection to the Directory service
                     LOGGER.log(Level.INFO,
                             "Populated! And the connection to the Directory service has been successfully closed!");
                 }

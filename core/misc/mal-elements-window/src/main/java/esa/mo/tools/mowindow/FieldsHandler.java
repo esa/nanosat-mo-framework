@@ -103,6 +103,8 @@ public class FieldsHandler {
         } catch (ClassCastException | IllegalAccessException | InstantiationException ex0) {
             FieldsHandler.generateFieldObjectFromField(rawObj, field);
         }
+
+        return null;
     }
 
     private static Object generateFieldObjectFromField(Object rawObj, Field field) {
