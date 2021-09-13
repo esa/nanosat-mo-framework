@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.ctt.utils;
 
+import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.helpertools.misc.TaskScheduler;
 import esa.mo.nmf.ctt.services.com.ArchiveConsumerManagerPanel;
@@ -64,6 +65,16 @@ public class ProviderTabPanel extends javax.swing.JPanel {
      */
     public ProviderTabPanel(final ProviderSummary provider) {
         services = new GroundMOAdapterImpl(provider);
+        initComponents();
+    }
+
+    /**
+     * Creates a new tab for a Provider and populates it.
+     *
+     * @param connection
+     */
+    public ProviderTabPanel(final ConnectionConsumer connection) {
+        services = new GroundMOAdapterImpl(connection);
         initComponents();
     }
 
