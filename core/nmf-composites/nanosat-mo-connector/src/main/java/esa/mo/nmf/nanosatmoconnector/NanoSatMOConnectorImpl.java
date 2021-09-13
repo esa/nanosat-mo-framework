@@ -76,8 +76,6 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
  */
 public class NanoSatMOConnectorImpl extends NMFProvider {
 
-    private static final String SEPARATOR = "------------";
-
     private static final Logger LOGGER = Logger.getLogger(NanoSatMOConnectorImpl.class.getName());
 
     private Long appDirectoryServiceId;
@@ -96,25 +94,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
     @Override
     public void init(final MonitorAndControlNMFAdapter mcAdapter) {
         super.startTime = System.currentTimeMillis();
-
-        Properties p = System.getProperties();
-        StringBuilder java = new StringBuilder();
-        java.append(p.getProperty("java.runtime.name", "?"));
-        java.append(" (version: ");
-        java.append(p.getProperty("java.runtime.version", "?"));
-        java.append(")");
-        
-        StringBuilder os = new StringBuilder();
-        os.append(p.getProperty("os.name", "?"));
-        os.append(" (version: ");
-        os.append(p.getProperty("os.version", "?"));
-        os.append(")");
-        
-        System.out.println(SEPARATOR);
-        System.out.println("NanoSat MO Framework");
-        System.out.println("OS: " + os.toString());
-        System.out.println("Java: " + java.toString());
-        System.out.println(SEPARATOR);
+        System.out.println(this.generateStartBanner());
         
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
         ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
