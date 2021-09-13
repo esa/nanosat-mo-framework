@@ -39,6 +39,8 @@ public class LinuxUsersGroups {
 
     private static final String MSG_NOT_FOUND = "The command was not found.\n";
 
+    private static final String DEFAULT_SHELL = "/bin/bash";
+
     /**
      * Adds a new Linux user account and sets its respective password. The
      * account can be created without a password by passing a null into the
@@ -57,7 +59,6 @@ public class LinuxUsersGroups {
     public static void useradd(String username, String password,
             boolean withGroup, String extraGroups) throws IOException {
         ShellCommander shell = new ShellCommander();
-        final String defaultShell = "/bin/bash";
 
         // First, we need to check if the "useradd" exist
         String cmd1 = "useradd -h";
@@ -73,7 +74,7 @@ public class LinuxUsersGroups {
         useradd.append("sudo ");
         useradd.append("useradd ").append(username)
                 .append(" --create-home")
-                .append(" --shell ").append(defaultShell)
+                .append(" --shell ").append(DEFAULT_SHELL)
                 .append(withGroup ? " --user-group" : "")
                 .append(" --groups ").append(extraGroups);
         //String cmd = "useradd $user_nmf_admin -m -s /bin/bash --user-group";
@@ -97,6 +98,43 @@ public class LinuxUsersGroups {
     }
 
     /**
+     * Adds a new Linux group.
+     *
+     * @param groupName The name of the group to be created.
+     * @param isSystemGroup Creates a system group.
+     * @throws IOException if the group could not be created.
+     */
+    public static void addgroup(String groupName, boolean isSystemGroup) throws IOException {
+        ShellCommander shell = new ShellCommander();
+
+        // First, we need to check if the "useradd" exist
+        String cmd1 = "sudo addgroup -h";
+        String out1 = shell.runCommandAndGetOutputMessageAndError(cmd1);
+
+        if (out1.contains(NOT_FOUND)) {
+            String msg = MSG_NOT_FOUND + "\n >> " + cmd1 + "\n" + out1;
+            throw new IOException(msg);
+        }
+
+        StringBuilder addgroup = new StringBuilder();
+        addgroup.append("sudo ");
+        addgroup.append("addgroup ")
+                .append("-S ")
+                .append(groupName);
+
+        String cmd2 = addgroup.toString();
+        String out2 = shell.runCommandAndGetOutputMessageAndError(cmd2);
+
+        if (out2.contains(PERMISSION_DENIED)) {
+            String msg = "Permission denied! For command:\n >> " + cmd2 + "\n" + out2;
+            throw new IOException(msg);
+        }
+
+        // Print the command output:
+        LinuxUsersGroups.printCommandAndOutput(cmd2, out2);
+    }
+
+    /**
      * Adds a new Linux user account and sets its respective password. The
      * account can be created without a password by passing a null into the
      * password field argument.
@@ -108,13 +146,12 @@ public class LinuxUsersGroups {
      * created during the user account creation.
      * @throws IOException if the user could not be created.
      */
-    public static void adduser(String username, String password, 
+    public static void adduser(String username, String password,
             boolean withGroup) throws IOException {
         ShellCommander shell = new ShellCommander();
-        final String defaultShell = "/bin/bash";
 
         // First, we need to check if the "useradd" exist
-        String cmd1 = "adduser -h";
+        String cmd1 = "sudo adduser -h";
         String out1 = shell.runCommandAndGetOutputMessageAndError(cmd1);
 
         if (out1.contains(NOT_FOUND)) {
@@ -122,13 +159,30 @@ public class LinuxUsersGroups {
             throw new IOException(msg);
         }
 
+        // Different Linux Systems have different syntaxes for the same command
+        // So we need to check if we are using the adduser from "BusyBox" or not
+        boolean isBusyBox = out1.contains("BusyBox");
+
         // Second, we need to check if we have permissions to run the commands
         StringBuilder useradd = new StringBuilder();
         useradd.append("sudo ");
-        useradd.append("adduser --system ")
-                .append("--shell ").append(defaultShell)
-                .append(withGroup ? " --group " : " ")
-                .append(username);
+
+        if (isBusyBox) {
+            if (withGroup) {
+                LinuxUsersGroups.addgroup(username, true);
+            }
+            useradd.append("adduser ")
+                    .append("-s ").append(DEFAULT_SHELL)
+                    .append(withGroup ? " -G " : "")
+                    .append(withGroup ? username : "")
+                    .append(" -S ")
+                    .append(username);
+        } else {
+            useradd.append("adduser --system ")
+                    .append("--shell ").append(DEFAULT_SHELL)
+                    .append(withGroup ? " --group " : " ")
+                    .append(username);
+        }
         //String cmd = "useradd $user_nmf_admin -m -s /bin/bash --user-group";
         //String cmd = "useradd $user_nmf_admin --create-home --shell /bin/bash --user-group";
 
@@ -153,7 +207,7 @@ public class LinuxUsersGroups {
         ShellCommander shell = new ShellCommander();
 
         // First, we need to check if the "useradd" exist
-        String cmd1 = "adduser -h";
+        String cmd1 = "sudo adduser -h";
         String out1 = shell.runCommandAndGetOutputMessageAndError(cmd1);
 
         if (out1.contains(NOT_FOUND)) {
@@ -176,7 +230,7 @@ public class LinuxUsersGroups {
             throw new IOException(msg);
         }
     }
-    
+
     public static void chpasswd(String username, String password) throws IOException {
         ShellCommander shell = new ShellCommander();
         String cmd2 = "chpasswd -h";
