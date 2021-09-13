@@ -52,6 +52,7 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import esa.mo.reconfigurable.service.ReconfigurableService;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 import esa.mo.reconfigurable.provider.ReconfigurableProvider;
+import java.util.Properties;
 
 /**
  * The generic NMF Provider. Includes a Heartbeat service and a Directory
@@ -265,20 +266,18 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
      * @return The URI of the Central Directory service or null if not found.
      */
     public final URI readCentralDirectoryServiceURI() {
-        if (System.getProperty(Const.CENTRAL_DIRECTORY_URI_PROPERTY) != null)
-        {
-          return new URI(System.getProperty(Const.CENTRAL_DIRECTORY_URI_PROPERTY));
-        }
-        else {
+        if (System.getProperty(Const.CENTRAL_DIRECTORY_URI_PROPERTY) != null) {
+            return new URI(System.getProperty(Const.CENTRAL_DIRECTORY_URI_PROPERTY));
+        } else {
             String path = ".."
-                + File.separator + ".."
-                + File.separator
-                + Const.NANOSAT_MO_SUPERVISOR_NAME
-                + File.separator
-                + Const.FILENAME_CENTRAL_DIRECTORY_SERVICE;
+                    + File.separator + ".."
+                    + File.separator
+                    + Const.NANOSAT_MO_SUPERVISOR_NAME
+                    + File.separator
+                    + Const.FILENAME_CENTRAL_DIRECTORY_SERVICE;
             Logger.getLogger(NMFProvider.class.getName()).log(Level.INFO,
-                "Property {0} not set. Falling back to reading from {1}.", new Object[]{
-                Const.CENTRAL_DIRECTORY_URI_PROPERTY, path});
+                    "Property {0} not set. Falling back to reading from {1}.", new Object[]{
+                        Const.CENTRAL_DIRECTORY_URI_PROPERTY, path});
 
             File file = new File(path); // Select the file that we want to read from
 
@@ -316,6 +315,43 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
             Logger.getLogger(NMFProvider.class.getName()).log(Level.WARNING,
                     "Unable to reset URI information from properties file {0}", ex);
         }
+    }
+
+    /**
+     * Generates a starting Banner that can be used for NMF Providers.
+     * 
+     * @return The banner.
+     */
+    protected String generateStartBanner() {
+        Properties p = System.getProperties();
+        final String SEPARATOR = "------------\n";
+
+        StringBuilder banner = new StringBuilder();
+        banner.append("\n");
+        banner.append(SEPARATOR);
+        banner.append("NanoSat MO Framework\n");
+
+        // OS version
+        banner.append("OS: ");
+        banner.append(p.getProperty("os.name", "?"));
+        banner.append(" (version: ");
+        banner.append(p.getProperty("os.version", "?"));
+        banner.append(")\n");
+
+        // User
+        banner.append("Running as User: ");
+        banner.append(p.getProperty("user.name", "?"));
+        banner.append("\n");
+
+        // Java version
+        banner.append("Java: ");
+        banner.append(p.getProperty("java.runtime.name", "?"));
+        banner.append(" (version: ");
+        banner.append(p.getProperty("java.runtime.version", "?"));
+        banner.append(")\n");
+
+        banner.append(SEPARATOR);
+        return banner.toString();
     }
 
 }
