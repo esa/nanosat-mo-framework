@@ -20,15 +20,8 @@
  */
 package esa.mo.nmf.apps.pictureprocessor;
 
-import esa.mo.nmf.AppStorage;
-import static esa.mo.nmf.apps.pictureprocessor.utils.FileUtils.createDirectoriesIfNotExist;
-
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 import esa.mo.nmf.apps.pictureprocessor.mo.PictureProcessorMCAdapter;
 import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
-import java.io.File;
 
 /**
  * An NMF App that that takes pictures and processes them through a python
