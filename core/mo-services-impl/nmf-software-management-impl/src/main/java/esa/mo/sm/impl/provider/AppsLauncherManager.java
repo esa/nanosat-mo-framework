@@ -449,9 +449,9 @@ public class AppsLauncherManager extends DefinitionsManager
     return assembleCommand(workDir, appName, runAs, "start_", env);
   }
 
-  protected void assembleAppLauncherEnvironment(final String directoryServiceURI,
-      final Map<String, String> targetEnv)
+  protected HashMap<String, String> assembleAppLauncherEnvironment(final String directoryServiceURI)
   {
+    final HashMap<String, String> targetEnv = new HashMap<>();
     try {
       // Inherit NMF HOME and NMF LIB from the supervisor
       Map<String, String> parentEnv = EnvironmentUtils.getProcEnvironment();
@@ -461,10 +461,10 @@ public class AppsLauncherManager extends DefinitionsManager
       if (parentEnv.containsKey("NMF_HOME")) {
         targetEnv.put("NMF_HOME", parentEnv.get("NMF_HOME"));
       }
+      if (parentEnv.containsKey("PATH")) {
+        targetEnv.put("PATH", parentEnv.get("PATH"));
+      }
       if (osValidator.isWindows()) {
-        if (parentEnv.containsKey("PATH")) {
-          targetEnv.put("PATH", parentEnv.get("PATH"));
-        }
         if (parentEnv.containsKey("TEMP")) {
           targetEnv.put("TEMP", parentEnv.get("TEMP"));
         }
@@ -478,6 +478,8 @@ public class AppsLauncherManager extends DefinitionsManager
     // Extend the current environment by JAVA_OPTS
     targetEnv.put("JAVA_OPTS",
         "-D" + Const.CENTRAL_DIRECTORY_URI_PROPERTY + "=" + directoryServiceURI + "");
+    
+    return targetEnv;
   }
 
   protected void startAppProcess(final ProcessExecutionHandler handler,
@@ -485,27 +487,25 @@ public class AppsLauncherManager extends DefinitionsManager
   {
     // get it from the list of available apps
     AppDetails app = (AppDetails) this.getDef(handler.getObjId());
+    String appName = app.getName().getValue();
 
     // Go to the folder where the app are installed
-    final File appFolder
-        = new File(appsFolderPath + File.separator + app.getName().getValue());
-    Map<String, String> env = new HashMap<>();
-    assembleAppLauncherEnvironment(directoryServiceURI, env);
-    final String[] appLauncherCommand = assembleAppStartCommand(appFolder.getAbsolutePath(),
-        app.getName().getValue(),
+    final File appFolder = new File(appsFolderPath + File.separator + appName);
+    Map<String, String> env = assembleAppLauncherEnvironment(directoryServiceURI);
+    String[] appLauncherCommand = assembleAppStartCommand(
+        appFolder.getAbsolutePath(),
+        appName,
         app.getRunAs(),
         EnvironmentUtils.toStrings(env));
 
     final ProcessBuilder pb = new ProcessBuilder(appLauncherCommand);
     pb.environment().clear();
-    if(osValidator.isWindows()) {
-        pb.environment().putAll(env);
-    }
+    pb.environment().putAll(env);
+
     pb.directory(appFolder);
     LOGGER.log(Level.INFO,
         "Initializing ''{0}'' app in dir: {1}, using launcher command: {2}",
-        new Object[]{app.getName().getValue(), appFolder.getAbsolutePath(), Arrays.toString(
-          appLauncherCommand)});
+        new Object[]{appName, appFolder.getAbsolutePath(), Arrays.toString(appLauncherCommand)});
     final Process proc = pb.start();
     handler.monitorProcess(proc);
     handlers.put(handler.getObjId(), handler);
@@ -515,21 +515,21 @@ public class AppsLauncherManager extends DefinitionsManager
   protected boolean killAppProcess(final Long appInstId, MALInteraction interaction)
   {
     AppDetails app = (AppDetails) this.getDef(appInstId); // get it from the list of available apps
+    String appName = app.getName().getValue();
 
-    LOGGER.log(Level.INFO,
-        "Killing app: {0}", app.getName().getValue());
+    LOGGER.log(Level.INFO, "Killing app: {0}", appName);
     ProcessExecutionHandler handler = handlers.get(appInstId);
 
     if (handler == null) {
       LOGGER.log(Level.INFO,
-          "Handler of {0} app is null, setting running = false.", app.getName().getValue());
+          "Handler of {0} app is null, setting running = false.", appName);
       app.setRunning(false);
       return false;
     }
 
     if (handler.getProcess() == null) {
       LOGGER.log(Level.INFO,
-          "Process of {0} app is null, setting running = false.", app.getName().getValue());
+          "Process of {0} app is null, setting running = false.", appName);
       app.setRunning(false);
       return true;
     }
@@ -549,8 +549,7 @@ public class AppsLauncherManager extends DefinitionsManager
     // Go to the folder where the app is installed
     final File appFolder
         = new File(appsFolderPath + File.separator + app.getName().getValue());
-    Map<String, String> env = new HashMap<>();
-    assembleAppLauncherEnvironment("", env);
+    Map<String, String> env = assembleAppLauncherEnvironment("");
     final String[] appLauncherCommand = assembleAppStopCommand(appFolder.getAbsolutePath(),
         app.getName().getValue(), app.getRunAs(), EnvironmentUtils.toStrings(env));
 
@@ -677,6 +676,15 @@ public class AppsLauncherManager extends DefinitionsManager
           this.stopNMFApp(appInstId, appDirectoryServiceNames.get(i), appConnections.get(i), interaction);
         }
         if (stopExists) {
+          Map<String, String> env = assembleAppLauncherEnvironment("");
+          final File appFolder
+              = new File(appsFolderPath + File.separator + curr.getName().getValue());
+          final String[] appLauncherCommand = assembleAppStopCommand(appFolder.getAbsolutePath(),
+              curr.getName().getValue(), curr.getRunAs(), EnvironmentUtils.toStrings(env));
+          final ProcessBuilder pb = new ProcessBuilder(appLauncherCommand);
+          pb.environment().clear();
+          pb.directory(appFolder);
+
           LOGGER.log(Level.INFO,
               "Stopping native component of ''{0}'' app",
               new Object[]{curr.getName().getValue()});
