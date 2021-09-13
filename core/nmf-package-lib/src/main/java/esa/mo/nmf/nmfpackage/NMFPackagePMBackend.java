@@ -105,8 +105,8 @@ public class NMFPackagePMBackend implements PMBackend {
         File destination = getNMFDir();
 
         Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.INFO,
-            "Installing the package...\nPackage name: " + packageName + "\nPackage location: " + packageLocation +
-                "\nDestination: " + destination.getAbsolutePath());
+                "Installing the package...\nPackage name: " + packageName
+                + "\nPackage location: " + packageLocation);
 
         try {
             NMFPackageManager.install(packageLocation, destination);
