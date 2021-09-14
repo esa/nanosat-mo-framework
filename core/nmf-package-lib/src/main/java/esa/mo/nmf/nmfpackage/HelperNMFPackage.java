@@ -22,9 +22,11 @@ package esa.mo.nmf.nmfpackage;
 
 import esa.mo.helpertools.helpers.HelperMisc;
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.zip.CRC32;
 
 /**
@@ -162,5 +164,39 @@ public class HelperNMFPackage {
 
         return str.toString();
     }
-    
+
+    public static File findAppJarInFolder(File folder) throws IOException {
+        File[] fList = folder.listFiles();
+        ArrayList<File> possibleOptions = new ArrayList();
+
+        for (File file : fList) {
+            if (file.isDirectory()) {
+                continue; // Jump over if it is a directory
+            }
+
+            if (!file.getAbsolutePath().endsWith(".jar")) {
+                continue; // It is not a Jar file
+            }
+
+            possibleOptions.add(file);
+        }
+
+        if (possibleOptions.isEmpty()) {
+            throw new IOException("Not found!");
+        }
+
+        if (possibleOptions.size() == 1) {
+            return possibleOptions.get(0);
+        }
+
+        if (possibleOptions.size() == 2) {
+            for (File option : possibleOptions) {
+                if (option.getName().contains("-jar-with-dependencies.jar")) {
+                    return option;
+                }
+            }
+        }
+
+        throw new IOException("There are too many jars inside the target folder!");
+    }    
 }

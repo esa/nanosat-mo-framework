@@ -149,7 +149,12 @@ public class NMFPackageManager {
             // useradd $user_nmf_admin -m -s /bin/bash --user-group
             // echo $user_nmf_admin:$user_nmf_admin_password | chpasswd
             // ------------
-            String jarName = appName + "-" + details.getVersion() + ".jar";
+            
+            String jarName = details.getMainJar();
+            if(jarName.equals("")){
+                File jar = HelperNMFPackage.findAppJarInFolder(installationDir);
+                jarName = jar.getName();
+            }
             String content = HelperNMFPackage.generateLinuxStartAppScript(mainclass, jarName);
             String path = installationDir.getAbsolutePath()
                     + File.separator + "start_" + appName + ".sh";
