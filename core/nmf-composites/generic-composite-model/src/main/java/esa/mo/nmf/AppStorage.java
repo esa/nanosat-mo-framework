@@ -22,6 +22,14 @@ package esa.mo.nmf;
 
 import esa.mo.helpertools.helpers.HelperMisc;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.attribute.FileAttribute;
+import java.nio.file.attribute.PosixFilePermission;
+import java.nio.file.attribute.PosixFilePermissions;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The {@code AppStorage} class allows the retrieval of directory paths to store
@@ -132,13 +140,30 @@ public class AppStorage {
 
     private static void mkDirAndSetPermissions(File directory) {
         if (!directory.exists()) {
-            directory.mkdirs();
-            directory.setExecutable(false, false);
-            directory.setExecutable(true, true);
-            directory.setReadable(false, false);
-            directory.setReadable(true, true);
-            directory.setWritable(false, false);
-            directory.setWritable(true, true);
+            // If it does not exist, please check if the parent dir exists
+            // because if not, then we also want to create that directory
+            // and set the correct permissions
+            AppStorage.mkDirAndSetPermissions(directory.getParentFile());
+
+            // We want to give access to both the App itself and the nmf-admin group
+            Set<PosixFilePermission> posix = PosixFilePermissions.fromString("rwxrwx---");
+            FileAttribute<?> permissions = PosixFilePermissions.asFileAttribute(posix);
+            try {
+                Files.createFile(directory.toPath(), permissions);
+            } catch (UnsupportedOperationException ex1) {
+                // Probably we are on Windows... Let's create it with:
+                directory.mkdirs();
+                directory.setExecutable(false, false);
+                directory.setExecutable(true, true);
+                directory.setReadable(false, false);
+                directory.setReadable(true, true);
+                directory.setWritable(false, false);
+                directory.setWritable(true, true);
+            } catch (IOException ex2) {
+                Logger.getLogger(AppStorage.class.getName()).log(Level.SEVERE,
+                        "Something went wrong...", ex2);
+            }
         }
     }
+
 }
