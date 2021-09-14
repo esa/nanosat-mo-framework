@@ -32,7 +32,7 @@ import picocli.CommandLine.Parameters;
  * @author Tanguy Soto
  */
 
-@Command(name = "LogBrowser",
+@Command(name = "COMArchiveBrowser",
     subcommands = {DumpRawArchive.class, DumpFormattedArchive.class, Logs.class,
         ListArchiveProviders.class},
     description = "Browses a COM archive to retrieve logs and more from it.")

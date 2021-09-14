@@ -509,7 +509,7 @@ public class CommandsImplementations {
    */
   private static ArchiveProviderServiceImpl spawnLocalArchiveProvider(String databaseFile) {
     HelperMisc.loadPropertiesFile();
-    System.setProperty(HelperMisc.PROP_MO_APP_NAME, LogBrowser.APP_NAME);
+    System.setProperty(HelperMisc.PROP_MO_APP_NAME, COMArchiveBrowser.APP_NAME);
     System.setProperty("esa.nmf.archive.persistence.jdbc.url", "jdbc:sqlite:" + databaseFile);
 
     ArchiveProviderServiceImpl archiveProvider = new ArchiveProviderServiceImpl();

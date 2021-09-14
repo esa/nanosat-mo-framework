@@ -65,7 +65,7 @@
 
   <modules>
     <module>consumer-test-tool</module>
-    <module>log-browser-tool</module>
+    <module>com-archive-tool</module>
   </modules>
 
 </project>
