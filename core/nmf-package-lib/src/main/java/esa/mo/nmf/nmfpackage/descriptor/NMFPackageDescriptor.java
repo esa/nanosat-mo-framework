@@ -20,9 +20,8 @@
  */
 package esa.mo.nmf.nmfpackage.descriptor;
 
-import esa.mo.nmf.nmfpackage.receipt.ReceiptVersion1;
-import esa.mo.nmf.nmfpackage.receipt.ReceiptVersion2;
 import esa.mo.nmf.nmfpackage.HelperNMFPackage;
+import esa.mo.nmf.nmfpackage.receipt.ReceiptMaster;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -67,32 +66,22 @@ public class NMFPackageDescriptor {
         InputStreamReader isr = new InputStreamReader(stream, StandardCharsets.UTF_8);
         BufferedReader br = new BufferedReader(isr);
 
-            String line = br.readLine(); // Reads the first line!
+        String line = br.readLine(); // Reads the first line!
 
-            if (line != null) {
-                String version;
-                // Check the version of the Installation procedure
-                if (line.startsWith(line)) {
-                    int length = HelperNMFPackage.NMF_PACKAGE_DESCRIPTOR_VERSION.length();
-                    version = line.substring(length).trim();
-                } else {
-                    throw new IOException("Could not read the NMF Package Descriptor version!");
-                }
-
-                if ("1".equals(version)) {
-                    newDescriptor = ReceiptVersion1.readReceipt(br);
-                }
-                
-                if ("2".equals(version)) {
-                    newDescriptor = ReceiptVersion2.readReceipt(br);
-                } else {
-                    throw new IOException("Unknown version: " + version);
-                }
+        if (line != null) {
+            // Extract the version from the first line
+            if (line.startsWith(line)) {
+                int length = HelperNMFPackage.NMF_PACKAGE_DESCRIPTOR_VERSION.length();
+                String version = line.substring(length).trim();
+                newDescriptor = ReceiptMaster.parseReceipt(version, br);
             } else {
-                throw new IOException("The receipt file is empty!");
+                throw new IOException("Could not read the NMF Package Descriptor version!");
             }
+        } else {
+            throw new IOException("The receipt file is empty!");
+        }
 
-            br.close();
+        br.close();
 
         return newDescriptor;
     }
