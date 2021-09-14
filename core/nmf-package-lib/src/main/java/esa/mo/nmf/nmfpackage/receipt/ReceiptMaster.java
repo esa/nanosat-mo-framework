@@ -18,53 +18,43 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.nmfpackage.descriptor;
+package esa.mo.nmf.nmfpackage.receipt;
+
+import esa.mo.nmf.nmfpackage.HelperNMFPackage;
+import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDescriptor;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
 
 /**
  *
  * @author Cesar Coelho
  */
-public class NMFPackageDetails {
+public class ReceiptMaster {
 
-    private final String packageName;
-    private final String version;
-    private final String timestamp;
-    private final String mainclass;
-    private final String mainJar;
-    private final String maxHeap;
-
-    public NMFPackageDetails(final String packageName, final String version,
-            final String timestamp, final String mainclass,
-            final String mainJar, final String maxHeap) {
-        this.packageName = packageName;
-        this.version = version;
-        this.timestamp = timestamp;
-        this.mainclass = mainclass;
-        this.mainJar = mainJar;
-        this.maxHeap = maxHeap;
+    public static void writeLatestReceipt(NMFPackageDescriptor descriptor,
+            BufferedWriter bw) throws IOException {
+        bw.write(HelperNMFPackage.NMF_PACKAGE_DESCRIPTOR_VERSION + "3");
+        bw.newLine();
+        ReceiptVersion3.writeReceipt(bw, descriptor);
+        bw.flush();
     }
 
-    public String getPackageName() {
-        return packageName;
+    public static NMFPackageDescriptor parseReceipt(final String version,
+            final BufferedReader br) throws IOException {
+        if ("1".equals(version)) {
+            return ReceiptVersion1.readReceipt(br);
+        }
+
+        if ("2".equals(version)) {
+            return ReceiptVersion2.readReceipt(br);
+        }
+
+        if ("3".equals(version)) {
+            return ReceiptVersion3.readReceipt(br);
+        } else {
+            throw new IOException("Unknown version: " + version);
+        }
     }
 
-    public String getVersion() {
-        return version;
-    }
-
-    public String getTimestamp() {
-        return timestamp;
-    }
-
-    public String getMainclass() {
-        return mainclass;
-    }
-
-    public String getMaxHeap() {
-        return maxHeap;
-    }
-
-    public String getMainJar() {
-        return mainJar;
-    }
 }

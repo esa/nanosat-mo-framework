@@ -100,9 +100,12 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
     public void execute() throws MojoExecutionException {
         getLog().info("Generating NMF Package...");
         appPath = "apps" + SEPARATOR + name + SEPARATOR;
+        String mainJar = "";
 
         try {
-            File myAppFilename = this.findAppJarInTargetFolder();
+            File target = new File("target");
+            File myAppFilename = HelperNMFPackage.findAppJarInFolder(target);
+            mainJar = myAppFilename.getName();
             inputFiles.add(myAppFilename.getAbsolutePath());
             locations.add(appPath + myAppFilename.getName());
 
@@ -114,15 +117,18 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
                 }
             }
         } catch (IOException ex) {
+            String error = "A problem occurred while trying to find the Jar file!";
             Logger.getLogger(GenerateNMFPackageMojo.class.getName()).log(
-                    Level.SEVERE, "The Jar file was not found!", ex);
+                    Level.SEVERE, error, ex);
+            throw new MojoExecutionException(error, ex);
         }
 
-        getLog().info("\n------------ NMF Package - Generator ------------\n");
+        getLog().info("\n---------- NMF Package - Generator ----------\n");
         getLog().info("Input values:");
         getLog().info(">> name = " + name);
         getLog().info(">> version = " + version);
         getLog().info(">> mainClass = " + mainClass);
+        getLog().info(">> mainJar = " + mainJar);
         getLog().info(">> privilege = " + privilege);
         getLog().info(">> nmfVersion = " + nmfVersion);
         getLog().info(">> maxHeap = " + maxHeap);
@@ -140,8 +146,9 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
         final Time time = new Time(System.currentTimeMillis());
         final String timestamp = HelperTime.time2readableString(time);
 
-        // Package 1
-        NMFPackageDetails details = new NMFPackageDetails(name, version, timestamp, mainClass, maxHeap);
+        // Package
+        NMFPackageDetails details = new NMFPackageDetails(name, version,
+                timestamp, mainClass, mainJar, maxHeap);
         NMFPackageCreator.nmfPackageCreator(details, inputFiles, locations, "target");
     }
 
@@ -160,22 +167,4 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
         }
     }
 
-    private File findAppJarInTargetFolder() throws IOException {
-        File targetFolder = new File("target");
-        File[] fList = targetFolder.listFiles();
-
-        for (File file : fList) {
-            if (file.isDirectory()) {
-                continue; // Jump over if it is a directory
-            }
-
-            if (!file.getAbsolutePath().endsWith(".jar")) {
-                continue; // It is not a Jar file
-            }
-
-            return file;
-        }
-
-        throw new IOException("Not found!");
-    }
 }

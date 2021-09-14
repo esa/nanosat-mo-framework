@@ -24,7 +24,7 @@ import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDetails;
 import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDescriptor;
 import esa.mo.nmf.nmfpackage.descriptor.NMFPackageFile;
-import esa.mo.nmf.nmfpackage.receipt.ReceiptVersion2;
+import esa.mo.nmf.nmfpackage.receipt.ReceiptMaster;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
@@ -110,10 +110,7 @@ public class NMFPackageCreator {
         try { // Write down all the new paths
             FileOutputStream sigfos = new FileOutputStream(HelperNMFPackage.RECEIPT_FILENAME);
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(sigfos));
-            bw.write(HelperNMFPackage.NMF_PACKAGE_DESCRIPTOR_VERSION + "2");
-            bw.newLine();
-            ReceiptVersion2.writeReceipt(bw, descriptor);
-            bw.flush();
+            ReceiptMaster.writeLatestReceipt(descriptor, bw);
             sigfos.close();
         } catch (IOException ex) {
             Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.SEVERE, null, ex);
@@ -164,9 +161,9 @@ public class NMFPackageCreator {
 
         String name = details.getPackageName() + "-"
                 + details.getVersion() + "." + Const.NMF_PACKAGE_SUFFIX;
-        String packageOutputPath = (destinationFolder == null) ? name
+        String destinationPath = (destinationFolder == null) ? name
                 : destinationFolder + File.separator + name;
-        NMFPackageCreator.zipFiles(packageOutputPath, files, newLocations);
+        NMFPackageCreator.zipFiles(destinationPath, files, newLocations);
 
         // Output the secret privateKey into a file
         /*
@@ -187,7 +184,7 @@ public class NMFPackageCreator {
         receipt.delete();
         //digitalSignature.delete();
 
-        return packageOutputPath;
+        return destinationPath;
     }
 
 }

@@ -53,7 +53,7 @@ public class NMFPackageManager {
     private static final String RECEIPT_ENDING = ".receipt";
 
     private static final String DEFAULT_FOLDER_RECEIPT = "installation_receipts";
-    
+
     // This must match the group_nmf_apps value in the fresh_install.sh file
     private static final String GROUP_NMF_APPS = "nmf-apps";
 
@@ -135,7 +135,7 @@ public class NMFPackageManager {
                 LinuxUsersGroups.adduser(username, password, withGroup);
                 LinuxUsersGroups.addUserToGroup(username, GROUP_NMF_APPS);
                 //LinuxUsersGroups.useradd(username, password, withGroup, GROUP_NMF_APPS);
-                
+
                 // Set the right Group and Permissions to the Home Directory
                 // The owner remains with the app, the group is nmf-admin
                 String homeDir = LinuxUsersGroups.findHomeDir(username);
@@ -150,8 +150,13 @@ public class NMFPackageManager {
             // useradd $user_nmf_admin -m -s /bin/bash --user-group
             // echo $user_nmf_admin:$user_nmf_admin_password | chpasswd
             // ------------
-            String jarName = appName + "-" + details.getVersion() + ".jar";
+            String jarName = details.getMainJar();
+            if (jarName.equals("")) {
+                File jar = HelperNMFPackage.findAppJarInFolder(installationDir);
+                jarName = jar.getName();
+            }
             String content = HelperNMFPackage.generateLinuxStartAppScript(mainclass, jarName, maxHeap);
+
             String path = installationDir.getAbsolutePath()
                     + File.separator + "start_" + appName + ".sh";
 
@@ -173,13 +178,13 @@ public class NMFPackageManager {
         NMFPackageManager.writeFile(transportPath, transportContent);
 
         // Change Group owner of the installationDir
-        if(username != null){
+        if (username != null) {
             LinuxUsersGroups.chgrp(true, username, installationDir.getAbsolutePath());
         }
-        
+
         // chmod the installation directory with recursive
         LinuxUsersGroups.chmod(false, true, "750", installationDir.getAbsolutePath());
-        
+
         // ---------------------------------------
         // Store a copy of the receipt to know that it has been installed!
         // Default location of the folder
@@ -207,14 +212,14 @@ public class NMFPackageManager {
 
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                 "Package successfully installed from: {0}", packageLocation);
-        
+
         System.console().printf(SEPARATOR);
     }
-    
-    public static void uninstall(final String packageLocation, 
+
+    public static void uninstall(final String packageLocation,
             final boolean keepUserData) throws IOException {
         System.console().printf(SEPARATOR);
-        
+
         // Get the Package to be uninstalled
         ZipFile zipFile = new ZipFile(packageLocation);
         ZipEntry receipt = zipFile.getEntry(HelperNMFPackage.RECEIPT_FILENAME);
@@ -270,14 +275,14 @@ public class NMFPackageManager {
                     "The receipt file could not be deleted from: " + receiptFile.getCanonicalPath());
         }
         // ---------------------------------------
-        
+
         // We need to delete the respective user here!!
         //LinuxUsersGroups.userdel(generateUsername(appName), true);
         LinuxUsersGroups.deluser(generateUsername(appName), true);
 
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                 "Package successfully uninstalled from: " + packageLocation);
-        
+
         System.console().printf(SEPARATOR);
     }
 
@@ -321,8 +326,8 @@ public class NMFPackageManager {
 
         if (!receiptFile.delete()) { // The file could not be deleted...
             Logger.getLogger(NMFPackageManager.class.getName()).log(Level.WARNING,
-                    "The receipt file could not be deleted from: " 
-                            + receiptFile.getCanonicalPath());
+                    "The receipt file could not be deleted from: "
+                    + receiptFile.getCanonicalPath());
         }
 
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
@@ -351,7 +356,7 @@ public class NMFPackageManager {
 
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                 "Package successfully upgraded from location: " + packageLocation);
-        
+
         System.console().printf(SEPARATOR);
     }
 
@@ -605,8 +610,8 @@ public class NMFPackageManager {
             // Handle the exception
         }
     }
-    
-    private static String generateUsername(String appName){
+
+    private static String generateUsername(String appName) {
         return USER_NMF_APP_PREFIX + appName;
     }
 

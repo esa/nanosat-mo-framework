@@ -66,21 +66,25 @@ public class SimpleDemoPackageCreation {
                 "\n------------- Package 1 Generation -------------\n");
 
         // Package 1
-        NMFPackageDetails details = new NMFPackageDetails("TestPackage", "1.0", timestamp, "noclass", "96m");
+        NMFPackageDetails details = new NMFPackageDetails("TestPackage", "1.0",
+                timestamp, "noclass", "", "96m");
+
         NMFPackageCreator.nmfPackageCreator(details, files, newLocations);
 
         Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.INFO,
                 "\n------------- Package 2 Generation -------------\n");
 
         // Package 2
-        NMFPackageDetails details2 = new NMFPackageDetails("TestPackage", "2.0", timestamp, "noclass", "96m");
+        NMFPackageDetails details2 = new NMFPackageDetails("TestPackage", "2.0",
+                timestamp, "noclass", "", "96m");
         NMFPackageCreator.nmfPackageCreator(details2, files, newLocations);
 
         Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.INFO,
                 "\n------------- Package 3 Generation -------------\n");
 
         // Package 3
-        NMFPackageDetails details3 = new NMFPackageDetails("TestPackage", "3.0", timestamp, "noclass", "96m");
+        NMFPackageDetails details3 = new NMFPackageDetails("TestPackage", "3.0",
+                timestamp, "noclass", "", "96m");
         NMFPackageCreator.nmfPackageCreator(details3, files, newLocations);
 
         // If Yes:
