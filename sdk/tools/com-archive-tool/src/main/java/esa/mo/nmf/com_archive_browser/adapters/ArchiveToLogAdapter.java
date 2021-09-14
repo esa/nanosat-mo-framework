@@ -19,44 +19,37 @@
  * ----------------------------------------------------------------------------
  */
 
-package esa.mo.nmf.log_browser.adapters;
+package esa.mo.nmf.com_archive_browser.adapters;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
-import org.ccsds.moims.mo.com.structures.ObjectId;
-import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALStandardError;
 import org.ccsds.moims.mo.mal.structures.ElementList;
-import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetails;
+import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorHelper;
 import esa.mo.com.impl.util.ArchiveCOMObjectsOutput;
 
 /**
- * Archive adapter that finds by name an App object of the CommandExecutor service of the
- * SoftwareManagement from an archive query of all App objects.
+ * Archive adapter that dumps to a LOG file StandardOutput and StandardError events body of the
+ * CommandExecutor service of the SoftwareManagement received from an archive query.
  *
  * @author Tanguy Soto
  */
-public class ArchiveToAppAdapter extends ArchiveAdapter implements QueryStatusProvider {
+public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusProvider {
 
-  private static final Logger LOGGER = Logger.getLogger(ArchiveToAppAdapter.class.getName());
-
-  /**
-   * Name of the App to find.
-   */
-  private String appName;
+  private static final Logger LOGGER = Logger.getLogger(ArchiveToLogAdapter.class.getName());
 
   /**
-   * ObjectId of the found App or null if not found after the query ended.
+   * Destination LOG file
    */
-  private ObjectId appObjectId;
+  private FileWriter logFile;
 
   /**
    * True if the query is over (response or any error received)
@@ -64,35 +57,44 @@ public class ArchiveToAppAdapter extends ArchiveAdapter implements QueryStatusPr
   private boolean isQueryOver = false;
 
   /**
-   * SoftwareManagement.AppsLaunch.App object type
+   * SoftwareManagement.CommandExecutor.StandardOutput object type
    */
-  private ObjectType appType = AppsLauncherHelper.APP_OBJECT_TYPE;
+  private ObjectType stdOutputType = CommandExecutorHelper.STANDARDOUTPUT_OBJECT_TYPE;
+
+  /**
+   * SoftwareManagement.CommandExecutor.StandardError object type
+   */
+  private ObjectType stdErrorType = CommandExecutorHelper.STANDARDERROR_OBJECT_TYPE;
 
 
   /**
-   * Creates a new instance of ArchiveToAppAdapter.
+   * Creates a new instance of ArchiveToLogAdapter.
    * 
-   * @param appName
+   * @param logFilePath Path of destination LOG file where we dump the String objects
    */
-  public ArchiveToAppAdapter(String appName) {
-    this.appName = appName;
+  public ArchiveToLogAdapter(String logFilePath) {
+    openLogFile(logFilePath);
   }
 
   /**
-   * Processes archive objects output received from an archive query answer (update or response).
+   * Dumps an archive objects output received from an archive query answer (update or response).
    *
    * @param archiveObjectOutput the archive objects outputs
    */
-  private synchronized void ProcessArchiveObjectsOutput(
-      ArchiveCOMObjectsOutput archiveObjectOutput) {
+  private synchronized void dumpArchiveObjectsOutput(ArchiveCOMObjectsOutput archiveObjectOutput) {
+    if (logFile == null) {
+      LOGGER.log(Level.SEVERE, "Can't dump MAL elements to LOG file: file is null");
+      return;
+    }
+
     // empty comType means query returned nothing
     ObjectType comType = archiveObjectOutput.getObjectType();
     if (comType == null) {
       return;
     }
 
-    // process only app type
-    if (!comType.equals(appType)) {
+    // only expected types
+    if (!(comType.equals(stdOutputType) || comType.equals(stdErrorType))) {
       return;
     }
 
@@ -101,19 +103,40 @@ public class ArchiveToAppAdapter extends ArchiveAdapter implements QueryStatusPr
       return;
     }
 
-    // look for the App by name
-    for (int i = 0; i < archiveObjectOutput.getObjectBodies().size(); i++) {
-      AppDetails appObject = (AppDetails) archiveObjectOutput.getObjectBodies().get(i);
-      String appName = appObject.getName().getValue();
-      Long appInstanceId = archiveObjectOutput.getArchiveDetailsList().get(i).getInstId();
-      // TODO uncomment when archive sync fixed
-      // IdentifierList appDomain = archiveObjectOutput.getDomain();
-      IdentifierList appDomain = new IdentifierList();
-      appDomain.add(new Identifier("*"));
+    // write LOG message, we can safely cast to String
+    for (Object malObject : archiveObjectOutput.getObjectBodies()) {
+      String logObject = (String) malObject;
+      try {
+        logFile.write(logObject);
+      } catch (IOException e) {
+        LOGGER.log(Level.SEVERE, "Error writting LOG object", e);
+      }
+    }
+  }
 
-      if (this.appName.equals(appName)) {
-        appObjectId = new ObjectId(appType, new ObjectKey(appDomain, appInstanceId));
-        setIsQueryOver(true);
+  /**
+   * Opens the LOG file.
+   * 
+   * @param logFilePath to the LOG file to open/create
+   */
+  private void openLogFile(String logFilePath) {
+    try {
+      logFile = new FileWriter(logFilePath);
+    } catch (IOException e) {
+      LOGGER.log(Level.SEVERE, String.format("Error opening the LOG file", logFilePath), e);
+      logFile = null;
+    }
+  }
+
+  /**
+   * Safely closes the LOG file.
+   */
+  private synchronized void closeLogFile() {
+    if (logFile != null) {
+      try {
+        logFile.close();
+      } catch (IOException e) {
+        LOGGER.log(Level.SEVERE, "Error closing the LOG file", e);
       }
     }
   }
@@ -122,8 +145,7 @@ public class ArchiveToAppAdapter extends ArchiveAdapter implements QueryStatusPr
   public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType,
       IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies,
       Map qosProperties) {
-    ProcessArchiveObjectsOutput(
-        new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies));
+    dumpArchiveObjectsOutput(new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies));
     setIsQueryOver(true);
   }
 
@@ -131,8 +153,7 @@ public class ArchiveToAppAdapter extends ArchiveAdapter implements QueryStatusPr
   public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType,
       IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies,
       Map qosProperties) {
-    ProcessArchiveObjectsOutput(
-        new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies));
+    dumpArchiveObjectsOutput(new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies));
   }
 
   @Override
@@ -156,15 +177,6 @@ public class ArchiveToAppAdapter extends ArchiveAdapter implements QueryStatusPr
     setIsQueryOver(true);
   }
 
-  /**
-   * Returns the ObjectId of the found App or null if not found after the query ended.
-   * 
-   * @return the ObjectId
-   */
-  public ObjectId getAppObjectId() {
-    return appObjectId;
-  }
-
   /** {@inheritDoc} */
   @Override
   public synchronized boolean isQueryOver() {
@@ -172,6 +184,10 @@ public class ArchiveToAppAdapter extends ArchiveAdapter implements QueryStatusPr
   }
 
   private synchronized void setIsQueryOver(boolean isQueryOver) {
+    if (isQueryOver) {
+      // once response or error is received, we close the LOG file
+      closeLogFile();
+    }
     this.isQueryOver = isQueryOver;
   }
 }

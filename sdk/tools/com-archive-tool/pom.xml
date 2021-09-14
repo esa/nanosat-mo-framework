@@ -63,7 +63,7 @@
   </developers>
 
   <properties>
-    <assembly.mainClass>esa.mo.nmf.log_browser.COMArchiveBrowser</assembly.mainClass>
+    <assembly.mainClass>esa.mo.nmf.com_archive_browser.COMArchiveBrowser</assembly.mainClass>
   </properties>
 
   <dependencies>
