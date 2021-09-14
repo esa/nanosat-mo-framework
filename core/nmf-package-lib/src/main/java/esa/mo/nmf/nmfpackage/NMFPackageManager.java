@@ -132,7 +132,7 @@ public class NMFPackageManager {
                 LinuxUsersGroups.adduser(username, password, withGroup);
                 LinuxUsersGroups.addUserToGroup(username, GROUP_NMF_APPS);
                 //LinuxUsersGroups.useradd(username, password, withGroup, GROUP_NMF_APPS);
-                
+
                 // Set the right Group and Permissions to the Home Directory
                 // The owner remains with the app, the group is nmf-admin
                 String homeDir = LinuxUsersGroups.findHomeDir(username);
@@ -147,9 +147,15 @@ public class NMFPackageManager {
             // useradd $user_nmf_admin -m -s /bin/bash --user-group
             // echo $user_nmf_admin:$user_nmf_admin_password | chpasswd
             // ------------
-            String jarName = appName + "-" + details.getVersion() + ".jar";
+            String jarName = details.getMainJar();
+            if (jarName.equals("")) {
+                File jar = HelperNMFPackage.findAppJarInFolder(installationDir);
+                jarName = jar.getName();
+            }
             String content = HelperNMFPackage.generateLinuxStartAppScript(mainclass, jarName, maxHeap);
-            String path = installationDir.getAbsolutePath() + File.separator + "start_" + appName + ".sh";
+
+            String path = installationDir.getAbsolutePath()
+                    + File.separator + "start_" + appName + ".sh";
 
             NMFPackageManager.writeFile(path, content);
             File startApp = new File(path);
@@ -200,13 +206,13 @@ public class NMFPackageManager {
         zis.close();
         // ---------------------------------------
 
-        Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO, "Package successfully installed from: {0}",
-            packageLocation);
+        Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
+                "Package successfully installed from: {0}", packageLocation);
 
         System.console().printf(SEPARATOR);
     }
-    
-    public static void uninstall(final String packageLocation, 
+
+    public static void uninstall(final String packageLocation,
             final boolean keepUserData) throws IOException {
         System.console().printf(SEPARATOR);
 
@@ -265,8 +271,8 @@ public class NMFPackageManager {
         //LinuxUsersGroups.userdel(generateUsername(appName), true);
         LinuxUsersGroups.deluser(generateUsername(appName), true);
 
-        Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO, "Package successfully uninstalled from: " +
-            packageLocation);
+        Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
+                "Package successfully uninstalled from: " + packageLocation);
 
         System.console().printf(SEPARATOR);
     }
@@ -310,7 +316,8 @@ public class NMFPackageManager {
 
         if (!receiptFile.delete()) { // The file could not be deleted...
             Logger.getLogger(NMFPackageManager.class.getName()).log(Level.WARNING,
-                "The receipt file could not be deleted from: " + receiptFile.getCanonicalPath());
+                    "The receipt file could not be deleted from: "
+                    + receiptFile.getCanonicalPath());
         }
 
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
@@ -338,7 +345,7 @@ public class NMFPackageManager {
         // ---------------------------------------
 
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
-            "Package successfully upgraded from location: " + packageLocation);
+                "Package successfully upgraded from location: " + packageLocation);
 
         System.console().printf(SEPARATOR);
     }

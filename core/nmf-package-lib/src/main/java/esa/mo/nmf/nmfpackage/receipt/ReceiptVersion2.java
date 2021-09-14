@@ -79,7 +79,9 @@ public class ReceiptVersion2 {
             throw new IOException("Could not read the package mainclass!");
         }
 
-        final NMFPackageDetails details = new NMFPackageDetails(name, version, timestamp, mainclass, "96m");
+        final NMFPackageDetails details = new NMFPackageDetails(name, 
+                version, timestamp, mainclass, "", "96m");
+
         final NMFPackageDescriptor descriptor = new NMFPackageDescriptor(details);
         String path;
         long crc;

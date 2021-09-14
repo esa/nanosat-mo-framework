@@ -31,11 +31,14 @@ import java.io.IOException;
  *
  * @author Cesar Coelho
  */
-public class ReceiptVersion1 {
+public class ReceiptVersion3 {
 
     private static final String PACKAGE_NAME = "PackageName=";
     private static final String PACKAGE_VERSION = "PackageVersion=";
     private static final String PACKAGE_TIMESTAMP = "PackageCreationTimestamp=";
+    private static final String MAINCLASS = "MainClass=";
+    private static final String MAINJAR = "MainJar=";
+    private static final String MAXHEAP = "MaxHeap=";
     private static final String FILE_PATH = "FilePath=";
     private static final String FILE_CRC = "FileCRC=";
 
@@ -43,6 +46,9 @@ public class ReceiptVersion1 {
         String name = null;
         String version = null;
         String timestamp = null;
+        String mainclass = null;
+        String mainJar = null;
+        String maxHeap = null;
 
         String line;
         line = readLineSafe(br);
@@ -69,9 +75,32 @@ public class ReceiptVersion1 {
             throw new IOException("Could not read the package timestamp!");
         }
 
-        final NMFPackageDetails details = new NMFPackageDetails(name, 
-                version, timestamp, "", "", "96m");
+        line = readLineSafe(br);
 
+        if (line.startsWith(line)) {
+            mainclass = line.substring(MAINCLASS.length());
+        } else {
+            throw new IOException("Could not read the package mainclass!");
+        }
+
+        line = readLineSafe(br);
+
+        if (line.startsWith(line)) {
+            mainJar = line.substring(MAINJAR.length());
+        } else {
+            throw new IOException("Could not read the package mainJar!");
+        }
+
+        line = readLineSafe(br);
+
+        if (line.startsWith(line)) {
+            maxHeap = line.substring(MAXHEAP.length());
+        } else {
+            throw new IOException("Could not read the package mainJar!");
+        }
+
+        final NMFPackageDetails details = new NMFPackageDetails(name,
+                version, timestamp, mainclass, mainJar, maxHeap);
         final NMFPackageDescriptor descriptor = new NMFPackageDescriptor(details);
         String path;
         long crc;
@@ -98,19 +127,24 @@ public class ReceiptVersion1 {
         return descriptor;
     }
 
-    public static void writeReceipt(final BufferedWriter bw, final NMFPackageDescriptor descriptor) throws IOException {
+    public static void writeReceipt(final BufferedWriter bw,
+            final NMFPackageDescriptor descriptor) throws IOException {
         bw.write(PACKAGE_NAME + descriptor.getDetails().getPackageName());
         bw.newLine();
         bw.write(PACKAGE_VERSION + descriptor.getDetails().getVersion());
         bw.newLine();
         bw.write(PACKAGE_TIMESTAMP + descriptor.getDetails().getTimestamp());
         bw.newLine();
+        bw.write(MAINCLASS + descriptor.getDetails().getMainclass());
+        bw.newLine();
+        bw.write(MAINJAR + descriptor.getDetails().getMainclass());
+        bw.newLine();
 
         // Iterate the newLocations and write them down on the file
         for (NMFPackageFile f : descriptor.getFiles()) {
             bw.write(FILE_PATH + f.getPath());
             bw.newLine();
-            bw.write(FILE_CRC + f.getCRC());
+            bw.write(FILE_CRC + String.valueOf(f.getCRC()));
             bw.newLine();
         }
     }
