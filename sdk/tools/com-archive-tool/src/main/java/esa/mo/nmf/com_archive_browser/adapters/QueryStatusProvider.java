@@ -19,7 +19,7 @@
  * ----------------------------------------------------------------------------
  */
 
-package esa.mo.nmf.log_browser.adapters;
+package esa.mo.nmf.com_archive_browser.adapters;
 
 /**
  * Interface providing the status of an on-going archive query.

@@ -1,0 +1,97 @@
+/* ----------------------------------------------------------------------------
+ * Copyright (C) 2021      European Space Agency
+ *                         European Space Operations Centre
+ *                         Darmstadt
+ *                         Germany
+ * ----------------------------------------------------------------------------
+ * System                : ESA NanoSat MO Framework
+ * ----------------------------------------------------------------------------
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+ * You may not use this file except in compliance with the License.
+ *
+ * Except as expressly set forth in this License, the Software is provided to
+ * You on an "as is" basis and without warranties of any kind, including without
+ * limitation merchantability, fitness for a particular purpose, absence of
+ * defects or errors, accuracy or non-infringement of intellectual property rights.
+ *
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ----------------------------------------------------------------------------
+ */
+package esa.mo.nmf.com_archive_browser.commands.parameters;
+
+import esa.mo.nmf.com_archive_browser.ArchiveBrowserHelper;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
+import picocli.CommandLine.Parameters;
+import picocli.CommandLine.ArgGroup;
+
+/**
+ * @author marcel.mikolajko
+ */
+public class ParametersCommandsDefinitions {
+
+    @Command(name = "parameter", subcommands = {ListParameters.class, GetParameters.class},
+            description = "Gets or lists NMF app parameters using the content of a local or remote COM archive.")
+    public static class Parameter {
+        @Option(names = {"-h", "--help"}, usageHelp = true, description = "display a help message")
+        boolean helpRequested;
+    }
+
+    @Command(name = "list",
+            description = "Lists available parameters in an NMF app.")
+    public static class ListParameters implements Runnable {
+        @Option(names = {"-h", "--help"}, usageHelp = true, description = "display a help message")
+        boolean helpRequested;
+
+        @ArgGroup(multiplicity = "1")
+        ArchiveBrowserHelper.LocalOrRemote localOrRemote;
+
+        @Parameters(arity = "1", paramLabel = "<appName>",
+                    description = "Name of the NMF app we want the parameters from")
+        String appName;
+
+        /** {@inheritDoc} */
+        @Override
+        public void run() {
+            ParametersCommandsImplementations.listParameters(localOrRemote.databaseFile, localOrRemote.providerURI, appName);
+        }
+    }
+
+    @Command(name = "get",
+            description = "Dumps to a file all parameter samples from an NMF app.")
+    public static class GetParameters implements Runnable {
+        @Option(names = {"-h", "--help"}, usageHelp = true, description = "display a help message")
+        boolean helpRequested;
+
+        @ArgGroup(multiplicity = "1")
+        ArchiveBrowserHelper.LocalOrRemote localOrRemote;
+
+        @Parameters(arity = "1", paramLabel = "<appName>",
+                    description = "Name of the NMF app we want the parameters for")
+        String appName;
+
+        @Parameters(arity = "1", paramLabel = "<logFile>", description = "target file for the parameters")
+        String parametersFile;
+
+        @Option(names = {"-s", "--start"}, paramLabel = "<startTime>",
+                description = "Restricts the dump to parameters generated after the given time\n"
+                              + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n"
+                              + "  - example: \"2021-03-04 08:37:58.482\"")
+        String startTime;
+
+        @Option(names = {"-e", "--end"}, paramLabel = "<endTime>",
+                description = "Restricts the dump to parameters generated before the given time. "
+                              + "If this option is provided without the -s option, returns the single object that has the closest timestamp to, but not greater than <endTime>\n"
+                              + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n"
+                              + "  - example: \"2021-03-05 12:05:45.271\"")
+        String endTime;
+
+        @Override
+        public void run() {
+            ParametersCommandsImplementations.getParameters(localOrRemote.databaseFile, localOrRemote.providerURI,
+                                                            appName, startTime, endTime, parametersFile);
+        }
+    }
+
+}

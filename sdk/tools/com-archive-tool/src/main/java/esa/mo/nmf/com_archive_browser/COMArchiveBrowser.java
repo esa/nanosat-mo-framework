@@ -18,18 +18,33 @@
  * limitations under the License.
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.log_browser;
+package esa.mo.nmf.com_archive_browser;
 
+import esa.mo.nmf.com_archive_browser.commands.archive.ArchiveCommandsDefinitions;
+import esa.mo.nmf.com_archive_browser.commands.logs.LogsCommandsDefinitions;
+import esa.mo.nmf.com_archive_browser.commands.parameters.ParametersCommandsDefinitions;
 import picocli.CommandLine;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
 
 /**
  * Main entry point to start the COMArchiveBrowser tool.
  *
  * @author Tanguy Soto
  */
+@Command(name = "COMArchiveBrowser",
+         subcommands = {LogsCommandsDefinitions.Logs.class,
+                        ParametersCommandsDefinitions.Parameter.class,
+                        ArchiveCommandsDefinitions.DumpRawArchive.class,
+                        ArchiveCommandsDefinitions.DumpFormattedArchive.class,
+                        ArchiveCommandsDefinitions.ListArchiveProviders.class},
+         description = "Browses a COM archive to retrieve it's contents.")
 public class COMArchiveBrowser {
 
   public static final String APP_NAME = "com-archive-tool";
+
+  @Option(names = {"-h", "--help"}, usageHelp = true, description = "display a help message")
+  private boolean helpRequested;
 
   /**
    * Main command line entry point.
@@ -37,8 +52,8 @@ public class COMArchiveBrowser {
    * @param args the command line arguments
    */
   public static void main(String[] args) {
-    CommandsDefinitions cmdDef = new CommandsDefinitions();
-    CommandLine cmd = new CommandLine(cmdDef);
+    COMArchiveBrowser browser = new COMArchiveBrowser();
+    CommandLine cmd = new CommandLine(browser);
     cmd.setUsageHelpAutoWidth(true);
     cmd.setUsageHelpLongOptionsMaxWidth(30);
 
