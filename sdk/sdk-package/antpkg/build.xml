@@ -25,7 +25,7 @@
 
   <target name="emit-log-browser">
     <ant antfile="antpkg/build_shell_script.xml">
-      <property name="mainClass" value="esa.mo.nmf.log_browser.LogBrowser"/>
+      <property name="mainClass" value="esa.mo.nmf.log_browser.COMArchiveBrowser"/>
       <property name="id" value="log-browser-tool"/>
       <property name="nmf_home" value="`cd .. > /dev/null; pwd`"/>
       <property name="nmf_lib" value="`cd ../lib > /dev/null; pwd`"/>
@@ -33,7 +33,7 @@
       <property name="max_heap" value="256m"/>
     </ant>
     <ant antfile="antpkg/build_batch_script.xml">
-      <property name="mainClass" value="esa.mo.nmf.log_browser.LogBrowser"/>
+      <property name="mainClass" value="esa.mo.nmf.log_browser.COMArchiveBrowser"/>
       <property name="id" value="log-browser-tool"/>
       <property name="nmf_home" value="%cd%\.."/>
       <property name="nmf_lib" value="`cd ../lib > /dev/null; pwd`"/>

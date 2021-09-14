@@ -23,13 +23,13 @@ package esa.mo.nmf.log_browser;
 import picocli.CommandLine;
 
 /**
- * Main entry point to start the LogBrowser tool.
+ * Main entry point to start the COMArchiveBrowser tool.
  *
  * @author Tanguy Soto
  */
-public class LogBrowser {
+public class COMArchiveBrowser {
 
-  public static final String APP_NAME = "log-browser-tool";
+  public static final String APP_NAME = "com-archive-tool";
 
   /**
    * Main command line entry point.
