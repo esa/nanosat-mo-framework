@@ -517,22 +517,35 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         ObjectInstancePairList outPairLst = new ObjectInstancePairList();
 
         //requirement: 3.3.12.2.e: only if no error was raised, the new definitions should be stored 
-        ObjectId source = manager.storeCOMOperationActivity(interaction); // requirement: 3.3.4.g, h 
+        ObjectId source = manager.storeCOMOperationActivity(interaction); // requirement: 3.3.4.g, h
+        IdentifierList names = new IdentifierList();
+        ParameterDefinitionDetailsList details = new ParameterDefinitionDetailsList();
         for (ParameterCreationRequest tempParameterCreationRequest : paramCreationReqList) { // requirement: 3.3.12.2.i ( "for each cycle" guarantees that)
-            Identifier paramName = tempParameterCreationRequest.getName();
-            final ObjectInstancePair newParamIds = manager.add(paramName,
-                    tempParameterCreationRequest.getParamDefDetails(),
-                    source,
-                    connection.getConnectionDetails());
-            //store the objects
-            outPairLst.add(newParamIds); //  requirement: 3.3.12.2.g
-            // Refresh the Periodic Reporting Manager for the added Definitions
-            periodicReportingManager.refresh(newParamIds.getObjIdentityInstanceId());
+            names.add(tempParameterCreationRequest.getName());
+            details.add(tempParameterCreationRequest.getParamDefDetails());
         }
 
-        if (configurationAdapter != null) {
-            configurationAdapter.onConfigurationChanged(this);
-        }
+        ObjectInstancePairList objectInstancePairs = manager.addMultiple(names,
+                                                                         details,
+                                                                 source,
+                                                                 connection.getConnectionDetails());
+        //store the objects
+        outPairLst.addAll(objectInstancePairs); //  requirement: 3.3.12.2.g
+        // Refresh the Periodic Reporting Manager for the added Definitions
+
+        final ReconfigurableService t = this;
+
+        Thread thread = new Thread(() -> {
+           for(ObjectInstancePair newParamIds : objectInstancePairs) {
+               periodicReportingManager.refresh(newParamIds.getObjIdentityInstanceId());
+           }
+
+           if (configurationAdapter != null) {
+               configurationAdapter.onConfigurationChanged(t);
+           }
+        });
+
+        thread.start();//To not block main thread parameter timers can be started in parallel thread
 
         return outPairLst; // requirement: 3.3.12.2.h
     }

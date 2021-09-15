@@ -56,6 +56,7 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValueList;
 import org.ccsds.moims.mo.mc.parameter.structures.ValidityState;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
+import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 import org.ccsds.moims.mo.mc.structures.ParameterExpression;
 
 /**
@@ -492,6 +493,122 @@ public class ParameterManager extends MCManager
     final UOctet expPValState = generateValidityState(this.getParameterDefinition(expPIdentityId),
         expParamValue, getConvertedValue(expParamValue, expPDef), aggrExpired);
     return expPValState;
+  }
+
+  protected ObjectInstancePairList addMultiple(IdentifierList names, ParameterDefinitionDetailsList definitions,
+                                       ObjectId source, SingleConnectionDetails connectionDetails)
+  {
+    try {
+      if(null == names) {
+        throw new IllegalArgumentException("Parameter identfiers list can't be null!");
+      }
+
+      if(null == definitions) {
+        throw new IllegalArgumentException("Parameter definitions list can't be null!");
+      }
+
+      if(names.size() != definitions.size()) {
+        throw new IllegalArgumentException("Parameter identifiers list size is different than definitions list size!");
+      }
+    }
+    catch (IllegalArgumentException e) {
+      Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, e);
+      return null;
+    }
+
+    // requirement: 3.3.2.5
+    ObjectInstancePairList newIdPairList = new ObjectInstancePairList();
+
+    if (super.getArchiveService() == null) {
+      for(int i = 0; i < names.size(); i++) {
+        ObjectInstancePair newIdPair;
+        //add to providers local list
+        uniqueObjIdIdentity++; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
+        uniqueObjIdDef++; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
+        newIdPair = new ObjectInstancePair(uniqueObjIdIdentity, uniqueObjIdDef);
+        newIdPairList.add(newIdPair);
+      }
+    } else {
+      try {
+        IdentifierList namesToAdd = new IdentifierList();
+
+        LongList identityIds = new LongList();
+
+        int i = 0;
+        for(Identifier name : names) {
+          //requirement: 3.3.12.2.f: if a ParameterName ever existed before, use the old ParameterIdentity-Object by retrieving it from the archive
+          //check if the name existed before and retrieve id if found
+          Long identityId = retrieveIdentityIdByNameFromArchive(ConfigurationProviderSingleton.getDomain(), name,
+                                                                ParameterHelper.PARAMETERIDENTITY_OBJECT_TYPE);
+
+          //in case the ParameterName never existed before, create a new identity
+          if (identityId == null) {
+            namesToAdd.add(name);
+          } else {
+            identityIds.add(i, identityId);
+          }
+
+          i++;
+        }
+
+        ArchiveDetailsList identityDetails = new ArchiveDetailsList();
+
+        for(Identifier name : namesToAdd) {
+          identityDetails.add(HelperArchive.generateArchiveDetailsList(null, source,
+                                                                       connectionDetails.getProviderURI()).get(0));
+        }
+
+        //add to the archive
+        LongList idIds = super.getArchiveService().store(true, ParameterHelper.PARAMETERIDENTITY_OBJECT_TYPE,
+                                                         ConfigurationProviderSingleton.getDomain(),
+                                                         identityDetails,
+                                                         namesToAdd, null);
+        i = 0;
+
+        for(Identifier name : namesToAdd) {
+          int index = names.indexOf(name);
+
+          identityIds.add(index, idIds.get(i));
+
+          i++;
+        }
+
+        ArchiveDetailsList definitionDetails =  new ArchiveDetailsList();
+
+        for(Long idId : identityIds) {
+          ArchiveDetailsList defDetails = HelperArchive.generateArchiveDetailsList(idId, source,
+                                                                                   connectionDetails.getProviderURI());
+
+          definitionDetails.add(defDetails.get(0));
+        }
+
+        //not matter if the parameter was created or loaded, a new definition will be created
+        LongList defIds = super.getArchiveService().store(true, ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE,
+                                                          ConfigurationProviderSingleton.getDomain(),
+                                                          definitionDetails,
+                                                          definitions, null);
+
+        i = 0;
+        //add to providers local list
+        for(Long idId : identityIds) {
+          ObjectInstancePair newIdPair = new ObjectInstancePair(identityIds.get(i), defIds.get(i));
+          newIdPairList.add(newIdPair);
+          i++;
+        }
+      } catch (MALException | MALInteractionException ex) {
+        Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
+        return null;
+      }
+    }
+
+    int i = 0;
+
+    for(Identifier name : names) {
+      this.addIdentityDefinition(name, newIdPairList.get(i), definitions.get(i));
+      i++;
+    }
+
+    return newIdPairList;
   }
 
   protected ObjectInstancePair add(Identifier name, ParameterDefinitionDetails definition,
