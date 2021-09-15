@@ -222,33 +222,30 @@ public class TransactionsProcessor {
       Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
     }
 
-    dbTransactionsExecutor.execute(new Runnable() {
-      @Override
-      public void run() {
-        StoreCOMObjectsContainer container = storeQueue.poll();
+    dbTransactionsExecutor.execute(() -> {
+       StoreCOMObjectsContainer container1 = storeQueue.poll();
 
-        if (container != null) {
-          dbBackend.createEntityManager();  // 0.166 ms
-          dbBackend.getEM().getTransaction().begin(); // 0.480 ms
-          persistObjects(container.getPerObjs()); // store
+       if (container1 != null) {
+         dbBackend.createEntityManager();  // 0.166 ms
+         dbBackend.getEM().getTransaction().begin(); // 0.480 ms
+         persistObjects(container1.getPerObjs()); // store
 
-          while (true) {
-            container = storeQueue.peek(); // get next if there is one available
-            if (container != null && container.isContinuous()) {
-              container = storeQueue.poll();
-              persistObjects(container.getPerObjs()); // store
-            } else {
-              break;
-            }
-          }
+         while (true) {
+           container1 = storeQueue.peek(); // get next if there is one available
+           if (container1 != null && container1.isContinuous()) {
+             container1 = storeQueue.poll();
+             persistObjects(container1.getPerObjs()); // store
+           } else {
+             break;
+           }
+         }
 
-          dbBackend.safeCommit();
-          dbBackend.closeEntityManager(); // 0.410 ms
-        }
+         dbBackend.safeCommit();
+         dbBackend.closeEntityManager(); // 0.410 ms
+       }
 
-        generalExecutor.submit(publishEvents);
-      }
-    });
+       generalExecutor.submit(publishEvents);
+     });
   }
 
   public void remove(final Integer objTypeId, final Integer domainId,

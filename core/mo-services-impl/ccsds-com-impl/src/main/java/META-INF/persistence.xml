@@ -32,10 +32,16 @@
         <property name="javax.persistence.schema-generation.database.action" value="create"/>
         <property name="eclipselink.target-database" value="Auto"/>
 
-        <property name="eclipselink.logging.level" value="WARNING"/>
+        <property name="eclipselink.logging.level" value="off"/>
+        <!--<property name="eclipselink.logging.level" value="WARNING"/>-->
 
-        <!--  -->
-        <property name="eclipselink.cache.shared.default" value="false"/>
+        <property name="eclipselink.jdbc.batch-writing" value="JDBC"/>
+        <property name="eclipselink.jdbc.batch-writing.size" value="1000"/>
+
+        <property name="eclipselink.cache.shared.default" value="false" />
+        <property name="eclipselink.persistence-context.close-on-commit" value="true" />
+        <property name="eclipselink.persistence-context.flush-mode" value="commit" />
+        <property name="eclipselink.persistence-context.persist-on-commit" value="false" />
 
         <!--  To try out  -->
         <!-- 
