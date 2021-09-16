@@ -20,6 +20,8 @@
  */
 package esa.mo.nmf.com_archive_browser.commands.parameters;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.nmf.NMFConsumer;
@@ -35,10 +37,12 @@ import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import static esa.mo.nmf.com_archive_browser.ArchiveBrowserHelper.*;
 
@@ -111,7 +115,8 @@ public class ParametersCommandsImplementations {
      * @param file target file
      */
     public static void getParameters(String databaseFile, String providerURI, String appName,
-                                     String startTime, String endTime, String file) {
+                                     String startTime, String endTime, String file,
+                                     List<String> parameterNames, boolean json) {
         NMFConsumer consumer = createConsumer(providerURI);
 
         if(consumer == null) {
@@ -145,17 +150,42 @@ public class ParametersCommandsImplementations {
         queryArchive(objectsTypes, archiveQueryList, adapter, adapter, consumer);
 
         try {
-            Map<Identifier, List<ArchiveToParametersAdapter.TimestampedParameterValue>> parameters = adapter.getParameterValues();
-            FileWriter writer = new FileWriter(file);
+            Map<Identifier, List<ArchiveToParametersAdapter.TimestampedParameterValue>> allParameters = adapter.getParameterValues();
 
-            for(Map.Entry<Identifier, List<ArchiveToParametersAdapter.TimestampedParameterValue>> entry : parameters.entrySet()) {
-                for(ArchiveToParametersAdapter.TimestampedParameterValue value : entry.getValue()) {
-                    String line = entry.getKey() + "\t" + value.getTimestamp() + "\t" + value.getParameterValue().getRawValue() + "\n";
-                    writer.write(line);
-                }
+            if(json && !file.endsWith(".json")) {
+                file = file + ".json";
             }
 
+            FileWriter writer = new FileWriter(file);
+
+            Map<Identifier, List<ArchiveToParametersAdapter.TimestampedParameterValue>> parameters = new HashMap<>();
+            if(parameterNames != null && !parameterNames.isEmpty()) {
+                for(String name: parameterNames) {
+                    List<ArchiveToParametersAdapter.TimestampedParameterValue> values = allParameters.get(new Identifier(name));
+                    if(values == null) {
+                        LOGGER.log(Level.WARNING, "Parameter " + name + " not found. It will be ignored.");
+                        continue;
+                    }
+                    parameters.put(new Identifier(name), values);
+                }
+            } else {
+                parameters = allParameters;
+            }
+
+            if(json) {
+                Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
+                gson.toJson(parameters, writer);
+            } else {
+                List<String> keys = parameters.keySet().stream().map(Identifier::getValue).sorted().collect(Collectors.toList());
+                for(String parameter : keys) {
+                    for(ArchiveToParametersAdapter.TimestampedParameterValue value : parameters.get(new Identifier(parameter))) {
+                        String line = parameter + "\t" + value.getTimestamp() + "\t" + value.getParameterValue() + "\n";
+                        writer.write(line);
+                    }
+                }
+            }
             writer.close();
+            LOGGER.log(Level.INFO, "Parameters successfully dumped to file: " + file);
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Error when writing to file", e);
         }

@@ -26,6 +26,8 @@ import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 import picocli.CommandLine.ArgGroup;
 
+import java.util.List;
+
 /**
  * @author marcel.mikolajko
  */
@@ -67,12 +69,17 @@ public class ParametersCommandsDefinitions {
         @ArgGroup(multiplicity = "1")
         ArchiveBrowserHelper.LocalOrRemote localOrRemote;
 
-        @Parameters(arity = "1", paramLabel = "<appName>",
+        @Parameters(arity = "1", paramLabel = "<appName>", index = "0",
                     description = "Name of the NMF app we want the parameters for")
         String appName;
 
-        @Parameters(arity = "1", paramLabel = "<logFile>", description = "target file for the parameters")
+        @Parameters(arity = "1", paramLabel = "<filename>", index = "1",
+                    description = "target file for the parameters")
         String parametersFile;
+
+        @Parameters(arity = "0..*", paramLabel = "<parameterNames>", index = "2",
+                    description = "names of the parameters to retrieve")
+        List<String> parameterNames;
 
         @Option(names = {"-s", "--start"}, paramLabel = "<startTime>",
                 description = "Restricts the dump to parameters generated after the given time\n"
@@ -87,10 +94,15 @@ public class ParametersCommandsDefinitions {
                               + "  - example: \"2021-03-05 12:05:45.271\"")
         String endTime;
 
+        @Option(names = {"-j", "--json"}, paramLabel = "<json>",
+                description = "if specified output will be in json format")
+        boolean json;
+
         @Override
         public void run() {
             ParametersCommandsImplementations.getParameters(localOrRemote.databaseFile, localOrRemote.providerURI,
-                                                            appName, startTime, endTime, parametersFile);
+                                                            appName, startTime, endTime, parametersFile, parameterNames,
+                                                            json);
         }
     }
 
