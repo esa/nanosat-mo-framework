@@ -23,14 +23,19 @@ package esa.mo.nmf.com_archive_browser.adapters;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import esa.mo.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
+import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALStandardError;
 import org.ccsds.moims.mo.mal.structures.ElementList;
+import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorHelper;
@@ -66,13 +71,15 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
    */
   private ObjectType stdErrorType = CommandExecutorHelper.STANDARDERROR_OBJECT_TYPE;
 
+  private boolean addTimestamps;
 
   /**
    * Creates a new instance of ArchiveToLogAdapter.
    * 
    * @param logFilePath Path of destination LOG file where we dump the String objects
    */
-  public ArchiveToLogAdapter(String logFilePath) {
+  public ArchiveToLogAdapter(String logFilePath, boolean addTimestamps) {
+    this.addTimestamps = addTimestamps;
     openLogFile(logFilePath);
   }
 
@@ -103,11 +110,27 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
       return;
     }
 
-    // write LOG message, we can safely cast to String
-    for (Object malObject : archiveObjectOutput.getObjectBodies()) {
-      String logObject = (String) malObject;
+    String lineOffset = "                        "; // 24 is the length of the timestamp
+    for(int i = 0; i < archiveObjectOutput.getArchiveDetailsList().size(); ++i) {
+      // write LOG message, we can safely cast to String
+      String logObject = (String) archiveObjectOutput.getObjectBodies().get(i);
       try {
-        logFile.write(logObject);
+        if(addTimestamps) {
+          FineTime timestamp = archiveObjectOutput.getArchiveDetailsList().get(i).getTimestamp();
+          String[] logLines = logObject.split("\n");
+          logLines[0] = HelperTime.time2readableString(timestamp) + " " + logLines[0];
+          if(logLines.length > 1) {
+            for(int j = 1; j < logLines.length; ++j) {
+              logLines[j] = lineOffset + logLines[j];
+            }
+          }
+
+          for(String line : logLines) {
+            logFile.write(line + "\n");
+          }
+        } else {
+          logFile.write(logObject);
+        }
       } catch (IOException e) {
         LOGGER.log(Level.SEVERE, "Error writting LOG object", e);
       }

@@ -109,10 +109,14 @@ public class LogsCommandsDefinitions {
                               + "  - example: \"2021-03-05 12:05:45.271\"")
         String endTime;
 
+        @Option(names = {"-t", "--timestamped"}, paramLabel = "<addTimestamps>",
+                description = "If specified additional timestamp will be added to each line")
+        boolean addTimestamps;
+
         @Override
         public void run() {
             LogsCommandsImplementations.getLogs(localOrRemote.databaseFile, localOrRemote.providerURI, appName,
-                                                domain, startTime, endTime, logFile);
+                                                domain, startTime, endTime, logFile, addTimestamps);
         }
     }
 }

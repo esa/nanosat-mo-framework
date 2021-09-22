@@ -126,7 +126,7 @@ public class LogsCommandsImplementations {
      * @param logFile target LOG file
      */
     public static void getLogs(String databaseFile, String providerURI, String appName,
-                               String domainId, String startTime, String endTime, String logFile) {
+                               String domainId, String startTime, String endTime, String logFile, boolean addTimestamps) {
         NMFConsumer consumer = createConsumer(providerURI);
 
         if(consumer == null) {
@@ -172,7 +172,7 @@ public class LogsCommandsImplementations {
         archiveQueryList.add(archiveQuery);
 
         // execute query
-        ArchiveToLogAdapter adapter = new ArchiveToLogAdapter(logFile);
+        ArchiveToLogAdapter adapter = new ArchiveToLogAdapter(logFile, addTimestamps);
         queryArchive(objectsTypes, archiveQueryList, adapter, adapter, consumer);
 
         // shutdown local provider if used
