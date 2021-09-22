@@ -25,6 +25,7 @@ You can also just click through the different pages to see what we can offer.
    simulator/simulator
    opssat/opssat
    javadoc/packages
+   mpservices/mp
 
 Indices and tables
 ==================

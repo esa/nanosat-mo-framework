@@ -28,6 +28,7 @@ import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.misc.AppShutdownGuard;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.MCRegistration;
+import esa.mo.nmf.MissionPlanningNMFAdapter;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
@@ -136,6 +137,11 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
         final String uri = directoryService.getConnection().getConnectionDetails().getProviderURI().toString();
         Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO,
                 "URI: {0}\n", uri);
+    }
+
+    @Override
+    public void init(MissionPlanningNMFAdapter mpAdapter) {
+      // Not implemented. MP services are accessible only from connector.
     }
 
     /**

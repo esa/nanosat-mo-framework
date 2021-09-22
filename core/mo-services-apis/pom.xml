@@ -53,5 +53,6 @@
     <module>platform</module>
     <module>software-management</module>
     <module>com-nmf</module>
+    <module>mp-nmf</module>
   </modules>
 </project>

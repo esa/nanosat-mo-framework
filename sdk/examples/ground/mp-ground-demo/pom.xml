@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+  You may not use this file except in compliance with the License.
+  Except as expressly set forth in this License, the Software is provided to
+  You on an "as is" basis and without warranties of any kind, including without
+  limitation merchantability, fitness for a particular purpose, absence of
+  defects or errors, accuracy or non-infringement of intellectual property rights.
+  See the License for the specific language governing permissions and limitations under the License.
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>int.esa.nmf</groupId>
+    <artifactId>parent</artifactId>
+    <version>2.1.0-SNAPSHOT</version>
+    <relativePath>../../../../parent/pom.xml</relativePath>
+  </parent>
+
+  <groupId>int.esa.nmf.sdk.examples.ground</groupId>
+  <artifactId>mp-ground-demo</artifactId>
+  <packaging>jar</packaging>
+
+  <name>MP Services ground demo</name>
+  <description>A mission planning services demo app</description>
+
+  <scm>
+    <connection>scm:git:git@github.com:esa/nanosat-mo-framework.git</connection>
+    <developerConnection>scm:git:git@github.com:esa/nanosat-mo-framework.git</developerConnection>
+    <url>https://github.com/esa/nanosat-mo-framework</url>
+  </scm>
+
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/esa/nanosat-mo-framework/issues</url>
+  </issueManagement>
+
+  <properties>
+    <assembly.mainClass>esa.mo.ground.mp.MPGroundDemo</assembly.mainClass>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>int.esa.nmf.core</groupId>
+      <artifactId>ground-mo-adapter</artifactId>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <resources>
+      <resource>
+        <directory>${basedir}/..</directory>
+        <includes>
+          <include>LICENCE.md</include>
+        </includes>
+      </resource>
+    </resources>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+</project>

@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Component id="parameterTab" alignment="0" pref="0" max="32767" attributes="0"/>
+          <Component id="jScrollPane2" alignment="1" pref="882" max="32767" attributes="0"/>
+          <Component id="jLabel6" alignment="0" max="32767" attributes="0"/>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="jScrollPane2" pref="253" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="parameterTab" min="-2" max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Component class="javax.swing.JLabel" name="jLabel6">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="18" style="1"/>
+        </Property>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="Plan Information Management Service"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
+      </Properties>
+    </Component>
+    <Container class="javax.swing.JScrollPane" name="jScrollPane2">
+      <Properties>
+        <Property name="horizontalScrollBar" type="javax.swing.JScrollBar" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="null"/>
+        </Property>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[796, 380]"/>
+        </Property>
+        <Property name="requestFocusEnabled" type="boolean" value="false"/>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+      </AuxValues>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JTable" name="actionDefinitionsTable">
+          <Properties>
+            <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+              <Table columnCount="0" rowCount="2"/>
+            </Property>
+            <Property name="autoResizeMode" type="int" value="4"/>
+            <Property name="autoscrolls" type="boolean" value="false"/>
+            <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+              <TableColumnModel selectionModel="0"/>
+            </Property>
+            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+              <Color id="Default Cursor"/>
+            </Property>
+            <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
+              <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
+            </Property>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JPanel" name="parameterTab">
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
+        <Property name="columns" type="int" value="1"/>
+        <Property name="rows" type="int" value="4"/>
+      </Layout>
+      <SubComponents>
+        <Container class="javax.swing.JPanel" name="jPanel5">
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
+          <SubComponents>
+            <Component class="javax.swing.JButton" name="addRequestDefButton">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="addRequestDef"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addRequestDefinitionButtonActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="updateRequestDefButton">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="updateRequestDef"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="updateRequestDefinitionButtonActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="removeRequestDefButton">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="removeRequestDef"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="removeRequestDefinitionButtonActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="listRequestDefsButton">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="listRequestDefs(&quot;*&quot;)"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="listRequestDefinitionAllButtonActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="removeAllRequestDefButton">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="removeRequestDef(0)"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="removeRequestDefinitionAllButtonActionPerformed"/>
+              </Events>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Container class="javax.swing.JPanel" name="jPanel6">
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
+          <SubComponents>
+            <Component class="javax.swing.JButton" name="addActivityDefButton">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="addActivityDef"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addActivityDefinitionButtonActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="updateActivityDefButton">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="updateActivityDef"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="updateActivityDefinitionButtonActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="removeActivityDefButton">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="removeActivityDef"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="removeActivityDefinitionButtonActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="listActivityDefsButton">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="listActivityDefs(&quot;*&quot;)"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="listActivityDefinitionAllButtonActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="removeAllActivityDefButton">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="removeActivityDef(0)"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="removeActivityDefinitionAllButtonActionPerformed"/>
+              </Events>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Container class="javax.swing.JPanel" name="jPanel7">
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
+          <SubComponents>
+            <Component class="javax.swing.JButton" name="addEventDefButton">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="addEventDef"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addEventDefinitionButtonActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="updateEventDefButton">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="updateEventDef"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="updateEventDefinitionButtonActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="removeEventDefButton">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="removeEventDef"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="removeEventDefinitionButtonActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="listEventDefsButton">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="listEventDefs(&quot;*&quot;)"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="listEventDefinitionAllButtonActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="removeAllEventDefButton">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="removeEventDef(0)"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="removeEventDefinitionAllButtonActionPerformed"/>
+              </Events>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Container class="javax.swing.JPanel" name="jPanel9">
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
+          <SubComponents>
+            <Component class="javax.swing.JButton" name="addResourceDefButton">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="addResourceDef"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addResourceDefinitionButtonActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="updateResourceDefButton">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="updateResourceDef"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="updateResourceDefinitionButtonActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="removeResourceDefButton">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="removeResourceDef"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="removeResourceDefinitionButtonActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="listResourceDefsButton">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="listResourceDefs(&quot;*&quot;)"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="listResourceDefinitionAllButtonActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="removeAllResourceDefButton">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="removeResourceDef(0)"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="removeResourceDefinitionAllButtonActionPerformed"/>
+              </Events>
+            </Component>
+          </SubComponents>
+        </Container>
+      </SubComponents>
+    </Container>
+  </SubComponents>
+</Form>

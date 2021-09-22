@@ -25,6 +25,7 @@ import esa.mo.common.impl.provider.DirectoryProviderServiceImpl;
 import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.mc.impl.provider.ParameterInstance;
+import esa.mo.mp.impl.provider.MPServicesProvider;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.reconfigurable.provider.PersistProviderConfiguration;
 import esa.mo.sm.impl.provider.HeartbeatProviderServiceImpl;
@@ -68,6 +69,7 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
     protected final HeartbeatProviderServiceImpl heartbeatService = new HeartbeatProviderServiceImpl();
     protected final DirectoryProviderServiceImpl directoryService = new DirectoryProviderServiceImpl();
     protected MCServicesProviderNMF mcServices;
+    protected MPServicesProvider mpServices;
     protected PlatformServicesConsumer platformServices;
     protected CloseAppListener closeAppAdapter = null;
     protected ConfigurationChangeListener providerConfigurationAdapter = null;
@@ -85,6 +87,14 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
      */
     public abstract void init(final MonitorAndControlNMFAdapter mcAdapter);
 
+    /**
+     * Initializes the NMF provider using a mission planning adapter that
+     * connects to the Mission Planning services.
+     *
+     * @param mpAdapter The Mission Planning Adapter.
+     */
+    public abstract void init(final MissionPlanningNMFAdapter mpAdapter);
+
     @Override
     public COMServicesProvider getCOMServices() throws NMFException {
         if (this.comServices == null) {
@@ -101,6 +111,15 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
         }
 
         return mcServices;
+    }
+
+    @Override
+    public MPServicesProvider getMPServices() throws NMFException {
+        if (this.mpServices == null) {
+            throw new NMFException("The Mission Planning services are not available.");
+        }
+
+        return mpServices;
     }
 
     @Override
@@ -186,6 +205,13 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
             this.reconfigurableServices.add(mcServices.getParameterService());
             this.reconfigurableServices.add(mcServices.getAggregationService());
             this.reconfigurableServices.add(mcServices.getAlertService());
+        }
+    }
+
+    public final void startMPServices(MissionPlanningNMFAdapter mpAdapter) throws MALException {
+        if (mpAdapter != null) {
+            this.mpServices = new MPServicesProvider();
+            this.mpServices.init(comServices);
         }
     }
 

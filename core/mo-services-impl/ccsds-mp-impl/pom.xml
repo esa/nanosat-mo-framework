@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+  You may not use this file except in compliance with the License.
+  Except as expressly set forth in this License, the Software is provided to
+  You on an "as is" basis and without warranties of any kind, including without
+  limitation merchantability, fitness for a particular purpose, absence of
+  defects or errors, accuracy or non-infringement of intellectual property rights.
+  See the License for the specific language governing permissions and limitations under the License.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>int.esa.nmf</groupId>
+    <artifactId>parent</artifactId>
+    <version>2.1.0-SNAPSHOT</version>
+    <relativePath>../../../parent/pom.xml</relativePath>
+  </parent>
+  <groupId>int.esa.nmf.core.moservices.impl</groupId>
+  <artifactId>ccsds-mp</artifactId>
+  <packaging>jar</packaging>
+  <name>ESA NMF Core MO Services Implementation - Mission Planning</name>
+  <description>The ESA implementation of the CCSDS Mission Operations Mission Planning services</description>
+  <url>http://www.esa.int</url>
+  <organization>
+    <name>ESA</name>
+    <url>http://www.esa.int</url>
+  </organization>
+  <licenses>
+    <license>
+      <name>The European Space Agency Public License, Version 2.0</name>
+      <url>https://raw.github.com/esa/nanosat-mo-framework/master/LICENCE.md</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <scm>
+    <connection>scm:git:git@github.com:esa/nanosat-mo-framework.git</connection>
+    <developerConnection>scm:git:git@github.com:esa/nanosat-mo-framework.git</developerConnection>
+    <url>https://github.com/esa/nanosat-mo-framework</url>
+  </scm>
+  <dependencies>
+    <dependency>
+      <groupId>int.esa.ccsds.mo</groupId>
+      <artifactId>API_MAL</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>int.esa.nmf.core.moservices.api</groupId>
+      <artifactId>com-nmf</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>int.esa.nmf.core</groupId>
+      <artifactId>helper-tools</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>int.esa.nmf.core.moservices.impl</groupId>
+      <artifactId>ccsds-com</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>int.esa.nmf.core.moservices.impl</groupId>
+      <artifactId>ccsds-common</artifactId>
+      <version>2.1.0-SNAPSHOT</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>int.esa.nmf.core.moservices.api</groupId>
+      <artifactId>mp-nmf</artifactId>
+      <version>2.1.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-exec</artifactId>
+      <version>1.3</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>int.esa.ccsds.mo</groupId>
+      <artifactId>MAL_IMPL</artifactId>
+      <version>${esa.mal.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>int.esa.ccsds.mo</groupId>
+      <artifactId>TRANSPORT_TCPIP</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-module-junit4</artifactId>
+      <version>2.0.7</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.objenesis</groupId>
+          <artifactId>objenesis</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-api-mockito2</artifactId>
+      <version>2.0.7</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  <build>
+    <resources>
+      <resource>
+        <directory>${basedir}/..</directory>
+        <includes>
+          <include>LICENCE.md</include>
+        </includes>
+      </resource>
+    </resources>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.7.4.201502262128</version>
+        <executions>
+          <execution>
+            <id>jacoco-initialize</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>jacoco-report</id>
+            <phase>test</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

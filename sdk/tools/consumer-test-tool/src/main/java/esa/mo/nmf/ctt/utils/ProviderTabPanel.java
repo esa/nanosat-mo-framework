@@ -20,6 +20,8 @@
  */
 package esa.mo.nmf.ctt.utils;
 
+import esa.mo.helpertools.clock.PlatformClockCallback;
+import esa.mo.helpertools.clock.SystemClock;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.helpertools.misc.TaskScheduler;
 import esa.mo.nmf.ctt.services.com.ArchiveConsumerManagerPanel;
@@ -32,12 +34,22 @@ import esa.mo.nmf.ctt.services.mc.CheckConsumerPanel;
 import esa.mo.nmf.ctt.services.mc.ParameterConsumerPanel;
 import esa.mo.nmf.ctt.services.mc.ParameterPublishedValues;
 import esa.mo.nmf.ctt.services.mc.StatisticConsumerPanel;
+import esa.mo.nmf.ctt.services.mp.pds.PlanDistributionConsumerPanel;
+import esa.mo.nmf.ctt.services.mp.pds.PublishedPlanStatusesPanel;
+import esa.mo.nmf.ctt.services.mp.pds.PublishedPlansPanel;
+import esa.mo.nmf.ctt.services.mp.pec.PublishedActivityUpdatesPanel;
+import esa.mo.nmf.ctt.services.mp.ped.PlanEditConsumerPanel;
+import esa.mo.nmf.ctt.services.mp.pim.PlanInformationManagementConsumerPanel;
+import esa.mo.nmf.ctt.services.mp.prs.PlanningRequestConsumerPanel;
+import esa.mo.nmf.ctt.services.mp.prs.PublishedRequestsPanel;
+import esa.mo.nmf.ctt.services.platform.clock.ClockConsumerPanel;
 import esa.mo.nmf.ctt.services.sm.AppsLauncherConsumerPanel;
 import esa.mo.nmf.ctt.services.sm.CommandExecutorConsumerPanel;
 import esa.mo.nmf.ctt.services.sm.PackageManagementConsumerPanel;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import esa.mo.sm.impl.consumer.HeartbeatConsumerServiceImpl;
 import java.awt.Color;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -192,9 +204,96 @@ public class ProviderTabPanel extends javax.swing.JPanel {
                     serviceTabs.insertTab("Statistic service", null, panel, "Statistic Tab", count);
                 }
             }
+
+            // MP
+            if (services.getMPServices() != null) {
+                if (services.getMPServices().getPlanInformationManagementService() != null) {
+                    PlanInformationManagementConsumerPanel consumerPanel = new PlanInformationManagementConsumerPanel(services.getMPServices().getPlanInformationManagementService());
+                    int count = serviceTabs.getTabCount();
+                    serviceTabs.insertTab("Plan Information Management service", null, consumerPanel, "PIM Tab", count);
+                    consumerPanel.init();
+                }
+
+                if (services.getMPServices().getPlanningRequestService() != null) {
+                    PlanningRequestConsumerPanel consumerPanel = new PlanningRequestConsumerPanel(services.getMPServices().getPlanningRequestService());
+                    PublishedRequestsPanel publishedPanel = new PublishedRequestsPanel(
+                        services.getCOMServices().getArchiveService(),
+                        services.getMPServices().getPlanningRequestService()
+                    );
+                    int count = serviceTabs.getTabCount();
+                    serviceTabs.insertTab("Planning Request service", null, consumerPanel, "PRS Tab", count);
+                    serviceTabs.insertTab("Published planning requests", null, publishedPanel, "Published Requests Tab", count + 1);
+                    consumerPanel.init();
+                }
+
+                if (services.getMPServices().getPlanDistributionService() != null) {
+                    PlanDistributionConsumerPanel consumerPanel = new PlanDistributionConsumerPanel(services.getMPServices().getPlanDistributionService());
+                    PublishedPlansPanel publishedPlansPanel = new PublishedPlansPanel(
+                        services.getCOMServices().getArchiveService(),
+                        services.getMPServices().getPlanDistributionService()
+                    );
+                    PublishedPlanStatusesPanel publishedPlanStatusesPanel = new PublishedPlanStatusesPanel(
+                        services.getCOMServices().getArchiveService(),
+                        services.getMPServices().getPlanDistributionService()
+                    );
+                    int count = serviceTabs.getTabCount();
+                    serviceTabs.insertTab("Plan Distribution service", null, consumerPanel, "PDS Tab", count);
+                    serviceTabs.insertTab("Published plan versions", null, publishedPlansPanel, "Published Plans Tab", count + 1);
+                    serviceTabs.insertTab("Published plan statuses", null, publishedPlanStatusesPanel, "Published Plan Statuses Tab", count + 2);
+                    consumerPanel.init();
+                }
+
+                if (services.getMPServices().getPlanEditService() != null) {
+                    PlanEditConsumerPanel consumerPanel = new PlanEditConsumerPanel(services.getMPServices().getPlanEditService());
+                    int count = serviceTabs.getTabCount();
+                    serviceTabs.insertTab("Plan Edit service", null, consumerPanel, "PED Tab", count);
+                    consumerPanel.init();
+                }
+
+                if (services.getMPServices().getPlanExecutionControlService() != null) {
+                    PublishedActivityUpdatesPanel publishedPanel = new PublishedActivityUpdatesPanel(
+                        services.getCOMServices().getArchiveService(),
+                        services.getMPServices().getPlanExecutionControlService()
+                    );
+                    int count = serviceTabs.getTabCount();
+                    serviceTabs.insertTab("Published activity updates", null, publishedPanel, "Published activity updates", count);
+                }
+            }
+
+            // Platform
+            if (services.getPlatformServices() != null) {
+                if (services.getPlatformServices().getClockService() != null) {
+                    System.setProperty("esa.mo.nmf.app.systemTimeProvidedByPlatformClockService", "true");
+                    SystemClock.setPlatformClockCallback(new PlatformClockCallback(){
+                        @Override
+                        public Time getPlatformTime() {
+                            try {
+                                return services.getPlatformServices().getClockService().getTime();
+                            } catch (MALInteractionException | MALException | IOException e) {
+                                LOGGER.log(Level.SEVERE, null, e);
+                            }
+                            return new Time(System.currentTimeMillis());
+                        }
+                        @Override
+                        public int getPlatformTimeFactor() {
+                            try {
+                                return services.getPlatformServices().getClockService().getTimeFactor();
+                            } catch (MALInteractionException | MALException | IOException e) {
+                                LOGGER.log(Level.SEVERE, null, e);
+                            }
+                            return 1;
+                        }
+                    });
+
+                    ClockConsumerPanel consumerPanel = new ClockConsumerPanel(services.getPlatformServices().getClockService());
+                    int count = serviceTabs.getTabCount();
+                    serviceTabs.insertTab("Clock service", null, consumerPanel, "Clock Tab", count);
+                    consumerPanel.init();
+                }
+            }
         } catch (MALInteractionException ex) {
             LOGGER.log(Level.SEVERE, "Could not connect to the provider.", ex);
-        } catch (MALException ex) {
+        } catch (MALException | IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }

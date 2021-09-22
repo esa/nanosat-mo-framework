@@ -2062,6 +2062,54 @@
       </mal:dataTypes>
       <com:features />
     </mal:service>
+    <mal:service
+      comment="The Clock service provides system time."
+      name="Clock" number="8" xsi:type="com:ExtendedServiceType">
+      <mal:capabilitySet comment="" number="1">
+        <mal:requestIP
+          comment="The getTime operation allows a consumer to request current system time in milliseconds."
+          name="getTime" number="1" supportInReplay="false">
+          <mal:messages>
+            <mal:request comment="" />
+            <mal:response comment="">
+              <mal:field canBeNull="false"
+                comment="Current time in milliseconds" name="time">
+                <mal:type area="MAL" list="false" name="Time" />
+              </mal:field>
+            </mal:response>
+          </mal:messages>
+        </mal:requestIP>
+      </mal:capabilitySet>
+      <mal:capabilitySet comment="" number="2">
+        <mal:requestIP
+          comment="The getTimeFactor operation allows a consumer to request time factor of the simulation."
+          name="getTimeFactor" number="2" supportInReplay="false">
+          <mal:messages>
+            <mal:request comment="" />
+            <mal:response comment="">
+              <mal:field canBeNull="false"
+                comment="Current time factor of the simulation" name="timeFactor">
+                <mal:type area="MAL" list="false" name="Integer" />
+              </mal:field>
+            </mal:response>
+          </mal:messages>
+        </mal:requestIP>
+        <mal:pubsubIP
+          comment="The monitorTimeFactor operation allows a consumer to subscribe for time factor changes."
+          name="monitorTimeFactor" number="3" supportInReplay="false">
+          <mal:messages>
+            <mal:publishNotify comment="">
+              <mal:field canBeNull="false"
+                comment=""
+                name="timeFactor">
+                <mal:type area="MAL" list="false" name="Integer" />
+              </mal:field>
+            </mal:publishNotify>
+          </mal:messages>
+        </mal:pubsubIP>
+      </mal:capabilitySet>
+      <com:features />
+    </mal:service>
     <mal:dataTypes>
       <mal:composite
         comment="Holds a 3D float Vector."
