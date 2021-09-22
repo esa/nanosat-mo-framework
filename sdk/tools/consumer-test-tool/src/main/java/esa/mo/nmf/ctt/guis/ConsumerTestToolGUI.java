@@ -37,6 +37,7 @@ import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mc.MCHelper;
+import org.ccsds.moims.mo.mp.MPHelper;
 import org.ccsds.moims.mo.platform.PlatformHelper;
 import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
 
@@ -97,6 +98,7 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame
       MALHelper.init(MALContextFactory.getElementFactoryRegistry());
       COMHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
       MCHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
+      MPHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
       CommonHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
       SoftwareManagementHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
       PlatformHelper.deepInit(MALContextFactory.getElementFactoryRegistry());

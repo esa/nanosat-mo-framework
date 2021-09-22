@@ -405,7 +405,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton
       ArchiveDetailsList archDetails = (interaction == null)
           ? HelperArchive.generateArchiveDetailsList(null, null,
               connection.getPrimaryConnectionDetails().getProviderURI())
-          : HelperArchive.generateArchiveDetailsList(null, null, interaction);
+          : HelperArchive.generateArchiveDetailsList((Long) null, null, interaction);
 
       // Check if there are comServices...
       if (comServices == null) {

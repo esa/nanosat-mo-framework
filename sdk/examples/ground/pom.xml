@@ -70,6 +70,7 @@
     <module>set-and-command</module>
     <module>facebook</module>
     <module>camera-acquisitor-system-ground</module>
+    <module>mp-ground-demo</module>
   </modules>
 
 </project>

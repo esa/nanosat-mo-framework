@@ -28,6 +28,7 @@ import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.common.impl.util.CommonServicesConsumer;
 import esa.mo.common.impl.util.HelperCommon;
 import esa.mo.mc.impl.util.MCServicesConsumer;
+import esa.mo.mp.impl.consumer.MPServicesConsumer;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.sm.impl.util.SMServicesConsumer;
 import java.io.IOException;
@@ -52,6 +53,7 @@ import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mc.MCHelper;
+import org.ccsds.moims.mo.mp.MPHelper;
 import org.ccsds.moims.mo.platform.PlatformHelper;
 import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
 
@@ -65,6 +67,7 @@ public class NMFConsumer {
 
     protected final COMServicesConsumer comServices = new COMServicesConsumer();
     protected final MCServicesConsumer mcServices = new MCServicesConsumer();
+    protected final MPServicesConsumer mpServices = new MPServicesConsumer();
     protected final PlatformServicesConsumer platformServices = new PlatformServicesConsumer();
     protected final CommonServicesConsumer commonServices = new CommonServicesConsumer();
     protected final SMServicesConsumer smServices = new SMServicesConsumer();
@@ -132,6 +135,7 @@ public class NMFConsumer {
 
         initCOMServices();
         initMCServices();
+        initMPServices();
         initSMServices();
         initPlatformServices();
         initCommonServices();
@@ -143,6 +147,10 @@ public class NMFConsumer {
 
     private void initMCServices() {
         mcServices.init(connection, comServices, authenticationId, localNamePrefix);
+    }
+
+    private void initMPServices() {
+        mpServices.init(connection, comServices);
     }
 
     private void initPlatformServices() {
@@ -173,6 +181,15 @@ public class NMFConsumer {
      */
     public MCServicesConsumer getMCServices() {
         return mcServices;
+    }
+
+    /**
+     * Requests the MP services.
+     *
+     * @return The MP services
+     */
+    public MPServicesConsumer getMPServices() {
+        return mpServices;
     }
 
     /**
@@ -358,6 +375,10 @@ public class NMFConsumer {
 
             if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION) == null) {
                 MCHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
+            }
+
+            if (MALContextFactory.lookupArea(MPHelper.MP_AREA_NAME, MPHelper.MP_AREA_VERSION) == null) {
+                MPHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
             }
 
             if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION) == null) {

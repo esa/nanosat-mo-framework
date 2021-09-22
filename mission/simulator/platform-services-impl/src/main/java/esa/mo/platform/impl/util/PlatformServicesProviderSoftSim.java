@@ -38,6 +38,8 @@ import esa.mo.platform.impl.provider.gen.AutonomousADCSAdapterInterface;
 import esa.mo.platform.impl.provider.gen.AutonomousADCSProviderServiceImpl;
 import esa.mo.platform.impl.provider.gen.CameraAdapterInterface;
 import esa.mo.platform.impl.provider.gen.CameraProviderServiceImpl;
+import esa.mo.platform.impl.provider.gen.ClockAdapterInterface;
+import esa.mo.platform.impl.provider.gen.ClockProviderServiceImpl;
 import esa.mo.platform.impl.provider.gen.GPSAdapterInterface;
 import esa.mo.platform.impl.provider.gen.GPSProviderServiceImpl;
 import esa.mo.platform.impl.provider.gen.OpticalDataReceiverAdapterInterface;
@@ -48,6 +50,7 @@ import esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface;
 import esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioProviderServiceImpl;
 import esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter;
 import esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter;
+import esa.mo.platform.impl.provider.softsim.ClockSoftSimAdapter;
 import esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter;
 import esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter;
 import esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter;
@@ -71,6 +74,7 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
   private final SoftwareDefinedRadioProviderServiceImpl sdrService = new SoftwareDefinedRadioProviderServiceImpl();
   private final PowerControlProviderServiceImpl powerService = new PowerControlProviderServiceImpl();
   private PowerControlAdapterInterface pcAdapter;
+  private final ClockProviderServiceImpl clockService = new ClockProviderServiceImpl();
 
   public void init(COMServicesProvider comServices) throws MALException {
     // Check if hybrid setup is used
@@ -79,6 +83,7 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
     GPSAdapterInterface gpsAdapter;
     OpticalDataReceiverAdapterInterface optRxAdapter;
     SoftwareDefinedRadioAdapterInterface sdrAdapter;
+    ClockAdapterInterface clockAdapter;
 
     Properties platformProperties = new Properties();
     try {
@@ -91,8 +96,7 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
         String gpsAdapterName = platformProperties.getProperty("gps.adapter");
         String optRxAdapterName = platformProperties.getProperty("optrx.adapter");
         String sdrAdapterName = platformProperties.getProperty("sdr.adapter");
-
-        // PowerControl adapter
+        String clockAdapterName = platformProperties.getProperty("clock.adapter");
         try {
           pcAdapter = (PowerControlAdapterInterface) Class.forName(pcAdapterName).newInstance();
         } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
@@ -151,6 +155,13 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
               "Failed to instantiate the SDR adapter.", e);
           sdrAdapter = new SoftwareDefinedRadioSoftSimAdapter(instrumentsSimulator, pcAdapter);
         }
+        try {
+          clockAdapter = (ClockAdapterInterface) Class.forName(clockAdapterName).newInstance();
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+          Logger.getLogger(PlatformServicesProviderSoftSim.class.getName()).log(Level.WARNING,
+              "Failed to instantiate the clock adapter.", e);
+          clockAdapter = new ClockSoftSimAdapter(instrumentsSimulator);
+        }
       } else {
         pcAdapter = new PowerControlSoftSimAdapter(instrumentsSimulator);
         camAdapter = new CameraSoftSimAdapter(instrumentsSimulator, pcAdapter);
@@ -158,6 +169,7 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
         gpsAdapter = new GPSSoftSimAdapter(instrumentsSimulator, pcAdapter);
         optRxAdapter = new OpticalDataReceiverSoftSimAdapter(instrumentsSimulator, pcAdapter);
         sdrAdapter = new SoftwareDefinedRadioSoftSimAdapter(instrumentsSimulator, pcAdapter);
+        clockAdapter = new ClockSoftSimAdapter(instrumentsSimulator);
       }
     } catch (IOException e) {
       // Assume simulated environment by default
@@ -169,6 +181,7 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
       gpsAdapter = new GPSSoftSimAdapter(instrumentsSimulator, pcAdapter);
       optRxAdapter = new OpticalDataReceiverSoftSimAdapter(instrumentsSimulator, pcAdapter);
       sdrAdapter = new SoftwareDefinedRadioSoftSimAdapter(instrumentsSimulator, pcAdapter);
+      clockAdapter = new ClockSoftSimAdapter(instrumentsSimulator);
     }
 
     autonomousADCSService.init(comServices, adcsAdapter);
@@ -177,6 +190,7 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
     opticalDataReceiverService.init(optRxAdapter);
     sdrService.init(sdrAdapter);
     powerService.init(pcAdapter);
+    clockService.init(clockAdapter);
   }
 
   @Override

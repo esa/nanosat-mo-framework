@@ -208,6 +208,11 @@
       </dependency>
       <dependency>
         <groupId>int.esa.nmf.core.moservices.impl</groupId>
+        <artifactId>ccsds-mp</artifactId>
+        <version>${esa.nmf.version-qualifier}</version>
+      </dependency>
+      <dependency>
+        <groupId>int.esa.nmf.core.moservices.impl</groupId>
         <artifactId>ccsds-common</artifactId>
         <version>${esa.nmf.version-qualifier}</version>
       </dependency>

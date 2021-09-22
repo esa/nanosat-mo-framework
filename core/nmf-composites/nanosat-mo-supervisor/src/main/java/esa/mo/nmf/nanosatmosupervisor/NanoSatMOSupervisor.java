@@ -32,6 +32,7 @@ import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.CloseAppListener;
 import esa.mo.nmf.MCRegistration;
+import esa.mo.nmf.MissionPlanningNMFAdapter;
 import esa.mo.nmf.NMFException;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.reconfigurable.provider.PersistProviderConfiguration;
@@ -196,6 +197,11 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
       }
     }
     this.startStatusTracking();
+  }
+
+  @Override
+  public void init(MissionPlanningNMFAdapter mpAdapter) {
+    // Not implemented. MP services are accessible only from connector.
   }
 
   @Override

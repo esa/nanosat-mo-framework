@@ -207,10 +207,16 @@ public class TransactionsProcessor {
 
     this.sequencialStoring.set(true);
 
-    try { // Insert into queue
-      storeQueue.put(container);
-    } catch (InterruptedException ex) {
-      Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
+    // Insert into queue with 3 retries, in case of unexpected InterruptedException
+    boolean added = false;
+    int retryCounter = 0;
+    while (!added && (retryCounter++) < 3) {
+      try {
+        storeQueue.put(container);
+        added = true;
+      } catch (InterruptedException ex) {
+        Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
+      }
     }
 
     dbTransactionsExecutor.execute(() -> {
