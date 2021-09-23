@@ -33,9 +33,7 @@ import esa.mo.helpertools.misc.Const;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 import esa.mo.reconfigurable.service.ReconfigurableService;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
@@ -111,6 +109,8 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
   private DirectoryProviderServiceImpl directoryService;
   private ConfigurationChangeListener configurationAdapter;
   private int stdLimit; // Limit of stdout/stderr to allow in the archive.
+  // Set of app ids for which the warning about verbose logging was sent
+  private final Set<Long> verboseLoggingWarningSent = new HashSet<>();
   /**
    * Object used to track archive usage by STD output of each app
    */
@@ -145,8 +145,8 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         // nothing to be done..
       }
     }
-    int kbyte = Integer.valueOf(System.getProperty(Const.APPSLAUNCHER_STD_LIMIT_PROPERTY,
-        Const.APPSLAUNCHER_STD_LIMIT_DEFAULT));
+    int kbyte = Integer.parseInt(System.getProperty(Const.APPSLAUNCHER_STD_LIMIT_PROPERTY,
+                                                    Const.APPSLAUNCHER_STD_LIMIT_DEFAULT));
     stdLimit = kbyte * 1024; // init limit with value of property
     publisher = createMonitorExecutionPublisher(ConfigurationProviderSingleton.getDomain(),
         ConfigurationProviderSingleton.getNetwork(),
@@ -223,8 +223,8 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         int end = Math.min(length, i + MAX_SEGMENT_SIZE);
         String segment = outputText.substring(i, end);
         outputList.add(segment);
-        if (Boolean.valueOf(System.getProperty(Const.APPSLAUNCHER_STD_STORE_PROPERTY,
-            Const.APPSLAUNCHER_STD_STORE_DEFAULT))) {
+        if (Boolean.parseBoolean(System.getProperty(Const.APPSLAUNCHER_STD_STORE_PROPERTY,
+                                                    Const.APPSLAUNCHER_STD_STORE_DEFAULT))) {
           // Store in COM archive if the option is enabled and below limit
           int currentStd = stdQuota.retrieve(appObjId);
           if (currentStd + segment.length() <= stdLimit) {
@@ -236,7 +236,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             eventService.generateAndStoreEvent(
                 objType,
                 domain, eventBody, appObjId, source, null);
-          } else {
+          } else if(!verboseLoggingWarningSent.contains(appObjId)){
             String errorString
                 = "Your logging is too verbose and reached the limit.\nPlease reduce verbosity.";
             Element eventBody = new Union(errorString);
@@ -247,6 +247,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             eventService.generateAndStoreEvent(
                 objType,
                 domain, eventBody, appObjId, source, null);
+            verboseLoggingWarningSent.add(appObjId);
           }
         }
       }
