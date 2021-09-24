@@ -246,7 +246,7 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
         IdentifierList ids = new IdentifierList();
         ids.add(packagesTable.getSelectedPackage());
         BooleanList keep = new BooleanList();
-        keep.add(true);
+        keep.add(false);
 
         try {
             this.serviceSMPackageManagement.getPackageManagementStub().uninstall(ids, keep, new PackageManagementAdapter() {

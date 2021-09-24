@@ -68,16 +68,12 @@ public class NMFPackageManager {
         System.console().printf(SEPARATOR);
         // Get the File to be installed
         ZipFile zipFile = new ZipFile(packageLocation);
-        ZipEntry receipt = zipFile.getEntry(HelperNMFPackage.RECEIPT_FILENAME);
 
         // Verify integrity of the file: Are all the declared files matching their CRCs?
         System.out.print("Reading the receipt file that "
                 + "includes the list of files to be installed...  ");
 
-        // Get the text out of that file and parse it into a NMFPackageDescriptor object
-        final InputStream stream = zipFile.getInputStream(receipt);
-        final NMFPackageDescriptor descriptor = NMFPackageDescriptor.parseInputStream(stream);
-        stream.close();
+        final NMFPackageDescriptor descriptor = NMFPackageDescriptor.parseZipFile(zipFile);
         System.out.println("Done!");
 
         // Safety check... should never happen...
@@ -123,7 +119,7 @@ public class NMFPackageManager {
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                 "Copying the files to the new locations...  ");
 
-        copyFiles(descriptor, zipFile, nmfDir);
+        installFiles(zipFile, nmfDir);
         String username = null;
         String password = null;
 
@@ -187,7 +183,6 @@ public class NMFPackageManager {
 
         // ---------------------------------------
         // Store a copy of the receipt to know that it has been installed!
-        // Default location of the folder
         File receiptsFolder = getReceiptsFolder();
         String receiptFilename = appName + NMFPackageManager.RECEIPT_ENDING;
         String receiptPath = receiptsFolder.getCanonicalPath() + File.separator + receiptFilename;
@@ -195,8 +190,8 @@ public class NMFPackageManager {
 
         //create the file otherwise we get FileNotFoundException
         new File(receiptFile.getParent()).mkdirs();
-        // -----------------
 
+        ZipEntry receipt = zipFile.getEntry(HelperNMFPackage.RECEIPT_FILENAME);
         final FileOutputStream fos = new FileOutputStream(receiptFile);
         final InputStream zis = zipFile.getInputStream(receipt);
         byte[] buffer = new byte[1024];
@@ -216,22 +211,9 @@ public class NMFPackageManager {
         System.console().printf(SEPARATOR);
     }
 
-    public static void uninstall(final String packageLocation,
+    public static void uninstall(final NMFPackageDescriptor descriptor,
             final boolean keepUserData) throws IOException {
         System.console().printf(SEPARATOR);
-
-        // Get the Package to be uninstalled
-        ZipFile zipFile = new ZipFile(packageLocation);
-        ZipEntry receipt = zipFile.getEntry(HelperNMFPackage.RECEIPT_FILENAME);
-
-        // Verify integrity of the file: Are all the declared files matching their CRCs?
-        Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
-                "Reading the receipt file that includes the list of files to be uninstalled...");
-
-        // Get the text out of that file and parse it into a NMFPackageDescriptor object
-        final InputStream stream = zipFile.getInputStream(receipt);
-        final NMFPackageDescriptor descriptor = NMFPackageDescriptor.parseInputStream(stream);
-        stream.close();
 
         // Safety check... should never happen...
         if (descriptor == null) {
@@ -278,10 +260,13 @@ public class NMFPackageManager {
 
         // We need to delete the respective user here!!
         //LinuxUsersGroups.userdel(generateUsername(appName), true);
-        LinuxUsersGroups.deluser(generateUsername(appName), true);
+        if(!keepUserData){
+            String username = generateUsername(appName);
+            LinuxUsersGroups.deluser(username, true);
+        }
 
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
-                "Package successfully uninstalled from: " + packageLocation);
+                "Package successfully uninstalled from: " + installationDir);
 
         System.console().printf(SEPARATOR);
     }
@@ -296,33 +281,33 @@ public class NMFPackageManager {
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                 "Reading the receipt file that includes the list of files to be upgraded...");
 
-        // Get the text out of that file and parse it into a NMFPackageDescriptor object
-        final InputStream stream = zipFile.getInputStream(receipt);
-        final NMFPackageDescriptor descriptorFromPackage = NMFPackageDescriptor.parseInputStream(stream);
-        stream.close();
+        // Get the descriptor inside the zip file
+        final NMFPackageDescriptor newDescriptor = NMFPackageDescriptor.parseZipFile(zipFile);
 
         // Safety check... should never happen...
-        if (descriptorFromPackage == null) {
+        if (newDescriptor == null) {
             throw new IOException("The parsed descriptor is null.");
         }
 
         File receiptsFolder = getReceiptsFolder();
-        String receiptFilename = descriptorFromPackage.getDetails().getPackageName() + NMFPackageManager.RECEIPT_ENDING;
+        String receiptFilename = newDescriptor.getDetails().getPackageName() + NMFPackageManager.RECEIPT_ENDING;
         File receiptFile = new File(receiptsFolder.getCanonicalPath() + File.separator + receiptFilename);
 
         // Get the text out of that file and parse it into a NMFPackageDescriptor object
         final InputStream stream2 = new FileInputStream(receiptFile);
-        final NMFPackageDescriptor descriptor = NMFPackageDescriptor.parseInputStream(stream2);
+        final NMFPackageDescriptor oldDescriptor = NMFPackageDescriptor.parseInputStream(stream2);
         stream2.close();
 
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
-                "Upgrading from version: '" + descriptor.getDetails().getVersion() + "'"
-                + "   To version: '" + descriptorFromPackage.getDetails().getVersion() + "'");
+                "Upgrading..."
+                + "\n  >> From version: " + oldDescriptor.getDetails().getVersion()
+                + "\n  >>   To version: " + newDescriptor.getDetails().getVersion()
+        );
 
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                 "Removing the previous files...");
 
-        removeFiles(descriptor);
+        removeFiles(oldDescriptor);
 
         if (!receiptFile.delete()) { // The file could not be deleted...
             Logger.getLogger(NMFPackageManager.class.getName()).log(Level.WARNING,
@@ -333,7 +318,7 @@ public class NMFPackageManager {
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                 "Copying the new files to the locations...");
 
-        copyFiles(descriptor, zipFile, nmfDir);
+        installFiles(zipFile, nmfDir);
 
         // ---------------------------------------
         // Store a copy of the receipt to know that it has been installed!
@@ -495,8 +480,9 @@ public class NMFPackageManager {
         return out1.replace('\\', File.separatorChar);
     }
 
-    private static void copyFiles(final NMFPackageDescriptor descriptor,
-            final ZipFile zipFile, File installationFolder) throws IOException {
+    private static void installFiles(final ZipFile zipFile, File to) throws IOException {
+        NMFPackageDescriptor descriptor = NMFPackageDescriptor.parseZipFile(zipFile);
+        
         File newFile;
         byte[] buffer = new byte[1024];
 
@@ -506,7 +492,7 @@ public class NMFPackageManager {
             ZipEntry entry = zipFile.getEntry(file.getPath());
 
             final String path = generateFilePathForSystem(entry.getName());
-            newFile = new File(installationFolder.getCanonicalPath() + File.separator + path);
+            newFile = new File(to.getCanonicalPath() + File.separator + path);
             File parent = new File(newFile.getParent());
 
             if (!parent.exists()) {
@@ -570,11 +556,11 @@ public class NMFPackageManager {
     }
 
     private static void removeFile(File file) throws IOException {
-        System.out.println("   >> Removing file on: " + file.getCanonicalPath());
+        System.out.println("   >> Removing: " + file.getCanonicalPath());
 
         if (!file.exists()) {
             Logger.getLogger(NMFPackageManager.class.getName()).log(Level.WARNING,
-                    "The file no longer exists: " + file.getCanonicalPath());
+                    "Not Found / Does not exist: " + file.getCanonicalPath());
             return;
         }
 

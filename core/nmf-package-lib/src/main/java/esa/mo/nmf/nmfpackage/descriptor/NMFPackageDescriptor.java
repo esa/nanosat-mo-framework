@@ -28,6 +28,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 /**
  *
@@ -86,4 +88,20 @@ public class NMFPackageDescriptor {
         return newDescriptor;
     }
 
+    /**
+     * Parses a ZipFile, finds the receipt file and generated the respective
+     * NMFPackageDescriptor.
+     *
+     * @param zipFile The zip file with the receipt file.
+     * @return The descriptor of the NMF Package.
+     */
+    public static NMFPackageDescriptor parseZipFile(final ZipFile zipFile) throws IOException {
+        ZipEntry receipt = zipFile.getEntry(HelperNMFPackage.RECEIPT_FILENAME);
+
+        // Try to open the the receipt file inside the Zip file
+        // and parse it into a NMFPackageDescriptor object
+        try (InputStream stream = zipFile.getInputStream(receipt)) {
+            return NMFPackageDescriptor.parseInputStream(stream);
+        }
+    }
 }

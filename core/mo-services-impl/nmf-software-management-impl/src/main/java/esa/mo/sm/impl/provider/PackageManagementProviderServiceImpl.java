@@ -309,11 +309,13 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
         }
 
-        for (Identifier packageName : names) {
+        for (int i = 0; i < names.size(); i++) {
+            Identifier packageName = names.get(i);
+            Boolean keepConfiguration = keepConfigurations.get(i);
             Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(
                     Level.INFO, "Uninstalling: {0}", packageName.getValue());
 
-            backend.uninstall(packageName.getValue(), true);
+            backend.uninstall(packageName.getValue(), keepConfiguration);
         }
 
         interaction.sendResponse();
