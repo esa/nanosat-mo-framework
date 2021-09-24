@@ -137,7 +137,7 @@ public class ReceiptVersion3 {
         bw.newLine();
         bw.write(MAINCLASS + descriptor.getDetails().getMainclass());
         bw.newLine();
-        bw.write(MAINJAR + descriptor.getDetails().getMainclass());
+        bw.write(MAINJAR + descriptor.getDetails().getMainJar());
         bw.newLine();
 
         // Iterate the newLocations and write them down on the file
