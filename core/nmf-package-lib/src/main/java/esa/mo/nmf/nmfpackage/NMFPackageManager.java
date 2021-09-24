@@ -443,7 +443,7 @@ public class NMFPackageManager {
         // Compare the versions
         String version = descriptorFromExistingReceipt.getDetails().getVersion();
         if (!details.getVersion().equals(version)) {
-            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.SEVERE,
+            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.FINE,
                     "The version does not match!");
             return false;
         }
@@ -456,7 +456,7 @@ public class NMFPackageManager {
             return false;
         }
 
-        Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
+        Logger.getLogger(NMFPackageManager.class.getName()).log(Level.FINE,
                 "The package "
                 + details.getPackageName()
                 + " installation folder was found!");
