@@ -21,11 +21,13 @@
 package esa.mo.nmf.nmfpackage;
 
 import esa.mo.helpertools.misc.Const;
+import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDescriptor;
 import java.io.File;
 import esa.mo.sm.impl.util.PMBackend;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.zip.ZipFile;
 import org.ccsds.moims.mo.mal.structures.StringList;
 
 /**
@@ -40,7 +42,7 @@ public class NMFPackagePMBackend implements PMBackend {
     @Deprecated
     private static final String PACKAGES_FOLDER = "packages";  // dir name
     
-    private final File folderWithPackages;  // Location of the folder
+    private final File packagesFolder;  // Location of the folder
 
     /**
      * Initializes a backend for NMF Packages. The backend will look for
@@ -49,7 +51,7 @@ public class NMFPackagePMBackend implements PMBackend {
      * @param folder The folder to look for packages
      */
     public NMFPackagePMBackend(String folder) {
-        folderWithPackages = new File(folder);
+        packagesFolder = new File(folder);
     }
 
     /**
@@ -62,9 +64,9 @@ public class NMFPackagePMBackend implements PMBackend {
     public NMFPackagePMBackend() {
         // If there is a property for that, then use it!! 
         if (System.getProperty(FOLDER_LOCATION_PROPERTY) != null) {
-            folderWithPackages = new File(System.getProperty(FOLDER_LOCATION_PROPERTY));
+            packagesFolder = new File(System.getProperty(FOLDER_LOCATION_PROPERTY));
         }else{
-            folderWithPackages = new File(PACKAGES_FOLDER);
+            packagesFolder = new File(PACKAGES_FOLDER);
         }
     }
 
@@ -72,16 +74,16 @@ public class NMFPackagePMBackend implements PMBackend {
     public StringList getListOfPackages() throws IOException {
         // Go to the folder that contains the Packages and return the list of files!
 
-        if (!folderWithPackages.exists()) { // The folder does not exist
+        if (!packagesFolder.exists()) { // The folder does not exist
             // Then create a new folder with a default name
             Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.INFO,
                     "The packages folder does not exist. It will be created in path: {0}",
-                    folderWithPackages.getCanonicalPath());
+                    packagesFolder.getCanonicalPath());
 
-            folderWithPackages.mkdir();
+            packagesFolder.mkdir();
         }
 
-        File[] files = folderWithPackages.listFiles();
+        File[] files = packagesFolder.listFiles();
 
         StringList packageNames = new StringList(files.length);
 
@@ -121,9 +123,17 @@ public class NMFPackagePMBackend implements PMBackend {
         String folderLocation = this.getFolderLocation(packageName);
         Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.INFO,
                 "Uninstalling the package from: {0}", folderLocation);
-
+        
         try {
-            NMFPackageManager.uninstall(folderLocation, keepUserData);
+            // Get the Package and descriptor to be uninstalled
+            ZipFile zipFile = new ZipFile(folderLocation);
+            
+            // Verify integrity of the file: Are all the declared files matching their CRCs?
+            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
+                    "Reading the receipt file that includes the list of files to be uninstalled...");
+
+            NMFPackageDescriptor descriptor = NMFPackageDescriptor.parseZipFile(zipFile);
+            NMFPackageManager.uninstall(descriptor, keepUserData);
         } catch (IOException ex) {
             Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.SEVERE, 
                     "The package '" + packageName + "' could not be uninstalled!", ex);
@@ -132,15 +142,15 @@ public class NMFPackagePMBackend implements PMBackend {
 
     @Override
     public void upgrade(final String packageName) {
-        String folderLocation = this.getFolderLocation(packageName);
+        String packageLocation = this.getFolderLocation(packageName);
         Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.INFO,
-                "Upgrading the package from: {0}", folderLocation);
+                "Upgrading the package from: {0}", packageLocation);
 
         // Define the location to be installed!
         File destination = getNMFDir();
 
         try {
-            NMFPackageManager.upgrade(folderLocation, destination);
+            NMFPackageManager.upgrade(packageLocation, destination);
         } catch (IOException ex) {
             Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -166,7 +176,7 @@ public class NMFPackagePMBackend implements PMBackend {
     }
 
     private String getFolderLocation(final String packageName) {
-        return folderWithPackages.getAbsolutePath() + File.separator + packageName;
+        return packagesFolder.getAbsolutePath() + File.separator + packageName;
     }
 
     private File getNMFDir() {
