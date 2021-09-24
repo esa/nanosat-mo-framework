@@ -149,7 +149,7 @@ public class AppStorage {
             Set<PosixFilePermission> posix = PosixFilePermissions.fromString("rwxrwx---");
             FileAttribute<?> permissions = PosixFilePermissions.asFileAttribute(posix);
             try {
-                Files.createFile(directory.toPath(), permissions);
+                Files.createDirectory(directory.toPath(), permissions);
             } catch (UnsupportedOperationException ex1) {
                 // Probably we are on Windows... Let's create it with:
                 directory.mkdirs();
