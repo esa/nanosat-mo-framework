@@ -137,11 +137,11 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
         try
         {
-            objectsLimit = Integer.parseInt(System.getProperty(OBJECTS_LIMIT_PROPERTY, "10000"));
+            objectsLimit = Integer.parseInt(System.getProperty(OBJECTS_LIMIT_PROPERTY, "30000"));
             msg = MessageFormat.format("{0} = {1}", OBJECTS_LIMIT_PROPERTY, objectsLimit);
             Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.INFO, msg);
 
-            if(objectsLimit >= 30000)
+            if(objectsLimit >= 90000)
             {
                 msg = "Using a large objects limit may cause the archive sync to fail due to too long data transfer. " +
                       "Consider changing the limit to a smaller amount";
@@ -150,8 +150,8 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         }
         catch(NumberFormatException ex)
         {
-            objectsLimit = 10000;
-            msg = MessageFormat.format("Error when parsing {0} property. Using the default value of 10000", OBJECTS_LIMIT_PROPERTY);
+            objectsLimit = 30000;
+            msg = MessageFormat.format("Error when parsing {0} property. Using the default value of 30000", OBJECTS_LIMIT_PROPERTY);
             Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.WARNING, msg);
         }
     }
