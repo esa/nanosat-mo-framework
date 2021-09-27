@@ -21,7 +21,9 @@
 
 package esa.mo.nmf.com_archive_browser;
 
+import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
+import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.nmf.NMFConsumer;
 import esa.mo.nmf.com_archive_browser.adapters.ArchiveToAppAdapter;
@@ -57,6 +59,7 @@ import java.util.logging.Logger;
 public class ArchiveBrowserHelper {
 
   private static final Logger LOGGER = Logger.getLogger(ArchiveBrowserHelper.class.getName());
+  private static ArchiveProviderServiceImpl localProvider = null;
 
   public static class LocalOrRemote {
     @Option(names = {"-l", "--local"}, paramLabel = "<databaseFile>",
@@ -79,7 +82,7 @@ public class ArchiveBrowserHelper {
    * @return the ObjectId of the found App or null if not found
    */
   public static ObjectId getAppObjectId(String appName,
-      IdentifierList domain, NMFConsumer consumer) {
+      IdentifierList domain, ArchiveConsumerServiceImpl consumer) {
     // SoftwareManagement.AppsLaunch.App object type
     ObjectType appType = new ObjectType(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER,
         AppsLauncherHelper.APPSLAUNCHER_SERVICE_NUMBER, new UOctet((short) 0),
@@ -107,10 +110,10 @@ public class ArchiveBrowserHelper {
    */
   public static void queryArchive(ObjectType objectsTypes,
     ArchiveQueryList archiveQueryList, ArchiveAdapter adapter,
-    QueryStatusProvider queryStatusProvider, NMFConsumer consumer) {
+    QueryStatusProvider queryStatusProvider, ArchiveConsumerServiceImpl consumer) {
     // run the query
     try {
-      consumer.getCOMServices().getArchiveService().getArchiveStub().query(true, objectsTypes, archiveQueryList, null, adapter);
+      consumer.getArchiveStub().query(true, objectsTypes, archiveQueryList, null, adapter);
     } catch (MALInteractionException | MALException e) {
       LOGGER.log(Level.SEVERE, "Error when querying archive", e);
       return;
@@ -125,10 +128,52 @@ public class ArchiveBrowserHelper {
     }
   }
 
-  public static NMFConsumer createConsumer(String providerURI) {
+  public static void closeLocalProvider() {
+    if(localProvider != null) {
+      localProvider.close();
+    }
+  }
+
+  public static LocalOrRemoteConsumer createConsumer(String providerURI, String databaseFile) {
+    // spawn our local provider on top of the given database file if needed
+    ArchiveConsumerServiceImpl localConsumer = null;
+    NMFConsumer remoteConsumer = null;
+    if (providerURI == null) {
+      try {
+        localConsumer = createLocalConsumer(databaseFile);
+      } catch (MalformedURLException | MALException e) {
+        LOGGER.log(Level.SEVERE,
+                   String.format("Error when connecting to local archive at %s", databaseFile), e);
+        return null;
+      }
+    }
+
+    if(localConsumer == null) {
+      remoteConsumer = createRemoteConsumer(providerURI);
+    }
+
+    if(remoteConsumer == null && localConsumer == null) {
+      LOGGER.log(Level.SEVERE, "Unable to create consumer!");
+      System.exit(-1);
+    }
+    return new LocalOrRemoteConsumer(remoteConsumer, localConsumer);
+  }
+
+  private static ArchiveConsumerServiceImpl createLocalConsumer(String databaseFile) throws MalformedURLException, MALException {
+    localProvider = spawnLocalArchiveProvider(databaseFile);
+    String providerURI = localProvider.getConnection().getConnectionDetails().getProviderURI().getValue();
+    SingleConnectionDetails connectionDetails = new SingleConnectionDetails();
+    connectionDetails.setProviderURI(providerURI);
+    IdentifierList domain = new IdentifierList();
+    Identifier wildCard = new Identifier("*");
+    domain.add(wildCard);
+    connectionDetails.setDomain(domain);
+    return new ArchiveConsumerServiceImpl(connectionDetails);
+  }
+
+  private static NMFConsumer createRemoteConsumer(String providerURI) {
     NMFConsumer consumer = null;
     try {
-      NMFConsumer.initHelpers();
       String tempURI = providerURI.contains("Archive") ?
                     providerURI.replace("Archive", "Directory") : providerURI;
       ProviderSummaryList providerSummaryList = NMFConsumer.retrieveProvidersFromDirectory(new URI(tempURI));
@@ -216,18 +261,22 @@ public class ArchiveBrowserHelper {
       return consumer;
     } catch (MALException | MalformedURLException | MALInteractionException e) {
       LOGGER.log(Level.SEVERE, "Error when creating consumer", e);
-      closeConsumer(consumer);
+      closeConsumer(new LocalOrRemoteConsumer(consumer, null));
       return null;
     }
   }
 
-  public static void closeConsumer(NMFConsumer consumer) {
-    if(consumer != null) {
-      consumer.getCommonServices().closeConnections();
-      consumer.getCOMServices().closeConnections();
-      consumer.getMCServices().closeConnections();
-      consumer.getPlatformServices().closeConnections();
-      consumer.getSMServices().closeConnections();
+  public static void closeConsumer(LocalOrRemoteConsumer consumer) {
+    if(consumer.getRemoteConsumer() != null) {
+      NMFConsumer remoteConsumer = consumer.getRemoteConsumer();
+      remoteConsumer.getCommonServices().closeConnections();
+      remoteConsumer.getCOMServices().closeConnections();
+      remoteConsumer.getMCServices().closeConnections();
+      remoteConsumer.getPlatformServices().closeConnections();
+      remoteConsumer.getSMServices().closeConnections();
+    } else if(consumer.getLocalConsumer() != null) {
+      consumer.getLocalConsumer().close();
+      closeLocalProvider();
     }
   }
 
@@ -258,5 +307,23 @@ public class ArchiveBrowserHelper {
     }
 
     return archiveProvider;
+  }
+
+  public static class LocalOrRemoteConsumer {
+    NMFConsumer remoteConsumer;
+    ArchiveConsumerServiceImpl localConsumer;
+
+    public LocalOrRemoteConsumer(NMFConsumer remoteConsumer, ArchiveConsumerServiceImpl localConsumer) {
+      this.remoteConsumer = remoteConsumer;
+      this.localConsumer = localConsumer;
+    }
+
+    public NMFConsumer getRemoteConsumer() {
+      return remoteConsumer;
+    }
+
+    public ArchiveConsumerServiceImpl getLocalConsumer() {
+      return localConsumer;
+    }
   }
 }
