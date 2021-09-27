@@ -85,8 +85,7 @@ public abstract class GenericFileBasedOperatingBuffer implements SimulatorOperat
         f.readFully(data);
         this.dataBuffer = data;
       } else {
-        byte[] image = ImageLoader.loadNonRawImage(path);
-        this.dataBuffer = image;
+        this.dataBuffer = ImageLoader.loadNonRawImage(path);
       }
     } catch (IOException ex) {
       return false;

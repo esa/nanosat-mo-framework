@@ -66,10 +66,9 @@ public class SimulatorHeader implements Serializable
     Date originalResult = null;
     DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
     dateFormat.setLenient(true);
-    String originalText = fieldValue;
-    try {
-      result = dateFormat.parse(originalText);
-      originalResult = dateFormat.parse(originalText);
+      try {
+      result = dateFormat.parse(fieldValue);
+      originalResult = dateFormat.parse(fieldValue);
     } catch (ParseException ex) {
       Logger.getLogger(GuiSimulatorHeaderEdit.class.getName()).log(Level.SEVERE, null, ex);
     }
@@ -85,7 +84,7 @@ public class SimulatorHeader implements Serializable
         // System.out.println("Original year is ok");
         String shiftedYear = String.valueOf(Integer.parseInt(originalYear) - 10);
         // System.out.println("Shifted year "+shiftedYear);
-        String shiftedText = originalText;
+        String shiftedText = fieldValue;
         shiftedText = shiftedText.replaceAll(originalYear, shiftedYear);
         dateFormat = new SimpleDateFormat(DATE_FORMAT);
         dateFormat.setLenient(false);

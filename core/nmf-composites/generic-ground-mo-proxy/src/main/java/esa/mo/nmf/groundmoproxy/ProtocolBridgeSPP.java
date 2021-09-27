@@ -229,14 +229,13 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
 
         LOGGER.log(Level.FINER, "cloneForwardMessage from : {0} to: {1}", new Object[]{sourceHdr.getURIFrom(),
           sourceHdr.getURITo()});
-        URI to = reverse;
         URI from = new URI(destination.getURI().getValue() + "@" + sourceHdr.getURIFrom().getValue());
 
-        LOGGER.log(Level.FINER, "cloneForwardMessage from: {0} to: {1}", new Object[]{from, to});
+        LOGGER.log(Level.FINER, "cloneForwardMessage from: {0} to: {1}", new Object[]{from, reverse});
 
         MALMessage destMessage = destination.createMessage(
                 sourceHdr.getAuthenticationId(),
-                to,
+                reverse,
                 sourceHdr.getTimestamp(),
                 sourceHdr.getQoSlevel(),
                 sourceHdr.getPriority(),

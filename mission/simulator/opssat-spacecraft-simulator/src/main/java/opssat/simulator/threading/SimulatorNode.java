@@ -839,10 +839,9 @@ public class SimulatorNode extends TaskNode
 
   private File getFileFromDirAndPath(String workingDir, String targetPath)
   {
-    File result = new File(workingDir, targetPath);
     // this.logger.log(Level.INFO, "Opening path [" + result.getAbsolutePath() +
     // "].");
-    return result;
+    return new File(workingDir, targetPath);
   }
 
   public File getGPSOpsFile()
@@ -1898,14 +1897,12 @@ public class SimulatorNode extends TaskNode
           int cmdID = (Integer) argObject.get(0);
           byte[] data = (byte[]) argObject.get(1);
           int iAD = (Integer) argObject.get(2);
-          byte[] result = new byte[0];
-          globalResult = result;
+          globalResult = new byte[0];
           break;
         }
         case 1002: {// Origin [IFineADCS] Method [byte[] Identify();//1002//High level command to
           // interact with FineADCS]
-          byte[] result = new byte[8];
-          globalResult = result;
+          globalResult = new byte[8];
           break;
         }
         case 1003: {// Origin [IFineADCS] Method [void SoftwareReset();//1003//High level command to
@@ -1924,8 +1921,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1006: {// Origin [IFineADCS] Method [byte[] GetDateTime();//1006//High level command to
           // interact with FineADCS]
-          byte[] result = new byte[6];
-          globalResult = result;
+          globalResult = new byte[6];
           break;
         }
         case 1007: {// Origin [IFineADCS] Method [void iADCSPowerCycle(byte onoff,byte
@@ -1951,26 +1947,22 @@ public class SimulatorNode extends TaskNode
         }
         case 1011: {// Origin [IFineADCS] Method [byte[] GetStandardTelemetry();//1011//High level
           // command to interact with FineADCS]
-          byte[] result = new byte[60];
-          globalResult = result;
+          globalResult = new byte[60];
           break;
         }
         case 1012: {// Origin [IFineADCS] Method [byte[] GetExtendedTelemetry();//1012//High level
           // command to interact with FineADCS]
-          byte[] result = new byte[183];
-          globalResult = result;
+          globalResult = new byte[183];
           break;
         }
         case 1013: {// Origin [IFineADCS] Method [byte[] GetPowerStatus();//1013//High level command
           // to interact with FineADCS]
-          byte[] result = new byte[24];
-          globalResult = result;
+          globalResult = new byte[24];
           break;
         }
         case 1014: {// Origin [IFineADCS] Method [byte[] GetInfoTelemetry();//1014//High level
           // command to interact with FineADCS]
-          byte[] result = new byte[158];
-          globalResult = result;
+          globalResult = new byte[158];
           break;
         }
         case 1015: {// Origin [IFineADCS] Method [byte[] GetSensorTelemetry();//1015//High level
@@ -2063,32 +2055,27 @@ public class SimulatorNode extends TaskNode
         }
         case 1018: {// Origin [IFineADCS] Method [byte[] GetExtendedSensorTelemetry();//1018//High
           // level command to interact with FineADCS]
-          byte[] result = new byte[154];
-          globalResult = result;
+          globalResult = new byte[154];
           break;
         }
         case 1019: {// Origin [IFineADCS] Method [byte[] GetExtendedActuatorTelemetry();//1019//High
           // level command to interact with FineADCS]
-          byte[] result = new byte[53];
-          globalResult = result;
+          globalResult = new byte[53];
           break;
         }
         case 1020: {// Origin [IFineADCS] Method [byte[] GetExtendedAttitudeTelemetry();//1020//High
           // level command to interact with FineADCS]
-          byte[] result = new byte[36];
-          globalResult = result;
+          globalResult = new byte[36];
           break;
         }
         case 1021: {// Origin [IFineADCS] Method [byte[] GetMagneticTelemetry();//1021//High level
           // command to interact with FineADCS]
-          byte[] result = new byte[32];
-          globalResult = result;
+          globalResult = new byte[32];
           break;
         }
         case 1022: {// Origin [IFineADCS] Method [byte[] GetSunTelemetry();//1022//High level
           // command to interact with FineADCS]
-          byte[] result = new byte[13];
-          globalResult = result;
+          globalResult = new byte[13];
           break;
         }
         case 1023: {// Origin [IFineADCS] Method [void SetThresholdValueForMagEmulation(int
@@ -2099,8 +2086,7 @@ public class SimulatorNode extends TaskNode
         case 1024: {// Origin [IFineADCS] Method [byte[]
           // GetThresholdValueForMagEmulation();//1024//High level command to interact
           // with FineADCS]
-          byte[] result = new byte[4];
-          globalResult = result;
+          globalResult = new byte[4];
           break;
         }
         case 1025: {// Origin [IFineADCS] Method [void ClearErrorRegister();//1025//High level
@@ -2110,15 +2096,13 @@ public class SimulatorNode extends TaskNode
         case 1026: {// Origin [IFineADCS] Method [byte[] GetSystemRegisters(byte
           // register);//1026//High level command to interact with FineADCS]
           byte register = (Byte) argObject.get(0);
-          byte[] result = new byte[4];
-          globalResult = result;
+          globalResult = new byte[4];
           break;
         }
         case 1027: {// Origin [IFineADCS] Method [byte[] GetControlRegisters(byte
           // register);//1027//High level command to interact with FineADCS]
           byte register = (Byte) argObject.get(0);
-          byte[] result = new byte[4];
-          globalResult = result;
+          globalResult = new byte[4];
           break;
         }
         case 1028: {// Origin [IFineADCS] Method [void SetSystemRegister(byte[] data);//1028//High
@@ -2140,8 +2124,7 @@ public class SimulatorNode extends TaskNode
         case 1031: {// Origin [IFineADCS] Method [byte[] GetMemberUpdateInterval(byte
           // memberID);//1031//High level command to interact with FineADCS]
           byte memberID = (Byte) argObject.get(0);
-          byte[] result = new byte[8];
-          globalResult = result;
+          globalResult = new byte[8];
           break;
         }
         case 1032: {// Origin [IFineADCS] Method [void SetHILStatus(byte[]
@@ -2151,8 +2134,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1033: {// Origin [IFineADCS] Method [byte[] GetHILStatus();//1033//High level command
           // to interact with FineADCS]
-          byte[] result = new byte[4];
-          globalResult = result;
+          globalResult = new byte[4];
           break;
         }
         case 1034: {// Origin [IFineADCS] Method [void SetUpdateInterval(int interval);//1034//High
@@ -2167,8 +2149,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1036: {// Origin [IFineADCS] Method [byte[] GetValuesAllSensors();//1036//High level
           // command to interact with FineADCS]
-          byte[] result = new byte[96];
-          globalResult = result;
+          globalResult = new byte[96];
           break;
         }
         case 1037: {// Origin [IFineADCS] Method [void SetCalibrationParametersAllSensors(int[]
@@ -2179,8 +2160,7 @@ public class SimulatorNode extends TaskNode
         case 1038: {// Origin [IFineADCS] Method [byte[]
           // GetCalibrationParametersAllSensors();//1038//High level command to interact
           // with FineADCS]
-          byte[] result = new byte[48];
-          globalResult = result;
+          globalResult = new byte[48];
           break;
         }
         case 1039: {// Origin [IFineADCS] Method [void EnableCalibrationAllSensors();//1039//High
@@ -2203,15 +2183,13 @@ public class SimulatorNode extends TaskNode
         }
         case 1043: {// Origin [IFineADCS] Method [byte[] GetSpeedAllRWs();//1043//High level command
           // to interact with FineADCS]
-          byte[] result = new byte[6];
-          globalResult = result;
+          globalResult = new byte[6];
           break;
         }
         case 1044: {// Origin [IFineADCS] Method [byte[] SetAccAllRWs(int[] values);//1044//High
           // level command to interact with FineADCS]
           int[] values = (int[]) argObject.get(0);
-          byte[] result = new byte[6];
-          globalResult = result;
+          globalResult = new byte[6];
           break;
         }
         case 1045: {// Origin [IFineADCS] Method [void SetSleepAllRWs(byte sleepMode);//1045//High
@@ -2226,8 +2204,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1047: {// Origin [IFineADCS] Method [byte[] GetDipoleMomentAllMTQs();//1047//High level
           // command to interact with FineADCS]
-          byte[] result = new byte[6];
-          globalResult = result;
+          globalResult = new byte[6];
           break;
         }
         case 1048: {// Origin [IFineADCS] Method [void SuspendAllMTQs();//1048//High level command
@@ -2297,8 +2274,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1062: {// Origin [IFineADCS] Method [byte[] MTQYGetDipoleMoment();//1062//High level
           // command to interact with FineADCS]
-          byte[] result = new byte[2];
-          globalResult = result;
+          globalResult = new byte[2];
           break;
         }
         case 1063: {// Origin [IFineADCS] Method [void MTQYSuspend();//1063//High level command to
@@ -2329,8 +2305,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1069: {// Origin [IFineADCS] Method [byte[] MTQZGetDipoleMoment();//1069//High level
           // command to interact with FineADCS]
-          byte[] result = new byte[2];
-          globalResult = result;
+          globalResult = new byte[2];
           break;
         }
         case 1070: {// Origin [IFineADCS] Method [void MTQZSuspend();//1070//High level command to
@@ -2362,8 +2337,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1076: {// Origin [IFineADCS] Method [byte[] GetRWXSpeed();//1076//High level command to
           // interact with FineADCS]
-          byte[] result = new byte[2];
-          globalResult = result;
+          globalResult = new byte[2];
           break;
         }
         case 1077: {// Origin [IFineADCS] Method [void SetRWXAcceleration(int
@@ -2378,8 +2352,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1079: {// Origin [IFineADCS] Method [byte[] GetRWXID();//1079//High level command to
           // interact with FineADCS]
-          byte[] result = new byte[4];
-          globalResult = result;
+          globalResult = new byte[4];
           break;
         }
         case 1080: {// Origin [IFineADCS] Method [void SetRWYSpeed(int speedValue);//1080//High
@@ -2390,8 +2363,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1081: {// Origin [IFineADCS] Method [byte[] GetRWYSpeed();//1081//High level command to
           // interact with FineADCS]
-          byte[] result = new byte[2];
-          globalResult = result;
+          globalResult = new byte[2];
           break;
         }
         case 1082: {// Origin [IFineADCS] Method [void SetRWYAcceleration(int
@@ -2406,8 +2378,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1084: {// Origin [IFineADCS] Method [byte[] GetRWYID();//1084//High level command to
           // interact with FineADCS]
-          byte[] result = new byte[4];
-          globalResult = result;
+          globalResult = new byte[4];
           break;
         }
         case 1085: {// Origin [IFineADCS] Method [void SetRWZSpeed(int speedValue);//1085//High
@@ -2418,8 +2389,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1086: {// Origin [IFineADCS] Method [byte[] GetRWZSpeed();//1086//High level command to
           // interact with FineADCS]
-          byte[] result = new byte[2];
-          globalResult = result;
+          globalResult = new byte[2];
           break;
         }
         case 1087: {// Origin [IFineADCS] Method [void SetRWZAcceleration(int
@@ -2434,8 +2404,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1089: {// Origin [IFineADCS] Method [byte[] GetRWZID();//1089//High level command to
           // interact with FineADCS]
-          byte[] result = new byte[4];
-          globalResult = result;
+          globalResult = new byte[4];
           break;
         }
         case 1090: {// Origin [IFineADCS] Method [void ST200SetQuaternion(int[] values);//1090//High
@@ -2455,8 +2424,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1093: {// Origin [IFineADCS] Method [byte[] SunSensor1GetValue();//1093//High level
           // command to interact with FineADCS]
-          byte[] result = new byte[16];
-          globalResult = result;
+          globalResult = new byte[16];
           break;
         }
         case 1094: {// Origin [IFineADCS] Method [void SunSensor1SetValueQuaternion(int[]
@@ -2466,8 +2434,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1095: {// Origin [IFineADCS] Method [byte[] SunSensor1GetValueQuaternion();//1095//High
           // level command to interact with FineADCS]
-          byte[] result = new byte[16];
-          globalResult = result;
+          globalResult = new byte[16];
           break;
         }
         case 1096: {// Origin [IFineADCS] Method [void Gyro1SetRate(float[] values);//1096//High
@@ -2479,8 +2446,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1097: {// Origin [IFineADCS] Method [byte[] Gyro1GetRate();//1097//High level command
           // to interact with FineADCS]
-          byte[] result = new byte[20];
-          globalResult = result;
+          globalResult = new byte[20];
           break;
         }
         case 1098: {// Origin [IFineADCS] Method [void Gyro1SetUpdateInterval(int
@@ -2494,8 +2460,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1100: {// Origin [IFineADCS] Method [byte[] Gyro1GetBias();//1100//High level command
           // to interact with FineADCS]
-          byte[] result = new byte[4];
-          globalResult = result;
+          globalResult = new byte[4];
           break;
         }
         case 1101: {// Origin [IFineADCS] Method [void Gyro1SetFilter1(byte updateRate,int
@@ -2512,8 +2477,7 @@ public class SimulatorNode extends TaskNode
         case 1103: {// Origin [IFineADCS] Method [byte[]
           // Gyro1GetCalibrationParameters();//1103//High level command to interact with
           // FineADCS]
-          byte[] result = new byte[48];
-          globalResult = result;
+          globalResult = new byte[48];
           break;
         }
         case 1104: {// Origin [IFineADCS] Method [void Gyro1EnableCalibration();//1104//High level
@@ -2532,8 +2496,7 @@ public class SimulatorNode extends TaskNode
         case 1107: {// Origin [IFineADCS] Method [byte[]
           // Gyro1GetQuaternionFromSunSensor();//1107//High level command to interact with
           // FineADCS]
-          byte[] result = new byte[16];
-          globalResult = result;
+          globalResult = new byte[16];
           break;
         }
         case 1108: {// Origin [IFineADCS] Method [void accelerometerSetValues(float[]
@@ -2544,8 +2507,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1109: {// Origin [IFineADCS] Method [byte[] accelerometerGetValues();//1109//High level
           // command to interact with FineADCS]
-          byte[] result = new byte[12];
-          globalResult = result;
+          globalResult = new byte[12];
           break;
         }
         case 1110: {// Origin [IFineADCS] Method [void accelerometerReadInterval(int
@@ -2560,8 +2522,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1112: {// Origin [IFineADCS] Method [byte[] magnetometerGetMagneticField();//1112//High
           // level command to interact with FineADCS]
-          byte[] result = new byte[12];
-          globalResult = result;
+          globalResult = new byte[12];
           break;
         }
         case 1113: {// Origin [IFineADCS] Method [void magnetometerSetUpdateInterval(int
@@ -2577,8 +2538,7 @@ public class SimulatorNode extends TaskNode
         case 1115: {// Origin [IFineADCS] Method [byte[]
           // accelerometerGetCalibrationParams();//1115//High level command to interact
           // with FineADCS]
-          byte[] result = new byte[48];
-          globalResult = result;
+          globalResult = new byte[48];
           break;
         }
         case 1116: {// Origin [IFineADCS] Method [void accelerometerEnableCalibration();//1116//High
@@ -2599,15 +2559,13 @@ public class SimulatorNode extends TaskNode
         case 1119: {// Origin [IFineADCS] Method [byte[]
           // accelerometerGetQuaternionFromSunSensor();//1119//High level command to
           // interact with FineADCS]
-          byte[] result = new byte[16];
-          globalResult = result;
+          globalResult = new byte[16];
           break;
         }
         case 1120: {// Origin [IFineADCS] Method [byte[] kalman2FilterGetTelemetry(int
           // requestRegister);//1120//High level command to interact with FineADCS]
           int requestRegister = (Integer) argObject.get(0);
-          byte[] result = new byte[68];
-          globalResult = result;
+          globalResult = new byte[68];
           break;
         }
         case 1121: {// Origin [IFineADCS] Method [void kalman2FilterSelectGyro(byte
@@ -2626,8 +2584,7 @@ public class SimulatorNode extends TaskNode
         case 1124: {// Origin [IFineADCS] Method [byte[] kalman4FilterGetTelemetry(int
           // requestRegister);//1124//High level command to interact with FineADCS]
           int requestRegister = (Integer) argObject.get(0);
-          byte[] result = new byte[68];
-          globalResult = result;
+          globalResult = new byte[68];
           break;
         }
         case 1125: {// Origin [IFineADCS] Method [void kalman4FilterSelectGyro(byte
@@ -2650,21 +2607,18 @@ public class SimulatorNode extends TaskNode
         }
         case 1129: {// Origin [IFineADCS] Method [byte[] controlLoopsGetTargetRWSpeed();//1129//High
           // level command to interact with FineADCS]
-          byte[] result = new byte[6];
-          globalResult = result;
+          globalResult = new byte[6];
           break;
         }
         case 1130: {// Origin [IFineADCS] Method [byte[]
           // controlLoopsGetTargetMTWDipoleMoment3D();//1130//High level command to
           // interact with FineADCS]
-          byte[] result = new byte[6];
-          globalResult = result;
+          globalResult = new byte[6];
           break;
         }
         case 1131: {// Origin [IFineADCS] Method [byte[] controlLoopsGetStatus();//1131//High level
           // command to interact with FineADCS]
-          byte[] result = new byte[24];
-          globalResult = result;
+          globalResult = new byte[24];
           break;
         }
         case 1132: {// Origin [IFineADCS] Method [void controlLoopsSetAntiWindup(byte axis,int
@@ -2679,8 +2633,7 @@ public class SimulatorNode extends TaskNode
           // controlRegister);//1133//High level command to interact with FineADCS]
           byte axis = (Byte) argObject.get(0);
           int controlRegister = (Integer) argObject.get(1);
-          byte[] result = new byte[16];
-          globalResult = result;
+          globalResult = new byte[16];
           break;
         }
         case 1134: {// Origin [IFineADCS] Method [void singleAxisStartControlLoop(byte axis,int
@@ -2708,8 +2661,7 @@ public class SimulatorNode extends TaskNode
           // controlRegister);//1137//High level command to interact with FineADCS]
           byte axis = (Byte) argObject.get(0);
           int controlRegister = (Integer) argObject.get(1);
-          byte[] result = new byte[28];
-          globalResult = result;
+          globalResult = new byte[28];
           break;
         }
         case 1138: {// Origin [IFineADCS] Method [void singleAxisResetParameter(byte axis,int
@@ -2734,8 +2686,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1142: {// Origin [IFineADCS] Method [byte[] sunPointingGetParameter();//1142//High
           // level command to interact with FineADCS]
-          byte[] result = new byte[40];
-          globalResult = result;
+          globalResult = new byte[40];
           break;
         }
         case 1143: {// Origin [IFineADCS] Method [void sunPointingResetParameter();//1143//High
@@ -2758,8 +2709,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1147: {// Origin [IFineADCS] Method [byte[] bdotGetParameter();//1147//High level
           // command to interact with FineADCS]
-          byte[] result = new byte[4];
-          globalResult = result;
+          globalResult = new byte[4];
           break;
         }
         case 1148: {// Origin [IFineADCS] Method [void bdotResetParameter();//1148//High level
@@ -2785,8 +2735,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1152: {// Origin [IFineADCS] Method [byte[] singleSpinningGetParameter();//1152//High
           // level command to interact with FineADCS]
-          byte[] result = new byte[52];
-          globalResult = result;
+          globalResult = new byte[52];
           break;
         }
         case 1153: {// Origin [IFineADCS] Method [void targetTrackingStartModeConstantVel(byte
@@ -2824,8 +2773,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1158: {// Origin [IFineADCS] Method [byte[] targetTrackingGetParameters();//1158//High
           // level command to interact with FineADCS]
-          byte[] result = new byte[73];
-          globalResult = result;
+          globalResult = new byte[73];
           break;
         }
         case 1159: {// Origin [IFineADCS] Method [void targetTrackingResetParameters();//1159//High
@@ -2838,8 +2786,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1161: {// Origin [IFineADCS] Method [byte[] orbitGetRV();//1161//High level command to
           // interact with FineADCS]
-          byte[] result = new byte[32];
-          globalResult = result;
+          globalResult = new byte[32];
           break;
         }
         case 1162: {// Origin [IFineADCS] Method [void orbitSetTLE(byte[] tleData);//1162//High
@@ -2860,8 +2807,7 @@ public class SimulatorNode extends TaskNode
         case 1163: {// Origin [IFineADCS] Method [byte[] orbitSetUpdateInterval(int
           // updateInterval);//1163//High level command to interact with FineADCS]
           int updateInterval = (Integer) argObject.get(0);
-          byte[] result = new byte[32];
-          globalResult = result;
+          globalResult = new byte[32];
           break;
         }
         case 1164: {// Origin [IFineADCS] Method [void opModeIdle();//1164//High level command to
@@ -2997,8 +2943,7 @@ public class SimulatorNode extends TaskNode
         case 1173: {// Origin [IFineADCS] Method [byte[]
           // opModeGetTargetTrackingCVelocityStatus();//1173//High level command to
           // interact with FineADCS]
-          byte[] result = new byte[56];
-          globalResult = result;
+          globalResult = new byte[56];
           break;
         }
         case 1174: {// Origin [IFineADCS] Method [void opModeSetNadirTargetTracking(byte mode,long[]
@@ -3071,8 +3016,7 @@ public class SimulatorNode extends TaskNode
         case 1177: {// Origin [IFineADCS] Method [byte[]
           // opModeGetStandardTargetTrackingStatus();//1177//High level command to
           // interact with FineADCS]
-          byte[] result = new byte[56];
-          globalResult = result;
+          globalResult = new byte[56];
           break;
         }
         case 1178: {// Origin [IFineADCS] Method [void opModeSetFixWGS84TargetTracking(byte
@@ -3145,8 +3089,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1181: {// Origin [IFineADCS] Method [byte[] opModeGetTargetCapture1();//1181//High
           // level command to interact with FineADCS]
-          byte[] result = new byte[22];
-          globalResult = result;
+          globalResult = new byte[22];
           break;
         }
         case 1182: {// Origin [IFineADCS] Method [byte[] simGetOrbitTLEBytesFromString(String
@@ -3167,8 +3110,7 @@ public class SimulatorNode extends TaskNode
           // byteOffset);//1183//Test command for the helper libraries]
           byte[] data = (byte[]) argObject.get(0);
           int byteOffset = (Integer) argObject.get(1);
-          float result = FWRefFineADCS.getFloatFromByteArray(data, byteOffset);
-          globalResult = result;
+          globalResult = FWRefFineADCS.getFloatFromByteArray(data, byteOffset);
           break;
         }
         case 1184: {// Origin [IFineADCS] Method [byte[] simGetByteArrayFromFloat(float
@@ -3183,8 +3125,7 @@ public class SimulatorNode extends TaskNode
           // byteOffset);//1185//Test command for the helper libraries]
           byte[] data = (byte[]) argObject.get(0);
           int byteOffset = (Integer) argObject.get(1);
-          double result = FWRefFineADCS.getDoubleFromByteArray(data, byteOffset);
-          globalResult = result;
+          globalResult = FWRefFineADCS.getDoubleFromByteArray(data, byteOffset);
           break;
         }
         case 1186: {// Origin [IFineADCS] Method [byte[] simGetByteArrayFromDouble(double
@@ -3199,8 +3140,7 @@ public class SimulatorNode extends TaskNode
           // byteOffset);//1187//Test command for the helper libraries]
           byte[] data = (byte[]) argObject.get(0);
           int byteOffset = (Integer) argObject.get(1);
-          int result = FWRefFineADCS.getIntFromByteArray(data, byteOffset);
-          globalResult = result;
+          globalResult = FWRefFineADCS.getIntFromByteArray(data, byteOffset);
           break;
         }
         case 1188: {// Origin [IFineADCS] Method [byte[] simGetByteArrayFromInt(int
@@ -3215,8 +3155,7 @@ public class SimulatorNode extends TaskNode
           // byteOffset);//1189//Test command for the helper libraries]
           byte[] data = (byte[]) argObject.get(0);
           int byteOffset = (Integer) argObject.get(1);
-          long result = FWRefFineADCS.getLongFromByteArray(data, byteOffset);
-          globalResult = result;
+          globalResult = FWRefFineADCS.getLongFromByteArray(data, byteOffset);
           break;
         }
         case 1190: {// Origin [IFineADCS] Method [byte[] simGetByteArrayFromLong(long
@@ -3236,8 +3175,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1192: {// Origin [IFineADCS] Method [byte[] Gyro2GetRate();//1192//High level command
           // to interact with FineADCS]
-          byte[] result = new byte[20];
-          globalResult = result;
+          globalResult = new byte[20];
           break;
         }
         case 1193: {// Origin [IFineADCS] Method [void Gyro2SetUpdateInterval(int
@@ -3251,8 +3189,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1195: {// Origin [IFineADCS] Method [byte[] Gyro2GetBias();//1195//High level command
           // to interact with FineADCS]
-          byte[] result = new byte[4];
-          globalResult = result;
+          globalResult = new byte[4];
           break;
         }
         case 1196: {// Origin [IFineADCS] Method [void Gyro2SetFilter1(byte updateRate,int
@@ -3269,8 +3206,7 @@ public class SimulatorNode extends TaskNode
         case 1198: {// Origin [IFineADCS] Method [byte[]
           // Gyro2GetCalibrationParameters();//1198//High level command to interact with
           // FineADCS]
-          byte[] result = new byte[48];
-          globalResult = result;
+          globalResult = new byte[48];
           break;
         }
         case 1199: {// Origin [IFineADCS] Method [void Gyro2EnableCalibration();//1199//High level
@@ -3289,16 +3225,14 @@ public class SimulatorNode extends TaskNode
         case 1202: {// Origin [IFineADCS] Method [byte[]
           // Gyro2GetQuaternionFromSunSensor();//1202//High level command to interact with
           // FineADCS]
-          byte[] result = new byte[16];
-          globalResult = result;
+          globalResult = new byte[16];
           break;
         }
         case 1203: {// Origin [IFineADCS] Method [int simGetInt16FromByteArray(byte[] data,int
           // byteOffset);//1203//Test command for the helper libraries]
           byte[] data = (byte[]) argObject.get(0);
           int byteOffset = (Integer) argObject.get(1);
-          int result = FWRefFineADCS.getInt16FromByteArray(data, byteOffset);
-          globalResult = result;
+          globalResult = FWRefFineADCS.getInt16FromByteArray(data, byteOffset);
           break;
         }
         case 1204: {// Origin [IFineADCS] Method [void simRunDeviceCommand(String
@@ -3816,8 +3750,7 @@ public class SimulatorNode extends TaskNode
         }
         case 2002: {// Origin [IGPS] Method [String getLastKnownPosition();//2002//Obtain the last
           // known position of the s/c]
-          String result = "Placeholder";
-          globalResult = result;
+          globalResult = "Placeholder";
           break;
         }
         case 2003: {// Origin [IGPS] Method [String getBestXYZSentence();//2003//Obtain current
@@ -3893,8 +3826,7 @@ public class SimulatorNode extends TaskNode
           int size = width * height * 2;// [bytes]
           size = (size > maxSize ? maxSize : size);
           reloadImageBuffer();
-          byte[] result = this.cameraBuffer.getDataAsByteArray(size);
-          globalResult = result;
+          globalResult = this.cameraBuffer.getDataAsByteArray(size);
           if (this.cameraScriptPath != null) {
             new ProcessBuilder(this.cameraScriptPath).start();
           }
@@ -3920,16 +3852,14 @@ public class SimulatorNode extends TaskNode
         case 6003: {// Origin [ISDR] Method [double[] readFromBuffer(int numberSamples);//6003//Read
           // samples from operating buffer]
           int numberSamples = (Integer) argObject.get(0);
-          double[] result = this.sdrBuffer.getDataAsDoubleArray(numberSamples * 2);
-          globalResult = result;
+          globalResult = this.sdrBuffer.getDataAsDoubleArray(numberSamples * 2);
           break;
         }
         case 7001: {// Origin [IOpticalReceiver] Method [byte[] runRawCommand(int cmdID,byte[]
           // data);//701//Low level command to interact with OpticalReceiver.]
           int cmdID = (Integer) argObject.get(0);
           byte[] data = (byte[]) argObject.get(1);
-          byte[] result = new byte[0];
-          globalResult = result;
+          globalResult = new byte[0];
           break;
         }
         case 7002: {// Origin [IOpticalReceiver] Method [void simSetMessageBuffer(byte[]
@@ -3949,8 +3879,7 @@ public class SimulatorNode extends TaskNode
         case 7004: {// Origin [IOpticalReceiver] Method [byte[] readFromMessageBuffer(int
           // bytesNo);//704//Read bytesNo from operating buffer]
           int bytesNo = (Integer) argObject.get(0);
-          byte[] result = this.opticalReceiverModel.getBytesFromBuffer(bytesNo);
-          globalResult = result;
+          globalResult = this.opticalReceiverModel.getBytesFromBuffer(bytesNo);
           break;
         }
         case 7005: {// Origin [IOpticalReceiver] Method [void simPreloadFile(String
