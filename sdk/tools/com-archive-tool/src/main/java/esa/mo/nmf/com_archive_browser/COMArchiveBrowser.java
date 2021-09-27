@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.com_archive_browser;
 
+import esa.mo.nmf.NMFConsumer;
 import esa.mo.nmf.com_archive_browser.commands.archive.ArchiveCommandsDefinitions;
 import esa.mo.nmf.com_archive_browser.commands.logs.LogsCommandsDefinitions;
 import esa.mo.nmf.com_archive_browser.commands.parameters.ParametersCommandsDefinitions;
@@ -52,6 +53,7 @@ public class COMArchiveBrowser {
    * @param args the command line arguments
    */
   public static void main(String[] args) {
+    NMFConsumer.initHelpers();
     COMArchiveBrowser browser = new COMArchiveBrowser();
     CommandLine cmd = new CommandLine(browser);
     cmd.setUsageHelpAutoWidth(true);

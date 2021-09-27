@@ -22,7 +22,7 @@ package esa.mo.nmf.com_archive_browser.commands.parameters;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
+import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.nmf.NMFConsumer;
 import esa.mo.nmf.com_archive_browser.adapters.ArchiveToParametersAdapter;
@@ -37,9 +37,9 @@ import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.*;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -61,18 +61,9 @@ public class ParametersCommandsImplementations {
      * @param appName Name of the NMF app we want the parameters for
      */
     public static void listParameters(String databaseFile, String providerURI, String appName) {
-        NMFConsumer consumer = createConsumer(providerURI);
-
-        if(consumer == null) {
-            return;
-        }
-        // spawn our local provider on top of the given database file if needed
-        ArchiveProviderServiceImpl localProvider = null;
-        if (providerURI == null) {
-            localProvider = spawnLocalArchiveProvider(databaseFile);
-            providerURI =
-                    localProvider.getConnection().getConnectionDetails().getProviderURI().getValue();
-        }
+        LocalOrRemoteConsumer consumers = createConsumer(providerURI, databaseFile);
+        ArchiveConsumerServiceImpl localConsumer = consumers.getLocalConsumer();
+        NMFConsumer remoteConsumer = consumers.getRemoteConsumer();
 
         ArchiveQueryList archiveQueryList = new ArchiveQueryList();
         ArchiveQuery archiveQuery = new ArchiveQuery(null, null, null,
@@ -82,14 +73,9 @@ public class ParametersCommandsImplementations {
 
         ArchiveToParametersAdapter adapter = new ArchiveToParametersAdapter();
         // execute query
-        queryArchive(ParameterHelper.PARAMETERIDENTITY_OBJECT_TYPE, archiveQueryList, adapter, adapter, consumer);
+        queryArchive(ParameterHelper.PARAMETERIDENTITY_OBJECT_TYPE, archiveQueryList, adapter, adapter, remoteConsumer == null ? localConsumer : remoteConsumer.getCOMServices().getArchiveService());
 
-        // shutdown local provider if used
-        if (localProvider != null) {
-            localProvider.close();
-        }
-
-        // Display list of NMF apps that have logs
+        // Display list of NMF apps that have parameters
         List<Identifier> parameters = adapter.getParameterIdentities();
         if (parameters.size() <= 0) {
             System.out.println("No parameters found in the provided archive: " + appName);
@@ -99,7 +85,7 @@ public class ParametersCommandsImplementations {
                 System.out.println("\t - " + parameter);
             }
         }
-        closeConsumer(consumer);
+        closeConsumer(consumers);
     }
 
     /**
@@ -117,11 +103,6 @@ public class ParametersCommandsImplementations {
     public static void getParameters(String databaseFile, String providerURI, String appName,
                                      String startTime, String endTime, String file,
                                      List<String> parameterNames, boolean json) {
-        NMFConsumer consumer = createConsumer(providerURI);
-
-        if(consumer == null) {
-            return;
-        }
         // Query all objects from SoftwareManagement area and CommandExecutor service,
         // filtering for StandardOutput and StandardError events is done in the query adapter
         ObjectType objectsTypes = new ObjectType(MCHelper.MC_AREA_NUMBER,
@@ -129,13 +110,9 @@ public class ParametersCommandsImplementations {
                                                  MCHelper.MC_AREA_VERSION,
                                                  new UShort(0));
 
-        // spawn our local provider on top of the given database file if needed
-        ArchiveProviderServiceImpl localProvider = null;
-        if (providerURI == null) {
-            localProvider = spawnLocalArchiveProvider(databaseFile);
-            providerURI =
-                    localProvider.getConnection().getConnectionDetails().getProviderURI().getValue();
-        }
+        LocalOrRemoteConsumer consumers = createConsumer(providerURI, databaseFile);
+        ArchiveConsumerServiceImpl localConsumer = consumers.getLocalConsumer();
+        NMFConsumer remoteConsumer = consumers.getRemoteConsumer();
 
         // prepare domain, time and object id filters
         ArchiveQueryList archiveQueryList = new ArchiveQueryList();
@@ -147,7 +124,7 @@ public class ParametersCommandsImplementations {
 
         // execute query
         ArchiveToParametersAdapter adapter = new ArchiveToParametersAdapter();
-        queryArchive(objectsTypes, archiveQueryList, adapter, adapter, consumer);
+        queryArchive(objectsTypes, archiveQueryList, adapter, adapter, remoteConsumer == null ? localConsumer : remoteConsumer.getCOMServices().getArchiveService());
 
         try {
             Map<Identifier, List<ArchiveToParametersAdapter.TimestampedParameterValue>> allParameters = adapter.getParameterValues();
@@ -190,10 +167,6 @@ public class ParametersCommandsImplementations {
             LOGGER.log(Level.SEVERE, "Error when writing to file", e);
         }
 
-        // shutdown local provider if used
-        if (localProvider != null) {
-            localProvider.close();
-        }
-        closeConsumer(consumer);
+        closeConsumer(consumers);
     }
 }

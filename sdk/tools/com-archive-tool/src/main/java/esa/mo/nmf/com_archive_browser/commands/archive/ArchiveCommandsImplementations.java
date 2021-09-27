@@ -22,7 +22,7 @@ package esa.mo.nmf.com_archive_browser.commands.archive;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
+import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.nmf.NMFConsumer;
@@ -130,12 +130,6 @@ public class ArchiveCommandsImplementations {
      */
     public static void dumpFormattedArchive(String databaseFile, String providerURI, String domainId,
                                             String comType, String startTime, String endTime, String jsonFile) {
-        NMFConsumer consumer = createConsumer(providerURI);
-
-        if(consumer == null) {
-            return;
-        }
-
         // prepare comType filter
         int areaNumber = 0;
         int serviceNumber = 0;
@@ -167,23 +161,15 @@ public class ArchiveCommandsImplementations {
                 new ArchiveQuery(domain, null, null, 0L, null, startTimeF, endTimeF, null, null);
         archiveQueryList.add(archiveQuery);
 
-        // spawn our local provider on top of the given database file if needed
-        ArchiveProviderServiceImpl localProvider = null;
-        if (providerURI == null) {
-            localProvider = spawnLocalArchiveProvider(databaseFile);
-            providerURI =
-                    localProvider.getConnection().getConnectionDetails().getProviderURI().getValue();
-        }
+        LocalOrRemoteConsumer consumers = createConsumer(providerURI, databaseFile);
+        ArchiveConsumerServiceImpl localConsumer = consumers.getLocalConsumer();
+        NMFConsumer remoteConsumer = consumers.getRemoteConsumer();
 
         // execute query
         ArchiveToJsonAdapter adapter = new ArchiveToJsonAdapter(jsonFile);
-        queryArchive(objectsTypes, archiveQueryList, adapter, adapter, consumer);
+        queryArchive(objectsTypes, archiveQueryList, adapter, adapter, remoteConsumer == null ? localConsumer : remoteConsumer.getCOMServices().getArchiveService());
 
-        // shutdown local provider if used
-        if (localProvider != null) {
-            localProvider.close();
-        }
-        closeConsumer(consumer);
+        closeConsumer(consumers);
     }
 
     /**
