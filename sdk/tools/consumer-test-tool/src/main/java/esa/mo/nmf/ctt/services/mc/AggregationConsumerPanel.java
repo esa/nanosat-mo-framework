@@ -67,6 +67,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
 
     private final AggregationConsumerServiceImpl serviceMCAggregation;
     private final AggregationTablePanel aggregationTable;
+    private Subscription subscription;
 
     /**
      *
@@ -84,13 +85,26 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         this.listDefinitionAllButtonActionPerformed(null);
 
         // Subscribe to ParametersValues
-        Subscription subscription = ConnectionConsumer.subscriptionWildcard();
+        subscription = ConnectionConsumer.subscriptionWildcard();
         try {
             serviceMCAggregation.getAggregationStub().monitorValueRegister(subscription, new AggregationConsumerAdapter());
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public void removeNotify()
+    {
+        super.removeNotify();
+        IdentifierList ids = new IdentifierList();
+        ids.add(subscription.getSubscriptionId());
+        try {
+            serviceMCAggregation.getAggregationStub().monitorValueDeregister(ids);
+        } catch (MALInteractionException | MALException ex) {
+            Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the

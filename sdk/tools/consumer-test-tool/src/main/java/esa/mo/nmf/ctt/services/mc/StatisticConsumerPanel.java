@@ -40,6 +40,7 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.UpdateHeader;
@@ -61,6 +62,7 @@ import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
  */
 public class StatisticConsumerPanel extends javax.swing.JPanel {
 
+    private final Subscription subscription;
     private StatisticConsumerServiceImpl serviceMCStatistic;
     private ParameterConsumerServiceImpl serviceMCParameter;
     private StatisticLinkTablePanel statisticTable;
@@ -83,13 +85,25 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
 
     
         // Subscribe to Statistic Values
-        Subscription subscription = ConnectionConsumer.subscriptionWildcard();
+        subscription = ConnectionConsumer.subscriptionWildcard();
         try {
             serviceMCStatistic.getStatisticStub().monitorStatisticsRegister(subscription, new StatisticConsumerAdapter());
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+
+    public void removeNotify()
+    {
+        super.removeNotify();
+        IdentifierList ids = new IdentifierList();
+        ids.add(subscription.getSubscriptionId());
+        try {
+            serviceMCStatistic.getStatisticStub().monitorStatisticsDeregister(ids);
+        } catch (MALInteractionException | MALException ex) {
+            Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

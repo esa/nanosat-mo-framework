@@ -53,6 +53,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel
   private final AppsLauncherConsumerServiceImpl serviceSMAppsLauncher;
   private AppsLauncherTablePanel appsTable;
   private final HashMap<Long, StringBuffer> outputBuffers = new HashMap<>();
+  private Subscription subscription;
 
   /**
    *
@@ -110,10 +111,22 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel
     this.listAppAllButtonActionPerformed(null);
 
     // Subscribe to Apps
-    Subscription subscription = ConnectionConsumer.subscriptionWildcard();
+    subscription = ConnectionConsumer.subscriptionWildcard();
     try {
       serviceSMAppsLauncher.getAppsLauncherStub().monitorExecutionRegister(subscription,
           new AppsLauncherConsumerAdapter());
+    } catch (MALInteractionException | MALException ex) {
+      LOGGER.log(Level.SEVERE, null, ex);
+    }
+  }
+
+  public void removeNotify()
+  {
+    super.removeNotify();
+    IdentifierList ids = new IdentifierList();
+    ids.add(subscription.getSubscriptionId());
+    try {
+      serviceSMAppsLauncher.getAppsLauncherStub().monitorExecutionDeregister(ids);
     } catch (MALInteractionException | MALException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
     }
