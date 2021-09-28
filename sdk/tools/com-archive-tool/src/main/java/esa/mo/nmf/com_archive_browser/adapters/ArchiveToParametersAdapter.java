@@ -191,7 +191,7 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
         private final Long timestamp;
 
         public TimestampedParameterValue(ParameterValue value, FineTime timestamp) {
-            this.parameterValue = value.getRawValue().toString();
+            this.parameterValue = String.valueOf(value.getRawValue());
             this.timestamp = timestamp.getValue();
         }
 

@@ -67,11 +67,11 @@ public class ParametersCommandsDefinitions {
         @ArgGroup(multiplicity = "1")
         ArchiveBrowserHelper.LocalOrRemote localOrRemote;
 
-        @Parameters(arity = "1", paramLabel = "<filename>", index = "1",
+        @Parameters(arity = "1", paramLabel = "<filename>", index = "0",
                     description = "target file for the parameters")
         String parametersFile;
 
-        @Parameters(arity = "0..*", paramLabel = "<parameterNames>", index = "2",
+        @Parameters(arity = "0..*", paramLabel = "<parameterNames>", index = "1",
                     description = "names of the parameters to retrieve")
         List<String> parameterNames;
 
