@@ -27,7 +27,10 @@ import picocli.CommandLine.Parameters;
 import picocli.CommandLine.ArgGroup;
 
 /**
- * @author marcel.mikolajko
+ * Definitions for the log commands
+ *
+ * @author Tanguy Soto
+ * @author Marcel Mikołajko
  */
 public class LogsCommandsDefinitions {
 

@@ -46,7 +46,10 @@ import java.util.logging.Logger;
 import static esa.mo.nmf.com_archive_browser.ArchiveBrowserHelper.*;
 
 /**
- * @author marcel.mikolajko
+ * Archive commands implementations
+ *
+ * @author Tanguy Soto
+ * @author Marcel Mikołajko
  */
 public class ArchiveCommandsImplementations {
 

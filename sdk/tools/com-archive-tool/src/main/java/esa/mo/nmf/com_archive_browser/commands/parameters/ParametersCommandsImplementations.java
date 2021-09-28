@@ -47,7 +47,9 @@ import java.util.stream.Collectors;
 import static esa.mo.nmf.com_archive_browser.ArchiveBrowserHelper.*;
 
 /**
- * @author marcel.mikolajko
+ * Parameter commands implementations
+ *
+ * @author Marcel Mikołajko
  */
 public class ParametersCommandsImplementations {
 
@@ -58,9 +60,8 @@ public class ParametersCommandsImplementations {
      *
      * @param databaseFile Local SQLite database file
      * @param providerURI The URI of the remote COM archive provider
-     * @param appName Name of the NMF app we want the parameters for
      */
-    public static void listParameters(String databaseFile, String providerURI, String appName) {
+    public static void listParameters(String databaseFile, String providerURI) {
         LocalOrRemoteConsumer consumers = createConsumer(providerURI, databaseFile);
         ArchiveConsumerServiceImpl localConsumer = consumers.getLocalConsumer();
         NMFConsumer remoteConsumer = consumers.getRemoteConsumer();
@@ -78,7 +79,7 @@ public class ParametersCommandsImplementations {
         // Display list of NMF apps that have parameters
         List<Identifier> parameters = adapter.getParameterIdentities();
         if (parameters.size() <= 0) {
-            System.out.println("No parameters found in the provided archive: " + appName);
+            System.out.println("No parameters found in the provided archive: " + (databaseFile == null ? providerURI : databaseFile));
         } else {
             System.out.println("Found the following parameters: ");
             for (Identifier parameter : parameters) {
@@ -93,14 +94,13 @@ public class ParametersCommandsImplementations {
      *
      * @param databaseFile Local SQLite database file
      * @param providerURI The URI of the remote COM archive provider
-     * @param appName Name of the NMF app we want the logs for
      * @param startTime Restricts the dump to objects created after the given time
      * @param endTime Restricts the dump to objects created before the given time. If this option is
      *        provided without the -s option, returns the single object that has the closest time
      *        stamp to, but not greater than endTime.
      * @param file target file
      */
-    public static void getParameters(String databaseFile, String providerURI, String appName,
+    public static void getParameters(String databaseFile, String providerURI,
                                      String startTime, String endTime, String file,
                                      List<String> parameterNames, boolean json) {
         // Query all objects from SoftwareManagement area and CommandExecutor service,

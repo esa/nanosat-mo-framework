@@ -29,7 +29,9 @@ import picocli.CommandLine.ArgGroup;
 import java.util.List;
 
 /**
- * @author marcel.mikolajko
+ * Definitions for the parameter commands
+ *
+ * @author Marcel Mikołajko
  */
 public class ParametersCommandsDefinitions {
 
@@ -49,14 +51,10 @@ public class ParametersCommandsDefinitions {
         @ArgGroup(multiplicity = "1")
         ArchiveBrowserHelper.LocalOrRemote localOrRemote;
 
-        @Parameters(arity = "1", paramLabel = "<appName>",
-                    description = "Name of the NMF app we want the parameters from")
-        String appName;
-
         /** {@inheritDoc} */
         @Override
         public void run() {
-            ParametersCommandsImplementations.listParameters(localOrRemote.databaseFile, localOrRemote.providerURI, appName);
+            ParametersCommandsImplementations.listParameters(localOrRemote.databaseFile, localOrRemote.providerURI);
         }
     }
 
@@ -68,10 +66,6 @@ public class ParametersCommandsDefinitions {
 
         @ArgGroup(multiplicity = "1")
         ArchiveBrowserHelper.LocalOrRemote localOrRemote;
-
-        @Parameters(arity = "1", paramLabel = "<appName>", index = "0",
-                    description = "Name of the NMF app we want the parameters for")
-        String appName;
 
         @Parameters(arity = "1", paramLabel = "<filename>", index = "1",
                     description = "target file for the parameters")
@@ -101,7 +95,7 @@ public class ParametersCommandsDefinitions {
         @Override
         public void run() {
             ParametersCommandsImplementations.getParameters(localOrRemote.databaseFile, localOrRemote.providerURI,
-                                                            appName, startTime, endTime, parametersFile, parameterNames,
+                                                            startTime, endTime, parametersFile, parameterNames,
                                                             json);
         }
     }

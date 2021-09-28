@@ -55,12 +55,16 @@ import java.util.logging.Logger;
  * Helper methods for creating the consumer and querying the archive.
  *
  * @author Tanguy Soto
+ * @author Marcel Mikołajko
  */
 public class ArchiveBrowserHelper {
 
   private static final Logger LOGGER = Logger.getLogger(ArchiveBrowserHelper.class.getName());
   private static ArchiveProviderServiceImpl localProvider = null;
 
+  /**
+   * Class containing command parameters defining wheter to use a local or remote archive.
+   */
   public static class LocalOrRemote {
     @Option(names = {"-l", "--local"}, paramLabel = "<databaseFile>",
             description = "Local SQLite database file\n"
@@ -128,12 +132,22 @@ public class ArchiveBrowserHelper {
     }
   }
 
+  /**
+   * Closes the local archive provider
+   */
   public static void closeLocalProvider() {
     if(localProvider != null) {
       localProvider.close();
     }
   }
 
+  /**
+   * Creates a local or remote consumer.
+   *
+   * @param providerURI If provided a remote consumer will be created
+   * @param databaseFile If provided a local consumer wil be created
+   * @return A wrapper class that contains one of the created consumers or null in case of an error.
+   */
   public static LocalOrRemoteConsumer createConsumer(String providerURI, String databaseFile) {
     // spawn our local provider on top of the given database file if needed
     ArchiveConsumerServiceImpl localConsumer = null;
@@ -159,6 +173,14 @@ public class ArchiveBrowserHelper {
     return new LocalOrRemoteConsumer(remoteConsumer, localConsumer);
   }
 
+  /**
+   * Creates a local archive provider and then creates a local consumer for that provider.
+   *
+   * @param databaseFile Local database file for the archive provider to use.
+   * @return New archive consumer
+   * @throws MalformedURLException in case of an error during consumer creation
+   * @throws MALException in case of an error during consumer creation
+   */
   private static ArchiveConsumerServiceImpl createLocalConsumer(String databaseFile) throws MalformedURLException, MALException {
     localProvider = spawnLocalArchiveProvider(databaseFile);
     String providerURI = localProvider.getConnection().getConnectionDetails().getProviderURI().getValue();
@@ -171,9 +193,17 @@ public class ArchiveBrowserHelper {
     return new ArchiveConsumerServiceImpl(connectionDetails);
   }
 
+  /**
+   * Creates an NMFConsumer connected to the remote provider.
+   *
+   * @param providerURI URI of the remote provider
+   * @return New instance of NMFConsumer or null in case of an error.
+   */
   private static NMFConsumer createRemoteConsumer(String providerURI) {
     NMFConsumer consumer = null;
     try {
+      // URI provider in the command parameter is for the archive but we need the directory URI
+      // to get the correct provider summary.
       String tempURI = providerURI.contains("Archive") ?
                     providerURI.replace("Archive", "Directory") : providerURI;
       ProviderSummaryList providerSummaryList = NMFConsumer.retrieveProvidersFromDirectory(new URI(tempURI));
@@ -181,6 +211,7 @@ public class ArchiveBrowserHelper {
       for(ProviderSummary summary : providerSummaryList) {
           for(ServiceCapability capability : summary.getProviderDetails().getServiceCapabilities()) {
 
+            // ignore malspp uris
             for(int i = 0; i < capability.getServiceAddresses().size(); ++i) {
               if(capability.getServiceAddresses().get(i).getServiceURI().toString().startsWith("malspp")) {
                 capability.getServiceAddresses().remove(i);
@@ -188,6 +219,8 @@ public class ArchiveBrowserHelper {
               }
             }
 
+            // allow use of localhost and 127.0.0.1 interchangeably regardless of what is saved
+            // in the provider summary.
             if(capability.getServiceAddresses().stream().anyMatch(address -> {
               if(tempURI.contains("localhost")) {
                 return address.getServiceURI().equals(new URI(tempURI)) ||
@@ -266,6 +299,11 @@ public class ArchiveBrowserHelper {
     }
   }
 
+  /**
+   * Closes the archive consumer.
+   *
+   * @param consumer Consumer to be closed.
+   */
   public static void closeConsumer(LocalOrRemoteConsumer consumer) {
     if(consumer.getRemoteConsumer() != null) {
       NMFConsumer remoteConsumer = consumer.getRemoteConsumer();

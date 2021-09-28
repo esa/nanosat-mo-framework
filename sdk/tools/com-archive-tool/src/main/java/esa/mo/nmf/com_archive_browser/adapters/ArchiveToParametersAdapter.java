@@ -41,6 +41,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * Archive adapter that retrieves available parameter names and their values.
+ *
  * @author marcel.mikolajko
  */
 public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryStatusProvider  {
@@ -67,14 +69,29 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
      */
     private final ObjectType parameterValueType = ParameterHelper.PARAMETERVALUEINSTANCE_OBJECT_TYPE;
 
+    /**
+     * Available parameters names
+     */
     private final List<Identifier> parameterIdentities = new ArrayList<>();
 
+    /**
+     * Map from ParameterIdentity ID to it's name
+     */
     private final Map<Long, Identifier> identitiesMap = new HashMap<>();
 
+    /**
+     * Map from ParameterDefinition ID to it's related ParameterIdentity ID
+     */
     private final Map<Long, Long> definitionsMap = new HashMap<>();
 
+    /**
+     * Map from ParameterDefinition ID to a list of the parameter values
+     */
     private final Map<Long, List<TimestampedParameterValue>> valuesMap = new HashMap<>();
 
+    /**
+     * Map from parameter name to a list of it's values
+     */
     private final Map<Identifier, List<TimestampedParameterValue>> parameterValues = new HashMap<>();
 
     @Override
@@ -98,6 +115,12 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
         processObjects(objType, objDetails, objBodies);
     }
 
+    /**
+     * Fills the maps based on the type of the object
+     * @param type Type of the objects to be processed
+     * @param detailsList Archive details of the objects
+     * @param bodiesList Bodies of the objects
+     */
     private void processObjects(ObjectType type, ArchiveDetailsList detailsList, ElementList bodiesList) {
         if(type == null || type.equals(parameterIdentityType)) {
             for(int i = 0; i < detailsList.size(); ++i) {
@@ -111,7 +134,8 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
         } else if(type.equals(parameterValueType)) {
             for(int i = 0; i < detailsList.size(); ++i) {
                 if(valuesMap.containsKey(detailsList.get(i).getDetails().getRelated())) {
-                    valuesMap.get(detailsList.get(i).getDetails().getRelated()).add(new TimestampedParameterValue((ParameterValue) bodiesList.get(i), detailsList.get(i).getTimestamp()));
+                    valuesMap.get(detailsList.get(i).getDetails().getRelated())
+                             .add(new TimestampedParameterValue((ParameterValue) bodiesList.get(i), detailsList.get(i).getTimestamp()));
                 } else {
                     List<TimestampedParameterValue> values = new ArrayList<>();
                     values.add(new TimestampedParameterValue((ParameterValue) bodiesList.get(i), detailsList.get(i).getTimestamp()));
@@ -159,6 +183,9 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
         return parameterValues;
     }
 
+    /**
+     * Wrapper class to allow easier file writing
+     */
     public static class TimestampedParameterValue {
         private final String parameterValue;
         private final Long timestamp;

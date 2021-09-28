@@ -32,6 +32,7 @@ import picocli.CommandLine.Option;
  * Main entry point to start the COMArchiveBrowser tool.
  *
  * @author Tanguy Soto
+ * @author Marcel Mikołajko
  */
 @Command(name = "COMArchiveBrowser",
          subcommands = {LogsCommandsDefinitions.Logs.class,
