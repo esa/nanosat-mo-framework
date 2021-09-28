@@ -31,6 +31,7 @@ import org.ccsds.moims.mo.com.structures.ObjectIdList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UOctet;
@@ -51,6 +52,7 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
     final ParameterConsumerServiceImpl parameterService;
     private final int numberOfColumns = 5;
     private final ParameterLabel[] labels = new ParameterLabel[32 * numberOfColumns];
+    private Subscription subscription;
 
     public ParameterLabel[] getLabels() {
         return this.labels;
@@ -87,8 +89,20 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
 
     public void subscribeToParameters() throws MALInteractionException, MALException {
         // Subscribe to ParametersValues
-        final Subscription subscription = ConnectionConsumer.subscriptionWildcard();
+        subscription = ConnectionConsumer.subscriptionWildcard();
         this.parameterService.getParameterStub().monitorValueRegister(subscription, new ParameterConsumerAdapter());
+    }
+
+    public void removeNotify()
+    {
+        super.removeNotify();
+        IdentifierList ids = new IdentifierList();
+        ids.add(subscription.getSubscriptionId());
+        try {
+            parameterService.getParameterStub().monitorValueDeregister(ids);
+        } catch (MALInteractionException | MALException ex) {
+            Logger.getLogger(ParameterPublishedValues.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public class ParameterConsumerAdapter extends ParameterAdapter {
