@@ -33,14 +33,28 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * @author marcel.mikolajko
+ * Archive adapter that retrieves login roles
+ *
+ * @author Marcel Mikołajko
  */
 public class ArchiveToRolesAdapter extends ArchiveAdapter implements QueryStatusProvider{
 
     private static final Logger LOGGER = Logger.getLogger(ArchiveToRolesAdapter.class.getName());
+
+    /**
+     * True if the query is over (response or any error received)
+     */
     private boolean isQueryOver;
-    private List<Long> rolesIds = new ArrayList<>();
-    private List<String> rolesNames = new ArrayList<>();
+
+    /**
+     * Ids of the retrieved roles
+     */
+    private final List<Long> rolesIds = new ArrayList<>();
+
+    /**
+     * Names of the retrieved roles
+     */
+    private final List<String> rolesNames = new ArrayList<>();
 
     public void retrieveResponseReceived(MALMessageHeader msgHeader, ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
         for(int i = 0; i < objDetails.size(); ++i) {

@@ -27,7 +27,10 @@ import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
 /**
- * @author marcel.mikolajko
+ * Definitions for the archive commands
+ *
+ * @author Tanguy Soto
+ * @author Marcel Mikołajko
  */
 public class ArchiveCommandsDefinitions {
 
