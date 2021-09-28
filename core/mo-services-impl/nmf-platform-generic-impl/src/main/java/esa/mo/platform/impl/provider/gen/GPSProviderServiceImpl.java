@@ -708,8 +708,6 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
         {
           if (active) {
             if (!adapter.isUnitAvailable()) { // Is the unit available?
-              LOGGER.log(Level.WARNING,
-                  "GPS Unavailable");
               return;
             }
             final Position pos = adapter.getCurrentPosition(); // Current Position
