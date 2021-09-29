@@ -112,7 +112,7 @@ public class ArchiveSyncGenAdapter extends org.ccsds.moims.mo.com.archivesync.co
     public void retrieveRangeAgainUpdateReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
             org.ccsds.moims.mo.mal.structures.Blob chunk, org.ccsds.moims.mo.mal.structures.UInteger indexReceived, java.util.Map qosProperties) {
         int index = (int) indexReceived.getValue();
-        Logger.getLogger(ArchiveSyncGenAdapter.class.getName()).log(Level.INFO,
+        Logger.getLogger(ArchiveSyncGenAdapter.class.getName()).log(Level.FINE,
                 "Received on rerequest! Chunk index: " + index);
 
         lastTimeReceived = System.currentTimeMillis();
