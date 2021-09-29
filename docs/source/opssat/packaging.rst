@@ -80,6 +80,7 @@ In short, you will need to: clone a repository, change some configuration files,
          <filter token="APID" value="${expApid}"/>
          <filter token="NMF_HOME" value="`cd ../nmf > /dev/null; pwd`"/>
          <filter token="NMF_LIB" value="`cd ../nmf/lib > /dev/null; pwd`"/>
+         <filter token="MAX_HEAP" value="128m"/>
        </filterset>
        <firstmatchmapper>
          <globmapper from="startscript.sh" to="start_exp${expId}.sh"/>
