@@ -368,7 +368,7 @@ public class HelperCOM {
      * @return ObjectType object
      */
     public static ObjectType objectTypeId2objectType(Long subkey) {
-        final long unwrap = (long) subkey;
+        final long unwrap = subkey;
 
         return new ObjectType(new UShort((short) (unwrap >> 48)),
                 new UShort((short) (unwrap >> 32)),

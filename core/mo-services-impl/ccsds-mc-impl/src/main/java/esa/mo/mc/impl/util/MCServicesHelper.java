@@ -339,7 +339,7 @@ public class MCServicesHelper {
     public static long getAlertObjectTypeAsKey(int objectNumber) {
         long iKey;
 
-        iKey = (long) objectNumber;
+        iKey = objectNumber;
         iKey = iKey | (long) MCHelper._MC_AREA_NUMBER << 48;
         iKey = iKey | (long) AlertHelper._ALERT_SERVICE_NUMBER << 32;
         iKey = iKey | (long) MCHelper._MC_AREA_VERSION << 24;
@@ -349,7 +349,7 @@ public class MCServicesHelper {
     public static long getAlertSourceObjectTypeAsKey(int objectNumber) {
         long iKey;
 
-        iKey = (long) objectNumber;
+        iKey = objectNumber;
 //    iKey = iKey | (long) MCPrototypeHelper._MCPROTOTYPE_AREA_NUMBER << 48;
 //    iKey = iKey | (long) AlertTestHelper._ALERTTEST_SERVICE_NUMBER << 32;
 //    iKey = iKey | (long) MCPrototypeHelper._MCPROTOTYPE_AREA_VERSION << 24;

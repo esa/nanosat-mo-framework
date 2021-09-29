@@ -61,7 +61,7 @@ public class SocketClient extends Thread {
 
       y = ip.indexOf('.', ++x);
       return !(y == -1 || ip.charAt(x) == '-' || Integer.parseInt(ip.substring(x, y)) > 255
-          || ip.charAt(++y) == '-' || Integer.parseInt(ip.substring(y, ip.length())) > 255
+          || ip.charAt(++y) == '-' || Integer.parseInt(ip.substring(y)) > 255
           || ip.charAt(ip.length() - 1) == '.');
 
     } catch (NumberFormatException e) {

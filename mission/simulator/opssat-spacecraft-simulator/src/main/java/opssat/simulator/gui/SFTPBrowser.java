@@ -184,7 +184,7 @@ public class SFTPBrowser extends JFrame implements Comparator<ChannelSftp.LsEntr
     }
     String extension = parts[parts.length - 1];
     ArrayList<String> extensions = new ArrayList<String>(
-        Arrays.asList(new String[] { "jpg", "jpeg", "png", "bmp", "raw" }));
+        Arrays.asList("jpg", "jpeg", "png", "bmp", "raw"));
     return extensions.contains(extension);
   }
 
@@ -201,7 +201,7 @@ public class SFTPBrowser extends JFrame implements Comparator<ChannelSftp.LsEntr
         predicate = x -> x.getAttrs().isDir();
       }
       List<ChannelSftp.LsEntry> filteredFiles = files.stream().filter(predicate)
-              .sorted((Comparator<ChannelSftp.LsEntry>) this).collect(Collectors.toList());
+              .sorted(this).collect(Collectors.toList());
       for (ChannelSftp.LsEntry e : filteredFiles) {
         String key = e.getFilename();
         dtm.addRow(new String[] { key });

@@ -575,7 +575,7 @@ public class GuiMainWindow implements Runnable {
           Object item = arg0.getItem();
           Object commandDescriptorItem = comboCommands.getItemAt(comboCommands.getSelectedIndex());
           if (item instanceof String && commandDescriptorItem instanceof CommandDescriptor) {
-            logger.log(Level.FINE, "Looking up " + ((String) item));
+            logger.log(Level.FINE, "Looking up " + item);
             if (((CommandDescriptor) commandDescriptorItem).templateSelected((String) item)) {
               displayManualMethodTemplate(((CommandDescriptor) commandDescriptorItem));
             } else {
@@ -1085,7 +1085,7 @@ public class GuiMainWindow implements Runnable {
               computedDiff.get(TimeUnit.DAYS), computedDiff.get(TimeUnit.HOURS),
               computedDiff.get(TimeUnit.MINUTES), computedDiff.get(TimeUnit.SECONDS),
               computedDiff.get(TimeUnit.MILLISECONDS));
-          lblSimulatorTimeRunning.setText(localMinutes.toString());
+          lblSimulatorTimeRunning.setText(localMinutes);
         }
         if (!txtTimeFactor.isFocusOwner()
             && !txtTimeFactor.getText().equals(String.valueOf(data.getTimeFactor()))) {

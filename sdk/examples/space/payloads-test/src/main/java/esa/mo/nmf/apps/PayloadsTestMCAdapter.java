@@ -510,7 +510,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
       MALInteraction interaction,
       @ActionParameter(name = "Hold Duration", rawUnit = "seconds") Duration holdDuration)
   {
-    return actionsHandler.executeAdcsModeAction((Duration) holdDuration,
+    return actionsHandler.executeAdcsModeAction(holdDuration,
         new AttitudeModeNadirPointing(), this);
   }
 

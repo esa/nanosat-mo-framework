@@ -67,7 +67,7 @@ public class OPSSATCameraDebayering {
         fi.width = 2048;
         fi.height = 1944;
 
-        fi.offset = (int) 0;
+        fi.offset = 0;
         fi.nImages = 1;
         fi.gapBetweenImages = 0;
         fi.intelByteOrder = true; // Little-endian byte order

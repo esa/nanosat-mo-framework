@@ -575,7 +575,7 @@ public class CameraAcquisitorGround
 
       long actionID = eventCOMObject.getSource().getKey().getInstId();
 
-      int type = (int) eventCOMObject.getBody().getTypeShortForm();
+      int type = eventCOMObject.getBody().getTypeShortForm();
       updateEvent(actionID, type, eventCOMObject.getBody());
     }
   }

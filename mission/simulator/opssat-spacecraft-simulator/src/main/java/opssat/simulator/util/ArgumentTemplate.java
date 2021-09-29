@@ -60,7 +60,7 @@ public class ArgumentTemplate implements Comparable<ArgumentTemplate>, Serializa
 
     @Override
     public int compareTo(ArgumentTemplate o) {
-        return description.compareTo(((ArgumentTemplate) o).getDescription());
+        return description.compareTo(o.getDescription());
     }
 
 }

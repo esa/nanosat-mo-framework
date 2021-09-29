@@ -187,7 +187,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
       // save mapping (id -> Field) in map
       for (int i = 0; i < idList.size(); i++) {
         parameterMapping.put(idList.get(i), parameters.get(i));
-        for (String aggregation : ((Parameter) parameters.get(i).getAnnotation(Parameter.class)).aggregations()) {
+        for (String aggregation : parameters.get(i).getAnnotation(Parameter.class).aggregations()) {
           if (!aggregationMapping.containsKey(aggregation)) {
             aggregationMapping.put(aggregation, new LongList());
           }
@@ -344,10 +344,9 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
             // if converted unit exists, set variables accordingly
             if (!paramAnnotation.conditionalConversionFieldName().equals("")) {
               try {
-                conditionalConversions = ConditionalConversionList.class.cast(
-                    this.getClass().getDeclaredField(
+                conditionalConversions = (ConditionalConversionList) this.getClass().getDeclaredField(
                         paramAnnotation.conditionalConversionFieldName())
-                        .get(this));
+                        .get(this);
                 convertedType = paramAnnotation.convertedType();
                 convertedUnit = paramAnnotation.convertedUnit();
               } catch (NoSuchFieldException | SecurityException | IllegalArgumentException
@@ -421,7 +420,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
       if (result == null) {
         return null;
       } else {
-        return UInteger.class.cast(result);
+        return (UInteger) result;
       }
     } catch (IllegalAccessException ex) {
       Logger.getLogger(MonitorAndControlNMFAdapter.class.getName()).log(Level.SEVERE,

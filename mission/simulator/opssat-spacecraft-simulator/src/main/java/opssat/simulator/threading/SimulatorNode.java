@@ -1515,7 +1515,7 @@ public class SimulatorNode extends TaskNode
       makeSimulatorDeviceBindings();
       sendList = true;
     } else if (obj instanceof SimulatorHeader) {
-      this.logger.log(Level.FINE, "SimulatorNode Received " + ((SimulatorHeader) obj).toString());
+      this.logger.log(Level.FINE, "SimulatorNode Received " + obj.toString());
       simulatorHeader = (SimulatorHeader) obj;
       simulatorData.initFromHeader(simulatorHeader);
       sendHeader = true;
@@ -3554,9 +3554,8 @@ public class SimulatorNode extends TaskNode
               } else if (i == PGPS.FirmwareReferenceOEM16.GPZDA_COL.YEAR) {
                 result.append(simulatorData.getCurrentYear()).append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPZDA_COL.NULL1) {
-                result.append("").append(separator);
+                result.append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPZDA_COL.NULL2) {
-                result.append("");
               } else if (i == PGPS.FirmwareReferenceOEM16.GPZDA_COL.CHECKSUM) {
                 result.append(calcNMEAChecksum(result.toString()));
               }
@@ -3639,9 +3638,8 @@ public class SimulatorNode extends TaskNode
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGA_COL.UNDULATION_UNITS) {
                 result.append("M").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGA_COL.AGE_CORR_DATA) {
-                result.append("").append(separator);
+                result.append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGA_COL.DIFF_BASESID) {
-                result.append("");
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGA_COL.CHECKSUM) {
                 result.append(calcNMEAChecksum(result.toString()));
               }
@@ -3694,9 +3692,8 @@ public class SimulatorNode extends TaskNode
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGALONG_COL.UNDULATION_UNITS) {
                 result.append("M").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGALONG_COL.AGE_CORR_DATA) {
-                result.append("").append(separator);
+                result.append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGALONG_COL.DIFF_BASESID) {
-                result.append("");
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGALONG_COL.CHECKSUM) {
                 result.append(calcNMEAChecksum(result.toString()));
               }
@@ -3734,9 +3731,8 @@ public class SimulatorNode extends TaskNode
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGARTK_COL.NULL2) {
                 result.append("M").append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGARTK_COL.AGE_DIFF_DATA) {
-                result.append("").append(separator);
+                result.append(separator);
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGARTK_COL.DIFF_BASESID) {
-                result.append("");
               } else if (i == PGPS.FirmwareReferenceOEM16.GPGGARTK_COL.CHECKSUM) {
                 result.append(calcNMEAChecksum(result.toString()));
               }

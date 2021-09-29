@@ -282,7 +282,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     }
 
     for (int index = 0; index < appInstIds.size(); index++) {
-      AppDetails app = (AppDetails) this.manager.get(appInstIds.get(index)); // get it from the list of available apps
+      AppDetails app = this.manager.get(appInstIds.get(index)); // get it from the list of available apps
 
       // The app id could not be identified?
       if (app == null) {
@@ -357,7 +357,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
     for (int index = 0; index < appInstIds.size(); index++) {
       // Get it from the list of available apps
-      AppDetails app = (AppDetails) this.manager.get(appInstIds.get(index));
+      AppDetails app = this.manager.get(appInstIds.get(index));
 
       // The app id could not be identified?
       if (app == null) {

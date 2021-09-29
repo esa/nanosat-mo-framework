@@ -735,7 +735,7 @@ public class ParameterManager extends MCManager
   protected Long setGenerationEnabled(Long identityId, Boolean bool, ObjectId source,
       SingleConnectionDetails connectionDetails)
   { // requirement: 3.3.2.a.c
-    ParameterDefinitionDetails def = (ParameterDefinitionDetails) this.getParameterDefinition(
+    ParameterDefinitionDetails def = this.getParameterDefinition(
         identityId);
 
     if (def == null) {

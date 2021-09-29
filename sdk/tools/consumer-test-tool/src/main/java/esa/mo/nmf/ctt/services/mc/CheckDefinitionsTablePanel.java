@@ -66,7 +66,7 @@ public class CheckDefinitionsTablePanel extends SharedTablePanel {
         tableData.addRow(new Object[]{
             comObject.getArchiveDetails().getInstId(),
             name.toString(),
-            checkDef.getDescription().toString(),
+                checkDef.getDescription(),
             checkDef.getCheckSeverity().toString(),
             checkDef.getMaxReportingInterval().toString(),
             checkDef.getNominalCount().getValue(),

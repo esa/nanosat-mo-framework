@@ -75,35 +75,35 @@ public class HelperAttributes {
   public static Double attribute2double(Attribute in) {
 
     if (in instanceof Union) {
-      if (((Union) in).getTypeShortForm().equals(Union.BOOLEAN_TYPE_SHORT_FORM)) { // 2
+      if (in.getTypeShortForm().equals(Union.BOOLEAN_TYPE_SHORT_FORM)) { // 2
         return (double) (((Union) in).getBooleanValue() ? 1 : 0);
       }
 
-      if (((Union) in).getTypeShortForm().equals(Union.FLOAT_TYPE_SHORT_FORM)) { // 4
+      if (in.getTypeShortForm().equals(Union.FLOAT_TYPE_SHORT_FORM)) { // 4
         return new Double(((Union) in).getFloatValue());
       }
 
-      if (((Union) in).getTypeShortForm().equals(Union.DOUBLE_TYPE_SHORT_FORM)) { // 5
+      if (in.getTypeShortForm().equals(Union.DOUBLE_TYPE_SHORT_FORM)) { // 5
         return ((Union) in).getDoubleValue();
       }
 
-      if (((Union) in).getTypeShortForm().equals(Union.OCTET_TYPE_SHORT_FORM)) { // 7
+      if (in.getTypeShortForm().equals(Union.OCTET_TYPE_SHORT_FORM)) { // 7
         return (double) (short) ((Union) in).getOctetValue();
       }
 
-      if (((Union) in).getTypeShortForm().equals(Union.SHORT_TYPE_SHORT_FORM)) { // 9
+      if (in.getTypeShortForm().equals(Union.SHORT_TYPE_SHORT_FORM)) { // 9
         return new Double(((Union) in).getShortValue());
       }
 
-      if (((Union) in).getTypeShortForm().equals(Union.INTEGER_TYPE_SHORT_FORM)) { // 11
+      if (in.getTypeShortForm().equals(Union.INTEGER_TYPE_SHORT_FORM)) { // 11
         return new Double(((Union) in).getIntegerValue());
       }
 
-      if (((Union) in).getTypeShortForm().equals(Union.LONG_TYPE_SHORT_FORM)) { // 13
+      if (in.getTypeShortForm().equals(Union.LONG_TYPE_SHORT_FORM)) { // 13
         return new Double(((Union) in).getLongValue());
       }
 
-      if (((Union) in).getTypeShortForm().equals(Union.STRING_TYPE_SHORT_FORM)) { // 15
+      if (in.getTypeShortForm().equals(Union.STRING_TYPE_SHORT_FORM)) { // 15
         double dou;
         try {
           dou = Double.parseDouble(((Union) in).getStringValue());
@@ -236,7 +236,7 @@ public class HelperAttributes {
     }
 
     if (in instanceof Duration) {
-      return String.valueOf(((Duration) in).toString());
+      return String.valueOf(in.toString());
     }
 
     if (in instanceof UOctet) {
@@ -275,7 +275,7 @@ public class HelperAttributes {
     }
 
     if (in instanceof URI) {
-      return ((URI) in).toString();
+      return in.toString();
     }
 
     if (in instanceof Long) {
@@ -328,7 +328,7 @@ public class HelperAttributes {
       return new UShort();
     }
     if (attributeName.equals("Integer")) {
-      return (int) 0;
+      return 0;
     }
     if (attributeName.equals("UInteger")) {
       return new UInteger();
@@ -540,15 +540,15 @@ public class HelperAttributes {
       Integer typeShortForm = ((Union) obj).getTypeShortForm();
 
       if (typeShortForm.intValue() == Attribute.BOOLEAN_TYPE_SHORT_FORM.intValue()) {
-        return (boolean) ((Union) obj).getBooleanValue();
+        return ((Union) obj).getBooleanValue();
       }
 
       if (typeShortForm.intValue() == Attribute.INTEGER_TYPE_SHORT_FORM.intValue()) {
-        return (int) ((Union) obj).getIntegerValue();
+        return ((Union) obj).getIntegerValue();
       }
 
       if (typeShortForm.intValue() == Attribute.LONG_TYPE_SHORT_FORM.intValue()) {
-        return (long) ((Union) obj).getLongValue();
+        return ((Union) obj).getLongValue();
       }
 
       if (typeShortForm.intValue() == Attribute.STRING_TYPE_SHORT_FORM.intValue()) {
@@ -556,19 +556,19 @@ public class HelperAttributes {
       }
 
       if (typeShortForm.intValue() == Attribute.DOUBLE_TYPE_SHORT_FORM.intValue()) {
-        return (double) ((Union) obj).getDoubleValue();
+        return ((Union) obj).getDoubleValue();
       }
 
       if (typeShortForm.intValue() == Attribute.FLOAT_TYPE_SHORT_FORM.intValue()) {
-        return (float) ((Union) obj).getFloatValue();
+        return ((Union) obj).getFloatValue();
       }
 
       if (typeShortForm.intValue() == Attribute.OCTET_TYPE_SHORT_FORM.intValue()) {
-        return (byte) ((Union) obj).getOctetValue();
+        return ((Union) obj).getOctetValue();
       }
 
       if (typeShortForm.intValue() == Attribute.SHORT_TYPE_SHORT_FORM.intValue()) {
-        return (short) ((Union) obj).getShortValue();
+        return ((Union) obj).getShortValue();
       }
     }
 

@@ -736,7 +736,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         ElementList finalObject;
 
         try {
-            finalObject = HelperMisc.element2elementList((Element) objBodyWindow.getObject());
+            finalObject = HelperMisc.element2elementList(objBodyWindow.getObject());
             finalObject.add(objBodyWindow.getObject());
 
             try {

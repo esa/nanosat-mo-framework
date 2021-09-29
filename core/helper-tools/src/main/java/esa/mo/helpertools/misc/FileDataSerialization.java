@@ -71,7 +71,7 @@ public class FileDataSerialization {
       FileInputStream fin = new FileInputStream(filename);
       ObjectInputStream ois = new ObjectInputStream(fin);
 
-      Object iHandler = (Object) ois.readObject();
+      Object iHandler = ois.readObject();
       ois.close();
       return iHandler;
     } catch (FileNotFoundException e) {

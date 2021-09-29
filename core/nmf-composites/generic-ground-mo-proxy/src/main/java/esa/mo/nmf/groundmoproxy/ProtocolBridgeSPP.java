@@ -180,7 +180,7 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
           sourceHdr.getURITo()});
         String endpointUriPart = sourceHdr.getURITo().getValue();
         final int iSecond = endpointUriPart.indexOf("@");
-        endpointUriPart = endpointUriPart.substring(iSecond + 1, endpointUriPart.length());
+        endpointUriPart = endpointUriPart.substring(iSecond + 1);
         URI to = new URI(endpointUriPart);
         URI from = new URI(virtualURI);
 
