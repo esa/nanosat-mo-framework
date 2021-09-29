@@ -127,11 +127,7 @@ public class NMFConsumer {
         } catch (MalformedURLException ex) {
             Logger.getLogger(NMFConsumer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(NMFConsumer.class.getName()).log(Level.WARNING,
-                    "The file " + HelperMisc.CONSUMER_PROPERTIES_FILE
-                    + " could not be found! This error can happen if the user "
-                    + "is trying to run the application from a different folder"
-                    + " other than the one where the file is.", ex);
+            // Ignore the exception if it does not exist - the file is becoming deprecated
         }
 
         initCOMServices();
@@ -312,11 +308,7 @@ public class NMFConsumer {
         } catch (MalformedURLException ex) {
             Logger.getLogger(NMFConsumer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(NMFConsumer.class.getName()).log(Level.WARNING,
-                                                              "The file " + HelperMisc.CONSUMER_PROPERTIES_FILE
-                                                              + " could not be found! This error can happen if the user "
-                                                              + "is trying to run the application from a different "
-                                                              + "folder other than the one where the file is.", ex);
+            // Ignore the exception if it does not exist - the file is becoming deprecated
         }
 
         DirectoryConsumerServiceImpl directoryService = new DirectoryConsumerServiceImpl(directoryURI, authenticationId, localNamePrefix);

@@ -74,7 +74,7 @@ public class ConfigurationConsumer {
                 // The property does not exist?
                 HelperMisc.loadConsumerProperties(); // try to load the properties from the file...
             } catch (IOException ex) {
-                Logger.getLogger(ConfigurationConsumer.class.getName()).log(Level.SEVERE, null, ex);
+                // Ignore the exception if it does not exist - the file is becoming deprecated
             }
         }
 
