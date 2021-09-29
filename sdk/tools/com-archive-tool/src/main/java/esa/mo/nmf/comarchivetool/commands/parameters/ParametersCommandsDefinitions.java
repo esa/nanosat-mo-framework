@@ -18,9 +18,9 @@
  * limitations under the License.
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.com_archive_browser.commands.parameters;
+package esa.mo.nmf.comarchivetool.commands.parameters;
 
-import esa.mo.nmf.com_archive_browser.ArchiveBrowserHelper;
+import esa.mo.nmf.comarchivetool.ArchiveBrowserHelper;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;

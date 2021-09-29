@@ -19,7 +19,7 @@
  * ----------------------------------------------------------------------------
  */
 
-package esa.mo.nmf.com_archive_browser;
+package esa.mo.nmf.comarchivetool;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;

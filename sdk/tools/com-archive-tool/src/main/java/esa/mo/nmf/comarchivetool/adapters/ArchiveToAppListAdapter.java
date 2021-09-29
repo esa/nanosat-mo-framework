@@ -19,42 +19,38 @@
  * ----------------------------------------------------------------------------
  */
 
-package esa.mo.nmf.com_archive_browser.adapters;
+package esa.mo.nmf.comarchivetool.adapters;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Comparator;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import esa.mo.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
+import org.ccsds.moims.mo.com.structures.ObjectDetails;
+import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALStandardError;
 import org.ccsds.moims.mo.mal.structures.ElementList;
-import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
+import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
+import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetails;
 import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorHelper;
 import esa.mo.com.impl.util.ArchiveCOMObjectsOutput;
 
 /**
- * Archive adapter that dumps to a LOG file StandardOutput and StandardError events body of the
- * CommandExecutor service of the SoftwareManagement received from an archive query.
+ * Archive adapter that lists App (of the AppsLauncher service) that have StandardOutput and
+ * StandardError events (of the CommandExecutor service) associated to them from an archive query.
  *
  * @author Tanguy Soto
  */
-public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusProvider {
+public class ArchiveToAppListAdapter extends ArchiveAdapter implements QueryStatusProvider {
 
-  private static final Logger LOGGER = Logger.getLogger(ArchiveToLogAdapter.class.getName());
-
-  /**
-   * Destination LOG file
-   */
-  private FileWriter logFile;
+  private static final Logger LOGGER = Logger.getLogger(ArchiveToAppListAdapter.class.getName());
 
   /**
    * True if the query is over (response or any error received)
@@ -71,17 +67,26 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
    */
   private ObjectType stdErrorType = CommandExecutorHelper.STANDARDERROR_OBJECT_TYPE;
 
-  private boolean addTimestamps;
+  /**
+   * List of App instance ids that are the source of logs object (StandardOutput and StandardError
+   * events)
+   */
+  private ArrayList<Long> sourceAppInstanceIds = new ArrayList<>();
 
   /**
-   * Creates a new instance of ArchiveToLogAdapter.
-   * 
-   * @param logFilePath Path of destination LOG file where we dump the String objects
+   * SoftwareManagement.AppsLaunch.App object type
    */
-  public ArchiveToLogAdapter(String logFilePath, boolean addTimestamps) {
-    this.addTimestamps = addTimestamps;
-    openLogFile(logFilePath);
-  }
+  private ObjectType appType = AppsLauncherHelper.APP_OBJECT_TYPE;
+
+  /**
+   * Maps of App instance id to their AppDetails object.
+   */
+  private HashMap<Long, AppDetails> appsDetails = new HashMap<>();
+
+  /**
+   * Set of App names that have logs associated to them.
+   */
+  private HashSet<String> appWithLogs = new HashSet<>();
 
   /**
    * Dumps an archive objects output received from an archive query answer (update or response).
@@ -89,77 +94,47 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
    * @param archiveObjectOutput the archive objects outputs
    */
   private synchronized void dumpArchiveObjectsOutput(ArchiveCOMObjectsOutput archiveObjectOutput) {
-    if (logFile == null) {
-      LOGGER.log(Level.SEVERE, "Can't dump MAL elements to LOG file: file is null");
-      return;
-    }
-
     // empty comType means query returned nothing
     ObjectType comType = archiveObjectOutput.getObjectType();
     if (comType == null) {
       return;
     }
 
-    // only expected types
-    if (!(comType.equals(stdOutputType) || comType.equals(stdErrorType))) {
-      return;
-    }
-
-    // if somehow we have no object bodies, stop
-    if (archiveObjectOutput.getObjectBodies() == null) {
-      return;
-    }
-
-    String lineOffset = "                        "; // 24 is the length of the timestamp
-    for(int i = 0; i < archiveObjectOutput.getArchiveDetailsList().size(); ++i) {
-      // write LOG message, we can safely cast to String
-      String logObject = (String) archiveObjectOutput.getObjectBodies().get(i);
-      try {
-        if(addTimestamps) {
-          FineTime timestamp = archiveObjectOutput.getArchiveDetailsList().get(i).getTimestamp();
-          String[] logLines = logObject.split("\n");
-          logLines[0] = HelperTime.time2readableString(timestamp) + " " + logLines[0];
-          if(logLines.length > 1) {
-            for(int j = 1; j < logLines.length; ++j) {
-              logLines[j] = lineOffset + logLines[j];
-            }
+    // we got StandardOutput or StandardError events
+    if (comType.equals(stdOutputType) || comType.equals(stdErrorType)) {
+      for (ArchiveDetails archiveDetails : archiveObjectOutput.getArchiveDetailsList()) {
+        ObjectDetails objectDetails = archiveDetails.getDetails();
+        ObjectId source = objectDetails == null ? null : objectDetails.getSource();
+        ObjectType sourceType = source == null ? null : source.getType();
+        // events was generated by App, stopre App instance id
+        if (appType.equals(sourceType)) {
+          if (source.getKey() != null) {
+            sourceAppInstanceIds.add(source.getKey().getInstId());
           }
-
-          for(String line : logLines) {
-            logFile.write(line + "\n");
-          }
-        } else {
-          logFile.write(logObject);
         }
-      } catch (IOException e) {
-        LOGGER.log(Level.SEVERE, "Error writting LOG object", e);
+      }
+    }
+    // we got App objects
+    else if (comType.equals(appType)) {
+      // we store their details for names retrieval later
+      if (archiveObjectOutput.getObjectBodies() != null) {
+        for (int i = 0; i < archiveObjectOutput.getObjectBodies().size(); i++) {
+          ArchiveDetails archiveDetails = archiveObjectOutput.getArchiveDetailsList().get(i);
+          AppDetails appDetails = (AppDetails) archiveObjectOutput.getObjectBodies().get(i);
+          appsDetails.put(archiveDetails.getInstId(), appDetails);
+        }
       }
     }
   }
 
   /**
-   * Opens the LOG file.
-   * 
-   * @param logFilePath to the LOG file to open/create
+   * Creates the list of App names that have logs associated to them.
    */
-  private void openLogFile(String logFilePath) {
-    try {
-      logFile = new FileWriter(logFilePath);
-    } catch (IOException e) {
-      LOGGER.log(Level.SEVERE, String.format("Error opening the LOG file", logFilePath), e);
-      logFile = null;
-    }
-  }
-
-  /**
-   * Safely closes the LOG file.
-   */
-  private synchronized void closeLogFile() {
-    if (logFile != null) {
-      try {
-        logFile.close();
-      } catch (IOException e) {
-        LOGGER.log(Level.SEVERE, "Error closing the LOG file", e);
+  private synchronized void computeAppList() {
+    for (Long appInstanceId : sourceAppInstanceIds) {
+      AppDetails appDetails = appsDetails.get(appInstanceId);
+      if (appDetails != null) {
+        appWithLogs.add(appDetails.getName().getValue());
       }
     }
   }
@@ -209,8 +184,15 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
   private synchronized void setIsQueryOver(boolean isQueryOver) {
     if (isQueryOver) {
       // once response or error is received, we close the LOG file
-      closeLogFile();
+      computeAppList();
     }
     this.isQueryOver = isQueryOver;
+  }
+
+  /**
+   * @return Returns the list of App names with logs.
+   */
+  public ArrayList<String> getAppWithLogs() {
+    return new ArrayList<>(appWithLogs);
   }
 }

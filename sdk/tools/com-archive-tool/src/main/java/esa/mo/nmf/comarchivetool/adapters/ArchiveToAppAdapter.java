@@ -19,7 +19,7 @@
  * ----------------------------------------------------------------------------
  */
 
-package esa.mo.nmf.com_archive_browser.adapters;
+package esa.mo.nmf.comarchivetool.adapters;
 
 import java.util.Map;
 import java.util.logging.Level;

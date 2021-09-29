@@ -19,16 +19,16 @@
  * ----------------------------------------------------------------------------
  */
 
-package esa.mo.nmf.com_archive_browser;
+package esa.mo.nmf.comarchivetool;
 
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.nmf.NMFConsumer;
-import esa.mo.nmf.com_archive_browser.adapters.ArchiveToAppAdapter;
-import esa.mo.nmf.com_archive_browser.adapters.ArchiveToRolesAdapter;
-import esa.mo.nmf.com_archive_browser.adapters.QueryStatusProvider;
+import esa.mo.nmf.comarchivetool.adapters.ArchiveToAppAdapter;
+import esa.mo.nmf.comarchivetool.adapters.ArchiveToRolesAdapter;
+import esa.mo.nmf.comarchivetool.adapters.QueryStatusProvider;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQueryList;
@@ -326,7 +326,7 @@ public class ArchiveBrowserHelper {
    */
   public static ArchiveProviderServiceImpl spawnLocalArchiveProvider(String databaseFile) {
     HelperMisc.loadPropertiesFile();
-    System.setProperty(HelperMisc.PROP_MO_APP_NAME, COMArchiveBrowser.APP_NAME);
+    System.setProperty(HelperMisc.PROP_MO_APP_NAME, COMArchiveTool.APP_NAME);
     System.setProperty("esa.nmf.archive.persistence.jdbc.url", "jdbc:sqlite:" + databaseFile);
 
     ArchiveProviderServiceImpl archiveProvider = new ArchiveProviderServiceImpl();

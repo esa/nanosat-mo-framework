@@ -8,7 +8,7 @@ CLI tool to browse a COM archive to retrieve logs and more from it.
 
 Starting it with `-h` or `--help` like so:
 
-`/home/nmf/log-browser-tool/$ ./log-browser-tool.sh -h`
+`/home/nmf/com-archive-tool/$ ./com-archive-tool.sh -h`
 
 Will display the following help message:
 

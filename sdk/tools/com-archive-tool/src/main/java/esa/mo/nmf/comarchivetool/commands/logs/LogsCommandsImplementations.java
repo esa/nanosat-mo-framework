@@ -18,14 +18,14 @@
  * limitations under the License.
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.com_archive_browser.commands.logs;
+package esa.mo.nmf.comarchivetool.commands.logs;
 
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.nmf.NMFConsumer;
-import esa.mo.nmf.com_archive_browser.adapters.ArchiveToAppListAdapter;
-import esa.mo.nmf.com_archive_browser.adapters.ArchiveToLogAdapter;
+import esa.mo.nmf.comarchivetool.adapters.ArchiveToAppListAdapter;
+import esa.mo.nmf.comarchivetool.adapters.ArchiveToLogAdapter;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQueryList;
 import org.ccsds.moims.mo.com.structures.ObjectId;
@@ -40,7 +40,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static esa.mo.nmf.com_archive_browser.ArchiveBrowserHelper.*;
+import static esa.mo.nmf.comarchivetool.ArchiveBrowserHelper.*;
 
 /**
  * Log commands implementations

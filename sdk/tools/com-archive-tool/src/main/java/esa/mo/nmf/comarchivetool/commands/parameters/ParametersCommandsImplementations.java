@@ -18,14 +18,14 @@
  * limitations under the License.
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.com_archive_browser.commands.parameters;
+package esa.mo.nmf.comarchivetool.commands.parameters;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.nmf.NMFConsumer;
-import esa.mo.nmf.com_archive_browser.adapters.ArchiveToParametersAdapter;
+import esa.mo.nmf.comarchivetool.adapters.ArchiveToParametersAdapter;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQueryList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
@@ -44,7 +44,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import static esa.mo.nmf.com_archive_browser.ArchiveBrowserHelper.*;
+import static esa.mo.nmf.comarchivetool.ArchiveBrowserHelper.*;
 
 /**
  * Parameter commands implementations

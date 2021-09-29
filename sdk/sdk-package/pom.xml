@@ -83,7 +83,7 @@
     </dependency>
     <dependency>
       <groupId>int.esa.nmf.sdk</groupId>
-      <artifactId>log-browser-tool</artifactId>
+      <artifactId>com-archive-tool</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
@@ -308,7 +308,7 @@
                 <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/nmf/consumer-test-tool">
                   <fileset dir="${basedir}/src/main/resources/ground-consumer-root"/>
                 </copy>
-                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/nmf/log-browser-tool">
+                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/nmf/com-archive-tool">
                   <fileset dir="${basedir}/src/main/resources/ground-consumer-root"/>
                   <fileset dir="${basedir}/src/main/resources/space-common"/>
                   <fileset dir="${basedir}/src/main/resources/space-supervisor-root"/>

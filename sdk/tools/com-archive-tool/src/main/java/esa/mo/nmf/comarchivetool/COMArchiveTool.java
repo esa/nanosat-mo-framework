@@ -18,30 +18,30 @@
  * limitations under the License.
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.com_archive_browser;
+package esa.mo.nmf.comarchivetool;
 
 import esa.mo.nmf.NMFConsumer;
-import esa.mo.nmf.com_archive_browser.commands.archive.ArchiveCommandsDefinitions;
-import esa.mo.nmf.com_archive_browser.commands.logs.LogsCommandsDefinitions;
-import esa.mo.nmf.com_archive_browser.commands.parameters.ParametersCommandsDefinitions;
+import esa.mo.nmf.comarchivetool.commands.archive.ArchiveCommandsDefinitions;
+import esa.mo.nmf.comarchivetool.commands.logs.LogsCommandsDefinitions;
+import esa.mo.nmf.comarchivetool.commands.parameters.ParametersCommandsDefinitions;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
 /**
- * Main entry point to start the COMArchiveBrowser tool.
+ * Main entry point to start the COMArchiveTool tool.
  *
  * @author Tanguy Soto
  * @author Marcel Mikołajko
  */
-@Command(name = "COMArchiveBrowser",
+@Command(name = "COMArchiveTool",
          subcommands = {LogsCommandsDefinitions.Logs.class,
                         ParametersCommandsDefinitions.Parameter.class,
                         ArchiveCommandsDefinitions.DumpRawArchive.class,
                         ArchiveCommandsDefinitions.DumpFormattedArchive.class,
                         ArchiveCommandsDefinitions.ListArchiveProviders.class},
          description = "Browses a COM archive to retrieve it's contents.")
-public class COMArchiveBrowser {
+public class COMArchiveTool {
 
   public static final String APP_NAME = "com-archive-tool";
 
@@ -55,7 +55,7 @@ public class COMArchiveBrowser {
    */
   public static void main(String[] args) {
     NMFConsumer.initHelpers();
-    COMArchiveBrowser browser = new COMArchiveBrowser();
+    COMArchiveTool browser = new COMArchiveTool();
     CommandLine cmd = new CommandLine(browser);
     cmd.setUsageHelpAutoWidth(true);
     cmd.setUsageHelpLongOptionsMaxWidth(30);
