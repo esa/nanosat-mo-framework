@@ -56,24 +56,7 @@ import org.ccsds.moims.mo.mal.MALStandardError;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.provider.MALPublishInteractionListener;
-import org.ccsds.moims.mo.mal.structures.BooleanList;
-import org.ccsds.moims.mo.mal.structures.Element;
-import org.ccsds.moims.mo.mal.structures.EntityKey;
-import org.ccsds.moims.mo.mal.structures.EntityKeyList;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.mal.structures.QoSLevel;
-import org.ccsds.moims.mo.mal.structures.SessionType;
-import org.ccsds.moims.mo.mal.structures.StringList;
-import org.ccsds.moims.mo.mal.structures.Time;
-import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mal.structures.UIntegerList;
-import org.ccsds.moims.mo.mal.structures.UShort;
-import org.ccsds.moims.mo.mal.structures.Union;
-import org.ccsds.moims.mo.mal.structures.UpdateHeader;
-import org.ccsds.moims.mo.mal.structures.UpdateHeaderList;
-import org.ccsds.moims.mo.mal.structures.UpdateType;
+import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALErrorBody;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
@@ -320,6 +303,17 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
           directoryServiceURI
               = directoryService.getConnection().getConnectionDetails().getProviderURI().toString();
         }
+        AppDetails app = this.manager.get(appInstIds.get(i));
+        ObjectType objType = AppsLauncherHelper.STARTAPP_OBJECT_TYPE;
+        ObjectId eventSource = this.manager.getCOMServices().getActivityTrackingService()
+                                           .storeCOMOperationActivity(interaction, null);
+
+        Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO,
+            "Generating StartApp event for app: {0} (Name: ''{1}'')", new Object[]{appInstIds.get(i), app.getName()});
+        this.manager.getCOMServices().getEventService()
+                    .generateAndStoreEvent(objType, ConfigurationProviderSingleton.getDomain(), app.getName(),
+                                           appInstIds.get(i), eventSource, interaction);
+
         manager.startAppProcess(new ProcessExecutionHandler(new CallbacksImpl(), appInstIds.get(i)),
             interaction, directoryServiceURI);
       } catch (IOException ex) {
