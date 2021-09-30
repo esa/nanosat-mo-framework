@@ -114,6 +114,9 @@ public class EncodeDecode {
     public static byte[] encodeToCompressedByteArray(final List<COMObjectEntity> entities,
                                                            ArchiveManager manager,
                                                            Dictionary dictionary) {
+        if(entities.isEmpty()) {
+            return new byte[0];
+        }
         try {
             ByteArrayOutputStream bytesOutputStream = new ByteArrayOutputStream();
             BinaryEncoder encoder = new BinaryEncoder(bytesOutputStream);
@@ -154,7 +157,7 @@ public class EncodeDecode {
                                                                                   ArchiveSyncStub archiveSyncService,
                                                                                   IdentifierList domain) {
         if (chunks.isEmpty()) {
-            return null;
+            return new ArrayList<>();
         }
 
         int chunkSize = chunks.get(0).length; // We assume all chunks have the same size

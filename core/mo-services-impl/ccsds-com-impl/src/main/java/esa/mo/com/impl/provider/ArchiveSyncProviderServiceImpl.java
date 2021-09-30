@@ -289,7 +289,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         filter.setOffset(new UInteger(0));
 
         ArrayList<COMObjectEntity> perObjs = manager.queryCOMObjectEntity(objectTypes, archiveQuery, filter);
-        latestSync = perObjs.get(perObjs.size() - 1).getTimestamp();
+        latestSync = perObjs.isEmpty() ? latestSync : perObjs.get(perObjs.size() - 1).getTimestamp();
 
         dispatcher.addObjects(perObjs);
         Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName())
@@ -553,20 +553,23 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         public void flushData()
         {
             numberOfChunks = dataToFlush.length / chunkSize + (dataToFlush.length % chunkSize != 0 ? 1 : 0);
-            byte[] aChunk = new byte[chunkSize];
-
-            for(int i = 0; i < numberOfChunks - (dataToFlush.length % chunkSize != 0 ? 1 : 0); ++i)
+            if(numberOfChunks > 0)
             {
-                System.arraycopy(dataToFlush, chunkSize * i, aChunk, 0, chunkSize);
-                sendUpdateToConsumer(i, aChunk);
-            }
+                byte[] aChunk = new byte[chunkSize];
 
-            // Flush the last byte array!
-            if(dataToFlush.length % chunkSize != 0)
-            {
-                byte[] lastChunk = new byte[dataToFlush.length - (numberOfChunks - 1) * chunkSize]; // We need to trim to fit!
-                System.arraycopy(dataToFlush, chunkSize * (numberOfChunks - 1), lastChunk, 0, lastChunk.length);
-                sendUpdateToConsumer(numberOfChunks - 1, lastChunk);
+                for(int i = 0; i < numberOfChunks - (dataToFlush.length % chunkSize != 0 ? 1 : 0); ++i)
+                {
+                    System.arraycopy(dataToFlush, chunkSize * i, aChunk, 0, chunkSize);
+                    sendUpdateToConsumer(i, aChunk);
+                }
+
+                // Flush the last byte array!
+                if(dataToFlush.length % chunkSize != 0)
+                {
+                    byte[] lastChunk = new byte[dataToFlush.length - (numberOfChunks - 1) * chunkSize]; // We need to trim to fit!
+                    System.arraycopy(dataToFlush, chunkSize * (numberOfChunks - 1), lastChunk, 0, lastChunk.length);
+                    sendUpdateToConsumer(numberOfChunks - 1, lastChunk);
+                }
             }
 
             try
