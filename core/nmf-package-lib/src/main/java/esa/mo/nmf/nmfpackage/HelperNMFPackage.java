@@ -24,9 +24,13 @@ import esa.mo.helpertools.helpers.HelperMisc;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.zip.CRC32;
 
 /**
@@ -70,8 +74,8 @@ public class HelperNMFPackage {
         return str.toString();
     }
 
-    public static String generateLinuxStartAppScript(String mainclass, 
-            String jarFilename, String maxHeap) throws IOException {
+    public static String generateLinuxStartAppScript(String javaCommand,
+            String mainclass, String jarFilename, String maxHeap) throws IOException {
         StringBuilder str = new StringBuilder();
         str.append("#!/bin/sh\n");
         str.append(getBanner());
@@ -79,7 +83,7 @@ public class HelperNMFPackage {
         str.append("\n");
 
         str.append("# Constants set at installation time:\n");
-        str.append("JAVA_CMD=java\n");
+        str.append("JAVA_CMD=").append(javaCommand).append("\n");
         str.append("MAIN_JAR_NAME=").append(jarFilename).append("\n");
         str.append("MAIN_CLASS_NAME=").append(mainclass).append("\n");
         str.append("MAX_HEAP=").append(maxHeap).append("\n");
@@ -87,7 +91,9 @@ public class HelperNMFPackage {
         str.append("NMF_LIB=").append("`cd ../../libs > /dev/null; pwd`").append("\n");
         str.append("\n");
 
-        str.append("JAVA_OPTS=\"-Xms32m -Xmx$MAX_HEAP $JAVA_OPTS\"\n");
+        str.append("if [ -z \"$JAVA_OPTS\" ] ; then\n");
+        str.append("    JAVA_OPTS=\"-Xms32m -Xmx$MAX_HEAP $JAVA_OPTS\"\n");
+        str.append("fi\n");
         str.append("\n");
 
         str.append("export JAVA_OPTS\n");
@@ -141,7 +147,7 @@ public class HelperNMFPackage {
         str.append("# TCP/IP protocol properties:\n");
         str.append("org.ccsds.moims.mo.mal.transport.protocol.maltcp=esa.mo.mal.transport.tcpip.TCPIPTransportFactoryImpl\n");
         str.append("org.ccsds.moims.mo.mal.encoding.protocol.maltcp=esa.mo.mal.encoder.binary.fixed.FixedBinaryStreamFactory\n");
-        
+
         // Bind to localhost
         str.append("org.ccsds.moims.mo.mal.transport.tcpip.autohost=false\n");
         str.append("org.ccsds.moims.mo.mal.transport.tcpip.host=localhost\n");
@@ -151,8 +157,7 @@ public class HelperNMFPackage {
         str.append("org.ccsds.moims.mo.mal.transport.tcpip.autohost=true\n");
         str.append("#org.ccsds.moims.mo.mal.transport.tcpip.host=xxx.xxx.xxx.xxx\n");
         str.append("#org.ccsds.moims.mo.mal.transport.tcpip.port=54321\n");
-        */
-
+         */
         return str.toString();
     }
 
@@ -189,5 +194,113 @@ public class HelperNMFPackage {
         }
 
         throw new IOException("There are too many jars inside the target folder!");
-    }    
+    }
+
+    /**
+     * Find the best Java Runtime Environment for the App based on a recommended
+     * version, a minimum version, and a maximum version.
+     *
+     * @param recommended The recommended version to run the App.
+     * @param min The minimum version needed to run the App.
+     * @param max The maximum version to run the App.
+     * @return The Best JRE available for .
+     */
+    public static String findJREPath(File nmfDir, int recommended, int min, int max) {
+        if (min < max) {
+            Logger.getLogger(HelperNMFPackage.class.getName()).log(Level.WARNING,
+                    "The JRE minimum version cannot be greater than the maximum!");
+        }
+
+        if (recommended < min || recommended > max) {
+            Logger.getLogger(HelperNMFPackage.class.getName()).log(Level.WARNING,
+                    "The JRE recommended version should be between the min and max!");
+        }
+
+        File javaNMFDir = new File(nmfDir.getAbsolutePath() + File.separator + "java");
+        String bestJRE = "java"; // Default value and worst-case scenario
+
+        if (javaNMFDir.exists()) {
+            File[] list = javaNMFDir.listFiles();
+            final String VERSION_PROP = "JAVA_VERSION";
+
+            for (File dir : list) {
+                if (!dir.isDirectory()) {
+                    continue; // Jump over if it is not a directory
+                }
+
+                try {
+                    // Check which java version it is from the release file...
+                    String path = dir.getAbsolutePath();
+                    File release = new File(path + File.separator + "release");
+
+                    if (!release.exists()) {
+                        Logger.getLogger(HelperNMFPackage.class.getName()).log(
+                                Level.WARNING, "The JRE release file does not "
+                                + "exist in: " + release.getAbsolutePath());
+                        continue;
+                    }
+
+                    Properties props = new Properties();
+                    props.load(new FileInputStream(release));
+                    String version = (String) props.get(VERSION_PROP);
+
+                    if (version == null) {
+                        Logger.getLogger(HelperNMFPackage.class.getName()).log(
+                                Level.WARNING, "The JAVA_VERSION property "
+                                + "was not be found on release file: " + path);
+                        continue;
+                    }
+
+                    String[] subs = version.replace("\"", "").split("\\.");
+
+                    if (subs.length < 3) {
+                        Logger.getLogger(HelperNMFPackage.class.getName()).log(
+                                Level.WARNING, "The JRE version '" + version
+                                + "' could not be determined from the release file: "
+                                + release.getAbsolutePath());
+                        continue;
+                    }
+
+                    // Java version used to start with 1 until at least Java 8
+                    int java_version = (Integer.parseInt(subs[0]) != 1)
+                            ? Integer.parseInt(subs[0])
+                            : Integer.parseInt(subs[1]);
+
+                    String jre = dir.getAbsolutePath() + File.separator
+                            + "bin" + File.separator + "java";
+
+                    if ((new File(jre)).exists()) {
+                        Logger.getLogger(HelperNMFPackage.class.getName()).log(
+                                Level.WARNING,
+                                "The JRE could not found in directory: " + path);
+                        continue;
+                    }
+
+                    if (java_version == recommended) {
+                        // Perfect, just return it directly!
+                        Logger.getLogger(HelperNMFPackage.class.getName()).log(
+                                Level.INFO, "The JRE version " + java_version
+                                + " was successfully found in directory:"
+                                + "\n          >> " + jre);
+
+                        return jre;
+                    }
+
+                    // The version is outside boundaries?
+                    if (java_version < min && java_version > max) {
+                        continue;
+                    }
+                    bestJRE = jre;
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(HelperNMFPackage.class.getName()).log(
+                            Level.WARNING, "Something went wrong...", ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(HelperNMFPackage.class.getName()).log(
+                            Level.WARNING, "Something went wrong...", ex);
+                }
+            }
+        }
+
+        return bestJRE;
+    }
 }
