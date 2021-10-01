@@ -184,7 +184,7 @@ public class NMFPackageManager {
         LinuxUsersGroups.chmod(false, true, "750", installationDir.getAbsolutePath());
 
         // ---------------------------------------
-        // Store a copy of the receipt to know that it has been installed!
+        // Store a copy of the newReceipt to know that it has been installed!
         File receiptsFolder = getReceiptsFolder();
         String receiptFilename = appName + NMFPackageManager.RECEIPT_ENDING;
         String receiptPath = receiptsFolder.getCanonicalPath() + File.separator + receiptFilename;
@@ -281,7 +281,7 @@ public class NMFPackageManager {
         System.console().printf(SEPARATOR);
         // Get the Package to be uninstalled
         ZipFile zipFile = new ZipFile(packageLocation);
-        ZipEntry receipt = zipFile.getEntry(HelperNMFPackage.RECEIPT_FILENAME);
+        ZipEntry newReceipt = zipFile.getEntry(HelperNMFPackage.RECEIPT_FILENAME);
 
         // Verify integrity of the file: Are all the declared files matching their CRCs?
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
@@ -297,10 +297,10 @@ public class NMFPackageManager {
 
         File receiptsFolder = getReceiptsFolder();
         String receiptFilename = newDescriptor.getDetails().getPackageName() + NMFPackageManager.RECEIPT_ENDING;
-        File receiptFile = new File(receiptsFolder.getCanonicalPath() + File.separator + receiptFilename);
+        File oldReceipt = new File(receiptsFolder.getCanonicalPath() + File.separator + receiptFilename);
 
         // Get the text out of that file and parse it into a NMFPackageDescriptor object
-        final InputStream stream2 = new FileInputStream(receiptFile);
+        final InputStream stream2 = new FileInputStream(oldReceipt);
         final NMFPackageDescriptor oldDescriptor = NMFPackageDescriptor.parseInputStream(stream2);
         stream2.close();
 
@@ -324,10 +324,10 @@ public class NMFPackageManager {
 
         removeAuxiliaryFiles(installationDir, appName);
 
-        if (!receiptFile.delete()) { // The file could not be deleted...
+        if (!oldReceipt.delete()) { // The file could not be deleted...
             Logger.getLogger(NMFPackageManager.class.getName()).log(Level.WARNING,
                     "The receipt file could not be deleted from: "
-                    + receiptFile.getCanonicalPath());
+                    + oldReceipt.getCanonicalPath());
         }
 
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
@@ -368,14 +368,22 @@ public class NMFPackageManager {
         String transportContent = HelperNMFPackage.generateTransportProperties();
         NMFPackageManager.writeFile(transportPath, transportContent);
 
+        // Change Group owner of the installationDir
+        if (username != null) {
+            LinuxUsersGroups.chgrp(true, username, installationDir.getAbsolutePath());
+        }
+
+        // chmod the installation directory with recursive
+        LinuxUsersGroups.chmod(false, true, "750", installationDir.getAbsolutePath());
+        
         // ---------------------------------------
-        // Store a copy of the receipt to know that it has been installed!
+        // Store a copy of the newReceipt to know that it has been installed!
         //create the file otherwise we get FileNotFoundException
-        new File(receiptFile.getParent()).mkdirs();
+        new File(oldReceipt.getParent()).mkdirs();
         // -----------------
 
-        final FileOutputStream fos = new FileOutputStream(receiptFile);
-        final InputStream zis = zipFile.getInputStream(receipt);
+        final FileOutputStream fos = new FileOutputStream(oldReceipt); // Output location
+        final InputStream zis = zipFile.getInputStream(newReceipt);
         byte[] buffer = new byte[1024];
         int len;
 
@@ -402,7 +410,7 @@ public class NMFPackageManager {
     public static boolean isPackageInstalled(final String packageLocation) {
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.FINE,
                 "Verifying if the package is installed...");
-        // Find the receipt and get it out of the package
+        // Find the newReceipt and get it out of the package
         ZipFile zipFile;
         try {
             zipFile = new ZipFile(packageLocation);
@@ -451,7 +459,7 @@ public class NMFPackageManager {
             return false;
         }
 
-        // Check the version of the installed receipt
+        // Check the version of the installed newReceipt
         NMFPackageDescriptor descriptorFromExistingReceipt;
         long crcDescriptorFromExistingReceipt;
 
@@ -620,7 +628,7 @@ public class NMFPackageManager {
 
     public static String getPublicKey(String folderLocation) {
         /*
-        // Find the receipt and get it out of the package
+        // Find the newReceipt and get it out of the package
         ZipFile zipFile;
         try {
             zipFile = new ZipFile(packageLocation);
