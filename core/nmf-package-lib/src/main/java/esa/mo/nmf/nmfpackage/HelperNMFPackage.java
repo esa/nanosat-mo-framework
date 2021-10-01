@@ -205,7 +205,8 @@ public class HelperNMFPackage {
     }
 
     /**
-     * Find the best Java Runtime Environment for the App based on a recommended
+     * Find the best Java Runtime Environment inside an nmf directory. The best
+     * JRE will be determined based on arguments containing a recommended
      * version, a minimum version, and a maximum version.
      *
      * @param recommended The recommended version to run the App.
@@ -227,99 +228,90 @@ public class HelperNMFPackage {
         File javaNMFDir = new File(nmfDir.getAbsolutePath() + File.separator + "java");
         String bestJRE = "java"; // Default value and worst-case scenario
 
-        if (javaNMFDir.exists()) {
-            File[] list = javaNMFDir.listFiles();
+        if (!javaNMFDir.exists()) {
+            return bestJRE; // Return the default value
+        }
 
-            /*
-            if (list.length == 1) {
-                String path = list[0].getAbsolutePath();
-                String jre = path + File.separator + "bin" + File.separator + "java";
+        final String VERSION_PROP = "JAVA_VERSION";
+        File[] list = javaNMFDir.listFiles();
 
-                if ((new File(jre)).exists()) {
-                    return jre;
-                } else {
-                    Logger.getLogger(HelperNMFPackage.class.getName()).log(Level.WARNING,
-                            "The JRE could not found in directory: " + path);
-                }
+        for (File dir : list) {
+            if (!dir.isDirectory()) {
+                continue; // Jump over if it is not a directory
             }
-             */
-            final String VERSION_PROP = "JAVA_VERSION";
 
-            for (File dir : list) {
-                if (!dir.isDirectory()) {
-                    continue; // Jump over if it is not a directory
+            try {
+                // Check which java version it is from the release file...
+                String path = dir.getAbsolutePath();
+                File release = new File(path + File.separator + "release");
+
+                if (!release.exists()) {
+                    Logger.getLogger(HelperNMFPackage.class.getName()).log(
+                            Level.WARNING, "The JRE release file does not "
+                            + "exist in: " + release.getAbsolutePath());
+                    continue;
                 }
 
-                try {
-                    // Check which java version it is from the release file...
-                    String path = dir.getAbsolutePath();
-                    File release = new File(path + File.separator + "release");
+                Properties props = new Properties();
+                props.load(new FileInputStream(release));
+                String version = (String) props.get(VERSION_PROP);
 
-                    if (!release.exists()) {
-                        Logger.getLogger(HelperNMFPackage.class.getName()).log(
-                                Level.WARNING, "The JRE release file does not "
-                                + "exist in: " + release.getAbsolutePath());
-                        continue;
-                    }
-
-                    Properties props = new Properties();
-                    props.load(new FileInputStream(release));
-                    String version = (String) props.get(VERSION_PROP);
-
-                    if (version == null) {
-                        Logger.getLogger(HelperNMFPackage.class.getName()).log(
-                                Level.WARNING, "The JAVA_VERSION property "
-                                + "was not be found on release file: " + path);
-                        continue;
-                    }
-
-                    String[] subs = version.replace("\"", "").split("\\.");
-
-                    if (subs.length < 3) {
-                        Logger.getLogger(HelperNMFPackage.class.getName()).log(
-                                Level.WARNING, "The JRE version '" + version
-                                + "' could not be determined from the release file: "
-                                + release.getAbsolutePath());
-                        continue;
-                    }
-
-                    // Java version used to start with 1 until at least Java 8
-                    int java_version = (Integer.parseInt(subs[0]) != 1)
-                            ? Integer.parseInt(subs[0])
-                            : Integer.parseInt(subs[1]);
-
-                    String jre = dir.getAbsolutePath() + File.separator
-                            + "bin" + File.separator + "java";
-
-                    if ((new File(jre)).exists()) {
-                        Logger.getLogger(HelperNMFPackage.class.getName()).log(
-                                Level.WARNING,
-                                "The JRE could not found in directory: " + path);
-                        continue;
-                    }
-
-                    if (java_version == recommended) {
-                        // Perfect, just return it directly!
-                        Logger.getLogger(HelperNMFPackage.class.getName()).log(
-                                Level.INFO, "The JRE version " + java_version
-                                + " was successfully found in directory:"
-                                + "\n          >> " + jre);
-
-                        return jre;
-                    }
-
-                    // The version is outside boundaries?
-                    if (java_version < min && java_version > max) {
-                        continue;
-                    }
-                    bestJRE = jre;
-                } catch (FileNotFoundException ex) {
+                if (version == null) {
                     Logger.getLogger(HelperNMFPackage.class.getName()).log(
-                            Level.WARNING, "Something went wrong...", ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(HelperNMFPackage.class.getName()).log(
-                            Level.WARNING, "Something went wrong...", ex);
+                            Level.WARNING, "The JAVA_VERSION property "
+                            + "was not be found on release file: " + path);
+                    continue;
                 }
+
+                String[] subs = version.replace("\"", "").split("\\.");
+
+                if (subs.length < 3) {
+                    Logger.getLogger(HelperNMFPackage.class.getName()).log(
+                            Level.WARNING, "The JRE version '" + version
+                            + "' could not be determined from the release file: "
+                            + release.getAbsolutePath());
+                    continue;
+                }
+
+                // Java version used to start with 1 until at least Java 8
+                int java_version = (Integer.parseInt(subs[0]) != 1)
+                        ? Integer.parseInt(subs[0])
+                        : Integer.parseInt(subs[1]);
+
+                String jre = dir.getAbsolutePath() + File.separator
+                        + "bin" + File.separator + "java";
+
+                if (!(new File(jre)).exists()) {
+                    Logger.getLogger(HelperNMFPackage.class.getName()).log(
+                            Level.WARNING,
+                            "The JRE could not found in directory: " + path);
+                    continue;
+                }
+
+                if (java_version == recommended) {
+                    // Perfect, just return it directly!
+                    Logger.getLogger(HelperNMFPackage.class.getName()).log(
+                            Level.INFO, "The JRE version " + java_version
+                            + " was successfully found in directory:"
+                            + "\n          >> " + jre);
+
+                    return jre;
+                }
+
+                // The version is outside boundaries?
+                if (java_version < min && java_version > max) {
+                    continue;
+                }
+                bestJRE = jre;
+                // The code here will need to be improved...
+                // The objective should be to return the
+                // highest availableversion within the choices
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(HelperNMFPackage.class.getName()).log(
+                        Level.WARNING, "Something went wrong...", ex);
+            } catch (IOException ex) {
+                Logger.getLogger(HelperNMFPackage.class.getName()).log(
+                        Level.WARNING, "Something went wrong...", ex);
             }
         }
 
