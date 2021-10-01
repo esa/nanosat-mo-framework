@@ -244,6 +244,11 @@ public class DatabaseBackend {
         return this.em;
     }
 
+    public EntityManagerFactory getEmf()
+    {
+        return emf;
+    }
+
     public void restartEMF() {
         this.emf.close();
         this.createEMFactory();
