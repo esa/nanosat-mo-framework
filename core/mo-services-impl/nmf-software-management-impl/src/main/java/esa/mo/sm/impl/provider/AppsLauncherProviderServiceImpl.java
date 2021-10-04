@@ -437,17 +437,18 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
       IdentifierList appDirectoryServiceNames) throws MALInteractionException, MALException {
     for (int i = 0; i < appInstIds.size(); i++) {
       // Get it from the list of available apps
-      AppDetails app = this.manager.get(appInstIds.get(i));
+      Long appId = appInstIds.get(i);
+      AppDetails app = this.manager.get(appId);
 
       if (app == null) {
         // The app id could not be identified
         unkIndexList.add(new UInteger(i)); // Throw an UNKNOWN error
-        LOGGER.log(Level.WARNING, "App with id {0} unknown", new Object[] {i});
+        LOGGER.log(Level.WARNING, "App with id {0} unknown", new Object[] {appId});
         continue;
-      } else if (!manager.isAppRunning(appInstIds.get(i))) {
+      } else if (!manager.isAppRunning(appId)) {
         // The app is not running
         invIndexList.add(new UInteger(i)); // Throw an INVALID error
-        LOGGER.log(Level.WARNING, "App with id {0} not running", new Object[] {i});
+        LOGGER.log(Level.WARNING, "App with id {0} not running", new Object[] {appId});
         continue;
       }
 
