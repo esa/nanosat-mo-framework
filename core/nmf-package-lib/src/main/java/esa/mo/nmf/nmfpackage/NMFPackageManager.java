@@ -65,7 +65,7 @@ public class NMFPackageManager {
 
     public static void install(final String packageLocation,
             final File nmfDir) throws FileNotFoundException, IOException {
-        System.console().printf(SEPARATOR);
+        System.out.printf(SEPARATOR);
         // Get the File to be installed
         ZipFile zipFile = new ZipFile(packageLocation);
 
@@ -213,12 +213,12 @@ public class NMFPackageManager {
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                 "Package successfully installed from: {0}", packageLocation);
 
-        System.console().printf(SEPARATOR);
+        System.out.printf(SEPARATOR);
     }
 
     public static void uninstall(final NMFPackageDescriptor descriptor,
             final boolean keepUserData) throws IOException {
-        System.console().printf(SEPARATOR);
+        System.out.printf(SEPARATOR);
 
         // Safety check... should never happen...
         if (descriptor == null) {
@@ -261,7 +261,7 @@ public class NMFPackageManager {
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                 "Package successfully uninstalled from: " + installationDir);
 
-        System.console().printf(SEPARATOR);
+        System.out.printf(SEPARATOR);
     }
 
     private static void removeAuxiliaryFiles(File installationDir, String appName) throws IOException {
@@ -281,7 +281,7 @@ public class NMFPackageManager {
     }
 
     public static void upgrade(final String packageLocation, final File nmfDir) throws IOException {
-        System.console().printf(SEPARATOR);
+        System.out.printf(SEPARATOR);
         // Get the Package to be uninstalled
         ZipFile zipFile = new ZipFile(packageLocation);
         ZipEntry newReceipt = zipFile.getEntry(HelperNMFPackage.RECEIPT_FILENAME);
@@ -403,7 +403,7 @@ public class NMFPackageManager {
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                 "Package successfully upgraded from location: " + packageLocation);
 
-        System.console().printf(SEPARATOR);
+        System.out.printf(SEPARATOR);
     }
 
     /**
