@@ -25,6 +25,13 @@ import java.io.RandomAccessFile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import java.awt.image.BufferedImage;
+import java.io.FileOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+import javax.imageio.ImageIO;
+
 /**
  *
  * @author César Coelho
@@ -32,24 +39,23 @@ import java.util.logging.Logger;
 public class TestProcessing {
 
     public static void main(String[] args) {
-        // Just a simple test...
-        String fileName = "20161221_074003_myPicture.raw";
-        String directory = "C:\\Users\\Cesar Coelho\\Desktop\\";
-//        Path path = Paths.get(directory + fileName);
-
         try {
-            RandomAccessFile f = new RandomAccessFile(directory+fileName, "r");
-            if (f.length() > Integer.MAX_VALUE) {
-                throw new IOException("File is too large");
-            }
-            byte[] data = new byte[(int) f.length()];
-            f.readFully(data);
-
-//            byte[] data = Files.readAllBytes(path);
-            OPSSATCameraDebayering.getDebayeredImage(data);
+            testDebayer();
         } catch (IOException ex) {
             Logger.getLogger(TestProcessing.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public static String RAW_PATH = "../../../payloads-test/toGround/img_msec_1633341865066_50.ims_rgb";
+
+    public static void testDebayer() throws IOException {
+        byte[] inBytes = Files.readAllBytes(Paths.get(RAW_PATH));
+        BufferedImage outBuf = OPSSATCameraDebayering.getDebayeredImage(inBytes);
+
+        FileOutputStream stream = new FileOutputStream(RAW_PATH + ".png");
+
+        ImageIO.write(outBuf, "PNG", stream);
+        stream.close();
     }
 
 }
