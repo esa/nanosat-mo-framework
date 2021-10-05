@@ -14,7 +14,6 @@ public class Debayer_Image implements PlugInFilter {
   static boolean normalize = false;
   static boolean equalize = false;
   static boolean stackHist = false;
-  static boolean showColour = false;
   static boolean median = false;
   static boolean gauss = false;
   static int med_radius = 2;
@@ -45,7 +44,6 @@ public class Debayer_Image implements PlugInFilter {
     };
     String[] algorithms = { "Replication", "Bilinear", "Smooth Hue", "Adaptive Smooth Hue"
     };
-    String options = "";
 
     int row_order = 0; // Force "R-G-R-G"
     // showStack = dia.getNextBoolean();
@@ -56,16 +54,6 @@ public class Debayer_Image implements PlugInFilter {
     normalize = true; // optional
     equalize = false;
     stackHist = false;
-    showColour = true;
-
-    options = "saturated=0.5";
-    if (normalize)
-      options = options + " normalize";
-    if (equalize)
-      options = options + " equalize";
-    options = options + " normalize_all";
-    if (stackHist)
-      options = options + " use";
 
     switch (algorithm) {
       case 0:
