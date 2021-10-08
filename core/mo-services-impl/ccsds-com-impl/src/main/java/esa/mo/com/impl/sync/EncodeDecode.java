@@ -127,7 +127,7 @@ public class EncodeDecode {
 
             byte[] uncompressedOutput = bytesOutputStream.toByteArray();
             encoder.close();
-            Logger.getLogger(EncodeDecode.class.getName()).log(Level.INFO, "Uncompressed objects size: " + uncompressedOutput.length + " bytes");
+            Logger.getLogger(EncodeDecode.class.getName()).log(Level.FINE, "Uncompressed objects size: " + uncompressedOutput.length + " bytes");
 
             ByteArrayOutputStream compressedBytesOutputStream = new ByteArrayOutputStream();
             GZIPOutputStream gzip = new GZIPOutputStream(compressedBytesOutputStream);
@@ -142,7 +142,7 @@ public class EncodeDecode {
             System.arraycopy(uncompressedSize, 0, output, 0, 4);
             System.arraycopy(compressedBytes, 0, output, 4, compressedBytes.length);
 
-            Logger.getLogger(EncodeDecode.class.getName()).log(Level.INFO, "Compressed objects size: " + compressedBytes.length + " bytes");
+            Logger.getLogger(EncodeDecode.class.getName()).log(Level.FINE, "Compressed objects size: " + compressedBytes.length + " bytes");
 
             return output;
         } catch (Exception ex) {

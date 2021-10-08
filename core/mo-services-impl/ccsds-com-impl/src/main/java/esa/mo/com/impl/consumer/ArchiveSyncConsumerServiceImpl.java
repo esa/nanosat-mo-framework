@@ -131,7 +131,7 @@ public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
             } catch (InterruptedException ex) {
                 // Still not complete...
                 Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(
-                        Level.INFO, "Still unfinished...");
+                        Level.FINE, "Still unfinished...");
 
                 // If the last piece was not received in less than x seconds,
                 // then we need to do something about it
