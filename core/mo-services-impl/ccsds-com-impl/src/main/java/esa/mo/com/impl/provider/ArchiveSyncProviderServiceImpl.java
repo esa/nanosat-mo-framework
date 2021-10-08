@@ -133,13 +133,13 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         dispatchersCleanupTimer = new Timer(timerName);
 
         String msg = MessageFormat.format("Dispatchers cleanup timer created {0}", timerName);
-        Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.INFO, msg);
+        Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.FINE, msg);
 
         try
         {
             objectsLimit = Integer.parseInt(System.getProperty(OBJECTS_LIMIT_PROPERTY, "30000"));
             msg = MessageFormat.format("{0} = {1}", OBJECTS_LIMIT_PROPERTY, objectsLimit);
-            Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.INFO, msg);
+            Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.FINE, msg);
 
             if(objectsLimit >= 90000)
             {
@@ -230,7 +230,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
             final String msg = MessageFormat.format("Dispatchers cleanup timer re-created {0}", timerName);
 
-            Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.INFO, msg);
+            Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.FINE, msg);
 
             if (null != archiveSyncServiceProvider)
             {
@@ -269,7 +269,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         final String msg = MessageFormat.format(
                 "Dispatcher cleaning task created and scheduled in timer for transaction {0}, it will be triggered in {1} seconds.",
                 interactionTicket, DISPATCHERS_CLEANUP_INTERVAL_IN_MILISECONDS / 1000);
-        Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.INFO, msg);
+        Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.FINE, msg);
 
         interaction.sendAcknowledgement(interactionTicket);
 
@@ -293,7 +293,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
         dispatcher.addObjects(perObjs);
         Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName())
-              .log(Level.INFO, "Stage 1: " + perObjs.size() + " objects were queried and are now being sent back to the consumer!");
+              .log(Level.FINE, "Stage 1: " + perObjs.size() + " objects were queried and are now being sent back to the consumer!");
 
         syncTimes.put(interactionTicket, latestSync.getValue());
         executor.execute(dispatcher::flushData);
@@ -332,7 +332,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         final String msg = MessageFormat.format(
                 "Dispatcher cleaning task re-created and scheduled in timer for transaction {0}, it will be triggered in {1} seconds.",
                 transactionTicket, DISPATCHERS_CLEANUP_INTERVAL_IN_MILISECONDS / 1000);
-        Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.INFO, msg);
+        Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.FINE, msg);
 
         interaction.sendAcknowledgement();
 
@@ -377,7 +377,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
         final String msg =
                 MessageFormat.format("Dispatcher cleaning task for transaction {0} removed.", transactionTicket);
-        Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.INFO, msg);
+        Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.FINE, msg);
     }
 
     @Override
@@ -437,7 +437,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         lastSync.set(lastSyncTime);
 
         final String msg = MessageFormat.format("Last sync time for transaction {0} is set.", transactionTicket);
-        Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.INFO, msg);
+        Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.FINE, msg);
     }
 
     private void cleanDispatcher(Long transactionTicket, Dispatcher dispatcher)
@@ -445,7 +445,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         dispatcher.clear();
         dispatchers.remove(transactionTicket);
         final String msg = MessageFormat.format("Dispatcher for transaction {0} removed.", transactionTicket);
-        Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.INFO, msg);
+        Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.FINE, msg);
     }
 
     private class CleaningTimerTask extends TimerTask
@@ -466,7 +466,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         {
             final String msg =
                     MessageFormat.format("Dispatcher cleaning task for transaction {0} started.", transactionTicket);
-            Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.INFO, msg);
+            Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.FINE, msg);
 
             final Dispatcher dispatcher = dispatchers.get(this.transactionTicket);
 
@@ -479,7 +479,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
             final String msg1 =
                     MessageFormat.format("Dispatcher cleaning task for transaction {0} ended.", transactionTicket);
-            Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.INFO, msg1);
+            Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.FINE, msg1);
         }
     }
 
@@ -522,7 +522,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
             }
 
             final String msg = MessageFormat.format("{0} = {1}", CHUNK_SIZE_PROPERTY, this.chunkSize);
-            Logger.getLogger(Dispatcher.class.getName()).log(Level.INFO, msg);
+            Logger.getLogger(Dispatcher.class.getName()).log(Level.FINE, msg);
         }
 
         private void clear()
@@ -583,7 +583,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
             }
 
             final String msg =
-                    MessageFormat.format("Stage 3: The objects were all successfully flushed! {0} chunks in total!",
+                    MessageFormat.format("Objects were successfully flushed! {0} chunks in total!",
                                          numberOfChunks);
             Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.INFO, msg);
 
