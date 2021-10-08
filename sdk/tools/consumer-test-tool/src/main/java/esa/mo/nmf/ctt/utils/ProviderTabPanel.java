@@ -317,4 +317,10 @@ public class ProviderTabPanel extends javax.swing.JPanel {
             );
         }
     }
+
+    @Override
+    public void removeNotify() {
+        super.removeNotify();
+        getServices().closeConnections();
+    }
 }

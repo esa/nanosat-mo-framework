@@ -138,6 +138,14 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame
         tabs = new javax.swing.JTabbedPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+          @Override
+          public void windowClosing(java.awt.event.WindowEvent e) {
+              // call dispose here, so on panels the removeNotify is also called
+              // to clean up the connections
+              e.getWindow().dispose();
+          }
+        });
         setMinimumSize(new java.awt.Dimension(800, 600));
         setName("Form"); // NOI18N
         setPreferredSize(new java.awt.Dimension(1100, 600));
