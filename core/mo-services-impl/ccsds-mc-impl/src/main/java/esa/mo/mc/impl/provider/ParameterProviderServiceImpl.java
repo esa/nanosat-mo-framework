@@ -139,10 +139,10 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                 MCHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
-            try {
+            if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION)
+                        .getServiceByName(ParameterHelper.PARAMETER_SERVICE_NAME) == null)
+            {
                 ParameterHelper.init(MALContextFactory.getElementFactoryRegistry());
-            } catch (MALException ex) {
-                // nothing to be done..
             }
 
         }

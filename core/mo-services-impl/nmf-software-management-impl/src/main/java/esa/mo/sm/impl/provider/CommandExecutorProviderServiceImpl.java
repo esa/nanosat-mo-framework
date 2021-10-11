@@ -57,6 +57,7 @@ import org.ccsds.moims.mo.mal.structures.StringList;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
+import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
 import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorHelper;
 import org.ccsds.moims.mo.softwaremanagement.commandexecutor.provider.CommandExecutorInheritanceSkeleton;
 import org.ccsds.moims.mo.softwaremanagement.commandexecutor.structures.CommandDetails;
@@ -100,10 +101,10 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
         SoftwareManagementHelper.init(MALContextFactory.getElementFactoryRegistry());
       }
 
-      try {
+      if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
+                                       SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION)
+                  .getServiceByName(CommandExecutorHelper.COMMANDEXECUTOR_SERVICE_NAME) == null) {
         CommandExecutorHelper.init(MALContextFactory.getElementFactoryRegistry());
-      } catch (MALException ex) {
-        // nothing to be done..
       }
     }
     archiveService = comServices.getArchiveService();

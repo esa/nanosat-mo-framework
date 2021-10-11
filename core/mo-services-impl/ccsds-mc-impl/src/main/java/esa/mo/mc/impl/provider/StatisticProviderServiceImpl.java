@@ -68,6 +68,7 @@ import org.ccsds.moims.mo.mal.structures.UpdateType;
 import org.ccsds.moims.mo.mal.transport.MALErrorBody;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.MCHelper;
+import org.ccsds.moims.mo.mc.group.GroupHelper;
 import org.ccsds.moims.mo.mc.group.structures.GroupDetails;
 import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
@@ -154,9 +155,9 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
                 COMHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
-            try {
+            if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION)
+                        .getServiceByName(StatisticHelper.STATISTIC_SERVICE_NAME) == null) {
                 StatisticHelper.init(MALContextFactory.getElementFactoryRegistry());
-            } catch (MALException ex) { // nothing to be done..
             }
         }
 

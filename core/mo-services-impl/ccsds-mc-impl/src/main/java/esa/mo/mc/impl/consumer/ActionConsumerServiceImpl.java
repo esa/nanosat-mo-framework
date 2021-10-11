@@ -36,6 +36,7 @@ import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mc.MCHelper;
 import org.ccsds.moims.mo.mc.action.ActionHelper;
 import org.ccsds.moims.mo.mc.action.consumer.ActionStub;
+import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
 
 /**
  *
@@ -84,10 +85,9 @@ public class ActionConsumerServiceImpl extends ConsumerServiceImpl {
             MCHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
-        try {
+        if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION)
+                    .getServiceByName(ActionHelper.ACTION_SERVICE_NAME) == null) {
             ActionHelper.init(MALContextFactory.getElementFactoryRegistry());
-        } catch (MALException ex) {
-            // nothing to be done..
         }
 
         this.connectionDetails = connectionDetails;

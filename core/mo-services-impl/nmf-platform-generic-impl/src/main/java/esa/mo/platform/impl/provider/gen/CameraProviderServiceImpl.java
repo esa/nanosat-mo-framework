@@ -53,6 +53,7 @@ import org.ccsds.moims.mo.mal.structures.UpdateType;
 import org.ccsds.moims.mo.mal.transport.MALErrorBody;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.platform.PlatformHelper;
+import org.ccsds.moims.mo.platform.autonomousadcs.AutonomousADCSHelper;
 import org.ccsds.moims.mo.platform.camera.CameraHelper;
 import org.ccsds.moims.mo.platform.camera.body.GetPropertiesResponse;
 import org.ccsds.moims.mo.platform.camera.provider.CameraInheritanceSkeleton;
@@ -113,9 +114,10 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton
         COMHelper.init(MALContextFactory.getElementFactoryRegistry());
       }
 
-      try {
+      if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME,
+                                       PlatformHelper.PLATFORM_AREA_VERSION)
+                  .getServiceByName(CameraHelper.CAMERA_SERVICE_NAME) == null) {
         CameraHelper.init(MALContextFactory.getElementFactoryRegistry());
-      } catch (MALException ex) { // nothing to be done..
       }
     }
 

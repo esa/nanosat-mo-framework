@@ -126,9 +126,10 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
         COMHelper.init(MALContextFactory.getElementFactoryRegistry());
       }
 
-      try {
+      if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME,
+                                       PlatformHelper.PLATFORM_AREA_VERSION)
+                  .getServiceByName(AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE_NAME) == null) {
         AutonomousADCSHelper.init(MALContextFactory.getElementFactoryRegistry());
-      } catch (MALException ex) { // nothing to be done..
       }
     }
     resultCacheValidityMs = Integer.valueOf(System.getProperty(Const.PLATFORM_IADCS_CACHING_PERIOD, "1000"));

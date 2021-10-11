@@ -34,6 +34,7 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.consumer.MALConsumer;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
+import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
 import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorHelper;
 import org.ccsds.moims.mo.softwaremanagement.commandexecutor.consumer.CommandExecutorStub;
 
@@ -87,10 +88,10 @@ public class CommandExecutorConsumerServiceImpl extends ConsumerServiceImpl {
             SoftwareManagementHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
-        try {
+        if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
+                                         SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION)
+                    .getServiceByName(CommandExecutorHelper.COMMANDEXECUTOR_SERVICE_NAME) == null) {
             CommandExecutorHelper.init(MALContextFactory.getElementFactoryRegistry());
-        } catch (MALException ex) {
-            // nothing to be done..
         }
 
         this.connectionDetails = connectionDetails;

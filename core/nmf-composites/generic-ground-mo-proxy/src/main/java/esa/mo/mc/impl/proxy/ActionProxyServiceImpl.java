@@ -29,6 +29,7 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
+import org.ccsds.moims.mo.common.CommonHelper;
 import org.ccsds.moims.mo.common.configuration.ConfigurationHelper;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
@@ -78,6 +79,10 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
+            if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION) == null) {
+                CommonHelper.init(MALContextFactory.getElementFactoryRegistry());
+            }
+
             if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null) {
                 COMHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
@@ -86,16 +91,16 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
                 MCHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
-            try {
+            if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION)
+                        .getServiceByName(ConfigurationHelper.CONFIGURATION_SERVICE_NAME) == null)
+            {
                 ConfigurationHelper.init(MALContextFactory.getElementFactoryRegistry());
-            } catch (MALException ex) {
-                // nothing to be done..
             }
 
-            try {
+            if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION)
+                        .getServiceByName(ActionHelper.ACTION_SERVICE_NAME) == null)
+            {
                 ActionHelper.init(MALContextFactory.getElementFactoryRegistry());
-            } catch (MALException ex) {
-                // nothing to be done..
             }
         }
 

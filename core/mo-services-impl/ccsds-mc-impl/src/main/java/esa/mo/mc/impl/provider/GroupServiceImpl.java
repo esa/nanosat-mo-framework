@@ -32,6 +32,7 @@ import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mc.MCHelper;
+import org.ccsds.moims.mo.mc.conversion.ConversionHelper;
 import org.ccsds.moims.mo.mc.conversion.provider.ConversionInheritanceSkeleton;
 import org.ccsds.moims.mo.mc.group.GroupHelper;
 import org.ccsds.moims.mo.mc.group.structures.GroupDetails;
@@ -65,10 +66,9 @@ public class GroupServiceImpl extends ConversionInheritanceSkeleton {
                 MCHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
-            try {
+            if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION)
+                        .getServiceByName(GroupHelper.GROUP_SERVICE_NAME) == null) {
                 GroupHelper.init(MALContextFactory.getElementFactoryRegistry());
-            } catch (MALException ex) {
-                // nothing to be done..
             }
         }
 

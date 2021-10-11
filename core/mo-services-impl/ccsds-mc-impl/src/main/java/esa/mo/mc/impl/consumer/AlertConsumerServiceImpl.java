@@ -34,6 +34,7 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.consumer.MALConsumer;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mc.MCHelper;
+import org.ccsds.moims.mo.mc.aggregation.AggregationHelper;
 import org.ccsds.moims.mo.mc.alert.AlertHelper;
 import org.ccsds.moims.mo.mc.alert.consumer.AlertStub;
 
@@ -84,10 +85,9 @@ public class AlertConsumerServiceImpl extends ConsumerServiceImpl {
             MCHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
-        try {
+        if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION)
+                    .getServiceByName(AlertHelper.ALERT_SERVICE_NAME) == null) {
             AlertHelper.init(MALContextFactory.getElementFactoryRegistry());
-        } catch (MALException ex) {
-            // nothing to be done..
         }
 
         this.connectionDetails = connectionDetails;

@@ -32,6 +32,7 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
+import org.ccsds.moims.mo.com.archivesync.ArchiveSyncHelper;
 import org.ccsds.moims.mo.com.event.EventHelper;
 import org.ccsds.moims.mo.com.event.provider.EventInheritanceSkeleton;
 import org.ccsds.moims.mo.com.event.provider.MonitorEventPublisher;
@@ -96,10 +97,9 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
                 COMHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
-            try {
+            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION)
+                        .getServiceByName(EventHelper.EVENT_SERVICE_NAME) == null) {
                 EventHelper.init(MALContextFactory.getElementFactoryRegistry());
-            } catch (MALException ex) {
-                // nothing to be done..
             }
         }
 

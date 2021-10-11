@@ -52,6 +52,7 @@ import org.ccsds.moims.mo.mal.structures.UIntegerList;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mc.MCHelper;
+import org.ccsds.moims.mo.mc.aggregation.AggregationHelper;
 import org.ccsds.moims.mo.mc.alert.AlertHelper;
 import org.ccsds.moims.mo.mc.alert.provider.AlertInheritanceSkeleton;
 import org.ccsds.moims.mo.mc.alert.structures.AlertCreationRequestList;
@@ -107,9 +108,9 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
                 COMHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
-            try {
+            if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION)
+                        .getServiceByName(AlertHelper.ALERT_SERVICE_NAME) == null) {
                 AlertHelper.init(MALContextFactory.getElementFactoryRegistry());
-            } catch (MALException ex) {// nothing to be done..
             }
         }
 

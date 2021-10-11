@@ -164,9 +164,9 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton
         CommonHelper.init(MALContextFactory.getElementFactoryRegistry());
       }
 
-      try {
+      if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION)
+                  .getServiceByName(DirectoryHelper.DIRECTORY_SERVICE_NAME) == null) {
         DirectoryHelper.init(MALContextFactory.getElementFactoryRegistry());
-      } catch (MALException ex) { // nothing to be done..
       }
     }
 

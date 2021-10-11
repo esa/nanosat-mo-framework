@@ -31,6 +31,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
+import org.ccsds.moims.mo.com.archivesync.ArchiveSyncHelper;
 import org.ccsds.moims.mo.com.event.EventHelper;
 import org.ccsds.moims.mo.com.event.consumer.EventAdapter;
 import org.ccsds.moims.mo.com.event.consumer.EventStub;
@@ -88,10 +89,9 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
             COMHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
-        try {
+        if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION)
+                    .getServiceByName(EventHelper.EVENT_SERVICE_NAME) == null) {
             EventHelper.init(MALContextFactory.getElementFactoryRegistry());
-        } catch (MALException ex) {
-            // nothing to be done..
         }
 
         this.connectionDetails = connectionDetails;

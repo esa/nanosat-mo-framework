@@ -87,10 +87,10 @@ public class AppsLauncherConsumerServiceImpl extends ConsumerServiceImpl {
             SoftwareManagementHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
-        try {
+        if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
+                                         SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION)
+                    .getServiceByName(AppsLauncherHelper.APPSLAUNCHER_SERVICE_NAME) == null) {
             AppsLauncherHelper.init(MALContextFactory.getElementFactoryRegistry());
-        } catch (MALException ex) {
-            // nothing to be done..
         }
 
         this.connectionDetails = connectionDetails;

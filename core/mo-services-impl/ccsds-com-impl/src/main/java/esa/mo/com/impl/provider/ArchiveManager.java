@@ -32,10 +32,12 @@ import esa.mo.com.impl.archive.fast.FastProviderURI;
 import esa.mo.com.impl.archive.db.SourceLinkContainer;
 import esa.mo.com.impl.archive.entities.COMObjectEntity;
 import esa.mo.com.impl.archive.fast.FastObjectType;
+import esa.mo.reconfigurable.service.PersistLatestServiceConfigurationAdapter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.archive.ArchiveHelper;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
@@ -89,9 +91,16 @@ public class ArchiveManager {
     public ArchiveManager(EventProviderServiceImpl eventService) {
         this.eventService = eventService;
 
-        try {
-            ArchiveHelper.init(MALContextFactory.getElementFactoryRegistry());
-        } catch (MALException ex) {
+        if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) != null &&
+            MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION)
+                    .getServiceByName(ArchiveHelper.ARCHIVE_SERVICE_NAME) == null) {
+            try {
+                ArchiveHelper.init(MALContextFactory.getElementFactoryRegistry());
+            }
+            catch (MALException ex) {
+                Logger.getLogger(ArchiveManager.class.getName())
+                        .log(Level.SEVERE, "Unexpectedly ArchiveHelper already initialized!?", ex);
+            }
         }
 
         this.dbBackend = new DatabaseBackend();

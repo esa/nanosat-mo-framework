@@ -35,6 +35,7 @@ import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.platform.PlatformHelper;
+import org.ccsds.moims.mo.platform.gps.GPSHelper;
 import org.ccsds.moims.mo.platform.opticaldatareceiver.OpticalDataReceiverHelper;
 import org.ccsds.moims.mo.platform.opticaldatareceiver.provider.OpticalDataReceiverInheritanceSkeleton;
 import org.ccsds.moims.mo.platform.opticaldatareceiver.provider.RecordSamplesInteraction;
@@ -74,9 +75,10 @@ public class OpticalDataReceiverProviderServiceImpl extends OpticalDataReceiverI
         COMHelper.init(MALContextFactory.getElementFactoryRegistry());
       }
 
-      try {
+      if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME,
+                                       PlatformHelper.PLATFORM_AREA_VERSION)
+                  .getServiceByName(OpticalDataReceiverHelper.OPTICALDATARECEIVER_SERVICE_NAME) == null) {
         OpticalDataReceiverHelper.init(MALContextFactory.getElementFactoryRegistry());
-      } catch (MALException ex) { // nothing to be done..
       }
     }
 
