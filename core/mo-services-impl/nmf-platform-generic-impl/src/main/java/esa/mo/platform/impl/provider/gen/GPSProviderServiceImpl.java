@@ -72,6 +72,7 @@ import org.ccsds.moims.mo.mal.structures.UpdateType;
 import org.ccsds.moims.mo.mal.transport.MALErrorBody;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.platform.PlatformHelper;
+import org.ccsds.moims.mo.platform.camera.CameraHelper;
 import org.ccsds.moims.mo.platform.gps.GPSHelper;
 import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionAndVelocityResponse;
 import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionResponse;
@@ -148,9 +149,10 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
         COMHelper.init(MALContextFactory.getElementFactoryRegistry());
       }
 
-      try {
+      if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME,
+                                       PlatformHelper.PLATFORM_AREA_VERSION)
+                  .getServiceByName(GPSHelper.GPS_SERVICE_NAME) == null) {
         GPSHelper.init(MALContextFactory.getElementFactoryRegistry());
-      } catch (MALException ex) { // nothing to be done..
       }
     }
 

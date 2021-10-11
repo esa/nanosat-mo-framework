@@ -33,6 +33,7 @@ import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
+import org.ccsds.moims.mo.softwaremanagement.heartbeat.HeartbeatHelper;
 import org.ccsds.moims.mo.softwaremanagement.packagemanagement.PackageManagementHelper;
 import org.ccsds.moims.mo.softwaremanagement.packagemanagement.body.CheckPackageIntegrityResponse;
 import org.ccsds.moims.mo.softwaremanagement.packagemanagement.provider.InstallInteraction;
@@ -90,9 +91,10 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
                 SoftwareManagementHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
-            try {
+            if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
+                                             SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION)
+                        .getServiceByName(PackageManagementHelper.PACKAGEMANAGEMENT_SERVICE_NAME) == null) {
                 PackageManagementHelper.init(MALContextFactory.getElementFactoryRegistry());
-            } catch (MALException ex) {
             }
 
         }

@@ -27,6 +27,7 @@ import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mc.MCHelper;
+import org.ccsds.moims.mo.mc.check.CheckHelper;
 import org.ccsds.moims.mo.mc.conversion.ConversionHelper;
 
 /**
@@ -50,10 +51,9 @@ public class ConversionConsumerServiceImpl {
                 MCHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
-            try {
+            if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION)
+                        .getServiceByName(ConversionHelper.CONVERSION_SERVICE_NAME) == null) {
                 ConversionHelper.init(MALContextFactory.getElementFactoryRegistry());
-            } catch (MALException ex) {
-                // nothing to be done..
             }
         } catch (MALException ex) {
             Logger.getLogger(ConversionConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);

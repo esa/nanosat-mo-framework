@@ -63,6 +63,7 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.URI;
+import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.provider.StopAppInteraction;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetails;
@@ -107,10 +108,20 @@ public class AppsLauncherManager extends DefinitionsManager
       appsFolderPath = new File(DEFAULT_APPS_FOLDER_PATH);
     }
 
-    try {
-      AppsLauncherHelper.init(MALContextFactory.getElementFactoryRegistry());
-    } catch (MALException ex) {
-      // Apps Launcher service helpers were likely initialized by a different class
+    if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
+                                     SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) != null &&
+                    MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
+                      SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION).getServiceByName(
+                              AppsLauncherHelper.APPSLAUNCHER_SERVICE_NAME) == null)
+    {
+      try
+      {
+        AppsLauncherHelper.init(MALContextFactory.getElementFactoryRegistry());
+      }
+      catch (MALException ex)
+      {
+        LOGGER.log(Level.SEVERE, "Unexpectedly AppsLauncherHelper already initialized!?", ex);
+      }
     }
 
     if (super.getArchiveService() == null) {  // No Archive?

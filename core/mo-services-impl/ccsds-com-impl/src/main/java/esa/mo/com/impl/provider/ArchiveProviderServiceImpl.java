@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
+import org.ccsds.moims.mo.com.activitytracking.ActivityTrackingHelper;
 import org.ccsds.moims.mo.com.archive.ArchiveHelper;
 import org.ccsds.moims.mo.com.archive.provider.ArchiveInheritanceSkeleton;
 import org.ccsds.moims.mo.com.archive.provider.CountInteraction;
@@ -83,9 +84,9 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                 COMHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
-            try {
+            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION)
+                        .getServiceByName(ArchiveHelper.ARCHIVE_SERVICE_NAME) == null) {
                 ArchiveHelper.init(MALContextFactory.getElementFactoryRegistry());
-            } catch (MALException ex) {
             }
         }
 

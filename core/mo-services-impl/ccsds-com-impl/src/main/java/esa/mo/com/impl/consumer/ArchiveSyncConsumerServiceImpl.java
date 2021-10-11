@@ -13,9 +13,9 @@
  * You on an "as is" basis and without warranties of any kind, including without
  * limitation merchantability, fitness for a particular purpose, absence of
  * defects or errors, accuracy or non-infringement of intellectual property rights.
- * 
+ *
  * See the License for the specific language governing permissions and
- * limitations under the License. 
+ * limitations under the License.
  * ----------------------------------------------------------------------------
  */
 package esa.mo.com.impl.consumer;
@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
+import org.ccsds.moims.mo.com.archive.ArchiveHelper;
 import org.ccsds.moims.mo.com.archivesync.ArchiveSyncHelper;
 import org.ccsds.moims.mo.com.archivesync.consumer.ArchiveSyncStub;
 import org.ccsds.moims.mo.com.structures.ObjectTypeList;
@@ -81,9 +82,9 @@ public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
             COMHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
-        try {
-            ArchiveSyncHelper.init(MALContextFactory.getElementFactoryRegistry());
-        } catch (MALException ex) {
+        if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION)
+                    .getServiceByName(ArchiveSyncHelper.ARCHIVESYNC_SERVICE_NAME) == null) {
+                ArchiveSyncHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
         this.connectionDetails = connectionDetails;

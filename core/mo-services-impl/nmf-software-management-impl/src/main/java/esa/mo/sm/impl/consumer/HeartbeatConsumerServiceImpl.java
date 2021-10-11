@@ -37,6 +37,7 @@ import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
+import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorHelper;
 import org.ccsds.moims.mo.softwaremanagement.heartbeat.HeartbeatHelper;
 import org.ccsds.moims.mo.softwaremanagement.heartbeat.consumer.HeartbeatAdapter;
 import org.ccsds.moims.mo.softwaremanagement.heartbeat.consumer.HeartbeatStub;
@@ -89,10 +90,10 @@ public class HeartbeatConsumerServiceImpl extends ConsumerServiceImpl {
             SoftwareManagementHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
-        try {
+        if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
+                                         SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION)
+                    .getServiceByName(HeartbeatHelper.HEARTBEAT_SERVICE_NAME) == null) {
             HeartbeatHelper.init(MALContextFactory.getElementFactoryRegistry());
-        } catch (MALException ex) {
-            // nothing to be done..
         }
 
         this.connectionDetails = connectionDetails;

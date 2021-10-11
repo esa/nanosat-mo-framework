@@ -68,6 +68,7 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.provider.StopAppIntera
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetails;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetailsList;
 import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorHelper;
+import org.ccsds.moims.mo.softwaremanagement.packagemanagement.PackageManagementHelper;
 
 /**
  * Apps Launcher service Provider.
@@ -122,10 +123,10 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         SoftwareManagementHelper.init(MALContextFactory.getElementFactoryRegistry());
       }
 
-      try {
+      if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
+                                       SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION)
+                  .getServiceByName(AppsLauncherHelper.APPSLAUNCHER_SERVICE_NAME) == null) {
         AppsLauncherHelper.init(MALContextFactory.getElementFactoryRegistry());
-      } catch (MALException ex) {
-        // nothing to be done..
       }
     }
     int kbyte = Integer.parseInt(System.getProperty(Const.APPSLAUNCHER_STD_LIMIT_PROPERTY,

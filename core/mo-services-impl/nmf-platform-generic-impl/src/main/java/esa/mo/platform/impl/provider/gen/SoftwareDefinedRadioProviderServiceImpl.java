@@ -51,6 +51,7 @@ import org.ccsds.moims.mo.mal.structures.UpdateType;
 import org.ccsds.moims.mo.mal.transport.MALErrorBody;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.platform.PlatformHelper;
+import org.ccsds.moims.mo.platform.powercontrol.PowerControlHelper;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.SoftwareDefinedRadioHelper;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.provider.SoftwareDefinedRadioInheritanceSkeleton;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.provider.StreamRadioPublisher;
@@ -99,9 +100,10 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
         COMHelper.init(MALContextFactory.getElementFactoryRegistry());
       }
 
-      try {
+      if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME,
+                                       PlatformHelper.PLATFORM_AREA_VERSION)
+                  .getServiceByName(SoftwareDefinedRadioHelper.SOFTWAREDEFINEDRADIO_SERVICE_NAME) == null) {
         SoftwareDefinedRadioHelper.init(MALContextFactory.getElementFactoryRegistry());
-      } catch (MALException ex) { // nothing to be done..
       }
     }
 

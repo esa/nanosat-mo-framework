@@ -59,6 +59,7 @@ import org.ccsds.moims.mo.mal.structures.StringList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
 import org.ccsds.moims.mo.mc.MCHelper;
+import org.ccsds.moims.mo.mc.alert.AlertHelper;
 import org.ccsds.moims.mo.mc.check.CheckHelper;
 import org.ccsds.moims.mo.mc.check.provider.CheckInheritanceSkeleton;
 import org.ccsds.moims.mo.mc.check.provider.GetCurrentTransitionListInteraction;
@@ -125,9 +126,9 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
                 COMHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
-            try {
+            if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION)
+                        .getServiceByName(CheckHelper.CHECK_SERVICE_NAME) == null) {
                 CheckHelper.init(MALContextFactory.getElementFactoryRegistry());
-            } catch (MALException ex) {// nothing to be done..
             }
         }
 

@@ -13,9 +13,9 @@
  * You on an "as is" basis and without warranties of any kind, including without
  * limitation merchantability, fitness for a particular purpose, absence of
  * defects or errors, accuracy or non-infringement of intellectual property rights.
- * 
+ *
  * See the License for the specific language governing permissions and
- * limitations under the License. 
+ * limitations under the License.
  * ----------------------------------------------------------------------------
  */
 package esa.mo.com.impl.consumer;
@@ -70,9 +70,9 @@ public class ArchiveConsumerServiceImpl extends ConsumerServiceImpl {
             COMHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
-        try {
-            ArchiveHelper.init(MALContextFactory.getElementFactoryRegistry());
-        } catch (MALException ex) {
+        if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION)
+                    .getServiceByName(ArchiveHelper.ARCHIVE_SERVICE_NAME) == null) {
+                ArchiveHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
         this.connectionDetails = connectionDetails;

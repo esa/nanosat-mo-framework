@@ -27,6 +27,7 @@ import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
+import org.ccsds.moims.mo.com.event.EventHelper;
 import org.ccsds.moims.mo.common.CommonHelper;
 import org.ccsds.moims.mo.common.login.LoginHelper;
 import org.ccsds.moims.mo.common.login.consumer.LoginStub;
@@ -85,10 +86,9 @@ public class LoginConsumerServiceImpl extends ConsumerServiceImpl {
             CommonHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
-        try {
+        if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION)
+                    .getServiceByName(LoginHelper.LOGIN_SERVICE_NAME) == null) {
             LoginHelper.init(MALContextFactory.getElementFactoryRegistry());
-        } catch (MALException ex) {
-            // nothing to be done..
         }
 
         this.connectionDetails = connectionDetails;

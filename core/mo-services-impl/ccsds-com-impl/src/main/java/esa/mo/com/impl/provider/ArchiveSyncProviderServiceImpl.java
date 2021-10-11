@@ -31,6 +31,7 @@ import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.helpertools.misc.Const;
 import org.ccsds.moims.mo.com.COMHelper;
+import org.ccsds.moims.mo.com.archive.ArchiveHelper;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
@@ -192,14 +193,9 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
                 COMHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
-            try
-            {
+            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION)
+                        .getServiceByName(ArchiveSyncHelper.ARCHIVESYNC_SERVICE_NAME) == null) {
                 ArchiveSyncHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
-            catch (MALException ex)
-            {
-                Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName())
-                        .log(Level.WARNING, MessageFormat.format(UNEXPECTED_EXCEPTION_0, ex.getMessage()), ex);
             }
         }
 

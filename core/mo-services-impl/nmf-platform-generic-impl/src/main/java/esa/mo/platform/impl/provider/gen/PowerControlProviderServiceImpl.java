@@ -37,6 +37,7 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
 import org.ccsds.moims.mo.platform.PlatformHelper;
+import org.ccsds.moims.mo.platform.opticaldatareceiver.OpticalDataReceiverHelper;
 import org.ccsds.moims.mo.platform.powercontrol.PowerControlHelper;
 import org.ccsds.moims.mo.platform.powercontrol.provider.PowerControlInheritanceSkeleton;
 import org.ccsds.moims.mo.platform.powercontrol.structures.Device;
@@ -80,9 +81,10 @@ public class PowerControlProviderServiceImpl extends PowerControlInheritanceSkel
         COMHelper.init(MALContextFactory.getElementFactoryRegistry());
       }
 
-      try {
+      if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME,
+                                       PlatformHelper.PLATFORM_AREA_VERSION)
+                  .getServiceByName(PowerControlHelper.POWERCONTROL_SERVICE_NAME) == null) {
         PowerControlHelper.init(MALContextFactory.getElementFactoryRegistry());
-      } catch (MALException ex) { // nothing to be done..
       }
     }
 

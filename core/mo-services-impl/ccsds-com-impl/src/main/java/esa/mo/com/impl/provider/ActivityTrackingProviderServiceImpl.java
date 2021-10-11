@@ -40,6 +40,7 @@ import org.ccsds.moims.mo.com.activitytracking.structures.ActivityTransferList;
 import org.ccsds.moims.mo.com.activitytracking.structures.OperationActivity;
 import org.ccsds.moims.mo.com.activitytracking.structures.OperationActivityList;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
+import org.ccsds.moims.mo.com.event.EventHelper;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.com.structures.ObjectType;
@@ -83,9 +84,9 @@ public class ActivityTrackingProviderServiceImpl {
                 COMHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
-            try {
+            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION)
+                        .getServiceByName(ActivityTrackingHelper.ACTIVITYTRACKING_SERVICE_NAME) == null) {
                 ActivityTrackingHelper.init(MALContextFactory.getElementFactoryRegistry());
-            } catch (MALException ex) {
             }
         }
 
