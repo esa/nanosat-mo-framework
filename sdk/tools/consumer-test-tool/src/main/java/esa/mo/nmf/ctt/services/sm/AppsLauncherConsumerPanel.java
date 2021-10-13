@@ -169,19 +169,19 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel
     jPanel1.setPreferredSize(new java.awt.Dimension(419, 23));
 
     runAppButton.setText("runApp");
-    runAppButton.addActionListener(evt -> runAppButtonActionPerformed(evt));
+    runAppButton.addActionListener(this::runAppButtonActionPerformed);
     jPanel1.add(runAppButton);
 
     stopAppButton.setText("stopApp");
-    stopAppButton.addActionListener(evt -> stopAppButtonActionPerformed(evt));
+    stopAppButton.addActionListener(this::stopAppButtonActionPerformed);
     jPanel1.add(stopAppButton);
 
     killAppButton.setText("killApp");
-    killAppButton.addActionListener(evt -> killAppButtonActionPerformed(evt));
+    killAppButton.addActionListener(this::killAppButtonActionPerformed);
     jPanel1.add(killAppButton);
 
     listAppAllButton.setText("listApp(\"*\")");
-    listAppAllButton.addActionListener(evt -> listAppAllButtonActionPerformed(evt));
+    listAppAllButton.addActionListener(this::listAppAllButtonActionPerformed);
     jPanel1.add(listAppAllButton);
 
     parameterTab.add(jPanel1);

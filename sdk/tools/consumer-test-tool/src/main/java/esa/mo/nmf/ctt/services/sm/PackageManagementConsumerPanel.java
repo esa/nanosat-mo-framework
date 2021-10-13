@@ -123,19 +123,19 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
         jPanel1.setPreferredSize(new java.awt.Dimension(419, 23));
 
         installButton.setText("install");
-        installButton.addActionListener(evt -> installButtonActionPerformed(evt));
+        installButton.addActionListener(this::installButtonActionPerformed);
         jPanel1.add(installButton);
 
         uninstallButton.setText("uninstall");
-        uninstallButton.addActionListener(evt -> uninstallButtonActionPerformed(evt));
+        uninstallButton.addActionListener(this::uninstallButtonActionPerformed);
         jPanel1.add(uninstallButton);
 
         upgradeButton.setText("upgrade");
-        upgradeButton.addActionListener(evt -> upgradeButtonActionPerformed(evt));
+        upgradeButton.addActionListener(this::upgradeButtonActionPerformed);
         jPanel1.add(upgradeButton);
 
         listAppAllButton.setText("listApp(\"*\")");
-        listAppAllButton.addActionListener(evt -> listAppAllButtonActionPerformed(evt));
+        listAppAllButton.addActionListener(this::listAppAllButtonActionPerformed);
         jPanel1.add(listAppAllButton);
 
         parameterTab.add(jPanel1);

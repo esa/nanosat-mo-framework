@@ -173,41 +173,41 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
         parameterTab.setLayout(new java.awt.GridLayout(2, 1));
 
         enableDefinitionAllAgg.setText("enableGeneration(group=false, 0)");
-        enableDefinitionAllAgg.addActionListener(evt -> enableDefinitionAllAggActionPerformed(evt));
+        enableDefinitionAllAgg.addActionListener(this::enableDefinitionAllAggActionPerformed);
         jPanel1.add(enableDefinitionAllAgg);
 
         enableDefinitionButtonAgg.setText("enableGeneration");
-        enableDefinitionButtonAgg.addActionListener(evt -> enableDefinitionButtonAggActionPerformed(evt));
+        enableDefinitionButtonAgg.addActionListener(this::enableDefinitionButtonAggActionPerformed);
         jPanel1.add(enableDefinitionButtonAgg);
 
         listDefinitionButton.setText("listDefinition()");
-        listDefinitionButton.addActionListener(evt -> listDefinitionButtonActionPerformed(evt));
+        listDefinitionButton.addActionListener(this::listDefinitionButtonActionPerformed);
         jPanel1.add(listDefinitionButton);
 
         msgBoxOn2.setText("Display Published Statistic Values");
-        msgBoxOn2.addActionListener(evt -> msgBoxOn2ActionPerformed(evt));
+        msgBoxOn2.addActionListener(this::msgBoxOn2ActionPerformed);
         jPanel1.add(msgBoxOn2);
 
         parameterTab.add(jPanel1);
 
         addLinkButton.setText("addParameterEvaluation");
-        addLinkButton.addActionListener(evt -> addLinkButtonActionPerformed(evt));
+        addLinkButton.addActionListener(this::addLinkButtonActionPerformed);
         jPanel5.add(addLinkButton);
 
         updateLinkButton.setText("updateParameterEvaluation");
-        updateLinkButton.addActionListener(evt -> updateLinkButtonActionPerformed(evt));
+        updateLinkButton.addActionListener(this::updateLinkButtonActionPerformed);
         jPanel5.add(updateLinkButton);
 
         removeLinkButton.setText("removeParameterEvaluation");
-        removeLinkButton.addActionListener(evt -> removeLinkButtonActionPerformed(evt));
+        removeLinkButton.addActionListener(this::removeLinkButtonActionPerformed);
         jPanel5.add(removeLinkButton);
 
         listDefinitionAllButton.setText("listDefinition(\"*\")");
-        listDefinitionAllButton.addActionListener(evt -> listDefinitionAllButtonActionPerformed(evt));
+        listDefinitionAllButton.addActionListener(this::listDefinitionAllButtonActionPerformed);
         jPanel5.add(listDefinitionAllButton);
 
         removeLinkAllButton.setText("removeParameterEvaluation(0)");
-        removeLinkAllButton.addActionListener(evt -> removeLinkAllButtonActionPerformed(evt));
+        removeLinkAllButton.addActionListener(this::removeLinkAllButtonActionPerformed);
         jPanel5.add(removeLinkAllButton);
 
         parameterTab.add(jPanel5);

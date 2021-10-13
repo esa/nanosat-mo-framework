@@ -197,19 +197,19 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
         parameterTab.setLayout(new java.awt.GridLayout(3, 1));
 
         getCurrentTransitionListButton.setText("getCurrentTransitionList");
-        getCurrentTransitionListButton.addActionListener(evt -> getCurrentTransitionListButtonActionPerformed(evt));
+        getCurrentTransitionListButton.addActionListener(this::getCurrentTransitionListButtonActionPerformed);
         jPanel2.add(getCurrentTransitionListButton);
 
         getSummaryReportButton.setText("getSummaryReport");
-        getSummaryReportButton.addActionListener(evt -> getSummaryReportButtonActionPerformed(evt));
+        getSummaryReportButton.addActionListener(this::getSummaryReportButtonActionPerformed);
         jPanel2.add(getSummaryReportButton);
 
         enableServiceButton.setText("enableService");
-        enableServiceButton.addActionListener(evt -> enableServiceButtonActionPerformed(evt));
+        enableServiceButton.addActionListener(this::enableServiceButtonActionPerformed);
         jPanel2.add(enableServiceButton);
 
         getServiceStatusButton.setText("getServiceStatus");
-        getServiceStatusButton.addActionListener(evt -> getServiceStatusButtonActionPerformed(evt));
+        getServiceStatusButton.addActionListener(this::getServiceStatusButtonActionPerformed);
         jPanel2.add(getServiceStatusButton);
 
         jLabel1.setText("Unk");
@@ -218,45 +218,45 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
         parameterTab.add(jPanel2);
 
         enableCheckButton.setText("enableCheck");
-        enableCheckButton.addActionListener(evt -> enableCheckButtonActionPerformed(evt));
+        enableCheckButton.addActionListener(this::enableCheckButtonActionPerformed);
         jPanel1.add(enableCheckButton);
 
         enableCheckAllButton.setText("enableCheck(group=false, 0)");
-        enableCheckAllButton.addActionListener(evt -> enableCheckAllButtonActionPerformed(evt));
+        enableCheckAllButton.addActionListener(this::enableCheckAllButtonActionPerformed);
         jPanel1.add(enableCheckAllButton);
 
         triggerCheckButton.setText("triggerCheck");
-        triggerCheckButton.addActionListener(evt -> triggerCheckButtonActionPerformed(evt));
+        triggerCheckButton.addActionListener(this::triggerCheckButtonActionPerformed);
         jPanel1.add(triggerCheckButton);
 
         listDefinitionAllButton.setText("listDefinition(\"*\")");
-        listDefinitionAllButton.addActionListener(evt -> listDefinitionAllButtonActionPerformed(evt));
+        listDefinitionAllButton.addActionListener(this::listDefinitionAllButtonActionPerformed);
         jPanel1.add(listDefinitionAllButton);
 
         parameterTab.add(jPanel1);
 
         addDefButton.setText("addDefinition");
-        addDefButton.addActionListener(evt -> addDefButtonActionPerformed(evt));
+        addDefButton.addActionListener(this::addDefButtonActionPerformed);
         jPanel5.add(addDefButton);
 
         updateDefButton.setText("updateDefinition");
-        updateDefButton.addActionListener(evt -> updateDefButtonActionPerformed(evt));
+        updateDefButton.addActionListener(this::updateDefButtonActionPerformed);
         jPanel5.add(updateDefButton);
 
         removeDefButton.setText("removeDefinition");
-        removeDefButton.addActionListener(evt -> removeDefButtonActionPerformed(evt));
+        removeDefButton.addActionListener(this::removeDefButtonActionPerformed);
         jPanel5.add(removeDefButton);
 
         removeDefAllButton.setText("removeDefinition(0)");
-        removeDefAllButton.addActionListener(evt -> removeDefAllButtonActionPerformed(evt));
+        removeDefAllButton.addActionListener(this::removeDefAllButtonActionPerformed);
         jPanel5.add(removeDefAllButton);
 
         addParameterCheck.setText("addParameterCheck");
-        addParameterCheck.addActionListener(evt -> addParameterCheckActionPerformed(evt));
+        addParameterCheck.addActionListener(this::addParameterCheckActionPerformed);
         jPanel5.add(addParameterCheck);
 
         removeParameterCheck.setText("removeParameterCheck");
-        removeParameterCheck.addActionListener(evt -> removeParameterCheckActionPerformed(evt));
+        removeParameterCheck.addActionListener(this::removeParameterCheckActionPerformed);
         jPanel5.add(removeParameterCheck);
 
         parameterTab.add(jPanel5);

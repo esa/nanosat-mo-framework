@@ -468,25 +468,25 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         jLabel6.setToolTipText("");
 
         jButtonStoreAggregation.setText("Quick Store (Aggregation)");
-        jButtonStoreAggregation.addActionListener(evt -> jButtonStoreAggregationActionPerformed(evt));
+        jButtonStoreAggregation.addActionListener(this::jButtonStoreAggregationActionPerformed);
 
         jButtonGetAll.setText("Get All");
-        jButtonGetAll.addActionListener(evt -> jButtonGetAllActionPerformed(evt));
+        jButtonGetAll.addActionListener(this::jButtonGetAllActionPerformed);
 
         jButtonQuery.setText("Execute Query");
-        jButtonQuery.addActionListener(evt -> jButtonQueryActionPerformed(evt));
+        jButtonQuery.addActionListener(this::jButtonQueryActionPerformed);
 
         jButtonDelete.setText("Delete Object");
-        jButtonDelete.addActionListener(evt -> jButtonDeleteActionPerformed(evt));
+        jButtonDelete.addActionListener(this::jButtonDeleteActionPerformed);
 
         jButtonRetrieve.setText("Retrieve Object");
-        jButtonRetrieve.addActionListener(evt -> jButtonRetrieveActionPerformed(evt));
+        jButtonRetrieve.addActionListener(this::jButtonRetrieveActionPerformed);
 
         jButtonUpdate.setText("Update Object");
-        jButtonUpdate.addActionListener(evt -> jButtonUpdateActionPerformed(evt));
+        jButtonUpdate.addActionListener(this::jButtonUpdateActionPerformed);
 
         jButtonCount.setText("Count Objects");
-        jButtonCount.addActionListener(evt -> jButtonCountActionPerformed(evt));
+        jButtonCount.addActionListener(this::jButtonCountActionPerformed);
 
         tabs.setToolTipText("");
         tabs.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -497,22 +497,22 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         tabs.addTab("Home", homeTab);
 
         jButtonStoreConversions.setText("Quick Store (Conversions)");
-        jButtonStoreConversions.addActionListener(evt -> jButtonStoreConversionsActionPerformed(evt));
+        jButtonStoreConversions.addActionListener(this::jButtonStoreConversionsActionPerformed);
 
         jButtonStoreActions.setText("Query with Pagination");
-        jButtonStoreActions.addActionListener(evt -> jButtonStoreActionsActionPerformed(evt));
+        jButtonStoreActions.addActionListener(this::jButtonStoreActionsActionPerformed);
 
         jButtonStoreGroups.setText("Quick Store (Groups)");
-        jButtonStoreGroups.addActionListener(evt -> jButtonStoreGroupsActionPerformed(evt));
+        jButtonStoreGroups.addActionListener(this::jButtonStoreGroupsActionPerformed);
 
-        TBoxStore.addActionListener(evt -> TBoxStoreActionPerformed(evt));
+        TBoxStore.addActionListener(this::TBoxStoreActionPerformed);
 
         jButtonDeleteAll.setText("Delete All");
         jButtonDeleteAll.setEnabled(false);
-        jButtonDeleteAll.addActionListener(evt -> jButtonDeleteAllActionPerformed(evt));
+        jButtonDeleteAll.addActionListener(this::jButtonDeleteAllActionPerformed);
 
         open_ArchiveSync.setText("Open ArchiveSync Tab");
-        open_ArchiveSync.addActionListener(evt -> open_ArchiveSyncActionPerformed(evt));
+        open_ArchiveSync.addActionListener(this::open_ArchiveSyncActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

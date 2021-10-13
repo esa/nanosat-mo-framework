@@ -96,7 +96,7 @@ public class ProcessExecutionHandler
 
   public void installShutdownHook()
   {
-    shutdownHook = new Thread(() -> close());
+    shutdownHook = new Thread(this::close);
     Runtime.getRuntime().addShutdownHook(shutdownHook);
   }
 
@@ -151,24 +151,19 @@ public class ProcessExecutionHandler
         process.getErrorStream())), "STDERR_" + pid);
     stdoutReader.start();
     stderrReader.start();
-    new Thread()
-    {
-      @Override
-      public void run()
-      {
-        try {
-          int exitCode = process.waitFor();
-          if (cb != null) {
-            cb.processStopped(objId, exitCode);
-          }
-        } catch (InterruptedException ex) {
-          // Thread interrupted, pretend the application exited succesfully
-          if (cb != null) {
-            cb.processStopped(objId, 0);
-          }
+    new Thread(() -> {
+      try {
+        int exitCode = process.waitFor();
+        if (cb != null) {
+          cb.processStopped(objId, exitCode);
+        }
+      } catch (InterruptedException ex) {
+        // Thread interrupted, pretend the application exited succesfully
+        if (cb != null) {
+          cb.processStopped(objId, 0);
         }
       }
-    }.start();
+    }).start();
   }
 
   private Thread createReaderThread(final StringBuffer buf, final BufferedReader br, final String name)

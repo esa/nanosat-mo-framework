@@ -701,54 +701,49 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
 
     public void init()
     {
-      timer.scheduleTask(new Thread()
-      {
-        @Override
-        public void run()
-        {
-          if (active) {
-            if (!adapter.isUnitAvailable()) { // Is the unit available?
-              return;
-            }
-            final Position pos = adapter.getCurrentPosition(); // Current Position
+      timer.scheduleTask(new Thread(() -> {
+        if (active) {
+          if (!adapter.isUnitAvailable()) { // Is the unit available?
+            return;
+          }
+          final Position pos = adapter.getCurrentPosition(); // Current Position
 
-            synchronized (MUTEX) {
-              currentPosition = pos;
-              timeOfCurrentPosition = System.currentTimeMillis();
-            }
+          synchronized (MUTEX) {
+            currentPosition = pos;
+            timeOfCurrentPosition = System.currentTimeMillis();
+          }
 
-            // Compare with all the available definitions and raise
-            // NearbyPositionAlerts in case something has changed
-            LongList ids = manager.listAll();
+          // Compare with all the available definitions and raise
+          // NearbyPositionAlerts in case something has changed
+          LongList ids = manager.listAll();
 
-            for (int i = 0; i < ids.size(); i++) {
-              Long objId = ids.get(i);
-              NearbyPositionDefinition def = manager.get(objId);
-              Boolean previousState = manager.getPreviousStatus(objId);
+          for (int i = 0; i < ids.size(); i++) {
+            Long objId = ids.get(i);
+            NearbyPositionDefinition def = manager.get(objId);
+            Boolean previousState = manager.getPreviousStatus(objId);
 
-              try {
-                double distance = PositionsCalculator.deltaDistanceFrom2Points(def.getPosition(),
-                    pos);
-                boolean isInside = (distance < def.getDistanceBoundary());
+            try {
+              double distance = PositionsCalculator.deltaDistanceFrom2Points(def.getPosition(),
+                  pos);
+              boolean isInside = (distance < def.getDistanceBoundary());
 
-                if (previousState == null) { // Maybe it's the first run...
-                  manager.setPreviousStatus(objId, isInside);
-                  continue;
-                }
-
-                // If the status changed, then publish a Nearby Event
-                if (previousState != isInside) {
-                  publishNearbyPositionUpdate(objId, isInside);
-                  manager.setPreviousStatus(objId, isInside);
-                }
-              } catch (IOException ex) {
-                LOGGER.log(Level.SEVERE,
-                    ex.getMessage());
+              if (previousState == null) { // Maybe it's the first run...
+                manager.setPreviousStatus(objId, isInside);
+                continue;
               }
+
+              // If the status changed, then publish a Nearby Event
+              if (previousState != isInside) {
+                publishNearbyPositionUpdate(objId, isInside);
+                manager.setPreviousStatus(objId, isInside);
+              }
+            } catch (IOException ex) {
+              LOGGER.log(Level.SEVERE,
+                  ex.getMessage());
             }
           }
         }
-      }, 0, PERIOD, TimeUnit.MILLISECONDS, true);
+      }), 0, PERIOD, TimeUnit.MILLISECONDS, true);
     }
   }
 
