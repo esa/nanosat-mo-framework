@@ -71,7 +71,7 @@ public class EchoSpace {
      * @param args the command line arguments
      * @throws java.lang.Exception If there is an error
      */
-    public static void main(final String args[]) throws Exception {
+    public static void main(final String[] args) throws Exception {
         EchoSpace demo = new EchoSpace();
     }
 

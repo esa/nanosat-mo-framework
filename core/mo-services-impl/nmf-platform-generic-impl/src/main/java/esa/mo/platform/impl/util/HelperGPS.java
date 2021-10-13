@@ -210,7 +210,7 @@ public class HelperGPS
   {
     try {
       SatelliteInfoList sats = new SatelliteInfoList();
-      String sentences[] = gpgsv.split("\n");
+      String[] sentences = gpgsv.split("\n");
       for (String sentence : sentences) {
         String[] words = sentence.split(",|\\*");
         int count = words.length;

@@ -159,7 +159,7 @@ public class AlertTest2 {
      * @param args the command line arguments
      * @throws java.lang.Exception If there is an error
      */
-    public static void main(final String args[]) throws Throwable {
+    public static void main(final String[] args) throws Throwable {
         AlertTest2 demo = new AlertTest2();
     }
 }

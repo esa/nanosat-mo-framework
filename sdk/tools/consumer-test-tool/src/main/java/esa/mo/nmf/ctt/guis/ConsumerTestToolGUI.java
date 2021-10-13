@@ -54,7 +54,7 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame
    *
    * @param args the command line arguments
    */
-  public static void main(final String args[])
+  public static void main(final String[] args)
   {
     try {
       // Set cross-platform Java L&F (also called "Metal")

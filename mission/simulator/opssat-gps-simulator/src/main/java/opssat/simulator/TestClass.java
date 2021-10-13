@@ -36,7 +36,7 @@ public class TestClass {
      *
      * @param args the command line arguments
      */
-    public static void main(final String args[]) {
+    public static void main(final String[] args) {
         TestClass demo = new TestClass();
     }
 

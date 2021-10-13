@@ -95,7 +95,7 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
       final byte actuatorMode = 0; // Zero because it is dummy and only RW is available
       // [0]: Mode Zero means stop; One means start
       // [1]: Actuator mode
-      final byte mode[] = {MODE_START, actuatorMode};
+      final byte[] mode = {MODE_START, actuatorMode};
 
       final float[] targetVector = new float[3];
       targetVector[0] = 0;

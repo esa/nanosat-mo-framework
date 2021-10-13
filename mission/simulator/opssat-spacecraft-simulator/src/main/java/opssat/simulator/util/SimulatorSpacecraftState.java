@@ -31,11 +31,11 @@ import org.hipparchus.geometry.euclidean.threed.Vector3D;
  */
 public class SimulatorSpacecraftState {
     private double latitude,longitude,altitude;
-    private float rv[];//[x, y, z, vx, vy, vz]
-    private float q[];// [qs, q1, q2, q3]
-    private float magField[];//[x,y,z]
-    private float magnetometer[];//[x,y,z]
-    private double sunVector[];//[x,y,z]
+    private float[] rv;//[x, y, z, vx, vy, vz]
+    private float[] q;// [qs, q1, q2, q3]
+    private float[] magField;//[x,y,z]
+    private float[] magnetometer;//[x,y,z]
+    private double[] sunVector;//[x,y,z]
     private int satsInView;
     private String modeOperation;
 
@@ -57,7 +57,7 @@ public class SimulatorSpacecraftState {
     }
     
     
-    private double rotation[][];
+    private double[][] rotation;
     public float[] getR() {
         float[] result=new float[3];
         result[0]=rv[0];
