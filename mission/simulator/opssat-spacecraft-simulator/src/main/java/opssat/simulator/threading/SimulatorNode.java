@@ -652,10 +652,10 @@ public class SimulatorNode extends TaskNode
           } else if (line.equals("*/")) {
             skipRead = true;
           } else {
-            String lineWords[] = line.split(" ");
+            String[] lineWords = line.split(" ");
             if (lineWords.length > 1) {
               if (lineWords[0].equals("void") || lineWords[0].equals("byte[]")) {
-                String lineWords2[] = line.split("//");
+                String[] lineWords2 = line.split("//");
                 if (lineWords2.length > 1) {
                   int internalID = Integer.parseInt(lineWords2[1]);
                   putDescriptionIntoMethod(description, internalID);
@@ -702,7 +702,7 @@ public class SimulatorNode extends TaskNode
         .getAnnotation(ISimulatorDeviceData.class);
     if (simulatorDeviceDataAnnotation != null) {
       for (String str : simulatorDeviceDataAnnotation.descriptors()) {
-        String split[] = str.split(":");
+        String[] split = str.split(":");
         this.logger.log(Level.FINEST, "Reflecting simulatorDeviceDataAnnotation [" + str + "]");
         simulatorDeviceData.getDataList().add(new ArgumentDescriptor(split[0], split[1]));
       }
@@ -1810,7 +1810,7 @@ public class SimulatorNode extends TaskNode
           result.getAltitude());
       data.setRv(this.orekitCore.getOrbit().getPVCoordinates().getPosition(),
           this.orekitCore.getOrbit().getPVCoordinates().getVelocity());
-      float q[] = new float[4];
+      float[] q = new float[4];
       orekitCore.putQuaternionsInVector(q);
       data.setQ(q);
       data.setMagField(orekitCore.getMagneticField());

@@ -80,7 +80,7 @@ public class ESASimulator extends GenericSimulator {
             if (line.startsWith("#")) {
                 // comment line
             } else {
-              String split[] = line.split("=");
+              String[] split = line.split("=");
               if (split.length == 2) {
                 Level temp = null;
                 temp = getLevelFromString(split, "simulatorLogLevel");

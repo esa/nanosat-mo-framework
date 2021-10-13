@@ -92,7 +92,7 @@ public class DemoSetAndCommand
    *         - directoryURI required
    * @throws java.lang.Exception If there is an error
    */
-  public static void main(final String args[]) throws Exception
+  public static void main(final String[] args) throws Exception
   {
     if (args.length != 1) {
       System.err.println("Please give supervisor directory URI as an argument!");

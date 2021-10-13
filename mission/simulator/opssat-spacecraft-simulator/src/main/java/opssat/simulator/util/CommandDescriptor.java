@@ -431,7 +431,7 @@ public class CommandDescriptor implements Serializable {
       } else if (this.inputArgList.get(argIndex).getType() instanceof Byte) {
         dataOk = checkSingleByte(argument, argIndex, false, true, 0);
       } else if (this.inputArgList.get(argIndex).getType() instanceof byte[]) {
-        String splitArguments[] = argument.split(",");
+        String[] splitArguments = argument.split(",");
         boolean arrayOK = true;
         int k = 0;
         for (String s : splitArguments) {
@@ -459,7 +459,7 @@ public class CommandDescriptor implements Serializable {
           dataOk = "setInputArgsFromString;-3;" + e;
         }
       } else if (this.inputArgList.get(argIndex).getType() instanceof int[]) {
-        String splitArguments[] = argument.split(",");
+        String[] splitArguments = argument.split(",");
         boolean arrayOK = true;
         int k = 0;
         for (String s : splitArguments) {
@@ -487,7 +487,7 @@ public class CommandDescriptor implements Serializable {
           dataOk = "setInputArgsFromString;-4;" + e;
         }
       } else if (this.inputArgList.get(argIndex).getType() instanceof long[]) {
-        String splitArguments[] = argument.split(",");
+        String[] splitArguments = argument.split(",");
         boolean arrayOK = true;
         int k = 0;
         for (String s : splitArguments) {
@@ -509,7 +509,7 @@ public class CommandDescriptor implements Serializable {
       } else if (this.inputArgList.get(argIndex).getType() instanceof Double) {
         dataOk = checkSingleDouble(argument, argIndex, false, true, 0);
       } else if (this.inputArgList.get(argIndex).getType() instanceof double[]) {
-        String splitArguments[] = argument.split(",");
+        String[] splitArguments = argument.split(",");
         boolean arrayOK = true;
         int k = 0;
         for (String s : splitArguments) {
@@ -531,7 +531,7 @@ public class CommandDescriptor implements Serializable {
       } else if (this.inputArgList.get(argIndex).getType() instanceof Float) {
         dataOk = checkSingleFloat(argument, argIndex, false, true, 0);
       } else if (this.inputArgList.get(argIndex).getType() instanceof float[]) {
-        String splitArguments[] = argument.split(",");
+        String[] splitArguments = argument.split(",");
         boolean arrayOK = true;
         int k = 0;
         for (String s : splitArguments) {

@@ -37,7 +37,7 @@ public class SpringInitiator
    * This Demo should be used with Camera Acquisition System provider.
    * @param args the command line arguments - directoryURI and port for tomcat
    */
-  public static void main(final String args[])
+  public static void main(final String[] args)
   {
     if (args.length != 2) {
       System.err.println("Please give directoryURI as first argument and an open port number for Tomcat as second argument!");

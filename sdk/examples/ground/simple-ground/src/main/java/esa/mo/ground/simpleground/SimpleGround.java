@@ -76,7 +76,7 @@ public class SimpleGround
    * @param args the command line arguments
    * @throws java.lang.Exception If there is an error
    */
-  public static void main(final String args[]) throws Exception
+  public static void main(final String[] args) throws Exception
   {
     if (args.length != 2) {
       System.err.println("Please give supervisor directory URI as a first argument and a provider name," +

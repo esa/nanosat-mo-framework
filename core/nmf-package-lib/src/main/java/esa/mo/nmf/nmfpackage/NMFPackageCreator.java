@@ -54,7 +54,7 @@ public class NMFPackageCreator {
             BufferedInputStream origin;
             FileOutputStream dest = new FileOutputStream(outputPath);
             ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(dest));
-            byte data[] = new byte[BUFFER];
+            byte[] data = new byte[BUFFER];
 
             for (int i = 0; i < from.size(); i++) {
                 String file = from.get(i);
