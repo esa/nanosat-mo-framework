@@ -45,7 +45,7 @@ public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface
 
   public GPSNMEAonlyAdapter()
   {
-    resultCacheValidityMs = Integer.valueOf(System.getProperty(Const.PLATFORM_GNSS_CACHING_PERIOD, "1000"));
+    resultCacheValidityMs = Integer.parseInt(System.getProperty(Const.PLATFORM_GNSS_CACHING_PERIOD, "1000"));
   }
 
   @Override

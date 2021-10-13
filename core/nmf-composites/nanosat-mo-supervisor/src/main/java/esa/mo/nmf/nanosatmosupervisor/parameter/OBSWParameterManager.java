@@ -23,10 +23,7 @@ package esa.mo.nmf.nanosatmosupervisor.parameter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jakarta.xml.bind.JAXBException;
@@ -103,7 +100,7 @@ public class OBSWParameterManager {
     // Sort parameters by id
     List<OBSWParameter> parameters =
             new ArrayList<>(parameterLister.getParameters().values());
-    parameters.sort((OBSWParameter p1, OBSWParameter p2) -> p1.getId().compareTo(p2.getId()));
+    parameters.sort(Comparator.comparing(OBSWParameter::getId));
 
     // Create the parameter proxies definitions
     ParameterDefinitionDetailsList paramDefs = new ParameterDefinitionDetailsList();

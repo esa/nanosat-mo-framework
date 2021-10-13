@@ -132,7 +132,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
         AutonomousADCSHelper.init(MALContextFactory.getElementFactoryRegistry());
       }
     }
-    resultCacheValidityMs = Integer.valueOf(System.getProperty(Const.PLATFORM_IADCS_CACHING_PERIOD, "1000"));
+    resultCacheValidityMs = Integer.parseInt(System.getProperty(Const.PLATFORM_IADCS_CACHING_PERIOD, "1000"));
 
     publisher = createMonitorAttitudePublisher(ConfigurationProviderSingleton.getDomain(),
         ConfigurationProviderSingleton.getNetwork(),

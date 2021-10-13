@@ -269,9 +269,6 @@ public final class CheckManager extends CheckLinksManager {
                         null);
                 newIdPair = new ObjectInstancePair(identityId, actDefIds.get(0));
 
-            } catch (MALInteractionException ex) {
-                Logger.getLogger(CheckManager.class.getName()).log(Level.SEVERE, null, ex);
-                return null;
             } catch (Exception ex) {
                 Logger.getLogger(CheckManager.class.getName()).log(Level.SEVERE, null, ex);
                 return null;
@@ -306,8 +303,6 @@ public final class CheckManager extends CheckLinksManager {
                         defs,
                         null);
                 actDefId = actDefIds.get(0);
-            } catch (MALInteractionException ex) {
-                Logger.getLogger(CheckManager.class.getName()).log(Level.SEVERE, null, ex);
             } catch (Exception ex) {
                 Logger.getLogger(CheckManager.class.getName()).log(Level.SEVERE, null, ex);
             }
