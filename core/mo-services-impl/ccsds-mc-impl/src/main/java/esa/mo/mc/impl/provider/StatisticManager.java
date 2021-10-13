@@ -608,13 +608,12 @@ public final class StatisticManager {
 
             if (attribute == null) {
                 this.dataSets.get(objId).add(null);
-                this.timeSets.get(objId).add(time);
             } else {
                 AttributeValue value = new AttributeValue();
                 value.setValue(attribute);
                 this.dataSets.get(objId).add(value);
-                this.timeSets.get(objId).add(time);
             }
+            this.timeSets.get(objId).add(time);
 
             this.unlock();
         }

@@ -107,11 +107,7 @@ public class HelperArchive {
             return true;
         }
 
-        if (archiveDetails.getProvider().getValue().equals("*")) {
-            return true;
-        }
-
-        return false;
+        return archiveDetails.getProvider().getValue().equals("*");
     }
 
     /**

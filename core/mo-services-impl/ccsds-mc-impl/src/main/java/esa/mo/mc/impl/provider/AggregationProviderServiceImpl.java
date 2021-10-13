@@ -866,9 +866,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
                 manager.sampleAndFilterParam(identityId, i, aggrExpired, newParaVals);
             }
             //check the filter is triggered
-            if (!manager.isFilterTriggered(identityId)) {
-                return false;
-            }
+            return manager.isFilterTriggered(identityId);
         } else {
             //no filtering enabled
             //create new parameter-samples

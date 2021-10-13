@@ -3312,23 +3312,6 @@ public class SimulatorNode extends TaskNode
                 result.append(calcNMEAChecksum(result.toString()));
               }
             }
-          } else if (inputSentence.endsWith("GPGRS")) {
-            String separator = ",";
-            String separatorNewLine = "\r\n";
-            for (int i = PGPS.FirmwareReferenceOEM16.GPGRS_COL.HEADER; i <= PGPS.FirmwareReferenceOEM16.GPGRS_COL.CHECKSUM; i++) {
-              if (i == PGPS.FirmwareReferenceOEM16.GPGRS_COL.HEADER) {
-                result.append("$GPGRS").append(separator);
-              } else if (i == PGPS.FirmwareReferenceOEM16.GPGRS_COL.UTC) {
-                result.append("0").append(separator);
-              } else if (i == PGPS.FirmwareReferenceOEM16.GPGRS_COL.MODE) {
-                result.append("0").append(separator);
-              } else if (i >= PGPS.FirmwareReferenceOEM16.GPGRS_COL.RES1
-                  && i <= PGPS.FirmwareReferenceOEM16.GPGRS_COL.RES12) {
-                result.append("0");
-              } else if (i == PGPS.FirmwareReferenceOEM16.GPGRS_COL.CHECKSUM) {
-                result.append(calcNMEAChecksum(result.toString()));
-              }
-            }
           } else if (inputSentence.endsWith("GPGST")) {
             String separator = ",";
             for (int i = PGPS.FirmwareReferenceOEM16.GPGST_COL.HEADER; i <= PGPS.FirmwareReferenceOEM16.GPGST_COL.CHECKSUM; i++) {

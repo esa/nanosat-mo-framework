@@ -423,10 +423,6 @@ public final class MOWindow extends javax.swing.JDialog {
             return this.receivedObj;
         }
 
-        if (this.receivedObj instanceof Attribute && !(this.receivedObj instanceof ElementList)) {
-            return ((MOattribute) componentsPanel.getComponent(0)).getObject();
-        }
-
         return ((MOattribute) componentsPanel.getComponent(0)).getObject();
     }
 

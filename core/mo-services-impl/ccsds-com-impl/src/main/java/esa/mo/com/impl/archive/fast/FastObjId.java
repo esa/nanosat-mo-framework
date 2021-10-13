@@ -85,7 +85,7 @@ public class FastObjId {
         final Key key = new Key(objectTypeId, domain);
         final Long objId = this.fastID.get(key);
 
-        return (objId == null) ? null : objId;
+        return objId;
     }
     
     private synchronized Long generateUniqueObjId(final Integer objectTypeId, final Integer domain) {

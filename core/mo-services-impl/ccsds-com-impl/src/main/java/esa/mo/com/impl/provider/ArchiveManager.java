@@ -617,9 +617,8 @@ public class ArchiveManager {
 
         if (expressionOperator.equals(ExpressionOperator.CONTAINS)
                 || expressionOperator.equals(ExpressionOperator.ICONTAINS)) {
-            if (compositeFilter.getFieldValue().getTypeShortForm() != 15) {  // Is it String?
-                return false;
-            }
+            // Is it String?
+            return compositeFilter.getFieldValue().getTypeShortForm() == 15;
         }
 
         return true;

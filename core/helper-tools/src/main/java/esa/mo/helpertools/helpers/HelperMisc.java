@@ -338,11 +338,8 @@ public class HelperMisc {
     if (shortFormPart == 15) { // String
       return true;
     }
-    if (shortFormPart == 18) { // URI
-      return true;
-    }
-
-    return false;
+      // URI
+    return shortFormPart == 18;
   }
 
   /**

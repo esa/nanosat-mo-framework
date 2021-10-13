@@ -206,11 +206,8 @@ public class CheckLinkEvaluationManager {
             return true;
         }
 
-        if (usingRaw && pVal.getValidityState().getValue() == 3) {  // Using raw and INVALID_CONVERSION
-            return true;
-        }
-
-        return false;
+        // Using raw and INVALID_CONVERSION
+        return usingRaw && pVal.getValidityState().getValue() == 3;
 
     }
 

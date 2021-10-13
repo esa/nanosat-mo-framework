@@ -144,7 +144,7 @@ public class PowerControlSoftSimAdapter implements PowerControlAdapterInterface
   public boolean isDeviceEnabled(DeviceType deviceType) {
 
     Device device = findByType(deviceType);
-    return device == null ? false : device.getEnabled();
+    return device != null && device.getEnabled();
   }
 
   @Override
