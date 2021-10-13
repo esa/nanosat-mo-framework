@@ -241,7 +241,7 @@ public class SortByField implements Comparator {
             // What is the current zeroth pair?
             tmpDomain = perObjs.get(0).getDomain();
             tmpObjType = perObjs.get(0).getObjectType();
-            stackB = new ArrayList<ArchivePersistenceObject>();
+            stackB = new ArrayList<>();
 
             // Make a stack B with all the equal pairs domain+objType
             for (int index = 0; index < perObjs.size(); index++) { // Let's cycle the complete stack A
@@ -287,7 +287,7 @@ public class SortByField implements Comparator {
         SortByField comparator = new SortByField(aClass, fieldString, ascending);
         // stack.sort(comparator);
         // Changed to be compatible with java 6:
-        java.util.Collections.sort(stack, comparator);
+        stack.sort(comparator);
 
         return stack;
     }

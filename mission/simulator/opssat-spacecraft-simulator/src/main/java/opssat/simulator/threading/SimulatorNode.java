@@ -571,7 +571,7 @@ public class SimulatorNode extends TaskNode
     reflectObjectGetMethods(new POpticalReceiver(null, "OpticalReceiver"));
     reflectObjectGetMethods(new PSDR(null, "SDR"));
 
-    Collections.sort(commandsList, (o1, o2) -> o1.getInternalID() - o2.getInternalID());
+    commandsList.sort(Comparator.comparingInt(CommandDescriptor::getInternalID));
     loadMethodsDescriptionFromResources();
   }
 
@@ -1294,15 +1294,7 @@ public class SimulatorNode extends TaskNode
        * else if (o1.getTime() == o2.getTime()) { return 0; } else { return -1; } }
        * });
        */
-      java.util.Collections.sort(schedulerData, (o1, o2) -> {
-        if (o1.getTime() > o2.getTime()) {
-          return 1;
-        } else if (o1.getTime() == o2.getTime()) {
-          return 0;
-        } else {
-          return -1;
-        }
-      });
+      schedulerData.sort(Comparator.comparingLong(SimulatorSchedulerPiece::getTime));
 
       writeSchedulerToFile(schedulerData);
       printSchedulerData();
@@ -1516,11 +1508,11 @@ public class SimulatorNode extends TaskNode
   public static String dump(Object o, int callCount)
   {
     callCount++;
-    StringBuffer tabs = new StringBuffer();
+    StringBuilder tabs = new StringBuilder();
     for (int k = 0; k < callCount; k++) {
       tabs.append("\t");
     }
-    StringBuffer buffer = new StringBuffer();
+    StringBuilder buffer = new StringBuilder();
     Class oClass = o.getClass();
     if (oClass.isArray()) {
       buffer.append("\n");
@@ -3880,10 +3872,6 @@ public class SimulatorNode extends TaskNode
           globalResult = "CommandID [" + c.getInternalID() + "] unknown";
           commandResult.setCommandFailed(true);
       }
-    } catch (IndexOutOfBoundsException | IOException e) {
-      String errorString = e.toString();
-      commandResult.setOutput(errorString);
-      commandResult.setCommandFailed(true);
     } catch (Exception e) {
       String errorString = e.toString();
       commandResult.setOutput(errorString);

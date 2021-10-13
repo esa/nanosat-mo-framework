@@ -22,6 +22,7 @@ package opssat.simulator;
 
 import opssat.simulator.Orbit.OrbitParameters;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
 import java.util.Random;
 import java.util.Timer;
@@ -101,9 +102,9 @@ public class GPS {
     public static BigDecimal truncateDecimal(double x, int numberofDecimals) {
         // From: http://stackoverflow.com/questions/7747469/how-can-i-truncate-a-double-to-only-two-decimal-places-in-java
         if (x > 0) {
-            return new BigDecimal(String.valueOf(x)).setScale(numberofDecimals, BigDecimal.ROUND_FLOOR);
+            return new BigDecimal(String.valueOf(x)).setScale(numberofDecimals, RoundingMode.FLOOR);
         } else {
-            return new BigDecimal(String.valueOf(x)).setScale(numberofDecimals, BigDecimal.ROUND_CEILING);
+            return new BigDecimal(String.valueOf(x)).setScale(numberofDecimals, RoundingMode.CEILING);
         }
     }
 

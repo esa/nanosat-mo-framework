@@ -180,8 +180,8 @@ public class SFTPBrowser extends JFrame implements Comparator<ChannelSftp.LsEntr
       return false;
     }
     String extension = parts[parts.length - 1];
-    ArrayList<String> extensions = new ArrayList<String>(
-        Arrays.asList("jpg", "jpeg", "png", "bmp", "raw"));
+    ArrayList<String> extensions = new ArrayList<>(
+            Arrays.asList("jpg", "jpeg", "png", "bmp", "raw"));
     return extensions.contains(extension);
   }
 

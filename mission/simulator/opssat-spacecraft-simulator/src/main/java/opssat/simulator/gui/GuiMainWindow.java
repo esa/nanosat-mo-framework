@@ -453,10 +453,9 @@ public class GuiMainWindow implements Runnable {
           "Update server", JOptionPane.YES_NO_OPTION);
       if (resultConfirm == JOptionPane.YES_OPTION) {
         showMessageConsole("User;Local;UpdateServer;");
-        LinkedList<CommandDescriptor> newCommandsList = new LinkedList<CommandDescriptor>();
+        LinkedList<CommandDescriptor> newCommandsList = new LinkedList<>();
         newCommandsList.addAll(commandsList);
         parent.addGUIInteraction(newCommandsList);
-      } else {
       }
     });
 
@@ -658,7 +657,7 @@ public class GuiMainWindow implements Runnable {
 
     JButton btnApplyCamSettings = new JButton("Apply");
     btnApplyCamSettings.addActionListener(arg0 -> {
-      ArrayList<PlatformMessage> updates = new ArrayList<PlatformMessage>();
+      ArrayList<PlatformMessage> updates = new ArrayList<>();
       String path = textFieldPath.getText();
       String mode = (String) selectMode.getSelectedItem();
       updates.add(new PlatformMessage("camerasim.imagemode", mode));

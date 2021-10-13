@@ -164,11 +164,11 @@ public class HelperGPS
       * ss.ss = second in Minute (with fractional second)
       */
       String time = items[GPGGA_GEN_COL.UTC];
-      int hours = Integer.valueOf(time.substring(0, 2));
-      int minutes = Integer.valueOf(time.substring(2, 4));
-      int seconds = Integer.valueOf(time.substring(4, 6));
+      int hours = Integer.parseInt(time.substring(0, 2));
+      int minutes = Integer.parseInt(time.substring(2, 4));
+      int seconds = Integer.parseInt(time.substring(4, 6));
       // The GGALONG sentence also contains the fractions of second witch is not contained in the GGA sentence
-      int miliSeconds = (int) (Double.valueOf(time.substring(6, 9)) * 1000); // convert fractional seconds to milliseconds
+      int milliSeconds = (int) (Double.parseDouble(time.substring(6, 9)) * 1000); // convert fractional seconds to milliseconds
 
       // Get current time
       Calendar cal = (Calendar) Calendar.getInstance().clone();
@@ -182,7 +182,7 @@ public class HelperGPS
       cal.set(Calendar.HOUR_OF_DAY, hours);
       cal.set(Calendar.MINUTE, minutes);
       cal.set(Calendar.SECOND, seconds);
-      cal.set(Calendar.MILLISECOND, miliSeconds);
+      cal.set(Calendar.MILLISECOND, milliSeconds);
 
       // In case, the current time is shortly after midnight and the message was received before midnight
       if (cal.after(cal2)) {
