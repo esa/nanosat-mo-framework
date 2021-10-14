@@ -71,6 +71,10 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
     }
 
     public void switchEnabledstatus(boolean status){
+        switchEnabledstatus(status, this.getSelectedRow());
+    }
+
+    public void switchEnabledstatus(boolean status, int rowId){
         try {
             semaphore.acquire();
         } catch (InterruptedException ex) {
@@ -78,9 +82,9 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
         }
 
         // 4 because it is where generationEnabled is!
-        tableData.setValueAt(status, this.getSelectedRow(), 5);
+        tableData.setValueAt(status, rowId, 5);
         ((AppDetails) this.getSelectedCOMObject().getObject()).setRunning(status);
-        
+
         semaphore.release();
     }
 
