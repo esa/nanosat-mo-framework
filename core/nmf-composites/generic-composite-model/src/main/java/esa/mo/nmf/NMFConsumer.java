@@ -326,6 +326,7 @@ public class NMFConsumer {
             Logger.getLogger(NMFConsumer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             // Ignore the exception if it does not exist - the file is becoming deprecated
+            Logger.getLogger(NMFConsumer.class.getName()).log(Level.FINE, null, ex);
         }
 
         DirectoryConsumerServiceImpl directoryService = new DirectoryConsumerServiceImpl(directoryURI, authenticationId, localNamePrefix);
@@ -354,8 +355,9 @@ public class NMFConsumer {
         try {
             summaryList = directoryService.getDirectoryStub().lookupProvider(filter);
         } catch (MALException | MALInteractionException e) {
-            directoryService.close();  // close the connection
             throw e;
+        } finally {
+            directoryService.close();  // close the connection
         }
 
         return summaryList;
