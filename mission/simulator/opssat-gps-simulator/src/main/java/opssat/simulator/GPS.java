@@ -39,7 +39,7 @@ public class GPS {
     private final static int POSITION_ERROR = 10;  // 10 meters
 
     // GPS characteristics
-    int SampleFrequency = 1 * 1000; //milliseconds (1 update per second)
+    int SampleFrequency = 1000; //milliseconds (1 update per second)
 
     // Errors
     Orbit.OrbitParameters numericalError;

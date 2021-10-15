@@ -434,7 +434,7 @@ public class BinaryDecoder extends GENDecoder
             // this either shifts the existing contents to the start of the old buffer, or copies it into the new buffer
             // NOTE: this is faster than System.arraycopy, as that performs argument type checks
             if (existingContentRemaining >= 0)
-              System.arraycopy(this.buf, this.offset + 0, destBuf, 0, existingContentRemaining);
+              System.arraycopy(this.buf, this.offset, destBuf, 0, existingContentRemaining);
 
             // the start of the data in the buffer has moved to zero now
             this.buf = destBuf;

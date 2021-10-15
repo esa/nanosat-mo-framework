@@ -1373,7 +1373,7 @@ public class OrekitCore
         elementNumber = this.initialTLE.getElementNumber() + this.tleNumber;
         date = this.initialTLE.getDate();
       }
-      this.tleNumber = +1;
+      this.tleNumber = 1;
 
       return new TLE(
           SatelliteNumber,
