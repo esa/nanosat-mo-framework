@@ -27,7 +27,7 @@
   <packaging>jar</packaging>
 
   <name>ESA NMF SDK - Orekit Resources</name>
-  <description> Jar containing the Orekit-Data that is needet as a resource for most Orekit opperations</description>
+  <description>Jar containing the Orekit-Data that is needed as a resource for most of the Orekit applications using it</description>
   <url>http://www.esa.int</url>
 
   <organization>
