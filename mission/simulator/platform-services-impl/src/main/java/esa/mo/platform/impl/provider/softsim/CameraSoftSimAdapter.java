@@ -114,7 +114,7 @@ public class CameraSoftSimAdapter implements CameraAdapterInterface
     byte[] data = instrumentsSimulator.getpCamera().takePicture(
         (int) settings.getResolution().getWidth().getValue(), (int) settings.getResolution().getHeight().getValue());
 
-    if (settings.getFormat() != settings.getFormat().RAW) {
+    if (settings.getFormat() != PictureFormat.RAW) {
       data = convertImage(data, settings.getFormat());
     }
 
@@ -133,7 +133,6 @@ public class CameraSoftSimAdapter implements CameraAdapterInterface
   {
     return takePicture(settings);
   }
-
 
   @Override
   public Duration getMinimumPeriod()
