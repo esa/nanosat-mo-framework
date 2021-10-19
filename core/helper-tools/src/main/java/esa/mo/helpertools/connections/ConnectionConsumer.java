@@ -61,6 +61,11 @@ public class ConnectionConsumer {
     private MALConsumerManager consumerMgr;
     private ServicesConnectionDetails servicesDetails = new ServicesConnectionDetails();
     private MALConsumer tmConsumer;
+    private static final Properties props = new Properties();
+
+    static {
+        props.putAll(System.getProperties());
+    }
 
     public ServicesConnectionDetails getServicesDetails() {
         return servicesDetails;
@@ -100,8 +105,6 @@ public class ConnectionConsumer {
      */
     public void startMAL() throws MALException {
         malFactory = MALContextFactory.newFactory();
-        Properties props = new Properties();
-        props.putAll(System.getProperties());
         mal = malFactory.createMALContext(props);
         consumerMgr = mal.createConsumerManager();
     }
@@ -191,9 +194,6 @@ public class ConnectionConsumer {
                                          final String localNamePrefix)
             throws MALException, MalformedURLException {
 
-        Properties props = new Properties();
-        props.putAll(System.getProperties());
-
         tmConsumer = consumerMgr.createConsumer(getLocalName(localNamePrefix),
                                                 uriP,
                                                 uriB,
@@ -264,9 +264,6 @@ public class ConnectionConsumer {
                 qosLevel = entry;
             }
         }
-
-        Properties props = new Properties();
-        props.putAll(System.getProperties());
 
         tmConsumer = consumerMgr.createConsumer(getLocalName(localNamePrefix),
                                                 uriP,
