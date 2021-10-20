@@ -38,6 +38,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.archive.structures.PaginationFilter;
@@ -112,7 +113,7 @@ public class TransactionsProcessor {
       final Long objId) {
     this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
 
-    Future<COMObjectEntity> future = dbTransactionsExecutor.submit((Callable) () -> {
+    Future<COMObjectEntity> future = dbTransactionsExecutor.submit(() -> {
       dbBackend.createEntityManager();
       final COMObjectEntity perObj = dbBackend.getEM().find(CLASS_ENTITY,
           COMObjectEntity.generatePK(objTypeId, domain, objId));
@@ -129,8 +130,84 @@ public class TransactionsProcessor {
     return null;
   }
 
+  public List<COMObjectEntity> getCOMObjects(final Integer objTypeId, final Integer domain, final LongList ids) {
+    this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
+
+    Future<List<COMObjectEntity>> future = dbTransactionsExecutor.submit(() -> {
+      dbBackend.createEntityManager();
+      EntityManager manager = dbBackend.getEM();
+      List<COMObjectEntity> perObjs = new ArrayList<>();
+      COMObjectEntityPK key = COMObjectEntity.generatePK(objTypeId, domain, 0L);
+      for(Long objId : ids) {
+        key.setObjId(objId);
+        final COMObjectEntity perObj = manager.find(CLASS_ENTITY, key);
+        perObjs.add(perObj);
+      }
+      dbBackend.closeEntityManager();
+
+      return perObjs;
+    });
+
+    try {
+      return future.get();
+    } catch (InterruptedException | ExecutionException ex) {
+      Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
+    }
+
+    return null;
+  }
+
+  public List<COMObjectEntity> getAllCOMObjects(final Integer objTypeId, final Integer domainId) {
+    this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
+
+    Future<List<COMObjectEntity>> future = dbTransactionsExecutor.submit(() -> {
+      dbBackend.createEntityManager();
+      String strPU = "objectTypeId, objId, domainId, network, OBJ, providerURI, "
+                     + "relatedLink, sourceLinkDomainId, sourceLinkObjId, sourceLinkObjectTypeId, timestampArchiveDetails";
+      String queryString = "SELECT " + strPU + " FROM COMObjectEntity PU WHERE PU.objectTypeId=" + objTypeId + " AND PU.domainId=" + domainId;
+
+      final Query query = dbBackend.getEM().createNativeQuery(queryString);
+      final List<?> resultList = query.getResultList();
+      dbBackend.closeEntityManager();
+
+      final ArrayList<COMObjectEntity> perObjs = new ArrayList<>(resultList.size());
+
+      // Conversion from the raw SQL response into a COMObjectEntity
+      for (Object obj : resultList) {
+        // (final Integer objectTypeId, final Integer domainId, final Long objId)
+        final SourceLinkContainer source = new SourceLinkContainer(
+                (Integer) ((Object[]) obj)[9],
+                (Integer) ((Object[]) obj)[7],
+                convert2Long(((Object[]) obj)[8])
+        );
+
+        perObjs.add(new COMObjectEntity(
+                (Integer) ((Object[]) obj)[0],
+                (Integer) ((Object[]) obj)[2],
+                convert2Long(((Object[]) obj)[1]),
+                convert2Long(((Object[]) obj)[10]),
+                (Integer) ((Object[]) obj)[5],
+                (Integer) ((Object[]) obj)[3],
+                source,
+                convert2Long(((Object[]) obj)[6]),
+                (byte[]) ((Object[]) obj)[4]
+        ));
+      }
+
+      return perObjs;
+    });
+
+    try {
+      return future.get();
+    } catch (InterruptedException | ExecutionException ex) {
+      Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
+    }
+
+    return null;
+  }
+
   public boolean existsCOMObject(final Integer objTypeId, final Integer domain, final Long objId) {
-    Future<Boolean> future = dbTransactionsExecutor.submit((Callable) () -> {
+    Future<Boolean> future = dbTransactionsExecutor.submit(() -> {
       dbBackend.createEntityManager();
       final COMObjectEntity perObj = dbBackend.getEM().find(CLASS_ENTITY,
           COMObjectEntity.generatePK(objTypeId, domain, objId));
@@ -147,10 +224,10 @@ public class TransactionsProcessor {
     return false;
   }
 
-  public LongList getAllCOMObjects(final Integer objTypeId, final Integer domainId) {
+  public LongList getAllCOMObjectsIds(final Integer objTypeId, final Integer domainId) {
     this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
 
-    Future<LongList> future = dbTransactionsExecutor.submit((Callable) () -> {
+    Future<LongList> future = dbTransactionsExecutor.submit(() -> {
       dbBackend.createEntityManager();
       Query query = dbBackend.getEM().createQuery(QUERY_SELECT_ALL);
       query.setParameter("objectTypeId", objTypeId);
