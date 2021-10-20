@@ -29,9 +29,9 @@ import java.io.Serializable;
  */
 public class COMObjectEntityPK implements Serializable {
 
-    private final Integer objectTypeId;
-    private final Integer domainId;
-    private final Long objId;
+    private Integer objectTypeId;
+    private Integer domainId;
+    private Long objId;
 
     public COMObjectEntityPK(final Integer objectTypeId, final Integer domain, final Long objId) {
         this.objectTypeId = objectTypeId;
@@ -59,4 +59,27 @@ public class COMObjectEntityPK implements Serializable {
         return objectTypeId.hashCode() ^ domainId.hashCode() ^ objId.hashCode();
     }
 
+    public Integer getObjectTypeId() {
+        return objectTypeId;
+    }
+
+    public void setObjectTypeId(Integer objectTypeId) {
+        this.objectTypeId = objectTypeId;
+    }
+
+    public Integer getDomainId() {
+        return domainId;
+    }
+
+    public void setDomainId(Integer domainId) {
+        this.domainId = domainId;
+    }
+
+    public Long getObjId() {
+        return objId;
+    }
+
+    public void setObjId(Long objId) {
+        this.objId = objId;
+    }
 }

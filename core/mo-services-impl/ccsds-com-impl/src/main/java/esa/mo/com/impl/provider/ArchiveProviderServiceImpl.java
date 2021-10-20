@@ -26,6 +26,7 @@ import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperMisc;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
@@ -171,10 +172,11 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
         }
 
+        boolean wildcardFound = false;
         for (Long tempObjId : inObjIds) { // requirement: 3.4.3.2.5
             if (tempObjId == 0) {  // Is it the wildcard 0? requirement: 3.4.3.2.6
                 longList.clear();  // if the wildcard is in the middle of the input list, we clear the list...
-                longList.addAll(manager.getAllObjIds(inObjectType, inDomain)); // ... add all
+                wildcardFound = true;
                 break;
             }
             longList.add(tempObjId);
@@ -183,10 +185,16 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         ArchiveDetailsList outArchiveDetailsList = new ArchiveDetailsList();
         ElementList outMatchedObjects = null;
 
-        for (int index = 0; index < longList.size(); index++) {  // Let's go one by one in the list
-            Long objId = longList.get(index);
+        List<ArchivePersistenceObject> perObjs;
+        if(wildcardFound) {
+            perObjs = manager.getAllPersistenceObjects(inObjectType, inDomain);
+        } else {
+            perObjs = manager.getPersistenceObjects(inObjectType, inDomain, longList);
+        }
 
-            ArchivePersistenceObject perObj = manager.getPersistenceObject(inObjectType, inDomain, objId);
+        for (int index = 0; index < perObjs.size(); index++) {  // Let's go one by one in the list
+
+            ArchivePersistenceObject perObj = perObjs.get(index);
 
             if (perObj == null) {  // COM object not found
                 unkIndexList.add(new UInteger(index)); // requirement: 3.4.3.2.7

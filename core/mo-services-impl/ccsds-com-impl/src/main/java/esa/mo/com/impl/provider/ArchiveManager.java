@@ -32,11 +32,13 @@ import esa.mo.com.impl.archive.fast.FastProviderURI;
 import esa.mo.com.impl.archive.db.SourceLinkContainer;
 import esa.mo.com.impl.archive.entities.COMObjectEntity;
 import esa.mo.com.impl.archive.fast.FastObjectType;
-import esa.mo.reconfigurable.service.PersistLatestServiceConfigurationAdapter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
 import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.archive.ArchiveHelper;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
@@ -193,6 +195,32 @@ public class ArchiveManager {
         return this.convert2ArchivePersistenceObject(comEntity, domain, objId);
     }
 
+    public synchronized List<ArchivePersistenceObject> getPersistenceObjects(final ObjectType objType,
+            final IdentifierList domain, final LongList objIds) {
+        final Integer domainId = this.fastDomain.getDomainId(domain);
+        final Integer objTypeId = this.fastObjectType.getObjectTypeId(objType);
+        List<COMObjectEntity> comEntities = this.dbProcessor.getCOMObjects(objTypeId, domainId, objIds);
+        return convert2ArchivePersistenceObjects(comEntities, domain);
+    }
+
+    public synchronized List<ArchivePersistenceObject> getAllPersistenceObjects(final ObjectType objType,
+            final IdentifierList domain) {
+        final Integer domainId = this.fastDomain.getDomainId(domain);
+        final Integer objTypeId = this.fastObjectType.getObjectTypeId(objType);
+        List<COMObjectEntity> comEntities = this.dbProcessor.getAllCOMObjects(objTypeId, domainId);
+        return convert2ArchivePersistenceObjects(comEntities, domain);
+    }
+
+    private List<ArchivePersistenceObject> convert2ArchivePersistenceObjects(final List<COMObjectEntity> comEntities, final IdentifierList domain) {
+        if (comEntities == null) {
+            return null;
+        }
+
+        return comEntities.stream()
+                          .map(entity -> entity == null ? null : convert2ArchivePersistenceObject(entity, domain, entity.getObjectId()))
+                          .collect(Collectors.toList());
+    }
+
     private ArchivePersistenceObject convert2ArchivePersistenceObject(final COMObjectEntity comEntity,
             final IdentifierList domain, final Long objId) {
         Identifier network = null;
@@ -246,7 +274,7 @@ public class ArchiveManager {
     }
 
     public LongList getAllObjIds(final ObjectType objType, final IdentifierList domain) {
-        return this.dbProcessor.getAllCOMObjects(this.fastObjectType.getObjectTypeId(objType), this.fastDomain.getDomainId(domain));
+        return this.dbProcessor.getAllCOMObjectsIds(this.fastObjectType.getObjectTypeId(objType), this.fastDomain.getDomainId(domain));
     }
 
     private SourceLinkContainer createSourceContainerFromObjectId(final ObjectId source) {
