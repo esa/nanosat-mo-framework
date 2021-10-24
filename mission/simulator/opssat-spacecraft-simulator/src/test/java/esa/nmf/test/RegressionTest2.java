@@ -17632,15 +17632,10 @@ public class RegressionTest2
     org.junit.Assert.assertNotNull(uShort15);
   }
 
-  final String TEST_TLE1_LINE1 =
-      "1 44878U 19092F   20026.53979074 -.00000066  00000-0  00000+0 0  9998";
-  final String TEST_TLE1_LINE2 =
-      "2 44878  97.4628 212.2828 0015597 128.3977 231.8751 15.15220787  5895";
-
   final String TEST_TLE2_LINE1 =
-      "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927";
+      "1 49260U 21088A   21298.07258873  .00000094  00000-0  28350-4 0  9997";
   final String TEST_TLE2_LINE2 =
-      "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537";
+      "2 49260  98.2168   6.6323 0005718 262.9046  97.1505 14.61809380  3995";
 
   /**
    * test getTLE in case that tle propagator is running
@@ -17655,9 +17650,9 @@ public class RegressionTest2
     ConcurrentLinkedQueue<Object> qCentralToSim = new ConcurrentLinkedQueue<Object>();
 
     final Calendar calendar = Calendar.getInstance();
-    calendar.set(2017, 1, 10);
+    calendar.set(2021, 10, 10);
     final Date startDate = calendar.getTime();
-    calendar.set(2019, 1, 10);
+    calendar.set(2022, 10, 10);
     final Date endDate = calendar.getTime();
 
     SimulatorHeader simHeader = new SimulatorHeader();
@@ -17705,9 +17700,9 @@ public class RegressionTest2
     ConcurrentLinkedQueue<Object> qCentralToSim = new ConcurrentLinkedQueue<Object>();
 
     final Calendar calendar = Calendar.getInstance();
-    calendar.set(2017, 1, 10);
+    calendar.set(2021, 10, 10);
     final Date startDate = calendar.getTime();
-    calendar.set(2019, 1, 10);
+    calendar.set(2022, 10, 10);
     final Date endDate = calendar.getTime();
 
     SimulatorHeader simHeader = new SimulatorHeader();
