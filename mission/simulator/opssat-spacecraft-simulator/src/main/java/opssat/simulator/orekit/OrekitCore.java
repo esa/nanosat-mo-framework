@@ -39,6 +39,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.TimerTask;
+import esa.mo.nmf.sdk.OrekitResources;
 import opssat.simulator.threading.SimulatorNode;
 import opssat.simulator.util.SimulatorHeader;
 import org.hipparchus.geometry.euclidean.threed.Rotation;
@@ -240,15 +241,10 @@ public class OrekitCore
       throws OrekitException
   {
     this.logger = logger;
-    SimulatorNode.handleResourcePath("orekit-data.zip", logger, getClass().getClassLoader(), true);
-    SimulatorNode.handleResourcePath("IGRF.zip", logger, getClass().getClassLoader(), true);
-    SimulatorNode.handleResourcePath("WMM2020COF.zip", logger, getClass().getClassLoader(), true);
 
-    StringBuffer pathBuffer = new StringBuffer();
-    appendIfExists(pathBuffer, "orekit-data.zip");
-    appendIfExists(pathBuffer, "IGRF.zip");
-    appendIfExists(pathBuffer, "WMM2020COF.zip");
-    System.setProperty(DataProvidersManager.OREKIT_DATA_PATH, pathBuffer.toString());
+    // Setup orekit, must contain the IGRF and WMM data files
+    DataProvidersManager manager = DataProvidersManager.getInstance();
+    manager.addProvider(OrekitResources.getOrekitData());
 
     // Initial date in UTC time scale
     TimeScale utc = TimeScalesFactory.getUTC();
