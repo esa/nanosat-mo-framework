@@ -258,7 +258,7 @@ public final class MOWindow extends javax.swing.JDialog {
         button = new javax.swing.JToggleButton();
 
         setMinimumSize(new java.awt.Dimension(600, 120));
-        setResizable(false);
+        setResizable(true);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
