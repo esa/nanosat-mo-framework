@@ -430,7 +430,8 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
           "Arguments for action are incorrect! {0}", ex.getMessage());
     } catch (InvocationTargetException ex) {
       Logger.getLogger(MonitorAndControlNMFAdapter.class.getName()).log(Level.SEVERE,
-          "The action Method threw an exception! {0}", ex.getMessage());
+          "The action Method threw an invocation exception! {0}", (ex.getMessage() != null ? ex.getMessage() :
+                      ex.getTargetException().getMessage()));
     }
     return new UInteger(0);
   }
