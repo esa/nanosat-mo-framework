@@ -87,8 +87,7 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
 
     Properties platformProperties = new Properties();
     try {
-      platformProperties
-          .load(new FileInputStream("platformsim.properties"));
+      platformProperties.load(new FileInputStream("platformsim.properties"));
       if (platformProperties.getProperty("platform.mode").equals("hybrid")) {
         String pcAdapterName = platformProperties.getProperty("pc.adapter");
         String camAdapterName = platformProperties.getProperty("camera.adapter");
@@ -101,7 +100,8 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
           pcAdapter = (PowerControlAdapterInterface) Class.forName(pcAdapterName).newInstance();
         } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
           Logger.getLogger(PlatformServicesProviderSoftSim.class.getName()).log(Level.WARNING,
-                  "Failed to instantiate the power control adapter.", e);
+              "Failed to instantiate the power control adapter. Falling back to default PowerControlSoftSimAdapter.",
+              e);
           pcAdapter = new PowerControlSoftSimAdapter(instrumentsSimulator);
         }
         // Camera adapter
@@ -111,7 +111,7 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
         } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | NoSuchMethodException
                 | InvocationTargetException e) {
           Logger.getLogger(PlatformServicesProviderSoftSim.class.getName()).log(Level.WARNING,
-              "Failed to instantiate the camera adapter.", e);
+              "Failed to instantiate the camera adapter. Falling back to default CameraSoftSimAdapter.", e);
           camAdapter = new CameraSoftSimAdapter(instrumentsSimulator, pcAdapter);
         }
         // ADCS adapter
@@ -121,18 +121,17 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
         } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | NoSuchMethodException
                 | InvocationTargetException e) {
           Logger.getLogger(PlatformServicesProviderSoftSim.class.getName()).log(Level.WARNING,
-                  "Failed to instantiate the iADCS adapter.", e);
+              "Failed to instantiate the iADCS adapter. Falling back to default AutonomousADCSSoftSimAdapter.", e);
           adcsAdapter = new AutonomousADCSSoftSimAdapter(instrumentsSimulator, pcAdapter);
         }
         // GPS adapter
         try {
-          Constructor constructor =
-                  Class.forName(gpsAdapterName).getConstructor(PowerControlAdapterInterface.class);
+          Constructor constructor = Class.forName(gpsAdapterName).getConstructor(PowerControlAdapterInterface.class);
           gpsAdapter = (GPSAdapterInterface) constructor.newInstance(pcAdapter);
         } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | NoSuchMethodException
                 | InvocationTargetException e) {
           Logger.getLogger(PlatformServicesProviderSoftSim.class.getName()).log(Level.WARNING,
-              "Failed to instantiate the GPS adapter.", e);
+              "Failed to instantiate the GPS adapter. Falling back to default GPSSoftSimAdapter.", e);
           gpsAdapter = new GPSSoftSimAdapter(instrumentsSimulator, pcAdapter);
         }
         // Optical Data Receiver adapter
@@ -142,7 +141,7 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
         } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | NoSuchMethodException
                 | InvocationTargetException e) {
           Logger.getLogger(PlatformServicesProviderSoftSim.class.getName()).log(Level.WARNING,
-              "Failed to instantiate the optRX adapter.", e);
+              "Failed to instantiate the optRX adapter. Falling back to default OpticalDataReceiverSoftSimAdapter.", e);
           optRxAdapter = new OpticalDataReceiverSoftSimAdapter(instrumentsSimulator, pcAdapter);
         }
         // Radio adapter
@@ -152,14 +151,14 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
         } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | NoSuchMethodException
                 | InvocationTargetException e) {
           Logger.getLogger(PlatformServicesProviderSoftSim.class.getName()).log(Level.WARNING,
-              "Failed to instantiate the SDR adapter.", e);
+              "Failed to instantiate the SDR adapter. Falling back to default SoftwareDefinedRadioSoftSimAdapter.", e);
           sdrAdapter = new SoftwareDefinedRadioSoftSimAdapter(instrumentsSimulator, pcAdapter);
         }
         try {
           clockAdapter = (ClockAdapterInterface) Class.forName(clockAdapterName).newInstance();
         } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
           Logger.getLogger(PlatformServicesProviderSoftSim.class.getName()).log(Level.WARNING,
-              "Failed to instantiate the clock adapter.", e);
+              "Failed to instantiate the clock adapter. Falling back to default ClockSoftSimAdapter", e);
           clockAdapter = new ClockSoftSimAdapter(instrumentsSimulator);
         }
       } else {
