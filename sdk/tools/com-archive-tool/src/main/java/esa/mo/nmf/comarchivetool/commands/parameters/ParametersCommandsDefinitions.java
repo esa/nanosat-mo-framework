@@ -36,14 +36,14 @@ import java.util.List;
 public class ParametersCommandsDefinitions {
 
     @Command(name = "parameter", subcommands = {ListParameters.class, GetParameters.class},
-            description = "Gets or lists NMF app parameters using the content of a local or remote COM archive.")
+            description = "Gets or lists MO parameters using the content of a local or remote COM archive.")
     public static class Parameter {
         @Option(names = {"-h", "--help"}, usageHelp = true, description = "display a help message")
         boolean helpRequested;
     }
 
     @Command(name = "list",
-            description = "Lists available parameters in an NMF app.")
+            description = "Lists available parameters in a COM archive.")
     public static class ListParameters implements Runnable {
         @Option(names = {"-h", "--help"}, usageHelp = true, description = "display a help message")
         boolean helpRequested;
@@ -59,7 +59,7 @@ public class ParametersCommandsDefinitions {
     }
 
     @Command(name = "get",
-            description = "Dumps to a file all parameter samples from an NMF app.")
+            description = "Dumps to a file MO parameters samples from COM archive.")
     public static class GetParameters implements Runnable {
         @Option(names = {"-h", "--help"}, usageHelp = true, description = "display a help message")
         boolean helpRequested;
