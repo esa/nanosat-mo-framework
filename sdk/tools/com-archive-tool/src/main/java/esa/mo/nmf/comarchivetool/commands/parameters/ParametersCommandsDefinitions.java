@@ -68,11 +68,12 @@ public class ParametersCommandsDefinitions {
         ArchiveBrowserHelper.LocalOrRemote localOrRemote;
 
         @Parameters(arity = "1", paramLabel = "<filename>", index = "0",
-                    description = "target file for the parameters")
+                    description = "Target file for the parameters samples")
         String parametersFile;
 
         @Parameters(arity = "0..*", paramLabel = "<parameterNames>", index = "1",
-                    description = "names of the parameters to retrieve")
+                    description = "Names of the parameters to retrieve\n"
+                                  + " - examples: param1 or param1 param2")
         List<String> parameterNames;
 
         @Option(names = {"-s", "--start"}, paramLabel = "<startTime>",
@@ -89,7 +90,7 @@ public class ParametersCommandsDefinitions {
         String endTime;
 
         @Option(names = {"-j", "--json"}, paramLabel = "<json>",
-                description = "if specified output will be in json format")
+                description = "If specified output will be in JSON format")
         boolean json;
 
         @Override

@@ -79,7 +79,7 @@ public class ParametersCommandsImplementations {
         // Display list of NMF apps that have parameters
         List<Identifier> parameters = adapter.getParameterIdentities();
         if (parameters.size() <= 0) {
-            System.out.println("No parameters found in the provided archive: " + (databaseFile == null ? providerURI : databaseFile));
+            System.out.println("No parameter found in the provided archive: " + (databaseFile == null ? providerURI : databaseFile));
         } else {
             System.out.println("Found the following parameters: ");
             for (Identifier parameter : parameters) {
@@ -140,7 +140,7 @@ public class ParametersCommandsImplementations {
                 for(String name: parameterNames) {
                     List<ArchiveToParametersAdapter.TimestampedParameterValue> values = allParameters.get(new Identifier(name));
                     if(values == null) {
-                        LOGGER.log(Level.WARNING, "Parameter " + name + " not found. It will be ignored.");
+                        LOGGER.log(Level.WARNING, "No samples found for parameter" + name + ". It will be ignored.");
                         continue;
                     }
                     parameters.put(new Identifier(name), values);
