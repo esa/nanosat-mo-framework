@@ -26,8 +26,8 @@
   <artifactId>com-archive-tool</artifactId>
   <packaging>jar</packaging>
 
-  <name>ESA NMF SDK Tool - COM Archive Browser</name>
-  <description>An MO COM Archive Consumer providing NMF Apps archive contents through command line</description>
+  <name>ESA NMF SDK Tool - COM Archive Tool</name>
+  <description>Browses a COM archive to retrieve it's contents from the command line.</description>
   <url>http://www.esa.int</url>
 
   <organization>
