@@ -21,19 +21,14 @@
 package esa.mo.com.impl.archive.entities;
 
 import java.io.Serializable;
-import javax.persistence.*;
 
 /**
  * The entity that holds a providerURI and its respective id.
  */
-@Entity
+@Deprecated
 public class ProviderURIHolderEntity implements Serializable {
 
-    @Id
-    @Column(name = "id")
     private int id;
-
-    @Column(name = "providerURIString")
     private String providerURI;
 
     protected ProviderURIHolderEntity() {

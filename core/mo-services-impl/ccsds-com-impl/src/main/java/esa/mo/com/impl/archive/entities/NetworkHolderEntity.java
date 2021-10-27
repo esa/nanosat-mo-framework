@@ -21,35 +21,30 @@
 package esa.mo.com.impl.archive.entities;
 
 import java.io.Serializable;
-import javax.persistence.*;
 
 /**
  * The entity that holds a network and its respective id.
  */
-@Entity
-public class NetworkHolderEntity implements Serializable{
+@Deprecated
+public class NetworkHolderEntity implements Serializable {
 
-    @Id
-    @Column(name = "id")
     private int id;
-
-    @Column(name = "networkString")
     private String network;
-  
+
     protected NetworkHolderEntity() {
     }
 
-    public NetworkHolderEntity (final int id, final String network){
+    public NetworkHolderEntity(final int id, final String network) {
         this.id = id;
         this.network = network;
     }
-    
-    public int getId(){
+
+    public int getId() {
         return this.id;
     }
 
-    public String getNetworkString(){
+    public String getNetworkString() {
         return this.network;
     }
-  
+
 }

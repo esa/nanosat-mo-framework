@@ -6808,7 +6808,7 @@ public class RegressionTest2 {
         org.ccsds.moims.mo.mal.structures.Subscription subscription21 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("18446744073709551615", objectType17);
         org.ccsds.moims.mo.mal.structures.IntegerList integerList22 = fastObjectType1.getObjectTypeIds(objectType17);
         try {
-            fastObjectType1.resetFastObjectType();
+            fastObjectType1.resetTable();
             org.junit.Assert.fail("Expected exception of type java.lang.NullPointerException; message: null");
         } catch (java.lang.NullPointerException e) {
         }
@@ -8700,7 +8700,7 @@ public class RegressionTest2 {
         esa.mo.com.impl.archive.db.DatabaseBackend databaseBackend0 = null;
         esa.mo.com.impl.archive.fast.FastObjectType fastObjectType1 = new esa.mo.com.impl.archive.fast.FastObjectType(databaseBackend0);
         try {
-            fastObjectType1.resetFastObjectType();
+            fastObjectType1.resetTable();
             org.junit.Assert.fail("Expected exception of type java.lang.NullPointerException; message: null");
         } catch (java.lang.NullPointerException e) {
         }

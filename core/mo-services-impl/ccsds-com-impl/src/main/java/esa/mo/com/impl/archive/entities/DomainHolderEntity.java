@@ -21,19 +21,14 @@
 package esa.mo.com.impl.archive.entities;
 
 import java.io.Serializable;
-import javax.persistence.*;
 
 /**
  * The entity that holds a domain and its respective id.
  */
-@Entity
+@Deprecated
 public class DomainHolderEntity implements Serializable {
 
-    @Id
-    @Column(name = "id")
     private int id;
-
-    @Column(name = "domainString")
     private String domainString;
 
     protected DomainHolderEntity() {

@@ -21,35 +21,30 @@
 package esa.mo.com.impl.archive.entities;
 
 import java.io.Serializable;
-import javax.persistence.*;
 
 /**
  * The entity that holds an object type and its respective id.
  */
-@Entity
-public class ObjectTypeHolderEntity implements Serializable{
+@Deprecated
+public class ObjectTypeHolderEntity implements Serializable {
 
-    @Id
-    @Column(name = "id")
     private int id;
-
-    @Column(name = "objectType")
     private Long objectType;
-  
+
     protected ObjectTypeHolderEntity() {
     }
 
-    public ObjectTypeHolderEntity (final int id, final Long objectType){
+    public ObjectTypeHolderEntity(final int id, final Long objectType) {
         this.id = id;
         this.objectType = objectType;
     }
-    
-    public int getId(){
+
+    public int getId() {
         return this.id;
     }
 
-    public Long getObjectType(){
+    public Long getObjectType() {
         return this.objectType;
     }
-  
+
 }

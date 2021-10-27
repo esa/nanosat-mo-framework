@@ -7079,7 +7079,7 @@ public class RegressionTest5 {
         esa.mo.com.impl.archive.db.DatabaseBackend databaseBackend0 = null;
         esa.mo.com.impl.archive.fast.FastDomain fastDomain1 = new esa.mo.com.impl.archive.fast.FastDomain(databaseBackend0);
         try {
-            fastDomain1.resetFastDomain();
+            fastDomain1.resetTable();
             org.junit.Assert.fail("Expected exception of type java.lang.NullPointerException; message: null");
         } catch (java.lang.NullPointerException e) {
         }
@@ -14503,7 +14503,7 @@ public class RegressionTest5 {
         boolean boolean5 = fastObjectType1.exists((java.lang.Long) 281474993487874L);
         boolean boolean7 = fastObjectType1.exists((java.lang.Integer) 9);
         try {
-            fastObjectType1.resetFastObjectType();
+            fastObjectType1.resetTable();
             org.junit.Assert.fail("Expected exception of type java.lang.NullPointerException; message: null");
         } catch (java.lang.NullPointerException e) {
         }

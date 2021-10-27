@@ -21,58 +21,43 @@
 package esa.mo.com.impl.archive.entities;
 
 import java.util.Objects;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Index;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
 
 /**
- * Entity holding last archive synchronization time for provider.
+ * Entity holding last archive synchronization time for provider. The entities
+ * in this implementation have been removed. Please create a proper COM Object
+ * for your data and store it via the service interface instead of hacking it
+ * out with this entity.
  *
  * @author Lukasz.Stochlak
  */
-@Entity(name = "LastArchiveSync")
-@Table(name = "LastArchiveSync", indexes = {
-        @Index(name = "index_provider", columnList = "domain, provider_uri", unique = true) })
-@NamedQuery(
-        name="findLastArchiveSync",
-        query="SELECT OBJECT(p) FROM LastArchiveSync p WHERE p.domain = (:domain) AND p.providerUri = (:uri)"
-)
-public class LastArchiveSyncEntity
-{
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+@Deprecated
+public class LastArchiveSyncEntity {
+
     private Long id;
 
-    @Column(name = "provider_uri", nullable = false)
     private String providerUri;
 
-    @Column(name = "domain", nullable = false)
     private String domain;
 
-    @Column(name = "last_sync", nullable = false)
     private Long lastSync;
 
     /**
-     * Defult constructor.
+     * Default constructor.
      */
-    public LastArchiveSyncEntity()
-    {
+    public LastArchiveSyncEntity() {
     }
 
     /**
-     * Constructor taking provider URI and domain as parameters.
+     * Constructor taking provider URI and domain as parameters. The entities in
+     * this implementation have been removed. Please create a proper COM Object
+     * for your data and store it via the service interface instead of hacking
+     * it out with this entity.
      *
      * @param providerUri provider URI as String.
      * @param domain domain as String.
      */
-    public LastArchiveSyncEntity(String providerUri, String domain)
-    {
+    @Deprecated
+    public LastArchiveSyncEntity(String providerUri, String domain) {
         this.providerUri = providerUri;
         this.domain = domain;
         this.lastSync = System.currentTimeMillis();
@@ -84,8 +69,7 @@ public class LastArchiveSyncEntity
      * @return hash code.
      */
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return Objects.hash(getId(), getProviderUri(), getDomain(), getLastSync());
     }
 
@@ -96,20 +80,17 @@ public class LastArchiveSyncEntity
      * @return true if objects are equal.
      */
     @Override
-    public boolean equals(Object o)
-    {
-        if (this == o)
-        {
+    public boolean equals(Object o) {
+        if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass())
-        {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
         LastArchiveSyncEntity that = (LastArchiveSyncEntity) o;
         return Objects.equals(getId(), that.getId()) && Objects.equals(getProviderUri(), that.getProviderUri())
-               && Objects.equals(getDomain(), that.getDomain())
-               && Objects.equals(getLastSync(), that.getLastSync());
+                && Objects.equals(getDomain(), that.getDomain())
+                && Objects.equals(getLastSync(), that.getLastSync());
     }
 
     /**
@@ -117,8 +98,7 @@ public class LastArchiveSyncEntity
      *
      * @return object id.
      */
-    public Long getId()
-    {
+    public Long getId() {
         return id;
     }
 
@@ -127,8 +107,7 @@ public class LastArchiveSyncEntity
      *
      * @param id object id.
      */
-    public void setId(Long id)
-    {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -137,8 +116,7 @@ public class LastArchiveSyncEntity
      *
      * @return provider URI.
      */
-    public String getProviderUri()
-    {
+    public String getProviderUri() {
         return providerUri;
     }
 
@@ -147,8 +125,7 @@ public class LastArchiveSyncEntity
      *
      * @param providerUri provider URI.
      */
-    public void setProviderUri(String providerUri)
-    {
+    public void setProviderUri(String providerUri) {
         this.providerUri = providerUri;
     }
 
@@ -157,8 +134,7 @@ public class LastArchiveSyncEntity
      *
      * @return domian.
      */
-    public String getDomain()
-    {
+    public String getDomain() {
         return domain;
     }
 
@@ -167,8 +143,7 @@ public class LastArchiveSyncEntity
      *
      * @param domain domain.
      */
-    public void setDomain(String domain)
-    {
+    public void setDomain(String domain) {
         this.domain = domain;
     }
 
@@ -177,8 +152,7 @@ public class LastArchiveSyncEntity
      *
      * @return last synchronization time as Long.
      */
-    public Long getLastSync()
-    {
+    public Long getLastSync() {
         return lastSync;
     }
 
@@ -187,8 +161,7 @@ public class LastArchiveSyncEntity
      *
      * @param lastSync synchronization time as Long.
      */
-    public void setLastSync(Long lastSync)
-    {
+    public void setLastSync(Long lastSync) {
         this.lastSync = lastSync;
     }
 
@@ -198,10 +171,8 @@ public class LastArchiveSyncEntity
      * @return object as String.
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "LastArchiveSyncEntity{" + "id=" + id + ", providerUri='" + providerUri + '\'' + ", domain='" + domain + '\''
-               + ", lastSync=" + lastSync + '}';
+                + ", lastSync=" + lastSync + '}';
     }
 }
-//------------------------------------------------------------------------------

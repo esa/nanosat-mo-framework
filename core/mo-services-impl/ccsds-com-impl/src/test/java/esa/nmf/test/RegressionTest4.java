@@ -1383,7 +1383,7 @@ public class RegressionTest4 {
         boolean boolean3 = fastObjectType1.exists((java.lang.Long) 1558616177410L);
         boolean boolean5 = fastObjectType1.exists((java.lang.Long) 281474993487874L);
         try {
-            fastObjectType1.resetFastObjectType();
+            fastObjectType1.resetTable();
             org.junit.Assert.fail("Expected exception of type java.lang.NullPointerException; message: null");
         } catch (java.lang.NullPointerException e) {
         }
