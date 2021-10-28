@@ -3785,6 +3785,7 @@ public class SimulatorNode extends TaskNode
         }
         case 2004: {// Origin [IGPS] Method [String getTIMEASentence();//2004//Obtain UTC time info]
           StringBuilder sb = new StringBuilder(generateOEMHeader("TIMEA", "FINESTEERING"));
+          sb.append("VALID,");
           sb.append("0,0,0,");
           String utc = Instant.now().toString();
           String[] yearTime = utc.split("T");
@@ -3799,7 +3800,7 @@ public class SimulatorNode extends TaskNode
           String hour = hms[0];
           String minute = hms[1];
           String ms = hms[2];
-          ms = ms.replace("\\.", "");
+          ms = ms.replaceAll("\\.", "");
           ms = ms.replace("Z", "");
           sb.append(year).append(",").append(month).append(",");
           sb.append(day).append(",").append(hour).append(",").append(minute).append(",");
