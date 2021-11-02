@@ -40,6 +40,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -3786,22 +3787,13 @@ public class SimulatorNode extends TaskNode
         case 2004: {// Origin [IGPS] Method [String getTIMEASentence();//2004//Obtain UTC time info]
           StringBuilder sb = new StringBuilder(generateOEMHeader("TIMEA", "FINESTEERING"));
           sb.append("VALID,");
-          sb.append("0,0,0,");
-          String utc = Instant.now().toString();
-          String[] yearTime = utc.split("T");
-          String[] ymd = yearTime[0].split("-");
-          String[] hms = yearTime[1].split(":");
-          String year = ymd[0];
-          String month = ymd[1];
-          if (month.charAt(0) == '0') {
-            month = month.substring(1);
-          }
-          String day = ymd[2];
-          String hour = hms[0];
-          String minute = hms[1];
-          String ms = hms[2];
-          ms = ms.replaceAll("\\.", "");
-          ms = ms.replace("Z", "");
+          sb.append("0,0,-18.00000000000,");
+          String year = simulatorData.getCurrentYear();
+          String month = simulatorData.getCurrentMonth();
+          String day = simulatorData.getCurrentDay();
+          String hour = simulatorData.getUTCCurrentHour();
+          String minute = simulatorData.getUTCCurrentMinute();
+          String ms = simulatorData.getUTCCurrentSecond() + simulatorData.getUTCCurrentMillis();
           sb.append(year).append(",").append(month).append(",");
           sb.append(day).append(",").append(hour).append(",").append(minute).append(",");
           sb.append(ms).append(",VALID*");
@@ -3917,13 +3909,18 @@ public class SimulatorNode extends TaskNode
   public String generateOEMHeader(String msgType, String timeStatus)
   {
     StringBuilder sb = new StringBuilder("#");
+    long gpsTime = simulatorData.getCurrentTime().getTime() - simulatorData.getUtcOffsetInMillis();
     Calendar fdow = Calendar.getInstance();
+    fdow.setTimeInMillis(gpsTime);
     fdow.set(Calendar.HOUR_OF_DAY, 0);
     fdow.clear(Calendar.MINUTE);
     fdow.clear(Calendar.SECOND);
     fdow.clear(Calendar.MILLISECOND);
     fdow.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+
     Calendar current = Calendar.getInstance();
+    current.setTimeInMillis(gpsTime);
+
     Calendar base = new GregorianCalendar(1980, 1, 5);
     Instant d1i = Instant.ofEpochMilli(base.getTimeInMillis());
     Instant d2i = Instant.ofEpochMilli(current.getTimeInMillis());
@@ -3933,10 +3930,12 @@ public class SimulatorNode extends TaskNode
 
     long weeks = ChronoUnit.WEEKS.between(startDate, endDate);
     long seconds = current.getTimeInMillis() / 1000 - fdow.getTimeInMillis() / 1000;
-    long millis = current.get(Calendar.MILLISECOND);
+    DateFormat df = new SimpleDateFormat("SSS");
+    String millis = df.format(current.getTime());
 
     sb.append(msgType).append(",COM1,").append("0,").append(35.0).append(",").append(timeStatus);
-    sb.append(",").append(weeks).append(",").append(seconds).append(".").append(millis).append(",");
+    sb.append(",").append(weeks).append(",").append(seconds).append(".").append(millis).append(
+            ",");
     sb.append("00100000,97b7,2310;"); // last fields are dummys
 
     return sb.toString();
