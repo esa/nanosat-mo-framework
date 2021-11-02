@@ -87,6 +87,7 @@ public class SimulatorData implements Serializable {
     private boolean timeRunning;
     private boolean simulatorRunning;
     private long currentTimeLong;
+    private long utcOffsetInMillis = -18000;
 
     public void setMethodsExecuted(int methodsExecuted) {
         this.methodsExecuted = methodsExecuted;
@@ -172,6 +173,22 @@ public class SimulatorData implements Serializable {
         DateFormat df = new SimpleDateFormat("hhmm");
         return df.format(currentTime);
     }
+    public String getUTCCurrentHour() {
+        DateFormat df = new SimpleDateFormat("hh");
+        return df.format(currentTime);
+    }
+    public String getUTCCurrentMinute() {
+        DateFormat df = new SimpleDateFormat("mm");
+        return df.format(currentTime);
+    }
+    public String getUTCCurrentSecond() {
+        DateFormat df = new SimpleDateFormat("ss");
+        return df.format(currentTime);
+    }
+    public String getUTCCurrentMillis() {
+        DateFormat df = new SimpleDateFormat("SSS");
+        return df.format(currentTime);
+    }
     public String getCurrentDay() {
         DateFormat df = new SimpleDateFormat("dd");
         return df.format(currentTime);
@@ -183,6 +200,10 @@ public class SimulatorData implements Serializable {
     public String getCurrentYear() {
         DateFormat df = new SimpleDateFormat("yyyy");
         return df.format(currentTime);
+    }
+
+    public long getUtcOffsetInMillis(){
+        return utcOffsetInMillis;
     }
     
 }
