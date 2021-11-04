@@ -34,6 +34,7 @@ import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
+import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
 import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorHelper;
 
 import java.util.ArrayList;
@@ -118,9 +119,14 @@ public class LogsCommandsImplementations {
                                String domainId, String startTime, String endTime, String logFile, boolean addTimestamps) {
         // Query all objects from SoftwareManagement area and CommandExecutor service,
         // filtering for StandardOutput and StandardError events is done in the query adapter
-        ObjectType objectsTypes =
+        ObjectType outputObjectTypes =
                 new ObjectType(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER,
                                CommandExecutorHelper.COMMANDEXECUTOR_SERVICE_NUMBER,
+                               SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION, new UShort(0));
+
+        ObjectType eventObjectTypes =
+                new ObjectType(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER,
+                               AppsLauncherHelper.APPSLAUNCHER_SERVICE_NUMBER,
                                SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION, new UShort(0));
 
         LocalOrRemoteConsumer consumers = createConsumer(providerURI, databaseFile);
@@ -147,14 +153,22 @@ public class LogsCommandsImplementations {
         ArchiveQueryList archiveQueryList = new ArchiveQueryList();
         FineTime startTimeF = startTime == null ? null : HelperTime.readableString2FineTime(startTime);
         FineTime endTimeF = endTime == null ? null : HelperTime.readableString2FineTime(endTime);
-        ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L, appObjectId,
+        ArchiveQuery outputArchiveQuery = new ArchiveQuery(domain, null, null, 0L, appObjectId,
                                                      startTimeF, endTimeF, null, null);
-        archiveQueryList.add(archiveQuery);
+        archiveQueryList.add(outputArchiveQuery);
 
         // execute query
         ArchiveToLogAdapter adapter = new ArchiveToLogAdapter(logFile, addTimestamps);
-        queryArchive(objectsTypes, archiveQueryList, adapter, adapter, remoteConsumer == null ? localConsumer : remoteConsumer.getCOMServices().getArchiveService());
+        queryArchive(outputObjectTypes, archiveQueryList, adapter, adapter, remoteConsumer == null ? localConsumer : remoteConsumer.getCOMServices().getArchiveService());
 
+        archiveQueryList.clear();
+        ArchiveQuery eventArchiveQuery = new ArchiveQuery(domain, null, null, appObjectId.getKey().getInstId(), null,
+                                                           startTimeF, endTimeF, null, null);
+        archiveQueryList.add(eventArchiveQuery);
+        adapter.resetAdapter();
+        queryArchive(eventObjectTypes, archiveQueryList, adapter, adapter, remoteConsumer == null ? localConsumer : remoteConsumer.getCOMServices().getArchiveService());
+
+        adapter.dumpArchiveObjectsOutput();
         closeConsumer(consumers);
     }
 }
