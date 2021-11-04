@@ -600,7 +600,7 @@ public class AppsLauncherManager extends DefinitionsManager
 
     // Generate, store and publish the events to stop the App...
     final Long objId = super.getCOMServices().getEventService().generateAndStoreEvent(objType,
-        ConfigurationProviderSingleton.getDomain(), null, appInstId, eventSource, interaction.
+        ConfigurationProviderSingleton.getDomain(), appDirectoryServiceName, appInstId, eventSource, interaction.
         getInteraction());
 
     final URI uri = interaction.getInteraction().getMessageHeader().getURIFrom();

@@ -23,21 +23,21 @@ package esa.mo.nmf.comarchivetool.adapters;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Comparator;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import esa.mo.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
-import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALStandardError;
 import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.FineTime;
+import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
+import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
 import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorHelper;
 import esa.mo.com.impl.util.ArchiveCOMObjectsOutput;
 
@@ -61,17 +61,16 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
    */
   private boolean isQueryOver = false;
 
-  /**
-   * SoftwareManagement.CommandExecutor.StandardOutput object type
+  /*
+   * Types of objects to show in the log
    */
-  private ObjectType stdOutputType = CommandExecutorHelper.STANDARDOUTPUT_OBJECT_TYPE;
+  private final Map<ObjectType, String> objectTypes = new HashMap<>();
 
-  /**
-   * SoftwareManagement.CommandExecutor.StandardError object type
-   */
-  private ObjectType stdErrorType = CommandExecutorHelper.STANDARDERROR_OBJECT_TYPE;
+  private final List<ArchiveCOMObjectsOutput> queryResults = new ArrayList<>();
 
-  private boolean addTimestamps;
+  private final boolean addTimestamps;
+
+  private final String logFilePath;
 
   /**
    * Creates a new instance of ArchiveToLogAdapter.
@@ -80,61 +79,86 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
    */
   public ArchiveToLogAdapter(String logFilePath, boolean addTimestamps) {
     this.addTimestamps = addTimestamps;
-    openLogFile(logFilePath);
+    this.logFilePath = logFilePath;
+
+    objectTypes.put(CommandExecutorHelper.STANDARDOUTPUT_OBJECT_TYPE, null);
+    objectTypes.put(CommandExecutorHelper.STANDARDERROR_OBJECT_TYPE, null);
+    objectTypes.put(AppsLauncherHelper.STARTAPP_OBJECT_TYPE, "Event StartApp, body: ");
+    objectTypes.put(AppsLauncherHelper.STOPAPP_OBJECT_TYPE, "Event StopApp, body: ");
+    objectTypes.put(AppsLauncherHelper.STOPPING_OBJECT_TYPE, "Event Stopping, body: ");
+    objectTypes.put(AppsLauncherHelper.STOPPED_OBJECT_TYPE, "Event Stopped, body: ");
   }
 
   /**
    * Dumps an archive objects output received from an archive query answer (update or response).
-   *
-   * @param archiveObjectOutput the archive objects outputs
    */
-  private synchronized void dumpArchiveObjectsOutput(ArchiveCOMObjectsOutput archiveObjectOutput) {
+  public synchronized void dumpArchiveObjectsOutput() {
+    openLogFile(logFilePath);
+
     if (logFile == null) {
       LOGGER.log(Level.SEVERE, "Can't dump MAL elements to LOG file: file is null");
       return;
     }
 
-    // empty comType means query returned nothing
-    ObjectType comType = archiveObjectOutput.getObjectType();
-    if (comType == null) {
-      return;
-    }
+    queryResults.sort(Comparator.comparingLong(com -> com.getArchiveDetailsList().get(0).getTimestamp().getValue()));
 
-    // only expected types
-    if (!(comType.equals(stdOutputType) || comType.equals(stdErrorType))) {
-      return;
-    }
+    for(ArchiveCOMObjectsOutput archiveObjectOutput : queryResults)
+    {
+      // empty comType means query returned nothing
+      ObjectType comType = archiveObjectOutput.getObjectType();
+      if (comType == null) {
+        return;
+      }
 
-    // if somehow we have no object bodies, stop
-    if (archiveObjectOutput.getObjectBodies() == null) {
-      return;
-    }
+      // only expected types
+      if (!objectTypes.containsKey(comType)) {
+        return;
+      }
 
-    String lineOffset = "                        "; // 24 is the length of the timestamp
-    for(int i = 0; i < archiveObjectOutput.getArchiveDetailsList().size(); ++i) {
-      // write LOG message, we can safely cast to String
-      String logObject = (String) archiveObjectOutput.getObjectBodies().get(i);
-      try {
-        if(addTimestamps) {
-          FineTime timestamp = archiveObjectOutput.getArchiveDetailsList().get(i).getTimestamp();
-          String[] logLines = logObject.split("\n");
-          logLines[0] = HelperTime.time2readableString(timestamp) + " " + logLines[0];
-          if(logLines.length > 1) {
-            for(int j = 1; j < logLines.length; ++j) {
-              logLines[j] = lineOffset + logLines[j];
-            }
-          }
+      // if somehow we have no object bodies, stop
+      if (comType.getService().equals(CommandExecutorHelper.COMMANDEXECUTOR_SERVICE_NUMBER) && archiveObjectOutput.getObjectBodies() == null) {
+        return;
+      }
 
-          for(String line : logLines) {
-            logFile.write(line + "\n");
-          }
+      String lineOffset = "                        "; // 24 is the length of the timestamp
+      for(int i = 0; i < archiveObjectOutput.getArchiveDetailsList().size(); ++i) {
+        String logObject;
+        if(comType.getService().equals(CommandExecutorHelper.COMMANDEXECUTOR_SERVICE_NUMBER))
+        {
+          // write LOG message, we can safely cast to String
+          logObject = (String) archiveObjectOutput.getObjectBodies().get(i);
         } else {
-          logFile.write(logObject);
+          logObject = objectTypes.get(comType);
+
+          if(archiveObjectOutput.getObjectBodies() != null) {
+            logObject += ((Identifier) archiveObjectOutput.getObjectBodies().get(i)).getValue();
+          } else {
+            logObject += "empty";
+          }
         }
-      } catch (IOException e) {
-        LOGGER.log(Level.SEVERE, "Error writting LOG object", e);
+        try {
+          if(addTimestamps) {
+            FineTime timestamp = archiveObjectOutput.getArchiveDetailsList().get(i).getTimestamp();
+            String[] logLines = logObject.split("\n");
+            logLines[0] = HelperTime.time2readableString(timestamp) + " " + logLines[0];
+            if(logLines.length > 1) {
+              for(int j = 1; j < logLines.length; ++j) {
+                logLines[j] = lineOffset + logLines[j];
+              }
+            }
+
+            for(String line : logLines) {
+              logFile.write(line + "\n");
+            }
+          } else {
+            logFile.write(logObject);
+          }
+        } catch (IOException e) {
+          LOGGER.log(Level.SEVERE, "Error writting LOG object", e);
+        }
       }
     }
+    closeLogFile();
   }
 
   /**
@@ -168,7 +192,7 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
   public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType,
       IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies,
       Map qosProperties) {
-    dumpArchiveObjectsOutput(new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies));
+    queryResults.add(new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies));
     setIsQueryOver(true);
   }
 
@@ -176,7 +200,7 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
   public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType,
       IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies,
       Map qosProperties) {
-    dumpArchiveObjectsOutput(new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies));
+    queryResults.add(new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies));
   }
 
   @Override
@@ -200,6 +224,13 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
     setIsQueryOver(true);
   }
 
+  /*
+   * Resets the adapter to perform another query without creating a second instance
+   */
+  public void resetAdapter() {
+    this.isQueryOver = false;
+  }
+
   /** {@inheritDoc} */
   @Override
   public synchronized boolean isQueryOver() {
@@ -207,10 +238,6 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
   }
 
   private synchronized void setIsQueryOver(boolean isQueryOver) {
-    if (isQueryOver) {
-      // once response or error is received, we close the LOG file
-      closeLogFile();
-    }
     this.isQueryOver = isQueryOver;
   }
 }
