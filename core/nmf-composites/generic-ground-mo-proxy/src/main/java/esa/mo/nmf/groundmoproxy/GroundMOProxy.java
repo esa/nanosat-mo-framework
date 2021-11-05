@@ -75,14 +75,15 @@ public abstract class GroundMOProxy
 {
 
   private static final Logger LOGGER = Logger.getLogger(GroundMOProxy.class.getName());
-  private final static long HEARTBEAT_PUBLISH_PERIOD = 10000;
-  private final static long DIRECTORY_SCAN_PERIOD = 10000; // 10 seconds
+  protected final static long HEARTBEAT_PUBLISH_PERIOD = 10000;
+  protected final static long DIRECTORY_SCAN_PERIOD = 10000; // 10 seconds
   private final AtomicBoolean nmsAliveStatus = new AtomicBoolean(false);
   protected final COMServicesProvider localCOMServices;
   protected final DirectoryProxyServiceImpl localDirectoryService;
-  private Timer timer;
-  private GroundHeartbeatAdapter providerStatusAdapter;
+  protected Timer timer;
+  protected GroundHeartbeatAdapter providerStatusAdapter;
   private SingleConnectionDetails cdRemoteArchive;
+  protected HeartbeatPublisherTask heartbeatTask;
 
   public GroundMOProxy()
   {
@@ -106,8 +107,8 @@ public abstract class GroundMOProxy
 
     // Start the timer to publish the heartbeat
     timer = new Timer("MainProxyTimer");
-    timer.schedule(new HeartbeatPublisherTask(centralDirectoryServiceURI, routedURI),
-        0, HEARTBEAT_PUBLISH_PERIOD);
+    this.heartbeatTask = new HeartbeatPublisherTask(centralDirectoryServiceURI, routedURI);
+    timer.schedule(this.heartbeatTask, 0, HEARTBEAT_PUBLISH_PERIOD);
 
     // Add the periodic check if new NMF Apps were started/stopped
     timer.schedule(new DirectoryScanTask(centralDirectoryServiceURI, routedURI),
@@ -179,6 +180,11 @@ public abstract class GroundMOProxy
     return localCOMServices.getArchiveService().getConnection().getPrimaryConnectionDetails().getProviderURI();
   }
 
+  public DirectoryProxyServiceImpl getLocalDirectoryService()
+  {
+    return localDirectoryService;
+  }
+
   /**
    * @return the nmsAliveStatus
    */
@@ -195,7 +201,7 @@ public abstract class GroundMOProxy
     this.nmsAliveStatus.set(nmsAliveStatus);
   }
 
-  private class DirectoryScanTask extends TimerTask
+  protected class DirectoryScanTask extends TimerTask
   {
 
     private final URI centralDirectoryServiceURI;
@@ -279,11 +285,18 @@ public abstract class GroundMOProxy
     }
   }
 
-  private class HeartbeatPublisherTask extends TimerTask
+  protected void createProviderStatusAdapter(HeartbeatConsumerServiceImpl heartbeat) throws MALException, MALInteractionException {
+    providerStatusAdapter = new GroundHeartbeatAdapter(heartbeat,
+                                                       esa.mo.nmf.groundmoproxy.GroundMOProxy.this);
+  }
+
+  protected class HeartbeatPublisherTask extends TimerTask
   {
 
     private final URI centralDirectoryServiceURI;
     private final URI routedURI;
+    private Subscription heartbeatSubscription;
+    private HeartbeatConsumerServiceImpl heartbeatService;
 
     public HeartbeatPublisherTask(URI centralDirectoryServiceURI, URI routedURI)
     {
@@ -311,14 +324,13 @@ public abstract class GroundMOProxy
               // heartbeat service and listen to the beat
               SingleConnectionDetails connectionDetails = cdFromService(
                   HeartbeatHelper.HEARTBEAT_SERVICE);
-              HeartbeatConsumerServiceImpl heartbeat = new HeartbeatConsumerServiceImpl(
+              heartbeatService = new HeartbeatConsumerServiceImpl(
                   connectionDetails, null);
-              providerStatusAdapter = new GroundHeartbeatAdapter(heartbeat,
-                  esa.mo.nmf.groundmoproxy.GroundMOProxy.this);
-              Subscription heartbeatSubscription = ConnectionConsumer.subscriptionWildcardRandom();
+              createProviderStatusAdapter(heartbeatService);
+              heartbeatSubscription = ConnectionConsumer.subscriptionWildcardRandom();
 
               try {
-                heartbeat.getHeartbeatStub().beatRegister(heartbeatSubscription,
+                heartbeatService.getHeartbeatStub().beatRegister(heartbeatSubscription,
                     providerStatusAdapter);
                 firstTime = false;
               } catch (MALInteractionException | MALException ex) {
@@ -335,6 +347,14 @@ public abstract class GroundMOProxy
           LOGGER.log(Level.SEVERE, "Error when initialising link to the NMS.", ex);
         }
       }
+    }
+
+    public Subscription getHeartbeatSubscription() {
+      return heartbeatSubscription;
+    }
+
+    public HeartbeatConsumerServiceImpl getHeartbeatService() {
+      return heartbeatService;
     }
   }
 
