@@ -32,22 +32,24 @@ import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.softwaremanagement.heartbeat.consumer.HeartbeatAdapter;
 
-class GroundHeartbeatAdapter extends HeartbeatAdapter
+public class GroundHeartbeatAdapter extends HeartbeatAdapter
 {
 
   private static final Logger LOGGER = Logger.getLogger(GroundHeartbeatAdapter.class.getName());
-  private static final long DELTA_ERROR = 2 * 1000; // 2 seconds = 2000 milliseconds
-  private final long period; // In seconds
-  private long lag; // In milliseconds
-  private final TaskScheduler timer;
-  private Time lastBeatAt = HelperTime.getTimestampMillis();
-  private Time lastBeatOBT = null; // Last beat in On-Board timestamp
-  private final GroundMOProxy moProxy;
+  protected static final long DELTA_ERROR = 2 * 1000; // 2 seconds = 2000 milliseconds
+  protected final long period; // In seconds
+  protected long lag; // In milliseconds
+  protected final TaskScheduler timer;
+  protected Time lastBeatAt = HelperTime.getTimestampMillis();
+  protected Time lastBeatOBT = null; // Last beat in On-Board timestamp
+  protected final GroundMOProxy moProxy;
+  protected final HeartbeatConsumerServiceImpl heartbeat;
 
   public GroundHeartbeatAdapter(final HeartbeatConsumerServiceImpl heartbeat,
       final GroundMOProxy moProxy) throws MALInteractionException, MALException
   {
     this.moProxy = moProxy;
+    this.heartbeat = heartbeat;
     long timestamp = System.currentTimeMillis();
     double value = heartbeat.getHeartbeatStub().getPeriod().getValue();
     lag = System.currentTimeMillis() - timestamp;
@@ -55,6 +57,12 @@ class GroundHeartbeatAdapter extends HeartbeatAdapter
     LOGGER.log(Level.INFO, "The provider is reachable! Beat period: {0} seconds", value);
     moProxy.setNmsAliveStatus(true);
     timer = new TaskScheduler(1);
+    startHeartbeatRefreshTask();
+
+  }
+
+  public void startHeartbeatRefreshTask()
+  {
     timer.scheduleTask(new HeartbeatRefreshTask(moProxy, heartbeat), period, period, TimeUnit.MILLISECONDS, true);
   }
 
