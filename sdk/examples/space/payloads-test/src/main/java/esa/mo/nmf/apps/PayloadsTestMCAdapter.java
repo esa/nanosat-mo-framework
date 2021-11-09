@@ -29,6 +29,8 @@ import esa.mo.nmf.annotations.Action;
 import esa.mo.nmf.annotations.ActionParameter;
 import esa.mo.nmf.annotations.Aggregation;
 import esa.mo.nmf.annotations.Parameter;
+import esa.mo.nmf.commonmoadapter.SimpleCommandingInterface;
+
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.Semaphore;
@@ -46,6 +48,7 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.Pair;
 import org.ccsds.moims.mo.mal.structures.PairList;
+import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.Union;
@@ -122,8 +125,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
   public final PixelResolution defaultCameraResolution;
 
   private final PayloadsTestActionsHandler actionsHandler;
-
-
+  public SimpleCommandingInterface simpleCommandingInterface;
   //----------------------------------- Camera Parameters -----------------------------------------
   @Parameter(
       description = "The number of pictures taken",
@@ -281,7 +283,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
     // call super for annotations to work!
     super.initialRegistrations(registration);
 
-    // conversions are not supported by annotatinos yet, so these have to be done the old way
+    // conversions are not supported by annotations yet, so these have to be done the old way
     registerParameters(registration);
   }
 
@@ -538,6 +540,18 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
     return actionsHandler.executeAdcsModeAction(null, null, this);
   }
 
+  
+  @Action(description = "Schedule JPG picture acquisition.")
+  public UInteger scheduleTakePictureJPG(
+      Long actionInstanceObjId,
+      boolean reportProgress,
+      MALInteraction interaction,
+      @ActionParameter(name = "Execution delay") Duration acquisitionDelay)
+  {
+    return actionsHandler
+        .scheduleTakePicture(actionInstanceObjId, reportProgress, interaction, acquisitionDelay, PictureFormat.JPG);
+  }
+
   @Action(description = "Uses the NMF Camera service to take a picture in RAW format.",
       stepCount = PayloadsTestActionsHandler.TOTAL_STAGES)
   public UInteger takePicture_RAW(
@@ -739,5 +753,10 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
         }
       }
     }
+  }
+
+  public void setSimpleCommandingInterface(SimpleCommandingInterface arg)
+  {
+    simpleCommandingInterface = arg;
   }
 }

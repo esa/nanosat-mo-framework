@@ -20,6 +20,8 @@
  */
 package esa.mo.nmf.apps;
 
+import esa.mo.helpertools.connections.ConnectionConsumer;
+import esa.mo.nmf.commonmoadapter.CommonMOAdapterImpl;
 import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
 
 public class PayloadsTestApp
@@ -37,6 +39,10 @@ public class PayloadsTestApp
     PayloadsTestMCAdapter adapter = new PayloadsTestMCAdapter(connector);
     connector.init(adapter);
     adapter.startAdcsAttitudeMonitoring();
+    // Initialize the loopback connection to consume own interfaces easily
+    ConnectionConsumer connectionConsumer = new ConnectionConsumer();
+    connectionConsumer.loadURIs();
+    adapter.setSimpleCommandingInterface(new CommonMOAdapterImpl(connectionConsumer));
   }
 
 }

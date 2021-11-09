@@ -23,6 +23,7 @@ package esa.mo.nmf.apps;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.nmf.NMFException;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
@@ -31,6 +32,7 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Duration;
+import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode;
 import org.ccsds.moims.mo.platform.camera.structures.CameraSettings;
@@ -91,6 +93,42 @@ public class PayloadsTestActionsHandler
       return new UInteger(4);
     }
     return null; // Success
+  }
+  
+  public UInteger scheduleTakePicture(
+      Long actionInstanceObjId,
+      boolean reportProgress,
+      MALInteraction interaction,
+      Duration scheduleDelay,
+      PictureFormat format)
+  {
+    Timer timer = new Timer();
+    long delay = (long)(scheduleDelay.getValue() * 1000L);
+    if (delay < 0) {
+      delay = 0;
+    }
+    LOGGER.log(Level.INFO, "Scheduling takePicture action in {0} ms", delay);
+    timer.schedule(new TimerTask(){
+      @Override
+      public void run() {
+        String actionName;
+        switch(format.getOrdinal()) {
+          case PictureFormat._BMP_INDEX:
+            actionName = "takePicture_BMP";
+            break;
+          case PictureFormat._RAW_INDEX:
+            actionName = "takePicture_RAW";
+            break;
+          case PictureFormat._PNG_INDEX:
+          case PictureFormat._JPG_INDEX:
+          default:
+            actionName = "takePicture_JPG";
+            break;
+        }
+        payloadsTestMCAdapter.simpleCommandingInterface.launchAction(actionName, new Serializable[]{});
+      }
+    }, delay);
+    return null; // Success!
   }
 
   public UInteger takePicture(
