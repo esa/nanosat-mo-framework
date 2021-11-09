@@ -35,6 +35,7 @@ import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeSingleS
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeSunPointing;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeTargetTracking;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeVectorPointing;
+import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeInertialPointing;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetry;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.MagnetorquersState;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.ReactionWheelIdentifier;
@@ -120,8 +121,13 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
       instrumentsSimulator.getpFineADCS().getSimulatorNode().runVectorTargetTracking(
           vec.getX(), vec.getY(),
           vec.getZ(), a.getMargin());
+    } else if (att instanceof AttitudeModeInertialPointing) {
+      AttitudeModeInertialPointing a = (AttitudeModeInertialPointing) att;
+      VectorF3D vec = a.getTargetVector();
+      instrumentsSimulator.getpFineADCS().getSimulatorNode().runVectorTargetTracking(
+          vec.getX(), vec.getY(),
+          vec.getZ(), 10.f);
     }
-
   }
 
   @Override

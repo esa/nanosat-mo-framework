@@ -1628,7 +1628,7 @@
         </mal:composite>
         <mal:composite
           comment="Vector Pointing attitude mode defined by the consumer."
-          name="AttitudeModeVectorPointing" shortFormPart="12">
+          name="AttitudeModeVectorPointing" shortFormPart="14">
           <mal:extends>
             <mal:type area="Platform" list="false"
                       name="AttitudeMode" service="AutonomousADCS" />
@@ -1643,6 +1643,32 @@
                      comment="margin between target vector and current vector (in degrees)"
                      name="margin">
             <mal:type area="MAL" list="false" name="Float" />
+          </mal:field>
+        </mal:composite>
+        <mal:composite
+          comment="Inertial Pointing attitude mode."
+          name="AttitudeModeInertialPointing" shortFormPart="15">
+          <mal:extends>
+            <mal:type area="Platform" list="false"
+                      name="AttitudeMode" service="AutonomousADCS" />
+          </mal:extends>
+          <mal:field canBeNull="false"
+                     comment="Line of sight vector in satellite body frame pointing to the target"
+                     name="targetVector">
+            <mal:type area="Platform" list="false"
+                      name="VectorF3D"/>
+          </mal:field>
+          <mal:field canBeNull="false"
+                     comment="Flight vector in satellite body frame pointing into the flight direction"
+                     name="flightVector">
+            <mal:type area="Platform" list="false"
+                      name="VectorF3D"/>
+          </mal:field>
+          <mal:field canBeNull="false"
+                     comment="Target attitude quaternion in ECI frame"
+                     name="targetAttitude">
+            <mal:type area="Platform" list="false"
+                      name="Quaternion" service="AutonomousADCS"/>
           </mal:field>
         </mal:composite>
         <mal:composite
@@ -1755,7 +1781,7 @@
         </mal:enumeration>
         <mal:composite
           comment="Holds Raction wheel parameters" name="ReactionWheelParameters"
-          shortFormPart="12">
+          shortFormPart="13">
           <mal:field canBeNull="false"
                      comment="Control mode of the Reaction wheels. 0 = Target value is a current value [A]; 1 = Target value is a speed value [rad/sec]; 2 = Target alue is a torgh [Nm]" name="controlMode">
             <mal:type area="MAL" list="false" name="Integer" />
