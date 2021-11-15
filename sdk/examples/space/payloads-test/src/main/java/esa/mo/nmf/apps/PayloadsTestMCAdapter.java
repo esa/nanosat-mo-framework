@@ -549,7 +549,18 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
       @ActionParameter(name = "Execution delay") Duration acquisitionDelay)
   {
     return actionsHandler
-        .scheduleTakePicture(actionInstanceObjId, reportProgress, interaction, acquisitionDelay, PictureFormat.JPG);
+        .scheduleTakePicture(actionInstanceObjId, reportProgress, interaction, acquisitionDelay, PictureFormat.JPG, false);
+  }
+
+  @Action(description = "Schedule JPG picture acquisition.")
+  public UInteger scheduleTakePictureAutoExposedJPG(
+      Long actionInstanceObjId,
+      boolean reportProgress,
+      MALInteraction interaction,
+      @ActionParameter(name = "Execution delay") Duration acquisitionDelay)
+  {
+    return actionsHandler
+        .scheduleTakePicture(actionInstanceObjId, reportProgress, interaction, acquisitionDelay, PictureFormat.JPG, true);
   }
 
   @Action(description = "Uses the NMF Camera service to take a picture in RAW format.",

@@ -100,7 +100,8 @@ public class PayloadsTestActionsHandler
       boolean reportProgress,
       MALInteraction interaction,
       Duration scheduleDelay,
-      PictureFormat format)
+      PictureFormat format,
+      boolean autoExposed)
   {
     Timer timer = new Timer();
     long delay = (long)(scheduleDelay.getValue() * 1000L);
@@ -114,15 +115,24 @@ public class PayloadsTestActionsHandler
         String actionName;
         switch(format.getOrdinal()) {
           case PictureFormat._BMP_INDEX:
-            actionName = "takePicture_BMP";
+            if(autoExposed)
+              actionName = "takeAutoExposedPicture_BMP";
+            else
+              actionName = "takePicture_BMP";
             break;
           case PictureFormat._RAW_INDEX:
-            actionName = "takePicture_RAW";
+            if(autoExposed)
+              actionName = "takeAutoExposedPicture_RAW";
+            else
+              actionName = "takePicture_RAW";
             break;
           case PictureFormat._PNG_INDEX:
           case PictureFormat._JPG_INDEX:
           default:
-            actionName = "takePicture_JPG";
+            if(autoExposed)
+              actionName = "takeAutoExposedPicture_JPG";
+            else
+              actionName = "takePicture_JPG";
             break;
         }
         payloadsTestMCAdapter.simpleCommandingInterface.launchAction(actionName, new Serializable[]{});
