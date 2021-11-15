@@ -23,6 +23,7 @@ package esa.mo.platform.impl.provider.gen;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
+import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.helpertools.misc.Const;
@@ -350,7 +351,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
 
       if (validationResult != null) {
         throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER,
-            validationResult));
+            HelperAttributes.javaType2Attribute(validationResult)));
       }
 
       try {
