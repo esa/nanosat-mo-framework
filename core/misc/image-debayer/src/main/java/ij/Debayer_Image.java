@@ -51,7 +51,7 @@ public class Debayer_Image implements PlugInFilter {
     gauss = false;
     med_radius = (int) 2.0;
     gauss_radius = (int) 2.0;
-    normalize = true; // optional
+    normalize = false; // optional
     equalize = false;
     stackHist = false;
 
