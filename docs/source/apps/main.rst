@@ -38,6 +38,22 @@ We can use the ``connector`` to request services from the NMF (e.g. camera and i
 Together with the ``connector``, we need an ``adapter`` which handles the responses coming from the ``connector`` and pushing of requests and results to the ``connector``.
 That's why we supply the ``connector`` to the ``adapter`` by calling ``adapter.setNMF(connector)`` and vice versa by calling ``connector.init(adapter)`` on startup.
 
+Communication with the supervisor or another app
+-----------------------------------------------
+Your space app can also consume services directly from the supervisor or another space app using either
+forNMFSupervisor or forNMFApp methods from the SpaceMOApdapterImpl. For example to receive the GPS
+defined parameters one would obtain the GPS consumer as follows :
+
+.. code-block:: java
+   :linenos:
+SpaceMOApdapterImpl gpsSMA =
+                SpaceMOApdapterImpl.forNMFApp(connector.readCentralDirectoryServiceURI(), "gps");
+.. contents::
+
+Full examples of these can be found under space app examples.
+Space-to-space-supervisor app connects to the supervisor, listens and logs some of the parameter values from it.
+Space-to-space app shows how to connect to the GPS app and logs the GPS parameters as it receives them.
+
 Instantiating the app
 ---------------------
 Since every important operation in this example is dispatched to the adapter and the connections are set up in the constructor of our app, we just need to create an instance of our :java:type:`~esa.mo.nmf.apps.SobelApp` class in the main method.

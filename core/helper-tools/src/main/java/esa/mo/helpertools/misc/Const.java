@@ -41,6 +41,7 @@ public class Const
   public static final String ARCHIVESYNC_PURGE_ARCHIVE_DEFAULT = "true";
   public static final String NANOSAT_MO_SUPERVISOR_NAME = "nanosat-mo-supervisor";
   public static final String NANOSAT_MO_GROUND_PROXY_NAME = "ground-mo-proxy";
+  public static final String NANOSAT_MO_APP_IDENTIFIER_PREFIX = "App: ";
   public static final String NMF_PACKAGE_SUFFIX = "nmfpack";
   public static final String PLATFORM_IADCS_CACHING_PERIOD = "esa.mo.nmf.platform.iadcs.caching.period";
   public static final String PLATFORM_GNSS_CACHING_PERIOD = "esa.mo.nmf.platform.gnss.caching.period";
