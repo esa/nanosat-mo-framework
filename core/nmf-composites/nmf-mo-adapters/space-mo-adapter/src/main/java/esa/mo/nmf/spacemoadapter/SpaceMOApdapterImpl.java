@@ -108,20 +108,32 @@ public class SpaceMOApdapterImpl extends CommonMOAdapterImpl {
    * @return The SpaceMOAdapter instance.
    */
   public static SpaceMOApdapterImpl forNMFSupervisor(URI centralDirectoryServiceURI) {
-    return new SpaceMOApdapterImpl(getNMFSupervisorProviderSummary(centralDirectoryServiceURI));
+    return new SpaceMOApdapterImpl(getNMFProviderSummary(centralDirectoryServiceURI, Const.NANOSAT_MO_SUPERVISOR_NAME));
   }
 
   /**
-   * Look up the central directory to find the NMF supervisor provider details.
-   * 
-   * @return ProviderSummary of the NMF supervisor provider or null if not found
+   * Returns a instance of SpaceMOApdapterImpl that consumes the named space app
+   * found in the central directory service.
+   *
+   * @param centralDirectoryServiceURI URI of the central directory service
+   * @return The SpaceMOAdapter instance.
    */
-  private static ProviderSummary getNMFSupervisorProviderSummary(URI centralDirectoryServiceURI) {
+  public static SpaceMOApdapterImpl forNMFApp(URI centralDirectoryServiceURI, String appName) {
+    return new SpaceMOApdapterImpl(getNMFProviderSummary(centralDirectoryServiceURI,
+            Const.NANOSAT_MO_APP_IDENTIFIER_PREFIX + appName));
+  }
+
+  /**
+   * Look up the central directory to find the NMF provider details.
+   * 
+   * @return ProviderSummary of the NMF provider or null if not found
+   */
+  private static ProviderSummary getNMFProviderSummary(URI centralDirectoryServiceURI, String providerName) {
     // Create supervisor provider filter
     IdentifierList domain = new IdentifierList();
     domain.add(new Identifier("*"));
     ServiceKey sk = new ServiceKey(new UShort(0), new UShort(0), new UOctet((short) 0));
-    ServiceFilter sf2 = new ServiceFilter(new Identifier(Const.NANOSAT_MO_SUPERVISOR_NAME), domain,
+    ServiceFilter sf2 = new ServiceFilter(new Identifier(providerName), domain,
         new Identifier("*"), null, new Identifier("*"), sk, new UIntegerList());
 
     // Query directory service with filter
