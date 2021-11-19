@@ -25,6 +25,7 @@ import java.io.IOException;
 import org.ccsds.moims.mo.platform.gps.structures.Position;
 import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
 import org.ccsds.moims.mo.platform.gps.structures.TwoLineElementSet;
+import org.orekit.propagation.analytical.tle.TLE;
 
 /**
  *
@@ -69,7 +70,8 @@ public interface GPSAdapterInterface
    * @return The current two line element set
    * @throws IOException if TLE can't be read
    */
-  TwoLineElementSet getTLE();
+  TLE getTLE();
+
 
   /**
    * Requests the BESTXYZ NMEA sentence
