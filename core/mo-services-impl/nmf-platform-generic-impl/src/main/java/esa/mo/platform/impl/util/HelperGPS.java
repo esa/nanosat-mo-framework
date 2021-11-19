@@ -26,10 +26,7 @@ import java.util.Calendar;
 import java.util.TimeZone;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.platform.gps.structures.Position;
-import org.ccsds.moims.mo.platform.gps.structures.PositionExtraDetails;
-import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfo;
-import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
+import org.ccsds.moims.mo.platform.gps.structures.*;
 
 /**
  * A Helper class with some conversions for GPS NMEA sentences
@@ -137,6 +134,7 @@ public class HelperGPS
           "W") ? -1 : 1));
 
       PositionExtraDetails posExtraDetails = new PositionExtraDetails();
+      posExtraDetails.setPositionSource(PositionSourceType.GNSS);
       if(items[GPGGA_GEN_COL.QUAL].length() != 0)
         posExtraDetails.setFixQuality(Integer.parseInt(items[GPGGA_GEN_COL.QUAL]));
       else

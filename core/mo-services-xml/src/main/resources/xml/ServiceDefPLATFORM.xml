@@ -899,7 +899,22 @@
                      name="undulation">
             <mal:type area="MAL" list="false" name="Float" />
           </mal:field>
+          <mal:field canBeNull="false"
+                     comment="Source of the position data (e.g. directly from GNSS or propagated via TLE)."
+                     name="positionSource">
+            <mal:type area="Platform" list="false"
+                      name="PositionSourceType" service="GPS"/>
+          </mal:field>
         </mal:composite>
+        <mal:enumeration
+                comment="GNSS position source."
+                name="PositionSourceType" shortFormPart="11">
+          <mal:item comment="GNSS"
+                    nvalue="1" value="GNSS" />
+          <mal:item
+                  comment="TLE propagation" nvalue="2"
+                  value="TLE" />
+        </mal:enumeration>
         <mal:composite
           comment="The NearbyPositionDefinition structure holds a definition of a certain Position."
           name="NearbyPositionDefinition" shortFormPart="26">

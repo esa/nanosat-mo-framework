@@ -65,6 +65,11 @@
       <artifactId>ccsds-com</artifactId>
     </dependency>
     <dependency>
+      <groupId>int.esa.nmf.sdk</groupId>
+      <artifactId>orekit-resources</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.12</version>

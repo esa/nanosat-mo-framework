@@ -88,19 +88,11 @@ public class GPSSoftSimAdapter extends GPSNMEAonlyAdapter
   }
 
   @Override
-  public TwoLineElementSet getTLE()
+  public TLE getTLE()
   {
     TLE tle = this.instrumentsSimulator.getSimulatorNode().getTLE();
 
-    return new TwoLineElementSet(tle.getSatelliteNumber(), "" + tle.getClassification(),
-        tle.getLaunchYear(), tle.getLaunchNumber(), tle.getLaunchPiece(),
-        tle.getDate().getComponents(0).getDate().getYear(),
-        tle.getDate().getComponents(0).getDate().getDayOfYear(),
-        tle.getDate().getComponents(0).getTime().getSecondsInUTCDay(),
-        tle.getMeanMotionFirstDerivative(), tle.getMeanMotionSecondDerivative(),
-        tle.getBStar(), tle.getElementNumber(), tle.getI(), tle.getRaan(), tle.getE(),
-        tle.getPerigeeArgument(), tle.getMeanAnomaly(), tle.getMeanMotion(),
-        tle.getRevolutionNumberAtEpoch());
+    return tle;
   }
 
 }
