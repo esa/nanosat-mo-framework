@@ -229,6 +229,7 @@
       <property name="nmf_home" value="`cd ../nmf > /dev/null; pwd`"/>
       <property name="nmf_lib" value="`cd ../nmf/lib > /dev/null; pwd`"/>
       <property name="binDir" value="mp-demo"/>
+      <property name="max_heap" value="96m"/>
     </ant>
     <ant antfile="antpkg/build_batch_script.xml">
       <property name="mainClass" value="esa.mo.nmf.apps.MPSpaceDemo"/>
@@ -246,6 +247,7 @@
       <property name="nmf_home" value="`cd ../nmf > /dev/null; pwd`"/>
       <property name="nmf_lib" value="`cd ../nmf/lib > /dev/null; pwd`"/>
       <property name="binDir" value="mp-ground-demo"/>
+      <property name="max_heap" value="96m"/>
     </ant>
     <ant antfile="antpkg/build_batch_script.xml">
       <property name="mainClass" value="esa.mo.ground.mp.MPGroundDemo"/>
