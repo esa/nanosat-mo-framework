@@ -75,20 +75,20 @@ public class PowerControlSoftSimAdapter implements PowerControlAdapterInterface
 
   private void initDevices()
   {
-    addDevice(new Device(false, 0L, SimPayloadDevice.FineADCS.identifier, DeviceType.ADCS), SimPayloadDevice.FineADCS);
+    addDevice(new Device(true, 0L, SimPayloadDevice.FineADCS.identifier, DeviceType.ADCS), SimPayloadDevice.FineADCS);
     addDevice(new Device(true, 10L, SimPayloadDevice.SEPP1.identifier, DeviceType.OBC), SimPayloadDevice.SEPP1);
     addDevice(new Device(true, 11L, SimPayloadDevice.SEPP2.identifier, DeviceType.OBC), SimPayloadDevice.SEPP2);
-    addDevice(new Device(false, 2L, SimPayloadDevice.SBandTRX.identifier, DeviceType.SBAND),
+    addDevice(new Device(true, 2L, SimPayloadDevice.SBandTRX.identifier, DeviceType.SBAND),
             SimPayloadDevice.SBandTRX);
-    addDevice(new Device(false, 3L, SimPayloadDevice.XBandTRX.identifier, DeviceType.XBAND),
+    addDevice(new Device(true, 3L, SimPayloadDevice.XBandTRX.identifier, DeviceType.XBAND),
             SimPayloadDevice.XBandTRX);
-    addDevice(new Device(false, 4L, SimPayloadDevice.SDR.identifier,
+    addDevice(new Device(true, 4L, SimPayloadDevice.SDR.identifier,
             DeviceType.SDR), SimPayloadDevice.SDR);
-    addDevice(new Device(false, 5L, SimPayloadDevice.OpticalRX.identifier, DeviceType.OPTRX),
+    addDevice(new Device(true, 5L, SimPayloadDevice.OpticalRX.identifier, DeviceType.OPTRX),
             SimPayloadDevice.OpticalRX);
-    addDevice(new Device(false, 6L, SimPayloadDevice.HDCamera.identifier, DeviceType.CAMERA),
+    addDevice(new Device(true, 6L, SimPayloadDevice.HDCamera.identifier, DeviceType.CAMERA),
             SimPayloadDevice.HDCamera);
-    addDevice(new Device(false, 7L, SimPayloadDevice.GPS.identifier, DeviceType.GNSS),
+    addDevice(new Device(true, 7L, SimPayloadDevice.GPS.identifier, DeviceType.GNSS),
             SimPayloadDevice.GPS);
   }
 
