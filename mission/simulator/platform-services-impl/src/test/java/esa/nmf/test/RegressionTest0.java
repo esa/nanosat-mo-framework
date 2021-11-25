@@ -86,7 +86,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = n
         org.junit.Assert.assertTrue("'" + boolean46 + "' != '" + false + "'", !boolean46);
         org.junit.Assert.assertNull(attitudeMode51);
         org.junit.Assert.assertNull(str53);
-        org.junit.Assert.assertFalse("'" + boolean54 + "' != '" + false + "'", boolean54);
+        org.junit.Assert.assertTrue("'" + boolean54 + "' != '" + true + "'", boolean54);
         org.junit.Assert.assertNotNull(autonomousADCSSoftSimAdapterArray55);
     }
 
@@ -249,7 +249,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter71 = n
         org.junit.Assert.assertNotNull(uRIStream70);
         org.junit.Assert.assertNull(attitudeMode73);
         org.junit.Assert.assertNull(str75);
-        org.junit.Assert.assertFalse("'" + boolean76 + "' != '" + false + "'", boolean76);
+        org.junit.Assert.assertTrue("'" + boolean76 + "' != '" + true + "'", boolean76);
         org.junit.Assert.assertNull(attitudeMode77);
         org.junit.Assert.assertNull(str79);
         org.junit.Assert.assertTrue("'" + boolean80 + "' != '" + false + "'", !boolean80);
@@ -443,7 +443,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
 // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter.randoop_classUsedFlag from class esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter");
         } catch (java.lang.IllegalAccessError e) {
         }
-        org.junit.Assert.assertFalse("'" + boolean2 + "' != '" + false + "'", boolean2);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2);
     }
 
     @Test
@@ -540,7 +540,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.ccsds.moims.mo.platform.camera.structures.PictureFormatList pictureFormatList6 = cameraSoftSimAdapter1.getAvailableFormats();
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertTrue("'" + str3 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str3.equals("NMF Satellite Simulator - Camera Adapter"));
-        org.junit.Assert.assertFalse("'" + boolean4 + "' != '" + false + "'", boolean4);
+        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
         org.junit.Assert.assertNotNull(duration5);
         org.junit.Assert.assertNotNull(pictureFormatList6);
     }
@@ -626,7 +626,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter45 = n
         org.junit.Assert.assertTrue("'" + int44 + "' != '" + (-1) + "'", int44 == (-1));
         org.junit.Assert.assertNull(attitudeMode47);
         org.junit.Assert.assertNull(str49);
-        org.junit.Assert.assertFalse("'" + boolean50 + "' != '" + false + "'", boolean50);
+        org.junit.Assert.assertTrue("'" + boolean50 + "' != '" + true + "'", boolean50);
         org.junit.Assert.assertNull(attitudeMode51);
         org.junit.Assert.assertNull(str53);
         org.junit.Assert.assertTrue("'" + boolean58 + "' != '" + false + "'", !boolean58);
@@ -650,7 +650,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertNotNull(pixelResolutionList3);
         org.junit.Assert.assertNotNull(duration4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertNotNull(pixelResolutionList6);
         org.junit.Assert.assertNotNull(pixelResolutionList7);
         org.junit.Assert.assertNotNull(duration8);
@@ -670,7 +670,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
 // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter.randoop_classUsedFlag from class esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter");
         } catch (java.lang.IllegalAccessError e) {
         }
-        org.junit.Assert.assertFalse("'" + boolean2 + "' != '" + false + "'", boolean2);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2);
     }
 
     @Test
@@ -694,7 +694,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = ne
         }
         org.junit.Assert.assertNotNull(uShort1);
         org.junit.Assert.assertNotNull(element2);
-        org.junit.Assert.assertFalse("'" + boolean6 + "' != '" + false + "'", boolean6);
+        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6);
         org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8);
         org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + false + "'", !boolean9);
     }
@@ -715,10 +715,10 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
 // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter.randoop_classUsedFlag from class esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter");
         } catch (java.lang.IllegalAccessError e) {
         }
-        org.junit.Assert.assertFalse("'" + boolean2 + "' != '" + false + "'", boolean2);
-        org.junit.Assert.assertFalse("'" + boolean3 + "' != '" + false + "'", boolean3);
-        org.junit.Assert.assertFalse("'" + boolean4 + "' != '" + false + "'", boolean4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2);
+        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + true + "'", boolean3);
+        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
     }
 
     @Test
@@ -897,10 +897,10 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
 // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter.randoop_classUsedFlag from class esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter");
         } catch (java.lang.IllegalAccessError e) {
         }
-        org.junit.Assert.assertFalse("'" + boolean2 + "' != '" + false + "'", boolean2);
-        org.junit.Assert.assertFalse("'" + boolean3 + "' != '" + false + "'", boolean3);
-        org.junit.Assert.assertFalse("'" + boolean4 + "' != '" + false + "'", boolean4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2);
+        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + true + "'", boolean3);
+        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
     }
 
     @Test
@@ -1004,7 +1004,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter77 = n
         org.junit.Assert.assertTrue("'" + int60 + "' != '" + 10 + "'", int60 == 10);
         org.junit.Assert.assertTrue("'" + boolean61 + "' != '" + false + "'", !boolean61);
         org.junit.Assert.assertNotNull(uShortStream62);
-        org.junit.Assert.assertFalse("'" + boolean67 + "' != '" + false + "'", boolean67);
+        org.junit.Assert.assertTrue("'" + boolean67 + "' != '" + true + "'", boolean67);
         org.junit.Assert.assertNull(attitudeMode72);
         org.junit.Assert.assertNotNull(autonomousADCSAdapterInterfaceArray81);
         org.junit.Assert.assertNotNull(autonomousADCSAdapterInterfaceArray82);
@@ -1082,28 +1082,28 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter52 = n
         org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
         org.junit.Assert.assertNotNull(shortItor6);
         org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + false + "'", !boolean8);
-        org.junit.Assert.assertFalse("'" + boolean11 + "' != '" + false + "'", boolean11);
+        org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + true + "'", boolean11);
         org.junit.Assert.assertTrue("'" + boolean13 + "' != '" + true + "'", boolean13);
         org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + false + "'", !boolean15);
-        org.junit.Assert.assertFalse("'" + boolean18 + "' != '" + false + "'", boolean18);
+        org.junit.Assert.assertTrue("'" + boolean18 + "' != '" + true + "'", boolean18);
         org.junit.Assert.assertTrue("'" + boolean20 + "' != '" + true + "'", boolean20);
-        org.junit.Assert.assertFalse("'" + boolean23 + "' != '" + false + "'", boolean23);
-        org.junit.Assert.assertFalse("'" + boolean24 + "' != '" + false + "'", boolean24);
+        org.junit.Assert.assertTrue("'" + boolean23 + "' != '" + true + "'", boolean23);
+        org.junit.Assert.assertTrue("'" + boolean24 + "' != '" + true + "'", boolean24);
         org.junit.Assert.assertTrue("'" + boolean26 + "' != '" + false + "'", !boolean26);
         org.junit.Assert.assertTrue("'" + boolean28 + "' != '" + true + "'", boolean28);
         org.junit.Assert.assertTrue("'" + boolean30 + "' != '" + true + "'", boolean30);
         org.junit.Assert.assertTrue("'" + boolean32 + "' != '" + false + "'", !boolean32);
         org.junit.Assert.assertTrue("'" + boolean34 + "' != '" + true + "'", boolean34);
-        org.junit.Assert.assertFalse("'" + boolean37 + "' != '" + false + "'", boolean37);
-        org.junit.Assert.assertFalse("'" + boolean38 + "' != '" + false + "'", boolean38);
+        org.junit.Assert.assertTrue("'" + boolean37 + "' != '" + true + "'", boolean37);
+        org.junit.Assert.assertTrue("'" + boolean38 + "' != '" + true + "'", boolean38);
         org.junit.Assert.assertTrue("'" + boolean40 + "' != '" + false + "'", !boolean40);
         org.junit.Assert.assertTrue("'" + boolean42 + "' != '" + true + "'", boolean42);
-        org.junit.Assert.assertFalse("'" + boolean43 + "' != '" + false + "'", boolean43);
+        org.junit.Assert.assertTrue("'" + boolean43 + "' != '" + true + "'", boolean43);
         org.junit.Assert.assertTrue("'" + boolean47 + "' != '" + false + "'", !boolean47);
         org.junit.Assert.assertTrue("'" + boolean49 + "' != '" + false + "'", !boolean49);
         org.junit.Assert.assertTrue("'" + boolean51 + "' != '" + false + "'", !boolean51);
-        org.junit.Assert.assertFalse("'" + boolean54 + "' != '" + false + "'", boolean54);
-        org.junit.Assert.assertFalse("'" + boolean55 + "' != '" + false + "'", boolean55);
+        org.junit.Assert.assertTrue("'" + boolean54 + "' != '" + true + "'", boolean54);
+        org.junit.Assert.assertTrue("'" + boolean55 + "' != '" + true + "'", boolean55);
         org.junit.Assert.assertTrue("'" + boolean57 + "' != '" + false + "'", !boolean57);
         org.junit.Assert.assertTrue("'" + boolean59 + "' != '" + true + "'", boolean59);
         org.junit.Assert.assertTrue("'" + boolean61 + "' != '" + true + "'", boolean61);
@@ -1190,7 +1190,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter30 = n
         org.junit.Assert.assertTrue("'" + boolean29 + "' != '" + true + "'", boolean29);
         org.junit.Assert.assertNotNull(duration32);
         org.junit.Assert.assertTrue("'" + str33 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str33.equals("NMF Satellite Simulator - Camera Adapter"));
-        org.junit.Assert.assertFalse("'" + boolean34 + "' != '" + false + "'", boolean34);
+        org.junit.Assert.assertTrue("'" + boolean34 + "' != '" + true + "'", boolean34);
         org.junit.Assert.assertNotNull(duration35);
         org.junit.Assert.assertTrue("'" + boolean36 + "' != '" + false + "'", !boolean36);
         org.junit.Assert.assertTrue("'" + str37 + "' != '" + "[]" + "'", str37.equals("[]"));
@@ -1263,7 +1263,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter41 = n
         org.junit.Assert.assertTrue("'" + int40 + "' != '" + (-1) + "'", int40 == (-1));
         org.junit.Assert.assertNull(attitudeMode43);
         org.junit.Assert.assertNull(str45);
-        org.junit.Assert.assertFalse("'" + boolean46 + "' != '" + false + "'", boolean46);
+        org.junit.Assert.assertTrue("'" + boolean46 + "' != '" + true + "'", boolean46);
         org.junit.Assert.assertNull(str48);
         org.junit.Assert.assertTrue("'" + boolean49 + "' != '" + false + "'", !boolean49);
     }
@@ -1304,9 +1304,9 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
 // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter.randoop_classUsedFlag from class esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter");
         } catch (java.lang.IllegalAccessError e) {
         }
-        org.junit.Assert.assertFalse("'" + boolean2 + "' != '" + false + "'", boolean2);
-        org.junit.Assert.assertFalse("'" + boolean3 + "' != '" + false + "'", boolean3);
-        org.junit.Assert.assertFalse("'" + boolean4 + "' != '" + false + "'", boolean4);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2);
+        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + true + "'", boolean3);
+        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
     }
 
     @Test
@@ -1369,7 +1369,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter30 = n
         org.junit.Assert.assertTrue("'" + boolean29 + "' != '" + true + "'", boolean29);
         org.junit.Assert.assertNotNull(duration32);
         org.junit.Assert.assertTrue("'" + str33 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str33.equals("NMF Satellite Simulator - Camera Adapter"));
-        org.junit.Assert.assertFalse("'" + boolean34 + "' != '" + false + "'", boolean34);
+        org.junit.Assert.assertTrue("'" + boolean34 + "' != '" + true + "'", boolean34);
         org.junit.Assert.assertNotNull(duration35);
         org.junit.Assert.assertTrue("'" + boolean36 + "' != '" + false + "'", !boolean36);
         org.junit.Assert.assertTrue("'" + str37 + "' != '" + "[]" + "'", str37.equals("[]"));
@@ -1477,7 +1477,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode5 = null;
         java.lang.String str6 = autonomousADCSSoftSimAdapter1.validateAttitudeDescriptor(attitudeMode5);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode7 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
-        org.junit.Assert.assertFalse("'" + boolean4 + "' != '" + false + "'", boolean4);
+        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
         org.junit.Assert.assertNull(str6);
         org.junit.Assert.assertNull(attitudeMode7);
     }
@@ -1502,10 +1502,10 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean12 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
         org.junit.Assert.assertNull(attitudeMode2);
         org.junit.Assert.assertNull(str4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
-        org.junit.Assert.assertFalse("'" + boolean8 + "' != '" + false + "'", boolean8);
-        org.junit.Assert.assertFalse("'" + boolean11 + "' != '" + false + "'", boolean11);
-        org.junit.Assert.assertFalse("'" + boolean12 + "' != '" + false + "'", boolean12);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8);
+        org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + true + "'", boolean11);
+        org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + true + "'", boolean12);
     }
 
     @Test
@@ -1638,8 +1638,8 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter32 = n
         org.junit.Assert.assertTrue("'" + boolean28 + "' != '" + false + "'", !boolean28);
         org.junit.Assert.assertTrue("'" + boolean29 + "' != '" + false + "'", !boolean29);
         org.junit.Assert.assertTrue("'" + int31 + "' != '" + (-1) + "'", int31 == (-1));
-        org.junit.Assert.assertFalse("'" + boolean34 + "' != '" + false + "'", boolean34);
-        org.junit.Assert.assertFalse("'" + boolean35 + "' != '" + false + "'", boolean35);
+        org.junit.Assert.assertTrue("'" + boolean34 + "' != '" + true + "'", boolean34);
+        org.junit.Assert.assertTrue("'" + boolean35 + "' != '" + true + "'", boolean35);
         org.junit.Assert.assertTrue("'" + boolean37 + "' != '" + false + "'", !boolean37);
         org.junit.Assert.assertTrue("'" + boolean38 + "' != '" + false + "'", !boolean38);
         org.junit.Assert.assertTrue("'" + long39 + "' != '" + 281474993487880L + "'", long39.equals(281474993487880L));
@@ -1799,14 +1799,14 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean10 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean12 = softwareDefinedRadioSoftSimAdapter1.enableSDR((java.lang.Boolean) false);
         boolean boolean13 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
-        org.junit.Assert.assertFalse("'" + boolean2 + "' != '" + false + "'", boolean2);
-        org.junit.Assert.assertFalse("'" + boolean3 + "' != '" + false + "'", boolean3);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2);
+        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + true + "'", boolean3);
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
         org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9);
-        org.junit.Assert.assertFalse("'" + boolean10 + "' != '" + false + "'", boolean10);
+        org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10);
         org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + true + "'", boolean12);
-        org.junit.Assert.assertFalse("'" + boolean13 + "' != '" + false + "'", boolean13);
+        org.junit.Assert.assertTrue("'" + boolean13 + "' != '" + true + "'", boolean13);
     }
 
     @Test
@@ -1864,7 +1864,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter30 = n
         org.junit.Assert.assertTrue("'" + boolean29 + "' != '" + true + "'", boolean29);
         org.junit.Assert.assertNotNull(duration32);
         org.junit.Assert.assertTrue("'" + str33 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str33.equals("NMF Satellite Simulator - Camera Adapter"));
-        org.junit.Assert.assertFalse("'" + boolean34 + "' != '" + false + "'", boolean34);
+        org.junit.Assert.assertTrue("'" + boolean34 + "' != '" + true + "'", boolean34);
         org.junit.Assert.assertNotNull(duration35);
         org.junit.Assert.assertTrue("'" + boolean36 + "' != '" + false + "'", !boolean36);
         org.junit.Assert.assertNotNull(uShort37);
@@ -1916,8 +1916,8 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter24 = n
         org.junit.Assert.assertNotNull(element12);
         org.junit.Assert.assertNotNull(uShort13);
         org.junit.Assert.assertNotNull(element14);
-        org.junit.Assert.assertFalse("'" + boolean23 + "' != '" + false + "'", boolean23);
-        org.junit.Assert.assertFalse("'" + boolean26 + "' != '" + false + "'", boolean26);
+        org.junit.Assert.assertTrue("'" + boolean23 + "' != '" + true + "'", boolean23);
+        org.junit.Assert.assertTrue("'" + boolean26 + "' != '" + true + "'", boolean26);
         org.junit.Assert.assertNotNull(gPSAdapterInterfaceArray27);
         org.junit.Assert.assertNotNull(gPSAdapterInterfaceArray28);
         org.junit.Assert.assertTrue("'" + boolean29 + "' != '" + false + "'", !boolean29);
@@ -1938,8 +1938,8 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
 // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter.randoop_classUsedFlag from class esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter");
         } catch (java.lang.IllegalAccessError e) {
         }
-        org.junit.Assert.assertFalse("'" + boolean2 + "' != '" + false + "'", boolean2);
-        org.junit.Assert.assertFalse("'" + boolean3 + "' != '" + false + "'", boolean3);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2);
+        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + true + "'", boolean3);
     }
 
     @Test
@@ -1959,11 +1959,11 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
 // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter.randoop_classUsedFlag from class esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter");
         } catch (java.lang.IllegalAccessError e) {
         }
-        org.junit.Assert.assertFalse("'" + boolean2 + "' != '" + false + "'", boolean2);
-        org.junit.Assert.assertFalse("'" + boolean3 + "' != '" + false + "'", boolean3);
-        org.junit.Assert.assertFalse("'" + boolean4 + "' != '" + false + "'", boolean4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
-        org.junit.Assert.assertFalse("'" + boolean6 + "' != '" + false + "'", boolean6);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2);
+        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + true + "'", boolean3);
+        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6);
     }
 
     @Test
@@ -1980,8 +1980,8 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
 // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter.randoop_classUsedFlag from class esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter");
         } catch (java.lang.IllegalAccessError e) {
         }
-        org.junit.Assert.assertFalse("'" + boolean2 + "' != '" + false + "'", boolean2);
-        org.junit.Assert.assertFalse("'" + boolean3 + "' != '" + false + "'", boolean3);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2);
+        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + true + "'", boolean3);
     }
 
     @Test
@@ -2018,15 +2018,15 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = n
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 25, Size: 0");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
-        org.junit.Assert.assertFalse("'" + boolean4 + "' != '" + false + "'", boolean4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", !boolean7);
         org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9);
         org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + true + "'", boolean11);
-        org.junit.Assert.assertFalse("'" + boolean14 + "' != '" + false + "'", boolean14);
+        org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + true + "'", boolean14);
         org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + true + "'", boolean16);
-        org.junit.Assert.assertFalse("'" + boolean19 + "' != '" + false + "'", boolean19);
-        org.junit.Assert.assertFalse("'" + boolean20 + "' != '" + false + "'", boolean20);
+        org.junit.Assert.assertTrue("'" + boolean19 + "' != '" + true + "'", boolean19);
+        org.junit.Assert.assertTrue("'" + boolean20 + "' != '" + true + "'", boolean20);
         org.junit.Assert.assertNotNull(softwareDefinedRadioAdapterInterfaceArray23);
         org.junit.Assert.assertNotNull(softwareDefinedRadioAdapterInterfaceArray24);
     }
@@ -2048,11 +2048,11 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
 // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter.randoop_classUsedFlag from class esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter");
         } catch (java.lang.IllegalAccessError e) {
         }
-        org.junit.Assert.assertFalse("'" + boolean2 + "' != '" + false + "'", boolean2);
-        org.junit.Assert.assertFalse("'" + boolean3 + "' != '" + false + "'", boolean3);
-        org.junit.Assert.assertFalse("'" + boolean4 + "' != '" + false + "'", boolean4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
-        org.junit.Assert.assertFalse("'" + boolean6 + "' != '" + false + "'", boolean6);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2);
+        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + true + "'", boolean3);
+        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6);
     }
 
     @Test
@@ -2315,22 +2315,22 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter67 = n
         org.junit.Assert.assertNotNull(uShort40);
         org.junit.Assert.assertTrue("'" + boolean41 + "' != '" + false + "'", !boolean41);
         org.junit.Assert.assertNotNull(strItor42);
-        org.junit.Assert.assertFalse("'" + boolean45 + "' != '" + false + "'", boolean45);
-        org.junit.Assert.assertFalse("'" + boolean46 + "' != '" + false + "'", boolean46);
-        org.junit.Assert.assertFalse("'" + boolean47 + "' != '" + false + "'", boolean47);
-        org.junit.Assert.assertFalse("'" + boolean48 + "' != '" + false + "'", boolean48);
-        org.junit.Assert.assertFalse("'" + boolean49 + "' != '" + false + "'", boolean49);
-        org.junit.Assert.assertFalse("'" + boolean52 + "' != '" + false + "'", boolean52);
-        org.junit.Assert.assertFalse("'" + boolean53 + "' != '" + false + "'", boolean53);
-        org.junit.Assert.assertFalse("'" + boolean54 + "' != '" + false + "'", boolean54);
-        org.junit.Assert.assertFalse("'" + boolean55 + "' != '" + false + "'", boolean55);
-        org.junit.Assert.assertFalse("'" + boolean58 + "' != '" + false + "'", boolean58);
-        org.junit.Assert.assertFalse("'" + boolean59 + "' != '" + false + "'", boolean59);
-        org.junit.Assert.assertFalse("'" + boolean60 + "' != '" + false + "'", boolean60);
-        org.junit.Assert.assertFalse("'" + boolean63 + "' != '" + false + "'", boolean63);
-        org.junit.Assert.assertFalse("'" + boolean66 + "' != '" + false + "'", boolean66);
-        org.junit.Assert.assertFalse("'" + boolean69 + "' != '" + false + "'", boolean69);
-        org.junit.Assert.assertFalse("'" + boolean70 + "' != '" + false + "'", boolean70);
+        org.junit.Assert.assertTrue("'" + boolean45 + "' != '" + true + "'", boolean45);
+        org.junit.Assert.assertTrue("'" + boolean46 + "' != '" + true + "'", boolean46);
+        org.junit.Assert.assertTrue("'" + boolean47 + "' != '" + true + "'", boolean47);
+        org.junit.Assert.assertTrue("'" + boolean48 + "' != '" + true + "'", boolean48);
+        org.junit.Assert.assertTrue("'" + boolean49 + "' != '" + true + "'", boolean49);
+        org.junit.Assert.assertTrue("'" + boolean52 + "' != '" + true + "'", boolean52);
+        org.junit.Assert.assertTrue("'" + boolean53 + "' != '" + true + "'", boolean53);
+        org.junit.Assert.assertTrue("'" + boolean54 + "' != '" + true + "'", boolean54);
+        org.junit.Assert.assertTrue("'" + boolean55 + "' != '" + true + "'", boolean55);
+        org.junit.Assert.assertTrue("'" + boolean58 + "' != '" + true + "'", boolean58);
+        org.junit.Assert.assertTrue("'" + boolean59 + "' != '" + true + "'", boolean59);
+        org.junit.Assert.assertTrue("'" + boolean60 + "' != '" + true + "'", boolean60);
+        org.junit.Assert.assertTrue("'" + boolean63 + "' != '" + true + "'", boolean63);
+        org.junit.Assert.assertTrue("'" + boolean66 + "' != '" + true + "'", boolean66);
+        org.junit.Assert.assertTrue("'" + boolean69 + "' != '" + true + "'", boolean69);
+        org.junit.Assert.assertTrue("'" + boolean70 + "' != '" + true + "'", boolean70);
         org.junit.Assert.assertNotNull(gPSNMEAonlyAdapterArray71);
         org.junit.Assert.assertNotNull(gPSNMEAonlyAdapterArray72);
         org.junit.Assert.assertNotNull(gPSNMEAonlyAdapterArray73);
@@ -2408,9 +2408,9 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertNotNull(pixelResolutionList3);
         org.junit.Assert.assertNotNull(duration4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertTrue("'" + str6 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str6.equals("NMF Satellite Simulator - Camera Adapter"));
-        org.junit.Assert.assertFalse("'" + boolean7 + "' != '" + false + "'", boolean7);
+        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
         org.junit.Assert.assertNotNull(duration8);
     }
 
@@ -2580,7 +2580,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter83 = n
         org.junit.Assert.assertTrue("'" + int66 + "' != '" + 10 + "'", int66 == 10);
         org.junit.Assert.assertTrue("'" + boolean67 + "' != '" + false + "'", !boolean67);
         org.junit.Assert.assertNotNull(uShortStream68);
-        org.junit.Assert.assertFalse("'" + boolean73 + "' != '" + false + "'", boolean73);
+        org.junit.Assert.assertTrue("'" + boolean73 + "' != '" + true + "'", boolean73);
         org.junit.Assert.assertNull(attitudeMode78);
         org.junit.Assert.assertNotNull(autonomousADCSAdapterInterfaceArray87);
         org.junit.Assert.assertNotNull(autonomousADCSAdapterInterfaceArray88);
@@ -2610,8 +2610,8 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter3 = ne
         } catch (java.lang.ClassCastException e) {
         }
         org.junit.Assert.assertNotNull(uOctet2);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
-        org.junit.Assert.assertFalse("'" + boolean6 + "' != '" + false + "'", boolean6);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6);
         org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + false + "'", !boolean8);
         org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10);
         org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + true + "'", boolean12);
@@ -2716,7 +2716,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter62 = n
         org.junit.Assert.assertTrue("'" + boolean65 + "' != '" + false + "'", !boolean65);
         org.junit.Assert.assertTrue("'" + boolean67 + "' != '" + false + "'", !boolean67);
         org.junit.Assert.assertTrue("'" + boolean69 + "' != '" + false + "'", !boolean69);
-        org.junit.Assert.assertFalse("'" + boolean70 + "' != '" + false + "'", boolean70);
+        org.junit.Assert.assertTrue("'" + boolean70 + "' != '" + true + "'", boolean70);
         org.junit.Assert.assertTrue("'" + boolean72 + "' != '" + false + "'", !boolean72);
         org.junit.Assert.assertTrue("'" + boolean73 + "' != '" + false + "'", !boolean73);
     }
@@ -2746,7 +2746,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter5 = ne
         org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
         org.junit.Assert.assertNull(attitudeMode7);
         org.junit.Assert.assertNull(str9);
-        org.junit.Assert.assertFalse("'" + boolean10 + "' != '" + false + "'", boolean10);
+        org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10);
         org.junit.Assert.assertNull(attitudeMode11);
         org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + false + "'", !boolean12);
     }
@@ -2771,13 +2771,13 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertNotNull(pixelResolutionList3);
         org.junit.Assert.assertNotNull(duration4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertNotNull(pixelResolutionList6);
         org.junit.Assert.assertNotNull(pixelResolutionList7);
         org.junit.Assert.assertNotNull(duration8);
         org.junit.Assert.assertNotNull(duration9);
         org.junit.Assert.assertNotNull(duration10);
-        org.junit.Assert.assertFalse("'" + boolean11 + "' != '" + false + "'", boolean11);
+        org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + true + "'", boolean11);
     }
 
     @Test
@@ -2831,7 +2831,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         autonomousADCSSoftSimAdapter1.setDesiredAttitude(attitudeMode2);
         boolean boolean4 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode5 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
-        org.junit.Assert.assertFalse("'" + boolean4 + "' != '" + false + "'", boolean4);
+        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
         org.junit.Assert.assertNull(attitudeMode5);
     }
 
@@ -2849,8 +2849,8 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean7 = softwareDefinedRadioSoftSimAdapter1.enableSDR((java.lang.Boolean) true);
         boolean boolean9 = softwareDefinedRadioSoftSimAdapter1.enableSDR((java.lang.Boolean) true);
         boolean boolean11 = softwareDefinedRadioSoftSimAdapter1.enableSDR((java.lang.Boolean) true);
-        org.junit.Assert.assertFalse("'" + boolean2 + "' != '" + false + "'", boolean2);
-        org.junit.Assert.assertFalse("'" + boolean3 + "' != '" + false + "'", boolean3);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2);
+        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + true + "'", boolean3);
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
         org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9);
@@ -3037,7 +3037,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + false + "'", !boolean3);
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", !boolean7);
-        org.junit.Assert.assertFalse("'" + boolean8 + "' != '" + false + "'", boolean8);
+        org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8);
         org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10);
     }
 
@@ -3101,7 +3101,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter15 = n
         org.junit.Assert.assertNotNull(duration17);
         org.junit.Assert.assertNotNull(pixelResolutionList18);
         org.junit.Assert.assertNotNull(duration19);
-        org.junit.Assert.assertFalse("'" + boolean20 + "' != '" + false + "'", boolean20);
+        org.junit.Assert.assertTrue("'" + boolean20 + "' != '" + true + "'", boolean20);
         org.junit.Assert.assertNotNull(pixelResolutionList21);
         org.junit.Assert.assertNotNull(pixelResolutionList22);
         org.junit.Assert.assertNotNull(duration23);
@@ -3235,15 +3235,15 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = n
         boolean boolean27 = stringList1.add("281474993487877");
         boolean boolean29 = stringList1.add("[[true, true], [1], [true, true], hi!, hi!]");
         org.ccsds.moims.mo.mal.structures.Element element30 = stringList1.createElement();
-        org.junit.Assert.assertFalse("'" + boolean4 + "' != '" + false + "'", boolean4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", !boolean7);
         org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9);
         org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + true + "'", boolean11);
-        org.junit.Assert.assertFalse("'" + boolean14 + "' != '" + false + "'", boolean14);
+        org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + true + "'", boolean14);
         org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + true + "'", boolean16);
-        org.junit.Assert.assertFalse("'" + boolean19 + "' != '" + false + "'", boolean19);
-        org.junit.Assert.assertFalse("'" + boolean20 + "' != '" + false + "'", boolean20);
+        org.junit.Assert.assertTrue("'" + boolean19 + "' != '" + true + "'", boolean19);
+        org.junit.Assert.assertTrue("'" + boolean20 + "' != '" + true + "'", boolean20);
         org.junit.Assert.assertNotNull(softwareDefinedRadioAdapterInterfaceArray23);
         org.junit.Assert.assertNotNull(softwareDefinedRadioAdapterInterfaceArray24);
         org.junit.Assert.assertTrue("'" + boolean27 + "' != '" + true + "'", boolean27);
@@ -3288,7 +3288,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter9 = ne
         org.junit.Assert.assertNotNull(duration11);
         org.junit.Assert.assertNotNull(pixelResolutionList12);
         org.junit.Assert.assertNotNull(duration13);
-        org.junit.Assert.assertFalse("'" + boolean14 + "' != '" + false + "'", boolean14);
+        org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + true + "'", boolean14);
         org.junit.Assert.assertNotNull(pixelResolutionList15);
         org.junit.Assert.assertNotNull(pixelResolutionList16);
         org.junit.Assert.assertNotNull(duration17);
@@ -3411,7 +3411,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean2 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
-        org.junit.Assert.assertFalse("'" + boolean2 + "' != '" + false + "'", boolean2);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2);
         org.junit.Assert.assertNull(attitudeMode3);
     }
 
@@ -3480,12 +3480,12 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertNotNull(pixelResolutionList3);
         org.junit.Assert.assertNotNull(duration4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertNotNull(pixelResolutionList6);
         org.junit.Assert.assertNotNull(pixelResolutionList7);
         org.junit.Assert.assertNotNull(duration8);
         org.junit.Assert.assertNotNull(duration9);
-        org.junit.Assert.assertFalse("'" + boolean10 + "' != '" + false + "'", boolean10);
+        org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10);
         org.junit.Assert.assertNotNull(duration11);
         org.junit.Assert.assertNotNull(charSequenceArray14);
         org.junit.Assert.assertNotNull(charSequenceArray15);
@@ -3871,12 +3871,12 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertNotNull(pixelResolutionList3);
         org.junit.Assert.assertNotNull(duration4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertNotNull(pixelResolutionList6);
         org.junit.Assert.assertNotNull(pixelResolutionList7);
         org.junit.Assert.assertNotNull(duration8);
-        org.junit.Assert.assertFalse("'" + boolean9 + "' != '" + false + "'", boolean9);
-        org.junit.Assert.assertFalse("'" + boolean10 + "' != '" + false + "'", boolean10);
+        org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9);
+        org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10);
     }
 
     @Test
@@ -3916,15 +3916,15 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = n
         org.ccsds.moims.mo.mal.structures.Element element31 = floatList28.createElement();
         java.util.Spliterator<java.lang.Float> floatSpliterator32 = floatList28.spliterator();
         boolean boolean33 = stringList1.containsAll((java.util.Collection<java.lang.Float>) floatList28);
-        org.junit.Assert.assertFalse("'" + boolean4 + "' != '" + false + "'", boolean4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", !boolean7);
         org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9);
         org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + true + "'", boolean11);
-        org.junit.Assert.assertFalse("'" + boolean14 + "' != '" + false + "'", boolean14);
+        org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + true + "'", boolean14);
         org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + true + "'", boolean16);
-        org.junit.Assert.assertFalse("'" + boolean19 + "' != '" + false + "'", boolean19);
-        org.junit.Assert.assertFalse("'" + boolean20 + "' != '" + false + "'", boolean20);
+        org.junit.Assert.assertTrue("'" + boolean19 + "' != '" + true + "'", boolean19);
+        org.junit.Assert.assertTrue("'" + boolean20 + "' != '" + true + "'", boolean20);
         org.junit.Assert.assertNotNull(softwareDefinedRadioAdapterInterfaceArray23);
         org.junit.Assert.assertNotNull(softwareDefinedRadioAdapterInterfaceArray24);
         org.junit.Assert.assertNotNull(strItor26);
@@ -4047,7 +4047,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter83 = n
         org.junit.Assert.assertTrue("'" + int66 + "' != '" + 10 + "'", int66 == 10);
         org.junit.Assert.assertTrue("'" + boolean67 + "' != '" + false + "'", !boolean67);
         org.junit.Assert.assertNotNull(uShortStream68);
-        org.junit.Assert.assertFalse("'" + boolean73 + "' != '" + false + "'", boolean73);
+        org.junit.Assert.assertTrue("'" + boolean73 + "' != '" + true + "'", boolean73);
         org.junit.Assert.assertNull(attitudeMode78);
         org.junit.Assert.assertNotNull(autonomousADCSAdapterInterfaceArray87);
         org.junit.Assert.assertNotNull(autonomousADCSAdapterInterfaceArray88);
@@ -4074,12 +4074,12 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
 // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter.randoop_classUsedFlag from class esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter");
         } catch (java.lang.IllegalAccessError e) {
         }
-        org.junit.Assert.assertFalse("'" + boolean2 + "' != '" + false + "'", boolean2);
-        org.junit.Assert.assertFalse("'" + boolean3 + "' != '" + false + "'", boolean3);
-        org.junit.Assert.assertFalse("'" + boolean4 + "' != '" + false + "'", boolean4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
-        org.junit.Assert.assertFalse("'" + boolean6 + "' != '" + false + "'", boolean6);
-        org.junit.Assert.assertFalse("'" + boolean7 + "' != '" + false + "'", boolean7);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2);
+        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + true + "'", boolean3);
+        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6);
+        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
     }
 
     @Test
@@ -4109,7 +4109,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter13 = n
         org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + false + "'", !boolean10);
         org.junit.Assert.assertNotNull(byteArray11);
         org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + false + "'", !boolean12);
-        org.junit.Assert.assertFalse("'" + boolean15 + "' != '" + false + "'", boolean15);
+        org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + true + "'", boolean15);
         org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + false + "'", !boolean16);
     }
 
@@ -4128,10 +4128,10 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean8 = softwareDefinedRadioSoftSimAdapter1.setConfiguration(sDRConfiguration7);
         boolean boolean9 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + false + "'", !boolean3);
-        org.junit.Assert.assertFalse("'" + boolean4 + "' != '" + false + "'", boolean4);
+        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
         org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6);
         org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + false + "'", !boolean8);
-        org.junit.Assert.assertFalse("'" + boolean9 + "' != '" + false + "'", boolean9);
+        org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9);
     }
 
     @Test
@@ -4150,9 +4150,9 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertNotNull(pixelResolutionList3);
         org.junit.Assert.assertNotNull(duration4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertNotNull(pixelResolutionList6);
-        org.junit.Assert.assertFalse("'" + boolean7 + "' != '" + false + "'", boolean7);
+        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
     }
 
     @Test
@@ -4194,8 +4194,8 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter19 = n
         org.junit.Assert.assertNotNull(element7);
         org.junit.Assert.assertNotNull(uShort8);
         org.junit.Assert.assertNotNull(element9);
-        org.junit.Assert.assertFalse("'" + boolean18 + "' != '" + false + "'", boolean18);
-        org.junit.Assert.assertFalse("'" + boolean21 + "' != '" + false + "'", boolean21);
+        org.junit.Assert.assertTrue("'" + boolean18 + "' != '" + true + "'", boolean18);
+        org.junit.Assert.assertTrue("'" + boolean21 + "' != '" + true + "'", boolean21);
         org.junit.Assert.assertNotNull(gPSAdapterInterfaceArray22);
         org.junit.Assert.assertNotNull(gPSAdapterInterfaceArray23);
         org.junit.Assert.assertNotNull(gPSAdapterInterfaceArray24);
@@ -4223,7 +4223,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         java.lang.String str12 = autonomousADCSSoftSimAdapter1.validateAttitudeDescriptor(attitudeMode11);
         org.junit.Assert.assertNull(attitudeMode2);
         org.junit.Assert.assertNull(str4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertNull(attitudeMode6);
         org.junit.Assert.assertNull(str12);
     }
@@ -4342,24 +4342,24 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter77 = n
         org.junit.Assert.assertTrue("'" + boolean25 + "' != '" + false + "'", !boolean25);
         org.junit.Assert.assertNotNull(shortItor26);
         org.junit.Assert.assertNotNull(element30);
-        org.junit.Assert.assertFalse("'" + boolean33 + "' != '" + false + "'", boolean33);
-        org.junit.Assert.assertFalse("'" + boolean34 + "' != '" + false + "'", boolean34);
+        org.junit.Assert.assertTrue("'" + boolean33 + "' != '" + true + "'", boolean33);
+        org.junit.Assert.assertTrue("'" + boolean34 + "' != '" + true + "'", boolean34);
         org.junit.Assert.assertTrue("'" + boolean36 + "' != '" + false + "'", !boolean36);
         org.junit.Assert.assertTrue("'" + boolean38 + "' != '" + true + "'", boolean38);
         org.junit.Assert.assertTrue("'" + boolean40 + "' != '" + true + "'", boolean40);
         org.junit.Assert.assertTrue("'" + boolean42 + "' != '" + false + "'", !boolean42);
-        org.junit.Assert.assertFalse("'" + boolean45 + "' != '" + false + "'", boolean45);
-        org.junit.Assert.assertFalse("'" + boolean46 + "' != '" + false + "'", boolean46);
+        org.junit.Assert.assertTrue("'" + boolean45 + "' != '" + true + "'", boolean45);
+        org.junit.Assert.assertTrue("'" + boolean46 + "' != '" + true + "'", boolean46);
         org.junit.Assert.assertTrue("'" + boolean48 + "' != '" + false + "'", !boolean48);
         org.junit.Assert.assertTrue("'" + boolean50 + "' != '" + true + "'", boolean50);
         org.junit.Assert.assertTrue("'" + boolean52 + "' != '" + true + "'", boolean52);
         org.junit.Assert.assertTrue("'" + boolean56 + "' != '" + false + "'", !boolean56);
-        org.junit.Assert.assertFalse("'" + boolean57 + "' != '" + false + "'", boolean57);
+        org.junit.Assert.assertTrue("'" + boolean57 + "' != '" + true + "'", boolean57);
         org.junit.Assert.assertTrue("'" + boolean59 + "' != '" + true + "'", boolean59);
-        org.junit.Assert.assertFalse("'" + boolean62 + "' != '" + false + "'", boolean62);
+        org.junit.Assert.assertTrue("'" + boolean62 + "' != '" + true + "'", boolean62);
         org.junit.Assert.assertTrue("'" + boolean64 + "' != '" + true + "'", boolean64);
-        org.junit.Assert.assertFalse("'" + boolean67 + "' != '" + false + "'", boolean67);
-        org.junit.Assert.assertFalse("'" + boolean68 + "' != '" + false + "'", boolean68);
+        org.junit.Assert.assertTrue("'" + boolean67 + "' != '" + true + "'", boolean67);
+        org.junit.Assert.assertTrue("'" + boolean68 + "' != '" + true + "'", boolean68);
         org.junit.Assert.assertTrue("'" + boolean70 + "' != '" + false + "'", !boolean70);
         org.junit.Assert.assertTrue("'" + boolean72 + "' != '" + true + "'", boolean72);
         org.junit.Assert.assertTrue("'" + boolean74 + "' != '" + true + "'", boolean74);
@@ -4390,7 +4390,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertNotNull(pixelResolutionList3);
         org.junit.Assert.assertNotNull(duration4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertNotNull(pixelResolutionList6);
         org.junit.Assert.assertNotNull(pixelResolutionList7);
         org.junit.Assert.assertNotNull(duration8);
@@ -4433,7 +4433,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter9 = ne
         org.junit.Assert.assertNotNull(duration11);
         org.junit.Assert.assertNotNull(pixelResolutionList12);
         org.junit.Assert.assertNotNull(duration13);
-        org.junit.Assert.assertFalse("'" + boolean14 + "' != '" + false + "'", boolean14);
+        org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + true + "'", boolean14);
         org.junit.Assert.assertNotNull(pixelResolutionList15);
         org.junit.Assert.assertNotNull(pixelResolutionList16);
         org.junit.Assert.assertNotNull(duration17);
@@ -4459,11 +4459,11 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertNotNull(pixelResolutionList3);
         org.junit.Assert.assertNotNull(duration4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertNotNull(pixelResolutionList6);
         org.junit.Assert.assertNotNull(duration7);
         org.junit.Assert.assertNotNull(duration8);
-        org.junit.Assert.assertFalse("'" + boolean9 + "' != '" + false + "'", boolean9);
+        org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9);
     }
 
     @Test
@@ -4501,9 +4501,9 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean6 = softwareDefinedRadioSoftSimAdapter1.setConfiguration(sDRConfiguration5);
         boolean boolean7 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + false + "'", !boolean3);
-        org.junit.Assert.assertFalse("'" + boolean4 + "' != '" + false + "'", boolean4);
+        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
         org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + false + "'", !boolean6);
-        org.junit.Assert.assertFalse("'" + boolean7 + "' != '" + false + "'", boolean7);
+        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
     }
 
     @Test
@@ -4551,7 +4551,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter5 = ne
         org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
         org.junit.Assert.assertNull(attitudeMode7);
         org.junit.Assert.assertNull(str9);
-        org.junit.Assert.assertFalse("'" + boolean10 + "' != '" + false + "'", boolean10);
+        org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10);
         org.junit.Assert.assertNull(attitudeMode11);
         org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + false + "'", !boolean12);
         org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + true + "'", boolean14);
@@ -4679,15 +4679,15 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = n
         java.lang.Object obj26 = null;
         boolean boolean27 = stringList1.remove(obj26);
         java.util.stream.Stream<java.lang.String> strStream28 = stringList1.parallelStream();
-        org.junit.Assert.assertFalse("'" + boolean4 + "' != '" + false + "'", boolean4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", !boolean7);
         org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9);
         org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + true + "'", boolean11);
-        org.junit.Assert.assertFalse("'" + boolean14 + "' != '" + false + "'", boolean14);
+        org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + true + "'", boolean14);
         org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + true + "'", boolean16);
-        org.junit.Assert.assertFalse("'" + boolean19 + "' != '" + false + "'", boolean19);
-        org.junit.Assert.assertFalse("'" + boolean20 + "' != '" + false + "'", boolean20);
+        org.junit.Assert.assertTrue("'" + boolean19 + "' != '" + true + "'", boolean19);
+        org.junit.Assert.assertTrue("'" + boolean20 + "' != '" + true + "'", boolean20);
         org.junit.Assert.assertNotNull(softwareDefinedRadioAdapterInterfaceArray23);
         org.junit.Assert.assertNotNull(softwareDefinedRadioAdapterInterfaceArray24);
         org.junit.Assert.assertTrue("'" + boolean27 + "' != '" + false + "'", !boolean27);
@@ -4709,7 +4709,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean8 = softwareDefinedRadioSoftSimAdapter1.setConfiguration(sDRConfiguration7);
         boolean boolean10 = softwareDefinedRadioSoftSimAdapter1.enableSDR((java.lang.Boolean) false);
         org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + false + "'", !boolean3);
-        org.junit.Assert.assertFalse("'" + boolean4 + "' != '" + false + "'", boolean4);
+        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
         org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6);
         org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + false + "'", !boolean8);
         org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10);
@@ -4762,15 +4762,15 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter29 = n
         org.junit.Assert.assertTrue("'" + long5 + "' != '" + 281475010265086L + "'", long5.equals(281475010265086L));
         org.junit.Assert.assertTrue("'" + int6 + "' != '" + (-2) + "'", int6.equals((-2)));
         org.junit.Assert.assertNotNull(booleanStream7);
-        org.junit.Assert.assertFalse("'" + boolean12 + "' != '" + false + "'", boolean12);
-        org.junit.Assert.assertFalse("'" + boolean13 + "' != '" + false + "'", boolean13);
+        org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + true + "'", boolean12);
+        org.junit.Assert.assertTrue("'" + boolean13 + "' != '" + true + "'", boolean13);
         org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + false + "'", !boolean15);
         org.junit.Assert.assertTrue("'" + boolean17 + "' != '" + true + "'", boolean17);
         org.junit.Assert.assertTrue("'" + boolean19 + "' != '" + true + "'", boolean19);
-        org.junit.Assert.assertFalse("'" + boolean22 + "' != '" + false + "'", boolean22);
+        org.junit.Assert.assertTrue("'" + boolean22 + "' != '" + true + "'", boolean22);
         org.junit.Assert.assertTrue("'" + boolean24 + "' != '" + true + "'", boolean24);
-        org.junit.Assert.assertFalse("'" + boolean27 + "' != '" + false + "'", boolean27);
-        org.junit.Assert.assertFalse("'" + boolean28 + "' != '" + false + "'", boolean28);
+        org.junit.Assert.assertTrue("'" + boolean27 + "' != '" + true + "'", boolean27);
+        org.junit.Assert.assertTrue("'" + boolean28 + "' != '" + true + "'", boolean28);
         org.junit.Assert.assertNotNull(softwareDefinedRadioAdapterInterfaceArray31);
         org.junit.Assert.assertNotNull(softwareDefinedRadioAdapterInterfaceArray32);
         org.junit.Assert.assertTrue("'" + boolean35 + "' != '" + true + "'", boolean35);
@@ -4814,10 +4814,10 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter16 = n
         org.junit.Assert.assertNotNull(uOctet13);
         org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + true + "'", boolean14);
         org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + false + "'", !boolean15);
-        org.junit.Assert.assertFalse("'" + boolean18 + "' != '" + false + "'", boolean18);
-        org.junit.Assert.assertFalse("'" + boolean19 + "' != '" + false + "'", boolean19);
-        org.junit.Assert.assertFalse("'" + boolean20 + "' != '" + false + "'", boolean20);
-        org.junit.Assert.assertFalse("'" + boolean21 + "' != '" + false + "'", boolean21);
+        org.junit.Assert.assertTrue("'" + boolean18 + "' != '" + true + "'", boolean18);
+        org.junit.Assert.assertTrue("'" + boolean19 + "' != '" + true + "'", boolean19);
+        org.junit.Assert.assertTrue("'" + boolean20 + "' != '" + true + "'", boolean20);
+        org.junit.Assert.assertTrue("'" + boolean21 + "' != '" + true + "'", boolean21);
         org.junit.Assert.assertTrue("'" + boolean22 + "' != '" + false + "'", !boolean22);
         org.junit.Assert.assertNotNull(longItor23);
     }
@@ -4911,7 +4911,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter54 = n
         org.junit.Assert.assertNotNull(pixelResolutionList57);
         org.junit.Assert.assertTrue("'" + str58 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str58.equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertNotNull(pixelResolutionList59);
-        org.junit.Assert.assertFalse("'" + boolean60 + "' != '" + false + "'", boolean60);
+        org.junit.Assert.assertTrue("'" + boolean60 + "' != '" + true + "'", boolean60);
         org.junit.Assert.assertNotNull(pixelResolutionList61);
         org.junit.Assert.assertTrue("'" + boolean62 + "' != '" + false + "'", !boolean62);
     }
@@ -4974,7 +4974,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter30 = n
         org.junit.Assert.assertTrue("'" + boolean29 + "' != '" + true + "'", boolean29);
         org.junit.Assert.assertNotNull(duration32);
         org.junit.Assert.assertTrue("'" + str33 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str33.equals("NMF Satellite Simulator - Camera Adapter"));
-        org.junit.Assert.assertFalse("'" + boolean34 + "' != '" + false + "'", boolean34);
+        org.junit.Assert.assertTrue("'" + boolean34 + "' != '" + true + "'", boolean34);
         org.junit.Assert.assertNotNull(duration35);
         org.junit.Assert.assertTrue("'" + boolean36 + "' != '" + false + "'", !boolean36);
         org.junit.Assert.assertTrue("'" + str37 + "' != '" + "[]" + "'", str37.equals("[]"));
@@ -5080,12 +5080,12 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean16 = softwareDefinedRadioSoftSimAdapter1.enableSDR((java.lang.Boolean) true);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration17 = null;
         boolean boolean18 = softwareDefinedRadioSoftSimAdapter1.setConfiguration(sDRConfiguration17);
-        org.junit.Assert.assertFalse("'" + boolean2 + "' != '" + false + "'", boolean2);
-        org.junit.Assert.assertFalse("'" + boolean3 + "' != '" + false + "'", boolean3);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2);
+        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + true + "'", boolean3);
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
         org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9);
-        org.junit.Assert.assertFalse("'" + boolean10 + "' != '" + false + "'", boolean10);
+        org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10);
         org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + true + "'", boolean12);
         org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + false + "'", !boolean14);
         org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + true + "'", boolean16);
@@ -5112,7 +5112,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertNotNull(pixelResolutionList3);
         org.junit.Assert.assertNotNull(duration4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertNotNull(pixelResolutionList6);
         org.junit.Assert.assertNotNull(pixelResolutionList7);
         org.junit.Assert.assertNotNull(duration8);
@@ -5138,9 +5138,9 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean9 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
         org.junit.Assert.assertNull(attitudeMode2);
         org.junit.Assert.assertNull(str4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
-        org.junit.Assert.assertFalse("'" + boolean8 + "' != '" + false + "'", boolean8);
-        org.junit.Assert.assertFalse("'" + boolean9 + "' != '" + false + "'", boolean9);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8);
+        org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9);
     }
 
     @Test
@@ -5161,7 +5161,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertNotNull(pixelResolutionList3);
         org.junit.Assert.assertNotNull(duration4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertNotNull(pixelResolutionList6);
         org.junit.Assert.assertNotNull(duration7);
         org.junit.Assert.assertNotNull(duration8);
@@ -5183,7 +5183,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         java.lang.Integer int7 = duration5.getTypeShortForm();
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertTrue("'" + str3 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str3.equals("NMF Satellite Simulator - Camera Adapter"));
-        org.junit.Assert.assertFalse("'" + boolean4 + "' != '" + false + "'", boolean4);
+        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
         org.junit.Assert.assertNotNull(duration5);
         org.junit.Assert.assertNotNull(element6);
         org.junit.Assert.assertTrue("'" + int7 + "' != '" + 3 + "'", int7.equals(3));
@@ -5206,13 +5206,13 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean10 = softwareDefinedRadioSoftSimAdapter1.setConfiguration(sDRConfiguration9);
         boolean boolean11 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean13 = softwareDefinedRadioSoftSimAdapter1.enableSDR((java.lang.Boolean) true);
-        org.junit.Assert.assertFalse("'" + boolean2 + "' != '" + false + "'", boolean2);
-        org.junit.Assert.assertFalse("'" + boolean3 + "' != '" + false + "'", boolean3);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2);
+        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + true + "'", boolean3);
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
-        org.junit.Assert.assertFalse("'" + boolean8 + "' != '" + false + "'", boolean8);
+        org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8);
         org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + false + "'", !boolean10);
-        org.junit.Assert.assertFalse("'" + boolean11 + "' != '" + false + "'", boolean11);
+        org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + true + "'", boolean11);
         org.junit.Assert.assertTrue("'" + boolean13 + "' != '" + true + "'", boolean13);
     }
 
@@ -5328,7 +5328,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter83 = n
         org.junit.Assert.assertTrue("'" + int66 + "' != '" + 10 + "'", int66 == 10);
         org.junit.Assert.assertTrue("'" + boolean67 + "' != '" + false + "'", !boolean67);
         org.junit.Assert.assertNotNull(uShortStream68);
-        org.junit.Assert.assertFalse("'" + boolean73 + "' != '" + false + "'", boolean73);
+        org.junit.Assert.assertTrue("'" + boolean73 + "' != '" + true + "'", boolean73);
         org.junit.Assert.assertNull(attitudeMode78);
         org.junit.Assert.assertNotNull(autonomousADCSAdapterInterfaceArray87);
         org.junit.Assert.assertNotNull(autonomousADCSAdapterInterfaceArray88);
@@ -5354,7 +5354,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         autonomousADCSSoftSimAdapter1.setDesiredAttitude(attitudeMode8);
         org.junit.Assert.assertNull(attitudeMode2);
         org.junit.Assert.assertNull(str4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
     }
 
     @Test
@@ -5374,8 +5374,8 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean11 = softwareDefinedRadioSoftSimAdapter1.setConfiguration(sDRConfiguration10);
         boolean boolean13 = softwareDefinedRadioSoftSimAdapter1.enableSDR((java.lang.Boolean) false);
         boolean boolean15 = softwareDefinedRadioSoftSimAdapter1.enableSDR((java.lang.Boolean) true);
-        org.junit.Assert.assertFalse("'" + boolean2 + "' != '" + false + "'", boolean2);
-        org.junit.Assert.assertFalse("'" + boolean3 + "' != '" + false + "'", boolean3);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2);
+        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + true + "'", boolean3);
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
         org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9);
@@ -5398,12 +5398,12 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean7 = softwareDefinedRadioSoftSimAdapter1.enableSDR((java.lang.Boolean) true);
         boolean boolean8 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean9 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
-        org.junit.Assert.assertFalse("'" + boolean2 + "' != '" + false + "'", boolean2);
-        org.junit.Assert.assertFalse("'" + boolean3 + "' != '" + false + "'", boolean3);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2);
+        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + true + "'", boolean3);
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
-        org.junit.Assert.assertFalse("'" + boolean8 + "' != '" + false + "'", boolean8);
-        org.junit.Assert.assertFalse("'" + boolean9 + "' != '" + false + "'", boolean9);
+        org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8);
+        org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9);
     }
 
     @Test
@@ -5425,9 +5425,9 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         autonomousADCSSoftSimAdapter1.setDesiredAttitude(attitudeMode10);
         org.junit.Assert.assertNull(attitudeMode2);
         org.junit.Assert.assertNull(str4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertNull(attitudeMode8);
-        org.junit.Assert.assertFalse("'" + boolean9 + "' != '" + false + "'", boolean9);
+        org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9);
     }
 
     @Test
@@ -5477,15 +5477,15 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = n
         org.junit.Assert.assertNotNull(shortItor6);
         org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10);
         org.junit.Assert.assertNotNull(shortStream11);
-        org.junit.Assert.assertFalse("'" + boolean16 + "' != '" + false + "'", boolean16);
-        org.junit.Assert.assertFalse("'" + boolean17 + "' != '" + false + "'", boolean17);
+        org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + true + "'", boolean16);
+        org.junit.Assert.assertTrue("'" + boolean17 + "' != '" + true + "'", boolean17);
         org.junit.Assert.assertTrue("'" + boolean19 + "' != '" + false + "'", !boolean19);
         org.junit.Assert.assertTrue("'" + boolean21 + "' != '" + true + "'", boolean21);
         org.junit.Assert.assertTrue("'" + boolean23 + "' != '" + true + "'", boolean23);
-        org.junit.Assert.assertFalse("'" + boolean26 + "' != '" + false + "'", boolean26);
+        org.junit.Assert.assertTrue("'" + boolean26 + "' != '" + true + "'", boolean26);
         org.junit.Assert.assertTrue("'" + boolean28 + "' != '" + true + "'", boolean28);
-        org.junit.Assert.assertFalse("'" + boolean31 + "' != '" + false + "'", boolean31);
-        org.junit.Assert.assertFalse("'" + boolean32 + "' != '" + false + "'", boolean32);
+        org.junit.Assert.assertTrue("'" + boolean31 + "' != '" + true + "'", boolean31);
+        org.junit.Assert.assertTrue("'" + boolean32 + "' != '" + true + "'", boolean32);
         org.junit.Assert.assertNotNull(softwareDefinedRadioAdapterInterfaceArray35);
         org.junit.Assert.assertNotNull(softwareDefinedRadioAdapterInterfaceArray36);
     }
@@ -5508,7 +5508,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.junit.Assert.assertNotNull(duration4);
         org.junit.Assert.assertNotNull(pixelResolutionList5);
         org.junit.Assert.assertTrue("'" + str6 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str6.equals("NMF Satellite Simulator - Camera Adapter"));
-        org.junit.Assert.assertFalse("'" + boolean7 + "' != '" + false + "'", boolean7);
+        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
     }
 
     @Test
@@ -5578,15 +5578,15 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter37 = n
         org.junit.Assert.assertNotNull(byteStream19);
         org.junit.Assert.assertNotNull(uShort20);
         org.junit.Assert.assertTrue("'" + int23 + "' != '" + (-1) + "'", int23 == (-1));
-        org.junit.Assert.assertFalse("'" + boolean26 + "' != '" + false + "'", boolean26);
-        org.junit.Assert.assertFalse("'" + boolean29 + "' != '" + false + "'", boolean29);
-        org.junit.Assert.assertFalse("'" + boolean30 + "' != '" + false + "'", boolean30);
-        org.junit.Assert.assertFalse("'" + boolean31 + "' != '" + false + "'", boolean31);
-        org.junit.Assert.assertFalse("'" + boolean34 + "' != '" + false + "'", boolean34);
-        org.junit.Assert.assertFalse("'" + boolean39 + "' != '" + false + "'", boolean39);
-        org.junit.Assert.assertFalse("'" + boolean40 + "' != '" + false + "'", boolean40);
-        org.junit.Assert.assertFalse("'" + boolean41 + "' != '" + false + "'", boolean41);
-        org.junit.Assert.assertFalse("'" + boolean42 + "' != '" + false + "'", boolean42);
+        org.junit.Assert.assertTrue("'" + boolean26 + "' != '" + true + "'", boolean26);
+        org.junit.Assert.assertTrue("'" + boolean29 + "' != '" + true + "'", boolean29);
+        org.junit.Assert.assertTrue("'" + boolean30 + "' != '" + true + "'", boolean30);
+        org.junit.Assert.assertTrue("'" + boolean31 + "' != '" + true + "'", boolean31);
+        org.junit.Assert.assertTrue("'" + boolean34 + "' != '" + true + "'", boolean34);
+        org.junit.Assert.assertTrue("'" + boolean39 + "' != '" + true + "'", boolean39);
+        org.junit.Assert.assertTrue("'" + boolean40 + "' != '" + true + "'", boolean40);
+        org.junit.Assert.assertTrue("'" + boolean41 + "' != '" + true + "'", boolean41);
+        org.junit.Assert.assertTrue("'" + boolean42 + "' != '" + true + "'", boolean42);
         org.junit.Assert.assertNotNull(gPSNMEAonlyAdapterArray43);
         org.junit.Assert.assertNotNull(gPSNMEAonlyAdapterArray44);
         org.junit.Assert.assertTrue("'" + boolean45 + "' != '" + false + "'", !boolean45);
@@ -5610,14 +5610,14 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean11 = softwareDefinedRadioSoftSimAdapter1.setConfiguration(sDRConfiguration10);
         boolean boolean13 = softwareDefinedRadioSoftSimAdapter1.enableSDR((java.lang.Boolean) false);
         boolean boolean14 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
-        org.junit.Assert.assertFalse("'" + boolean2 + "' != '" + false + "'", boolean2);
-        org.junit.Assert.assertFalse("'" + boolean3 + "' != '" + false + "'", boolean3);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2);
+        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + true + "'", boolean3);
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
         org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9);
         org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + false + "'", !boolean11);
         org.junit.Assert.assertTrue("'" + boolean13 + "' != '" + true + "'", boolean13);
-        org.junit.Assert.assertFalse("'" + boolean14 + "' != '" + false + "'", boolean14);
+        org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + true + "'", boolean14);
     }
 
     @Test
@@ -5680,12 +5680,12 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean12 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
         org.junit.Assert.assertNull(attitudeMode2);
         org.junit.Assert.assertNull(str4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertNull(attitudeMode6);
         org.junit.Assert.assertNull(str8);
         org.junit.Assert.assertNull(str10);
-        org.junit.Assert.assertFalse("'" + boolean11 + "' != '" + false + "'", boolean11);
-        org.junit.Assert.assertFalse("'" + boolean12 + "' != '" + false + "'", boolean12);
+        org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + true + "'", boolean11);
+        org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + true + "'", boolean12);
     }
 
     @Test
@@ -5707,7 +5707,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.junit.Assert.assertNull(attitudeMode2);
         org.junit.Assert.assertNull(str4);
         org.junit.Assert.assertNull(attitudeMode5);
-        org.junit.Assert.assertFalse("'" + boolean6 + "' != '" + false + "'", boolean6);
+        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6);
         org.junit.Assert.assertNull(str10);
     }
 
@@ -5797,7 +5797,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter10 = n
         org.junit.Assert.assertNotNull(pixelResolutionList13);
         org.junit.Assert.assertNotNull(duration14);
         org.junit.Assert.assertNotNull(pixelResolutionList15);
-        org.junit.Assert.assertFalse("'" + boolean16 + "' != '" + false + "'", boolean16);
+        org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + true + "'", boolean16);
         org.junit.Assert.assertNotNull(duration17);
         org.junit.Assert.assertTrue("'" + long18 + "' != '" + 281474993487875L + "'", long18.equals(281474993487875L));
         org.junit.Assert.assertTrue("'" + boolean19 + "' != '" + false + "'", !boolean19);
@@ -5823,13 +5823,13 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
 // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter.randoop_classUsedFlag from class esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter");
         } catch (java.lang.IllegalAccessError e) {
         }
-        org.junit.Assert.assertFalse("'" + boolean2 + "' != '" + false + "'", boolean2);
-        org.junit.Assert.assertFalse("'" + boolean3 + "' != '" + false + "'", boolean3);
-        org.junit.Assert.assertFalse("'" + boolean4 + "' != '" + false + "'", boolean4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
-        org.junit.Assert.assertFalse("'" + boolean6 + "' != '" + false + "'", boolean6);
-        org.junit.Assert.assertFalse("'" + boolean7 + "' != '" + false + "'", boolean7);
-        org.junit.Assert.assertFalse("'" + boolean8 + "' != '" + false + "'", boolean8);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2);
+        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + true + "'", boolean3);
+        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6);
+        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
+        org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8);
     }
 
     @Test
@@ -5851,8 +5851,8 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean13 = softwareDefinedRadioSoftSimAdapter1.setConfiguration(sDRConfiguration12);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration14 = null;
         boolean boolean15 = softwareDefinedRadioSoftSimAdapter1.setConfiguration(sDRConfiguration14);
-        org.junit.Assert.assertFalse("'" + boolean2 + "' != '" + false + "'", boolean2);
-        org.junit.Assert.assertFalse("'" + boolean3 + "' != '" + false + "'", boolean3);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2);
+        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + true + "'", boolean3);
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
         org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9);
@@ -5925,15 +5925,15 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = n
         org.junit.Assert.assertNotNull(byteStream15);
         org.junit.Assert.assertNotNull(uShort16);
         org.junit.Assert.assertTrue("'" + int19 + "' != '" + (-1) + "'", int19 == (-1));
-        org.junit.Assert.assertFalse("'" + boolean22 + "' != '" + false + "'", boolean22);
-        org.junit.Assert.assertFalse("'" + boolean25 + "' != '" + false + "'", boolean25);
-        org.junit.Assert.assertFalse("'" + boolean26 + "' != '" + false + "'", boolean26);
-        org.junit.Assert.assertFalse("'" + boolean27 + "' != '" + false + "'", boolean27);
-        org.junit.Assert.assertFalse("'" + boolean30 + "' != '" + false + "'", boolean30);
-        org.junit.Assert.assertFalse("'" + boolean35 + "' != '" + false + "'", boolean35);
-        org.junit.Assert.assertFalse("'" + boolean36 + "' != '" + false + "'", boolean36);
-        org.junit.Assert.assertFalse("'" + boolean37 + "' != '" + false + "'", boolean37);
-        org.junit.Assert.assertFalse("'" + boolean38 + "' != '" + false + "'", boolean38);
+        org.junit.Assert.assertTrue("'" + boolean22 + "' != '" + true + "'", boolean22);
+        org.junit.Assert.assertTrue("'" + boolean25 + "' != '" + true + "'", boolean25);
+        org.junit.Assert.assertTrue("'" + boolean26 + "' != '" + true + "'", boolean26);
+        org.junit.Assert.assertTrue("'" + boolean27 + "' != '" + true + "'", boolean27);
+        org.junit.Assert.assertTrue("'" + boolean30 + "' != '" + true + "'", boolean30);
+        org.junit.Assert.assertTrue("'" + boolean35 + "' != '" + true + "'", boolean35);
+        org.junit.Assert.assertTrue("'" + boolean36 + "' != '" + true + "'", boolean36);
+        org.junit.Assert.assertTrue("'" + boolean37 + "' != '" + true + "'", boolean37);
+        org.junit.Assert.assertTrue("'" + boolean38 + "' != '" + true + "'", boolean38);
         org.junit.Assert.assertNotNull(gPSNMEAonlyAdapterArray39);
         org.junit.Assert.assertNotNull(gPSNMEAonlyAdapterArray40);
         org.junit.Assert.assertTrue("'" + boolean41 + "' != '" + false + "'", !boolean41);
@@ -5954,7 +5954,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.ccsds.moims.mo.mal.structures.Element element7 = duration5.createElement();
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertTrue("'" + str3 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str3.equals("NMF Satellite Simulator - Camera Adapter"));
-        org.junit.Assert.assertFalse("'" + boolean4 + "' != '" + false + "'", boolean4);
+        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
         org.junit.Assert.assertNotNull(duration5);
         org.junit.Assert.assertNotNull(element6);
         org.junit.Assert.assertNotNull(element7);
@@ -6107,7 +6107,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean6 = softwareDefinedRadioSoftSimAdapter1.enableSDR((java.lang.Boolean) false);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration7 = null;
         boolean boolean8 = softwareDefinedRadioSoftSimAdapter1.setConfiguration(sDRConfiguration7);
-        org.junit.Assert.assertFalse("'" + boolean2 + "' != '" + false + "'", boolean2);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2);
         org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + false + "'", !boolean4);
         org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6);
         org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + false + "'", !boolean8);
@@ -6207,7 +6207,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode15 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
         org.junit.Assert.assertNull(attitudeMode2);
         org.junit.Assert.assertNull(str4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertNull(attitudeMode6);
         org.junit.Assert.assertNull(str8);
         org.junit.Assert.assertNull(attitudeMode15);
@@ -6280,24 +6280,24 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter55 = n
         org.junit.Assert.assertNotNull(byteStream3);
         org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
         org.junit.Assert.assertNotNull(element8);
-        org.junit.Assert.assertFalse("'" + boolean11 + "' != '" + false + "'", boolean11);
-        org.junit.Assert.assertFalse("'" + boolean12 + "' != '" + false + "'", boolean12);
+        org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + true + "'", boolean11);
+        org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + true + "'", boolean12);
         org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + false + "'", !boolean14);
         org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + true + "'", boolean16);
         org.junit.Assert.assertTrue("'" + boolean18 + "' != '" + true + "'", boolean18);
         org.junit.Assert.assertTrue("'" + boolean20 + "' != '" + false + "'", !boolean20);
-        org.junit.Assert.assertFalse("'" + boolean23 + "' != '" + false + "'", boolean23);
-        org.junit.Assert.assertFalse("'" + boolean24 + "' != '" + false + "'", boolean24);
+        org.junit.Assert.assertTrue("'" + boolean23 + "' != '" + true + "'", boolean23);
+        org.junit.Assert.assertTrue("'" + boolean24 + "' != '" + true + "'", boolean24);
         org.junit.Assert.assertTrue("'" + boolean26 + "' != '" + false + "'", !boolean26);
         org.junit.Assert.assertTrue("'" + boolean28 + "' != '" + true + "'", boolean28);
         org.junit.Assert.assertTrue("'" + boolean30 + "' != '" + true + "'", boolean30);
         org.junit.Assert.assertTrue("'" + boolean34 + "' != '" + false + "'", !boolean34);
-        org.junit.Assert.assertFalse("'" + boolean35 + "' != '" + false + "'", boolean35);
+        org.junit.Assert.assertTrue("'" + boolean35 + "' != '" + true + "'", boolean35);
         org.junit.Assert.assertTrue("'" + boolean37 + "' != '" + true + "'", boolean37);
-        org.junit.Assert.assertFalse("'" + boolean40 + "' != '" + false + "'", boolean40);
+        org.junit.Assert.assertTrue("'" + boolean40 + "' != '" + true + "'", boolean40);
         org.junit.Assert.assertTrue("'" + boolean42 + "' != '" + true + "'", boolean42);
-        org.junit.Assert.assertFalse("'" + boolean45 + "' != '" + false + "'", boolean45);
-        org.junit.Assert.assertFalse("'" + boolean46 + "' != '" + false + "'", boolean46);
+        org.junit.Assert.assertTrue("'" + boolean45 + "' != '" + true + "'", boolean45);
+        org.junit.Assert.assertTrue("'" + boolean46 + "' != '" + true + "'", boolean46);
         org.junit.Assert.assertTrue("'" + boolean48 + "' != '" + false + "'", !boolean48);
         org.junit.Assert.assertTrue("'" + boolean50 + "' != '" + true + "'", boolean50);
         org.junit.Assert.assertTrue("'" + boolean52 + "' != '" + true + "'", boolean52);
@@ -6328,8 +6328,8 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean10 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
         org.junit.Assert.assertNull(attitudeMode4);
         org.junit.Assert.assertNull(str6);
-        org.junit.Assert.assertFalse("'" + boolean9 + "' != '" + false + "'", boolean9);
-        org.junit.Assert.assertFalse("'" + boolean10 + "' != '" + false + "'", boolean10);
+        org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9);
+        org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10);
     }
 
     @Test
@@ -6351,11 +6351,11 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertNotNull(pixelResolutionList3);
         org.junit.Assert.assertNotNull(duration4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertNotNull(pixelResolutionList6);
         org.junit.Assert.assertNotNull(pixelResolutionList7);
         org.junit.Assert.assertTrue("'" + str8 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str8.equals("NMF Satellite Simulator - Camera Adapter"));
-        org.junit.Assert.assertFalse("'" + boolean9 + "' != '" + false + "'", boolean9);
+        org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9);
         org.junit.Assert.assertTrue("'" + str10 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str10.equals("NMF Satellite Simulator - Camera Adapter"));
     }
 
@@ -6419,15 +6419,15 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = n
         org.junit.Assert.assertNotNull(byteStream15);
         org.junit.Assert.assertNotNull(uShort16);
         org.junit.Assert.assertTrue("'" + int19 + "' != '" + (-1) + "'", int19 == (-1));
-        org.junit.Assert.assertFalse("'" + boolean22 + "' != '" + false + "'", boolean22);
-        org.junit.Assert.assertFalse("'" + boolean25 + "' != '" + false + "'", boolean25);
-        org.junit.Assert.assertFalse("'" + boolean26 + "' != '" + false + "'", boolean26);
-        org.junit.Assert.assertFalse("'" + boolean27 + "' != '" + false + "'", boolean27);
-        org.junit.Assert.assertFalse("'" + boolean30 + "' != '" + false + "'", boolean30);
-        org.junit.Assert.assertFalse("'" + boolean35 + "' != '" + false + "'", boolean35);
-        org.junit.Assert.assertFalse("'" + boolean36 + "' != '" + false + "'", boolean36);
-        org.junit.Assert.assertFalse("'" + boolean37 + "' != '" + false + "'", boolean37);
-        org.junit.Assert.assertFalse("'" + boolean38 + "' != '" + false + "'", boolean38);
+        org.junit.Assert.assertTrue("'" + boolean22 + "' != '" + true + "'", boolean22);
+        org.junit.Assert.assertTrue("'" + boolean25 + "' != '" + true + "'", boolean25);
+        org.junit.Assert.assertTrue("'" + boolean26 + "' != '" + true + "'", boolean26);
+        org.junit.Assert.assertTrue("'" + boolean27 + "' != '" + true + "'", boolean27);
+        org.junit.Assert.assertTrue("'" + boolean30 + "' != '" + true + "'", boolean30);
+        org.junit.Assert.assertTrue("'" + boolean35 + "' != '" + true + "'", boolean35);
+        org.junit.Assert.assertTrue("'" + boolean36 + "' != '" + true + "'", boolean36);
+        org.junit.Assert.assertTrue("'" + boolean37 + "' != '" + true + "'", boolean37);
+        org.junit.Assert.assertTrue("'" + boolean38 + "' != '" + true + "'", boolean38);
         org.junit.Assert.assertNotNull(gPSNMEAonlyAdapterArray39);
         org.junit.Assert.assertNotNull(gPSNMEAonlyAdapterArray40);
         org.junit.Assert.assertTrue("'" + boolean41 + "' != '" + false + "'", !boolean41);
@@ -6452,11 +6452,11 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean12 = softwareDefinedRadioSoftSimAdapter1.setConfiguration(sDRConfiguration11);
         boolean boolean14 = softwareDefinedRadioSoftSimAdapter1.enableSDR((java.lang.Boolean) true);
         boolean boolean16 = softwareDefinedRadioSoftSimAdapter1.enableSDR((java.lang.Boolean) false);
-        org.junit.Assert.assertFalse("'" + boolean2 + "' != '" + false + "'", boolean2);
-        org.junit.Assert.assertFalse("'" + boolean3 + "' != '" + false + "'", boolean3);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2);
+        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + true + "'", boolean3);
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
-        org.junit.Assert.assertFalse("'" + boolean8 + "' != '" + false + "'", boolean8);
+        org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8);
         org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10);
         org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + false + "'", !boolean12);
         org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + true + "'", boolean14);
@@ -6484,12 +6484,12 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertNotNull(pixelResolutionList3);
         org.junit.Assert.assertNotNull(duration4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertNotNull(pixelResolutionList6);
         org.junit.Assert.assertNotNull(pixelResolutionList7);
         org.junit.Assert.assertNotNull(duration8);
         org.junit.Assert.assertNotNull(duration9);
-        org.junit.Assert.assertFalse("'" + boolean10 + "' != '" + false + "'", boolean10);
+        org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10);
         org.junit.Assert.assertNotNull(duration11);
         org.junit.Assert.assertNotNull(uShort12);
     }
@@ -6516,8 +6516,8 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter3 = ne
         } catch (java.lang.ClassCastException e) {
         }
         org.junit.Assert.assertNotNull(uOctet2);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
-        org.junit.Assert.assertFalse("'" + boolean6 + "' != '" + false + "'", boolean6);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6);
         org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + false + "'", !boolean8);
         org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10);
         org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + true + "'", boolean12);
@@ -6805,7 +6805,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter34 = n
         org.junit.Assert.assertTrue("'" + boolean33 + "' != '" + true + "'", boolean33);
         org.junit.Assert.assertNull(attitudeMode36);
         org.junit.Assert.assertNull(str38);
-        org.junit.Assert.assertFalse("'" + boolean39 + "' != '" + false + "'", boolean39);
+        org.junit.Assert.assertTrue("'" + boolean39 + "' != '" + true + "'", boolean39);
         org.junit.Assert.assertNull(attitudeMode40);
         org.junit.Assert.assertTrue("'" + boolean41 + "' != '" + false + "'", !boolean41);
         org.junit.Assert.assertNotNull(uOctet43);
@@ -6868,9 +6868,9 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter1.getAvailableResolutions();
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertTrue("'" + str3 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str3.equals("NMF Satellite Simulator - Camera Adapter"));
-        org.junit.Assert.assertFalse("'" + boolean4 + "' != '" + false + "'", boolean4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
-        org.junit.Assert.assertFalse("'" + boolean6 + "' != '" + false + "'", boolean6);
+        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6);
         org.junit.Assert.assertNotNull(pixelResolutionList7);
     }
 
@@ -7001,7 +7001,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = ne
         org.junit.Assert.assertNotNull(pixelResolutionList9);
         org.junit.Assert.assertTrue("'" + int10 + "' != '" + (-1) + "'", int10 == (-1));
         org.junit.Assert.assertTrue("'" + str11 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str11.equals("NMF Satellite Simulator - Camera Adapter"));
-        org.junit.Assert.assertFalse("'" + boolean12 + "' != '" + false + "'", boolean12);
+        org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + true + "'", boolean12);
     }
 
     @Test
@@ -7024,10 +7024,10 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + false + "'", !boolean3);
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", !boolean7);
-        org.junit.Assert.assertFalse("'" + boolean8 + "' != '" + false + "'", boolean8);
-        org.junit.Assert.assertFalse("'" + boolean9 + "' != '" + false + "'", boolean9);
+        org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8);
+        org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9);
         org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + true + "'", boolean11);
-        org.junit.Assert.assertFalse("'" + boolean12 + "' != '" + false + "'", boolean12);
+        org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + true + "'", boolean12);
     }
 
     @Test
@@ -7151,7 +7151,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         autonomousADCSSoftSimAdapter1.setDesiredAttitude(attitudeMode3);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode5 = null;
         java.lang.String str6 = autonomousADCSSoftSimAdapter1.validateAttitudeDescriptor(attitudeMode5);
-        org.junit.Assert.assertFalse("'" + boolean2 + "' != '" + false + "'", boolean2);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2);
         org.junit.Assert.assertNull(str6);
     }
 
@@ -7173,7 +7173,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertNotNull(pixelResolutionList3);
         org.junit.Assert.assertNotNull(duration4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertNotNull(pixelResolutionList6);
         org.junit.Assert.assertNotNull(duration7);
         org.junit.Assert.assertNotNull(element8);
@@ -7200,10 +7200,10 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + false + "'", !boolean3);
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", !boolean7);
-        org.junit.Assert.assertFalse("'" + boolean8 + "' != '" + false + "'", boolean8);
-        org.junit.Assert.assertFalse("'" + boolean9 + "' != '" + false + "'", boolean9);
+        org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8);
+        org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9);
         org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + true + "'", boolean11);
-        org.junit.Assert.assertFalse("'" + boolean12 + "' != '" + false + "'", boolean12);
+        org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + true + "'", boolean12);
     }
 
     @Test
@@ -7240,9 +7240,9 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + false + "'", !boolean3);
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", !boolean7);
-        org.junit.Assert.assertFalse("'" + boolean8 + "' != '" + false + "'", boolean8);
-        org.junit.Assert.assertFalse("'" + boolean9 + "' != '" + false + "'", boolean9);
-        org.junit.Assert.assertFalse("'" + boolean10 + "' != '" + false + "'", boolean10);
+        org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8);
+        org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9);
+        org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10);
     }
 
     @Test
@@ -7291,8 +7291,8 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter17 = n
         org.junit.Assert.assertTrue("'" + boolean20 + "' != '" + false + "'", !boolean20);
         org.junit.Assert.assertTrue("'" + boolean22 + "' != '" + false + "'", !boolean22);
         org.junit.Assert.assertTrue("'" + boolean24 + "' != '" + false + "'", !boolean24);
-        org.junit.Assert.assertFalse("'" + boolean25 + "' != '" + false + "'", boolean25);
-        org.junit.Assert.assertFalse("'" + boolean26 + "' != '" + false + "'", boolean26);
+        org.junit.Assert.assertTrue("'" + boolean25 + "' != '" + true + "'", boolean25);
+        org.junit.Assert.assertTrue("'" + boolean26 + "' != '" + true + "'", boolean26);
         org.junit.Assert.assertTrue("'" + boolean28 + "' != '" + true + "'", boolean28);
         org.junit.Assert.assertTrue("'" + boolean29 + "' != '" + false + "'", !boolean29);
     }
@@ -7315,11 +7315,11 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode10 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
         org.junit.Assert.assertNull(attitudeMode2);
         org.junit.Assert.assertNull(str4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertNull(attitudeMode6);
-        org.junit.Assert.assertFalse("'" + boolean7 + "' != '" + false + "'", boolean7);
+        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
         org.junit.Assert.assertNull(attitudeMode8);
-        org.junit.Assert.assertFalse("'" + boolean9 + "' != '" + false + "'", boolean9);
+        org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9);
         org.junit.Assert.assertNull(attitudeMode10);
     }
 
@@ -7342,16 +7342,16 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean13 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean15 = softwareDefinedRadioSoftSimAdapter1.enableSDR((java.lang.Boolean) false);
         boolean boolean16 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
-        org.junit.Assert.assertFalse("'" + boolean2 + "' != '" + false + "'", boolean2);
-        org.junit.Assert.assertFalse("'" + boolean3 + "' != '" + false + "'", boolean3);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2);
+        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + true + "'", boolean3);
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
         org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9);
         org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + false + "'", !boolean11);
-        org.junit.Assert.assertFalse("'" + boolean12 + "' != '" + false + "'", boolean12);
-        org.junit.Assert.assertFalse("'" + boolean13 + "' != '" + false + "'", boolean13);
+        org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + true + "'", boolean12);
+        org.junit.Assert.assertTrue("'" + boolean13 + "' != '" + true + "'", boolean13);
         org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + true + "'", boolean15);
-        org.junit.Assert.assertFalse("'" + boolean16 + "' != '" + false + "'", boolean16);
+        org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + true + "'", boolean16);
     }
 
     @Test
@@ -7367,7 +7367,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.ccsds.moims.mo.platform.camera.structures.PictureFormatList pictureFormatList5 = cameraSoftSimAdapter1.getAvailableFormats();
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertNotNull(duration3);
-        org.junit.Assert.assertFalse("'" + boolean4 + "' != '" + false + "'", boolean4);
+        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
         org.junit.Assert.assertNotNull(pictureFormatList5);
     }
 
@@ -7386,7 +7386,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode7 = null;
         autonomousADCSSoftSimAdapter1.setDesiredAttitude(attitudeMode7);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode9 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
-        org.junit.Assert.assertFalse("'" + boolean2 + "' != '" + false + "'", boolean2);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2);
         org.junit.Assert.assertNull(attitudeMode9);
     }
 
@@ -7639,7 +7639,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertNotNull(pixelResolutionList3);
         org.junit.Assert.assertNotNull(duration4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertTrue("'" + str6 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str6.equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertNotNull(duration7);
         org.junit.Assert.assertNotNull(pixelResolutionList8);
@@ -7663,14 +7663,14 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration12 = null;
         boolean boolean13 = softwareDefinedRadioSoftSimAdapter1.setConfiguration(sDRConfiguration12);
         boolean boolean14 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
-        org.junit.Assert.assertFalse("'" + boolean2 + "' != '" + false + "'", boolean2);
-        org.junit.Assert.assertFalse("'" + boolean3 + "' != '" + false + "'", boolean3);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2);
+        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + true + "'", boolean3);
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
         org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9);
         org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + false + "'", !boolean11);
         org.junit.Assert.assertTrue("'" + boolean13 + "' != '" + false + "'", !boolean13);
-        org.junit.Assert.assertFalse("'" + boolean14 + "' != '" + false + "'", boolean14);
+        org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + true + "'", boolean14);
     }
 
     @Test
@@ -7723,7 +7723,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         autonomousADCSSoftSimAdapter1.setDesiredAttitude(attitudeMode12);
         org.junit.Assert.assertNull(attitudeMode2);
         org.junit.Assert.assertNull(str4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertNull(attitudeMode6);
         org.junit.Assert.assertNull(attitudeMode11);
     }
@@ -7791,12 +7791,12 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertNotNull(pixelResolutionList3);
         org.junit.Assert.assertNotNull(duration4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertNotNull(pixelResolutionList6);
         org.junit.Assert.assertNotNull(pixelResolutionList7);
         org.junit.Assert.assertNotNull(duration8);
         org.junit.Assert.assertNotNull(duration9);
-        org.junit.Assert.assertFalse("'" + boolean10 + "' != '" + false + "'", boolean10);
+        org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10);
         org.junit.Assert.assertNotNull(duration11);
         org.junit.Assert.assertNotNull(duration12);
         org.junit.Assert.assertNotNull(element13);
@@ -7824,12 +7824,12 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertNotNull(pixelResolutionList3);
         org.junit.Assert.assertNotNull(duration4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertNotNull(pixelResolutionList6);
         org.junit.Assert.assertNotNull(pixelResolutionList7);
         org.junit.Assert.assertNotNull(duration8);
         org.junit.Assert.assertNotNull(duration9);
-        org.junit.Assert.assertFalse("'" + boolean10 + "' != '" + false + "'", boolean10);
+        org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10);
         org.junit.Assert.assertNotNull(duration11);
         org.junit.Assert.assertNotNull(duration12);
         org.junit.Assert.assertNotNull(uShort13);
@@ -7857,10 +7857,10 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = ne
         }
         org.junit.Assert.assertNotNull(uShort2);
         org.junit.Assert.assertNotNull(obj3);
-        org.junit.Assert.assertFalse("'" + boolean6 + "' != '" + false + "'", boolean6);
-        org.junit.Assert.assertFalse("'" + boolean7 + "' != '" + false + "'", boolean7);
-        org.junit.Assert.assertFalse("'" + boolean8 + "' != '" + false + "'", boolean8);
-        org.junit.Assert.assertFalse("'" + boolean9 + "' != '" + false + "'", boolean9);
+        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6);
+        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
+        org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8);
+        org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9);
         org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + false + "'", !boolean10);
     }
 
@@ -7950,7 +7950,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter27 = n
         org.junit.Assert.assertNotNull(shortStream26);
         org.junit.Assert.assertNull(attitudeMode29);
         org.junit.Assert.assertNull(str31);
-        org.junit.Assert.assertFalse("'" + boolean32 + "' != '" + false + "'", boolean32);
+        org.junit.Assert.assertTrue("'" + boolean32 + "' != '" + true + "'", boolean32);
         org.junit.Assert.assertNull(attitudeMode33);
         org.junit.Assert.assertNull(str35);
         org.junit.Assert.assertNull(str41);
@@ -8018,8 +8018,8 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter14 = n
         org.junit.Assert.assertNotNull(element2);
         org.junit.Assert.assertNotNull(uShort3);
         org.junit.Assert.assertNotNull(element4);
-        org.junit.Assert.assertFalse("'" + boolean13 + "' != '" + false + "'", boolean13);
-        org.junit.Assert.assertFalse("'" + boolean16 + "' != '" + false + "'", boolean16);
+        org.junit.Assert.assertTrue("'" + boolean13 + "' != '" + true + "'", boolean13);
+        org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + true + "'", boolean16);
         org.junit.Assert.assertNotNull(gPSAdapterInterfaceArray17);
         org.junit.Assert.assertNotNull(gPSAdapterInterfaceArray18);
         org.junit.Assert.assertTrue("'" + boolean21 + "' != '" + true + "'", boolean21);
@@ -8056,8 +8056,8 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode5 = null;
         autonomousADCSSoftSimAdapter1.setDesiredAttitude(attitudeMode5);
         boolean boolean7 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
-        org.junit.Assert.assertFalse("'" + boolean2 + "' != '" + false + "'", boolean2);
-        org.junit.Assert.assertFalse("'" + boolean7 + "' != '" + false + "'", boolean7);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2);
+        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
     }
 
     @Test
@@ -8091,7 +8091,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertNotNull(pixelResolutionList3);
         org.junit.Assert.assertNotNull(duration4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertNotNull(pixelResolutionList6);
         org.junit.Assert.assertNotNull(pixelResolutionList7);
         org.junit.Assert.assertNotNull(duration8);
@@ -8249,14 +8249,14 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean13 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean15 = softwareDefinedRadioSoftSimAdapter1.enableSDR((java.lang.Boolean) false);
         boolean boolean17 = softwareDefinedRadioSoftSimAdapter1.enableSDR((java.lang.Boolean) true);
-        org.junit.Assert.assertFalse("'" + boolean2 + "' != '" + false + "'", boolean2);
-        org.junit.Assert.assertFalse("'" + boolean3 + "' != '" + false + "'", boolean3);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2);
+        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + true + "'", boolean3);
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
         org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9);
         org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + false + "'", !boolean11);
-        org.junit.Assert.assertFalse("'" + boolean12 + "' != '" + false + "'", boolean12);
-        org.junit.Assert.assertFalse("'" + boolean13 + "' != '" + false + "'", boolean13);
+        org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + true + "'", boolean12);
+        org.junit.Assert.assertTrue("'" + boolean13 + "' != '" + true + "'", boolean13);
         org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + true + "'", boolean15);
         org.junit.Assert.assertTrue("'" + boolean17 + "' != '" + true + "'", boolean17);
     }
@@ -8435,12 +8435,12 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean10 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration11 = null;
         boolean boolean12 = softwareDefinedRadioSoftSimAdapter1.setConfiguration(sDRConfiguration11);
-        org.junit.Assert.assertFalse("'" + boolean2 + "' != '" + false + "'", boolean2);
-        org.junit.Assert.assertFalse("'" + boolean3 + "' != '" + false + "'", boolean3);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2);
+        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + true + "'", boolean3);
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
         org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9);
-        org.junit.Assert.assertFalse("'" + boolean10 + "' != '" + false + "'", boolean10);
+        org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10);
         org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + false + "'", !boolean12);
     }
 
@@ -8522,15 +8522,15 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter58 = n
         org.junit.Assert.assertTrue("'" + boolean34 + "' != '" + true + "'", boolean34);
         org.junit.Assert.assertTrue("'" + boolean35 + "' != '" + false + "'", !boolean35);
         org.junit.Assert.assertTrue("'" + boolean36 + "' != '" + false + "'", !boolean36);
-        org.junit.Assert.assertFalse("'" + boolean41 + "' != '" + false + "'", boolean41);
-        org.junit.Assert.assertFalse("'" + boolean42 + "' != '" + false + "'", boolean42);
+        org.junit.Assert.assertTrue("'" + boolean41 + "' != '" + true + "'", boolean41);
+        org.junit.Assert.assertTrue("'" + boolean42 + "' != '" + true + "'", boolean42);
         org.junit.Assert.assertTrue("'" + boolean44 + "' != '" + false + "'", !boolean44);
         org.junit.Assert.assertTrue("'" + boolean46 + "' != '" + true + "'", boolean46);
         org.junit.Assert.assertTrue("'" + boolean48 + "' != '" + true + "'", boolean48);
-        org.junit.Assert.assertFalse("'" + boolean51 + "' != '" + false + "'", boolean51);
+        org.junit.Assert.assertTrue("'" + boolean51 + "' != '" + true + "'", boolean51);
         org.junit.Assert.assertTrue("'" + boolean53 + "' != '" + true + "'", boolean53);
-        org.junit.Assert.assertFalse("'" + boolean56 + "' != '" + false + "'", boolean56);
-        org.junit.Assert.assertFalse("'" + boolean57 + "' != '" + false + "'", boolean57);
+        org.junit.Assert.assertTrue("'" + boolean56 + "' != '" + true + "'", boolean56);
+        org.junit.Assert.assertTrue("'" + boolean57 + "' != '" + true + "'", boolean57);
         org.junit.Assert.assertNotNull(softwareDefinedRadioAdapterInterfaceArray60);
         org.junit.Assert.assertNotNull(softwareDefinedRadioAdapterInterfaceArray61);
         org.junit.Assert.assertNotNull(softwareDefinedRadioAdapterInterfaceArray62);
@@ -8555,11 +8555,11 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean11 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
         org.junit.Assert.assertNull(attitudeMode2);
         org.junit.Assert.assertNull(str4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertNull(attitudeMode8);
-        org.junit.Assert.assertFalse("'" + boolean9 + "' != '" + false + "'", boolean9);
+        org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9);
         org.junit.Assert.assertNull(attitudeMode10);
-        org.junit.Assert.assertFalse("'" + boolean11 + "' != '" + false + "'", boolean11);
+        org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + true + "'", boolean11);
     }
 
     @Test
@@ -8578,8 +8578,8 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.junit.Assert.assertNull(attitudeMode2);
         org.junit.Assert.assertNull(str4);
         org.junit.Assert.assertNull(attitudeMode5);
-        org.junit.Assert.assertFalse("'" + boolean6 + "' != '" + false + "'", boolean6);
-        org.junit.Assert.assertFalse("'" + boolean7 + "' != '" + false + "'", boolean7);
+        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6);
+        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
     }
 
     @Test
@@ -8608,7 +8608,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter10 = n
         org.junit.Assert.assertNotNull(uOctet5);
         org.junit.Assert.assertNotNull(uShort7);
         org.junit.Assert.assertNotNull(element8);
-        org.junit.Assert.assertFalse("'" + boolean12 + "' != '" + false + "'", boolean12);
+        org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + true + "'", boolean12);
         org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + true + "'", boolean14);
         org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + false + "'", !boolean15);
         org.junit.Assert.assertNotNull(uShort16);
@@ -8630,7 +8630,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean8 = softwareDefinedRadioSoftSimAdapter1.enableSDR((java.lang.Boolean) true);
         org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + false + "'", !boolean3);
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
-        org.junit.Assert.assertFalse("'" + boolean6 + "' != '" + false + "'", boolean6);
+        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6);
         org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8);
     }
 
@@ -8657,11 +8657,11 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean15 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
         org.junit.Assert.assertNull(attitudeMode2);
         org.junit.Assert.assertNull(str4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertNull(attitudeMode6);
         org.junit.Assert.assertNull(str8);
         org.junit.Assert.assertNull(str14);
-        org.junit.Assert.assertFalse("'" + boolean15 + "' != '" + false + "'", boolean15);
+        org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + true + "'", boolean15);
     }
 
     @Test
@@ -8901,7 +8901,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter10 = n
         org.junit.Assert.assertNotNull(pixelResolutionList13);
         org.junit.Assert.assertNotNull(duration14);
         org.junit.Assert.assertNotNull(pixelResolutionList15);
-        org.junit.Assert.assertFalse("'" + boolean16 + "' != '" + false + "'", boolean16);
+        org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + true + "'", boolean16);
         org.junit.Assert.assertNotNull(duration17);
         org.junit.Assert.assertTrue("'" + long18 + "' != '" + 281474993487875L + "'", long18.equals(281474993487875L));
         org.junit.Assert.assertTrue("'" + boolean19 + "' != '" + false + "'", !boolean19);
@@ -8954,7 +8954,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertNotNull(pixelResolutionList3);
         org.junit.Assert.assertNotNull(duration4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertNotNull(pixelResolutionList6);
         org.junit.Assert.assertNotNull(duration7);
         org.junit.Assert.assertTrue("'" + str8 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str8.equals("NMF Satellite Simulator - Camera Adapter"));
@@ -9041,7 +9041,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter14 = n
         org.junit.Assert.assertNotNull(pixelResolutionList17);
         org.junit.Assert.assertNotNull(duration18);
         org.junit.Assert.assertNotNull(pixelResolutionList19);
-        org.junit.Assert.assertFalse("'" + boolean20 + "' != '" + false + "'", boolean20);
+        org.junit.Assert.assertTrue("'" + boolean20 + "' != '" + true + "'", boolean20);
         org.junit.Assert.assertNotNull(duration21);
         org.junit.Assert.assertTrue("'" + long22 + "' != '" + 281474993487875L + "'", long22.equals(281474993487875L));
         org.junit.Assert.assertTrue("'" + boolean23 + "' != '" + false + "'", !boolean23);
@@ -9097,7 +9097,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertNotNull(pixelResolutionList3);
         org.junit.Assert.assertNotNull(duration4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertNotNull(pixelResolutionList6);
         org.junit.Assert.assertNotNull(pixelResolutionList7);
         org.junit.Assert.assertNotNull(duration8);
@@ -9183,15 +9183,15 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter52 = n
         org.junit.Assert.assertTrue("'" + int43 + "' != '" + (-9) + "'", int43.equals((-9)));
         org.junit.Assert.assertNotNull(element44);
         org.junit.Assert.assertTrue("'" + long45 + "' != '" + 281475010265079L + "'", long45.equals(281475010265079L));
-        org.junit.Assert.assertFalse("'" + boolean48 + "' != '" + false + "'", boolean48);
-        org.junit.Assert.assertFalse("'" + boolean49 + "' != '" + false + "'", boolean49);
-        org.junit.Assert.assertFalse("'" + boolean50 + "' != '" + false + "'", boolean50);
-        org.junit.Assert.assertFalse("'" + boolean51 + "' != '" + false + "'", boolean51);
-        org.junit.Assert.assertFalse("'" + boolean54 + "' != '" + false + "'", boolean54);
-        org.junit.Assert.assertFalse("'" + boolean55 + "' != '" + false + "'", boolean55);
-        org.junit.Assert.assertFalse("'" + boolean56 + "' != '" + false + "'", boolean56);
-        org.junit.Assert.assertFalse("'" + boolean57 + "' != '" + false + "'", boolean57);
-        org.junit.Assert.assertFalse("'" + boolean58 + "' != '" + false + "'", boolean58);
+        org.junit.Assert.assertTrue("'" + boolean48 + "' != '" + true + "'", boolean48);
+        org.junit.Assert.assertTrue("'" + boolean49 + "' != '" + true + "'", boolean49);
+        org.junit.Assert.assertTrue("'" + boolean50 + "' != '" + true + "'", boolean50);
+        org.junit.Assert.assertTrue("'" + boolean51 + "' != '" + true + "'", boolean51);
+        org.junit.Assert.assertTrue("'" + boolean54 + "' != '" + true + "'", boolean54);
+        org.junit.Assert.assertTrue("'" + boolean55 + "' != '" + true + "'", boolean55);
+        org.junit.Assert.assertTrue("'" + boolean56 + "' != '" + true + "'", boolean56);
+        org.junit.Assert.assertTrue("'" + boolean57 + "' != '" + true + "'", boolean57);
+        org.junit.Assert.assertTrue("'" + boolean58 + "' != '" + true + "'", boolean58);
         org.junit.Assert.assertNotNull(opticalDataReceiverAdapterInterfaceArray59);
         org.junit.Assert.assertNotNull(opticalDataReceiverAdapterInterfaceArray60);
         org.junit.Assert.assertNotNull(opticalDataReceiverAdapterInterfaceArray61);
@@ -9275,7 +9275,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = n
         org.junit.Assert.assertTrue("'" + boolean35 + "' != '" + false + "'", !boolean35);
         org.junit.Assert.assertNull(attitudeMode36);
         org.junit.Assert.assertNull(attitudeMode37);
-        org.junit.Assert.assertFalse("'" + boolean38 + "' != '" + false + "'", boolean38);
+        org.junit.Assert.assertTrue("'" + boolean38 + "' != '" + true + "'", boolean38);
     }
 
     @Test
@@ -9295,10 +9295,10 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean9 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
         org.junit.Assert.assertNull(attitudeMode2);
         org.junit.Assert.assertNull(str4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertNull(str7);
         org.junit.Assert.assertNull(attitudeMode8);
-        org.junit.Assert.assertFalse("'" + boolean9 + "' != '" + false + "'", boolean9);
+        org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9);
     }
 
     @Test
@@ -9318,10 +9318,10 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertNotNull(pixelResolutionList3);
         org.junit.Assert.assertNotNull(duration4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertTrue("'" + str6 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str6.equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertNotNull(duration7);
-        org.junit.Assert.assertFalse("'" + boolean8 + "' != '" + false + "'", boolean8);
+        org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8);
     }
 
     @Test
@@ -9358,7 +9358,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         autonomousADCSSoftSimAdapter1.setDesiredAttitude(attitudeMode10);
         org.junit.Assert.assertNull(attitudeMode4);
         org.junit.Assert.assertNull(str6);
-        org.junit.Assert.assertFalse("'" + boolean9 + "' != '" + false + "'", boolean9);
+        org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9);
     }
 
     @Test
@@ -9444,15 +9444,15 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter55 = n
         org.junit.Assert.assertNotNull(byteStream37);
         org.junit.Assert.assertNotNull(uShort38);
         org.junit.Assert.assertTrue("'" + int41 + "' != '" + (-1) + "'", int41 == (-1));
-        org.junit.Assert.assertFalse("'" + boolean44 + "' != '" + false + "'", boolean44);
-        org.junit.Assert.assertFalse("'" + boolean47 + "' != '" + false + "'", boolean47);
-        org.junit.Assert.assertFalse("'" + boolean48 + "' != '" + false + "'", boolean48);
-        org.junit.Assert.assertFalse("'" + boolean49 + "' != '" + false + "'", boolean49);
-        org.junit.Assert.assertFalse("'" + boolean52 + "' != '" + false + "'", boolean52);
-        org.junit.Assert.assertFalse("'" + boolean57 + "' != '" + false + "'", boolean57);
-        org.junit.Assert.assertFalse("'" + boolean58 + "' != '" + false + "'", boolean58);
-        org.junit.Assert.assertFalse("'" + boolean59 + "' != '" + false + "'", boolean59);
-        org.junit.Assert.assertFalse("'" + boolean60 + "' != '" + false + "'", boolean60);
+        org.junit.Assert.assertTrue("'" + boolean44 + "' != '" + true + "'", boolean44);
+        org.junit.Assert.assertTrue("'" + boolean47 + "' != '" + true + "'", boolean47);
+        org.junit.Assert.assertTrue("'" + boolean48 + "' != '" + true + "'", boolean48);
+        org.junit.Assert.assertTrue("'" + boolean49 + "' != '" + true + "'", boolean49);
+        org.junit.Assert.assertTrue("'" + boolean52 + "' != '" + true + "'", boolean52);
+        org.junit.Assert.assertTrue("'" + boolean57 + "' != '" + true + "'", boolean57);
+        org.junit.Assert.assertTrue("'" + boolean58 + "' != '" + true + "'", boolean58);
+        org.junit.Assert.assertTrue("'" + boolean59 + "' != '" + true + "'", boolean59);
+        org.junit.Assert.assertTrue("'" + boolean60 + "' != '" + true + "'", boolean60);
         org.junit.Assert.assertNotNull(gPSNMEAonlyAdapterArray61);
         org.junit.Assert.assertNotNull(gPSNMEAonlyAdapterArray62);
         org.junit.Assert.assertNotNull(gPSAdapterInterfaceArray63);
@@ -9654,7 +9654,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter83 = n
         org.junit.Assert.assertTrue("'" + int66 + "' != '" + 10 + "'", int66 == 10);
         org.junit.Assert.assertTrue("'" + boolean67 + "' != '" + false + "'", !boolean67);
         org.junit.Assert.assertNotNull(uShortStream68);
-        org.junit.Assert.assertFalse("'" + boolean73 + "' != '" + false + "'", boolean73);
+        org.junit.Assert.assertTrue("'" + boolean73 + "' != '" + true + "'", boolean73);
         org.junit.Assert.assertNull(attitudeMode78);
         org.junit.Assert.assertNotNull(autonomousADCSAdapterInterfaceArray87);
         org.junit.Assert.assertNotNull(autonomousADCSAdapterInterfaceArray88);
@@ -9695,9 +9695,9 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter14 = n
         org.junit.Assert.assertNotNull(strItor13);
         org.junit.Assert.assertNotNull(duration16);
         org.junit.Assert.assertTrue("'" + str17 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str17.equals("NMF Satellite Simulator - Camera Adapter"));
-        org.junit.Assert.assertFalse("'" + boolean18 + "' != '" + false + "'", boolean18);
-        org.junit.Assert.assertFalse("'" + boolean19 + "' != '" + false + "'", boolean19);
-        org.junit.Assert.assertFalse("'" + boolean20 + "' != '" + false + "'", boolean20);
+        org.junit.Assert.assertTrue("'" + boolean18 + "' != '" + true + "'", boolean18);
+        org.junit.Assert.assertTrue("'" + boolean19 + "' != '" + true + "'", boolean19);
+        org.junit.Assert.assertTrue("'" + boolean20 + "' != '" + true + "'", boolean20);
         org.junit.Assert.assertTrue("'" + boolean21 + "' != '" + false + "'", !boolean21);
     }
 
@@ -9808,8 +9808,8 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter5 = ne
         org.junit.Assert.assertNotNull(uShort4);
         org.junit.Assert.assertNotNull(duration7);
         org.junit.Assert.assertTrue("'" + str8 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str8.equals("NMF Satellite Simulator - Camera Adapter"));
-        org.junit.Assert.assertFalse("'" + boolean9 + "' != '" + false + "'", boolean9);
-        org.junit.Assert.assertFalse("'" + boolean10 + "' != '" + false + "'", boolean10);
+        org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9);
+        org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10);
         org.junit.Assert.assertNotNull(pixelResolutionList11);
         org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + false + "'", !boolean12);
         org.junit.Assert.assertNotNull(uShort13);
@@ -9836,11 +9836,11 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         autonomousADCSSoftSimAdapter1.setDesiredAttitude(attitudeMode12);
         org.junit.Assert.assertNull(attitudeMode2);
         org.junit.Assert.assertNull(str4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertNull(attitudeMode6);
         org.junit.Assert.assertNull(str8);
         org.junit.Assert.assertNull(str10);
-        org.junit.Assert.assertFalse("'" + boolean11 + "' != '" + false + "'", boolean11);
+        org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + true + "'", boolean11);
     }
 
     @Test
@@ -9862,7 +9862,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter2 = ne
         org.junit.Assert.assertNotNull(duration4);
         org.junit.Assert.assertNotNull(pixelResolutionList5);
         org.junit.Assert.assertNotNull(duration6);
-        org.junit.Assert.assertFalse("'" + boolean7 + "' != '" + false + "'", boolean7);
+        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
         org.junit.Assert.assertNotNull(pixelResolutionList8);
         org.junit.Assert.assertNotNull(duration9);
         org.junit.Assert.assertNotNull(element10);
@@ -9952,7 +9952,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.junit.Assert.assertNotNull(duration3);
         org.junit.Assert.assertNotNull(pixelResolutionList4);
         org.junit.Assert.assertTrue("'" + str5 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str5.equals("NMF Satellite Simulator - Camera Adapter"));
-        org.junit.Assert.assertFalse("'" + boolean6 + "' != '" + false + "'", boolean6);
+        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6);
         org.junit.Assert.assertTrue("'" + str7 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str7.equals("NMF Satellite Simulator - Camera Adapter"));
     }
 
@@ -10058,7 +10058,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter65 = n
         org.junit.Assert.assertTrue("'" + long64 + "' != '" + 281474993487889L + "'", long64.equals(281474993487889L));
         org.junit.Assert.assertNull(attitudeMode67);
         org.junit.Assert.assertNull(str69);
-        org.junit.Assert.assertFalse("'" + boolean70 + "' != '" + false + "'", boolean70);
+        org.junit.Assert.assertTrue("'" + boolean70 + "' != '" + true + "'", boolean70);
         org.junit.Assert.assertNull(attitudeMode71);
         org.junit.Assert.assertNull(str73);
         org.junit.Assert.assertTrue("'" + boolean78 + "' != '" + false + "'", !boolean78);
@@ -10082,14 +10082,14 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration11 = null;
         boolean boolean12 = softwareDefinedRadioSoftSimAdapter1.setConfiguration(sDRConfiguration11);
         boolean boolean13 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
-        org.junit.Assert.assertFalse("'" + boolean2 + "' != '" + false + "'", boolean2);
-        org.junit.Assert.assertFalse("'" + boolean3 + "' != '" + false + "'", boolean3);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2);
+        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + true + "'", boolean3);
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
-        org.junit.Assert.assertFalse("'" + boolean8 + "' != '" + false + "'", boolean8);
+        org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8);
         org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10);
         org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + false + "'", !boolean12);
-        org.junit.Assert.assertFalse("'" + boolean13 + "' != '" + false + "'", boolean13);
+        org.junit.Assert.assertTrue("'" + boolean13 + "' != '" + true + "'", boolean13);
     }
 
     @Test
@@ -10118,7 +10118,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter10 = n
         org.junit.Assert.assertNotNull(uOctet5);
         org.junit.Assert.assertNotNull(uShort7);
         org.junit.Assert.assertNotNull(element8);
-        org.junit.Assert.assertFalse("'" + boolean12 + "' != '" + false + "'", boolean12);
+        org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + true + "'", boolean12);
         org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + true + "'", boolean14);
         org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + false + "'", !boolean15);
         org.junit.Assert.assertNotNull(uShort16);
@@ -10163,7 +10163,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean6 = softwareDefinedRadioSoftSimAdapter1.enableSDR((java.lang.Boolean) false);
         boolean boolean8 = softwareDefinedRadioSoftSimAdapter1.enableSDR((java.lang.Boolean) false);
         org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + false + "'", !boolean3);
-        org.junit.Assert.assertFalse("'" + boolean4 + "' != '" + false + "'", boolean4);
+        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
         org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6);
         org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8);
     }
@@ -10222,7 +10222,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter5 = ne
         org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
         org.junit.Assert.assertNull(attitudeMode7);
         org.junit.Assert.assertNull(str9);
-        org.junit.Assert.assertFalse("'" + boolean10 + "' != '" + false + "'", boolean10);
+        org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10);
         org.junit.Assert.assertNull(attitudeMode11);
         org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + false + "'", !boolean12);
         org.junit.Assert.assertNotNull(uOctet14);
@@ -10268,8 +10268,8 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration12 = null;
         boolean boolean13 = softwareDefinedRadioSoftSimAdapter1.setConfiguration(sDRConfiguration12);
         boolean boolean15 = softwareDefinedRadioSoftSimAdapter1.enableSDR((java.lang.Boolean) true);
-        org.junit.Assert.assertFalse("'" + boolean2 + "' != '" + false + "'", boolean2);
-        org.junit.Assert.assertFalse("'" + boolean3 + "' != '" + false + "'", boolean3);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2);
+        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + true + "'", boolean3);
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
         org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9);
@@ -10381,42 +10381,42 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter72 = n
         org.junit.Assert.assertNotNull(uShortArray11);
         org.junit.Assert.assertNotNull(uShortArray12);
         org.junit.Assert.assertNotNull(uShort14);
-        org.junit.Assert.assertFalse("'" + boolean18 + "' != '" + false + "'", boolean18);
-        org.junit.Assert.assertFalse("'" + boolean19 + "' != '" + false + "'", boolean19);
+        org.junit.Assert.assertTrue("'" + boolean18 + "' != '" + true + "'", boolean18);
+        org.junit.Assert.assertTrue("'" + boolean19 + "' != '" + true + "'", boolean19);
         org.junit.Assert.assertNotNull(gPSNMEAonlyAdapterArray20);
-        org.junit.Assert.assertFalse("'" + boolean23 + "' != '" + false + "'", boolean23);
-        org.junit.Assert.assertFalse("'" + boolean24 + "' != '" + false + "'", boolean24);
+        org.junit.Assert.assertTrue("'" + boolean23 + "' != '" + true + "'", boolean23);
+        org.junit.Assert.assertTrue("'" + boolean24 + "' != '" + true + "'", boolean24);
         org.junit.Assert.assertNotNull(gPSNMEAonlyAdapterArray25);
-        org.junit.Assert.assertFalse("'" + boolean28 + "' != '" + false + "'", boolean28);
-        org.junit.Assert.assertFalse("'" + boolean29 + "' != '" + false + "'", boolean29);
+        org.junit.Assert.assertTrue("'" + boolean28 + "' != '" + true + "'", boolean28);
+        org.junit.Assert.assertTrue("'" + boolean29 + "' != '" + true + "'", boolean29);
         org.junit.Assert.assertNotNull(gPSNMEAonlyAdapterArray30);
-        org.junit.Assert.assertFalse("'" + boolean33 + "' != '" + false + "'", boolean33);
-        org.junit.Assert.assertFalse("'" + boolean34 + "' != '" + false + "'", boolean34);
+        org.junit.Assert.assertTrue("'" + boolean33 + "' != '" + true + "'", boolean33);
+        org.junit.Assert.assertTrue("'" + boolean34 + "' != '" + true + "'", boolean34);
         org.junit.Assert.assertNotNull(gPSNMEAonlyAdapterArray35);
-        org.junit.Assert.assertFalse("'" + boolean38 + "' != '" + false + "'", boolean38);
-        org.junit.Assert.assertFalse("'" + boolean39 + "' != '" + false + "'", boolean39);
+        org.junit.Assert.assertTrue("'" + boolean38 + "' != '" + true + "'", boolean38);
+        org.junit.Assert.assertTrue("'" + boolean39 + "' != '" + true + "'", boolean39);
         org.junit.Assert.assertNotNull(gPSNMEAonlyAdapterArray40);
-        org.junit.Assert.assertFalse("'" + boolean43 + "' != '" + false + "'", boolean43);
-        org.junit.Assert.assertFalse("'" + boolean44 + "' != '" + false + "'", boolean44);
+        org.junit.Assert.assertTrue("'" + boolean43 + "' != '" + true + "'", boolean43);
+        org.junit.Assert.assertTrue("'" + boolean44 + "' != '" + true + "'", boolean44);
         org.junit.Assert.assertNotNull(gPSNMEAonlyAdapterArray45);
         org.junit.Assert.assertNotNull(gPSNMEAonlyAdapterArray46);
-        org.junit.Assert.assertFalse("'" + boolean49 + "' != '" + false + "'", boolean49);
-        org.junit.Assert.assertFalse("'" + boolean50 + "' != '" + false + "'", boolean50);
+        org.junit.Assert.assertTrue("'" + boolean49 + "' != '" + true + "'", boolean49);
+        org.junit.Assert.assertTrue("'" + boolean50 + "' != '" + true + "'", boolean50);
         org.junit.Assert.assertNotNull(gPSNMEAonlyAdapterArray51);
-        org.junit.Assert.assertFalse("'" + boolean54 + "' != '" + false + "'", boolean54);
-        org.junit.Assert.assertFalse("'" + boolean55 + "' != '" + false + "'", boolean55);
+        org.junit.Assert.assertTrue("'" + boolean54 + "' != '" + true + "'", boolean54);
+        org.junit.Assert.assertTrue("'" + boolean55 + "' != '" + true + "'", boolean55);
         org.junit.Assert.assertNotNull(gPSNMEAonlyAdapterArray56);
-        org.junit.Assert.assertFalse("'" + boolean59 + "' != '" + false + "'", boolean59);
-        org.junit.Assert.assertFalse("'" + boolean60 + "' != '" + false + "'", boolean60);
+        org.junit.Assert.assertTrue("'" + boolean59 + "' != '" + true + "'", boolean59);
+        org.junit.Assert.assertTrue("'" + boolean60 + "' != '" + true + "'", boolean60);
         org.junit.Assert.assertNotNull(gPSNMEAonlyAdapterArray61);
-        org.junit.Assert.assertFalse("'" + boolean64 + "' != '" + false + "'", boolean64);
-        org.junit.Assert.assertFalse("'" + boolean65 + "' != '" + false + "'", boolean65);
+        org.junit.Assert.assertTrue("'" + boolean64 + "' != '" + true + "'", boolean64);
+        org.junit.Assert.assertTrue("'" + boolean65 + "' != '" + true + "'", boolean65);
         org.junit.Assert.assertNotNull(gPSNMEAonlyAdapterArray66);
-        org.junit.Assert.assertFalse("'" + boolean69 + "' != '" + false + "'", boolean69);
-        org.junit.Assert.assertFalse("'" + boolean70 + "' != '" + false + "'", boolean70);
+        org.junit.Assert.assertTrue("'" + boolean69 + "' != '" + true + "'", boolean69);
+        org.junit.Assert.assertTrue("'" + boolean70 + "' != '" + true + "'", boolean70);
         org.junit.Assert.assertNotNull(gPSNMEAonlyAdapterArray71);
-        org.junit.Assert.assertFalse("'" + boolean74 + "' != '" + false + "'", boolean74);
-        org.junit.Assert.assertFalse("'" + boolean75 + "' != '" + false + "'", boolean75);
+        org.junit.Assert.assertTrue("'" + boolean74 + "' != '" + true + "'", boolean74);
+        org.junit.Assert.assertTrue("'" + boolean75 + "' != '" + true + "'", boolean75);
         org.junit.Assert.assertNotNull(gPSNMEAonlyAdapterArray76);
         org.junit.Assert.assertNotNull(gPSNMEAonlyAdapterArray77);
         org.junit.Assert.assertNotNull(gPSNMEAonlyAdapterArray78);
@@ -10441,15 +10441,15 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean12 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean13 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean14 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
-        org.junit.Assert.assertFalse("'" + boolean2 + "' != '" + false + "'", boolean2);
-        org.junit.Assert.assertFalse("'" + boolean3 + "' != '" + false + "'", boolean3);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2);
+        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + true + "'", boolean3);
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
         org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9);
         org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + false + "'", !boolean11);
-        org.junit.Assert.assertFalse("'" + boolean12 + "' != '" + false + "'", boolean12);
-        org.junit.Assert.assertFalse("'" + boolean13 + "' != '" + false + "'", boolean13);
-        org.junit.Assert.assertFalse("'" + boolean14 + "' != '" + false + "'", boolean14);
+        org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + true + "'", boolean12);
+        org.junit.Assert.assertTrue("'" + boolean13 + "' != '" + true + "'", boolean13);
+        org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + true + "'", boolean14);
     }
 
     @Test
@@ -10658,15 +10658,15 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = n
         stringList1.clear();
         boolean boolean27 = stringList1.add("281474993487877");
         boolean boolean28 = stringList1.isEmpty();
-        org.junit.Assert.assertFalse("'" + boolean4 + "' != '" + false + "'", boolean4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", !boolean7);
         org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9);
         org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + true + "'", boolean11);
-        org.junit.Assert.assertFalse("'" + boolean14 + "' != '" + false + "'", boolean14);
+        org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + true + "'", boolean14);
         org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + true + "'", boolean16);
-        org.junit.Assert.assertFalse("'" + boolean19 + "' != '" + false + "'", boolean19);
-        org.junit.Assert.assertFalse("'" + boolean20 + "' != '" + false + "'", boolean20);
+        org.junit.Assert.assertTrue("'" + boolean19 + "' != '" + true + "'", boolean19);
+        org.junit.Assert.assertTrue("'" + boolean20 + "' != '" + true + "'", boolean20);
         org.junit.Assert.assertNotNull(softwareDefinedRadioAdapterInterfaceArray23);
         org.junit.Assert.assertNotNull(softwareDefinedRadioAdapterInterfaceArray24);
         org.junit.Assert.assertTrue("'" + boolean27 + "' != '" + true + "'", boolean27);
@@ -10702,9 +10702,9 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean4 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration5 = null;
         boolean boolean6 = softwareDefinedRadioSoftSimAdapter1.setConfiguration(sDRConfiguration5);
-        org.junit.Assert.assertFalse("'" + boolean2 + "' != '" + false + "'", boolean2);
-        org.junit.Assert.assertFalse("'" + boolean3 + "' != '" + false + "'", boolean3);
-        org.junit.Assert.assertFalse("'" + boolean4 + "' != '" + false + "'", boolean4);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2);
+        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + true + "'", boolean3);
+        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
         org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + false + "'", !boolean6);
     }
 
@@ -10768,7 +10768,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = ne
         org.junit.Assert.assertNotNull(duration6);
         org.junit.Assert.assertNotNull(pixelResolutionList7);
         org.junit.Assert.assertNotNull(duration8);
-        org.junit.Assert.assertFalse("'" + boolean9 + "' != '" + false + "'", boolean9);
+        org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9);
         org.junit.Assert.assertNotNull(pixelResolutionList10);
         org.junit.Assert.assertNotNull(pixelResolutionList11);
         org.junit.Assert.assertTrue("'" + str12 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str12.equals("NMF Satellite Simulator - Camera Adapter"));
@@ -10867,7 +10867,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter53 = n
         org.junit.Assert.assertTrue("'" + boolean50 + "' != '" + false + "'", !boolean50);
         org.junit.Assert.assertTrue("'" + int51 + "' != '" + (-7) + "'", int51.equals((-7)));
         org.junit.Assert.assertTrue("'" + boolean52 + "' != '" + false + "'", !boolean52);
-        org.junit.Assert.assertFalse("'" + boolean55 + "' != '" + false + "'", boolean55);
+        org.junit.Assert.assertTrue("'" + boolean55 + "' != '" + true + "'", boolean55);
         org.junit.Assert.assertTrue("'" + boolean57 + "' != '" + true + "'", boolean57);
         org.junit.Assert.assertTrue("'" + boolean58 + "' != '" + false + "'", !boolean58);
         org.junit.Assert.assertTrue("'" + boolean60 + "' != '" + false + "'", !boolean60);
@@ -11004,7 +11004,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter87 = n
         org.junit.Assert.assertNotNull(pixelResolutionList90);
         org.junit.Assert.assertNotNull(duration91);
         org.junit.Assert.assertNotNull(pixelResolutionList92);
-        org.junit.Assert.assertFalse("'" + boolean93 + "' != '" + false + "'", boolean93);
+        org.junit.Assert.assertTrue("'" + boolean93 + "' != '" + true + "'", boolean93);
         org.junit.Assert.assertTrue("'" + int94 + "' != '" + (-1) + "'", int94 == (-1));
     }
 
@@ -11062,7 +11062,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertNotNull(pixelResolutionList3);
         org.junit.Assert.assertNotNull(duration4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertNotNull(pixelResolutionList6);
         org.junit.Assert.assertNotNull(pixelResolutionList7);
         org.junit.Assert.assertNotNull(duration8);
@@ -11091,18 +11091,18 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean18 = softwareDefinedRadioSoftSimAdapter1.enableSDR((java.lang.Boolean) false);
         boolean boolean20 = softwareDefinedRadioSoftSimAdapter1.enableSDR((java.lang.Boolean) true);
         boolean boolean21 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
-        org.junit.Assert.assertFalse("'" + boolean2 + "' != '" + false + "'", boolean2);
-        org.junit.Assert.assertFalse("'" + boolean3 + "' != '" + false + "'", boolean3);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2);
+        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + true + "'", boolean3);
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
         org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9);
-        org.junit.Assert.assertFalse("'" + boolean10 + "' != '" + false + "'", boolean10);
+        org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10);
         org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + true + "'", boolean12);
         org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + false + "'", !boolean14);
         org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + true + "'", boolean16);
         org.junit.Assert.assertTrue("'" + boolean18 + "' != '" + true + "'", boolean18);
         org.junit.Assert.assertTrue("'" + boolean20 + "' != '" + true + "'", boolean20);
-        org.junit.Assert.assertFalse("'" + boolean21 + "' != '" + false + "'", boolean21);
+        org.junit.Assert.assertTrue("'" + boolean21 + "' != '" + true + "'", boolean21);
     }
 
     @Test
@@ -11154,8 +11154,8 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter9 = ne
         org.junit.Assert.assertTrue("'" + str5 + "' != '" + "[true, true]" + "'", str5.equals("[true, true]"));
         org.junit.Assert.assertTrue("'" + int6 + "' != '" + 2 + "'", int6 == 2);
         org.junit.Assert.assertTrue("'" + str8 + "' != '" + "[true, true]" + "'", str8.equals("[true, true]"));
-        org.junit.Assert.assertFalse("'" + boolean11 + "' != '" + false + "'", boolean11);
-        org.junit.Assert.assertFalse("'" + boolean12 + "' != '" + false + "'", boolean12);
+        org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + true + "'", boolean11);
+        org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + true + "'", boolean12);
         org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + false + "'", !boolean14);
         org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + true + "'", boolean16);
         org.junit.Assert.assertTrue("'" + boolean18 + "' != '" + true + "'", boolean18);
@@ -11227,10 +11227,10 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration5 = null;
         boolean boolean6 = softwareDefinedRadioSoftSimAdapter1.setConfiguration(sDRConfiguration5);
         boolean boolean7 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
-        org.junit.Assert.assertFalse("'" + boolean2 + "' != '" + false + "'", boolean2);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2);
         org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
         org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + false + "'", !boolean6);
-        org.junit.Assert.assertFalse("'" + boolean7 + "' != '" + false + "'", boolean7);
+        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
     }
 
     @Test
@@ -11247,7 +11247,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         autonomousADCSSoftSimAdapter1.setDesiredAttitude(attitudeMode5);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode7 = null;
         java.lang.String str8 = autonomousADCSSoftSimAdapter1.validateAttitudeDescriptor(attitudeMode7);
-        org.junit.Assert.assertFalse("'" + boolean2 + "' != '" + false + "'", boolean2);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2);
         org.junit.Assert.assertNull(str8);
     }
 
@@ -11298,8 +11298,8 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = n
         org.junit.Assert.assertTrue("'" + boolean30 + "' != '" + false + "'", !boolean30);
         org.junit.Assert.assertTrue("'" + int32 + "' != '" + (-1) + "'", int32 == (-1));
         org.junit.Assert.assertTrue("'" + boolean35 + "' != '" + false + "'", !boolean35);
-        org.junit.Assert.assertFalse("'" + boolean36 + "' != '" + false + "'", boolean36);
-        org.junit.Assert.assertFalse("'" + boolean37 + "' != '" + false + "'", boolean37);
+        org.junit.Assert.assertTrue("'" + boolean36 + "' != '" + true + "'", boolean36);
+        org.junit.Assert.assertTrue("'" + boolean37 + "' != '" + true + "'", boolean37);
     }
 
     @Test
@@ -11457,8 +11457,8 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter9 = ne
         org.junit.Assert.assertTrue("'" + str5 + "' != '" + "[true, true]" + "'", str5.equals("[true, true]"));
         org.junit.Assert.assertTrue("'" + int6 + "' != '" + 2 + "'", int6 == 2);
         org.junit.Assert.assertTrue("'" + str8 + "' != '" + "[true, true]" + "'", str8.equals("[true, true]"));
-        org.junit.Assert.assertFalse("'" + boolean11 + "' != '" + false + "'", boolean11);
-        org.junit.Assert.assertFalse("'" + boolean12 + "' != '" + false + "'", boolean12);
+        org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + true + "'", boolean11);
+        org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + true + "'", boolean12);
         org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + false + "'", !boolean14);
         org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + true + "'", boolean16);
         org.junit.Assert.assertTrue("'" + boolean18 + "' != '" + true + "'", boolean18);
@@ -11578,12 +11578,12 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertNotNull(pixelResolutionList3);
         org.junit.Assert.assertNotNull(duration4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertNotNull(pixelResolutionList6);
         org.junit.Assert.assertNotNull(pixelResolutionList7);
         org.junit.Assert.assertNotNull(duration8);
         org.junit.Assert.assertNotNull(duration9);
-        org.junit.Assert.assertFalse("'" + boolean10 + "' != '" + false + "'", boolean10);
+        org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10);
         org.junit.Assert.assertNotNull(duration11);
         org.junit.Assert.assertNotNull(duration12);
         org.junit.Assert.assertTrue("'" + str13 + "' != '" + "10.0" + "'", str13.equals("10.0"));
@@ -11645,11 +11645,11 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter7 = ne
         }
         org.junit.Assert.assertNotNull(shortArray2);
         org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
-        org.junit.Assert.assertFalse("'" + boolean9 + "' != '" + false + "'", boolean9);
-        org.junit.Assert.assertFalse("'" + boolean10 + "' != '" + false + "'", boolean10);
+        org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9);
+        org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10);
         org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + false + "'", !boolean12);
         org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + true + "'", boolean14);
-        org.junit.Assert.assertFalse("'" + boolean15 + "' != '" + false + "'", boolean15);
+        org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + true + "'", boolean15);
         org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + false + "'", !boolean16);
     }
 
@@ -11859,7 +11859,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter80 = n
         org.junit.Assert.assertNotNull(duration83);
         org.junit.Assert.assertNotNull(pixelResolutionList84);
         org.junit.Assert.assertTrue("'" + str85 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str85.equals("NMF Satellite Simulator - Camera Adapter"));
-        org.junit.Assert.assertFalse("'" + boolean86 + "' != '" + false + "'", boolean86);
+        org.junit.Assert.assertTrue("'" + boolean86 + "' != '" + true + "'", boolean86);
         org.junit.Assert.assertNotNull(duration87);
         org.junit.Assert.assertTrue("'" + boolean88 + "' != '" + false + "'", !boolean88);
     }
@@ -11882,12 +11882,12 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
 // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter.randoop_classUsedFlag from class esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter");
         } catch (java.lang.IllegalAccessError e) {
         }
-        org.junit.Assert.assertFalse("'" + boolean2 + "' != '" + false + "'", boolean2);
-        org.junit.Assert.assertFalse("'" + boolean3 + "' != '" + false + "'", boolean3);
-        org.junit.Assert.assertFalse("'" + boolean4 + "' != '" + false + "'", boolean4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
-        org.junit.Assert.assertFalse("'" + boolean6 + "' != '" + false + "'", boolean6);
-        org.junit.Assert.assertFalse("'" + boolean7 + "' != '" + false + "'", boolean7);
+        org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2);
+        org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + true + "'", boolean3);
+        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6);
+        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
     }
 
     @Test
@@ -11931,7 +11931,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter11 = n
         org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10);
         org.junit.Assert.assertNull(attitudeMode13);
         org.junit.Assert.assertNull(str15);
-        org.junit.Assert.assertFalse("'" + boolean16 + "' != '" + false + "'", boolean16);
+        org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + true + "'", boolean16);
         org.junit.Assert.assertNull(attitudeMode17);
         org.junit.Assert.assertTrue("'" + boolean18 + "' != '" + false + "'", !boolean18);
         org.junit.Assert.assertTrue("'" + boolean20 + "' != '" + true + "'", boolean20);
@@ -11964,10 +11964,10 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean9 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
         org.junit.Assert.assertNull(attitudeMode2);
         org.junit.Assert.assertNull(str4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertNull(attitudeMode6);
         org.junit.Assert.assertNull(str8);
-        org.junit.Assert.assertFalse("'" + boolean9 + "' != '" + false + "'", boolean9);
+        org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9);
     }
 
     @Test
@@ -12022,10 +12022,10 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = n
         org.junit.Assert.assertTrue("'" + int32 + "' != '" + (-1) + "'", int32 == (-1));
         org.junit.Assert.assertTrue("'" + boolean35 + "' != '" + false + "'", !boolean35);
         org.junit.Assert.assertNull(attitudeMode36);
-        org.junit.Assert.assertFalse("'" + boolean37 + "' != '" + false + "'", boolean37);
+        org.junit.Assert.assertTrue("'" + boolean37 + "' != '" + true + "'", boolean37);
         org.junit.Assert.assertNull(str39);
-        org.junit.Assert.assertFalse("'" + boolean40 + "' != '" + false + "'", boolean40);
-        org.junit.Assert.assertFalse("'" + boolean41 + "' != '" + false + "'", boolean41);
+        org.junit.Assert.assertTrue("'" + boolean40 + "' != '" + true + "'", boolean40);
+        org.junit.Assert.assertTrue("'" + boolean41 + "' != '" + true + "'", boolean41);
     }
 
     @Test
@@ -12078,7 +12078,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter10 = n
         org.junit.Assert.assertNotNull(duration13);
         org.junit.Assert.assertNotNull(pixelResolutionList14);
         org.junit.Assert.assertTrue("'" + str15 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str15.equals("NMF Satellite Simulator - Camera Adapter"));
-        org.junit.Assert.assertFalse("'" + boolean16 + "' != '" + false + "'", boolean16);
+        org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + true + "'", boolean16);
         org.junit.Assert.assertNotNull(duration17);
         org.junit.Assert.assertTrue("'" + str18 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str18.equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertTrue("'" + int19 + "' != '" + (-1) + "'", int19 == (-1));
@@ -12111,7 +12111,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertNotNull(pixelResolutionList3);
         org.junit.Assert.assertNotNull(duration4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertNotNull(pixelResolutionList6);
         org.junit.Assert.assertTrue("'" + str7 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str7.equals("NMF Satellite Simulator - Camera Adapter"));
     }
@@ -12217,7 +12217,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter59 = n
         org.junit.Assert.assertTrue("'" + boolean58 + "' != '" + true + "'", boolean58);
         org.junit.Assert.assertNotNull(duration61);
         org.junit.Assert.assertTrue("'" + str62 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str62.equals("NMF Satellite Simulator - Camera Adapter"));
-        org.junit.Assert.assertFalse("'" + boolean63 + "' != '" + false + "'", boolean63);
+        org.junit.Assert.assertTrue("'" + boolean63 + "' != '" + true + "'", boolean63);
         org.junit.Assert.assertNotNull(duration64);
         org.junit.Assert.assertTrue("'" + boolean65 + "' != '" + false + "'", !boolean65);
         org.junit.Assert.assertTrue("'" + str66 + "' != '" + "[]" + "'", str66.equals("[]"));
@@ -12264,8 +12264,8 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter19 = n
         org.junit.Assert.assertNotNull(element7);
         org.junit.Assert.assertNotNull(uShort8);
         org.junit.Assert.assertNotNull(element9);
-        org.junit.Assert.assertFalse("'" + boolean18 + "' != '" + false + "'", boolean18);
-        org.junit.Assert.assertFalse("'" + boolean21 + "' != '" + false + "'", boolean21);
+        org.junit.Assert.assertTrue("'" + boolean18 + "' != '" + true + "'", boolean18);
+        org.junit.Assert.assertTrue("'" + boolean21 + "' != '" + true + "'", boolean21);
         org.junit.Assert.assertNotNull(gPSAdapterInterfaceArray22);
         org.junit.Assert.assertNotNull(gPSAdapterInterfaceArray23);
         org.junit.Assert.assertNotNull(gPSAdapterInterfaceArray24);
@@ -12296,12 +12296,12 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = ne
         }
         org.junit.Assert.assertNotNull(uShort2);
         org.junit.Assert.assertNotNull(obj3);
-        org.junit.Assert.assertFalse("'" + boolean6 + "' != '" + false + "'", boolean6);
-        org.junit.Assert.assertFalse("'" + boolean7 + "' != '" + false + "'", boolean7);
-        org.junit.Assert.assertFalse("'" + boolean8 + "' != '" + false + "'", boolean8);
-        org.junit.Assert.assertFalse("'" + boolean9 + "' != '" + false + "'", boolean9);
+        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6);
+        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
+        org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8);
+        org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9);
         org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + false + "'", !boolean10);
-        org.junit.Assert.assertFalse("'" + boolean11 + "' != '" + false + "'", boolean11);
+        org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + true + "'", boolean11);
     }
 
     @Test
@@ -12410,35 +12410,35 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter72 = n
         org.junit.Assert.assertTrue("'" + boolean23 + "' != '" + false + "'", !boolean23);
         org.junit.Assert.assertTrue("'" + int24 + "' != '" + 0 + "'", int24 == 0);
         org.junit.Assert.assertTrue("'" + boolean25 + "' != '" + false + "'", !boolean25);
-        org.junit.Assert.assertFalse("'" + boolean28 + "' != '" + false + "'", boolean28);
-        org.junit.Assert.assertFalse("'" + boolean29 + "' != '" + false + "'", boolean29);
-        org.junit.Assert.assertFalse("'" + boolean30 + "' != '" + false + "'", boolean30);
-        org.junit.Assert.assertFalse("'" + boolean31 + "' != '" + false + "'", boolean31);
-        org.junit.Assert.assertFalse("'" + boolean34 + "' != '" + false + "'", boolean34);
+        org.junit.Assert.assertTrue("'" + boolean28 + "' != '" + true + "'", boolean28);
+        org.junit.Assert.assertTrue("'" + boolean29 + "' != '" + true + "'", boolean29);
+        org.junit.Assert.assertTrue("'" + boolean30 + "' != '" + true + "'", boolean30);
+        org.junit.Assert.assertTrue("'" + boolean31 + "' != '" + true + "'", boolean31);
+        org.junit.Assert.assertTrue("'" + boolean34 + "' != '" + true + "'", boolean34);
         org.junit.Assert.assertNotNull(opticalDataReceiverAdapterInterfaceArray35);
-        org.junit.Assert.assertFalse("'" + boolean38 + "' != '" + false + "'", boolean38);
-        org.junit.Assert.assertFalse("'" + boolean39 + "' != '" + false + "'", boolean39);
-        org.junit.Assert.assertFalse("'" + boolean40 + "' != '" + false + "'", boolean40);
-        org.junit.Assert.assertFalse("'" + boolean41 + "' != '" + false + "'", boolean41);
-        org.junit.Assert.assertFalse("'" + boolean44 + "' != '" + false + "'", boolean44);
+        org.junit.Assert.assertTrue("'" + boolean38 + "' != '" + true + "'", boolean38);
+        org.junit.Assert.assertTrue("'" + boolean39 + "' != '" + true + "'", boolean39);
+        org.junit.Assert.assertTrue("'" + boolean40 + "' != '" + true + "'", boolean40);
+        org.junit.Assert.assertTrue("'" + boolean41 + "' != '" + true + "'", boolean41);
+        org.junit.Assert.assertTrue("'" + boolean44 + "' != '" + true + "'", boolean44);
         org.junit.Assert.assertNotNull(opticalDataReceiverAdapterInterfaceArray45);
-        org.junit.Assert.assertFalse("'" + boolean48 + "' != '" + false + "'", boolean48);
-        org.junit.Assert.assertFalse("'" + boolean49 + "' != '" + false + "'", boolean49);
-        org.junit.Assert.assertFalse("'" + boolean50 + "' != '" + false + "'", boolean50);
-        org.junit.Assert.assertFalse("'" + boolean51 + "' != '" + false + "'", boolean51);
-        org.junit.Assert.assertFalse("'" + boolean54 + "' != '" + false + "'", boolean54);
+        org.junit.Assert.assertTrue("'" + boolean48 + "' != '" + true + "'", boolean48);
+        org.junit.Assert.assertTrue("'" + boolean49 + "' != '" + true + "'", boolean49);
+        org.junit.Assert.assertTrue("'" + boolean50 + "' != '" + true + "'", boolean50);
+        org.junit.Assert.assertTrue("'" + boolean51 + "' != '" + true + "'", boolean51);
+        org.junit.Assert.assertTrue("'" + boolean54 + "' != '" + true + "'", boolean54);
         org.junit.Assert.assertNotNull(opticalDataReceiverAdapterInterfaceArray55);
-        org.junit.Assert.assertFalse("'" + boolean58 + "' != '" + false + "'", boolean58);
-        org.junit.Assert.assertFalse("'" + boolean59 + "' != '" + false + "'", boolean59);
-        org.junit.Assert.assertFalse("'" + boolean60 + "' != '" + false + "'", boolean60);
-        org.junit.Assert.assertFalse("'" + boolean61 + "' != '" + false + "'", boolean61);
-        org.junit.Assert.assertFalse("'" + boolean64 + "' != '" + false + "'", boolean64);
+        org.junit.Assert.assertTrue("'" + boolean58 + "' != '" + true + "'", boolean58);
+        org.junit.Assert.assertTrue("'" + boolean59 + "' != '" + true + "'", boolean59);
+        org.junit.Assert.assertTrue("'" + boolean60 + "' != '" + true + "'", boolean60);
+        org.junit.Assert.assertTrue("'" + boolean61 + "' != '" + true + "'", boolean61);
+        org.junit.Assert.assertTrue("'" + boolean64 + "' != '" + true + "'", boolean64);
         org.junit.Assert.assertNotNull(opticalDataReceiverAdapterInterfaceArray65);
-        org.junit.Assert.assertFalse("'" + boolean68 + "' != '" + false + "'", boolean68);
-        org.junit.Assert.assertFalse("'" + boolean69 + "' != '" + false + "'", boolean69);
-        org.junit.Assert.assertFalse("'" + boolean70 + "' != '" + false + "'", boolean70);
-        org.junit.Assert.assertFalse("'" + boolean71 + "' != '" + false + "'", boolean71);
-        org.junit.Assert.assertFalse("'" + boolean74 + "' != '" + false + "'", boolean74);
+        org.junit.Assert.assertTrue("'" + boolean68 + "' != '" + true + "'", boolean68);
+        org.junit.Assert.assertTrue("'" + boolean69 + "' != '" + true + "'", boolean69);
+        org.junit.Assert.assertTrue("'" + boolean70 + "' != '" + true + "'", boolean70);
+        org.junit.Assert.assertTrue("'" + boolean71 + "' != '" + true + "'", boolean71);
+        org.junit.Assert.assertTrue("'" + boolean74 + "' != '" + true + "'", boolean74);
         org.junit.Assert.assertNotNull(opticalDataReceiverAdapterInterfaceArray75);
         org.junit.Assert.assertNotNull(opticalDataReceiverAdapterInterfaceArray76);
         org.junit.Assert.assertNotNull(opticalDataReceiverAdapterInterfaceArray77);
@@ -12460,11 +12460,11 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean8 = cameraSoftSimAdapter1.isUnitAvailable();
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertTrue("'" + str3 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str3.equals("NMF Satellite Simulator - Camera Adapter"));
-        org.junit.Assert.assertFalse("'" + boolean4 + "' != '" + false + "'", boolean4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertNotNull(pixelResolutionList6);
         org.junit.Assert.assertNotNull(duration7);
-        org.junit.Assert.assertFalse("'" + boolean8 + "' != '" + false + "'", boolean8);
+        org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8);
     }
 
     @Test
@@ -12482,10 +12482,10 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean7 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
         boolean boolean8 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
         org.junit.Assert.assertNull(attitudeMode4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertNull(attitudeMode6);
-        org.junit.Assert.assertFalse("'" + boolean7 + "' != '" + false + "'", boolean7);
-        org.junit.Assert.assertFalse("'" + boolean8 + "' != '" + false + "'", boolean8);
+        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
+        org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8);
     }
 
     @Test
@@ -12530,15 +12530,15 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = n
         org.ccsds.moims.mo.mal.structures.UShort uShort37 = doubleList26.getAreaNumber();
         boolean boolean38 = stringList1.equals((java.lang.Object) doubleList26);
         org.ccsds.moims.mo.mal.structures.UShort uShort39 = doubleList26.getServiceNumber();
-        org.junit.Assert.assertFalse("'" + boolean4 + "' != '" + false + "'", boolean4);
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
+        org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", !boolean7);
         org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9);
         org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + true + "'", boolean11);
-        org.junit.Assert.assertFalse("'" + boolean14 + "' != '" + false + "'", boolean14);
+        org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + true + "'", boolean14);
         org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + true + "'", boolean16);
-        org.junit.Assert.assertFalse("'" + boolean19 + "' != '" + false + "'", boolean19);
-        org.junit.Assert.assertFalse("'" + boolean20 + "' != '" + false + "'", boolean20);
+        org.junit.Assert.assertTrue("'" + boolean19 + "' != '" + true + "'", boolean19);
+        org.junit.Assert.assertTrue("'" + boolean20 + "' != '" + true + "'", boolean20);
         org.junit.Assert.assertNotNull(softwareDefinedRadioAdapterInterfaceArray23);
         org.junit.Assert.assertNotNull(softwareDefinedRadioAdapterInterfaceArray24);
         org.junit.Assert.assertNotNull(uOctet27);
@@ -12617,24 +12617,24 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter50 = n
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(element3);
-        org.junit.Assert.assertFalse("'" + boolean6 + "' != '" + false + "'", boolean6);
-        org.junit.Assert.assertFalse("'" + boolean7 + "' != '" + false + "'", boolean7);
+        org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6);
+        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
         org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + false + "'", !boolean9);
         org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + true + "'", boolean11);
         org.junit.Assert.assertTrue("'" + boolean13 + "' != '" + true + "'", boolean13);
         org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + false + "'", !boolean15);
-        org.junit.Assert.assertFalse("'" + boolean18 + "' != '" + false + "'", boolean18);
-        org.junit.Assert.assertFalse("'" + boolean19 + "' != '" + false + "'", boolean19);
+        org.junit.Assert.assertTrue("'" + boolean18 + "' != '" + true + "'", boolean18);
+        org.junit.Assert.assertTrue("'" + boolean19 + "' != '" + true + "'", boolean19);
         org.junit.Assert.assertTrue("'" + boolean21 + "' != '" + false + "'", !boolean21);
         org.junit.Assert.assertTrue("'" + boolean23 + "' != '" + true + "'", boolean23);
         org.junit.Assert.assertTrue("'" + boolean25 + "' != '" + true + "'", boolean25);
         org.junit.Assert.assertTrue("'" + boolean29 + "' != '" + false + "'", !boolean29);
-        org.junit.Assert.assertFalse("'" + boolean30 + "' != '" + false + "'", boolean30);
+        org.junit.Assert.assertTrue("'" + boolean30 + "' != '" + true + "'", boolean30);
         org.junit.Assert.assertTrue("'" + boolean32 + "' != '" + true + "'", boolean32);
-        org.junit.Assert.assertFalse("'" + boolean35 + "' != '" + false + "'", boolean35);
+        org.junit.Assert.assertTrue("'" + boolean35 + "' != '" + true + "'", boolean35);
         org.junit.Assert.assertTrue("'" + boolean37 + "' != '" + true + "'", boolean37);
-        org.junit.Assert.assertFalse("'" + boolean40 + "' != '" + false + "'", boolean40);
-        org.junit.Assert.assertFalse("'" + boolean41 + "' != '" + false + "'", boolean41);
+        org.junit.Assert.assertTrue("'" + boolean40 + "' != '" + true + "'", boolean40);
+        org.junit.Assert.assertTrue("'" + boolean41 + "' != '" + true + "'", boolean41);
         org.junit.Assert.assertTrue("'" + boolean43 + "' != '" + false + "'", !boolean43);
         org.junit.Assert.assertTrue("'" + boolean45 + "' != '" + true + "'", boolean45);
         org.junit.Assert.assertTrue("'" + boolean47 + "' != '" + true + "'", boolean47);
@@ -12660,17 +12660,17 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter50 = n
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         java.lang.String str3 = cameraSoftSimAdapter1.getExtraInfo();
-        boolean boolean4 = cameraSoftSimAdapter1.isUnitAvailable();
+        boolean boolean1 = cameraSoftSimAdapter1.isUnitAvailable();
         org.ccsds.moims.mo.mal.structures.Duration duration5 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PictureFormatList pictureFormatList6 = cameraSoftSimAdapter1.getAvailableFormats();
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertTrue("'" + str3 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str3.equals("NMF Satellite Simulator - Camera Adapter"));
-        org.junit.Assert.assertFalse("'" + boolean4 + "' != '" + false + "'", boolean4);
+        org.junit.Assert.assertTrue("'" + boolean1 + "' != '" + true + "'", boolean1);
         DeviceList deviceList = new DeviceList();
-        deviceList.add(new Device(true, null, null, DeviceType.CAMERA));
+        deviceList.add(new Device(false, null, null, DeviceType.CAMERA));
         pcAdapter0.enableDevices(deviceList);
-        boolean4 = cameraSoftSimAdapter1.isUnitAvailable();
-        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
+        boolean1 = cameraSoftSimAdapter1.isUnitAvailable();
+        org.junit.Assert.assertFalse("'" + boolean1 + "' != '" + false + "'", boolean1);
         org.junit.Assert.assertNotNull(duration5);
         org.junit.Assert.assertNotNull(pictureFormatList6);
     }
@@ -12685,14 +12685,14 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter50 = n
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter adcsSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0, pcAdapter0);
-        boolean boolean5 = adcsSoftSimAdapter1.isUnitAvailable();
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        boolean boolean1 = adcsSoftSimAdapter1.isUnitAvailable();
+        org.junit.Assert.assertTrue("'" + boolean1 + "' != '" + true + "'", boolean1);
         DeviceList deviceList = new DeviceList();
         deviceList = new DeviceList();
         deviceList.add(new Device(false, null, null, DeviceType.ADCS));
         pcAdapter0.enableDevices(deviceList);
-        boolean5 = adcsSoftSimAdapter1.isUnitAvailable();
-        org.junit.Assert.assertFalse("'" + boolean5 + "' != '" + false + "'", boolean5);
+        boolean1 = adcsSoftSimAdapter1.isUnitAvailable();
+        org.junit.Assert.assertFalse("'" + boolean1 + "' != '" + false + "'", boolean1);
     }
 
     /**
@@ -12706,13 +12706,13 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter50 = n
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter sdrSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean1 = sdrSoftSimAdapter1.isUnitAvailable();
-        org.junit.Assert.assertFalse("'" + boolean1 + "' != '" + false + "'", boolean1);
+        org.junit.Assert.assertTrue("'" + boolean1 + "' != '" + true + "'", boolean1);
         DeviceList deviceList = new DeviceList();
         deviceList = new DeviceList();
-        deviceList.add(new Device(true, null, null, DeviceType.SDR));
+        deviceList.add(new Device(false, null, null, DeviceType.SDR));
         pcAdapter0.enableDevices(deviceList);
         boolean1 = sdrSoftSimAdapter1.isUnitAvailable();
-        org.junit.Assert.assertTrue("'" + boolean1 + "' != '" + true + "'", boolean1);
+        org.junit.Assert.assertFalse("'" + boolean1 + "' != '" + false + "'", boolean1);
     }
 
     /**
@@ -12726,13 +12726,13 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter50 = n
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
         esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter optxSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean1 = optxSoftSimAdapter1.isUnitAvailable();
-        org.junit.Assert.assertFalse("'" + boolean1 + "' != '" + false + "'", boolean1);
+        org.junit.Assert.assertTrue("'" + boolean1 + "' != '" + true + "'", boolean1);
         DeviceList deviceList = new DeviceList();
         deviceList = new DeviceList();
-        deviceList.add(new Device(true, null, null, DeviceType.OPTRX));
+        deviceList.add(new Device(false, null, null, DeviceType.OPTRX));
         pcAdapter0.enableDevices(deviceList);
         boolean1 = optxSoftSimAdapter1.isUnitAvailable();
-        org.junit.Assert.assertTrue("'" + boolean1 + "' != '" + true + "'", boolean1);
+        org.junit.Assert.assertFalse("'" + boolean1 + "' != '" + false + "'", boolean1);
     }
 
     /**
@@ -12746,7 +12746,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter50 = n
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gpsSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean1 = gpsSoftSimAdapter1.isUnitAvailable();
-        org.junit.Assert.assertFalse("'" + boolean1 + "' != '" + false + "'", boolean1);
+        org.junit.Assert.assertTrue("'" + boolean1 + "' != '" + true + "'", boolean1);
         DeviceList deviceList = new DeviceList();
         deviceList = new DeviceList();
         deviceList.add(new Device(false, null, null, DeviceType.GNSS));
