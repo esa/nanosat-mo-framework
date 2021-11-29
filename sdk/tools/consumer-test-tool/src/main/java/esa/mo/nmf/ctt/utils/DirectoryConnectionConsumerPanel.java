@@ -24,6 +24,8 @@ import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
+
+import java.util.Random;
 import java.util.prefs.Preferences;
 import java.awt.Component;
 import java.awt.Font;
@@ -40,13 +42,19 @@ import javax.swing.JTabbedPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+
+import org.ccsds.moims.mo.com.archive.ArchiveHelper;
 import org.ccsds.moims.mo.common.directory.DirectoryHelper;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.common.directory.structures.ServiceCapability;
 import org.ccsds.moims.mo.common.directory.structures.ServiceCapabilityList;
+import org.ccsds.moims.mo.common.login.LoginHelper;
+import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.structures.Blob;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.URI;
 
 /**
@@ -336,7 +344,59 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel
         public void run()
         {
           this.setName("ConnectButtonActionThread");
-          ProviderTabPanel providerPanel = createNewProviderTabPanel(summary);
+
+          ServiceKey loginServiceKey = new ServiceKey(LoginHelper.LOGIN_SERVICE.getArea().getNumber(),
+                                                      LoginHelper.LOGIN_SERVICE.getNumber(),
+                                                      LoginHelper.LOGIN_SERVICE.getArea().getVersion());
+          ServiceCapability loginService = summary.getProviderDetails().getServiceCapabilities()
+                                                  .stream()
+                                                  .filter(serviceCapability -> serviceCapability.getServiceKey().equals(loginServiceKey))
+                                                  .findFirst()
+                                                  .orElse(null);
+
+            ServiceKey archiveServiceKey = new ServiceKey(ArchiveHelper.ARCHIVE_SERVICE.getArea().getNumber(),
+                                                          ArchiveHelper.ARCHIVE_SERVICE.getNumber(),
+                                                          ArchiveHelper.ARCHIVE_SERVICE.getArea().getVersion());
+            ServiceCapability archiveService = summary.getProviderDetails().getServiceCapabilities()
+                                                      .stream()
+                                                      .filter(serviceCapability -> serviceCapability.getServiceKey().equals(archiveServiceKey))
+                                                      .findFirst()
+                                                      .orElse(null);
+          Blob authenticationId = null;
+          String localNamePrefix = null;
+          IdentifierList providerDomain = summary.getProviderKey().getDomain();
+          IdentifierList domainForArchiveRetrieval = providerDomain;
+          if(loginService != null && archiveService != null)
+          {
+            if(loginService.getServiceAddresses().get(0).getServiceURI().getValue().toLowerCase().contains("lwmcs"))
+            {
+                localNamePrefix = "LWMCS_Consumer_"  + new Random().nextInt();
+                ProviderSummary lwmcs = summaryList.stream()
+                                                   .filter(providerSummary -> providerSummary.getProviderName()
+                                                                                             .getValue()
+                                                                                             .toLowerCase()
+                                                                                             .contains("lwmcs"))
+                                                   .findFirst()
+                                                   .orElse(null);
+                if(lwmcs != null)
+                {
+                    domainForArchiveRetrieval = lwmcs.getProviderKey().getDomain();
+                }
+            }
+            LoginDialog loginDialog = new LoginDialog(loginService, archiveService,
+                                                      providerDomain, domainForArchiveRetrieval,
+                                                      localNamePrefix);
+            if(loginDialog.isLoginSuccessful())
+            {
+                authenticationId = loginDialog.getAuthenticationId();
+            }
+            else
+            {
+                errorConnectionProvider("Login", loginDialog.getLoginError());
+            }
+          }
+
+          ProviderTabPanel providerPanel = createNewProviderTabPanel(summary, authenticationId, localNamePrefix);
 
           // -- Close Button --
           final javax.swing.JPanel pnlTab = new javax.swing.JPanel();
@@ -369,9 +429,9 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel
       t1.start();
     }//GEN-LAST:event_connectButtonActionPerformed
 
-  public ProviderTabPanel createNewProviderTabPanel(final ProviderSummary providerSummary)
+  public ProviderTabPanel createNewProviderTabPanel(final ProviderSummary providerSummary, Blob authenticationId, String localNamePrefix)
   {
-    return new ProviderTabPanel(providerSummary);
+    return new ProviderTabPanel(providerSummary, authenticationId, localNamePrefix);
   }
 
   private void errorConnectionProvider(String service, Throwable ex)
@@ -475,6 +535,18 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel
               tabs.remove(i);
 
               try {
+                  if(providerPanel.getServices().getAuthenticationId() != null) {
+                      try {
+                          providerPanel.getServices().getCommonServices().getLoginService().getLoginStub().logout();
+                          providerPanel.getServices().setAuthenticationId(null);
+                          Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName())
+                                .log(Level.INFO, "Logged out successfully");
+
+                      } catch (MALInteractionException | MALException e) {
+                          Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName())
+                                .log(Level.SEVERE, "Unexpected exception during logout!", e);
+                      }
+                  }
                 providerPanel.getServices().closeConnections();
               } catch (Exception ex) {
                 Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.WARNING,

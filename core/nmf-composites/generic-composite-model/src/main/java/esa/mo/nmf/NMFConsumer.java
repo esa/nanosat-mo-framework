@@ -409,4 +409,7 @@ public class NMFConsumer {
         this.smServices.setAuthenticationId(authenticationId);
     }
 
+    public Blob getAuthenticationId() {
+        return authenticationId;
+    }
 }

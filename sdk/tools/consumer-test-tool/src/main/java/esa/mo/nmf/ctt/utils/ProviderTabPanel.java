@@ -55,8 +55,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JTabbedPane;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
+import org.ccsds.moims.mo.common.login.consumer.LoginStub;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.softwaremanagement.heartbeat.consumer.HeartbeatAdapter;
 
@@ -74,8 +76,8 @@ public class ProviderTabPanel extends javax.swing.JPanel {
      *
      * @param provider
      */
-    public ProviderTabPanel(final ProviderSummary provider) {
-        services = new GroundMOAdapterImpl(provider);
+    public ProviderTabPanel(final ProviderSummary provider, Blob authenticationId, String localNamePrefix) {
+        services = new GroundMOAdapterImpl(provider, authenticationId, localNamePrefix);
         initComponents();
     }
 
@@ -420,6 +422,15 @@ public class ProviderTabPanel extends javax.swing.JPanel {
     @Override
     public void removeNotify() {
         super.removeNotify();
+        if(getServices().getAuthenticationId() != null) {
+            try {
+                getServices().getCommonServices().getLoginService().getLoginStub().logout();
+                getServices().setAuthenticationId(null);
+                LOGGER.log(Level.INFO, "Logged out successfully");
+            } catch (MALInteractionException | MALException e) {
+                LOGGER.log(Level.SEVERE, "Unexpected exception during logout!", e);
+            }
+        }
         getServices().closeConnections();
     }
 }
