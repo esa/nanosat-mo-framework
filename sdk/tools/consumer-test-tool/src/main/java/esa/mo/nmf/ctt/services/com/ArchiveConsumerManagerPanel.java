@@ -331,6 +331,10 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         @Override
         public synchronized void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType,
                 IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+            // If object type is null all objects have the same type
+            if(objType == null) {
+                objType = this.objType;
+            }
             if (objType == null || domain == null || objDetails == null) {
                 refreshTabCounter();
                 isOver.release();
@@ -347,6 +351,10 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         @Override
         public synchronized void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType,
                 IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+            // If object type is null all objects have the same type
+            if(objType == null) {
+                objType = this.objType;
+            }
             if (objType == null || domain == null || objDetails == null) {
                 refreshTabCounter();
                 repaint();
@@ -666,6 +674,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         }
 
         try {
+            adapter.setObjType(objType);
             serviceCOMArchive.getArchiveStub().query(Boolean.TRUE, objType, archiveQueryList, compositeFilters, adapter);
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ArchiveConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
