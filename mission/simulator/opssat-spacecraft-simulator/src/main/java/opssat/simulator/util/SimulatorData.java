@@ -166,23 +166,23 @@ public class SimulatorData implements Serializable {
         return currentTimeLong;
     }
     public String getUTCCurrentTime() {
-        DateFormat df = new SimpleDateFormat("hhmmss.SS");
+        DateFormat df = new SimpleDateFormat("HHmmss.SS");
         return df.format(currentTime);
     }
     public String getUTCCurrentTime2() {
-        DateFormat df = new SimpleDateFormat("hhmm");
+        DateFormat df = new SimpleDateFormat("HHmm");
         return df.format(currentTime);
     }
     public String getUTCCurrentHour() {
-        DateFormat df = new SimpleDateFormat("hh");
+        DateFormat df = new SimpleDateFormat("H");
         return df.format(currentTime);
     }
     public String getUTCCurrentMinute() {
-        DateFormat df = new SimpleDateFormat("mm");
+        DateFormat df = new SimpleDateFormat("m");
         return df.format(currentTime);
     }
     public String getUTCCurrentSecond() {
-        DateFormat df = new SimpleDateFormat("ss");
+        DateFormat df = new SimpleDateFormat("s");
         return df.format(currentTime);
     }
     public String getUTCCurrentMillis() {
