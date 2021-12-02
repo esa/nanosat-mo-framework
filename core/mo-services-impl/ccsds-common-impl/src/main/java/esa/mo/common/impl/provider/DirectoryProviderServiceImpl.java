@@ -20,6 +20,8 @@
  */
 package esa.mo.common.impl.provider;
 
+import esa.mo.com.impl.provider.ArchiveManager;
+import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.com.impl.util.HelperCOM;
@@ -31,10 +33,14 @@ import esa.mo.helpertools.helpers.HelperMisc;
 import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
+import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.common.CommonHelper;
 import org.ccsds.moims.mo.common.directory.DirectoryHelper;
@@ -84,8 +90,8 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton
   private boolean initialiased = false;
   private boolean running = false;
   private final ConnectionProvider connection = new ConnectionProvider();
-  protected final HashMap<Long, PublishDetails> providersAvailable
-      = new HashMap<>();
+  protected final Map<Long, PublishDetails> providersAvailable
+      = new ConcurrentHashMap<>();
   protected final Object MUTEX = new Object();
   private COMServicesProvider comServices;
 
@@ -398,7 +404,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton
           LOGGER.warning(
               "There was already a provider with the same name in the Directory service. "
               + "Removing the old one and adding the new one...");
-          this.providersAvailable.remove(key); // Remove the provider...
+          withdrawProvider(key, null);
         }
       }
 
@@ -445,8 +451,8 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton
       capabilities.add(newProviderDetails.getProviderDetails());
 
       // Store in the Archive the ProviderCapabilities COM object
-      comServices.getArchiveService().store(
-          false,
+      LongList capIds = comServices.getArchiveService().store(
+          true,
           DirectoryHelper.PROVIDERCAPABILITIES_OBJECT_TYPE,
           ConfigurationProviderSingleton.getDomain(),
           archDetails1,
@@ -467,11 +473,26 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton
       MALInteractionException, MALException
   {
     synchronized (MUTEX) {
-      PublishDetails details = this.providersAvailable.get(providerObjectKey);
-
-      if (details == null) { // The requested provider does not exist
+      if (!this.providersAvailable.containsKey(providerObjectKey)) { // The requested provider does not exist
         throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, null));
       }
+
+      ArchiveManager manager = comServices.getArchiveService().getArchiveManager();
+      IdentifierList domain = ConfigurationProviderSingleton.getDomain();
+      ArchiveQuery query = new ArchiveQuery(domain, null, null,
+                                            providerObjectKey, null, null,
+                                            null, null, null);
+      List<ArchivePersistenceObject> result = manager.query(DirectoryHelper.PROVIDERCAPABILITIES_OBJECT_TYPE,
+                                                           query, null);
+      Long capabilityId = result.get(0).getArchiveDetails().getInstId(); // there should be only one object in the query result
+      LongList providerIds = new LongList();
+      providerIds.add(providerObjectKey);
+      manager.removeEntries(DirectoryHelper.SERVICEPROVIDER_OBJECT_TYPE, domain,
+                            providerIds, null);
+      LongList capabilityIds = new LongList();
+      capabilityIds.add(capabilityId);
+      manager.removeEntries(DirectoryHelper.PROVIDERCAPABILITIES_OBJECT_TYPE, domain,
+                            capabilityIds, null);
 
       this.providersAvailable.remove(providerObjectKey); // Remove the provider...
     }
@@ -480,7 +501,9 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton
   public void withdrawAllProviders() throws MALInteractionException, MALException
   {
     synchronized (MUTEX) {
-      this.providersAvailable.clear(); // Remove the provider...
+      for(Long key : providersAvailable.keySet()) {
+        withdrawProvider(key, null);
+      }
     }
   }
 

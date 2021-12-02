@@ -219,8 +219,18 @@ public abstract class GroundMOProxy
     @Override
     public void run()
     {
-      // If alive and remote Archive connection details are initialised
-      if (getNmsAliveStatus() && cdRemoteArchive != null) {
+      if(!getNmsAliveStatus() && cdRemoteArchive == null) {
+        try {
+          localDirectoryService.syncLocalDirectoryServiceWithCentral(centralDirectoryServiceURI,
+                                                                           routedURI);
+          cdRemoteArchive = cdFromService(ArchiveHelper.ARCHIVE_SERVICE);
+        } catch (MALTransmitErrorException e) {
+          LOGGER.log(Level.WARNING,
+                     "Failed to start directory service sync. Check the link to the spacecraft.");
+        } catch (MALException | MalformedURLException | MALInteractionException e) {
+          LOGGER.log(Level.SEVERE, "Error when initialising link to the NMS.", e);
+        }
+      } else if (getNmsAliveStatus() && cdRemoteArchive != null) {// If alive and remote Archive connection details are initialised
         try {
           if (firstRun) {
             archiveService = new ArchiveConsumerServiceImpl(cdRemoteArchive);
@@ -230,6 +240,10 @@ public abstract class GroundMOProxy
           // Check the remote COM Archive for new objects! Use On-Board Timestamp.
           FineTime currentOBT = providerStatusAdapter.getLastBeatOBT();
 
+          if(currentOBT == null)
+          {
+            return;
+          }
           ArchiveQuery archiveQuery = new ArchiveQuery(
               archiveService.getConnectionDetails().getDomain(),
               null,
@@ -245,27 +259,14 @@ public abstract class GroundMOProxy
           ArchiveQueryList archiveQueryList = new ArchiveQueryList();
           archiveQueryList.add(archiveQuery);
 
+          long[] count = {0L}; // workaround to access the variable in the lambda below.
           ArchiveAdapter adapter = new ArchiveAdapter()
           {
             @Override
             public synchronized void countResponseReceived(MALMessageHeader msgHeader,
                 LongList countList, Map qosProperties)
             {
-              long count = countList.get(0);
-
-              if (count != 0) {
-                LOGGER.log(Level.INFO,
-                    "A change in the Central Directory service was detected."
-                    + " The list of providers will be synchronized...");
-                try {
-                  // If there are new objects, then synchronize!
-                  localDirectoryService.syncLocalDirectoryServiceWithCentral(
-                      centralDirectoryServiceURI, routedURI);
-                  additionalHandling();
-                } catch (MALException | MALInteractionException | MalformedURLException ex) {
-                  LOGGER.log(Level.SEVERE, null, ex);
-                }
-              }
+              count[0] += countList.get(0);
             }
           };
 
@@ -276,6 +277,21 @@ public abstract class GroundMOProxy
           // use the count operation from the Archive for SoftwareManagement.AppsLauncher.StopApp
           archiveService.getArchiveStub().count(AppsLauncherHelper.STOPAPP_OBJECT_TYPE,
               archiveQueryList, null, adapter);
+
+          if (count[0] != 0L) {
+            LOGGER.log(Level.INFO,
+                       "A change in the Central Directory service was detected."
+                       + " The list of providers will be synchronized...");
+            try {
+                // If there are new objects, then synchronize!
+                localDirectoryService.syncLocalDirectoryServiceWithCentral(
+                        centralDirectoryServiceURI, routedURI);
+                additionalHandling();
+
+            } catch (MALException | MALInteractionException | MalformedURLException ex) {
+              LOGGER.log(Level.SEVERE, null, ex);
+            }
+          }
 
           lastTime = currentOBT;
         } catch (MALInteractionException | MALException | IOException ex) {
@@ -292,7 +308,6 @@ public abstract class GroundMOProxy
 
   protected class HeartbeatPublisherTask extends TimerTask
   {
-
     private final URI centralDirectoryServiceURI;
     private final URI routedURI;
     private Subscription heartbeatSubscription;
@@ -311,9 +326,6 @@ public abstract class GroundMOProxy
       if (!nmsAliveStatus.get()) {
         try {
           if (firstTime) {
-            localDirectoryService.syncLocalDirectoryServiceWithCentral(centralDirectoryServiceURI,
-                routedURI);
-            cdRemoteArchive = cdFromService(ArchiveHelper.ARCHIVE_SERVICE);
             if (cdRemoteArchive == null) {
               LOGGER.log(Level.WARNING,
                   "Failed to find the remote NMS Archive. Might be still initializing...");
