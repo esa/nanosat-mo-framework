@@ -51,10 +51,17 @@ public class ParametersCommandsDefinitions {
         @ArgGroup(multiplicity = "1")
         ArchiveBrowserHelper.LocalOrRemote localOrRemote;
 
+        @Option(names = {"-d", "--domain"}, paramLabel = "<domainId>",
+                description = "Restricts the dump to objects in a specific domain\n"
+                        + "  - format: key1.key2.[...].keyN.\n"
+                        + "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
+        String domain;
+
         /** {@inheritDoc} */
         @Override
         public void run() {
-            ParametersCommandsImplementations.listParameters(localOrRemote.databaseFile, localOrRemote.providerURI);
+            ParametersCommandsImplementations.listParameters(localOrRemote.databaseFile, localOrRemote.providerURI,
+                    domain);
         }
     }
 
@@ -89,6 +96,12 @@ public class ParametersCommandsDefinitions {
                               + "  - example: \"2021-03-05 12:05:45.271\"")
         String endTime;
 
+        @Option(names = {"-d", "--domain"}, paramLabel = "<domainId>",
+                description = "Restricts the dump to objects in a specific domain\n"
+                        + "  - format: key1.key2.[...].keyN.\n"
+                        + "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
+        String domain;
+
         @Option(names = {"-j", "--json"}, paramLabel = "<json>",
                 description = "If specified output will be in JSON format")
         boolean json;
@@ -96,7 +109,7 @@ public class ParametersCommandsDefinitions {
         @Override
         public void run() {
             ParametersCommandsImplementations.getParameters(localOrRemote.databaseFile, localOrRemote.providerURI,
-                                                            startTime, endTime, parametersFile, parameterNames,
+                                                            startTime, endTime, domain, parametersFile, parameterNames,
                                                             json);
         }
     }
