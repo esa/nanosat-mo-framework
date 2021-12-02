@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.comarchivetool.adapters;
 
+import esa.mo.nmf.comarchivetool.TimestampedParameterValue;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
@@ -33,12 +34,10 @@ import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
  * Archive adapter that retrieves available parameter names and their values.
@@ -70,11 +69,6 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
     private final ObjectType parameterValueType = ParameterHelper.PARAMETERVALUEINSTANCE_OBJECT_TYPE;
 
     /**
-     * Available parameters names
-     */
-    private final List<Identifier> parameterIdentities = new ArrayList<>();
-
-    /**
      * Map from ParameterIdentity ID to it's name
      */
     private final Map<Long, Identifier> identitiesMap = new HashMap<>();
@@ -90,9 +84,10 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
     private final Map<Long, List<TimestampedParameterValue>> valuesMap = new HashMap<>();
 
     /**
-     * Map from parameter name to a list of it's values
+     * Map from Parameter ID to a list of the parameter values
      */
-    private final Map<Identifier, List<TimestampedParameterValue>> parameterValues = new HashMap<>();
+    private final Map<Long, List<TimestampedParameterValue>> parameterValuesMap = new HashMap<>();
+
 
     @Override
     public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType,
@@ -101,8 +96,13 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
         processObjects(objType, objDetails, objBodies);
 
         for(Map.Entry<Long, List<TimestampedParameterValue>> entry : valuesMap.entrySet()) {
-            Identifier identity = identitiesMap.get(definitionsMap.get(entry.getKey()));
-            parameterValues.put(identity, entry.getValue());
+            Long parameterId = definitionsMap.get(entry.getKey());
+
+            if(parameterValuesMap.containsKey(parameterId)) {
+                parameterValuesMap.get(parameterId).addAll(entry.getValue());
+            } else {
+                parameterValuesMap.put(parameterId, entry.getValue());
+            }
         }
 
         setIsQueryOver(true);
@@ -125,7 +125,6 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
         if(type == null || type.equals(parameterIdentityType)) {
             for(int i = 0; i < detailsList.size(); ++i) {
                 identitiesMap.put(detailsList.get(i).getInstId(), (Identifier) bodiesList.get(i));
-                parameterIdentities.add((Identifier) bodiesList.get(i));
             }
         } else if(type.equals(parameterDefinitionType)) {
             for (ArchiveDetails archiveDetails : detailsList) {
@@ -176,31 +175,27 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
     }
 
     public List<Identifier> getParameterIdentities() {
-        return parameterIdentities;
+        return (List<Identifier>) identitiesMap.values();
     }
 
-    public Map<Identifier, List<TimestampedParameterValue>> getParameterValues() {
-        return parameterValues;
+    public Map<Long, List<TimestampedParameterValue>> getParameterValuesMap() {
+        return parameterValuesMap;
     }
 
-    /**
-     * Wrapper class to allow easier file writing
-     */
-    public static class TimestampedParameterValue {
-        private final String parameterValue;
-        private final Long timestamp;
+    public Identifier getParameterIdentifierByDefinitionId(Long definitionId)
+    {
+        return identitiesMap.get(definitionsMap.get(definitionId));
+    }
 
-        public TimestampedParameterValue(ParameterValue value, FineTime timestamp) {
-            this.parameterValue = String.valueOf(value.getRawValue());
-            this.timestamp = timestamp.getValue();
+    public Long getParameterDefinitionIdByIdentifer(Identifier identifier)
+    {
+        for(Map.Entry entry: identitiesMap.entrySet())
+        {
+            if(Objects.equals(entry.getValue(), identifier))
+            {
+                return (Long) entry.getKey();
+            }
         }
-
-        public String getParameterValue() {
-            return parameterValue;
-        }
-
-        public Long getTimestamp() {
-            return timestamp;
-        }
+        return null;
     }
 }

@@ -23,23 +23,28 @@ package esa.mo.nmf.comarchivetool.commands.parameters;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
+import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.nmf.NMFConsumer;
+import esa.mo.nmf.comarchivetool.TimestampedAggregationValue;
+import esa.mo.nmf.comarchivetool.TimestampedParameterValue;
+import esa.mo.nmf.comarchivetool.adapters.ArchiveToAggreationsAdapter;
 import esa.mo.nmf.comarchivetool.adapters.ArchiveToParametersAdapter;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQueryList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mc.MCHelper;
+import org.ccsds.moims.mo.mc.aggregation.AggregationHelper;
+import org.ccsds.moims.mo.mc.aggregation.structures.*;
 import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -54,20 +59,24 @@ import static esa.mo.nmf.comarchivetool.ArchiveBrowserHelper.*;
 public class ParametersCommandsImplementations {
 
     private static final Logger LOGGER = Logger.getLogger(ParametersCommandsImplementations.class.getName());
+    private static final long MILLIS_IN_SECOND = 1000L;
 
     /**
      * Lists parameters for the specified NMF app.
      *
      * @param databaseFile Local SQLite database file
      * @param providerURI The URI of the remote COM archive provider
+     * @param domainId Restricts the dump to objects in a specific domain ID
      */
-    public static void listParameters(String databaseFile, String providerURI) {
+    public static void listParameters(String databaseFile, String providerURI, String domainId) {
         LocalOrRemoteConsumer consumers = createConsumer(providerURI, databaseFile);
         ArchiveConsumerServiceImpl localConsumer = consumers.getLocalConsumer();
         NMFConsumer remoteConsumer = consumers.getRemoteConsumer();
 
+        IdentifierList domain = domainId == null ? null : HelperMisc.domainId2domain(domainId);
+
         ArchiveQueryList archiveQueryList = new ArchiveQueryList();
-        ArchiveQuery archiveQuery = new ArchiveQuery(null, null, null,
+        ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null,
                                                      0L, null, null,
                                                      null, null, null);
         archiveQueryList.add(archiveQuery);
@@ -86,6 +95,7 @@ public class ParametersCommandsImplementations {
                 System.out.println("\t - " + parameter);
             }
         }
+
         closeConsumer(consumers);
     }
 
@@ -98,10 +108,11 @@ public class ParametersCommandsImplementations {
      * @param endTime Restricts the dump to objects created before the given time. If this option is
      *        provided without the -s option, returns the single object that has the closest time
      *        stamp to, but not greater than endTime.
+     * @param domainId Restricts the dump to objects in a specific domain ID
      * @param file target file
      */
     public static void getParameters(String databaseFile, String providerURI,
-                                     String startTime, String endTime, String file,
+                                     String startTime, String endTime, String domainId, String file,
                                      List<String> parameterNames, boolean json) {
         // Query all objects from SoftwareManagement area and CommandExecutor service,
         // filtering for StandardOutput and StandardError events is done in the query adapter
@@ -118,35 +129,121 @@ public class ParametersCommandsImplementations {
         ArchiveQueryList archiveQueryList = new ArchiveQueryList();
         FineTime startTimeF = startTime == null ? null : HelperTime.readableString2FineTime(startTime);
         FineTime endTimeF = endTime == null ? null : HelperTime.readableString2FineTime(endTime);
-        ArchiveQuery archiveQuery = new ArchiveQuery(null, null, null, 0L, null,
+        IdentifierList domain = domainId == null ? null : HelperMisc.domainId2domain(domainId);
+        ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L, null,
                                                      startTimeF, endTimeF, null, null);
         archiveQueryList.add(archiveQuery);
 
         // execute query
-        ArchiveToParametersAdapter adapter = new ArchiveToParametersAdapter();
-        queryArchive(objectsTypes, archiveQueryList, adapter, adapter, remoteConsumer == null ? localConsumer : remoteConsumer.getCOMServices().getArchiveService());
+        ArchiveToParametersAdapter parametersAdapter = new ArchiveToParametersAdapter();
+        queryArchive(objectsTypes, archiveQueryList, parametersAdapter, parametersAdapter,
+                remoteConsumer == null ? localConsumer : remoteConsumer.getCOMServices().getArchiveService());
+
+
+
+        ArchiveToAggreationsAdapter aggreationsAdapter = new ArchiveToAggreationsAdapter();
+
+        // execute query
+        ObjectType aggObjectTypes = new ObjectType(MCHelper.MC_AREA_NUMBER,
+                AggregationHelper.AGGREGATION_SERVICE_NUMBER,
+                MCHelper.MC_AREA_VERSION,
+                new UShort(0));
+
+        queryArchive(aggObjectTypes, archiveQueryList, aggreationsAdapter, aggreationsAdapter,
+                remoteConsumer == null ? localConsumer : remoteConsumer.getCOMServices().getArchiveService());
+
+
+        Map<Long, List<TimestampedParameterValue>> parametersValueMap = parametersAdapter.getParameterValuesMap();
+
+        // Display list of aggregations
+        Map<Long, List<TimestampedAggregationValue>> aggregationValuesMap = aggreationsAdapter.getAggregationValues();
+        if(aggregationValuesMap != null)
+        {
+            //Make the parameter map
+            for(Map.Entry<Long, List<TimestampedAggregationValue>> entry: aggregationValuesMap.entrySet())
+            {
+                Long aggDefId = entry.getKey();
+                AggregationDefinitionDetails definition = aggreationsAdapter.getAggregationDefinitions().get(aggDefId);
+
+                for(TimestampedAggregationValue agValue : entry.getValue())
+                {
+                    for(int i= 0; i < agValue.getAggregationValue().getParameterSetValues().size(); i++)
+                    {
+                        AggregationSetValue values = agValue.getAggregationValue().getParameterSetValues().get(i);
+                        AggregationParameterSet definitions = definition.getParameterSets().get(i);
+
+                        int valueSetNumber = 0;
+                        double deltaTime = values.getDeltaTime() != null ? values.getDeltaTime().getValue() : 0;
+                        double intervalTime = values.getIntervalTime() != null ? values.getIntervalTime().getValue() : 0;
+                        Long valueSetTimestamp =
+                                agValue.getTimestamp().getValue() + (long)( deltaTime * MILLIS_IN_SECOND);
+
+
+                        for(int n = 0; n < values.getValues().size(); n++)
+                        {
+                            // Check if we are starting a new set of values compared to the given definition list
+                            if(n%definitions.getParameters().size() == 0)
+                            {
+                                valueSetNumber++;
+                            }
+
+                            AggregationParameterValue value = values.getValues().get(n);
+                            Long parameterId = definitions.getParameters().get(n % definitions.getParameters().size());
+
+                            TimestampedParameterValue paramValue = new TimestampedParameterValue(value.getValue(),
+                                    new FineTime(valueSetTimestamp + (long)(valueSetNumber * intervalTime * MILLIS_IN_SECOND)));
+
+                            if(parametersValueMap.containsKey(parameterId))
+                            {
+                                parametersValueMap.get(parameterId).add(paramValue);
+                            }
+                            else
+                            {
+                                List list = new ArrayList();
+                                list.add(paramValue);
+                                parametersValueMap.put(parameterId, list);
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         try {
-            Map<Identifier, List<ArchiveToParametersAdapter.TimestampedParameterValue>> allParameters = adapter.getParameterValues();
-
             if(json && !file.endsWith(".json")) {
                 file = file + ".json";
             }
 
             FileWriter writer = new FileWriter(file);
 
-            Map<Identifier, List<ArchiveToParametersAdapter.TimestampedParameterValue>> parameters = new HashMap<>();
+            Comparator<TimestampedParameterValue> timestampedParameterValueComparator = new Comparator<TimestampedParameterValue>() {
+                @Override
+                public int compare(TimestampedParameterValue o1, TimestampedParameterValue o2) {
+                    return o1.getTimestamp().compareTo(o2.getTimestamp());
+                }
+            };
+
+            Map<Identifier, List<TimestampedParameterValue>> parameters = new HashMap<>();
             if(parameterNames != null && !parameterNames.isEmpty()) {
                 for(String name: parameterNames) {
-                    List<ArchiveToParametersAdapter.TimestampedParameterValue> values = allParameters.get(new Identifier(name));
+                    Long parameterId = parametersAdapter.getParameterDefinitionIdByIdentifer(new Identifier(name));
+                    List<TimestampedParameterValue> values = parametersValueMap.get(parameterId);
                     if(values == null) {
                         LOGGER.log(Level.WARNING, "No samples found for parameter" + name + ". It will be ignored.");
                         continue;
                     }
+                    Collections.sort(values, timestampedParameterValueComparator);
                     parameters.put(new Identifier(name), values);
                 }
             } else {
-                parameters = allParameters;
+                // Swap the parameter IDs with parameter names
+                for(Map.Entry entry: parametersValueMap.entrySet())
+                {
+                    List<TimestampedParameterValue> valueList = (List<TimestampedParameterValue>) entry.getValue();
+                    Collections.sort(valueList, timestampedParameterValueComparator);
+                    parameters.put(parametersAdapter.getParameterIdentifierByDefinitionId((Long) entry.getKey()),
+                            valueList);
+                }
             }
 
             if(json) {
@@ -155,7 +252,7 @@ public class ParametersCommandsImplementations {
             } else {
                 List<String> keys = parameters.keySet().stream().map(Identifier::getValue).sorted().collect(Collectors.toList());
                 for(String parameter : keys) {
-                    for(ArchiveToParametersAdapter.TimestampedParameterValue value : parameters.get(new Identifier(parameter))) {
+                    for(TimestampedParameterValue value : parameters.get(new Identifier(parameter))) {
                         String line = parameter + "\t" + value.getTimestamp() + "\t" + value.getParameterValue() + "\n";
                         writer.write(line);
                     }
@@ -169,4 +266,6 @@ public class ParametersCommandsImplementations {
 
         closeConsumer(consumers);
     }
+
+
 }
