@@ -451,8 +451,8 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton
       capabilities.add(newProviderDetails.getProviderDetails());
 
       // Store in the Archive the ProviderCapabilities COM object
-      LongList capIds = comServices.getArchiveService().store(
-          true,
+      comServices.getArchiveService().store(
+          false,
           DirectoryHelper.PROVIDERCAPABILITIES_OBJECT_TYPE,
           ConfigurationProviderSingleton.getDomain(),
           archDetails1,
