@@ -32,7 +32,6 @@ import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.sm.impl.util.OSValidator;
-import esa.mo.sm.impl.util.ShellCommander;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -137,9 +136,23 @@ public class AppsLauncherManager extends DefinitionsManager
     }
 
     if(osValidator.isUnix()){
-        ShellCommander shell = new ShellCommander();
-        String out = shell.runCommandAndGetOutputMessageAndError("sudo --help");
-        sudoAvailable = !out.contains("command not found");
+        try {
+            String[] params = new String[]{"sh", "-c", "sudo --help"};
+            Process p = Runtime.getRuntime().exec(params, null, null);
+            try {
+                boolean terminated = p.waitFor(1, TimeUnit.SECONDS);
+                if(terminated){
+                    sudoAvailable = (p.exitValue() != 127);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(AppsLauncherManager.class.getName()).log(
+                        Level.SEVERE, "The process did no finish yet...", ex);
+                sudoAvailable = false;
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(AppsLauncherManager.class.getName()).log(
+                    Level.SEVERE, "The process could not be executed!", ex);
+        }
     }
   }
 
