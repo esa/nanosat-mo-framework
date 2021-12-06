@@ -652,7 +652,7 @@ If the MAL data type specification is being used the body of an object shall not
         </mal:composite>
       </mal:dataTypes>
       <com:features>
-        <com:objects comment="The ArchiveSync service can store the last synchronizations information on the COM Archive."/>
+        <com:objects comment="The ArchiveSync service can store the last synchronizations information on the COM Archive.">
           <com:object name="LastSync" number="1">
             <com:objectType>
               <mal:type area="COM" list="false" name="LastSync" service="ArchiveSync"/>
