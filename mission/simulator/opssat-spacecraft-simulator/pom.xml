@@ -74,7 +74,7 @@
     <dependency>
       <groupId>int.esa.ccsds.mo</groupId>
       <artifactId>API_MAL</artifactId>
-      <version>1.7</version>
+      <version>8.0</version>
     </dependency>
     <dependency>
       <groupId>int.esa.nmf.sdk</groupId>

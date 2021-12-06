@@ -62,6 +62,7 @@
     <ccsds.specification.download.directory>${project.build.directory}</ccsds.specification.download.directory>
     <ccsds.specification.download.filter>**/ServiceDefCOM-nmf.xml</ccsds.specification.download.filter>
     <ccsds.specification.download.ref-skip>false</ccsds.specification.download.ref-skip>
+    <ccsds.specification.download.ref-filter>**/ServiceDefMAL.xml, **/ServiceDefCOM.xml</ccsds.specification.download.ref-filter>
   </properties>
   <dependencies>
     <dependency>
