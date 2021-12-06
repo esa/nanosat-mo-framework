@@ -1079,13 +1079,6 @@ public class RegressionTest5 {
     }
 
     @Test
-    public void test2524() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest5.test2524");
-        esa.mo.com.impl.archive.entities.ProviderURIHolderEntity providerURIHolderEntity2 = new esa.mo.com.impl.archive.entities.ProviderURIHolderEntity((int) (short) 255, "[10.0]");
-    }
-
-    @Test
     public void test2525() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest5.test2525");
@@ -1296,27 +1289,6 @@ public class RegressionTest5 {
             System.out.format("%n%s%n", "RegressionTest5.test2529");
         org.ccsds.moims.mo.com.structures.ObjectType objectType1 = esa.mo.com.impl.util.HelperCOM.objectTypeId2objectType((java.lang.Long) 281474993487876L);
         org.junit.Assert.assertNotNull(objectType1);
-    }
-
-    @Test
-    public void test2530() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest5.test2530");
-        org.ccsds.moims.mo.mal.structures.ShortList shortList0 = new org.ccsds.moims.mo.mal.structures.ShortList();
-        org.ccsds.moims.mo.mal.structures.UShort uShort1 = shortList0.getAreaNumber();
-        java.lang.Object[] objArray2 = shortList0.toArray();
-        java.lang.Long long3 = shortList0.getShortForm();
-        shortList0.ensureCapacity((int) (byte) 0);
-        esa.mo.com.impl.archive.entities.NetworkHolderEntity networkHolderEntity8 = new esa.mo.com.impl.archive.entities.NetworkHolderEntity((-11), "[0, 10]");
-        java.lang.String str9 = networkHolderEntity8.getNetworkString();
-        int int10 = shortList0.lastIndexOf((java.lang.Object) networkHolderEntity8);
-        int int11 = networkHolderEntity8.getId();
-        org.junit.Assert.assertNotNull(uShort1);
-        org.junit.Assert.assertNotNull(objArray2);
-        org.junit.Assert.assertTrue("'" + long3 + "' != '" + 281475010265079L + "'", long3.equals(281475010265079L));
-        org.junit.Assert.assertTrue("'" + str9 + "' != '" + "[0, 10]" + "'", str9.equals("[0, 10]"));
-        org.junit.Assert.assertTrue("'" + int10 + "' != '" + (-1) + "'", int10 == (-1));
-        org.junit.Assert.assertTrue("'" + int11 + "' != '" + (-11) + "'", int11 == (-11));
     }
 
     @Test
@@ -3181,15 +3153,6 @@ public class RegressionTest5 {
     }
 
     @Test
-    public void test2570() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest5.test2570");
-        esa.mo.com.impl.archive.entities.NetworkHolderEntity networkHolderEntity2 = new esa.mo.com.impl.archive.entities.NetworkHolderEntity((int) (short) 10, "127");
-        java.lang.String str3 = networkHolderEntity2.getNetworkString();
-        org.junit.Assert.assertTrue("'" + str3 + "' != '" + "127" + "'", str3.equals("127"));
-    }
-
-    @Test
     public void test2571() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest5.test2571");
@@ -4756,68 +4719,6 @@ public class RegressionTest5 {
     }
 
     @Test
-    public void test2597() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest5.test2597");
-        java.lang.Float[] floatArray5 = new java.lang.Float[] { 100.0f, (-1.0f), (-1.0f), 10.0f, (-1.0f) };
-        java.util.ArrayList<java.lang.Float> floatList6 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList6, floatArray5);
-        java.lang.Boolean[] booleanArray9 = new java.lang.Boolean[] { false };
-        java.util.ArrayList<java.lang.Boolean> booleanList10 = new java.util.ArrayList<java.lang.Boolean>();
-        boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList10, booleanArray9);
-        java.lang.Byte[] byteArray16 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
-        java.util.ArrayList<java.lang.Byte> byteList17 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList17, byteArray16);
-        boolean boolean20 = byteList17.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray25 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
-        java.util.ArrayList<java.lang.Byte> byteList26 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList26, byteArray25);
-        boolean boolean29 = byteList26.add((java.lang.Byte) (byte) 100);
-        boolean boolean30 = byteList17.addAll((java.util.Collection<java.lang.Byte>) byteList26);
-        java.lang.Object obj31 = byteList17.clone();
-        boolean boolean32 = booleanList10.contains((java.lang.Object) byteList17);
-        int int33 = floatList6.lastIndexOf((java.lang.Object) booleanList10);
-        org.ccsds.moims.mo.mal.structures.OctetList octetList34 = new org.ccsds.moims.mo.mal.structures.OctetList();
-        org.ccsds.moims.mo.mal.structures.UShort uShort35 = octetList34.getServiceNumber();
-        boolean boolean36 = booleanList10.containsAll((java.util.Collection<java.lang.Byte>) octetList34);
-        java.math.BigInteger bigInteger37 = org.ccsds.moims.mo.mal.structures.ULong.MAX_VALUE;
-        org.ccsds.moims.mo.mal.structures.ULong uLong38 = new org.ccsds.moims.mo.mal.structures.ULong(bigInteger37);
-        org.ccsds.moims.mo.mal.structures.UOctet uOctet39 = uLong38.getAreaVersion();
-        esa.mo.com.impl.archive.entities.ObjectTypeHolderEntity objectTypeHolderEntity42 = new esa.mo.com.impl.archive.entities.ObjectTypeHolderEntity((-11), (java.lang.Long) 281474993487879L);
-        java.lang.Long long43 = objectTypeHolderEntity42.getObjectType();
-        boolean boolean44 = uLong38.equals((java.lang.Object) long43);
-        boolean boolean45 = booleanList10.remove((java.lang.Object) long43);
-        java.util.stream.Stream<java.lang.Boolean> booleanStream46 = booleanList10.stream();
-        try {
-            java.util.ListIterator<java.lang.Boolean> booleanItor48 = booleanList10.listIterator((-2));
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: -2");
-        } catch (java.lang.IndexOutOfBoundsException e) {
-        }
-        org.junit.Assert.assertNotNull(floatArray5);
-        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
-        org.junit.Assert.assertNotNull(booleanArray9);
-        org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + true + "'", boolean11);
-        org.junit.Assert.assertNotNull(byteArray16);
-        org.junit.Assert.assertTrue("'" + boolean18 + "' != '" + true + "'", boolean18);
-        org.junit.Assert.assertTrue("'" + boolean20 + "' != '" + true + "'", boolean20);
-        org.junit.Assert.assertNotNull(byteArray25);
-        org.junit.Assert.assertTrue("'" + boolean27 + "' != '" + true + "'", boolean27);
-        org.junit.Assert.assertTrue("'" + boolean29 + "' != '" + true + "'", boolean29);
-        org.junit.Assert.assertTrue("'" + boolean30 + "' != '" + true + "'", boolean30);
-        org.junit.Assert.assertNotNull(obj31);
-        org.junit.Assert.assertTrue("'" + boolean32 + "' != '" + false + "'", !boolean32);
-        org.junit.Assert.assertTrue("'" + int33 + "' != '" + (-1) + "'", int33 == (-1));
-        org.junit.Assert.assertNotNull(uShort35);
-        org.junit.Assert.assertTrue("'" + boolean36 + "' != '" + true + "'", boolean36);
-        org.junit.Assert.assertNotNull(bigInteger37);
-        org.junit.Assert.assertNotNull(uOctet39);
-        org.junit.Assert.assertTrue("'" + long43 + "' != '" + 281474993487879L + "'", long43.equals(281474993487879L));
-        org.junit.Assert.assertTrue("'" + boolean44 + "' != '" + false + "'", !boolean44);
-        org.junit.Assert.assertTrue("'" + boolean45 + "' != '" + false + "'", !boolean45);
-        org.junit.Assert.assertNotNull(booleanStream46);
-    }
-
-    @Test
     public void test2598() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest5.test2598");
@@ -6209,30 +6110,6 @@ public class RegressionTest5 {
     }
 
     @Test
-    public void test2626() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest5.test2626");
-        java.lang.Long[] longArray7 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
-        java.util.ArrayList<java.lang.Long> longList8 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList8, longArray7);
-        java.lang.Object obj10 = longList8.clone();
-        longList8.ensureCapacity((int) '4');
-        esa.mo.com.impl.archive.entities.ProviderURIHolderEntity providerURIHolderEntity15 = new esa.mo.com.impl.archive.entities.ProviderURIHolderEntity((int) (byte) 0, "hi!");
-        boolean boolean16 = longList8.remove((java.lang.Object) (byte) 0);
-        java.util.Iterator<java.lang.Long> longItor17 = longList8.iterator();
-        try {
-            java.lang.Long long20 = longList8.set((-1), (java.lang.Long) 281475010265077L);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
-        } catch (java.lang.IndexOutOfBoundsException e) {
-        }
-        org.junit.Assert.assertNotNull(longArray7);
-        org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9);
-        org.junit.Assert.assertNotNull(obj10);
-        org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + false + "'", !boolean16);
-        org.junit.Assert.assertNotNull(longItor17);
-    }
-
-    @Test
     public void test2627() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest5.test2627");
@@ -7086,78 +6963,6 @@ public class RegressionTest5 {
     }
 
     @Test
-    public void test2643() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest5.test2643");
-        java.lang.Float[] floatArray5 = new java.lang.Float[] { 100.0f, (-1.0f), (-1.0f), 10.0f, (-1.0f) };
-        java.util.ArrayList<java.lang.Float> floatList6 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList6, floatArray5);
-        java.lang.Boolean[] booleanArray9 = new java.lang.Boolean[] { false };
-        java.util.ArrayList<java.lang.Boolean> booleanList10 = new java.util.ArrayList<java.lang.Boolean>();
-        boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList10, booleanArray9);
-        java.lang.Byte[] byteArray16 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
-        java.util.ArrayList<java.lang.Byte> byteList17 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList17, byteArray16);
-        boolean boolean20 = byteList17.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray25 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
-        java.util.ArrayList<java.lang.Byte> byteList26 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList26, byteArray25);
-        boolean boolean29 = byteList26.add((java.lang.Byte) (byte) 100);
-        boolean boolean30 = byteList17.addAll((java.util.Collection<java.lang.Byte>) byteList26);
-        java.lang.Object obj31 = byteList17.clone();
-        boolean boolean32 = booleanList10.contains((java.lang.Object) byteList17);
-        int int33 = floatList6.lastIndexOf((java.lang.Object) booleanList10);
-        org.ccsds.moims.mo.mal.structures.OctetList octetList34 = new org.ccsds.moims.mo.mal.structures.OctetList();
-        org.ccsds.moims.mo.mal.structures.UShort uShort35 = octetList34.getServiceNumber();
-        boolean boolean36 = booleanList10.containsAll((java.util.Collection<java.lang.Byte>) octetList34);
-        java.math.BigInteger bigInteger37 = org.ccsds.moims.mo.mal.structures.ULong.MAX_VALUE;
-        org.ccsds.moims.mo.mal.structures.ULong uLong38 = new org.ccsds.moims.mo.mal.structures.ULong(bigInteger37);
-        org.ccsds.moims.mo.mal.structures.UOctet uOctet39 = uLong38.getAreaVersion();
-        esa.mo.com.impl.archive.entities.ObjectTypeHolderEntity objectTypeHolderEntity42 = new esa.mo.com.impl.archive.entities.ObjectTypeHolderEntity((-11), (java.lang.Long) 281474993487879L);
-        java.lang.Long long43 = objectTypeHolderEntity42.getObjectType();
-        boolean boolean44 = uLong38.equals((java.lang.Object) long43);
-        boolean boolean45 = booleanList10.remove((java.lang.Object) long43);
-        esa.mo.com.impl.archive.entities.DomainHolderEntity domainHolderEntity48 = new esa.mo.com.impl.archive.entities.DomainHolderEntity(0, "[]");
-        int int49 = booleanList10.lastIndexOf((java.lang.Object) domainHolderEntity48);
-        byte[] byteArray53 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
-        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder54 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray53);
-        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder55 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray53);
-        java.lang.Integer int56 = binaryDecoder55.decodeInteger();
-        org.ccsds.moims.mo.mal.structures.UInteger uInteger57 = binaryDecoder55.decodeUInteger();
-        org.ccsds.moims.mo.mal.structures.UShort uShort58 = uInteger57.getServiceNumber();
-        org.ccsds.moims.mo.mal.structures.UShort uShort59 = uShort58.getServiceNumber();
-        int int60 = booleanList10.lastIndexOf((java.lang.Object) uShort59);
-        org.junit.Assert.assertNotNull(floatArray5);
-        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
-        org.junit.Assert.assertNotNull(booleanArray9);
-        org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + true + "'", boolean11);
-        org.junit.Assert.assertNotNull(byteArray16);
-        org.junit.Assert.assertTrue("'" + boolean18 + "' != '" + true + "'", boolean18);
-        org.junit.Assert.assertTrue("'" + boolean20 + "' != '" + true + "'", boolean20);
-        org.junit.Assert.assertNotNull(byteArray25);
-        org.junit.Assert.assertTrue("'" + boolean27 + "' != '" + true + "'", boolean27);
-        org.junit.Assert.assertTrue("'" + boolean29 + "' != '" + true + "'", boolean29);
-        org.junit.Assert.assertTrue("'" + boolean30 + "' != '" + true + "'", boolean30);
-        org.junit.Assert.assertNotNull(obj31);
-        org.junit.Assert.assertTrue("'" + boolean32 + "' != '" + false + "'", !boolean32);
-        org.junit.Assert.assertTrue("'" + int33 + "' != '" + (-1) + "'", int33 == (-1));
-        org.junit.Assert.assertNotNull(uShort35);
-        org.junit.Assert.assertTrue("'" + boolean36 + "' != '" + true + "'", boolean36);
-        org.junit.Assert.assertNotNull(bigInteger37);
-        org.junit.Assert.assertNotNull(uOctet39);
-        org.junit.Assert.assertTrue("'" + long43 + "' != '" + 281474993487879L + "'", long43.equals(281474993487879L));
-        org.junit.Assert.assertTrue("'" + boolean44 + "' != '" + false + "'", !boolean44);
-        org.junit.Assert.assertTrue("'" + boolean45 + "' != '" + false + "'", !boolean45);
-        org.junit.Assert.assertTrue("'" + int49 + "' != '" + (-1) + "'", int49 == (-1));
-        org.junit.Assert.assertNotNull(byteArray53);
-        org.junit.Assert.assertTrue("'" + int56 + "' != '" + 50 + "'", int56.equals(50));
-        org.junit.Assert.assertNotNull(uInteger57);
-        org.junit.Assert.assertNotNull(uShort58);
-        org.junit.Assert.assertNotNull(uShort59);
-        org.junit.Assert.assertTrue("'" + int60 + "' != '" + (-1) + "'", int60 == (-1));
-    }
-
-    @Test
     public void test2644() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest5.test2644");
@@ -7165,21 +6970,6 @@ public class RegressionTest5 {
         esa.mo.com.impl.archive.fast.FastDomain fastDomain1 = new esa.mo.com.impl.archive.fast.FastDomain(databaseBackend0);
         boolean boolean3 = fastDomain1.exists((java.lang.Integer) 9);
         org.junit.Assert.assertTrue("'" + boolean3 + "' != '" + false + "'", !boolean3);
-    }
-
-    @Test
-    public void test2645() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest5.test2645");
-        esa.mo.com.impl.archive.entities.DomainHolderEntity domainHolderEntity2 = new esa.mo.com.impl.archive.entities.DomainHolderEntity(12, "true");
-        int int3 = domainHolderEntity2.getId();
-        java.lang.String str4 = domainHolderEntity2.getDomainString();
-        int int5 = domainHolderEntity2.getId();
-        java.lang.String str6 = domainHolderEntity2.getDomainString();
-        org.junit.Assert.assertTrue("'" + int3 + "' != '" + 12 + "'", int3 == 12);
-        org.junit.Assert.assertTrue("'" + str4 + "' != '" + "true" + "'", str4.equals("true"));
-        org.junit.Assert.assertTrue("'" + int5 + "' != '" + 12 + "'", int5 == 12);
-        org.junit.Assert.assertTrue("'" + str6 + "' != '" + "true" + "'", str6.equals("true"));
     }
 
     @Test
@@ -8454,29 +8244,6 @@ public class RegressionTest5 {
     }
 
     @Test
-    public void test2680() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest5.test2680");
-        java.math.BigInteger bigInteger0 = org.ccsds.moims.mo.mal.structures.ULong.MAX_VALUE;
-        org.ccsds.moims.mo.mal.structures.ULong uLong1 = new org.ccsds.moims.mo.mal.structures.ULong(bigInteger0);
-        org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = uLong1.getAreaVersion();
-        esa.mo.com.impl.archive.entities.ObjectTypeHolderEntity objectTypeHolderEntity5 = new esa.mo.com.impl.archive.entities.ObjectTypeHolderEntity((-11), (java.lang.Long) 281474993487879L);
-        java.lang.Long long6 = objectTypeHolderEntity5.getObjectType();
-        boolean boolean7 = uLong1.equals((java.lang.Object) long6);
-        esa.mo.com.impl.consumer.ArchiveSyncGenAdapter archiveSyncGenAdapter8 = new esa.mo.com.impl.consumer.ArchiveSyncGenAdapter();
-        org.ccsds.moims.mo.mal.structures.UInteger uInteger9 = archiveSyncGenAdapter8.getLastKnownIndex();
-        boolean boolean10 = uLong1.equals((java.lang.Object) archiveSyncGenAdapter8);
-        long long11 = archiveSyncGenAdapter8.noUpdatesReceivedForThisDuration();
-        org.junit.Assert.assertNotNull(bigInteger0);
-        org.junit.Assert.assertNotNull(uOctet2);
-        org.junit.Assert.assertTrue("'" + long6 + "' != '" + 281474993487879L + "'", long6.equals(281474993487879L));
-        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", !boolean7);
-        org.junit.Assert.assertNotNull(uInteger9);
-        org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + false + "'", !boolean10);
-// flaky:         org.junit.Assert.assertTrue("'" + long11 + "' != '" + 1558616236048L + "'", long11 == 1558616236048L);
-    }
-
-    @Test
     public void test2681() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest5.test2681");
@@ -8672,15 +8439,6 @@ public class RegressionTest5 {
         org.junit.Assert.assertTrue("'" + long11 + "' != '" + 281474993487880L + "'", long11.equals(281474993487880L));
         org.junit.Assert.assertTrue("'" + boolean13 + "' != '" + false + "'", !boolean13);
         org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + false + "'", !boolean14);
-    }
-
-    @Test
-    public void test2688() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest5.test2688");
-        esa.mo.com.impl.archive.entities.ProviderURIHolderEntity providerURIHolderEntity2 = new esa.mo.com.impl.archive.entities.ProviderURIHolderEntity(5, "[-1, -1, -1, -1, 100]");
-        int int3 = providerURIHolderEntity2.getId();
-        org.junit.Assert.assertTrue("'" + int3 + "' != '" + 5 + "'", int3 == 5);
     }
 
     @Test
@@ -9152,31 +8910,6 @@ public class RegressionTest5 {
     }
 
     @Test
-    public void test2695() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest5.test2695");
-        java.math.BigInteger bigInteger0 = org.ccsds.moims.mo.mal.structures.ULong.MAX_VALUE;
-        org.ccsds.moims.mo.mal.structures.ULong uLong1 = new org.ccsds.moims.mo.mal.structures.ULong(bigInteger0);
-        org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = uLong1.getAreaVersion();
-        esa.mo.com.impl.archive.entities.ObjectTypeHolderEntity objectTypeHolderEntity5 = new esa.mo.com.impl.archive.entities.ObjectTypeHolderEntity((-11), (java.lang.Long) 281474993487879L);
-        java.lang.Long long6 = objectTypeHolderEntity5.getObjectType();
-        boolean boolean7 = uLong1.equals((java.lang.Object) long6);
-        esa.mo.com.impl.consumer.ArchiveSyncGenAdapter archiveSyncGenAdapter8 = new esa.mo.com.impl.consumer.ArchiveSyncGenAdapter();
-        org.ccsds.moims.mo.mal.structures.UInteger uInteger9 = archiveSyncGenAdapter8.getLastKnownIndex();
-        boolean boolean10 = uLong1.equals((java.lang.Object) archiveSyncGenAdapter8);
-        java.lang.Long long11 = uLong1.getShortForm();
-        org.ccsds.moims.mo.mal.structures.UShort uShort12 = uLong1.getServiceNumber();
-        org.junit.Assert.assertNotNull(bigInteger0);
-        org.junit.Assert.assertNotNull(uOctet2);
-        org.junit.Assert.assertTrue("'" + long6 + "' != '" + 281474993487879L + "'", long6.equals(281474993487879L));
-        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", !boolean7);
-        org.junit.Assert.assertNotNull(uInteger9);
-        org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + false + "'", !boolean10);
-        org.junit.Assert.assertTrue("'" + long11 + "' != '" + 281474993487886L + "'", long11.equals(281474993487886L));
-        org.junit.Assert.assertNotNull(uShort12);
-    }
-
-    @Test
     public void test2696() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest5.test2696");
@@ -9265,41 +8998,6 @@ public class RegressionTest5 {
     }
 
     @Test
-    public void test2699() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest5.test2699");
-        esa.mo.com.impl.util.EventCOMObject eventCOMObject0 = new esa.mo.com.impl.util.EventCOMObject();
-        org.ccsds.moims.mo.com.structures.ObjectId objectId1 = eventCOMObject0.getSource();
-        org.ccsds.moims.mo.com.structures.ObjectType objectType2 = eventCOMObject0.getObjType();
-        esa.mo.com.impl.util.EventCOMObject eventCOMObject3 = new esa.mo.com.impl.util.EventCOMObject();
-        org.ccsds.moims.mo.mal.structures.URI uRI5 = new org.ccsds.moims.mo.mal.structures.URI("hi!");
-        eventCOMObject3.setSourceURI(uRI5);
-        eventCOMObject0.setSourceURI(uRI5);
-        esa.mo.com.impl.archive.entities.DomainHolderEntity domainHolderEntity10 = new esa.mo.com.impl.archive.entities.DomainHolderEntity((int) '4', "[0, 10]");
-        java.lang.String str11 = domainHolderEntity10.getDomainString();
-        boolean boolean12 = uRI5.equals((java.lang.Object) str11);
-        java.io.OutputStream outputStream13 = null;
-        esa.mo.com.impl.archive.encoding.BinaryEncoder binaryEncoder14 = new esa.mo.com.impl.archive.encoding.BinaryEncoder(outputStream13);
-        byte byte16 = binaryEncoder14.internalEncodeAttributeType((byte) 100);
-        byte byte18 = binaryEncoder14.internalEncodeAttributeType((byte) -1);
-        byte byte20 = binaryEncoder14.internalEncodeAttributeType((byte) 100);
-        byte byte22 = binaryEncoder14.internalEncodeAttributeType((byte) 100);
-        try {
-            uRI5.encode((org.ccsds.moims.mo.mal.MALEncoder) binaryEncoder14);
-            org.junit.Assert.fail("Expected exception of type java.lang.NullPointerException; message: null");
-        } catch (java.lang.NullPointerException e) {
-        }
-        org.junit.Assert.assertNull(objectId1);
-        org.junit.Assert.assertNull(objectType2);
-        org.junit.Assert.assertTrue("'" + str11 + "' != '" + "[0, 10]" + "'", str11.equals("[0, 10]"));
-        org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + false + "'", !boolean12);
-        org.junit.Assert.assertTrue("'" + byte16 + "' != '" + (byte) 100 + "'", byte16 == (byte) 100);
-        org.junit.Assert.assertTrue("'" + byte18 + "' != '" + (byte) -1 + "'", byte18 == (byte) -1);
-        org.junit.Assert.assertTrue("'" + byte20 + "' != '" + (byte) 100 + "'", byte20 == (byte) 100);
-        org.junit.Assert.assertTrue("'" + byte22 + "' != '" + (byte) 100 + "'", byte22 == (byte) 100);
-    }
-
-    @Test
     public void test2700() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest5.test2700");
@@ -9337,13 +9035,6 @@ public class RegressionTest5 {
         org.junit.Assert.assertTrue("'" + byte5 + "' != '" + (byte) -1 + "'", byte5 == (byte) -1);
         org.junit.Assert.assertTrue("'" + byte7 + "' != '" + (byte) 100 + "'", byte7 == (byte) 100);
         org.junit.Assert.assertTrue("'" + byte9 + "' != '" + (byte) 0 + "'", byte9 == (byte) 0);
-    }
-
-    @Test
-    public void test2702() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest5.test2702");
-        esa.mo.com.impl.archive.entities.DomainHolderEntity domainHolderEntity2 = new esa.mo.com.impl.archive.entities.DomainHolderEntity(8, "true");
     }
 
     @Test
@@ -9513,17 +9204,6 @@ public class RegressionTest5 {
     }
 
     @Test
-    public void test2706() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest5.test2706");
-        esa.mo.com.impl.archive.entities.ObjectTypeHolderEntity objectTypeHolderEntity2 = new esa.mo.com.impl.archive.entities.ObjectTypeHolderEntity((int) (short) 1, (java.lang.Long) 10L);
-        int int3 = objectTypeHolderEntity2.getId();
-        int int4 = objectTypeHolderEntity2.getId();
-        org.junit.Assert.assertTrue("'" + int3 + "' != '" + 1 + "'", int3 == 1);
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 1 + "'", int4 == 1);
-    }
-
-    @Test
     public void test2707() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest5.test2707");
@@ -9639,15 +9319,6 @@ public class RegressionTest5 {
     }
 
     @Test
-    public void test2710() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest5.test2710");
-        esa.mo.com.impl.archive.entities.DomainHolderEntity domainHolderEntity2 = new esa.mo.com.impl.archive.entities.DomainHolderEntity(4, "hi!");
-        java.lang.String str3 = domainHolderEntity2.getDomainString();
-        org.junit.Assert.assertTrue("'" + str3 + "' != '" + "hi!" + "'", str3.equals("hi!"));
-    }
-
-    @Test
     public void test2711() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest5.test2711");
@@ -9752,39 +9423,6 @@ public class RegressionTest5 {
         org.junit.Assert.assertNotNull(uShort23);
         org.junit.Assert.assertTrue("'" + boolean24 + "' != '" + false + "'", !boolean24);
         org.junit.Assert.assertTrue("'" + boolean25 + "' != '" + true + "'", boolean25);
-    }
-
-    @Test
-    public void test2714() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest5.test2714");
-        org.ccsds.moims.mo.mal.structures.ShortList shortList0 = new org.ccsds.moims.mo.mal.structures.ShortList();
-        org.ccsds.moims.mo.mal.structures.UShort uShort1 = shortList0.getAreaNumber();
-        java.lang.Object[] objArray2 = shortList0.toArray();
-        java.lang.Long long3 = shortList0.getShortForm();
-        shortList0.ensureCapacity((int) (byte) 0);
-        esa.mo.com.impl.archive.entities.NetworkHolderEntity networkHolderEntity8 = new esa.mo.com.impl.archive.entities.NetworkHolderEntity((-11), "[0, 10]");
-        java.lang.String str9 = networkHolderEntity8.getNetworkString();
-        int int10 = shortList0.lastIndexOf((java.lang.Object) networkHolderEntity8);
-        boolean boolean11 = shortList0.isEmpty();
-        org.ccsds.moims.mo.mal.structures.Union union13 = new org.ccsds.moims.mo.mal.structures.Union((java.lang.Byte) (byte) 10);
-        boolean boolean14 = shortList0.equals((java.lang.Object) union13);
-        byte[] byteArray18 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
-        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder19 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray18);
-        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder21 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray18, (int) (byte) -1);
-        try {
-            org.ccsds.moims.mo.mal.structures.Element element22 = shortList0.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder21);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: -1");
-        } catch (java.lang.IndexOutOfBoundsException e) {
-        }
-        org.junit.Assert.assertNotNull(uShort1);
-        org.junit.Assert.assertNotNull(objArray2);
-        org.junit.Assert.assertTrue("'" + long3 + "' != '" + 281475010265079L + "'", long3.equals(281475010265079L));
-        org.junit.Assert.assertTrue("'" + str9 + "' != '" + "[0, 10]" + "'", str9.equals("[0, 10]"));
-        org.junit.Assert.assertTrue("'" + int10 + "' != '" + (-1) + "'", int10 == (-1));
-        org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + true + "'", boolean11);
-        org.junit.Assert.assertTrue("'" + boolean14 + "' != '" + false + "'", !boolean14);
-        org.junit.Assert.assertNotNull(byteArray18);
     }
 
     @Test
@@ -10294,15 +9932,6 @@ public class RegressionTest5 {
             System.out.format("%n%s%n", "RegressionTest5.test2725");
         esa.mo.com.impl.archive.db.COMObjectEntityPK cOMObjectEntityPK3 = esa.mo.com.impl.archive.entities.COMObjectEntity.generatePK((java.lang.Integer) 5, (java.lang.Integer) 3, (java.lang.Long) 1558616224706L);
         org.junit.Assert.assertNotNull(cOMObjectEntityPK3);
-    }
-
-    @Test
-    public void test2726() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest5.test2726");
-        esa.mo.com.impl.archive.entities.ProviderURIHolderEntity providerURIHolderEntity2 = new esa.mo.com.impl.archive.entities.ProviderURIHolderEntity(32, "2.47E-322");
-        java.lang.String str3 = providerURIHolderEntity2.getProviderURIString();
-        org.junit.Assert.assertTrue("'" + str3 + "' != '" + "2.47E-322" + "'", str3.equals("2.47E-322"));
     }
 
     @Test
@@ -11606,23 +11235,6 @@ public class RegressionTest5 {
     }
 
     @Test
-    public void test2751() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest5.test2751");
-        esa.mo.com.impl.archive.entities.DomainHolderEntity domainHolderEntity2 = new esa.mo.com.impl.archive.entities.DomainHolderEntity(12, "true");
-        int int3 = domainHolderEntity2.getId();
-        java.lang.String str4 = domainHolderEntity2.getDomainString();
-        int int5 = domainHolderEntity2.getId();
-        int int6 = domainHolderEntity2.getId();
-        java.lang.String str7 = domainHolderEntity2.getDomainString();
-        org.junit.Assert.assertTrue("'" + int3 + "' != '" + 12 + "'", int3 == 12);
-        org.junit.Assert.assertTrue("'" + str4 + "' != '" + "true" + "'", str4.equals("true"));
-        org.junit.Assert.assertTrue("'" + int5 + "' != '" + 12 + "'", int5 == 12);
-        org.junit.Assert.assertTrue("'" + int6 + "' != '" + 12 + "'", int6 == 12);
-        org.junit.Assert.assertTrue("'" + str7 + "' != '" + "true" + "'", str7.equals("true"));
-    }
-
-    @Test
     public void test2752() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest5.test2752");
@@ -11807,19 +11419,6 @@ public class RegressionTest5 {
         org.junit.Assert.assertTrue("'" + float85 + "' != '" + 7.0E-44f + "'", float85.equals(7.0E-44f));
         org.junit.Assert.assertTrue("'" + byte86 + "' != '" + (byte) -1 + "'", byte86.equals((byte) -1));
         org.junit.Assert.assertNotNull(element87);
-    }
-
-    @Test
-    public void test2755() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest5.test2755");
-        esa.mo.com.impl.archive.entities.ObjectTypeHolderEntity objectTypeHolderEntity2 = new esa.mo.com.impl.archive.entities.ObjectTypeHolderEntity(2, (java.lang.Long) 281474993487875L);
-        java.lang.Long long3 = objectTypeHolderEntity2.getObjectType();
-        int int4 = objectTypeHolderEntity2.getId();
-        java.lang.Long long5 = objectTypeHolderEntity2.getObjectType();
-        org.junit.Assert.assertTrue("'" + long3 + "' != '" + 281474993487875L + "'", long3.equals(281474993487875L));
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + 2 + "'", int4 == 2);
-        org.junit.Assert.assertTrue("'" + long5 + "' != '" + 281474993487875L + "'", long5.equals(281474993487875L));
     }
 
     @Test
@@ -12904,19 +12503,6 @@ public class RegressionTest5 {
     }
 
     @Test
-    public void test2782() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest5.test2782");
-        esa.mo.com.impl.archive.entities.ProviderURIHolderEntity providerURIHolderEntity2 = new esa.mo.com.impl.archive.entities.ProviderURIHolderEntity((-2), "");
-        java.lang.String str3 = providerURIHolderEntity2.getProviderURIString();
-        int int4 = providerURIHolderEntity2.getId();
-        int int5 = providerURIHolderEntity2.getId();
-        org.junit.Assert.assertTrue("'" + str3 + "' != '" + "" + "'", str3.equals(""));
-        org.junit.Assert.assertTrue("'" + int4 + "' != '" + (-2) + "'", int4 == (-2));
-        org.junit.Assert.assertTrue("'" + int5 + "' != '" + (-2) + "'", int5 == (-2));
-    }
-
-    @Test
     public void test2783() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest5.test2783");
@@ -13392,15 +12978,6 @@ public class RegressionTest5 {
         org.junit.Assert.assertTrue("'" + boolean21 + "' != '" + false + "'", !boolean21);
         org.junit.Assert.assertTrue("'" + int22 + "' != '" + (-9) + "'", int22.equals((-9)));
         org.junit.Assert.assertNotNull(uOctet23);
-    }
-
-    @Test
-    public void test2794() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest5.test2794");
-        esa.mo.com.impl.archive.entities.DomainHolderEntity domainHolderEntity2 = new esa.mo.com.impl.archive.entities.DomainHolderEntity(13, "[10.0]");
-        java.lang.String str3 = domainHolderEntity2.getDomainString();
-        org.junit.Assert.assertTrue("'" + str3 + "' != '" + "[10.0]" + "'", str3.equals("[10.0]"));
     }
 
     @Test
@@ -14487,13 +14064,6 @@ public class RegressionTest5 {
     }
 
     @Test
-    public void test2821() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest5.test2821");
-        esa.mo.com.impl.archive.entities.NetworkHolderEntity networkHolderEntity2 = new esa.mo.com.impl.archive.entities.NetworkHolderEntity((-10), "[18446744073709551615]");
-    }
-
-    @Test
     public void test2822() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest5.test2822");
@@ -14764,13 +14334,6 @@ public class RegressionTest5 {
         org.junit.Assert.assertNotNull(byteItor87);
         org.junit.Assert.assertTrue("'" + boolean88 + "' != '" + false + "'", !boolean88);
         org.junit.Assert.assertTrue("'" + int89 + "' != '" + 0 + "'", int89 == 0);
-    }
-
-    @Test
-    public void test2827() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "RegressionTest5.test2827");
-        esa.mo.com.impl.archive.entities.ProviderURIHolderEntity providerURIHolderEntity2 = new esa.mo.com.impl.archive.entities.ProviderURIHolderEntity(13, "0");
     }
 
     @Test
