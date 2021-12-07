@@ -570,7 +570,7 @@ public class MPPolyFix {
         Field[] fields = encodedObject.getClass().getDeclaredFields();
         for (Field field : fields) {
             int modifier = field.getModifiers();
-            if (!Modifier.isFinal(modifier) && field.getType() == object.getClass()) {
+            if (!Modifier.isFinal(modifier) && field.getType() == object.getClass() && !field.isSynthetic()) {
                 field.setAccessible(true);
                 try {
                     field.set(encodedObject, object);
@@ -627,7 +627,7 @@ public class MPPolyFix {
                 return null;
             }
             int modifier = field.getModifiers();
-            if (!Modifier.isFinal(modifier) && value != null) {
+            if (!Modifier.isFinal(modifier) && value != null && !field.isSynthetic()) {
                 Class fieldSuperClass = value.getClass().getSuperclass();
 
                 if (polymorphicClass == null) {
