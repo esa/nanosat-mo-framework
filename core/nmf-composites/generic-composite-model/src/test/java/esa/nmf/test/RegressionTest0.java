@@ -888,8 +888,8 @@ public class RegressionTest0 {
         boolean boolean24 = stringList12.equals((java.lang.Object) mCServicesProviderNMF23);
         try {
             java.lang.String str26 = stringList12.remove((-18));
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: null");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(byteArray4);
         org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6 == true);
@@ -1165,8 +1165,8 @@ public class RegressionTest0 {
         boolean boolean24 = stringList12.equals((java.lang.Object) mCServicesProviderNMF23);
         try {
             java.lang.String str27 = stringList12.set((-15), "esa.mo.nmf.NMFException: hi!");
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: null");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(byteArray4);
         org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6 == true);
@@ -3860,8 +3860,8 @@ public class RegressionTest0 {
         boolean boolean83 = uRIList53.remove((java.lang.Object) uShort82);
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI85 = uRIList53.remove((-5));
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: null");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertTrue("'" + int1 + "' != '" + (-10) + "'", int1.equals((-10)));
         org.junit.Assert.assertNotNull(uShortItor2);
@@ -5019,8 +5019,8 @@ public class RegressionTest0 {
         boolean boolean60 = floatList6.retainAll((java.util.Collection<java.lang.Boolean>) booleanList52);
         try {
             java.lang.Float float62 = floatList6.remove((-7));
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: null");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(floatArray5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7 == true);
@@ -7469,8 +7469,8 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.Element element24 = longList22.createElement();
         try {
             java.lang.Long long26 = longList22.remove((-13));
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: null");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertTrue("'" + long1 + "' != '" + 281475010265084L + "'", long1.equals(281475010265084L));
         org.junit.Assert.assertNotNull(strArray3);
@@ -9599,8 +9599,8 @@ public class RegressionTest0 {
         boolean boolean81 = longList40.equals((java.lang.Object) actionProviderServiceImpl80);
         try {
             java.lang.Long long83 = longList40.remove((-15));
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: null");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertTrue("'" + long2 + "' != '" + 281474993487875L + "'", long2.equals(281474993487875L));
         org.junit.Assert.assertNotNull(uRIArray3);
@@ -10759,8 +10759,8 @@ public class RegressionTest0 {
         int int18 = uShortList0.indexOf((java.lang.Object) nMFException17);
         try {
             org.ccsds.moims.mo.mal.structures.UShort uShort20 = uShortList0.remove((-18));
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: null");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertTrue("'" + int1 + "' != '" + (-10) + "'", int1.equals((-10)));
         org.junit.Assert.assertNotNull(uShortItor2);
@@ -12340,8 +12340,8 @@ public class RegressionTest0 {
         java.util.stream.Stream<java.lang.String> strStream26 = stringList12.stream();
         try {
             java.lang.String str29 = stringList12.set((-7), "esa.mo.nmf.NMFException: hi!");
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: -7");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: -7");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(byteArray4);
         org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6 == true);
@@ -15691,8 +15691,8 @@ public class RegressionTest0 {
         boolean boolean48 = shortList0.removeAll((java.util.Collection<java.lang.Boolean>) booleanList42);
         try {
             java.lang.Short short50 = shortList0.remove((-1));
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: null");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(strArray2);
         org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4 == true);
@@ -20277,8 +20277,8 @@ public class RegressionTest0 {
         boolean boolean98 = uRI36.equals((java.lang.Object) uOctet97);
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI99 = uRIList1.set((-15), uRI36);
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: -15");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: -15");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertTrue("'" + int2 + "' != '" + (-18) + "'", int2.equals((-18)));
         org.junit.Assert.assertTrue("'" + long3 + "' != '" + 281475010265070L + "'", long3.equals(281475010265070L));
@@ -22861,8 +22861,8 @@ public class RegressionTest0 {
         boolean boolean27 = stringList12.isEmpty();
         try {
             java.lang.String str29 = stringList12.remove((int) (short) -1);
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: null");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(byteArray4);
         org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6 == true);
@@ -22937,8 +22937,8 @@ public class RegressionTest0 {
         java.lang.Long long65 = uShort64.getShortForm();
         try {
             org.ccsds.moims.mo.mal.structures.UShort uShort66 = uShortList31.set((-5), uShort64);
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: -5");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: -5");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(uShort0);
         org.junit.Assert.assertNotNull(uShort1);
@@ -23251,8 +23251,8 @@ public class RegressionTest0 {
         boolean boolean63 = uRIList53.remove((java.lang.Object) parameterProviderServiceImpl62);
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI65 = uRIList53.get((-11));
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: -11");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: -11");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertTrue("'" + int1 + "' != '" + (-10) + "'", int1.equals((-10)));
         org.junit.Assert.assertNotNull(uShortItor2);
@@ -25840,8 +25840,8 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.Element element22 = floatList0.createElement();
         try {
             java.lang.Float float25 = floatList0.set((-13), (java.lang.Float) 0.0f);
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: -13");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: -13");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertTrue("'" + long1 + "' != '" + 281475010265084L + "'", long1.equals(281475010265084L));
         org.junit.Assert.assertNotNull(strArray3);
@@ -27593,8 +27593,8 @@ public class RegressionTest0 {
         boolean boolean62 = floatList16.contains((java.lang.Object) shortList55);
         try {
             java.lang.Float float64 = floatList16.get((-7));
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: -7");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: -7");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(doubleArray3);
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5 == true);

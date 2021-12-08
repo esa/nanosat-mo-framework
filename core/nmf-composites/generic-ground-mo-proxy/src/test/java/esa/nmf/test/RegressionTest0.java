@@ -62,8 +62,8 @@ public class RegressionTest0 {
         esa.mo.nmf.groundmoproxy.ProtocolBridge[] protocolBridgeArray59 = uRIList1.toArray(protocolBridgeArray58);
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI61 = uRIList1.get((-1));
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: -1");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: -1");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(longArray5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7 == true);
@@ -96,8 +96,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test003");
         try {
             int int1 = esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager.getAPIDFromVirtualSPPURI("[1]");
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: 1");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 1");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
     }
 
@@ -377,8 +377,8 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.URI uRI64 = null;
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI65 = uRIList1.set((int) (byte) -1, uRI64);
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: -1");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: -1");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(longArray5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7 == true);
@@ -678,8 +678,8 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet66 = uRI64.getAreaVersion();
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI67 = uRIList1.set((-18), uRI64);
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: -18");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: -18");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(longArray5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7 == true);
@@ -1705,8 +1705,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test034");
         try {
             int int1 = esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager.getAPIDFromVirtualSPPURI("[0, 0, 0, 1]");
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: 1");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 1");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
     }
 
@@ -2129,8 +2129,8 @@ public class RegressionTest0 {
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream62 = uRIList1.parallelStream();
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI64 = uRIList1.get((-4));
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: null");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(longArray5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7 == true);
@@ -2307,8 +2307,8 @@ public class RegressionTest0 {
         java.util.Spliterator<org.ccsds.moims.mo.mal.structures.URI> uRISpliterator60 = uRIList1.spliterator();
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI62 = uRIList1.remove((-1));
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: null");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(longArray5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7 == true);
@@ -3150,8 +3150,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test055");
         try {
             int int1 = esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager.getAPIDFromVirtualSPPURI("[, [false, false]]");
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: 1");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 1");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
     }
 
@@ -3447,8 +3447,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test061");
         try {
             int int1 = esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager.getAPIDFromVirtualSPPURI("esa.mo.nmf.groundmoproxy.protocolbrige.spp.apid.start");
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: 1");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 1");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
     }
 
@@ -4003,8 +4003,8 @@ public class RegressionTest0 {
         boolean boolean78 = uRIList1.remove((java.lang.Object) doubleList64);
         try {
             java.lang.Double double80 = doubleList64.remove((-2));
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: null");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(longArray5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7 == true);
@@ -4228,8 +4228,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test073");
         try {
             int int1 = esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager.getAPIDFromVirtualSPPURI("2");
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: 1");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 1");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
     }
 
@@ -4398,8 +4398,8 @@ public class RegressionTest0 {
         int int68 = uRIList1.lastIndexOf((java.lang.Object) stringList65);
         try {
             java.lang.String str70 = stringList65.get((-4));
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: null");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(longArray5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7 == true);
@@ -4913,8 +4913,8 @@ public class RegressionTest0 {
         boolean boolean64 = uRIList1.contains(obj63);
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI66 = uRIList1.remove((-5));
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: null");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(longArray5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7 == true);
@@ -5120,8 +5120,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test087");
         try {
             int int1 = esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager.getAPIDFromVirtualSPPURI("[-1, 9, 9]");
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: 1");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 1");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
     }
 
@@ -6520,8 +6520,8 @@ public class RegressionTest0 {
         boolean boolean79 = uRI66.equals((java.lang.Object) uShortSpliterator78);
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI80 = uRIList1.set((-5), uRI66);
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: -5");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: -5");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(longArray8);
         org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10 == true);
@@ -7287,8 +7287,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test119");
         try {
             int int1 = esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager.getAPIDFromVirtualSPPURI("[15, 18, -5, -1, 0]");
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: 1");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 1");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
     }
 
@@ -7298,8 +7298,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test120");
         try {
             int int1 = esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager.getAPIDFromVirtualSPPURI("18446744073709551615");
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: 1");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 1");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
     }
 
@@ -9457,8 +9457,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test149");
         try {
             int int1 = esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager.getAPIDFromVirtualSPPURI("");
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: 1");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 1");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
     }
 
@@ -10363,8 +10363,8 @@ public class RegressionTest0 {
         boolean boolean71 = strList3.contains((java.lang.Object) uShort70);
         try {
             java.lang.String str73 = strList3.remove((-9));
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: null");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(strArray2);
         org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4 == true);
@@ -10779,8 +10779,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test167");
         try {
             int int1 = esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager.getAPIDFromVirtualSPPURI("-13");
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: 1");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 1");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
     }
 
@@ -11108,8 +11108,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test172");
         try {
             int int1 = esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager.getAPIDFromVirtualSPPURI("[100, -1, 0, -1, -1]");
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: 1");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 1");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
     }
 
@@ -11801,8 +11801,8 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.URI uRI66 = null;
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI67 = uRIList1.set((int) (short) -1, uRI66);
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: -1");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: -1");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(longArray5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7 == true);
@@ -14556,8 +14556,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test221");
         try {
             int int1 = esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager.getAPIDFromVirtualSPPURI("0.0");
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: 1");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 1");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
     }
 
@@ -15009,8 +15009,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test227");
         try {
             int int1 = esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager.getAPIDFromVirtualSPPURI("[281474993487876, 281474993487876, 281474993487878, 100, 100, 281475010265081, 0]");
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: 1");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 1");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
     }
 
@@ -15827,8 +15827,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test237");
         try {
             int int1 = esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager.getAPIDFromVirtualSPPURI("[false, false]");
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: 1");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 1");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
     }
 
@@ -18661,8 +18661,8 @@ public class RegressionTest0 {
         uRIList1.clear();
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI66 = uRIList1.remove((-1));
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: null");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(longArray5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7 == true);
@@ -20500,8 +20500,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test304");
         try {
             int int1 = esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager.getAPIDFromVirtualSPPURI("[1.0, 100.0, 10.0, 100.0]");
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: 1");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 1");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
     }
 
@@ -20694,8 +20694,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test308");
         try {
             int int1 = esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager.getAPIDFromVirtualSPPURI("-1");
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: 1");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 1");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
     }
 
@@ -27427,8 +27427,8 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet71 = uRIList1.getAreaVersion();
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI73 = uRIList1.get((-4));
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: -4");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: -4");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(longArray5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7 == true);
@@ -28935,8 +28935,8 @@ public class RegressionTest0 {
         java.lang.Long long66 = uRIList4.getShortForm();
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI68 = uRIList4.get((-18));
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: -18");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: -18");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertTrue("'" + double2 + "' != '" + 100.0d + "'", double2 == 100.0d);
         org.junit.Assert.assertNotNull(longArray8);
@@ -30365,8 +30365,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test440");
         try {
             int int1 = esa.mo.nmf.groundmoproxy.VirtualSPPURIsManager.getAPIDFromVirtualSPPURI("hi!");
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: 1");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 1");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
     }
 

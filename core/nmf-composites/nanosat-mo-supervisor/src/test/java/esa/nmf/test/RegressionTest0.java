@@ -70,8 +70,8 @@ public class RegressionTest0 {
         boolean boolean25 = identifier2.equals((java.lang.Object) intList12);
         try {
             java.lang.Integer int27 = intList12.remove((-9));
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: -9");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: -9");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertTrue("'" + int3 + "' != '" + 6 + "'", int3.equals(6));
         org.junit.Assert.assertNotNull(intArray11);

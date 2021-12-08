@@ -227,8 +227,8 @@ public class RegressionTest1
       org.ccsds.moims.mo.platform.gps.structures.Position position1 =
           esa.mo.platform.impl.util.HelperGPS.gpggalong2Position("[281474993487875]");
       org.junit.Assert.fail(
-          "Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: 9");
-    } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+          "Expected exception of type java.lang.IndexOutOfBoundsException; message: 9");
+    } catch (java.lang.IndexOutOfBoundsException e) {
     }
   }
 
@@ -1322,8 +1322,8 @@ public class RegressionTest1
       org.ccsds.moims.mo.platform.gps.structures.Position position1 =
           esa.mo.platform.impl.util.HelperGPS.gpggalong2Position("[false, false]");
       org.junit.Assert.fail(
-          "Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: 9");
-    } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+          "Expected exception of type java.lang.IndexOutOfBoundsException; message: 9");
+    } catch (java.lang.IndexOutOfBoundsException e) {
     }
   }
 
@@ -2019,8 +2019,8 @@ public class RegressionTest1
       org.ccsds.moims.mo.platform.gps.structures.Position position1 =
           esa.mo.platform.impl.util.HelperGPS.gpggalong2Position("5");
       org.junit.Assert.fail(
-          "Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: 9");
-    } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+          "Expected exception of type java.lang.IndexOutOfBoundsException; message: 9");
+    } catch (java.lang.IndexOutOfBoundsException e) {
     }
   }
 
@@ -2386,8 +2386,8 @@ public class RegressionTest1
       org.ccsds.moims.mo.platform.gps.structures.Position position1 =
           esa.mo.platform.impl.util.HelperGPS.gpggalong2Position("[100, 1, 1, -1, 10]");
       org.junit.Assert.fail(
-          "Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: 9");
-    } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+          "Expected exception of type java.lang.IndexOutOfBoundsException; message: 9");
+    } catch (java.lang.IndexOutOfBoundsException e) {
     }
   }
 
@@ -3534,8 +3534,8 @@ public class RegressionTest1
       org.ccsds.moims.mo.platform.gps.structures.Position position1 =
           esa.mo.platform.impl.util.HelperGPS.gpggalong2Position("[true]");
       org.junit.Assert.fail(
-          "Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: 9");
-    } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+          "Expected exception of type java.lang.IndexOutOfBoundsException; message: 9");
+    } catch (java.lang.IndexOutOfBoundsException e) {
     }
   }
 
@@ -6154,8 +6154,8 @@ public class RegressionTest1
       org.ccsds.moims.mo.platform.gps.structures.Position position1 =
           esa.mo.platform.impl.util.HelperGPS.gpggalong2Position("[1, 0]");
       org.junit.Assert.fail(
-          "Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: 9");
-    } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+          "Expected exception of type java.lang.IndexOutOfBoundsException; message: 9");
+    } catch (java.lang.IndexOutOfBoundsException e) {
     }
   }
 
@@ -6334,8 +6334,8 @@ public class RegressionTest1
       org.ccsds.moims.mo.platform.gps.structures.Position position1 =
           esa.mo.platform.impl.util.HelperGPS.gpggalong2Position("[10, 1, -1, 10]");
       org.junit.Assert.fail(
-          "Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: 9");
-    } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+          "Expected exception of type java.lang.IndexOutOfBoundsException; message: 9");
+    } catch (java.lang.IndexOutOfBoundsException e) {
     }
   }
 
@@ -7115,8 +7115,8 @@ public class RegressionTest1
       org.ccsds.moims.mo.platform.gps.structures.Position position1 =
           esa.mo.platform.impl.util.HelperGPS.gpggalong2Position("[-1.0]");
       org.junit.Assert.fail(
-          "Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: 9");
-    } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+          "Expected exception of type java.lang.IndexOutOfBoundsException; message: 9");
+    } catch (java.lang.IndexOutOfBoundsException e) {
     }
   }
 
@@ -7375,8 +7375,8 @@ public class RegressionTest1
       org.ccsds.moims.mo.platform.gps.structures.Position position1 =
           esa.mo.platform.impl.util.HelperGPS.gpggalong2Position("1.0");
       org.junit.Assert.fail(
-          "Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: 9");
-    } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+          "Expected exception of type java.lang.IndexOutOfBoundsException; message: 9");
+    } catch (java.lang.IndexOutOfBoundsException e) {
     }
   }
 
@@ -7532,8 +7532,8 @@ public class RegressionTest1
       org.ccsds.moims.mo.platform.gps.structures.Position position1 =
           esa.mo.platform.impl.util.HelperGPS.gpggalong2Position("[0, 0]");
       org.junit.Assert.fail(
-          "Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: 9");
-    } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+          "Expected exception of type java.lang.IndexOutOfBoundsException; message: 9");
+    } catch (java.lang.IndexOutOfBoundsException e) {
     }
   }
 
@@ -8192,8 +8192,8 @@ public class RegressionTest1
       org.ccsds.moims.mo.platform.gps.structures.Position position1 =
           esa.mo.platform.impl.util.HelperGPS.gpggalong2Position("2");
       org.junit.Assert.fail(
-          "Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: 9");
-    } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+          "Expected exception of type java.lang.IndexOutOfBoundsException; message: 9");
+    } catch (java.lang.IndexOutOfBoundsException e) {
     }
   }
 
@@ -8207,8 +8207,8 @@ public class RegressionTest1
       org.ccsds.moims.mo.platform.gps.structures.Position position1 =
           esa.mo.platform.impl.util.HelperGPS.gpggalong2Position("29.0");
       org.junit.Assert.fail(
-          "Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: 9");
-    } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+          "Expected exception of type java.lang.IndexOutOfBoundsException; message: 9");
+    } catch (java.lang.IndexOutOfBoundsException e) {
     }
   }
 
@@ -8477,8 +8477,8 @@ public class RegressionTest1
       org.ccsds.moims.mo.platform.gps.structures.Position position1 =
           esa.mo.platform.impl.util.HelperGPS.gpggalong2Position("281475010265070");
       org.junit.Assert.fail(
-          "Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: 9");
-    } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+          "Expected exception of type java.lang.IndexOutOfBoundsException; message: 9");
+    } catch (java.lang.IndexOutOfBoundsException e) {
     }
   }
 
@@ -9149,8 +9149,8 @@ public class RegressionTest1
       org.ccsds.moims.mo.platform.gps.structures.Position position1 =
           esa.mo.platform.impl.util.HelperGPS.gpggalong2Position("35.0");
       org.junit.Assert.fail(
-          "Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: 9");
-    } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+          "Expected exception of type java.lang.IndexOutOfBoundsException; message: 9");
+    } catch (java.lang.IndexOutOfBoundsException e) {
     }
   }
 

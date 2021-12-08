@@ -689,8 +689,8 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = ne
         boolean boolean9 = integerList0.contains((java.lang.Object) true);
         try {
             java.lang.Integer int11 = integerList0.remove((int) (byte) -1);
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: null");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(uShort1);
         org.junit.Assert.assertNotNull(element2);
@@ -6690,8 +6690,8 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = ne
         java.util.Spliterator<org.ccsds.moims.mo.mal.structures.URI> uRISpliterator11 = uRIList1.spliterator();
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI13 = uRIList1.remove((-18));
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: null");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(uShort2);
         org.junit.Assert.assertTrue("'" + int3 + "' != '" + (-18) + "'", int3.equals((-18)));

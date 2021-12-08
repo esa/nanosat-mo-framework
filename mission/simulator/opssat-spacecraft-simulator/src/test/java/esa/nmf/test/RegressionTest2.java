@@ -9006,8 +9006,8 @@ public class RegressionTest2
       opssat.simulator.peripherals.PFineADCS.FWRefFineADCS.putInt16InByteArray(7, (byte) 100,
           byteArray11);
       org.junit.Assert.fail(
-          "Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: 100");
-    } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+          "Expected exception of type java.lang.IndexOutOfBoundsException; message: 100");
+    } catch (java.lang.IndexOutOfBoundsException e) {
     }
     org.junit.Assert.assertNotNull(byteArray5);
     org.junit.Assert.assertNotNull(byteArray7);
@@ -10909,8 +10909,8 @@ public class RegressionTest2
     try {
       float[] floatArray17 = simulatorSpacecraftState3.getV();
       org.junit.Assert
-          .fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: 3");
-    } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+          .fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 3");
+    } catch (java.lang.IndexOutOfBoundsException e) {
     }
     org.junit.Assert.assertTrue("'" + double4 + "' != '" + 340.0d + "'", double4 == 340.0d);
     org.junit.Assert.assertTrue(
@@ -13280,8 +13280,8 @@ public class RegressionTest2
       opssat.simulator.peripherals.PFineADCS.FWRefFineADCS.putLongInByteArray(281475010265084L, 39,
           byteArray10);
       org.junit.Assert
-          .fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: 39");
-    } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+          .fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 39");
+    } catch (java.lang.IndexOutOfBoundsException e) {
     }
     org.junit.Assert.assertNotNull(byteArray5);
     org.junit.Assert.assertNotNull(byteArray10);
@@ -14819,8 +14819,8 @@ public class RegressionTest2
     try {
       java.lang.String str63 = celestiaData32.toString();
       org.junit.Assert
-          .fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: 3");
-    } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+          .fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 3");
+    } catch (java.lang.IndexOutOfBoundsException e) {
     }
     org.junit.Assert.assertNotNull(floatArray6);
     org.junit.Assert.assertTrue("'" + double12 + "' != '" + 340.0d + "'", double12 == 340.0d);
@@ -14875,8 +14875,8 @@ public class RegressionTest2
     try {
       simulatorSpacecraftState3.setMagField(doubleArray16);
       org.junit.Assert
-          .fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: 3");
-    } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+          .fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 3");
+    } catch (java.lang.IndexOutOfBoundsException e) {
     }
     org.junit.Assert.assertNotNull(doubleArray7);
     org.junit.Assert.assertNotNull(obj13);

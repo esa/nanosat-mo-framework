@@ -4636,8 +4636,8 @@ public class RegressionTest1 {
         java.lang.String str55 = uRIList3.toString();
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI57 = uRIList3.remove((-4));
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: null");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: null");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(uOctet1);
         org.junit.Assert.assertNotNull(uRIArray2);

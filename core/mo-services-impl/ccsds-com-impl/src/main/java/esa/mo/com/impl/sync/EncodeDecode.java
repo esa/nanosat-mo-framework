@@ -333,7 +333,7 @@ public class EncodeDecode {
                                                                 network, timestamp, providerURI);
 
                 objs.add(new COMObjectStructure(domain, objType, archDetails, element));
-            } catch (ArrayIndexOutOfBoundsException ex) {
+            } catch (IndexOutOfBoundsException ex) {
                 stillDecoding = false;
             } catch (Exception ex) {
                 Logger.getLogger(EncodeDecode.class.getName()).log(Level.SEVERE, null, ex);

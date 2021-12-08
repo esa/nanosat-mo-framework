@@ -1136,8 +1136,8 @@ public class RegressionTest2
       org.ccsds.moims.mo.platform.gps.structures.Position position1 =
           esa.mo.platform.impl.util.HelperGPS.gpggalong2Position("[1, 281475010265070, 10]");
       org.junit.Assert.fail(
-          "Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: 9");
-    } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+          "Expected exception of type java.lang.IndexOutOfBoundsException; message: 9");
+    } catch (java.lang.IndexOutOfBoundsException e) {
     }
   }
 

@@ -3681,8 +3681,8 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.UShort uShort59 = uShort57.getServiceNumber();
         try {
             org.ccsds.moims.mo.mal.structures.UShort uShort60 = uShortList1.set((-2), uShort57);
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: -2");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: -2");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(uShortArray0);
         org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + false + "'", !boolean2);
@@ -7059,8 +7059,8 @@ public class RegressionTest0 {
         int int7 = longList0.lastIndexOf((java.lang.Object) blob5);
         try {
             java.lang.Long long10 = longList0.set((int) (byte) -1, (java.lang.Long) 0L);
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: -1");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: -1");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(element1);
         org.junit.Assert.assertTrue("'" + int2 + "' != '" + (-13) + "'", int2.equals((-13)));
@@ -13239,8 +13239,8 @@ public class RegressionTest0 {
         boolean boolean57 = shortList1.equals((java.lang.Object) 281474993487884L);
         try {
             java.lang.Short short60 = shortList1.set((-9), (java.lang.Short) (short) 10);
-            org.junit.Assert.fail("Expected exception of type java.lang.ArrayIndexOutOfBoundsException; message: -9");
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: -9");
+        } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertTrue("'" + int2 + "' != '" + (-9) + "'", int2.equals((-9)));
         org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + false + "'", !boolean4);
