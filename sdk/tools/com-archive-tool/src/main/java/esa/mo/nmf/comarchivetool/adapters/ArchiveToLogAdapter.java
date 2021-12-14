@@ -100,7 +100,7 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
       return;
     }
 
-    queryResults.sort(Comparator.comparingLong(com -> com.getArchiveDetailsList().get(0).getTimestamp().getValue()));
+    queryResults.sort(Comparator.comparingLong(com -> com.getArchiveDetailsList() != null ? com.getArchiveDetailsList().get(0).getTimestamp().getValue() : 0));
 
     for(ArchiveCOMObjectsOutput archiveObjectOutput : queryResults)
     {
