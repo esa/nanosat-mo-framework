@@ -48,7 +48,7 @@
     </developer>
   </developers>
   <properties>
-    <assembly.mainClass>esa.mo.nmf.apps.ADCSApp</assembly.mainClass>
+    <assembly.mainClass>esa.mo.nmf.apps.BenchmarkApp</assembly.mainClass>
     <maven.deploy.skip>true</maven.deploy.skip>
     <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
   </properties>

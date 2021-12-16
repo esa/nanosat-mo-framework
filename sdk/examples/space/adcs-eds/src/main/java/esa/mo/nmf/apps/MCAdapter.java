@@ -26,6 +26,7 @@ import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFInterface;
 import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
 import java.util.logging.Level;
@@ -82,10 +83,11 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
 
     public void startADCS() {
         LOGGER.log(Level.INFO, "Initialisation");
-/*
         try {
-            String userDir = System.getProperty("user.dir");
-            String filepath = userDir + File.separator + "lib" + File.separator + "iadcs_api.jar";
+            //System.setProperty("java.library.path", "lib");
+            //System.loadLibrary("iadcs_api_jni");
+            String filepath = System.getProperty("user.dir");
+            filepath += File.separator + "lib" + File.separator + "iadcs_api.jar";
 
             // Check if the file exists:
             File file = new File(filepath);
@@ -95,30 +97,13 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
 
             // Load the file:
             System.load(filepath);
-            //System.loadLibrary("iadcs_api");
+            // System.loadLibrary(filepath);
             System.out.println("Library Loaded.");
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "iADCS library could not be loaded!", ex);
             initialized = false;
             return;
         }
-        */
-        try {
-            /*
-            String userDir = System.getProperty("user.dir");
-            String filepath = userDir + File.separator + "lib" + File.separator + "iadcs_api.jar";
-            String libsAvailable = System.getProperty("java.library.path");
-            libsAvailable += ":" + filepath;
-            System.setProperty("java.library.path", libsAvailable);
-            LOGGER.log(Level.SEVERE, "Libs: " + libsAvailable);
-            */
-            System.loadLibrary("iadcs_api_jni");
-        } catch (Exception ex) {
-            LOGGER.log(Level.SEVERE, "iADCS library could not be loaded!", ex);
-            initialized = false;
-            return;
-        }
-        
         adcsApi = new SEPP_IADCS_API();
         activeAttitudeMode = null;
         try {
