@@ -62,12 +62,16 @@
     </developer>
   </developers>
 
+  <properties>
+    <assembly.mainClass>esa.mo.ground.cameraacquisotorground.SpringInitiator</assembly.mainClass>
+  </properties>
+
   <dependencyManagement>
     <dependencies>
       <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-dependencies</artifactId>
-        <version>2.2.4.RELEASE</version>
+        <version>2.2.13.RELEASE</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
