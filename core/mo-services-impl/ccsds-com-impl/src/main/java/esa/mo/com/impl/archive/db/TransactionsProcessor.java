@@ -342,7 +342,9 @@ public class TransactionsProcessor {
 
       dbBackend.closeEntityManager(); // 0.410 ms
 
-      generalExecutor.submit(publishEvents);
+      if (publishEvents != null) {
+        generalExecutor.submit(publishEvents);
+      }
       vacuum();
     });
   }
@@ -369,7 +371,9 @@ public class TransactionsProcessor {
 
       dbBackend.closeEntityManager(); // 0.410 ms
 
-      generalExecutor.submit(publishEvents);
+      if (publishEvents != null) {
+        generalExecutor.submit(publishEvents);
+      }
     });
   }
 

@@ -89,7 +89,7 @@ public class ArchiveManager {
     /**
      * Should generate COM Archive events: ObjectStored, ObjectUpdated, ObjectDeleted
      */
-    private boolean generateEvents;
+    private boolean globalGenerateEvents;
 
     /**
      * Initializes the Archive manager
@@ -111,7 +111,7 @@ public class ArchiveManager {
             }
         }
 
-        this.generateEvents = Boolean.parseBoolean(System.getProperty(Const.ARCHIVE_GENERATE_EVENTS_PROPERTY,
+        this.globalGenerateEvents = Boolean.parseBoolean(System.getProperty(Const.ARCHIVE_GENERATE_EVENTS_PROPERTY,
             Const.ARCHIVE_GENERATE_EVENTS_DEFAULT));
         this.dbBackend = new DatabaseBackend();
         this.dbProcessor = new TransactionsProcessor(dbBackend);
@@ -313,6 +313,11 @@ public class ArchiveManager {
 
     public synchronized LongList insertEntries(final ObjectType objType, final IdentifierList domain,
             final ArchiveDetailsList lArchiveDetails, final ElementList objects, final MALInteraction interaction) {
+        return insertEntries(objType, domain, lArchiveDetails, objects, interaction, true);
+    }
+
+    private LongList insertEntries(final ObjectType objType, final IdentifierList domain,
+            final ArchiveDetailsList lArchiveDetails, final ElementList objects, final MALInteraction interaction, boolean generateEvents) {
         final LongList objIds = new LongList(lArchiveDetails.size());
         final ArrayList<COMObjectEntity> perObjsEntities = new ArrayList<COMObjectEntity>(lArchiveDetails.size());
         final int domainId = this.fastDomain.getDomainId(domain);
@@ -342,7 +347,7 @@ public class ArchiveManager {
             objIds.add(objId);
         }
 
-        final Runnable publishEvents = generateEvents ? this.generatePublishEventsThread(ArchiveHelper.OBJECTSTORED_OBJECT_TYPE,
+        final Runnable publishEvents = (globalGenerateEvents && generateEvents) ? this.generatePublishEventsThread(ArchiveHelper.OBJECTSTORED_OBJECT_TYPE,
                 objType, domain, objIds, interaction) : null;
 
         this.dbProcessor.insert(perObjsEntities, publishEvents);
@@ -352,6 +357,11 @@ public class ArchiveManager {
 
     public void updateEntries(final ObjectType objType, final IdentifierList domain,
             final ArchiveDetailsList lArchiveDetails, final ElementList objects, final MALInteraction interaction) {
+        updateEntries(objType, domain, lArchiveDetails, objects, interaction, true);
+    }
+
+    private void updateEntries(final ObjectType objType, final IdentifierList domain,
+        final ArchiveDetailsList lArchiveDetails, final ElementList objects, final MALInteraction interaction, boolean generateEvents) {
         final int domainId = this.fastDomain.getDomainId(domain);
         final Integer objTypeId = this.fastObjectType.getObjectTypeId(objType);
         final ArrayList<COMObjectEntity> newObjs = new ArrayList<>();
@@ -382,7 +392,7 @@ public class ArchiveManager {
             objIds.add(lArchiveDetails.get(i).getInstId());
         }
 
-        Runnable publishEvents = generateEvents ? this.generatePublishEventsThread(ArchiveHelper.OBJECTUPDATED_OBJECT_TYPE,
+        Runnable publishEvents = (globalGenerateEvents && generateEvents) ? this.generatePublishEventsThread(ArchiveHelper.OBJECTUPDATED_OBJECT_TYPE,
                 objType, domain, objIds, interaction) : null;
 
         this.dbProcessor.update(newObjs, publishEvents);
@@ -390,10 +400,15 @@ public class ArchiveManager {
 
     public LongList removeEntries(final ObjectType objType, final IdentifierList domain,
             final LongList objIds, final MALInteraction interaction) {
+        return removeEntries(objType, domain, objIds, interaction, true);
+    }
+
+    private LongList removeEntries(final ObjectType objType, final IdentifierList domain, final LongList objIds,
+            final MALInteraction interaction, boolean generateEvents) {
         final Integer objTypeId = this.fastObjectType.getObjectTypeId(objType);
         final int domainId = this.fastDomain.getDomainId(domain);
 
-        Runnable publishEvents = generateEvents ? this.generatePublishEventsThread(ArchiveHelper.OBJECTDELETED_OBJECT_TYPE,
+        Runnable publishEvents = (globalGenerateEvents && generateEvents) ? this.generatePublishEventsThread(ArchiveHelper.OBJECTDELETED_OBJECT_TYPE,
                 objType, domain, objIds, interaction) : null;
         this.dbProcessor.remove(objTypeId, domainId, objIds, publishEvents);
         this.fastObjId.delete(objTypeId, domainId);
