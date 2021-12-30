@@ -26,6 +26,7 @@ import esa.mo.com.impl.archive.fast.FastDomain;
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.helpers.HelperAttributes;
+import esa.mo.helpertools.misc.Const;
 import esa.mo.com.impl.archive.db.DatabaseBackend;
 import esa.mo.com.impl.archive.fast.FastNetwork;
 import esa.mo.com.impl.archive.fast.FastProviderURI;
@@ -86,6 +87,11 @@ public class ArchiveManager {
     private EventProviderServiceImpl eventService;
 
     /**
+     * Should generate COM Archive events: ObjectStored, ObjectUpdated, ObjectDeleted
+     */
+    private boolean generateEvents;
+
+    /**
      * Initializes the Archive manager
      *
      * @param eventService The Event service provider.
@@ -105,6 +111,8 @@ public class ArchiveManager {
             }
         }
 
+        this.generateEvents = Boolean.parseBoolean(System.getProperty(Const.ARCHIVE_GENERATE_EVENTS_PROPERTY,
+            Const.ARCHIVE_GENERATE_EVENTS_DEFAULT));
         this.dbBackend = new DatabaseBackend();
         this.dbProcessor = new TransactionsProcessor(dbBackend);
 
@@ -334,8 +342,8 @@ public class ArchiveManager {
             objIds.add(objId);
         }
 
-        final Runnable publishEvents = this.generatePublishEventsThread(ArchiveHelper.OBJECTSTORED_OBJECT_TYPE,
-                objType, domain, objIds, interaction);
+        final Runnable publishEvents = generateEvents ? this.generatePublishEventsThread(ArchiveHelper.OBJECTSTORED_OBJECT_TYPE,
+                objType, domain, objIds, interaction) : null;
 
         this.dbProcessor.insert(perObjsEntities, publishEvents);
 
@@ -374,8 +382,8 @@ public class ArchiveManager {
             objIds.add(lArchiveDetails.get(i).getInstId());
         }
 
-        Runnable publishEvents = this.generatePublishEventsThread(ArchiveHelper.OBJECTUPDATED_OBJECT_TYPE,
-                objType, domain, objIds, interaction);
+        Runnable publishEvents = generateEvents ? this.generatePublishEventsThread(ArchiveHelper.OBJECTUPDATED_OBJECT_TYPE,
+                objType, domain, objIds, interaction) : null;
 
         this.dbProcessor.update(newObjs, publishEvents);
     }
@@ -385,8 +393,8 @@ public class ArchiveManager {
         final Integer objTypeId = this.fastObjectType.getObjectTypeId(objType);
         final int domainId = this.fastDomain.getDomainId(domain);
 
-        Runnable publishEvents = this.generatePublishEventsThread(ArchiveHelper.OBJECTDELETED_OBJECT_TYPE,
-                objType, domain, objIds, interaction);
+        Runnable publishEvents = generateEvents ? this.generatePublishEventsThread(ArchiveHelper.OBJECTDELETED_OBJECT_TYPE,
+                objType, domain, objIds, interaction) : null;
         this.dbProcessor.remove(objTypeId, domainId, objIds, publishEvents);
         this.fastObjId.delete(objTypeId, domainId);
         return objIds;

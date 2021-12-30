@@ -21,6 +21,8 @@
 package esa.mo.com.impl.archive.db;
 
 import esa.mo.com.impl.provider.ArchiveManager;
+import esa.mo.helpertools.misc.Const;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -39,16 +41,9 @@ import javax.persistence.Persistence;
  * @author Cesar Coelho
  */
 public class DatabaseBackend {
-
-    private static final String DROP_TABLE_PROPERTY =
-            "esa.mo.com.impl.provider.ArchiveManager.droptable";
     private static final String PERSISTENCE_UNIT_NAME = "ArchivePersistenceUnit";
     private static final boolean OPTIMIZED_STARTUP = false;
 
-    //    private static final String DRIVER_CLASS_NAME = "org.apache.derby.jdbc.EmbeddedDriver"; //
-    // Derby Embedded Driver
-    //    private static final String DATABASE_NAME = "derby"; // Derby
-    //    private static final String DATABASE_LOCATION_NAME = "databaseV0.4";
     private static final String DRIVER_CLASS_NAME = "org.sqlite.JDBC"; // SQLite JDBC Driver
 
     private static final String DATABASE_NAME = "sqlite"; // SQLite
@@ -200,7 +195,7 @@ public class DatabaseBackend {
 
     private void createEMFactory() {
         // Is the status of the dropTable flag on?
-        boolean dropTable = "true".equals(System.getProperty(DROP_TABLE_PROPERTY));
+        boolean dropTable = "true".equals(System.getProperty(Const.ARCHIVE_DROP_TABLE_PROPERTY, Const.ARCHIVE_DROP_TABLE_DEFAULT));
         Map<String, String> persistenceMap = new HashMap<>();
 
         // Add the url property of the connection to the database

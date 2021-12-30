@@ -317,8 +317,9 @@ public class TransactionsProcessor {
          dbBackend.safeCommit();
          dbBackend.closeEntityManager(); // 0.410 ms
        }
-
-       generalExecutor.submit(publishEvents);
+       if (publishEvents != null) {
+        generalExecutor.submit(publishEvents);
+       }
      });
   }
 
