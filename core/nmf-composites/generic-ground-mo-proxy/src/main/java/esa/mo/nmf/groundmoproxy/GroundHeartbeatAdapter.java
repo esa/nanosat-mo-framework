@@ -66,6 +66,11 @@ public class GroundHeartbeatAdapter extends HeartbeatAdapter
     timer.scheduleTask(new HeartbeatRefreshTask(moProxy, heartbeat), period, period, TimeUnit.MILLISECONDS, true);
   }
 
+  public void stop()
+  {
+    timer.resetScheduler();
+  }
+
   @Override
   public synchronized void beatNotifyReceived(
       org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,

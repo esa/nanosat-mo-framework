@@ -83,7 +83,8 @@ public abstract class GroundMOProxy
   protected Timer timer;
   protected GroundHeartbeatAdapter providerStatusAdapter;
   private SingleConnectionDetails cdRemoteArchive;
-  protected HeartbeatPublisherTask heartbeatTask;
+  protected GroundProxyConnectorTask proxyConnectorTask;
+  protected DirectoryScanTask directoryScanTask;
 
   public GroundMOProxy()
   {
@@ -105,14 +106,14 @@ public abstract class GroundMOProxy
       LOGGER.log(Level.SEVERE, null, ex);
     }
 
-    // Start the timer to publish the heartbeat
+    // Start the timer to check for the heartbeat and initialise connection
     timer = new Timer("MainProxyTimer");
-    this.heartbeatTask = new HeartbeatPublisherTask(centralDirectoryServiceURI, routedURI);
-    timer.schedule(this.heartbeatTask, 0, HEARTBEAT_PUBLISH_PERIOD);
+    proxyConnectorTask = new GroundProxyConnectorTask(centralDirectoryServiceURI, routedURI);
+    timer.schedule(proxyConnectorTask, 0, HEARTBEAT_PUBLISH_PERIOD);
 
     // Add the periodic check if new NMF Apps were started/stopped
-    timer.schedule(new DirectoryScanTask(centralDirectoryServiceURI, routedURI),
-        DIRECTORY_SCAN_PERIOD, DIRECTORY_SCAN_PERIOD);
+    directoryScanTask = new DirectoryScanTask(centralDirectoryServiceURI, routedURI);
+    timer.schedule(directoryScanTask, DIRECTORY_SCAN_PERIOD, DIRECTORY_SCAN_PERIOD);
 
   }
 
@@ -203,7 +204,6 @@ public abstract class GroundMOProxy
 
   protected class DirectoryScanTask extends TimerTask
   {
-
     private final URI centralDirectoryServiceURI;
     private final URI routedURI;
 
@@ -230,7 +230,8 @@ public abstract class GroundMOProxy
         } catch (MALException | MalformedURLException | MALInteractionException e) {
           LOGGER.log(Level.SEVERE, "Error when initialising link to the NMS.", e);
         }
-      } else if (getNmsAliveStatus() && cdRemoteArchive != null) {// If alive and remote Archive connection details are initialised
+      } else if (getNmsAliveStatus() && cdRemoteArchive != null) {
+        // If alive and remote Archive connection details are initialised and heartbeat is received
         try {
           if (firstRun) {
             archiveService = new ArchiveConsumerServiceImpl(cdRemoteArchive);
@@ -306,25 +307,38 @@ public abstract class GroundMOProxy
                                                        esa.mo.nmf.groundmoproxy.GroundMOProxy.this);
   }
 
-  protected class HeartbeatPublisherTask extends TimerTask
+  protected class GroundProxyConnectorTask extends TimerTask
   {
     private final URI centralDirectoryServiceURI;
     private final URI routedURI;
     private Subscription heartbeatSubscription;
     private HeartbeatConsumerServiceImpl heartbeatService;
 
-    public HeartbeatPublisherTask(URI centralDirectoryServiceURI, URI routedURI)
+    public GroundProxyConnectorTask(URI centralDirectoryServiceURI, URI routedURI)
     {
       this.centralDirectoryServiceURI = centralDirectoryServiceURI;
       this.routedURI = routedURI;
     }
     private boolean firstTime = true;
+    private int failureCounter = 0;
 
     @Override
     public void run()
     {
-      if (!nmsAliveStatus.get()) {
+      if (nmsAliveStatus.get()) {
+        failureCounter = 0;
+      } else {
         try {
+          if (!firstTime) {
+            failureCounter++;
+            if (failureCounter >= 3) {
+              // Reset everything
+              heartbeatService.close();
+              providerStatusAdapter.stop();
+              firstTime = true;
+              failureCounter = 0;
+            }
+          }
           if (firstTime) {
             if (cdRemoteArchive == null) {
               LOGGER.log(Level.WARNING,
@@ -339,18 +353,19 @@ public abstract class GroundMOProxy
               heartbeatService = new HeartbeatConsumerServiceImpl(
                   connectionDetails, null);
               createProviderStatusAdapter(heartbeatService);
-              heartbeatSubscription = ConnectionConsumer.subscriptionWildcardRandom();
+              heartbeatSubscription = ConnectionConsumer.subscriptionWildcard(new Identifier("HBSUB"));
 
               try {
+                firstTime = false;
                 heartbeatService.getHeartbeatStub().beatRegister(heartbeatSubscription,
                     providerStatusAdapter);
-                firstTime = false;
               } catch (MALInteractionException | MALException ex) {
                 LOGGER.log(Level.SEVERE, "Error when subscribing to the NMS heartbeat.", ex);
               }
             }
             setNmsAliveStatus(true);
             additionalHandling();
+            return;
           }
         } catch (MALTransmitErrorException ex) {
           LOGGER.log(Level.WARNING,
