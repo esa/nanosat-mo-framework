@@ -582,8 +582,8 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
                 // Iterate over constant set of types to purge until the latest synchronised object
                 for (ToDelete type : ToDelete.values())
                 {
-                    ArrayList<COMObjectEntity> objList = manager.queryCOMObjectEntity(type.getType(), archiveQuery, null);
-                    manager.quickRemoveEntries(objList);
+                    int removed = manager.deleteCOMObjectEntities(type.getType(), archiveQuery, null);
+                    LOGGER.log(Level.FINE, "Removed {} entities of type {}", new Object[] {removed, type.toString()});
                 }
             }
         }

@@ -115,12 +115,12 @@ public class TransactionsProcessor {
 
     Future<COMObjectEntity> future = dbTransactionsExecutor.submit(() -> {
       try {
-      dbBackend.createEntityManager();
-      final COMObjectEntity perObj = dbBackend.getEM().find(CLASS_ENTITY,
-          COMObjectEntity.generatePK(objTypeId, domain, objId));
+        dbBackend.createEntityManager();
+        final COMObjectEntity perObj = dbBackend.getEM().find(CLASS_ENTITY,
+            COMObjectEntity.generatePK(objTypeId, domain, objId));
         return perObj;
       } finally {
-      dbBackend.closeEntityManager();
+        dbBackend.closeEntityManager();
       }
     });
 
@@ -138,18 +138,18 @@ public class TransactionsProcessor {
 
     Future<List<COMObjectEntity>> future = dbTransactionsExecutor.submit(() -> {
       try {
-      dbBackend.createEntityManager();
-      EntityManager manager = dbBackend.getEM();
-      List<COMObjectEntity> perObjs = new ArrayList<>();
-      COMObjectEntityPK key = COMObjectEntity.generatePK(objTypeId, domain, 0L);
-      for(Long objId : ids) {
-        key.setObjId(objId);
-        final COMObjectEntity perObj = manager.find(CLASS_ENTITY, key);
-        perObjs.add(perObj);
-      }
+        dbBackend.createEntityManager();
+        EntityManager manager = dbBackend.getEM();
+        List<COMObjectEntity> perObjs = new ArrayList<>();
+        COMObjectEntityPK key = COMObjectEntity.generatePK(objTypeId, domain, 0L);
+        for(Long objId : ids) {
+          key.setObjId(objId);
+          final COMObjectEntity perObj = manager.find(CLASS_ENTITY, key);
+          perObjs.add(perObj);
+        }
         return perObjs;
       } finally {
-      dbBackend.closeEntityManager();
+        dbBackend.closeEntityManager();
       }
     });
 
@@ -167,39 +167,39 @@ public class TransactionsProcessor {
 
     Future<List<COMObjectEntity>> future = dbTransactionsExecutor.submit(() -> {
       try {
-      dbBackend.createEntityManager();
-      String strPU = "objectTypeId, objId, domainId, network, OBJ, providerURI, "
-                     + "relatedLink, sourceLinkDomainId, sourceLinkObjId, sourceLinkObjectTypeId, timestampArchiveDetails";
-      String queryString = "SELECT " + strPU + " FROM COMObjectEntity PU WHERE PU.objectTypeId=" + objTypeId + " AND PU.domainId=" + domainId;
+        dbBackend.createEntityManager();
+        String strPU = "objectTypeId, objId, domainId, network, OBJ, providerURI, "
+                      + "relatedLink, sourceLinkDomainId, sourceLinkObjId, sourceLinkObjectTypeId, timestampArchiveDetails";
+        String queryString = "SELECT " + strPU + " FROM COMObjectEntity PU WHERE PU.objectTypeId=" + objTypeId + " AND PU.domainId=" + domainId;
 
-      final Query query = dbBackend.getEM().createNativeQuery(queryString);
-      final List<?> resultList = query.getResultList();
+        final Query query = dbBackend.getEM().createNativeQuery(queryString);
+        final List<?> resultList = query.getResultList();
 
-      final ArrayList<COMObjectEntity> perObjs = new ArrayList<>(resultList.size());
+        final ArrayList<COMObjectEntity> perObjs = new ArrayList<>(resultList.size());
 
-      // Conversion from the raw SQL response into a COMObjectEntity
-      for (Object obj : resultList) {
-        // (final Integer objectTypeId, final Integer domainId, final Long objId)
-        final SourceLinkContainer source = new SourceLinkContainer(
-                (Integer) ((Object[]) obj)[9],
-                (Integer) ((Object[]) obj)[7],
-                convert2Long(((Object[]) obj)[8])
-        );
+        // Conversion from the raw SQL response into a COMObjectEntity
+        for (Object obj : resultList) {
+          // (final Integer objectTypeId, final Integer domainId, final Long objId)
+          final SourceLinkContainer source = new SourceLinkContainer(
+                  (Integer) ((Object[]) obj)[9],
+                  (Integer) ((Object[]) obj)[7],
+                  convert2Long(((Object[]) obj)[8])
+          );
 
-        perObjs.add(new COMObjectEntity(
-                (Integer) ((Object[]) obj)[0],
-                (Integer) ((Object[]) obj)[2],
-                convert2Long(((Object[]) obj)[1]),
-                convert2Long(((Object[]) obj)[10]),
-                (Integer) ((Object[]) obj)[5],
-                (Integer) ((Object[]) obj)[3],
-                source,
-                convert2Long(((Object[]) obj)[6]),
-                (byte[]) ((Object[]) obj)[4]
-        ));
-      }
+          perObjs.add(new COMObjectEntity(
+                  (Integer) ((Object[]) obj)[0],
+                  (Integer) ((Object[]) obj)[2],
+                  convert2Long(((Object[]) obj)[1]),
+                  convert2Long(((Object[]) obj)[10]),
+                  (Integer) ((Object[]) obj)[5],
+                  (Integer) ((Object[]) obj)[3],
+                  source,
+                  convert2Long(((Object[]) obj)[6]),
+                  (byte[]) ((Object[]) obj)[4]
+          ));
+        }
 
-      return perObjs;
+        return perObjs;
       } finally {
         dbBackend.closeEntityManager();
       }
@@ -238,14 +238,14 @@ public class TransactionsProcessor {
     Future<LongList> future = dbTransactionsExecutor.submit(() -> {
       dbBackend.createEntityManager();
       try {
-      Query query = dbBackend.getEM().createQuery(QUERY_SELECT_ALL);
-      query.setParameter("objectTypeId", objTypeId);
-      query.setParameter("domainId", domainId);
-      LongList objIds = new LongList();
-      objIds.addAll(query.getResultList());
+        Query query = dbBackend.getEM().createQuery(QUERY_SELECT_ALL);
+        query.setParameter("objectTypeId", objTypeId);
+        query.setParameter("domainId", domainId);
+        LongList objIds = new LongList();
+        objIds.addAll(query.getResultList());
         return objIds;
       } finally {
-      dbBackend.closeEntityManager();
+        dbBackend.closeEntityManager();
       }
 
     });
@@ -308,33 +308,33 @@ public class TransactionsProcessor {
     }
 
     dbTransactionsExecutor.execute(() -> {
-       StoreCOMObjectsContainer container1 = storeQueue.poll();
+      StoreCOMObjectsContainer container1 = storeQueue.poll();
 
-       if (container1 != null) {
+      if (container1 != null) {
         try {
-         dbBackend.createEntityManager();  // 0.166 ms
-         dbBackend.getEM().getTransaction().begin(); // 0.480 ms
-         persistObjects(container1.getPerObjs()); // store
+          dbBackend.createEntityManager();  // 0.166 ms
+          dbBackend.getEM().getTransaction().begin(); // 0.480 ms
+          persistObjects(container1.getPerObjs()); // store
 
-         while (true) {
-           container1 = storeQueue.peek(); // get next if there is one available
-           if (container1 != null && container1.isContinuous()) {
-             container1 = storeQueue.poll();
-             persistObjects(container1.getPerObjs()); // store
-           } else {
-             break;
-           }
-         }
+          while (true) {
+            container1 = storeQueue.peek(); // get next if there is one available
+            if (container1 != null && container1.isContinuous()) {
+              container1 = storeQueue.poll();
+              persistObjects(container1.getPerObjs()); // store
+            } else {
+              break;
+            }
+          }
 
-         dbBackend.safeCommit();
+          dbBackend.safeCommit();
         } finally {
           dbBackend.closeEntityManager();
         }
-       }
-       if (publishEvents != null) {
+      }
+      if (publishEvents != null) {
         generalExecutor.submit(publishEvents);
-       }
-     });
+      }
+    });
   }
 
   public void remove(final Integer objTypeId, final Integer domainId,
@@ -343,17 +343,17 @@ public class TransactionsProcessor {
 
     dbTransactionsExecutor.execute(() -> {
       try {
-      dbBackend.createEntityManager();  // 0.166 ms
+        dbBackend.createEntityManager();  // 0.166 ms
 
-      // Generate the object Ids if needed and the persistence objects to be removed
-      for (int i = 0; i < objIds.size(); i++) {
-        final COMObjectEntityPK id
-            = COMObjectEntity.generatePK(objTypeId, domainId, objIds.get(i));
-        COMObjectEntity perObj = dbBackend.getEM().find(CLASS_ENTITY, id);
-        dbBackend.getEM().getTransaction().begin();
-        dbBackend.getEM().remove(perObj);
-        dbBackend.getEM().getTransaction().commit();
-      }
+        // Generate the object Ids if needed and the persistence objects to be removed
+        for (int i = 0; i < objIds.size(); i++) {
+          final COMObjectEntityPK id
+              = COMObjectEntity.generatePK(objTypeId, domainId, objIds.get(i));
+          COMObjectEntity perObj = dbBackend.getEM().find(CLASS_ENTITY, id);
+          dbBackend.getEM().getTransaction().begin();
+          dbBackend.getEM().remove(perObj);
+          dbBackend.getEM().getTransaction().commit();
+        }
       } finally {
         dbBackend.closeEntityManager();
       }
@@ -373,16 +373,16 @@ public class TransactionsProcessor {
 
     dbTransactionsExecutor.execute(() -> {
       try {
-      dbBackend.createEntityManager();
-      dbBackend.getEM().getTransaction().begin();
+        dbBackend.createEntityManager();
+        dbBackend.getEM().getTransaction().begin();
 
-      for (COMObjectEntity e : objs) {
+        for (COMObjectEntity e : objs) {
           e = dbBackend.getEM().merge(e);
-        dbBackend.getEM().remove(e);
-      }
-      dbBackend.getEM().getTransaction().commit();
+          dbBackend.getEM().remove(e);
+        }
+        dbBackend.getEM().getTransaction().commit();
       } finally {
-      dbBackend.closeEntityManager();
+        dbBackend.closeEntityManager();
       }
       vacuum();
     });
@@ -393,21 +393,21 @@ public class TransactionsProcessor {
 
     dbTransactionsExecutor.execute(() -> {
       try {
-      dbBackend.createEntityManager();  // 0.166 ms
+        dbBackend.createEntityManager();  // 0.166 ms
 
-      for (COMObjectEntity e : newObjs) {
-        final COMObjectEntityPK id = e.getPrimaryKey();
-        COMObjectEntity previousObj = dbBackend.getEM().find(CLASS_ENTITY, id);
+        for (COMObjectEntity e : newObjs) {
+          final COMObjectEntityPK id = e.getPrimaryKey();
+          COMObjectEntity previousObj = dbBackend.getEM().find(CLASS_ENTITY, id);
 
-        dbBackend.getEM().getTransaction().begin();
-        dbBackend.getEM().remove(previousObj);
-        dbBackend.getEM().getTransaction().commit();
+          dbBackend.getEM().getTransaction().begin();
+          dbBackend.getEM().remove(previousObj);
+          dbBackend.getEM().getTransaction().commit();
 
-        // Maybe we can replace the 3 lines below with a persistObjects(newObjs) after the for loop
-        dbBackend.getEM().getTransaction().begin();
-        dbBackend.getEM().persist(e);
-        dbBackend.getEM().getTransaction().commit();
-      }
+          // Maybe we can replace the 3 lines below with a persistObjects(newObjs) after the for loop
+          dbBackend.getEM().getTransaction().begin();
+          dbBackend.getEM().persist(e);
+          dbBackend.getEM().getTransaction().commit();
+        }
       } finally {
         dbBackend.closeEntityManager();
       }
@@ -531,8 +531,8 @@ public class TransactionsProcessor {
       }
       List resultList = null;
       try {
-      dbBackend.createEntityManager();
-      final Query query = dbBackend.getEM().createNativeQuery(queryString);
+        dbBackend.createEntityManager();
+        final Query query = dbBackend.getEM().createNativeQuery(queryString);
         if (queryType == QueryType.DELETE) {
           // DELETE or UPDATE returns number of rows updated
           dbBackend.getEM().getTransaction().begin();
@@ -543,39 +543,39 @@ public class TransactionsProcessor {
           resultList = query.getResultList();
         }
       } finally {
-      dbBackend.closeEntityManager();
+        dbBackend.closeEntityManager();
       }
       if (queryType == QueryType.SELECT) {
         if (resultList == null) {
           return new ArrayList<COMObjectEntity>(0);
         } else {
-      // FYI: SELECT objectTypeId, objId, domainId, network, OBJ, providerURI, relatedLink,
-      // sourceLinkDomainId, sourceLinkObjId, sourceLinkObjectTypeId, timestampArchiveDetails FROM COMObjectEntity
-      final ArrayList<COMObjectEntity> perObjs = new ArrayList<>(resultList.size());
+          // FYI: SELECT objectTypeId, objId, domainId, network, OBJ, providerURI, relatedLink,
+          // sourceLinkDomainId, sourceLinkObjId, sourceLinkObjectTypeId, timestampArchiveDetails FROM COMObjectEntity
+          final ArrayList<COMObjectEntity> perObjs = new ArrayList<>(resultList.size());
 
-      // Conversion from the raw SQL response into a COMObjectEntity
-      for (Object obj : resultList) {
-        // (final Integer objectTypeId, final Integer domainId, final Long objId)
-        final SourceLinkContainer source = new SourceLinkContainer(
-            (Integer) ((Object[]) obj)[9],
-            (Integer) ((Object[]) obj)[7],
-            convert2Long(((Object[]) obj)[8])
-        );
+          // Conversion from the raw SQL response into a COMObjectEntity
+          for (Object obj : resultList) {
+            // (final Integer objectTypeId, final Integer domainId, final Long objId)
+            final SourceLinkContainer source = new SourceLinkContainer(
+                (Integer) ((Object[]) obj)[9],
+                (Integer) ((Object[]) obj)[7],
+                convert2Long(((Object[]) obj)[8])
+            );
 
-        perObjs.add(new COMObjectEntity(
-            (Integer) ((Object[]) obj)[0],
-            (Integer) ((Object[]) obj)[2],
-            convert2Long(((Object[]) obj)[1]),
-            convert2Long(((Object[]) obj)[10]),
-            (Integer) ((Object[]) obj)[5],
-            (Integer) ((Object[]) obj)[3],
-            source,
-            convert2Long(((Object[]) obj)[6]),
-            (byte[]) ((Object[]) obj)[4]
-        ));
-      }
-      return perObjs;
-    }
+            perObjs.add(new COMObjectEntity(
+                (Integer) ((Object[]) obj)[0],
+                (Integer) ((Object[]) obj)[2],
+                convert2Long(((Object[]) obj)[1]),
+                convert2Long(((Object[]) obj)[10]),
+                (Integer) ((Object[]) obj)[5],
+                (Integer) ((Object[]) obj)[3],
+                source,
+                convert2Long(((Object[]) obj)[6]),
+                (byte[]) ((Object[]) obj)[4]
+            ));
+          }
+          return perObjs;
+        }
       } else {
         return null;
       }
@@ -620,6 +620,25 @@ public class TransactionsProcessor {
     }
 
     return null;
+  }
+
+  public int delete(final IntegerList objTypeIds,
+      final ArchiveQuery archiveQuery, final IntegerList domainIds,
+      final Integer providerURIId, final Integer networkId,
+      final SourceLinkContainer sourceLink, final QueryFilter filter) {
+    this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
+    final QueryCallable task = new QueryCallable(objTypeIds, archiveQuery,
+        domainIds, providerURIId, networkId, sourceLink, filter, QueryType.DELETE);
+
+    Future<Object> future = dbTransactionsExecutor.submit(task);
+
+    try {
+      return (Integer)future.get();
+    } catch (InterruptedException | ExecutionException ex) {
+      Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
+    }
+
+    return 0;
   }
 
   public void resetMainTable(final Callable task) {

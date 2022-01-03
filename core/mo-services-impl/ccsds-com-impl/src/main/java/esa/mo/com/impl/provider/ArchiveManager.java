@@ -439,6 +439,35 @@ public class ArchiveManager {
         return outs;
     }
 
+
+    public int deleteCOMObjectEntities(final ObjectType objType,
+            final ArchiveQuery archiveQuery, final QueryFilter filter) {
+        final IntegerList objTypeIds = this.fastObjectType.getObjectTypeIds(objType);
+
+        if(null != objTypeIds && !objTypeIds.isEmpty()) {
+
+            final IntegerList domainIds = this.fastDomain.getDomainIds(archiveQuery.getDomain());
+            final Integer providerURIId = (archiveQuery.getProvider() != null) ? this.fastProviderURI.getProviderURIId(archiveQuery.getProvider()) : null;
+            final Integer networkId = (archiveQuery.getNetwork() != null) ? this.fastNetwork.getNetworkId(archiveQuery.getNetwork()) : null;
+            final SourceLinkContainer sourceLink = this.createSourceContainerFromObjectId(archiveQuery.getSource());
+
+            if (archiveQuery.getSource() != null) {
+                if (archiveQuery.getSource().getKey().getDomain() != null) {
+                    sourceLink.setDomainIds(this.fastDomain.getDomainIds(archiveQuery.getSource().getKey().getDomain()));
+                }
+
+                if (archiveQuery.getSource().getKey().getTypeShortForm() != null) {
+                    sourceLink.setObjectTypeIds(this.fastObjectType.getObjectTypeIds(archiveQuery.getSource().getType()));
+                }
+            }
+
+            return this.dbProcessor.delete(objTypeIds, archiveQuery, domainIds,
+                    providerURIId, networkId, sourceLink, filter);
+        } else {
+            return 0;
+        }
+    }
+
     public ArrayList<COMObjectEntity> queryCOMObjectEntity(final ObjectType objType,
             final ArchiveQuery archiveQuery, final QueryFilter filter) {
         final IntegerList objTypeIds = this.fastObjectType.getObjectTypeIds(objType);
