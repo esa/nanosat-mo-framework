@@ -68,6 +68,7 @@ public class DatabaseBackend {
     private Connection serverConnection;
 
     public DatabaseBackend() {
+        this.em = null;
         String url = System.getProperty("esa.nmf.archive.persistence.jdbc.url");
 
         if (null != url && !"".equals(url)) {
@@ -134,21 +135,6 @@ public class DatabaseBackend {
     }
 
     private void startDatabaseDriver(String url2, String user, String password) {
-        //        System.setProperty("derby.drda.startNetworkServer", "true");
-        // Loads a new instance of the database driver
-    /*try {
-      Logger.getLogger(DatabaseBackend.class.getName())
-          .log(Level.INFO, "Creating a new instance of the database driver: " + jdbcDriver);
-      Class.forName(jdbcDriver).newInstance();
-    } catch (ClassNotFoundException
-        | InstantiationException
-        | IllegalAccessException
-        | NoSuchMethodException
-        | InvocationTargetException ex) {
-      Logger.getLogger(DatabaseBackend.class.getName())
-          .log(Level.SEVERE, "Unexpected exception ! ", ex);
-    }*/
-
         // Create unique URL that identifies the driver to use for the connection
         //        String url2 = this.url + ";decryptDatabase=true"; // new
         try {
@@ -231,8 +217,10 @@ public class DatabaseBackend {
     }
 
     public void closeEntityManager() {
-        this.em.close();
-        this.emAvailability.release();
+        if (this.em != null) {
+            this.em.close();
+            this.emAvailability.release();
+        }
     }
 
     public EntityManager getEM() {
@@ -244,7 +232,9 @@ public class DatabaseBackend {
         return emf;
     }
 
-    public void restartEMF() {
+    public void restartEMF()
+    {
+        this.em = null;
         this.emf.close();
         this.createEMFactory();
         this.emAvailability.release();
