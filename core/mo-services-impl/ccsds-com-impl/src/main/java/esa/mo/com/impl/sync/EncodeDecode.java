@@ -56,6 +56,7 @@ import java.util.zip.GZIPOutputStream;
  */
 public class EncodeDecode {
 
+    private static final Logger LOGGER = Logger.getLogger(EncodeDecode.class.getName());
     /**
      * Encodes a database COM object to byte array.
      *
@@ -77,7 +78,7 @@ public class EncodeDecode {
 
             return output;
         } catch (Exception ex) {
-            Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
 
         return new byte[0]; // Return an empty byte array
@@ -146,7 +147,7 @@ public class EncodeDecode {
 
             return output;
         } catch (Exception ex) {
-            Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
 
         return new byte[0]; // Return an empty byte array

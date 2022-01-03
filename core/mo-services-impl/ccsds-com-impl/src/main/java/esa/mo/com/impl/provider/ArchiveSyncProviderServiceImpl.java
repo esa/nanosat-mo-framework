@@ -66,14 +66,11 @@ import java.util.stream.Collectors;
  */
 public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkeleton
 {
+    private static final Logger LOGGER = Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName());
 
     private static final String UNEXPECTED_EXCEPTION_0 = "Unexpected exception! {0}";
 
     private static final long DISPATCHERS_CLEANUP_INTERVAL_IN_MILISECONDS = 600000L; //10 minutes
-
-    private static final String CHUNK_SIZE_PROPERTY = "esa.nmf.archive.sync.chunk.size";
-
-    private static final String OBJECTS_LIMIT_PROPERTY = "esa.nmf.archive.sync.objects.limit";
 
     private static long timerCounter = 0;
 
@@ -125,8 +122,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         catch (MALException | MalformedURLException ex)
 
         {
-            Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName())
-                    .log(Level.SEVERE, MessageFormat.format(UNEXPECTED_EXCEPTION_0, ex.getMessage()), ex);
+            LOGGER.log(Level.SEVERE, MessageFormat.format(UNEXPECTED_EXCEPTION_0, ex.getMessage()), ex);
         }
 
         timerName = getTimerName();
@@ -134,26 +130,26 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         dispatchersCleanupTimer = new Timer(timerName);
 
         String msg = MessageFormat.format("Dispatchers cleanup timer created {0}", timerName);
-        Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.FINE, msg);
+        LOGGER.log(Level.FINE, msg);
 
         try
         {
-            objectsLimit = Integer.parseInt(System.getProperty(OBJECTS_LIMIT_PROPERTY, "30000"));
-            msg = MessageFormat.format("{0} = {1}", OBJECTS_LIMIT_PROPERTY, objectsLimit);
-            Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.FINE, msg);
+            objectsLimit = Integer.parseInt(System.getProperty(Const.ARCHIVESYNC_OBJECTS_LIMIT_PROPERTY, Const.ARCHIVESYNC_OBJECTS_LIMIT_DEFAULT));
+            msg = MessageFormat.format("{0} = {1}", Const.ARCHIVESYNC_OBJECTS_LIMIT_PROPERTY, objectsLimit);
+            LOGGER.log(Level.FINE, msg);
 
             if(objectsLimit >= 90000)
             {
                 msg = "Using a large objects limit may cause the archive sync to fail due to too long data transfer. " +
                       "Consider changing the limit to a smaller amount";
-                Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.WARNING, msg);
+                LOGGER.log(Level.WARNING, msg);
             }
         }
         catch(NumberFormatException ex)
         {
             objectsLimit = 30000;
-            msg = MessageFormat.format("Error when parsing {0} property. Using the default value of 30000", OBJECTS_LIMIT_PROPERTY);
-            Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.WARNING, msg);
+            msg = MessageFormat.format("Error when parsing {0} property. Using the default value of 30000", Const.ARCHIVESYNC_OBJECTS_LIMIT_PROPERTY);
+            LOGGER.log(Level.WARNING, msg);
         }
     }
 
@@ -210,7 +206,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         archiveSyncServiceProvider = connection.startService(ArchiveSyncHelper.ARCHIVESYNC_SERVICE_NAME.toString(),
                                                              ArchiveSyncHelper.ARCHIVESYNC_SERVICE, false, this);
         initialiased = true;
-        Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).info("ArchiveSync service READY");
+        LOGGER.info("ArchiveSync service READY");
     }
 
     /**
@@ -226,7 +222,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
             final String msg = MessageFormat.format("Dispatchers cleanup timer re-created {0}", timerName);
 
-            Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.FINE, msg);
+            LOGGER.log(Level.FINE, msg);
 
             if (null != archiveSyncServiceProvider)
             {
@@ -239,7 +235,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         }
         catch (MALException ex)
         {
-            Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.WARNING, MessageFormat.format(
+            LOGGER.log(Level.WARNING, MessageFormat.format(
                     "Exception during close down of the provider {0}", ex.getMessage()), ex);
         }
     }
@@ -265,7 +261,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         final String msg = MessageFormat.format(
                 "Dispatcher cleaning task created and scheduled in timer for transaction {0}, it will be triggered in {1} seconds.",
                 interactionTicket, DISPATCHERS_CLEANUP_INTERVAL_IN_MILISECONDS / 1000);
-        Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.FINE, msg);
+        LOGGER.log(Level.FINE, msg);
 
         interaction.sendAcknowledgement(interactionTicket);
 
@@ -288,8 +284,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         latestSync = perObjs.isEmpty() ? latestSync : perObjs.get(perObjs.size() - 1).getTimestamp();
 
         dispatcher.addObjects(perObjs);
-        Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName())
-              .log(Level.FINE, "Stage 1: " + perObjs.size() + " objects were queried and are now being sent back to the consumer!");
+        LOGGER.log(Level.FINE, "Stage 1: " + perObjs.size() + " objects were queried and are now being sent back to the consumer!");
 
         syncTimes.put(interactionTicket, latestSync.getValue());
         executor.execute(dispatcher::flushData);
@@ -314,7 +309,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
             final String msg = MessageFormat.format(
                     "Dispatcher cleaning timer task not found for transaction {0} ! Trying to continue...",
                     transactionTicket);
-            Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.WARNING, msg);
+            LOGGER.log(Level.WARNING, msg);
         }
         else
         {
@@ -328,7 +323,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         final String msg = MessageFormat.format(
                 "Dispatcher cleaning task re-created and scheduled in timer for transaction {0}, it will be triggered in {1} seconds.",
                 transactionTicket, DISPATCHERS_CLEANUP_INTERVAL_IN_MILISECONDS / 1000);
-        Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.FINE, msg);
+        LOGGER.log(Level.FINE, msg);
 
         interaction.sendAcknowledgement();
 
@@ -349,8 +344,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
             }
             catch (IOException ex)
             {
-                Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName())
-                        .log(Level.SEVERE, MessageFormat.format(UNEXPECTED_EXCEPTION_0, ex.getMessage()), ex);
+                LOGGER.log(Level.SEVERE, MessageFormat.format(UNEXPECTED_EXCEPTION_0, ex.getMessage()), ex);
             }
         }
         else
@@ -373,7 +367,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
         final String msg =
                 MessageFormat.format("Dispatcher cleaning task for transaction {0} removed.", transactionTicket);
-        Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.FINE, msg);
+        LOGGER.log(Level.FINE, msg);
     }
 
     @Override
@@ -392,8 +386,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
             catch (Exception ex)
             {
                 word = null;
-                Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName())
-                        .log(Level.SEVERE, MessageFormat.format(UNEXPECTED_EXCEPTION_0, ex.getMessage()), ex);
+                LOGGER.log(Level.SEVERE, MessageFormat.format(UNEXPECTED_EXCEPTION_0, ex.getMessage()), ex);
             }
 
             output.add(word);
@@ -433,7 +426,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         lastSync.set(lastSyncTime);
 
         final String msg = MessageFormat.format("Last sync time for transaction {0} is set.", transactionTicket);
-        Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.FINE, msg);
+        LOGGER.log(Level.FINE, msg);
     }
 
     private void cleanDispatcher(Long transactionTicket, Dispatcher dispatcher)
@@ -441,7 +434,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         dispatcher.clear();
         dispatchers.remove(transactionTicket);
         final String msg = MessageFormat.format("Dispatcher for transaction {0} removed.", transactionTicket);
-        Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.FINE, msg);
+        LOGGER.log(Level.FINE, msg);
     }
 
     private class CleaningTimerTask extends TimerTask
@@ -462,7 +455,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         {
             final String msg =
                     MessageFormat.format("Dispatcher cleaning task for transaction {0} started.", transactionTicket);
-            Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.FINE, msg);
+            LOGGER.log(Level.FINE, msg);
 
             final Dispatcher dispatcher = dispatchers.get(this.transactionTicket);
 
@@ -475,7 +468,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
             final String msg1 =
                     MessageFormat.format("Dispatcher cleaning task for transaction {0} ended.", transactionTicket);
-            Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.FINE, msg1);
+            LOGGER.log(Level.FINE, msg1);
         }
     }
 
@@ -495,15 +488,14 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
         private int numberOfChunks = 0;
 
+        private boolean purgeArchive;
+
         Dispatcher(final RetrieveRangeInteraction interaction, ArchiveConsumerServiceImpl archive)
         {
             this.interaction = interaction;
             this.archive = archive;
 
-            String chunkSizeParam = System.getProperty(CHUNK_SIZE_PROPERTY);
-
-            if (null != chunkSizeParam && !"".equals(chunkSizeParam))
-            {
+            String chunkSizeParam = System.getProperty(Const.ARCHIVESYNC_CHUNK_SIZE_PROPERTY, Const.ARCHIVESYNC_CHUNK_SIZE_DEFAULT);
 
                 try
                 {
@@ -512,13 +504,14 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
                 catch (NumberFormatException e)
                 {
                     Logger.getLogger(Dispatcher.class.getName()).log(Level.WARNING, MessageFormat.format(
-                            "Unexpected NumberFormatException on {0} ! {1}", CHUNK_SIZE_PROPERTY,
+                        "Unexpected NumberFormatException on {0} ! {1}", Const.ARCHIVESYNC_CHUNK_SIZE_PROPERTY,
                             e.getMessage()), e);
-                }
             }
 
-            final String msg = MessageFormat.format("{0} = {1}", CHUNK_SIZE_PROPERTY, this.chunkSize);
+            final String msg = MessageFormat.format("{0} = {1}", Const.ARCHIVESYNC_CHUNK_SIZE_PROPERTY, this.chunkSize);
             Logger.getLogger(Dispatcher.class.getName()).log(Level.FINE, msg);
+            this.purgeArchive = Boolean.parseBoolean(System.getProperty(Const.ARCHIVESYNC_PURGE_ARCHIVE_PROPERTY,
+                                                                    Const.ARCHIVESYNC_PURGE_ARCHIVE_DEFAULT));
         }
 
         private void clear()
@@ -574,19 +567,17 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
             }
             catch (MALInteractionException | MALException ex)
             {
-                Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName())
-                      .log(Level.SEVERE, MessageFormat.format(UNEXPECTED_EXCEPTION_0, ex.getMessage()), ex);
+                LOGGER.log(Level.SEVERE, MessageFormat.format(UNEXPECTED_EXCEPTION_0, ex.getMessage()), ex);
             }
 
             final String msg =
                     MessageFormat.format("Objects were successfully flushed! {0} chunks in total!",
                                          numberOfChunks);
-            Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName()).log(Level.INFO, msg);
+            LOGGER.log(Level.INFO, msg);
 
-            boolean purge = Boolean.parseBoolean(System.getProperty(Const.ARCHIVESYNC_PURGE_ARCHIVE_PROPERTY,
-                                                                    Const.ARCHIVESYNC_PURGE_ARCHIVE_DEFAULT));
-            if (purge)
-            { // This block cleans up the archive after sync if the option is enabled
+            // This block cleans up the archive after sync if the option is enabled
+            if (purgeArchive)
+            {
                 ArchiveQueryList aql = new ArchiveQueryList();
                 aql.add(new ArchiveQuery(null, null, null, 0L, null, new FineTime(0), latestSync, null, null));
 
@@ -599,8 +590,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
                     }
                     catch (MALInteractionException | MALException ex)
                     {
-                        Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName())
-                              .log(Level.SEVERE, MessageFormat.format(UNEXPECTED_EXCEPTION_0, ex.getMessage()),
+                        LOGGER.log(Level.SEVERE, MessageFormat.format(UNEXPECTED_EXCEPTION_0, ex.getMessage()),
                                    ex);
                     }
                 }
@@ -616,8 +606,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
             }
             catch (MALInteractionException | MALException ex)
             {
-                Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName())
-                        .log(Level.SEVERE, MessageFormat.format(UNEXPECTED_EXCEPTION_0, ex.getMessage()), ex);
+                LOGGER.log(Level.SEVERE, MessageFormat.format(UNEXPECTED_EXCEPTION_0, ex.getMessage()), ex);
             }
         }
 
@@ -684,13 +673,11 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
                 }
                 catch (MALInteractionException | MALException ex)
                 {
-                    Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName())
-                            .log(Level.SEVERE, MessageFormat.format(UNEXPECTED_EXCEPTION_0, ex.getMessage()), ex);
+                    LOGGER.log(Level.SEVERE, MessageFormat.format(UNEXPECTED_EXCEPTION_0, ex.getMessage()), ex);
                 }
                 catch (InterruptedException ex)
                 {
-                    Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName())
-                            .log(Level.SEVERE, MessageFormat.format(UNEXPECTED_EXCEPTION_0, ex.getMessage()), ex);
+                    LOGGER.log(Level.SEVERE, MessageFormat.format(UNEXPECTED_EXCEPTION_0, ex.getMessage()), ex);
                     Thread.currentThread().interrupt();
 
                 }

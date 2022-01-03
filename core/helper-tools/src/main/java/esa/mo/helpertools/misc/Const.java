@@ -55,4 +55,8 @@ public class Const
   public static final String ARCHIVE_DROP_TABLE_DEFAULT = "false";
   public static final String ARCHIVE_GENERATE_EVENTS_PROPERTY = "esa.mo.com.impl.provider.ArchiveManager.generateevents";
   public static final String ARCHIVE_GENERATE_EVENTS_DEFAULT = "true";
+  public static final String ARCHIVESYNC_CHUNK_SIZE_PROPERTY = "esa.nmf.archive.sync.chunk.size";
+  public static final String ARCHIVESYNC_CHUNK_SIZE_DEFAULT = "200";
+  public static final String ARCHIVESYNC_OBJECTS_LIMIT_PROPERTY = "esa.nmf.archive.sync.objects.limit";
+  public static final String ARCHIVESYNC_OBJECTS_LIMIT_DEFAULT = "30000";
 }
