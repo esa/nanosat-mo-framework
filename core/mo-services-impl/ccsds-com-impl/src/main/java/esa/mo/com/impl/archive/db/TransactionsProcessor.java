@@ -349,14 +349,33 @@ public class TransactionsProcessor {
     });
   }
 
-  public void update(final ArrayList<COMObjectEntity> newObjs, final Runnable publishEvents) {
+  /**
+   * Allows to quickly remove number of objects without generating any events
+   */
+  public void quickRemove(final List<COMObjectEntity> objs) {
+    this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
+
+    dbTransactionsExecutor.execute(() -> {
+      dbBackend.createEntityManager();
+      dbBackend.getEM().getTransaction().begin();
+
+      for (COMObjectEntity e : objs) {
+        dbBackend.getEM().remove(e);
+      }
+      dbBackend.getEM().getTransaction().commit();
+      dbBackend.closeEntityManager();
+      vacuum();
+    });
+  }
+
+  public void update(final List<COMObjectEntity> newObjs, final Runnable publishEvents) {
     this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
 
     dbTransactionsExecutor.execute(() -> {
       dbBackend.createEntityManager();  // 0.166 ms
 
-      for (int i = 0; i < newObjs.size(); i++) {
-        final COMObjectEntityPK id = newObjs.get(i).getPrimaryKey();
+      for (COMObjectEntity e : newObjs) {
+        final COMObjectEntityPK id = e.getPrimaryKey();
         COMObjectEntity previousObj = dbBackend.getEM().find(CLASS_ENTITY, id);
 
         dbBackend.getEM().getTransaction().begin();
@@ -365,7 +384,7 @@ public class TransactionsProcessor {
 
         // Maybe we can replace the 3 lines below with a persistObjects(newObjs) after the for loop
         dbBackend.getEM().getTransaction().begin();
-        dbBackend.getEM().persist(newObjs.get(i));
+        dbBackend.getEM().persist(e);
         dbBackend.getEM().getTransaction().commit();
       }
 

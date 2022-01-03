@@ -316,7 +316,7 @@ public class ArchiveManager {
         return insertEntries(objType, domain, lArchiveDetails, objects, interaction, true);
     }
 
-    private LongList insertEntries(final ObjectType objType, final IdentifierList domain,
+    public LongList insertEntries(final ObjectType objType, final IdentifierList domain,
             final ArchiveDetailsList lArchiveDetails, final ElementList objects, final MALInteraction interaction, boolean generateEvents) {
         final LongList objIds = new LongList(lArchiveDetails.size());
         final ArrayList<COMObjectEntity> perObjsEntities = new ArrayList<COMObjectEntity>(lArchiveDetails.size());
@@ -360,7 +360,7 @@ public class ArchiveManager {
         updateEntries(objType, domain, lArchiveDetails, objects, interaction, true);
     }
 
-    private void updateEntries(final ObjectType objType, final IdentifierList domain,
+    public void updateEntries(final ObjectType objType, final IdentifierList domain,
         final ArchiveDetailsList lArchiveDetails, final ElementList objects, final MALInteraction interaction, boolean generateEvents) {
         final int domainId = this.fastDomain.getDomainId(domain);
         final Integer objTypeId = this.fastObjectType.getObjectTypeId(objType);
@@ -403,7 +403,7 @@ public class ArchiveManager {
         return removeEntries(objType, domain, objIds, interaction, true);
     }
 
-    private LongList removeEntries(final ObjectType objType, final IdentifierList domain, final LongList objIds,
+    public LongList removeEntries(final ObjectType objType, final IdentifierList domain, final LongList objIds,
             final MALInteraction interaction, boolean generateEvents) {
         final Integer objTypeId = this.fastObjectType.getObjectTypeId(objType);
         final int domainId = this.fastDomain.getDomainId(domain);
@@ -413,6 +413,10 @@ public class ArchiveManager {
         this.dbProcessor.remove(objTypeId, domainId, objIds, publishEvents);
         this.fastObjId.delete(objTypeId, domainId);
         return objIds;
+    }
+
+    public void quickRemoveEntries(final List<COMObjectEntity> objs) {
+        this.dbProcessor.quickRemove(objs);
     }
 
     public ArrayList<ArchivePersistenceObject> query(final ObjectType objType,

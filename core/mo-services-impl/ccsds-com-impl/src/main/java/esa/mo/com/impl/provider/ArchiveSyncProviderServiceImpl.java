@@ -497,15 +497,15 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
             String chunkSizeParam = System.getProperty(Const.ARCHIVESYNC_CHUNK_SIZE_PROPERTY, Const.ARCHIVESYNC_CHUNK_SIZE_DEFAULT);
 
-                try
-                {
-                    this.chunkSize = Integer.parseInt(chunkSizeParam);
-                }
-                catch (NumberFormatException e)
-                {
-                    Logger.getLogger(Dispatcher.class.getName()).log(Level.WARNING, MessageFormat.format(
+            try
+            {
+                this.chunkSize = Integer.parseInt(chunkSizeParam);
+            }
+            catch (NumberFormatException e)
+            {
+                Logger.getLogger(Dispatcher.class.getName()).log(Level.WARNING, MessageFormat.format(
                         "Unexpected NumberFormatException on {0} ! {1}", Const.ARCHIVESYNC_CHUNK_SIZE_PROPERTY,
-                            e.getMessage()), e);
+                        e.getMessage()), e);
             }
 
             final String msg = MessageFormat.format("{0} = {1}", Const.ARCHIVESYNC_CHUNK_SIZE_PROPERTY, this.chunkSize);
@@ -578,21 +578,12 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
             // This block cleans up the archive after sync if the option is enabled
             if (purgeArchive)
             {
-                ArchiveQueryList aql = new ArchiveQueryList();
-                aql.add(new ArchiveQuery(null, null, null, 0L, null, new FineTime(0), latestSync, null, null));
-
+                ArchiveQuery archiveQuery = new ArchiveQuery(null, null, null, 0L, null, new FineTime(0), latestSync, null, null);
+                // Iterate over constant set of types to purge until the latest synchronised object
                 for (ToDelete type : ToDelete.values())
                 {
-                    try
-                    {
-                        archive.getArchiveStub().query(false, type.getType(), aql, null,
-                                                       new ObjectsReceivedAdapter(archive, type.getType()));
-                    }
-                    catch (MALInteractionException | MALException ex)
-                    {
-                        LOGGER.log(Level.SEVERE, MessageFormat.format(UNEXPECTED_EXCEPTION_0, ex.getMessage()),
-                                   ex);
-                    }
+                    ArrayList<COMObjectEntity> objList = manager.queryCOMObjectEntity(type.getType(), archiveQuery, null);
+                    manager.quickRemoveEntries(objList);
                 }
             }
         }
