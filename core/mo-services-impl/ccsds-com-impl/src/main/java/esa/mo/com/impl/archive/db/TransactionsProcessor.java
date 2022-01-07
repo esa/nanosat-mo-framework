@@ -420,7 +420,7 @@ public class TransactionsProcessor {
   private enum QueryType {
     SELECT("SELECT"), DELETE("DELETE");
     private final String queryPrefix;
-    private QueryType(String queryPrefix) {
+    QueryType(String queryPrefix) {
       this.queryPrefix = queryPrefix;
     }
     public String getQueryPrefix() {

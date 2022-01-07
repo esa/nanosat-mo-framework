@@ -110,7 +110,7 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
         }
 
         Random random = new Random();
-        String name = ActionHelper.ACTION_SERVICE_NAME.toString() + "_" + random.nextInt();
+        String name = ActionHelper.ACTION_SERVICE_NAME + "_" + random.nextInt();
         actionServiceProvider = connection.startService(name, ActionHelper.ACTION_SERVICE, false, this);
 
         running = true;

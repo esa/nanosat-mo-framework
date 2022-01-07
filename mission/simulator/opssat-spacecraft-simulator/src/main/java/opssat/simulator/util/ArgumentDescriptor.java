@@ -145,7 +145,7 @@ public class ArgumentDescriptor implements Serializable {
                     sb.append(",");
                 }
             }
-            formattedArgs = formattedArgs + "byte[] " + name + "={" + sb.toString() + "}";
+            formattedArgs = formattedArgs + "byte[] " + name + "={" + sb + "}";
         } else if (type instanceof int[]) {
             StringBuilder sb = new StringBuilder();
             int[] ints = (int[]) type;
@@ -156,7 +156,7 @@ public class ArgumentDescriptor implements Serializable {
                     sb.append(",");
                 }
             }
-            formattedArgs = formattedArgs + "int[] " + name + "={" + sb.toString() + "}";
+            formattedArgs = formattedArgs + "int[] " + name + "={" + sb + "}";
         } else if (type instanceof float[]) {
             StringBuilder sb = new StringBuilder();
             float[] floats = (float[]) type;
@@ -167,7 +167,7 @@ public class ArgumentDescriptor implements Serializable {
                     sb.append(",");
                 }
             }
-            formattedArgs = formattedArgs + "float[] " + name + "={" + sb.toString() + "}";
+            formattedArgs = formattedArgs + "float[] " + name + "={" + sb + "}";
         } else if (type instanceof long[]) {
             StringBuilder sb = new StringBuilder();
             long[] longs = (long[]) type;
@@ -178,7 +178,7 @@ public class ArgumentDescriptor implements Serializable {
                     sb.append(",");
                 }
             }
-            formattedArgs = formattedArgs + "long[] " + name + "={" + sb.toString() + "}";
+            formattedArgs = formattedArgs + "long[] " + name + "={" + sb + "}";
         } else if (type instanceof double[]) {
             StringBuilder sb = new StringBuilder();
             double[] doubles = (double[]) type;
@@ -189,7 +189,7 @@ public class ArgumentDescriptor implements Serializable {
                     sb.append(",");
                 }
             }
-            formattedArgs = formattedArgs + "double[] " + name + "={" + sb.toString() + "}";
+            formattedArgs = formattedArgs + "double[] " + name + "={" + sb + "}";
         }
         if (type instanceof Integer) {
             formattedArgs = formattedArgs + "int " + name + "={" + type + "}";

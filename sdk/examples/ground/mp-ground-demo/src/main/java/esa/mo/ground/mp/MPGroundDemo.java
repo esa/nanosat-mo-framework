@@ -72,7 +72,7 @@ public class MPGroundDemo {
      * @param args the command line arguments
      * @throws java.lang.Exception If there is an error
      */
-    public static void main(final String args[]) {
+    public static void main(final String[] args) {
         MPGroundDemo test = new MPGroundDemo();
 
         pimService = test.gma.getMPServices().getPlanInformationManagementService().getPlanInformationManagementStub();

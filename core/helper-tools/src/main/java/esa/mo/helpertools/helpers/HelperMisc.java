@@ -166,8 +166,8 @@ public class HelperMisc {
             chainProperty);
 
         String loadingString = (LOADED_PROPERTIES.contains(url.toString()))
-            ? "Reloading properties " + url.toString()
-            : "Loading properties " + url.toString();
+            ? "Reloading properties " + url
+            : "Loading properties " + url;
 
         Logger.getLogger(HelperMisc.class.getName()).log(Level.INFO, loadingString);
         topProps.putAll(subProps);

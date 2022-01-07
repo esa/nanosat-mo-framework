@@ -306,7 +306,7 @@ public class OrekitCore
     if (TLE.isFormatOK(simulatorHeader.getOrekitTLE1(), simulatorHeader.getOrekitTLE2())) {
       this.initialTLE = new TLE(simulatorHeader.getOrekitTLE1(), simulatorHeader.getOrekitTLE2());
       if (TLERequired) {
-        logger.log(Level.FINE, "TLE\n" + this.initialTLE.toString() + "\nformat ok.");
+        logger.log(Level.FINE, "TLE\n" + this.initialTLE + "\nformat ok.");
       }
     } else {
       if (TLERequired) {
@@ -520,7 +520,7 @@ public class OrekitCore
         try {
           readerURL = new BufferedReader(new InputStreamReader((noradGpsOps.openStream())));
         } catch (IOException ex) {
-          logger.log(Level.WARNING, "Unable to update  norad satellites" + ex.toString());
+          logger.log(Level.WARNING, "Unable to update  norad satellites" + ex);
         }
       }
       if (readerURL != null) {
@@ -655,7 +655,7 @@ public class OrekitCore
       TLEOk = TLE.isFormatOK(tle1, tle2);
     } catch (OrekitException ex) {
       Logger.getLogger(OrekitCore.class.getName()).log(Level.SEVERE, null, ex);
-      exception.append(ex.toString());
+      exception.append(ex);
 
     }
     if (TLEOk) {

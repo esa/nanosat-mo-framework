@@ -42,26 +42,26 @@ public interface COMConfiguration {
      * @param element which type is to be identified
      * @return the identified ObjectType
      */
-    public ObjectType getObjectType(Element element);
+    ObjectType getObjectType(Element element);
 
     /**
      * Method to get configuration COM ObjectType based on object's related ObjectType
      * @param relatedType object's related ObjectType
      * @return the configuration ObjectType
      */
-    public ObjectType getConfigurationType(ObjectType relatedType);
+    ObjectType getConfigurationType(ObjectType relatedType);
 
     /**
      * Method to get object's related ObjectType
      * @param objectType object's ObjectType
      * @return the related ObjectType
      */
-    public ObjectType getRelatedType(ObjectType objectType);
+    ObjectType getRelatedType(ObjectType objectType);
 
     /**
      * Method to get object's inverse related ObjectType
      * @param objectType object's ObjectType
      * @return the inverse related ObjectType
      */
-    public ObjectType getInverseRelatedType(ObjectType objectType);
+    ObjectType getInverseRelatedType(ObjectType objectType);
 }

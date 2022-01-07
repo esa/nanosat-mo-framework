@@ -89,7 +89,7 @@ public class HelperCommon {
                 Logger.getLogger(HelperCommon.class.getName()).log(Level.WARNING,
                         "The service could not be found in the MAL factory. "
                         + "Maybe the Helper for that service was not initialized. "
-                        + "The service key is: " + key.toString());
+                        + "The service key is: " + key);
                 continue;
             }
 
@@ -99,7 +99,7 @@ public class HelperCommon {
                 Logger.getLogger(HelperCommon.class.getName()).log(Level.WARNING,
                         "The service could not be found in the MAL factory. "
                         + "Maybe the Helper for that service was not initialized. "
-                        + "The service key is: " + key.toString());
+                        + "The service key is: " + key);
                 continue;
             }
 
