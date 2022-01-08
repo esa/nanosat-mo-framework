@@ -71,9 +71,7 @@ public class COMObjectIdHelper {
         if (objectIds == null) return null;
         LongList result = new LongList();
         result.addAll(objectIds.stream()
-            .map(id -> {
-                return getInstanceId(id);
-            })
+            .map(id -> getInstanceId(id))
             .collect(Collectors.toList()));
         return result;
     }

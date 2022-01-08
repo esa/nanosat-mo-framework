@@ -76,19 +76,11 @@ public class PublishedUpdatesPanel extends javax.swing.JPanel {
         refreshTime.setMargin(new java.awt.Insets(5, 5, 5, 5));
         refreshTime.setMinimumSize(new java.awt.Dimension(190, 34));
         refreshTime.setPreferredSize(new java.awt.Dimension(190, 34));
-        refreshTime.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                refreshTimeActionPerformed(evt);
-            }
-        });
+        refreshTime.addActionListener(this::refreshTimeActionPerformed);
         jPanel5.add(refreshTime);
 
         refreshButton.setText("Refresh from Archive");
-        refreshButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                refreshButtonActionPerformed(evt);
-            }
-        });
+        refreshButton.addActionListener(this::refreshButtonActionPerformed);
         jPanel5.add(refreshButton);
 
         parameterTab.add(jPanel5);

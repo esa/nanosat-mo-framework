@@ -108,59 +108,31 @@ public class PlanEditConsumerPanel extends javax.swing.JPanel {
         parameterTab.setLayout(new java.awt.GridLayout(1, 1));
 
         insertActivityButton.setText("insertActivity");
-        insertActivityButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                insertActivityButtonActionPerformed(evt);
-            }
-        });
+        insertActivityButton.addActionListener(this::insertActivityButtonActionPerformed);
         jPanel5.add(insertActivityButton);
 
         updateActivityButton.setText("updateActivity");
-        updateActivityButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateActivityButtonActionPerformed(evt);
-            }
-        });
+        updateActivityButton.addActionListener(this::updateActivityButtonActionPerformed);
         jPanel5.add(updateActivityButton);
 
         deleteActivityButton.setText("deleteActivity");
-        deleteActivityButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteActivityButtonActionPerformed(evt);
-            }
-        });
+        deleteActivityButton.addActionListener(this::deleteActivityButtonActionPerformed);
         jPanel5.add(deleteActivityButton);
 
         insertEventButton.setText("insertEvent");
-        insertEventButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                insertEventButtonActionPerformed(evt);
-            }
-        });
+        insertEventButton.addActionListener(this::insertEventButtonActionPerformed);
         jPanel5.add(insertEventButton);
 
         updateEventButton.setText("updateEvent");
-        updateEventButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateEventButtonActionPerformed(evt);
-            }
-        });
+        updateEventButton.addActionListener(this::updateEventButtonActionPerformed);
         jPanel5.add(updateEventButton);
 
         deleteEventButton.setText("deleteEvent");
-        deleteEventButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteEventButtonActionPerformed(evt);
-            }
-        });
+        deleteEventButton.addActionListener(this::deleteEventButtonActionPerformed);
         jPanel5.add(deleteEventButton);
 
         updatePlanStatusButton.setText("updatePlanStatus");
-        updatePlanStatusButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updatePlanStatusButtonActionPerformed(evt);
-            }
-        });
+        updatePlanStatusButton.addActionListener(this::updatePlanStatusButtonActionPerformed);
         jPanel5.add(updatePlanStatusButton);
 
         parameterTab.add(jPanel5);

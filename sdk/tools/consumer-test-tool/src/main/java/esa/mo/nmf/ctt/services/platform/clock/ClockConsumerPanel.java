@@ -74,11 +74,7 @@ public class ClockConsumerPanel extends javax.swing.JPanel {
         parameterTab.setLayout(new java.awt.GridLayout(1, 1));
 
         getTimeButton.setText("getTime");
-        getTimeButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                getTimeButtonActionPerformed(evt);
-            }
-        });
+        getTimeButton.addActionListener(this::getTimeButtonActionPerformed);
         jPanel5.add(getTimeButton);
 
         parameterTab.add(jPanel5);
