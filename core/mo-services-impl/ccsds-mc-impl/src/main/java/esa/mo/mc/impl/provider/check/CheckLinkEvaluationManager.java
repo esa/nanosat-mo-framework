@@ -299,11 +299,9 @@ public class CheckLinkEvaluationManager {
                     maxViolationCount = maxViolationCount < violationCounter ? violationCounter : maxViolationCount;
                 }
             }
-            if (expired) {
-//                evaluationResults.remove(i);
-//                //list is one element shorter -> decrement index
-//                i--;
-            }
+            //                evaluationResults.remove(i);
+            //                //list is one element shorter -> decrement index
+            //                i--;
         }
 
         //check if a new check result shall be calculated

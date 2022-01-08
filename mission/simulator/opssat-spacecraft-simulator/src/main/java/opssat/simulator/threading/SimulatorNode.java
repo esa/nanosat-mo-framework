@@ -1219,9 +1219,8 @@ public class SimulatorNode extends TaskNode
                   def1Value = def2Value;
                   rowOK = true;
                   minorErrorsExist = true;
-                } else {
-                  // both values are not valid, disregard this row
-                }
+                }  // both values are not valid, disregard this row
+
               }
               if (def1Value == def2Value) {
                 // time definition is consistent

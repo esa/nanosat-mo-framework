@@ -87,8 +87,6 @@ public final class ActionManager extends MCManager {
             this.uniqueObjIdDef = 0L; // The zeroth value will not be used (reserved for the wildcard)
             this.uniqueObjIdAIns = 0L; // The zeroth value will not be used (reserved for the wildcard)
 //            this.load(); // Load the file
-        } else {
-
         }
 
     }

@@ -503,10 +503,8 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
             return null;
         }
 
-        if (events == null) {
-            // BUG: Do something.. or maybe not...
-            // Currently being taken
-        }
+        // BUG: Do something.. or maybe not...
+        // Currently being taken
 
         ArchiveDetails archiveDetails = new ArchiveDetails();
         archiveDetails.setDetails(objectDetailsList.get(0));

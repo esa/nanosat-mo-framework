@@ -126,9 +126,8 @@ public class AppsLauncherManager extends DefinitionsManager
 
     if (super.getArchiveService() == null) {  // No Archive?
       this.uniqueObjIdDef = new AtomicLong(0);
-    } else {
-      // With Archive...
-    }
+    }  // With Archive...
+
 
   }
 

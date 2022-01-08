@@ -147,9 +147,8 @@ public class AlertTest2 {
 
                 System.out.println();
 
-            } else {
-                // Something's wrong...
-            }
+            }  // Something's wrong...
+
         }
     }
 

@@ -456,7 +456,6 @@ public class GuiMainWindow implements Runnable {
         LinkedList<CommandDescriptor> newCommandsList = new LinkedList<CommandDescriptor>();
         newCommandsList.addAll(commandsList);
         parent.addGUIInteraction(newCommandsList);
-      } else {
       }
     });
 

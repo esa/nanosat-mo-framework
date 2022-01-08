@@ -666,10 +666,9 @@ public class OrekitCore
         // System.out.print(b);
         date[index++] = b;
       }
-    } else {
-      //logger.log(Level.INFO, "TLE is not ok!");
-    }
-    return TLEOk;
+    }  //logger.log(Level.INFO, "TLE is not ok!");
+
+      return TLEOk;
   }
 
   public static boolean parseTLEFromBytes(byte[] date, StringBuilder tle1, StringBuilder tle2)

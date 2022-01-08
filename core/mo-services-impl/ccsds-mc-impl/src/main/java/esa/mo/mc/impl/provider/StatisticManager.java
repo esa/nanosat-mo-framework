@@ -100,8 +100,6 @@ public final class StatisticManager {
                 this.uniqueObjIdLink = 0L; // The zeroth value will not be used (reserved for the wildcard)
                 this.uniqueObjIdAIns = 0L; // The zeroth value will not be used (reserved for the wildcard)
 //            this.load(); // Load the file
-            } else {
-
             }
         }
 
@@ -171,10 +169,8 @@ public final class StatisticManager {
     public Long storeAndGenerateStatValueInsobjId(StatisticValue sVal, Long related, SingleConnectionDetails connectionDetails, ObjectId source) {
         if (comServices.getArchiveService() == null) {
             uniqueObjIdAIns++;
-            if (uniqueObjIdAIns % SAVING_PERIOD == 0) // It is used to avoid constant saving every time we generate a new obj Inst identifier.
-            {
-//                this.save();
-            }
+            // It is used to avoid constant saving every time we generate a new obj Inst identifier.
+            //                this.save();
             return this.uniqueObjIdAIns;
         } else {
             StatisticValueList sValList = new StatisticValueList();

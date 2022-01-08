@@ -93,10 +93,9 @@ public class SortByField implements Comparator {
                     if (!part.equals("")) {
                         this.field = ((Class) this.field.getGenericType()).getDeclaredField(part);
                         this.field.setAccessible(true);
-                    } else {
-                        // Then it is a Enumeration
-//                                obj = ((Enumeration) obj).getNumericValue();
-                    }
+                    }  // Then it is a Enumeration
+                    //                                obj = ((Enumeration) obj).getNumericValue();
+
                 }
             }
 

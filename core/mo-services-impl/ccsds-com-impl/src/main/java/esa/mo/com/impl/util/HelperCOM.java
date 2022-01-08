@@ -402,10 +402,9 @@ public class HelperCOM {
             for (String part : parts) {
                 if (!part.equals("")) {
                     obj = HelperCOM.getObjectInsideObject(part, obj);
-                } else {
-                    // Then it is a Enumeration
-//                            obj = ((Enumeration) obj).getNumericValue();
-                }
+                }  // Then it is a Enumeration
+                //                            obj = ((Enumeration) obj).getNumericValue();
+
             }
         } catch (IllegalArgumentException | IllegalAccessException ex) {
             throw new NoSuchFieldException();

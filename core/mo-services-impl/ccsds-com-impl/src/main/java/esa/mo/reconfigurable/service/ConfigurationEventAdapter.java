@@ -116,11 +116,8 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
                     // Reload the retrieved configuration
                     Boolean confChanged = serviceImpl.reloadConfiguration(configurationObj);
 
-                    if (confChanged) {
-                        // Todo: Publish success
-                    } else {
-                        // Todo: Publish failure
-                    }
+                    // Todo: Publish success
+                    // Todo: Publish failure
                 }
             }
 

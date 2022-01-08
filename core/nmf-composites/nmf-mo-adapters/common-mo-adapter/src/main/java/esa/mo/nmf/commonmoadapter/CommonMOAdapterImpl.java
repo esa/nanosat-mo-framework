@@ -647,10 +647,9 @@ public class CommonMOAdapterImpl extends NMFConsumer implements SimpleCommanding
         // A duplicate might happen if the consumer stored the Operation Activity object
         if (ex.getStandardError().getErrorNumber().getValue() != COMHelper.DUPLICATE_ERROR_NUMBER.getValue()) {
           throw new NMFException("The storing of the Operation Activity failed. (1)", ex);
-        } else {
-          // It's a Duplicate error, the object already exists...
-          // Do nothing!
-        }
+        }  // It's a Duplicate error, the object already exists...
+        // Do nothing!
+
       } catch (MALException ex) {
         throw new NMFException("The storing of the Operation Activity failed. (2)", ex);
       }

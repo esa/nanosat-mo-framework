@@ -98,8 +98,6 @@ public final class CheckManager extends CheckLinksManager {
             this.uniqueObjIdActDef = 0L;
             this.uniqueObjIdLink = 0L;
             this.uniqueObjIdLinkDef = 0L;
-        } else {
-
         }
 
     }
