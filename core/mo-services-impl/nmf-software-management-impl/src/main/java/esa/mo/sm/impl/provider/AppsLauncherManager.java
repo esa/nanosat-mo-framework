@@ -421,7 +421,7 @@ public class AppsLauncherManager extends DefinitionsManager
         envString.append(" ");
       }
 
-      ret.add("cd " + workDir + ";" + envString.toString() + "./" + prefix + trimmedAppName + ".sh");
+      ret.add("cd " + workDir + ";" + envString + "./" + prefix + trimmedAppName + ".sh");
     }
     return ret.toArray(new String[0]);
   }

@@ -89,11 +89,11 @@ public class MultiThreadedSocketServer extends Thread {
     for (ClientServiceThreadSender s : clientSockets) {
       if (s.getMyClientSocket().isConnected()) {
         logger.log(Level.ALL,
-            "Put data [" + data.getClass().getName() + "] for client [" + s.toString() + "]");
+            "Put data [" + data.getClass().getName() + "] for client [" + s + "]");
         if (data instanceof LinkedList) {
           if (((LinkedList) data).size() > 0) {
             logger.log(Level.ALL, "Put list of [" + ((LinkedList) data).get(0).getClass().getName()
-                + "] for client [" + s.toString() + "]");
+                + "] for client [" + s + "]");
             /*
              * if (!s.isListSent() && ((LinkedList) data).get(0) instanceof
              * CommandDescriptor) { logger.log(Level.ALL, "Set list to true");

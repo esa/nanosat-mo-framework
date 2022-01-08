@@ -183,8 +183,7 @@ public class CameraAcquisitorSystemCameraHandler
       try {
         GeodeticPoint position = this.casMCAdapter.getGpsHandler().getCurrentPosition();
 
-        posString = String.valueOf(position.getLatitude()) + "_" + String.valueOf(
-            position.getLongitude());
+        posString = position.getLatitude() + "_" + position.getLongitude();
       } catch (Exception ex) {
         LOGGER.log(Level.SEVERE, "getCurrentPosition Failed!/n{0}", ex);
       }

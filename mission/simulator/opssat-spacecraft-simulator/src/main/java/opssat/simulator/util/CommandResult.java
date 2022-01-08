@@ -75,9 +75,9 @@ public class CommandResult implements Serializable {
                     break;
                 }
             }
-            formattedArgs = formattedArgs + "byte[] ={" + sb.toString() + "}";
+            formattedArgs = formattedArgs + "byte[] ={" + sb + "}";
             formattedArgs = formattedArgs + "\n";
-            formattedArgs = formattedArgs + "byte[] ={" + sb2.toString() + "}";
+            formattedArgs = formattedArgs + "byte[] ={" + sb2 + "}";
         } else if (output instanceof double[]) {
             StringBuilder sb = new StringBuilder();
             double[] bytes = (double[]) output;
@@ -95,7 +95,7 @@ public class CommandResult implements Serializable {
                     break;
                 }
             }
-            formattedArgs = formattedArgs + "double[] ={" + sb.toString() + "}";
+            formattedArgs = formattedArgs + "double[] ={" + sb + "}";
         }
         if (output instanceof Integer) {
             formattedArgs = formattedArgs + "int ={" + output + "}";
