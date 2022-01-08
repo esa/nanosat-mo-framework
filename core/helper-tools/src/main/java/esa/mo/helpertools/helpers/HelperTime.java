@@ -47,12 +47,12 @@ public class HelperTime {
    * @return The String with the time. Format is {@value #DATE_PATTERN}.
    * @throws java.lang.IllegalArgumentException If timestamp == null.
    */
-  public static String time2readableString(FineTime timestamp) throws IllegalArgumentException {
+  public static String time2readableString(final FineTime timestamp) throws IllegalArgumentException {
     if (timestamp == null) {
       throw new IllegalArgumentException("Timestamp must not be null.");
     }
-    Date date = new Date(timestamp.getValue() / ONE_MILLION);
-    Format format = new SimpleDateFormat(DATE_PATTERN);
+    final Date date = new Date(timestamp.getValue() / ONE_MILLION);
+    final Format format = new SimpleDateFormat(DATE_PATTERN);
     return format.format(date);
   }
 
@@ -63,12 +63,12 @@ public class HelperTime {
    * @return The String with the time. Format is {@value #DATE_PATTERN}.
    * @throws java.lang.IllegalArgumentException If timestamp == null
    */
-  public static String time2readableString(Time timestamp) throws IllegalArgumentException {
+  public static String time2readableString(final Time timestamp) throws IllegalArgumentException {
     if (timestamp == null) {
       throw new IllegalArgumentException("Timestamp must not be null.");
     }
-    Date date = new Date(timestamp.getValue());
-    SimpleDateFormat format = new SimpleDateFormat(DATE_PATTERN);
+    final Date date = new Date(timestamp.getValue());
+    final SimpleDateFormat format = new SimpleDateFormat(DATE_PATTERN);
     format.setTimeZone(TimeZone.getTimeZone("UTC"));
     return format.format(date);
   }
@@ -79,12 +79,12 @@ public class HelperTime {
    * @param time The readable time string. Expected format is {@value #DATE_PATTERN}.
    * @return The MAL FineTime object or null if ParseException occurred
    */
-  public static FineTime readableString2FineTime(String time) {
-    SimpleDateFormat format = new SimpleDateFormat(DATE_PATTERN);
-    Date date;
+  public static FineTime readableString2FineTime(final String time) {
+    final SimpleDateFormat format = new SimpleDateFormat(DATE_PATTERN);
+    final Date date;
     try {
       date = format.parse(time);
-    } catch (ParseException e) {
+    } catch (final ParseException e) {
       LOGGER.log(Level.SEVERE, String.format("Error while parsing %s", time), e);
       return null;
     }
@@ -97,12 +97,12 @@ public class HelperTime {
    * @param time The readable time string. Expected format is {@value #DATE_PATTERN}.
    * @return The MAL Time object or null if a ParseException occurred
    */
-  public static Time readableString2Time(String time) {
-    SimpleDateFormat format = new SimpleDateFormat(DATE_PATTERN);
-    Date date;
+  public static Time readableString2Time(final String time) {
+    final SimpleDateFormat format = new SimpleDateFormat(DATE_PATTERN);
+    final Date date;
     try {
       date = format.parse(time);
-    } catch (ParseException e) {
+    } catch (final ParseException e) {
       LOGGER.log(Level.SEVERE, String.format("Error while parsing %s", time), e);
       return null;
     }
@@ -128,11 +128,11 @@ public class HelperTime {
     return new Time(System.currentTimeMillis());
   }
 
-  public static long fromMilliToNano(long milli) {
+  public static long fromMilliToNano(final long milli) {
     return (milli * ONE_MILLION);
   }
 
-  public static long fromNanoToMilli(long nano) {
+  public static long fromNanoToMilli(final long nano) {
     return (nano / ONE_MILLION);
   }
 
@@ -151,7 +151,7 @@ public class HelperTime {
    * @param nano The time in nanoseconds
    * @return The fractional part of time in nanoseconds
    */
-  public static int getFractionalPart(long nano) {
+  public static int getFractionalPart(final long nano) {
     return ((int) ((nano % 1000000000)));
   }
 
@@ -163,7 +163,7 @@ public class HelperTime {
    * @return The time in nanoseconds
    * @throws java.lang.IllegalArgumentException If timestamp == null
    */
-  public static long getNanosecondsFromSQLTimestamp(java.sql.Timestamp timestamp)
+  public static long getNanosecondsFromSQLTimestamp(final java.sql.Timestamp timestamp)
       throws IllegalArgumentException {
     if (timestamp == null) {
       throw new IllegalArgumentException("The timestamp must not be null.");

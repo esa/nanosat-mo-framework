@@ -12,37 +12,37 @@ public class ContrastEnhancerOpt extends ContrastEnhancer {
 
     ImagePlus newImage;
 
-    public void setImage(ImagePlus image) {
+    public void setImage(final ImagePlus image) {
         this.newImage = image;
     }
 
-    public void setEqualize(boolean equalize) {
+    public void setEqualize(final boolean equalize) {
         this.equalize = equalize;
     }
 
-    public void setSaturated(double d) {
+    public void setSaturated(final double d) {
         this.saturated = d;
     }
 
-    public void setNormalize(boolean normalize) {
+    public void setNormalize(final boolean normalize) {
         this.normalize = normalize;
     }
 
-    public void setStackHist(boolean b) {
+    public void setStackHist(final boolean b) {
         this.useStackHistogram = b;
     }
 
-    public void setProcessStack(boolean b) {
+    public void setProcessStack(final boolean b) {
         this.processStack = b;
     }
 
     @Override
-    public void run(String arg) {
-        ImagePlus imp = newImage;
+    public void run(final String arg) {
+        final ImagePlus imp = newImage;
         stackSize = imp.getStackSize();
         imp.trimProcessor();
 
-        Roi roi = imp.getRoi();
+        final Roi roi = imp.getRoi();
         if (roi != null) {
             roi.endPaste();
         }
@@ -57,7 +57,7 @@ public class ContrastEnhancerOpt extends ContrastEnhancer {
             stretchHistogram(imp, saturated);
         }
         if (normalize) {
-            ImageProcessor ip = imp.getProcessor();
+            final ImageProcessor ip = imp.getProcessor();
             ip.setMinAndMax(0, ip.getBitDepth() == 32 ? 1.0 : ip.maxValue());
         }
         imp.updateAndDraw();

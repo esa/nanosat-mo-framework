@@ -68,8 +68,8 @@ public class MultiThreadedSocketServer extends Thread {
     return logger;
   }
 
-  public MultiThreadedSocketServer(String listenURL, CentralNode centralNode, int listenPort,
-      Logger logger) {
+  public MultiThreadedSocketServer(final String listenURL, final CentralNode centralNode, final int listenPort,
+                                   final Logger logger) {
 
     this.logger = logger;
     this.listenURL = listenURL;
@@ -84,9 +84,9 @@ public class MultiThreadedSocketServer extends Thread {
     return this.parent.getqFromGUI();
   }
 
-  public void putDataOnForAllClients(Object data) {
+  public void putDataOnForAllClients(final Object data) {
 
-    for (ClientServiceThreadSender s : clientSockets) {
+    for (final ClientServiceThreadSender s : clientSockets) {
       if (s.getMyClientSocket().isConnected()) {
         logger.log(Level.ALL,
             "Put data [" + data.getClass().getName() + "] for client [" + s.toString() + "]");
@@ -106,8 +106,8 @@ public class MultiThreadedSocketServer extends Thread {
           boolean doSendData = true;
           if (data instanceof CommandResult) {
             boolean hasBeenRequested = false;
-            LinkedList<String> tempList = this.hMapManualCommandsList.get(s);
-            String testString = ((CommandResult) data).getCommandDescriptor().getMethodBody();
+            final LinkedList<String> tempList = this.hMapManualCommandsList.get(s);
+            final String testString = ((CommandResult) data).getCommandDescriptor().getMethodBody();
             hasBeenRequested = tempList.contains(testString);
             if (hasBeenRequested)
               tempList.remove(testString);
@@ -129,13 +129,13 @@ public class MultiThreadedSocketServer extends Thread {
     while (currentTries < MAX_PORTS_OPEN) {
       boolean failed = false;
       try {
-        InetAddress addr = InetAddress.getByName(listenURL);
+        final InetAddress addr = InetAddress.getByName(listenURL);
         targetPort = this.listenPort + currentTries;
         logger.log(Level.FINE, "Create server socket on port [" + targetPort + "].");
         myServerSocket = new ServerSocket(targetPort, 10);
         logger.log(Level.INFO, "ServerSocket created on port [" + targetPort + "]");
 
-      } catch (IOException ioe) {
+      } catch (final IOException ioe) {
         logger.log(Level.INFO, "Could not create server socket on port [" + targetPort + "].");
         currentTries++;
         failed = true;
@@ -149,14 +149,14 @@ public class MultiThreadedSocketServer extends Thread {
           + "] up to port [" + targetPort + "]. Total tries [" + currentTries + "]. Quitting.");
       System.exit(-1);
     }
-    Calendar now = Calendar.getInstance();
-    SimpleDateFormat formatter = new SimpleDateFormat("E yyyy.MM.dd 'at' hh:mm:ss a zzz");
+    final Calendar now = Calendar.getInstance();
+    final SimpleDateFormat formatter = new SimpleDateFormat("E yyyy.MM.dd 'at' hh:mm:ss a zzz");
 
     // Successfully created Server Socket. Now wait for connections.
     while (ServerOn) {
       try {
         // Accept incoming connections.
-        Socket clientSocket = myServerSocket.accept();
+        final Socket clientSocket = myServerSocket.accept();
 
         // accept() will block until a client connects to the server.
         // If execution reaches this point, then it means that a client
@@ -166,15 +166,15 @@ public class MultiThreadedSocketServer extends Thread {
         // Multi-Threaded server. Starting a thread also lets our
         // MultiThreadedSocketServer accept multiple connections simultaneously.
         // Start a Service thread
-        ClientServiceThreadSender cliThread = new ClientServiceThreadSender(clientSocket, this);
-        ClientServiceThreadReceiver cliThreadReceiver = new ClientServiceThreadReceiver(
+        final ClientServiceThreadSender cliThread = new ClientServiceThreadSender(clientSocket, this);
+        final ClientServiceThreadReceiver cliThreadReceiver = new ClientServiceThreadReceiver(
             clientSocket, this);
         this.hMapManualCommandsList.put(cliThread, cliThreadReceiver.getCommandsList());
         cliThread.start();
         cliThreadReceiver.start();
         clientSockets.add(cliThread);
 
-      } catch (IOException ioe) {
+      } catch (final IOException ioe) {
         logger.log(Level.SEVERE, "Exception encountered on accept. Ignoring. Stack Trace :");
         ioe.printStackTrace();
       }
@@ -184,7 +184,7 @@ public class MultiThreadedSocketServer extends Thread {
     try {
       myServerSocket.close();
       logger.log(Level.SEVERE, "Server Stopped");
-    } catch (Exception ioe) {
+    } catch (final Exception ioe) {
       logger.log(Level.SEVERE, "Problem stopping server socket");
       System.exit(-1);
     }
@@ -214,11 +214,11 @@ public class MultiThreadedSocketServer extends Thread {
       return listSent;
     }
 
-    public void setListSent(boolean listSent) {
+    public void setListSent(final boolean listSent) {
       this.listSent = listSent;
     }
 
-    ClientServiceThreadReceiver(Socket s, MultiThreadedSocketServer parent) {
+    ClientServiceThreadReceiver(final Socket s, final MultiThreadedSocketServer parent) {
       myClientSocket = s;
       this.parent = parent;
       this.logger = parent.getLogger();
@@ -251,7 +251,7 @@ public class MultiThreadedSocketServer extends Thread {
           try {
             // read incoming stream
             clientCommand = in.readObject();
-          } catch (EOFException | SocketException ex) {
+          } catch (final EOFException | SocketException ex) {
             logger.log(Level.INFO,
                 "Disconnected Client Address - " + myClientSocket.getInetAddress().getHostName());
             m_bRunThread = false;
@@ -286,7 +286,7 @@ public class MultiThreadedSocketServer extends Thread {
             Thread.sleep(150);
           }
         }
-      } catch (Exception e) {
+      } catch (final Exception e) {
         e.printStackTrace();
       } finally {
         // Clean up
@@ -295,7 +295,7 @@ public class MultiThreadedSocketServer extends Thread {
 
           myClientSocket.close();
           logger.log(Level.FINE, "...Stopped");
-        } catch (IOException ioe) {
+        } catch (final IOException ioe) {
           ioe.printStackTrace();
         }
       }
@@ -330,11 +330,11 @@ public class MultiThreadedSocketServer extends Thread {
       return listSent;
     }
 
-    public void setListSent(boolean listSent) {
+    public void setListSent(final boolean listSent) {
       this.listSent = listSent;
     }
 
-    public void putDataToClient(Object data) {
+    public void putDataToClient(final Object data) {
       boolean dataOk = false;
       dataOk = true;
       if (dataOk) {
@@ -345,7 +345,7 @@ public class MultiThreadedSocketServer extends Thread {
       }
     }
 
-    ClientServiceThreadSender(Socket s, MultiThreadedSocketServer parent) {
+    ClientServiceThreadSender(final Socket s, final MultiThreadedSocketServer parent) {
       myClientSocket = s;
       this.parent = parent;
       this.logger = parent.getLogger();
@@ -380,7 +380,7 @@ public class MultiThreadedSocketServer extends Thread {
             try {
               out.reset();
               out.writeObject(toClientObj);
-            } catch (SocketException ex) {
+            } catch (final SocketException ex) {
               m_bRunThread = false;
             }
           }
@@ -391,18 +391,18 @@ public class MultiThreadedSocketServer extends Thread {
           }
           Thread.sleep(150);
         }
-      } catch (Exception e) {
+      } catch (final Exception e) {
         e.printStackTrace();
       } finally {
         // Clean up
         try {
           try {
             out.close();
-          } catch (SocketException ex) {
+          } catch (final SocketException ex) {
           }
           myClientSocket.close();
           logger.log(Level.FINE, "...Stopped");
-        } catch (IOException ioe) {
+        } catch (final IOException ioe) {
           ioe.printStackTrace();
         }
       }

@@ -61,7 +61,7 @@ public class CommandExecutorConsumerServiceImpl extends ConsumerServiceImpl {
     }
 
     @Override
-    public Object generateServiceStub(MALConsumer tmConsumer) {
+    public Object generateServiceStub(final MALConsumer tmConsumer) {
         return new CommandExecutorStub(tmConsumer);
     }
 
@@ -101,7 +101,7 @@ public class CommandExecutorConsumerServiceImpl extends ConsumerServiceImpl {
         if (tmConsumer != null) {
             try {
                 tmConsumer.close();
-            } catch (MALException ex) {
+            } catch (final MALException ex) {
                 Logger.getLogger(CommandExecutorConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

@@ -31,7 +31,7 @@ public class ADCSApp {
     private final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
 
     public ADCSApp() {
-        MCAdapter adapter = new MCAdapter(connector);
+        final MCAdapter adapter = new MCAdapter(connector);
         connector.init(adapter);
         adapter.startADCS();
         adapter.go();
@@ -44,7 +44,7 @@ public class ADCSApp {
      * @throws java.lang.Exception If there is an error
      */
     public static void main(final String[] args) throws Exception {
-        ADCSApp demo = new ADCSApp();
+        final ADCSApp demo = new ADCSApp();
     }
 
 }

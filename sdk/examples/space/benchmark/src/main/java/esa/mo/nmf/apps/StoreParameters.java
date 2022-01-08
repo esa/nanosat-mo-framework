@@ -42,25 +42,25 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterValueList;
  */
 public class StoreParameters {
 
-    public static void storeParameterValues(int numberOfObjs, NMFInterface connector) {
+    public static void storeParameterValues(final int numberOfObjs, final NMFInterface connector) {
         try {
-            ParameterValue pValue = new ParameterValue(
+            final ParameterValue pValue = new ParameterValue(
                     new UOctet((short) 0),
                     (Attribute) HelperAttributes.javaType2Attribute(123.4567),
                     null
             );
 
-            ParameterValueList values = new ParameterValueList();
+            final ParameterValueList values = new ParameterValueList();
 
             for (int i = 0; i < numberOfObjs; i++) {
                 values.add(pValue);
             }
-            ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(null, null,
+            final ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(null, null,
                     connector.getMCServices().getActionService().getConnectionProvider().getConnectionDetails());
             for (int i = 0; i < numberOfObjs - 1; i++) {
                 archDetails.add(archDetails.get(0));
             }
-            long startTime = System.nanoTime();
+            final long startTime = System.nanoTime();
             /*
             try {
             LongList objIds = nanoSatMOFramework.getCOMServices().getArchiveService().store(
@@ -98,8 +98,8 @@ public class StoreParameters {
              */
             try {
                 for (int i = 0; i < values.size(); i++) {
-                    ArchiveDetailsList xxx = new ArchiveDetailsList();
-                    ParameterValueList yyy = new ParameterValueList();
+                    final ArchiveDetailsList xxx = new ArchiveDetailsList();
+                    final ParameterValueList yyy = new ParameterValueList();
                     xxx.add(archDetails.get(0));
                     yyy.add(values.get(i));
 
@@ -112,17 +112,17 @@ public class StoreParameters {
                             null);
 
                 }
-            } catch (MALException | MALInteractionException ex) {
+            } catch (final MALException | MALInteractionException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
-            long estimatedTime = System.nanoTime() - startTime;
+            final long estimatedTime = System.nanoTime() - startTime;
             Logger.getLogger(BenchmarkApp.class.getName()).log(Level.INFO,
                     "Total time: " + numberOfObjs + " objects in {0} nanoseconds", estimatedTime);
-            float objectPerSec = numberOfObjs / ((float) estimatedTime / (float) 1000000000);
-            float averageTimePerObj = 1 / objectPerSec;
+            final float objectPerSec = numberOfObjs / ((float) estimatedTime / (float) 1000000000);
+            final float averageTimePerObj = 1 / objectPerSec;
             Logger.getLogger(BenchmarkApp.class.getName()).log(Level.INFO,
                     "Objects per second: " + objectPerSec + " (average: " + averageTimePerObj + " sec)");
-        } catch (NMFException ex) {
+        } catch (final NMFException ex) {
             Logger.getLogger(BenchmarkApp.class.getName()).log(Level.SEVERE, null, ex);
         }
 

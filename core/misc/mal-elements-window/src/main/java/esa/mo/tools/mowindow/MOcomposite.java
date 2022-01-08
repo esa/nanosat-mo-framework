@@ -31,7 +31,7 @@ public class MOcomposite extends MOelement{
     
     private final javax.swing.JToggleButton button;
 
-    public MOcomposite(String fieldNameIn, Element obj, boolean editable, boolean objIsNull) {
+    public MOcomposite(final String fieldNameIn, final Element obj, final boolean editable, final boolean objIsNull) {
         super(fieldNameIn, obj, editable, objIsNull);
         
         // Make a button and put it in the middle Panel
@@ -65,12 +65,12 @@ public class MOcomposite extends MOelement{
         return object;
     }
 
-    private void buttonActionPerformed(java.awt.event.ActionEvent evt) {                                       
-        MOWindow genericObj = new MOWindow(object, this.editable);
+    private void buttonActionPerformed(final java.awt.event.ActionEvent evt) {
+        final MOWindow genericObj = new MOWindow(object, this.editable);
 
         try {
             this.object = genericObj.getObject();
-        } catch (InterruptedIOException ex) {
+        } catch (final InterruptedIOException ex) {
             return;
         }
 

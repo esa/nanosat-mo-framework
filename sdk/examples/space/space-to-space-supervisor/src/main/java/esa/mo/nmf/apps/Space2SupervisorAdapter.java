@@ -49,7 +49,7 @@ public class Space2SupervisorAdapter extends MonitorAndControlNMFAdapter {
     public Space2SupervisorAdapter() {
     }
 
-    public void setConnector(NanoSatMOConnectorImpl connector)
+    public void setConnector(final NanoSatMOConnectorImpl connector)
     {
         this.connector = connector;
 
@@ -62,7 +62,7 @@ public class Space2SupervisorAdapter extends MonitorAndControlNMFAdapter {
         });
     }
 
-    public void setSupervisorSMA(SpaceMOApdapterImpl supervisorSMA)
+    public void setSupervisorSMA(final SpaceMOApdapterImpl supervisorSMA)
     {
         this.supervisorSMA = supervisorSMA;
     }
@@ -70,28 +70,28 @@ public class Space2SupervisorAdapter extends MonitorAndControlNMFAdapter {
     public void fetchParameters() {
         LOGGER.log(Level.SEVERE, "Registering for the following parameters: " + PARAMETER_NAMES);
         parametersNames.clear();
-        for (String paramName : PARAMETER_NAMES.split(",")) {
+        for (final String paramName : PARAMETER_NAMES.split(",")) {
             parametersNames.add(paramName);
         }
 
         // Toggle the parameters generation in supervisor
         try {
             supervisorSMA.toggleParametersGeneration(parametersNames, true);
-        } catch (NMFException e0) {
+        } catch (final NMFException e0) {
             LOGGER.log(Level.SEVERE, "Error toggling supervisor parameters generation", e0);
         }
 
         // Receive and log the parameter values from supervisor
-        SimpleDataReceivedListener parameterListener = new SimpleDataReceivedListener() {
+        final SimpleDataReceivedListener parameterListener = new SimpleDataReceivedListener() {
             @Override
-            public void onDataReceived(String parameterName, Serializable data) {
+            public void onDataReceived(final String parameterName, final Serializable data) {
                 if (data == null) {
                     LOGGER.log(Level.WARNING,
                             String.format("Received null value for parameter %s", parameterName));
                     return;
                 }
 
-                String dataS = data.toString();
+                final String dataS = data.toString();
                 LOGGER.log(Level.INFO, String.format(
                         "Received value %s from supervisor for parameter %s", dataS, parameterName));
             }
@@ -107,7 +107,7 @@ public class Space2SupervisorAdapter extends MonitorAndControlNMFAdapter {
         // Stop fetching data in supervisor
         try {
             supervisorSMA.toggleParametersGeneration(parametersNames, false);
-        } catch (NMFException e0) {
+        } catch (final NMFException e0) {
             success = false;
             LOGGER.log(Level.SEVERE, "Error toggling supervisor parameters generation", e0);
         }

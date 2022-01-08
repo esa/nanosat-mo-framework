@@ -36,12 +36,12 @@ public class PlanVersionTablePanel extends SharedTablePanel {
 
     private static final Logger LOGGER = Logger.getLogger(PlanVersionTablePanel.class.getName());
 
-    public PlanVersionTablePanel(ArchiveConsumerServiceImpl archiveService) {
+    public PlanVersionTablePanel(final ArchiveConsumerServiceImpl archiveService) {
         super(archiveService);
     }
 
     @Override
-    public void addEntry(Identifier identity, ArchivePersistenceObject comObject) {
+    public void addEntry(final Identifier identity, final ArchivePersistenceObject comObject) {
         if (comObject == null) {
             LOGGER.log(Level.SEVERE, "The table cannot process a null COM Object.");
             return;
@@ -49,11 +49,11 @@ public class PlanVersionTablePanel extends SharedTablePanel {
 
         try {
             semaphore.acquire();
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
-        PlanVersionDetails planVersion = (PlanVersionDetails) comObject.getObject();
+        final PlanVersionDetails planVersion = (PlanVersionDetails) comObject.getObject();
 
         int plannedActivitiesCount = 0;
         int plannedEventsCount = 0;
@@ -92,7 +92,7 @@ public class PlanVersionTablePanel extends SharedTablePanel {
 
     @Override
     public void defineTableContent() {
-        String[] tableCol = new String[]{
+        final String[] tableCol = new String[]{
             "Plan Identity", "Plan Version ID", "Planned activities",
             "Planned events", "Production date", "Description",
             "Comments"
@@ -107,12 +107,12 @@ public class PlanVersionTablePanel extends SharedTablePanel {
                 };
 
                 @Override               //all cells false
-                public boolean isCellEditable(int row, int column) {
+                public boolean isCellEditable(final int row, final int column) {
                     return false;
                 }
 
                 @Override
-                public Class getColumnClass(int columnIndex) {
+                public Class getColumnClass(final int columnIndex) {
                     return types[columnIndex];
                 }
         };

@@ -70,7 +70,7 @@ public class BinaryEncoder extends GENEncoder
         outputStream.addBytes(null);
       }
     }
-    catch (IOException ex)
+    catch (final IOException ex)
     {
       throw new MALException(ENCODING_EXCEPTION_STR, ex);
     }
@@ -103,7 +103,7 @@ public class BinaryEncoder extends GENEncoder
         outputStream.addBytes(null);
       }
     }
-    catch (IOException ex)
+    catch (final IOException ex)
     {
       throw new MALException(ENCODING_EXCEPTION_STR, ex);
     }
@@ -123,7 +123,7 @@ public class BinaryEncoder extends GENEncoder
         outputStream.addBytes(null);
       }
     }
-    catch (IOException ex)
+    catch (final IOException ex)
     {
       throw new MALException(ENCODING_EXCEPTION_STR, ex);
     }
@@ -143,7 +143,7 @@ public class BinaryEncoder extends GENEncoder
         outputStream.addBytes(null);
       }
     }
-    catch (IOException ex)
+    catch (final IOException ex)
     {
       throw new MALException(ENCODING_EXCEPTION_STR, ex);
     }
@@ -163,7 +163,7 @@ public class BinaryEncoder extends GENEncoder
         outputStream.addBytes(null);
       }
     }
-    catch (IOException ex)
+    catch (final IOException ex)
     {
       throw new MALException(ENCODING_EXCEPTION_STR, ex);
     }
@@ -179,7 +179,7 @@ public class BinaryEncoder extends GENEncoder
      *
      * @param outputStream the stream to encode in to.
      */
-    public BinaryStreamHolder(OutputStream outputStream)
+    public BinaryStreamHolder(final OutputStream outputStream)
     {
       super(outputStream);
     }
@@ -199,7 +199,7 @@ public class BinaryEncoder extends GENEncoder
     }
 
     @Override
-    public void addString(String value) throws IOException
+    public void addString(final String value) throws IOException
     {
 //            Logger.getLogger(BinaryEncoder.class.getName()).log(Level.INFO,
 //                    "String: " + value);
@@ -209,19 +209,19 @@ public class BinaryEncoder extends GENEncoder
     }
 
     @Override
-    public void addFloat(float value) throws IOException
+    public void addFloat(final float value) throws IOException
     {
       addSignedInt(Float.floatToRawIntBits(value));
     }
 
     @Override
-    public void addDouble(double value) throws IOException
+    public void addDouble(final double value) throws IOException
     {
       addSignedLong(Double.doubleToRawLongBits(value));
     }
 
     @Override
-    public void addBigInteger(BigInteger value) throws IOException
+    public void addBigInteger(final BigInteger value) throws IOException
     {
       addBytes(value.toByteArray());
     }
@@ -256,7 +256,7 @@ public class BinaryEncoder extends GENEncoder
     }
 
     @Override
-    public void addUnsignedLong32(long value) throws IOException
+    public void addUnsignedLong32(final long value) throws IOException
     {
       addUnsignedLong(value);
     }
@@ -273,31 +273,31 @@ public class BinaryEncoder extends GENEncoder
     }
 
     @Override
-    public void addUnsignedInt16(int value) throws IOException
+    public void addUnsignedInt16(final int value) throws IOException
     {
       addUnsignedInt(value);
     }
 
     @Override
-    public void addUnsignedShort(int value) throws IOException
+    public void addUnsignedShort(final int value) throws IOException
     {
       addUnsignedInt(value);
     }
 
     @Override
-    public void addUnsignedShort8(short value) throws IOException
+    public void addUnsignedShort8(final short value) throws IOException
     {
       addUnsignedShort(value);
     }
 
     @Override
-    public void addByte(byte value) throws IOException
+    public void addByte(final byte value) throws IOException
     {
       directAdd(value);
     }
 
     @Override
-    public void addBool(boolean value) throws IOException
+    public void addBool(final boolean value) throws IOException
     {
       if (value)
       {

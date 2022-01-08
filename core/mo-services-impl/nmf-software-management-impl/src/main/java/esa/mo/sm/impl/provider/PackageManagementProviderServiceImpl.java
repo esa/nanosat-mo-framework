@@ -124,17 +124,17 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
             connection.closeAll();
             running = false;
-        } catch (MALException ex) {
+        } catch (final MALException ex) {
             Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.WARNING,
                     "Exception during close down of the provider {0}", ex);
         }
     }
 
     @Override
-    public FindPackageResponse findPackage(IdentifierList names, MALInteraction interaction)
+    public FindPackageResponse findPackage(final IdentifierList names, final MALInteraction interaction)
             throws MALInteractionException, MALException {
-        UIntegerList unkIndexList = new UIntegerList();
-        FindPackageResponse outList = new FindPackageResponse();
+        final UIntegerList unkIndexList = new UIntegerList();
+        final FindPackageResponse outList = new FindPackageResponse();
 
         if (null == names) { // Is the input null?
             throw new IllegalArgumentException("names argument and category argument must not be null");
@@ -143,33 +143,33 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
         boolean returnAll = false;
 
         // Is the call to return the full list of available packages?
-        for (Identifier name : names) {
+        for (final Identifier name : names) {
             if ("*".equals(name.getValue())) {
                 returnAll = true;
             }
         }
 
-        StringList availablePackages;
+        final StringList availablePackages;
         try {
             availablePackages = backend.getListOfPackages();
             final IdentifierList packages = new IdentifierList();
             final BooleanList installed = new BooleanList();
 
             if (returnAll) {
-                for (String pack : availablePackages) {
-                    boolean isInstalled = backend.isPackageInstalled(pack);
+                for (final String pack : availablePackages) {
+                    final boolean isInstalled = backend.isPackageInstalled(pack);
                     packages.add(new Identifier(pack));
                     installed.add(isInstalled);
                 }
             } else {
                 for (int j = 0; j < names.size(); j++) {
                     // Is the name available?
-                    int index = packageExistsInIndex(names.get(j).getValue(), availablePackages);
+                    final int index = packageExistsInIndex(names.get(j).getValue(), availablePackages);
 
                     if (index == -1) {
                         unkIndexList.add(new UInteger(j));
                     } else {
-                        boolean isInstalled = backend.isPackageInstalled(availablePackages.get(index));
+                        final boolean isInstalled = backend.isPackageInstalled(availablePackages.get(index));
                         packages.add(new Identifier(availablePackages.get(index)));
                         installed.add(isInstalled);
                     }
@@ -178,7 +178,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
             outList.setBodyElement0(packages); // ObjIds
             outList.setBodyElement1(installed); // Installed?
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(
                     Level.SEVERE, "The list of packages could not be retrieved!", ex);
 
@@ -199,19 +199,19 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
     public void install(final IdentifierList names, final InstallInteraction interaction) throws MALInteractionException, MALException {
         interaction.sendAcknowledgement(null);
 
-        UIntegerList unkIndexList = new UIntegerList();
-        UIntegerList invIndexList = new UIntegerList();
+        final UIntegerList unkIndexList = new UIntegerList();
+        final UIntegerList invIndexList = new UIntegerList();
 
         if (null == names) { // Is the input null?
             throw new IllegalArgumentException("names argument must not be null");
         }
 
-        StringList availablePackages;
+        final StringList availablePackages;
         try {
             availablePackages = backend.getListOfPackages();
 
             for (int i = 0; i < names.size(); i++) {
-                int index = packageExistsInIndex(names.get(i).getValue(), availablePackages);
+                final int index = packageExistsInIndex(names.get(i).getValue(), availablePackages);
 
                 if (index == -1) {
                     unkIndexList.add(new UInteger(i));
@@ -223,11 +223,11 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
                 // Throw error if already installed!
                 // Before installing, we need to check the package integrity!
-                boolean integrity = backend.checkPackageIntegrity(availablePackages.get(i));
+                final boolean integrity = backend.checkPackageIntegrity(availablePackages.get(i));
 
                 // The installation cannot go forward here if the integrity is false!
             }
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -240,7 +240,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
         }
 
-        for (Identifier packageName : names) {
+        for (final Identifier packageName : names) {
             Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.INFO,
                     "Installing: {0}", packageName.getValue());
 
@@ -255,20 +255,20 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             final UninstallInteraction interaction) throws MALInteractionException, MALException {
         interaction.sendAcknowledgement();
 
-        UIntegerList unkIndexList = new UIntegerList();
-        UIntegerList invIndexList = new UIntegerList();
+        final UIntegerList unkIndexList = new UIntegerList();
+        final UIntegerList invIndexList = new UIntegerList();
 
         // Add validation
         if (null == names || keepConfigurations == null) { // Is the input null?
             throw new IllegalArgumentException("names argument and keepConfigurations argument must not be null");
         }
 
-        StringList availablePackages;
+        final StringList availablePackages;
         try {
             availablePackages = backend.getListOfPackages();
 
             for (int i = 0; i < names.size(); i++) {
-                int index = packageExistsInIndex(names.get(i).getValue(), availablePackages);
+                final int index = packageExistsInIndex(names.get(i).getValue(), availablePackages);
 
                 if (index == -1) {
                     unkIndexList.add(new UInteger(i));
@@ -283,7 +283,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
                 // Throw error if already installed!
                 // Before installing, we need to check the package integrity!
-                boolean integrity = backend.checkPackageIntegrity(availablePackages.get(i));
+                final boolean integrity = backend.checkPackageIntegrity(availablePackages.get(i));
 
                 if (!integrity) {
                     invIndexList.add(new UInteger(i));
@@ -291,7 +291,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
                         Level.SEVERE, "The integrity of the package is bad!");
                 }
             }
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(
                     Level.SEVERE, "The list of packages could not be retrieved!", ex);
         }
@@ -309,7 +309,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
         }
 
-        for (Identifier packageName : names) {
+        for (final Identifier packageName : names) {
             Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(
                     Level.INFO, "Uninstalling: {0}", packageName.getValue());
 
@@ -323,20 +323,20 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
     public void upgrade(final IdentifierList names, final UpgradeInteraction interaction) throws MALInteractionException, MALException {
         interaction.sendAcknowledgement();
 
-        UIntegerList unkIndexList = new UIntegerList();
-        UIntegerList invIndexList = new UIntegerList();
+        final UIntegerList unkIndexList = new UIntegerList();
+        final UIntegerList invIndexList = new UIntegerList();
 
         // Add validation
         if (null == names) { // Is the input null?
             throw new IllegalArgumentException("names argument must not be null");
         }
 
-        StringList availablePackages;
+        final StringList availablePackages;
         try {
             availablePackages = backend.getListOfPackages();
 
             for (int i = 0; i < names.size(); i++) {
-                int index = packageExistsInIndex(names.get(i).getValue(), availablePackages);
+                final int index = packageExistsInIndex(names.get(i).getValue(), availablePackages);
 
                 if (index == -1) {
                     unkIndexList.add(new UInteger(i));
@@ -348,11 +348,11 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
                 // Throw error if already installed!
                 // Before installing, we need to check the package integrity!
-                boolean integrity = backend.checkPackageIntegrity(availablePackages.get(i));
+                final boolean integrity = backend.checkPackageIntegrity(availablePackages.get(i));
 
                 // The installation cannot go forward here if the integrity is false!
             }
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -365,7 +365,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
         }
 
-        for (Identifier packageName : names) {
+        for (final Identifier packageName : names) {
             Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(
                     Level.INFO, "Upgrading: {0}", packageName.getValue());
 
@@ -376,22 +376,22 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
     }
 
     @Override
-    public CheckPackageIntegrityResponse checkPackageIntegrity(IdentifierList names,
-            MALInteraction interaction) throws MALInteractionException, MALException {
-        UIntegerList unkIndexList = new UIntegerList();
-        UIntegerList invIndexList = new UIntegerList();
+    public CheckPackageIntegrityResponse checkPackageIntegrity(final IdentifierList names,
+                                                               final MALInteraction interaction) throws MALInteractionException, MALException {
+        final UIntegerList unkIndexList = new UIntegerList();
+        final UIntegerList invIndexList = new UIntegerList();
 
         // Add validation
         if (null == names) { // Is the input null?
             throw new IllegalArgumentException("names argument must not be null");
         }
 
-        StringList availablePackages;
+        final StringList availablePackages;
         try {
             availablePackages = backend.getListOfPackages();
 
             for (int i = 0; i < names.size(); i++) {
-                int index = packageExistsInIndex(names.get(i).getValue(), availablePackages);
+                final int index = packageExistsInIndex(names.get(i).getValue(), availablePackages);
 
                 if (index == -1) {
                     unkIndexList.add(new UInteger(i));
@@ -405,7 +405,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
                 // Before installing, we need to check the package integrity!
                 // The installation cannot go forward here if the integrity is false!
             }
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -421,21 +421,21 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
         final BooleanList integrities = new BooleanList();
         final StringList publicKeys = new StringList();
 
-        for (Identifier packageName : names) {
-            boolean integrity = backend.checkPackageIntegrity(packageName.getValue());
-            String publicKey = backend.getPublicKey(packageName.getValue());
+        for (final Identifier packageName : names) {
+            final boolean integrity = backend.checkPackageIntegrity(packageName.getValue());
+            final String publicKey = backend.getPublicKey(packageName.getValue());
             integrities.add(integrity);
             publicKeys.add(publicKey);
         }
 
-        CheckPackageIntegrityResponse out = new CheckPackageIntegrityResponse();
+        final CheckPackageIntegrityResponse out = new CheckPackageIntegrityResponse();
         out.setBodyElement0(integrities);
         out.setBodyElement1(publicKeys);
 
         return out;
     }
 
-    private static int packageExistsInIndex(String name, StringList packagesList) {
+    private static int packageExistsInIndex(final String name, final StringList packagesList) {
         for (int k = 0; k < packagesList.size(); k++) {
             if (name.equals(packagesList.get(k))) {
                 return k;

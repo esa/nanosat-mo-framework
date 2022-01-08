@@ -46,9 +46,9 @@ public class COMObjectIdHelper {
      * @param comObject The COM ArchivePersistenceObject
      * @return The COM ObjectId
      */
-    public static ObjectId getObjectId(ArchivePersistenceObject comObject) {
+    public static ObjectId getObjectId(final ArchivePersistenceObject comObject) {
         if (comObject == null) return null;
-        ObjectKey objectKey = new ObjectKey(comObject.getDomain(), comObject.getObjectId());
+        final ObjectKey objectKey = new ObjectKey(comObject.getDomain(), comObject.getObjectId());
         return new ObjectId(comObject.getObjectType(), objectKey);
     }
 
@@ -57,7 +57,7 @@ public class COMObjectIdHelper {
      * @param objectId The COM ObjectId
      * @return The instance id of the COM Object
      */
-    public static Long getInstanceId(ObjectId objectId) {
+    public static Long getInstanceId(final ObjectId objectId) {
         if (objectId == null || objectId.getKey() == null) return null;
         return objectId.getKey().getInstId();
     }
@@ -67,9 +67,9 @@ public class COMObjectIdHelper {
      * @param objectIds The COM ObjectId list
      * @return The instance id list of the COM Objects
      */
-    public static LongList getInstanceIds(ObjectIdList objectIds) {
+    public static LongList getInstanceIds(final ObjectIdList objectIds) {
         if (objectIds == null) return null;
-        LongList result = new LongList();
+        final LongList result = new LongList();
         result.addAll(objectIds.stream()
             .map(id -> getInstanceId(id))
             .collect(Collectors.toList()));
@@ -82,8 +82,8 @@ public class COMObjectIdHelper {
      * @param objectType The type of the COM Object
      * @return The COM ObjectId
      */
-    public static ObjectId getObjectId(Long instanceId, ObjectType objectType) {
-        IdentifierList domain = ConfigurationProviderSingleton.getDomain();
+    public static ObjectId getObjectId(final Long instanceId, final ObjectType objectType) {
+        final IdentifierList domain = ConfigurationProviderSingleton.getDomain();
         return getObjectId(instanceId, objectType, domain);
     }
 
@@ -93,8 +93,8 @@ public class COMObjectIdHelper {
      * @param objectType The type of the COM Objects
      * @return The COM ObjectId list
      */
-    public static ObjectIdList getObjectIds(LongList instanceIds, ObjectType objectType) {
-        IdentifierList domain = ConfigurationProviderSingleton.getDomain();
+    public static ObjectIdList getObjectIds(final LongList instanceIds, final ObjectType objectType) {
+        final IdentifierList domain = ConfigurationProviderSingleton.getDomain();
         return getObjectIds(instanceIds, objectType, domain);
     }
 
@@ -105,8 +105,8 @@ public class COMObjectIdHelper {
      * @param domain The domain of the COM Object
      * @return The COM ObjectId
      */
-    public static ObjectId getObjectId(Long instanceId, ObjectType objectType, IdentifierList domain) {
-        ObjectKey objectKey = new ObjectKey(domain, instanceId);
+    public static ObjectId getObjectId(final Long instanceId, final ObjectType objectType, final IdentifierList domain) {
+        final ObjectKey objectKey = new ObjectKey(domain, instanceId);
         return new ObjectId(objectType, objectKey);
     }
 
@@ -117,12 +117,12 @@ public class COMObjectIdHelper {
      * @param domain The domain of the COM Objects
      * @return the COM ObjectId list
      */
-    public static ObjectIdList getObjectIds(LongList instanceIds, ObjectType objectType, IdentifierList domain) {
+    public static ObjectIdList getObjectIds(final LongList instanceIds, final ObjectType objectType, final IdentifierList domain) {
         if (instanceIds == null || objectType == null) return null;
-        ObjectIdList result = new ObjectIdList();
+        final ObjectIdList result = new ObjectIdList();
         result.addAll(instanceIds.stream()
             .map(id -> {
-                ObjectKey objectKey = new ObjectKey(domain, id);
+                final ObjectKey objectKey = new ObjectKey(domain, id);
                 return new ObjectId(objectType, objectKey);
             })
             .collect(Collectors.toList()));
@@ -135,8 +135,8 @@ public class COMObjectIdHelper {
      * @param objectIds The ids of the object
      * @return The corresponding pairs list
      */
-    public static ObjectIdPairList getObjectIdPairs(ObjectIdList relatedIds, ObjectIdList objectIds) {
-        ObjectIdPairList pairs = new ObjectIdPairList();
+    public static ObjectIdPairList getObjectIdPairs(final ObjectIdList relatedIds, final ObjectIdList objectIds) {
+        final ObjectIdPairList pairs = new ObjectIdPairList();
         for (int index = 0; index < relatedIds.size(); index++) {
             pairs.add(new ObjectIdPair(
                 relatedIds.get(index),
@@ -151,9 +151,9 @@ public class COMObjectIdHelper {
      * @param pairs The related id and object id pairs
      * @return The corresponding instance id pairs list
      */
-    public static ObjectInstancePairList getInstancePairIds(ObjectIdPairList pairs) {
-        ObjectInstancePairList list = new ObjectInstancePairList();
-        for (ObjectIdPair pair : pairs) {
+    public static ObjectInstancePairList getInstancePairIds(final ObjectIdPairList pairs) {
+        final ObjectInstancePairList list = new ObjectInstancePairList();
+        for (final ObjectIdPair pair : pairs) {
             list.add(new ObjectInstancePair(
                 getInstanceId(pair.getIdentityId()),
                 getInstanceId(pair.getObjectId())

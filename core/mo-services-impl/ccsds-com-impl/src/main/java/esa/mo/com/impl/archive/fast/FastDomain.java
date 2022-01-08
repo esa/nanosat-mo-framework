@@ -52,29 +52,29 @@ public class FastDomain extends FastIndex<IdentifierList> {
         // Retrieve all the ids and domains from the Database
         try {
             dbBackend.getAvailability().acquire();
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             Logger.getLogger(FastDomain.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         int max = 0;
 
-        Connection c = dbBackend.getConnection();
+        final Connection c = dbBackend.getConnection();
 
         try {
-            Statement query = c.createStatement();
+            final Statement query = c.createStatement();
             query.execute(CREATE_TABLE);
             insertStmt = c.prepareStatement(QUERY_INSERT);
-            ResultSet rs = query.executeQuery(QUERY_SELECT);
+            final ResultSet rs = query.executeQuery(QUERY_SELECT);
 
             while (rs.next()) {
-                Integer id = rs.getInt(1);
-                IdentifierList domain = HelperMisc.domainId2domain(rs.getString(2));
+                final Integer id = rs.getInt(1);
+                final IdentifierList domain = HelperMisc.domainId2domain(rs.getString(2));
                 this.fastID.put(domain, id);
                 this.fastIDreverse.put(id, domain);
 
                 max = (id > max) ? id : max;
             }
-        } catch (SQLException ex) {
+        } catch (final SQLException ex) {
             Logger.getLogger(FastDomain.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -89,7 +89,7 @@ public class FastDomain extends FastIndex<IdentifierList> {
 
         try {
             dbBackend.getAvailability().acquire();
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             Logger.getLogger(FastDomain.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -97,7 +97,7 @@ public class FastDomain extends FastIndex<IdentifierList> {
             insertStmt.setObject(1, domainId);
             insertStmt.setObject(2, HelperMisc.domain2domainId(domain));
             insertStmt.execute();
-        } catch (SQLException ex) {
+        } catch (final SQLException ex) {
             Logger.getLogger(FastDomain.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -118,13 +118,13 @@ public class FastDomain extends FastIndex<IdentifierList> {
         }
 
         if (HelperCOM.domainContainsWildcard(inputDomain)) {
-            for (Map.Entry<IdentifierList, Integer> entry : this.fastID.entrySet()) {
+            for (final Map.Entry<IdentifierList, Integer> entry : this.fastID.entrySet()) {
                 try {
                     // Does the domain matches the wildcard?
                     if (HelperCOM.domainMatchesWildcardDomain(entry.getKey(), inputDomain)) {
                         ids.add(entry.getValue());
                     }
-                } catch (Exception ex) {
+                } catch (final Exception ex) {
                     Logger.getLogger(FastDomain.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -136,7 +136,7 @@ public class FastDomain extends FastIndex<IdentifierList> {
         return ids;
     }
 
-    public synchronized IdentifierList getDomain(Integer key) throws Exception {
+    public synchronized IdentifierList getDomain(final Integer key) throws Exception {
         return super.getValue(key);
     }
 

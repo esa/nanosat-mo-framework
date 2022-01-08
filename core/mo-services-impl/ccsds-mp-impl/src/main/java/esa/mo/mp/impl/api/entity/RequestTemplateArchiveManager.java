@@ -42,7 +42,7 @@ import esa.mo.mp.impl.com.pattern.COMStaticItemArchiveManager;
  */
 public class RequestTemplateArchiveManager extends COMStaticItemArchiveManager<RequestTemplateIdentityDetails, RequestTemplateIdentityDetailsList, RequestTemplateDetails, RequestTemplateDetailsList> {
 
-    public RequestTemplateArchiveManager(COMServicesProvider comServices, COMConfiguration configuration) {
+    public RequestTemplateArchiveManager(final COMServicesProvider comServices, final COMConfiguration configuration) {
         super(comServices, configuration);
     }
 
@@ -54,19 +54,19 @@ public class RequestTemplateArchiveManager extends COMStaticItemArchiveManager<R
         return super.listAllDefinitionIds(PlanInformationManagementHelper.REQUESTTEMPLATE_OBJECT_TYPE);
     }
 
-    public ObjectId getIdentityId(Identifier identity) {
+    public ObjectId getIdentityId(final Identifier identity) {
         return super.getIdentityId(identity, PlanInformationManagementHelper.REQUESTTEMPLATEIDENTITY_OBJECT_TYPE);
     }
 
-    public ObjectIdList getIdentityIds(IdentifierList identities) {
+    public ObjectIdList getIdentityIds(final IdentifierList identities) {
         return super.getIdentityIds(identities, PlanInformationManagementHelper.REQUESTTEMPLATEIDENTITY_OBJECT_TYPE);
     }
 
-    public RequestTemplateDetails getDefinition(Identifier identity) {
+    public RequestTemplateDetails getDefinition(final Identifier identity) {
         return super.getDefinition(identity, PlanInformationManagementHelper.REQUESTTEMPLATEIDENTITY_OBJECT_TYPE);
     }
 
-    public RequestTemplateDetailsList getDefinitions(IdentifierList identities) {
+    public RequestTemplateDetailsList getDefinitions(final IdentifierList identities) {
         return super.getDefinitions(identities, PlanInformationManagementHelper.REQUESTTEMPLATEIDENTITY_OBJECT_TYPE);
     }
 }

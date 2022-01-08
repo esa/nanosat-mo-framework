@@ -60,13 +60,13 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
      * @param archiveObjectOutput
      * @param archiveService
      */
-    public ArchiveTablePanel(ArchiveCOMObjectsOutput archiveObjectOutput, 
-            final ArchiveConsumerServiceImpl archiveService) {
+    public ArchiveTablePanel(final ArchiveCOMObjectsOutput archiveObjectOutput,
+                             final ArchiveConsumerServiceImpl archiveService) {
         initComponents();
 
         comObjects = new ArrayList<>();
 
-        String[] archiveTableCol = new String[]{
+        final String[] archiveTableCol = new String[]{
             "Domain", "Object Type", "Object Instance Identifier",
             "Timestamp", "Source", "Related"};
 
@@ -78,12 +78,12 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
             };
 
             @Override               //all cells false
-            public boolean isCellEditable(int row, int column) {
+            public boolean isCellEditable(final int row, final int column) {
                 return false;
             }
 
             @Override
-            public Class getColumnClass(int columnIndex) {
+            public Class getColumnClass(final int columnIndex) {
                 return types[columnIndex];
             }
         };
@@ -92,20 +92,20 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
 
         archiveTable.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mouseClicked(final MouseEvent e) {
                 if (e.getClickCount() == 2) {
                     // Get from the list of objects the one we want and display
-                    ArchivePersistenceObject comObject = getSelectedCOMObject();
+                    final ArchivePersistenceObject comObject = getSelectedCOMObject();
                     try {
-                        COMObjectWindow comObjectWindow = new COMObjectWindow(comObject, false, archiveService.getArchiveStub());
-                    } catch (IOException ex) {
+                        final COMObjectWindow comObjectWindow = new COMObjectWindow(comObject, false, archiveService.getArchiveStub());
+                    } catch (final IOException ex) {
                         Logger.getLogger(ArchiveTablePanel.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }
         });
 
-        TableRowSorter<TableModel> sorter = new TableRowSorter<>(archiveTable.getModel());
+        final TableRowSorter<TableModel> sorter = new TableRowSorter<>(archiveTable.getModel());
         archiveTable.setRowSorter(sorter);
         this.addEntries(archiveObjectOutput);
     }
@@ -122,7 +122,7 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
         return this.comObjects;
     }
 
-    protected void addEntries(ArchiveCOMObjectsOutput archiveObjectOutput) {
+    protected void addEntries(final ArchiveCOMObjectsOutput archiveObjectOutput) {
         if (archiveObjectOutput == null) {
             return;
         }
@@ -132,10 +132,10 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
         }
 
         for (int i = 0; i < archiveObjectOutput.getArchiveDetailsList().size(); i++) {
-            Element objects = (archiveObjectOutput.getObjectBodies() == null)
+            final Element objects = (archiveObjectOutput.getObjectBodies() == null)
                     ? null
                     : (Element) HelperAttributes.javaType2Attribute(archiveObjectOutput.getObjectBodies().get(i));
-            ArchivePersistenceObject comObject = new ArchivePersistenceObject(
+            final ArchivePersistenceObject comObject = new ArchivePersistenceObject(
                     archiveObjectOutput.getObjectType(),
                     archiveObjectOutput.getDomain(),
                     archiveObjectOutput.getArchiveDetailsList().get(i).getInstId(),
@@ -160,7 +160,7 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
         }
 
         if (comObject.getObjectType() != null) {
-            ObjectType objTypeType = comObject.getObjectType();
+            final ObjectType objTypeType = comObject.getObjectType();
             objType = HelperCOM.objType2string(objTypeType);
         }
 
@@ -179,7 +179,7 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
 
         try {
             semaphore.acquire();
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             Logger.getLogger(ArchiveTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -236,7 +236,7 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
-            public Class getColumnClass(int columnIndex) {
+            public Class getColumnClass(final int columnIndex) {
                 return types [columnIndex];
             }
         });
@@ -246,13 +246,13 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
         archiveTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         archiveTable.setMaximumSize(null);
         archiveTable.addContainerListener(new java.awt.event.ContainerAdapter() {
-            public void componentAdded(java.awt.event.ContainerEvent evt) {
+            public void componentAdded(final java.awt.event.ContainerEvent evt) {
                 archiveTableComponentAdded(evt);
             }
         });
         jScrollPane3.setViewportView(archiveTable);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        final javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -264,7 +264,7 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void archiveTableComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_archiveTableComponentAdded
+    private void archiveTableComponentAdded(final java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_archiveTableComponentAdded
         // TODO add your handling code here:
     }//GEN-LAST:event_archiveTableComponentAdded
 

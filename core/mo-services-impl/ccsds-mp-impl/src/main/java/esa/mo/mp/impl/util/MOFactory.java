@@ -41,25 +41,25 @@ public class MOFactory {
     /**
      * Creates a Subscription with Entity Key (identity, 0, 0, 0)
      */
-    public static Subscription createSubscription(Identifier identity) {
-        Identifier subscriptionId = new Identifier("SubId" + new Random().nextInt());
+    public static Subscription createSubscription(final Identifier identity) {
+        final Identifier subscriptionId = new Identifier("SubId" + new Random().nextInt());
 
-        IdentifierList subDomain = null;
-        Boolean allAreas = false;
-        Boolean allServices = false;
-        Boolean allOperations = false;
-        Boolean onlyOnChange = false;
-        EntityKeyList entityKeys = new EntityKeyList();
+        final IdentifierList subDomain = null;
+        final Boolean allAreas = false;
+        final Boolean allServices = false;
+        final Boolean allOperations = false;
+        final Boolean onlyOnChange = false;
+        final EntityKeyList entityKeys = new EntityKeyList();
 
-        Identifier firstSubKey = identity == null ? new Identifier("*") : identity;
-        EntityKey entityKey = new EntityKey(firstSubKey, 0L, 0L, 0L);
+        final Identifier firstSubKey = identity == null ? new Identifier("*") : identity;
+        final EntityKey entityKey = new EntityKey(firstSubKey, 0L, 0L, 0L);
         entityKeys.add(entityKey);
 
-        EntityRequestList entities = new EntityRequestList();
-        EntityRequest entityRequest = new EntityRequest(subDomain, allAreas, allServices, allOperations, onlyOnChange, entityKeys);
+        final EntityRequestList entities = new EntityRequestList();
+        final EntityRequest entityRequest = new EntityRequest(subDomain, allAreas, allServices, allOperations, onlyOnChange, entityKeys);
         entities.add(entityRequest);
 
-        Subscription subscription = new Subscription(subscriptionId, entities);
+        final Subscription subscription = new Subscription(subscriptionId, entities);
         return subscription;
     }
 }

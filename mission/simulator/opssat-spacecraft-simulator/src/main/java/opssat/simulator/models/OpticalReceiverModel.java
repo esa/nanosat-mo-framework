@@ -34,7 +34,7 @@ public class OpticalReceiverModel extends AbstractModel {
     private int successRate;
     private EndlessSingleStreamOperatingBuffer singleStreamOperatingBuffer;
     
-    public OpticalReceiverModel(String name, Logger logger) {
+    public OpticalReceiverModel(final String name, final Logger logger) {
         super(name);
         successRate=10000;
         operatingBuffer=new byte[]{ (byte)0xe0, 0x4f, (byte)0xd0,
@@ -57,11 +57,11 @@ public class OpticalReceiverModel extends AbstractModel {
         return successRate;
     }
 
-    public void setOperatingBuffer(byte[] operatingBuffer) {
+    public void setOperatingBuffer(final byte[] operatingBuffer) {
         this.singleStreamOperatingBuffer.setDataFromByteArray(operatingBuffer);
     }
 
-    public void setSuccessRate(int successRate) {
+    public void setSuccessRate(final int successRate) {
         if (successRate>=5000 && successRate<=10000)
         {
             this.successRate = successRate;
@@ -70,14 +70,14 @@ public class OpticalReceiverModel extends AbstractModel {
     
     private boolean getBitFlip()
     {
-        Random r = new Random();
-        int Low = 0;
-        int High = 9999;
-        int Result = r.nextInt(High-Low) + Low;
+        final Random r = new Random();
+        final int Low = 0;
+        final int High = 9999;
+        final int Result = r.nextInt(High-Low) + Low;
         //System.out.println("getBitFlip;result["+Result+"];");
         return Result>=successRate;
     }
-    private byte doFlipOnByte(byte data)
+    private byte doFlipOnByte(final byte data)
     {
         byte result=data;
         for (int i=0;i<=7;i++)
@@ -89,12 +89,12 @@ public class OpticalReceiverModel extends AbstractModel {
         }
         return result; 
     }
-    public byte[] getBytesFromBuffer(int bytesNo)
+    public byte[] getBytesFromBuffer(final int bytesNo)
     {
-        byte[] tempResult=singleStreamOperatingBuffer.getDataAsByteArray(bytesNo);
-        byte[] result=new byte[bytesNo];
+        final byte[] tempResult=singleStreamOperatingBuffer.getDataAsByteArray(bytesNo);
+        final byte[] result=new byte[bytesNo];
         int i=0;
-        for (byte b:tempResult)
+        for (final byte b:tempResult)
         {
             result[i++]=doFlipOnByte(b);
         }

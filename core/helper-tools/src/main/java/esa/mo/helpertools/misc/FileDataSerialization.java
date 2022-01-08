@@ -41,12 +41,12 @@ public class FileDataSerialization {
    * @throws java.net.MalformedURLException
    * @throws java.lang.IllegalArgumentException If filename == null
    */
-  public static void serializeDataOut(String filename, Object ish) throws IOException, IllegalArgumentException {
+  public static void serializeDataOut(final String filename, final Object ish) throws IOException, IllegalArgumentException {
     if (filename == null) {
       throw new IllegalArgumentException("Filename must not be null for serialization.");
     }
-    FileOutputStream fos = new FileOutputStream(filename);
-    ObjectOutputStream oos = new ObjectOutputStream(fos);
+    final FileOutputStream fos = new FileOutputStream(filename);
+    final ObjectOutputStream oos = new ObjectOutputStream(fos);
     oos.writeObject(ish);
     oos.flush();
     oos.close();
@@ -62,21 +62,21 @@ public class FileDataSerialization {
    * @throws java.lang.ClassNotFoundException
    * @throws java.lang.IllegalArgumentException If filename == null
    */
-  public static Object serializeDataIn(String filename)
+  public static Object serializeDataIn(final String filename)
       throws IOException, ClassNotFoundException, IllegalArgumentException {
     if (filename == null) {
       throw new IllegalArgumentException("Filename must not be null for deserialization.");
     }
     try {
-      FileInputStream fin = new FileInputStream(filename);
-      ObjectInputStream ois = new ObjectInputStream(fin);
+      final FileInputStream fin = new FileInputStream(filename);
+      final ObjectInputStream ois = new ObjectInputStream(fin);
 
-      Object iHandler = ois.readObject();
+      final Object iHandler = ois.readObject();
       ois.close();
       return iHandler;
-    } catch (FileNotFoundException e) {
+    } catch (final FileNotFoundException e) {
       throw new FileNotFoundException();
-    } catch (IOException e) {
+    } catch (final IOException e) {
       throw new IOException();
     }
   }

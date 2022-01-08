@@ -55,7 +55,7 @@ public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
     private Dictionary dictionary = new Dictionary();
 
     @Override
-    public Object generateServiceStub(MALConsumer tmConsumer) {
+    public Object generateServiceStub(final MALConsumer tmConsumer) {
         return new ArchiveSyncStub(tmConsumer);
     }
 
@@ -68,12 +68,12 @@ public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
         return archiveSyncService;
     }
 
-    public ArchiveSyncConsumerServiceImpl(SingleConnectionDetails connectionDetails) throws MALException, MalformedURLException {
+    public ArchiveSyncConsumerServiceImpl(final SingleConnectionDetails connectionDetails) throws MALException, MalformedURLException {
         this(connectionDetails, null, null);
     }
 
-    public ArchiveSyncConsumerServiceImpl(SingleConnectionDetails connectionDetails,
-                                          Blob authenticationId, String localNamePrefix) throws MALException, MalformedURLException {
+    public ArchiveSyncConsumerServiceImpl(final SingleConnectionDetails connectionDetails,
+                                          final Blob authenticationId, final String localNamePrefix) throws MALException, MalformedURLException {
         if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
             MALHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
@@ -93,7 +93,7 @@ public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
         if (tmConsumer != null) {
             try {
                 tmConsumer.close();
-            } catch (MALException ex) {
+            } catch (final MALException ex) {
                 Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -108,20 +108,20 @@ public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
         this.archiveSyncService = new ArchiveSyncStub(tmConsumer);
     }
 
-    public ArrayList<COMObjectStructure> retrieveCOMObjects(FineTime from, FineTime until, ObjectTypeList objTypes) {
-        ArchiveSyncGenAdapter adapter = new ArchiveSyncGenAdapter();
-        Long iTicket;
+    public ArrayList<COMObjectStructure> retrieveCOMObjects(final FineTime from, final FineTime until, final ObjectTypeList objTypes) {
+        final ArchiveSyncGenAdapter adapter = new ArchiveSyncGenAdapter();
+        final Long iTicket;
 
         try { // Do a retrieve with the correct times
             iTicket = archiveSyncService.retrieveRange(from, until, objTypes, new Identifier(""), adapter);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (final MALInteractionException | MALException ex) {
             Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
 
         // Wait until it is finished...
         boolean unfinished = true;
-        long timeout = 1000;
+        final long timeout = 1000;
         while (unfinished) {
             try {
                 if (adapter.waitUntilResponseReceived(timeout)) {
@@ -129,7 +129,7 @@ public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
                     Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(
                             Level.FINE, "Retrieved the range of objects");
                 }
-            } catch (InterruptedException ex) {
+            } catch (final InterruptedException ex) {
                 // Still not complete...
                 Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(
                         Level.FINE, "Still unfinished...");
@@ -140,13 +140,13 @@ public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
                 if (adapter.noUpdatesReceivedForThisDuration() > timeout * 4) {
                     Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(
                             Level.INFO, "Asking to retransmit the missing part.", ex);
-                    UIntegerList missingIndexes = new UIntegerList();
+                    final UIntegerList missingIndexes = new UIntegerList();
                     missingIndexes.add(adapter.getLastKnownIndex());
                     missingIndexes.add(new UInteger(0));
 
                     try {
                         archiveSyncService.retrieveRangeAgain(iTicket, missingIndexes, adapter);
-                    } catch (MALInteractionException | MALException ex1) {
+                    } catch (final MALInteractionException | MALException ex1) {
                         Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex1);
                     }
                 }
@@ -159,13 +159,13 @@ public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
         while (!complete) {
             if (!adapter.receivedAllChunks()) {
                 // Then we will have to retrieve the missing ones...
-                UIntegerList missingIndexes = adapter.getMissingIndexes();
+                final UIntegerList missingIndexes = adapter.getMissingIndexes();
                 Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(
                         Level.INFO, "Missing {0} chunks.", missingIndexes.size());
 
                 try {
                     archiveSyncService.retrieveRangeAgain(iTicket, missingIndexes, adapter);
-                } catch (MALInteractionException | MALException ex1) {
+                } catch (final MALInteractionException | MALException ex1) {
                     Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex1);
                 }
             } else {
@@ -174,15 +174,15 @@ public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
         }
 
         // Convert the byte arrays into COM Objects
-        ArrayList<byte[]> chunks = adapter.getReceivedChunks();
+        final ArrayList<byte[]> chunks = adapter.getReceivedChunks();
 
-        ArrayList<COMObjectStructure> objs = EncodeDecode.decodeFromCompressedByteArrayList(chunks,
+        final ArrayList<COMObjectStructure> objs = EncodeDecode.decodeFromCompressedByteArrayList(chunks,
                 dictionary, archiveSyncService, this.connectionDetails.getDomain());
 
         try {
             // Free the data from the provider!
             archiveSyncService.free(iTicket);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (final MALInteractionException | MALException ex) {
             Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
 

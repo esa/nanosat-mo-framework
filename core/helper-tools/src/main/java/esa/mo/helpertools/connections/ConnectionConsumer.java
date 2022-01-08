@@ -67,11 +67,11 @@ public class ConnectionConsumer {
         return servicesDetails;
     }
 
-    public void setServicesDetails(ServicesConnectionDetails servicesDetails) {
+    public void setServicesDetails(final ServicesConnectionDetails servicesDetails) {
         this.servicesDetails = servicesDetails;
     }
 
-    public void setProperty(String property, String value) {
+    public void setProperty(final String property, final String value) {
         System.setProperty(property, value);
     }
 
@@ -255,7 +255,7 @@ public class ConnectionConsumer {
         this.startMAL();
         QoSLevel qosLevel = QoSLevel.BESTEFFORT;  // Worst case scenario
 
-        for (QoSLevel entry : qosLevels) {  // Check if ASSURED is available
+        for (final QoSLevel entry : qosLevels) {  // Check if ASSURED is available
             if (entry.equals(QoSLevel.BESTEFFORT)) {
                 qosLevel = entry;
             }
@@ -276,12 +276,12 @@ public class ConnectionConsumer {
         return tmConsumer;
     }
 
-    private Blob getAuthenticationId(Blob authenticationId)
+    private Blob getAuthenticationId(final Blob authenticationId)
     {
         return null == authenticationId ? new Blob("".getBytes()) : authenticationId;
     }
 
-    private String getLocalName(String localNamePrefix)
+    private String getLocalName(final String localNamePrefix)
     {
         return null == localNamePrefix ? null : localNamePrefix + "_" + random.nextInt();
     }
@@ -296,7 +296,7 @@ public class ConnectionConsumer {
     public ServicesConnectionDetails loadURIs() throws MalformedURLException {
         try {
             servicesDetails.loadURIFromFiles();
-        } catch(FileNotFoundException ex) {
+        } catch(final FileNotFoundException ex) {
             servicesDetails = ConnectionProvider.getGlobalProvidersDetailsPrimary();
         }
         return servicesDetails;
@@ -311,7 +311,7 @@ public class ConnectionConsumer {
      * initialized correctly
      * @throws java.io.FileNotFoundException if the file with URIs has not been found
      */
-    public ServicesConnectionDetails loadURIs(String filename) throws MalformedURLException, FileNotFoundException {
+    public ServicesConnectionDetails loadURIs(final String filename) throws MalformedURLException, FileNotFoundException {
         return servicesDetails.loadURIFromFiles(filename);
     }
 
@@ -408,7 +408,7 @@ public class ConnectionConsumer {
         return null;
     }
 
-    public void setAuthenticationId(Blob authenticationId)
+    public void setAuthenticationId(final Blob authenticationId)
     {
         if (null != tmConsumer)
         {

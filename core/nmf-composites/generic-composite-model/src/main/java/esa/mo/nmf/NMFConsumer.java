@@ -121,9 +121,9 @@ public class NMFConsumer {
     public void init() {
         try {
             HelperMisc.loadConsumerProperties();
-        } catch (MalformedURLException ex) {
+        } catch (final MalformedURLException ex) {
             Logger.getLogger(NMFConsumer.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             // Ignore the exception if it does not exist - the file is becoming deprecated
         }
 
@@ -316,19 +316,19 @@ public class NMFConsumer {
 
         try {
             HelperMisc.loadConsumerProperties();
-        } catch (MalformedURLException ex) {
+        } catch (final MalformedURLException ex) {
             Logger.getLogger(NMFConsumer.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             // Ignore the exception if it does not exist - the file is becoming deprecated
             Logger.getLogger(NMFConsumer.class.getName()).log(Level.FINE, null, ex);
         }
 
-        DirectoryConsumerServiceImpl directoryService = new DirectoryConsumerServiceImpl(directoryURI, authenticationId, localNamePrefix);
+        final DirectoryConsumerServiceImpl directoryService = new DirectoryConsumerServiceImpl(directoryURI, authenticationId, localNamePrefix);
 
-        IdentifierList wildcardList = new IdentifierList();
+        final IdentifierList wildcardList = new IdentifierList();
         wildcardList.add(new Identifier("*"));
 
-        ServiceFilter filter = new ServiceFilter();
+        final ServiceFilter filter = new ServiceFilter();
         filter.setDomain(wildcardList);
         filter.setNetwork(new Identifier("*"));
         filter.setSessionType(null);
@@ -348,7 +348,7 @@ public class NMFConsumer {
         // Do the lookup
         try {
             summaryList = directoryService.getDirectoryStub().lookupProvider(filter);
-        } catch (MALException | MALInteractionException e) {
+        } catch (final MALException | MALInteractionException e) {
             throw e;
         } finally {
             directoryService.close();  // close the connection
@@ -389,12 +389,12 @@ public class NMFConsumer {
             if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME, PlatformHelper.PLATFORM_AREA_VERSION) == null) {
                 PlatformHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
             }
-        } catch (MALException ex) {
+        } catch (final MALException ex) {
             Logger.getLogger(NMFConsumer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public void setAuthenticationId(Blob authenticationId) {
+    public void setAuthenticationId(final Blob authenticationId) {
         this.comServices.setAuthenticationId(authenticationId);
         this.connection.setAuthenticationId(authenticationId);
         this.mcServices.setAuthenticationId(authenticationId);

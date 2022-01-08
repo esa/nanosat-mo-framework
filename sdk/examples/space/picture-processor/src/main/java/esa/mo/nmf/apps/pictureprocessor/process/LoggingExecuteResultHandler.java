@@ -37,7 +37,7 @@ public class LoggingExecuteResultHandler extends DefaultExecuteResultHandler {
     private final ProcessEventListener processEventListener;
     private final Long processRequestId;
 
-    public LoggingExecuteResultHandler(ProcessEventListener processEventListener, Long processRequestId, OutputStream processOutputStream) {
+    public LoggingExecuteResultHandler(final ProcessEventListener processEventListener, final Long processRequestId, final OutputStream processOutputStream) {
         this.processOutputStream = processOutputStream;
         this.processEventListener = processEventListener;
         this.processRequestId = processRequestId;
@@ -57,7 +57,7 @@ public class LoggingExecuteResultHandler extends DefaultExecuteResultHandler {
         handleProcessTermination(e.getExitValue());
     }
 
-    private void handleProcessTermination(int exitValue) {
+    private void handleProcessTermination(final int exitValue) {
         closeSafe(processOutputStream);
         processEventListener.onProcessCompleted(processRequestId, exitValue);
     }

@@ -101,7 +101,7 @@ public class SpaceMOApdapterImpl extends CommonMOAdapterImpl {
    * @param centralDirectoryServiceURI URI of the central directory service
    * @return The SpaceMOAdapter instance.
    */
-  public static SpaceMOApdapterImpl forNMFSupervisor(URI centralDirectoryServiceURI) {
+  public static SpaceMOApdapterImpl forNMFSupervisor(final URI centralDirectoryServiceURI) {
     return new SpaceMOApdapterImpl(getNMFProviderSummary(centralDirectoryServiceURI, Const.NANOSAT_MO_SUPERVISOR_NAME));
   }
 
@@ -112,7 +112,7 @@ public class SpaceMOApdapterImpl extends CommonMOAdapterImpl {
    * @param centralDirectoryServiceURI URI of the central directory service
    * @return The SpaceMOAdapter instance.
    */
-  public static SpaceMOApdapterImpl forNMFApp(URI centralDirectoryServiceURI, String appName) {
+  public static SpaceMOApdapterImpl forNMFApp(final URI centralDirectoryServiceURI, final String appName) {
     return new SpaceMOApdapterImpl(getNMFProviderSummary(centralDirectoryServiceURI,
             Const.NANOSAT_MO_APP_IDENTIFIER_PREFIX + appName));
   }
@@ -122,19 +122,19 @@ public class SpaceMOApdapterImpl extends CommonMOAdapterImpl {
    * 
    * @return ProviderSummary of the NMF provider or null if not found
    */
-  private static ProviderSummary getNMFProviderSummary(URI centralDirectoryServiceURI, String providerName) {
+  private static ProviderSummary getNMFProviderSummary(final URI centralDirectoryServiceURI, final String providerName) {
     // Create supervisor provider filter
-    IdentifierList domain = new IdentifierList();
+    final IdentifierList domain = new IdentifierList();
     domain.add(new Identifier("*"));
-    ServiceKey sk = new ServiceKey(new UShort(0), new UShort(0), new UOctet((short) 0));
-    ServiceFilter sf2 = new ServiceFilter(new Identifier(providerName), domain,
+    final ServiceKey sk = new ServiceKey(new UShort(0), new UShort(0), new UOctet((short) 0));
+    final ServiceFilter sf2 = new ServiceFilter(new Identifier(providerName), domain,
         new Identifier("*"), null, new Identifier("*"), sk, new UShortList());
 
     // Query directory service with filter
     try {
-      DirectoryConsumerServiceImpl centralDirectory =
+      final DirectoryConsumerServiceImpl centralDirectory =
           new DirectoryConsumerServiceImpl(centralDirectoryServiceURI);
-      ProviderSummaryList supervisorConnections =
+      final ProviderSummaryList supervisorConnections =
           centralDirectory.getDirectoryStub().lookupProvider(sf2);
       if (supervisorConnections.size() == 1) {
         LOGGER.log(Level.INFO, String.format("Found %s provider", Const.NANOSAT_MO_SUPERVISOR_NAME));
@@ -145,7 +145,7 @@ public class SpaceMOApdapterImpl extends CommonMOAdapterImpl {
         LOGGER.log(Level.SEVERE,
             String.format("Couldn't find %s provider", Const.NANOSAT_MO_SUPERVISOR_NAME));
       }
-    } catch (MALInteractionException | MALException | MalformedURLException e) {
+    } catch (final MALInteractionException | MALException | MalformedURLException e) {
       LOGGER.log(Level.SEVERE, "Error while looking up the central directory", e);
 
     }

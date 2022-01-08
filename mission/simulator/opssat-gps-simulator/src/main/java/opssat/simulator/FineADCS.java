@@ -35,7 +35,7 @@ public class FineADCS {
      *
      * @param orbit
      */
-    public FineADCS(Orbit orbit) {
+    public FineADCS(final Orbit orbit) {
         this.orbit = orbit;
         magnetometer = new Magnetometer(orbit);
     }

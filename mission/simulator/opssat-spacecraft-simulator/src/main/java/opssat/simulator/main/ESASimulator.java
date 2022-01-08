@@ -52,7 +52,7 @@ public class ESASimulator extends GenericSimulator {
   Level centralLoggingLevel = Level.INFO;
   Level consoleLoggingLevel = Level.INFO;
 
-  private Level getLevelFromString(String[] split, String test) {
+  private Level getLevelFromString(final String[] split, final String test) {
     if (split[0].equals(test)) {
       Level logLevel = null;
       if ((logLevel = Level.parse(split[1])) != null) {
@@ -66,7 +66,7 @@ public class ESASimulator extends GenericSimulator {
 
   private void initProperties() {
     final String fileName = "_OPS-SAT-SIMULATOR-header.txt";
-    File propertiesFile = new File(System.getProperty("user.dir"), fileName);
+    final File propertiesFile = new File(System.getProperty("user.dir"), fileName);
     if (propertiesFile.exists()) {
       // System.out.println(LoggerFormatter1Line.SIMULATOR_PRE_LOG + "PRE_INIT: Header
       // file was found");
@@ -80,7 +80,7 @@ public class ESASimulator extends GenericSimulator {
             if (line.startsWith("#")) {
                 // comment line
             } else {
-              String[] split = line.split("=");
+              final String[] split = line.split("=");
               if (split.length == 2) {
                 Level temp = null;
                 temp = getLevelFromString(split, "simulatorLogLevel");
@@ -99,11 +99,11 @@ public class ESASimulator extends GenericSimulator {
             }
           }
           in.close();
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
           Logger.getLogger(ESASimulator.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-      } catch (FileNotFoundException ex) {
+      } catch (final FileNotFoundException ex) {
         Logger.getLogger(ESASimulator.class.getName()).log(Level.SEVERE, null, ex);
       }
     } else {
@@ -125,8 +125,8 @@ public class ESASimulator extends GenericSimulator {
   // Entry stub for lightweight component
   public ESASimulator() {
     initProperties();
-    ConcurrentLinkedQueue<Object> qSimToGUI = new ConcurrentLinkedQueue<>();
-    ConcurrentLinkedQueue<Object> qGUIToSim = new ConcurrentLinkedQueue<>();
+    final ConcurrentLinkedQueue<Object> qSimToGUI = new ConcurrentLinkedQueue<>();
+    final ConcurrentLinkedQueue<Object> qGUIToSim = new ConcurrentLinkedQueue<>();
     simulatorNode = new SimulatorNode(qGUIToSim, qSimToGUI, "Sim", 10, this.simulatorLoggingLevel,
         this.consoleLoggingLevel);
     initDevices();
@@ -134,12 +134,12 @@ public class ESASimulator extends GenericSimulator {
   }
 
   // Entry stub for simulator running with TCP listener
-  public ESASimulator(String listenURL) {
+  public ESASimulator(final String listenURL) {
     initProperties();
     final CentralNode centralNode;
 
-    ConcurrentLinkedQueue<Object> qSimToCentral = new ConcurrentLinkedQueue<>();
-    ConcurrentLinkedQueue<Object> qCentralToSim = new ConcurrentLinkedQueue<>();
+    final ConcurrentLinkedQueue<Object> qSimToCentral = new ConcurrentLinkedQueue<>();
+    final ConcurrentLinkedQueue<Object> qCentralToSim = new ConcurrentLinkedQueue<>();
 
     simulatorNode = new SimulatorNode(qCentralToSim, qSimToCentral, "Sim", 100,
         this.simulatorLoggingLevel, this.consoleLoggingLevel);

@@ -105,7 +105,7 @@ public class ArchiveManager {
      *
      * @param eventService The Event service provider.
      */
-    public ArchiveManager(EventProviderServiceImpl eventService) {
+    public ArchiveManager(final EventProviderServiceImpl eventService) {
         this.eventService = eventService;
 
         if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) != null &&
@@ -114,7 +114,7 @@ public class ArchiveManager {
             try {
                 ArchiveHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
-            catch (MALException ex) {
+            catch (final MALException ex) {
                 LOGGER
                         .log(Level.SEVERE, "Unexpectedly ArchiveHelper already initialized!?", ex);
             }
@@ -136,7 +136,7 @@ public class ArchiveManager {
     public synchronized void init() {
         this.dbBackend.startBackendDatabase(this.dbProcessor);
 
-        Future<?> f = this.dbProcessor.submitExternalTransactionExecutorTask(() -> {
+        final Future<?> f = this.dbProcessor.submitExternalTransactionExecutorTask(() -> {
             LOGGER.log(Level.FINE,
                     "Initializing Fast classes!");
             fastDomain.init();
@@ -148,7 +148,7 @@ public class ArchiveManager {
         });
         try {
             f.get();
-        } catch (InterruptedException | ExecutionException e) {
+        } catch (final InterruptedException | ExecutionException e) {
             LOGGER.log(Level.SEVERE, "Failed to init the archive", e);
         }
     }
@@ -158,7 +158,7 @@ public class ArchiveManager {
      *
      * @param eventService The Event service provider.
      */
-    public void setEventService(EventProviderServiceImpl eventService) {
+    public void setEventService(final EventProviderServiceImpl eventService) {
         this.eventService = eventService;
     }
 
@@ -169,7 +169,7 @@ public class ArchiveManager {
             public Void call() {
                 try {
                     dbBackend.getAvailability().acquire();
-                } catch (InterruptedException ex) {
+                } catch (final InterruptedException ex) {
                     Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 dbBackend.getAvailability().release();
@@ -194,14 +194,14 @@ public class ArchiveManager {
         this.dbProcessor.resetMainTable(() -> {
             try {
                 dbBackend.getAvailability().acquire();
-            } catch (InterruptedException ex) {
+            } catch (final InterruptedException ex) {
                 Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
             }
 
             try {
-                Connection c = dbBackend.getConnection();
+                final Connection c = dbBackend.getConnection();
                 c.createStatement().execute("DELETE FROM COMObjectEntity");
-            } catch (SQLException ex) {
+            } catch (final SQLException ex) {
                 Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
             }
 
@@ -219,7 +219,7 @@ public class ArchiveManager {
             final IdentifierList domain, final Long objId) {
         final Integer domainId = this.fastDomain.getDomainId(domain);
         final Integer objTypeId = this.fastObjectType.getObjectTypeId(objType);
-        COMObjectEntity comEntity = this.dbProcessor.getCOMObject(objTypeId, domainId, objId);
+        final COMObjectEntity comEntity = this.dbProcessor.getCOMObject(objTypeId, domainId, objId);
 
         if (comEntity == null) {
             return null;
@@ -232,7 +232,7 @@ public class ArchiveManager {
             final IdentifierList domain, final LongList objIds) {
         final Integer domainId = this.fastDomain.getDomainId(domain);
         final Integer objTypeId = this.fastObjectType.getObjectTypeId(objType);
-        List<COMObjectEntity> comEntities = this.dbProcessor.getCOMObjects(objTypeId, domainId, objIds);
+        final List<COMObjectEntity> comEntities = this.dbProcessor.getCOMObjects(objTypeId, domainId, objIds);
         return convert2ArchivePersistenceObjects(comEntities, domain);
     }
 
@@ -240,7 +240,7 @@ public class ArchiveManager {
             final IdentifierList domain) {
         final Integer domainId = this.fastDomain.getDomainId(domain);
         final Integer objTypeId = this.fastObjectType.getObjectTypeId(objType);
-        List<COMObjectEntity> comEntities = this.dbProcessor.getAllCOMObjects(objTypeId, domainId);
+        final List<COMObjectEntity> comEntities = this.dbProcessor.getAllCOMObjects(objTypeId, domainId);
         return convert2ArchivePersistenceObjects(comEntities, domain);
     }
 
@@ -264,25 +264,25 @@ public class ArchiveManager {
             network = this.fastNetwork.getNetwork(comEntity.getNetwork());
             providerURI = this.fastProviderURI.getProviderURI(comEntity.getProviderURI());
             objType = this.fastObjectType.getObjectType(comEntity.getObjectTypeId());
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
-        SourceLinkContainer sourceLink = comEntity.getSourceLink();
+        final SourceLinkContainer sourceLink = comEntity.getSourceLink();
         ObjectId objectId = null;
 
         if (sourceLink.getObjectTypeId() != null
                 || sourceLink.getDomainId() != null
                 || sourceLink.getObjId() != null) {
             try {
-                ObjectKey ok = new ObjectKey(this.fastDomain.getDomain(sourceLink.getDomainId()), sourceLink.getObjId());
+                final ObjectKey ok = new ObjectKey(this.fastDomain.getDomain(sourceLink.getDomainId()), sourceLink.getObjId());
                 objectId = new ObjectId(this.fastObjectType.getObjectType(sourceLink.getObjectTypeId()), ok);
-            } catch (Exception ex) {
+            } catch (final Exception ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
             }
         }
 
-        ArchiveDetails archiveDetails = new ArchiveDetails(
+        final ArchiveDetails archiveDetails = new ArchiveDetails(
                 comEntity.getObjectId(),
                 new ObjectDetails(comEntity.getRelatedLink(), objectId),
                 network,
@@ -342,7 +342,7 @@ public class ArchiveManager {
     }
 
     public LongList insertEntries(final ObjectType objType, final IdentifierList domain,
-            final ArchiveDetailsList lArchiveDetails, final ElementList objects, final MALInteraction interaction, boolean generateEvents) {
+                                  final ArchiveDetailsList lArchiveDetails, final ElementList objects, final MALInteraction interaction, final boolean generateEvents) {
         final LongList objIds = new LongList(lArchiveDetails.size());
         final ArrayList<COMObjectEntity> perObjsEntities = new ArrayList<>(lArchiveDetails.size());
         final int domainId = this.fastDomain.getDomainId(domain);
@@ -386,7 +386,7 @@ public class ArchiveManager {
     }
 
     public void updateEntries(final ObjectType objType, final IdentifierList domain,
-        final ArchiveDetailsList lArchiveDetails, final ElementList objects, final MALInteraction interaction, boolean generateEvents) {
+                              final ArchiveDetailsList lArchiveDetails, final ElementList objects, final MALInteraction interaction, final boolean generateEvents) {
         final int domainId = this.fastDomain.getDomainId(domain);
         final Integer objTypeId = this.fastObjectType.getObjectTypeId(objType);
         final ArrayList<COMObjectEntity> newObjs = new ArrayList<>();
@@ -398,9 +398,9 @@ public class ArchiveManager {
             final Integer networkId = this.fastNetwork.getNetworkId(lArchiveDetails.get(i).getNetwork());
 
             // If there are no objects in the list, inject null...
-            Object objBody = (objects == null) ? null : ((objects.get(i) == null) ? null : objects.get(i));
+            final Object objBody = (objects == null) ? null : ((objects.get(i) == null) ? null : objects.get(i));
 
-            SourceLinkContainer sourceLink = this.createSourceContainerFromObjectId(lArchiveDetails.get(i).getDetails().getSource());
+            final SourceLinkContainer sourceLink = this.createSourceContainerFromObjectId(lArchiveDetails.get(i).getDetails().getSource());
 
             final COMObjectEntity newObj = new COMObjectEntity(
                     objTypeId,
@@ -417,7 +417,7 @@ public class ArchiveManager {
             objIds.add(lArchiveDetails.get(i).getInstId());
         }
 
-        Runnable publishEvents = (globalGenerateEvents && generateEvents) ? this.generatePublishEventsThread(ArchiveHelper.OBJECTUPDATED_OBJECT_TYPE,
+        final Runnable publishEvents = (globalGenerateEvents && generateEvents) ? this.generatePublishEventsThread(ArchiveHelper.OBJECTUPDATED_OBJECT_TYPE,
                 objType, domain, objIds, interaction) : null;
 
         this.dbProcessor.update(newObjs, publishEvents);
@@ -429,11 +429,11 @@ public class ArchiveManager {
     }
 
     public LongList removeEntries(final ObjectType objType, final IdentifierList domain, final LongList objIds,
-            final MALInteraction interaction, boolean generateEvents) {
+                                  final MALInteraction interaction, final boolean generateEvents) {
         final Integer objTypeId = this.fastObjectType.getObjectTypeId(objType);
         final int domainId = this.fastDomain.getDomainId(domain);
 
-        Runnable publishEvents = (globalGenerateEvents && generateEvents) ? this.generatePublishEventsThread(ArchiveHelper.OBJECTDELETED_OBJECT_TYPE,
+        final Runnable publishEvents = (globalGenerateEvents && generateEvents) ? this.generatePublishEventsThread(ArchiveHelper.OBJECTDELETED_OBJECT_TYPE,
                 objType, domain, objIds, interaction) : null;
         this.dbProcessor.remove(objTypeId, domainId, objIds, publishEvents);
         this.fastObjId.delete(objTypeId, domainId);
@@ -448,11 +448,11 @@ public class ArchiveManager {
         final ArrayList<ArchivePersistenceObject> outs = new ArrayList<>(perObjs.size());
         IdentifierList domain;
 
-        for (COMObjectEntity perObj : perObjs) {
+        for (final COMObjectEntity perObj : perObjs) {
             try {
                 domain = this.fastDomain.getDomain(perObj.getDomainId());
                 outs.add(this.convert2ArchivePersistenceObject(perObj, domain, perObj.getObjectId()));
-            } catch (Exception ex) {
+            } catch (final Exception ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
             }
         }
@@ -520,7 +520,7 @@ public class ArchiveManager {
     public ArrayList<COMObjectEntity> queryCOMObjectEntity(final ObjectTypeList objTypes,
             final ArchiveQuery archiveQuery, final QueryFilter filter) {
         final IntegerList objTypeIds = new IntegerList();
-        for(ObjectType objType : objTypes) {
+        for(final ObjectType objType : objTypes) {
             objTypeIds.addAll(this.fastObjectType.getObjectTypeIds(objType));
         }
 
@@ -561,7 +561,7 @@ public class ArchiveManager {
         Object obj;
 
         // Cycle the Filters
-        for (CompositeFilter compositeFilter : compositeFilterList) {
+        for (final CompositeFilter compositeFilter : compositeFilterList) {
             tmpPerObjs = new ArrayList<>();
 
             if (compositeFilter == null) {
@@ -569,7 +569,7 @@ public class ArchiveManager {
             }
 
             // Cycle the objects
-            for (ArchivePersistenceObject outPerObj : outPerObjs) {
+            for (final ArchivePersistenceObject outPerObj : outPerObjs) {
                 obj = outPerObj.getObject();
 
                 // Check if Composite Filter is valid
@@ -581,14 +581,14 @@ public class ArchiveManager {
                 // For the dots: "If a field is nested, it can use the dot to separate"
                 try {
                     obj = HelperCOM.getNestedObject(obj, compositeFilter.getFieldName());
-                } catch (NoSuchFieldException ex) {
+                } catch (final NoSuchFieldException ex) {
                     // requirement from the Composite filter: page 57
                     // "If the field does not exist in the Composite then the filter shall evaluate to false."
                     continue;
                 }
 
-                Element leftHandSide = (Element) HelperAttributes.javaType2Attribute(obj);
-                Boolean evaluation = HelperCOM.evaluateExpression(leftHandSide, compositeFilter.getType(), compositeFilter.getFieldValue());
+                final Element leftHandSide = (Element) HelperAttributes.javaType2Attribute(obj);
+                final Boolean evaluation = HelperCOM.evaluateExpression(leftHandSide, compositeFilter.getType(), compositeFilter.getFieldValue());
 
                 if (evaluation == null) {
                     continue;
@@ -654,7 +654,7 @@ public class ArchiveManager {
 
         try {
             eventService.publishEvents(sourceURI, eventObjIds, objType, null, sourceList, null);
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }
@@ -670,8 +670,8 @@ public class ArchiveManager {
                 || objType.getNumber().getValue() == 0);
     }
 
-    public static UIntegerList checkForDuplicates(ArchiveDetailsList archiveDetailsList) {
-        UIntegerList dupList = new UIntegerList();
+    public static UIntegerList checkForDuplicates(final ArchiveDetailsList archiveDetailsList) {
+        final UIntegerList dupList = new UIntegerList();
 
         for (int i = 0; i < archiveDetailsList.size() - 1; i++) {
             if (archiveDetailsList.get(i).getInstId().intValue() == 0) { // Wildcard? Then jump over it
@@ -688,20 +688,20 @@ public class ArchiveManager {
         return dupList;
     }
 
-    public static boolean isCompositeFilterValid(CompositeFilter compositeFilter, Object obj) {
+    public static boolean isCompositeFilterValid(final CompositeFilter compositeFilter, final Object obj) {
         if (compositeFilter.getFieldName().contains("\\.")) {  // Looking into a nested field?
             if (!(obj instanceof Composite)) {
                 return false;  // If it is not a composite, we can not check fields inside...
             } else {
                 try { // Does the Field asked for, exists?
                     HelperCOM.getNestedObject(obj, compositeFilter.getFieldName());
-                } catch (NoSuchFieldException ex) {
+                } catch (final NoSuchFieldException ex) {
                     return false;
                 }
             }
         }
 
-        ExpressionOperator expressionOperator = compositeFilter.getType();
+        final ExpressionOperator expressionOperator = compositeFilter.getType();
 
         if (compositeFilter.getFieldValue() == null) {
             if (expressionOperator.equals(ExpressionOperator.CONTAINS)
@@ -715,7 +715,7 @@ public class ArchiveManager {
         }
 
         if (obj instanceof Enumeration) {
-            Attribute fieldValue = compositeFilter.getFieldValue();
+            final Attribute fieldValue = compositeFilter.getFieldValue();
 //            if (!(fieldValue instanceof UInteger) || !(fieldValue.getTypeShortForm() == 11) ) {
             if (!(fieldValue instanceof UInteger)) {
                 return false;

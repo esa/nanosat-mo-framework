@@ -69,12 +69,12 @@ public class DatabaseBackend {
     private PreparedStatements preparedStatements;
 
     public DatabaseBackend() {
-        String url = System.getProperty("esa.nmf.archive.persistence.jdbc.url");
+        final String url = System.getProperty("esa.nmf.archive.persistence.jdbc.url");
 
         if (null != url && !"".equals(url)) {
             this.url = url;
         } else {
-            File dbFile = new File(DATABASE_LOCATION_NAME);
+            final File dbFile = new File(DATABASE_LOCATION_NAME);
             boolean writableFs = true;
             // Check if we are operating on Read-Only FS
             if (dbFile.exists()) {
@@ -84,7 +84,7 @@ public class DatabaseBackend {
             } else {
                 try {
                     dbFile.createNewFile();
-                } catch (IOException e) {
+                } catch (final IOException e) {
                     writableFs = false;
                 }
             }
@@ -97,13 +97,13 @@ public class DatabaseBackend {
             }
         }
 
-        String driver = System.getProperty("esa.nmf.archive.persistence.jdbc.driver");
+        final String driver = System.getProperty("esa.nmf.archive.persistence.jdbc.driver");
         this.jdbcDriver = (null != driver && !"".equals(driver)) ? driver : DRIVER_CLASS_NAME;
 
-        String user = System.getProperty("esa.nmf.archive.persistence.jdbc.user");
+        final String user = System.getProperty("esa.nmf.archive.persistence.jdbc.user");
         this.user = (null != user && !"".equals(user)) ? user : null;
 
-        String pass = System.getProperty("esa.nmf.archive.persistence.jdbc.password");
+        final String pass = System.getProperty("esa.nmf.archive.persistence.jdbc.password");
         this.password = (null != pass && !"".equals(pass)) ? pass : null;
     }
 
@@ -132,7 +132,7 @@ public class DatabaseBackend {
 
         try {
             checkIfMigrationNeeded();
-        } catch (SQLException ex) {
+        } catch (final SQLException ex) {
             Logger.getLogger(DatabaseBackend.class.getName()).log(
                     Level.FINE, "Migration not needed...");
         }
@@ -143,16 +143,16 @@ public class DatabaseBackend {
                 blobType = "bytea";
                 isPostgres = true;
             }
-            Statement query = serverConnection.createStatement();
+            final Statement query = serverConnection.createStatement();
             query.execute("CREATE TABLE IF NOT EXISTS COMObjectEntity (objectTypeId INTEGER NOT NULL, objId BIGINT NOT NULL, domainId INTEGER NOT NULL, network INTEGER, objBody " + blobType + ", providerURI INTEGER, relatedLink BIGINT, sourceLinkDomainId INTEGER, sourceLinkObjId BIGINT, sourceLinkObjectTypeId INTEGER, timestampArchiveDetails BIGINT, PRIMARY KEY (objectTypeId, objId, domainId))");;
-        } catch (SQLException ex) {
+        } catch (final SQLException ex) {
             Logger.getLogger(DatabaseBackend.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         preparedStatements = new PreparedStatements(serverConnection);
         try {
             preparedStatements.init(isPostgres);
-        } catch (SQLException ex) {
+        } catch (final SQLException ex) {
             LOGGER.log(Level.SEVERE, "Could not prepare the SQL statements. Application will exit!", ex);
             System.exit(0);
         }
@@ -160,7 +160,7 @@ public class DatabaseBackend {
     }
 
     private void checkIfMigrationNeeded() throws SQLException {
-        Statement mig = serverConnection.createStatement();
+        final Statement mig = serverConnection.createStatement();
         // The first query will throw exception to the outside
         mig.execute("ALTER TABLE COMObjectEntity RENAME COLUMN OBJ TO objBody");
 
@@ -175,7 +175,7 @@ public class DatabaseBackend {
             mig.execute("ALTER TABLE ObjectTypeHolderEntity RENAME TO FastObjectType");
             mig.execute("ALTER TABLE ProviderURIHolderEntity RENAME COLUMN providerURIString TO value");
             mig.execute("ALTER TABLE ProviderURIHolderEntity RENAME TO FastProviderURI");
-        } catch (SQLException ex1) {
+        } catch (final SQLException ex1) {
             Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex1);
         }
         Logger.getLogger(TransactionsProcessor.class.getName()).log(
@@ -187,16 +187,16 @@ public class DatabaseBackend {
             return;
         }
         try {
-            Statement statement = serverConnection.createStatement();
+            final Statement statement = serverConnection.createStatement();
             statement.execute("CREATE INDEX IF NOT EXISTS index_related2 ON COMObjectEntity (relatedLink)");
             statement.execute("CREATE INDEX IF NOT EXISTS index_timestampArchiveDetails2 ON COMObjectEntity (timestampArchiveDetails)");
             indexCreated = true;
-        } catch (SQLException ex) {
+        } catch (final SQLException ex) {
             Logger.getLogger(DatabaseBackend.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    private void startDatabaseDriver(String url2, String user, String password) {
+    private void startDatabaseDriver(final String url2, final String user, final String password) {
         try {
             // Connect to the database
             LOGGER.log(Level.INFO,
@@ -207,7 +207,7 @@ public class DatabaseBackend {
             } else {
                 serverConnection = DriverManager.getConnection(url2, user, password);
             }
-        } catch (SQLException ex) {
+        } catch (final SQLException ex) {
             if (jdbcDriver.equals(DRIVER_CLASS_NAME)) {
                 LOGGER
                         .log(Level.WARNING, "Unexpected exception ! ", ex);
@@ -220,7 +220,7 @@ public class DatabaseBackend {
                     serverConnection = DriverManager.getConnection(url2 + ";create=true");
                     LOGGER.log(
                             Level.INFO, "Successfully created!");
-                } catch (SQLException ex2) {
+                } catch (final SQLException ex2) {
                     LOGGER.log(Level.SEVERE,
                             "Other connection already exists! Error: " + ex2.getMessage(), ex2);
                     LOGGER.log(Level.SEVERE,

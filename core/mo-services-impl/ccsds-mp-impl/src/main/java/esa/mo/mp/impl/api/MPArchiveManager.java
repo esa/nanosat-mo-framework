@@ -41,8 +41,8 @@ public class MPArchiveManager {
     public final EventArchiveManager EVENT;
     public final ResourceArchiveManager RESOURCE;
 
-    public MPArchiveManager(COMServicesProvider comServices) {
-        MPConfiguration configuration = new MPConfiguration();
+    public MPArchiveManager(final COMServicesProvider comServices) {
+        final MPConfiguration configuration = new MPConfiguration();
         PLAN = new PlanVersionArchiveManager(comServices, configuration);
         REQUEST_TEMPLATE = new RequestTemplateArchiveManager(comServices, configuration);
         REQUEST_VERSION = new RequestVersionArchiveManager(comServices, configuration);

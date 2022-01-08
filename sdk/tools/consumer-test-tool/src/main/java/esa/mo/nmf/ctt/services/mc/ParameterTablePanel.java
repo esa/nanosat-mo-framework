@@ -35,7 +35,7 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
  */
 public class ParameterTablePanel extends SharedTablePanel {
 
-    public ParameterTablePanel(ArchiveConsumerServiceImpl archiveService) {
+    public ParameterTablePanel(final ArchiveConsumerServiceImpl archiveService) {
         super(archiveService);
     }
 
@@ -50,11 +50,11 @@ public class ParameterTablePanel extends SharedTablePanel {
 
         try {
             semaphore.acquire();
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
             
-        ParameterDefinitionDetails pDef = (ParameterDefinitionDetails) comObject.getObject();
+        final ParameterDefinitionDetails pDef = (ParameterDefinitionDetails) comObject.getObject();
         
         tableData.addRow(new Object[]{
             comObject.getArchiveDetails().getDetails().getRelated(),
@@ -71,10 +71,10 @@ public class ParameterTablePanel extends SharedTablePanel {
 
     }
 
-    public void switchEnabledstatus(boolean status){
+    public void switchEnabledstatus(final boolean status){
         try {
             semaphore.acquire();
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -85,10 +85,10 @@ public class ParameterTablePanel extends SharedTablePanel {
         semaphore.release();
     }
     
-    public void switchEnabledstatusAll(boolean status){
+    public void switchEnabledstatusAll(final boolean status){
         try {
             semaphore.acquire();
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -103,7 +103,7 @@ public class ParameterTablePanel extends SharedTablePanel {
     
     @Override
     public void defineTableContent() {
-        String[] tableCol = new String[]{
+        final String[] tableCol = new String[]{
             "Identity", "name", "description", "rawType", "rawUnit", "generationEnabled", "updateInterval"};
 
         tableData = new javax.swing.table.DefaultTableModel(
@@ -114,12 +114,12 @@ public class ParameterTablePanel extends SharedTablePanel {
                     };
 
                     @Override               //all cells false
-                    public boolean isCellEditable(int row, int column) {
+                    public boolean isCellEditable(final int row, final int column) {
                         return false;
                     }
 
                     @Override
-                    public Class getColumnClass(int columnIndex) {
+                    public Class getColumnClass(final int columnIndex) {
                         return types[columnIndex];
                     }
                 };

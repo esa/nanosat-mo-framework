@@ -83,7 +83,7 @@ public class DemoGPSData {
      * @throws java.lang.Exception If there is an error
      */
     public static void main(final String[] args) throws Exception {
-        DemoGPSData demo = new DemoGPSData();
+        final DemoGPSData demo = new DemoGPSData();
     }
 
     /**
@@ -101,7 +101,7 @@ public class DemoGPSData {
                     source,
                     timestamp
             );
-        } catch (NMFException ex) {
+        } catch (final NMFException ex) {
             Logger.getLogger(DemoGPSData.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
@@ -110,12 +110,12 @@ public class DemoGPSData {
     public class mcAdapter extends MonitorAndControlNMFAdapter {
 
         @Override
-        public void initialRegistrations(MCRegistration registrationObject) {
+        public void initialRegistrations(final MCRegistration registrationObject) {
             registrationObject.setMode(RegistrationMode.DONT_UPDATE_IF_EXISTS);
 
             // ------------------ Parameters ------------------
-            ParameterDefinitionDetailsList parDef = new ParameterDefinitionDetailsList();
-            IdentifierList paramNames = new IdentifierList();
+            final ParameterDefinitionDetailsList parDef = new ParameterDefinitionDetailsList();
+            final IdentifierList paramNames = new IdentifierList();
 
             // Create the GPS.Latitude
             parDef.add(new ParameterDefinitionDetails(
@@ -164,14 +164,14 @@ public class DemoGPSData {
             ));
             paramNames.add(new Identifier(PARAMETER_GPS_N_SATS_IN_VIEW));
 
-            LongList parameterObjIdsGPS = registrationObject.registerParameters(paramNames, parDef);
+            final LongList parameterObjIdsGPS = registrationObject.registerParameters(paramNames, parDef);
 
             // ------------------ Aggregations ------------------
-            AggregationDefinitionDetailsList aggDef = new AggregationDefinitionDetailsList();
-            IdentifierList aggNames = new IdentifierList();
+            final AggregationDefinitionDetailsList aggDef = new AggregationDefinitionDetailsList();
+            final IdentifierList aggNames = new IdentifierList();
 
             // Create the Aggregation GPS
-            AggregationDefinitionDetails defGPSAgg = new AggregationDefinitionDetails(
+            final AggregationDefinitionDetails defGPSAgg = new AggregationDefinitionDetails(
                     "Aggregates: GPS Latitude, GPS Longitude, GPS Altitude, GPS.NumberOfSatellitesInView.",
                     new UOctet((short) AggregationCategory.GENERAL.getOrdinal()),
                     new Duration(10),
@@ -196,14 +196,14 @@ public class DemoGPSData {
         }
 
         @Override
-        public Attribute onGetValue(Identifier identifier, Byte rawType) {
+        public Attribute onGetValue(final Identifier identifier, final Byte rawType) {
             try {
                 if (connector == null) {  // The framework is still not available
                     return null;
                 }
 
                 try {
-                    GetLastKnownPositionResponse pos = connector.getPlatformServices().getGPSService().getLastKnownPosition();
+                    final GetLastKnownPositionResponse pos = connector.getPlatformServices().getGPSService().getLastKnownPosition();
 
                     if (PARAMETER_GPS_LATITUDE.equals(identifier.getValue())) {
                         return (Attribute) HelperAttributes.javaType2Attribute(pos.getBodyElement0().getLatitude());
@@ -216,7 +216,7 @@ public class DemoGPSData {
                     if (PARAMETER_GPS_ALTITUDE.equals(identifier.getValue())) {
                         return (Attribute) HelperAttributes.javaType2Attribute(pos.getBodyElement0().getAltitude());
                     }
-                } catch (IOException | NMFException ex) {
+                } catch (final IOException | NMFException ex) {
                     Logger.getLogger(DemoGPSData.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
@@ -227,8 +227,8 @@ public class DemoGPSData {
                     class AdapterImpl extends GPSAdapter {
 
                         @Override
-                        public void getSatellitesInfoResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-                                org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList gpsSatellitesInfo, java.util.Map qosProperties) {
+                        public void getSatellitesInfoResponseReceived(final org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+                                                                      final org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList gpsSatellitesInfo, final java.util.Map qosProperties) {
                             nOfSats.add(gpsSatellitesInfo.size());
                             sem.release();
                         }
@@ -236,19 +236,19 @@ public class DemoGPSData {
 
                     try {
                         connector.getPlatformServices().getGPSService().getSatellitesInfo(new AdapterImpl());
-                    } catch (IOException | NMFException ex) {
+                    } catch (final IOException | NMFException ex) {
                         Logger.getLogger(DemoGPSData.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
                     try {
                         sem.acquire();
-                    } catch (InterruptedException ex) {
+                    } catch (final InterruptedException ex) {
                         Logger.getLogger(DemoGPSData.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
                     return (Attribute) HelperAttributes.javaType2Attribute(nOfSats.get(0));
                 }
-            } catch (MALException | MALInteractionException ex) {
+            } catch (final MALException | MALInteractionException ex) {
                 Logger.getLogger(DemoGPSData.class.getName()).log(Level.SEVERE, null, ex);
             }
 
@@ -256,13 +256,13 @@ public class DemoGPSData {
         }
 
         @Override
-        public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
+        public Boolean onSetValue(final IdentifierList identifiers, final ParameterRawValueList values) {
             return false;  // To confirm that the variable was set
         }
 
         @Override
-        public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
-                Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
+        public UInteger actionArrived(final Identifier name, final AttributeValueList attributeValues,
+                                      final Long actionInstanceObjId, final boolean reportProgress, final MALInteraction interaction) {
             return null;  // Action service not integrated
         }
     }

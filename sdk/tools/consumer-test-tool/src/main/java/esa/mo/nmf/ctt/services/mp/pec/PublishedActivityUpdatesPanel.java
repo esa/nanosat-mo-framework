@@ -54,7 +54,7 @@ public class PublishedActivityUpdatesPanel extends PublishedUpdatesPanel {
     private final PlanExecutionControlConsumerServiceImpl planExecutionControlService;
     private final PublishedActivityUpdatesTable publishedActivityUpdatesTable;
 
-    public PublishedActivityUpdatesPanel(ArchiveConsumerServiceImpl archiveService, PlanExecutionControlConsumerServiceImpl planExecutionControlService) {
+    public PublishedActivityUpdatesPanel(final ArchiveConsumerServiceImpl archiveService, final PlanExecutionControlConsumerServiceImpl planExecutionControlService) {
         super();
 
         this.archiveService = archiveService;
@@ -63,7 +63,7 @@ public class PublishedActivityUpdatesPanel extends PublishedUpdatesPanel {
         this.publishedActivityUpdatesTable = new PublishedActivityUpdatesTable(archiveService, planExecutionControlService);
         try {
           this.publishedActivityUpdatesTable.monitorActivities();
-        } catch (MALInteractionException | MALException e) {
+        } catch (final MALInteractionException | MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
 
@@ -72,20 +72,20 @@ public class PublishedActivityUpdatesPanel extends PublishedUpdatesPanel {
         getRefreshButton().addActionListener(this::refreshButtonActionPerformed);
     }
 
-    private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {
+    private void refreshButtonActionPerformed(final java.awt.event.ActionEvent evt) {
 
         this.publishedActivityUpdatesTable.removeAllEntries();
 
-        ObjectType updateObjectType = PlanEditHelper.ACTIVITYUPDATE_OBJECT_TYPE;
+        final ObjectType updateObjectType = PlanEditHelper.ACTIVITYUPDATE_OBJECT_TYPE;
 
-        FineTime startTime = TimeConverter.convert(getRefreshTime());
+        final FineTime startTime = TimeConverter.convert(getRefreshTime());
 
         if (startTime == null) {
             JOptionPane.showMessageDialog(null, "Please insert date using format: yyyy-MM-dd HH:mm:ss UTC" , "Unparseable date", JOptionPane.PLAIN_MESSAGE);
         }
 
-        ArchiveQueryList archiveQueryList = new ArchiveQueryList();
-        ArchiveQuery archiveQuery = new ArchiveQuery();
+        final ArchiveQueryList archiveQueryList = new ArchiveQueryList();
+        final ArchiveQuery archiveQuery = new ArchiveQuery();
 
         archiveQuery.setDomain(null);
         archiveQuery.setNetwork(null);
@@ -101,56 +101,56 @@ public class PublishedActivityUpdatesPanel extends PublishedUpdatesPanel {
         try {
             archiveService.getArchiveStub().query(true, updateObjectType, archiveQueryList, null, new ArchiveAdapter() {
                 @Override
-                public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+                public void queryUpdateReceived(final MALMessageHeader msgHeader, final ObjectType objType, final IdentifierList domain, final ArchiveDetailsList objDetails, final ElementList objBodies, final Map qosProperties) {
                     addEntries(domain, objDetails, objBodies);
                 }
                 @Override
-                public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+                public void queryResponseReceived(final MALMessageHeader msgHeader, final ObjectType objType, final IdentifierList domain, final ArchiveDetailsList objDetails, final ElementList objBodies, final Map qosProperties) {
                     addEntries(domain, objDetails, objBodies);
                 }
           });
-        } catch (MALInteractionException | MALException e) {
+        } catch (final MALInteractionException | MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
     }
 
-    private void addEntries(IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies) {
+    private void addEntries(final IdentifierList domain, final ArchiveDetailsList objDetails, final ElementList objBodies) {
         if (objDetails == null) return;
         for (int index = 0; index < objDetails.size(); index++) {
-            ArchiveDetails details = objDetails.get(index);
-            ActivityUpdateDetails update = (ActivityUpdateDetails) objBodies.get(index);
+            final ArchiveDetails details = objDetails.get(index);
+            final ActivityUpdateDetails update = (ActivityUpdateDetails) objBodies.get(index);
 
-            Long instanceId = details.getDetails().getRelated();
-            Identifier identity = getIdentity(domain, instanceId);
+            final Long instanceId = details.getDetails().getRelated();
+            final Identifier identity = getIdentity(domain, instanceId);
 
             publishedActivityUpdatesTable.addEntry(domain, identity, instanceId, update);
         }
     }
 
-    private Identifier getIdentity(IdentifierList domain, Long instanceId) {
-        Identifier identity = null;
+    private Identifier getIdentity(final IdentifierList domain, final Long instanceId) {
+        final Identifier identity = null;
 
-        ObjectType instanceObjectType = PlanEditHelper.ACTIVITYINSTANCE_OBJECT_TYPE;
-        ObjectType definitionObjectType = PlanInformationManagementHelper.ACTIVITYDEFINITION_OBJECT_TYPE;
-        ObjectType identityObjectType = PlanInformationManagementHelper.ACTIVITYIDENTITY_OBJECT_TYPE;
+        final ObjectType instanceObjectType = PlanEditHelper.ACTIVITYINSTANCE_OBJECT_TYPE;
+        final ObjectType definitionObjectType = PlanInformationManagementHelper.ACTIVITYDEFINITION_OBJECT_TYPE;
+        final ObjectType identityObjectType = PlanInformationManagementHelper.ACTIVITYIDENTITY_OBJECT_TYPE;
 
-        ArchivePersistenceObject instanceObject = HelperArchive
+        final ArchivePersistenceObject instanceObject = HelperArchive
             .getArchiveCOMObject(this.archiveService.getArchiveStub(), instanceObjectType, domain, instanceId);
 
         if (instanceObject == null) {
             return identity;
         }
 
-        Long definitionId = instanceObject.getArchiveDetails().getDetails().getRelated();
-        ArchivePersistenceObject definitionObject = HelperArchive
+        final Long definitionId = instanceObject.getArchiveDetails().getDetails().getRelated();
+        final ArchivePersistenceObject definitionObject = HelperArchive
             .getArchiveCOMObject(this.archiveService.getArchiveStub(), definitionObjectType, domain, definitionId);
 
         if (definitionObject == null) {
             return identity;
         }
 
-        Long identityId = definitionObject.getArchiveDetails().getDetails().getRelated();
-        ArchivePersistenceObject identityObject = HelperArchive
+        final Long identityId = definitionObject.getArchiveDetails().getDetails().getRelated();
+        final ArchivePersistenceObject identityObject = HelperArchive
             .getArchiveCOMObject(this.archiveService.getArchiveStub(), identityObjectType, domain, identityId);
 
         if (identityObject == null) {

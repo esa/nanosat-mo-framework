@@ -17,7 +17,7 @@ private final TransactionsProcessor transactionsProcessor;
     private final Integer domainId;
     private final LongList objIds;
 
-    RunnableRemove(TransactionsProcessor transactionsProcessor, Runnable publishEvents, Integer objTypeId, Integer domainId, LongList objIds) {
+    RunnableRemove(final TransactionsProcessor transactionsProcessor, final Runnable publishEvents, final Integer objTypeId, final Integer domainId, final LongList objIds) {
         this.transactionsProcessor = transactionsProcessor;
         this.publishEvents = publishEvents;
         this.objTypeId = objTypeId;
@@ -29,15 +29,15 @@ private final TransactionsProcessor transactionsProcessor;
     public void run() {
         try {
             this.transactionsProcessor.dbBackend.getAvailability().acquire();
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             TransactionsProcessor.LOGGER.log(Level.SEVERE, null, ex);
         }
 
         try {
-            Connection c = this.transactionsProcessor.dbBackend.getConnection();
+            final Connection c = this.transactionsProcessor.dbBackend.getConnection();
             c.setAutoCommit(false);
 
-            PreparedStatement deleteStmt = transactionsProcessor.dbBackend.getPreparedStatements().getDeleteCOMObjects();
+            final PreparedStatement deleteStmt = transactionsProcessor.dbBackend.getPreparedStatements().getDeleteCOMObjects();
 
             // Generate the object Ids if needed and the persistence objects to be removed
             for (int i = 0; i < objIds.size(); i++) {
@@ -60,7 +60,7 @@ private final TransactionsProcessor transactionsProcessor;
 
             deleteStmt.executeBatch();
             c.setAutoCommit(true);
-        } catch (SQLException ex) {
+        } catch (final SQLException ex) {
             TransactionsProcessor.LOGGER.log(Level.SEVERE, null, ex);
         }
 

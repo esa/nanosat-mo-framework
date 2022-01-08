@@ -32,7 +32,7 @@ public class ArgumentTemplate implements Comparable<ArgumentTemplate>, Serializa
     String description;
     String argContent;
 
-    public ArgumentTemplate(String description, String argContent) {
+    public ArgumentTemplate(final String description, final String argContent) {
         this.description = description;
         this.argContent = argContent;
     }
@@ -41,7 +41,7 @@ public class ArgumentTemplate implements Comparable<ArgumentTemplate>, Serializa
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
@@ -49,7 +49,7 @@ public class ArgumentTemplate implements Comparable<ArgumentTemplate>, Serializa
         return argContent;
     }
 
-    public void setArgContent(String argContent) {
+    public void setArgContent(final String argContent) {
         this.argContent = argContent;
     }
 
@@ -59,7 +59,7 @@ public class ArgumentTemplate implements Comparable<ArgumentTemplate>, Serializa
     }
 
     @Override
-    public int compareTo(ArgumentTemplate o) {
+    public int compareTo(final ArgumentTemplate o) {
         return description.compareTo(o.getDescription());
     }
 

@@ -58,11 +58,11 @@ public class TimelineExecutionEngine {
      * Submits a timeline to be executed
      * @param timeline to be executed
      */
-    public void submitTimeline(List<TimelineItem> timeline) {
-        TimelineItem[] sortedTimeline = timeline.toArray(new TimelineItem[0]);
+    public void submitTimeline(final List<TimelineItem> timeline) {
+        final TimelineItem[] sortedTimeline = timeline.toArray(new TimelineItem[0]);
         Arrays.sort(sortedTimeline);
-        Deque<TimelineItem> stack = new ArrayDeque<>();
-        for (TimelineItem item : sortedTimeline) {
+        final Deque<TimelineItem> stack = new ArrayDeque<>();
+        for (final TimelineItem item : sortedTimeline) {
             stack.push(item);
         }
 
@@ -77,7 +77,7 @@ public class TimelineExecutionEngine {
     /**
      * Sets a callback for execution start, stop, finish and error
      */
-    public void setCallback(TimelineExecutionCallback callback) {
+    public void setCallback(final TimelineExecutionCallback callback) {
         this.callback = callback;
     }
 
@@ -97,9 +97,9 @@ public class TimelineExecutionEngine {
         this.onStart();
         try {
             this.scheduledFuture.get();
-        } catch (InterruptedException e) {
+        } catch (final InterruptedException e) {
             LOGGER.info("Timeline execution interrupted");
-        } catch (CancellationException e) {
+        } catch (final CancellationException e) {
             LOGGER.info("Timeline execution cancelled");
         }
     }
@@ -117,7 +117,7 @@ public class TimelineExecutionEngine {
     /**
      * Sets desired polling rate for engine
      */
-    public void setTickInterval(int tickInterval) {
+    public void setTickInterval(final int tickInterval) {
         this.tickInterval = tickInterval;
     }
 
@@ -126,17 +126,17 @@ public class TimelineExecutionEngine {
      * @return formatted timeline
      */
     public String getFormattedTimeline() {
-        String lineSeparator = System.lineSeparator();
-        String timelineSeparator = String.join("", Collections.nCopies(80, "-"));
+        final String lineSeparator = System.lineSeparator();
+        final String timelineSeparator = String.join("", Collections.nCopies(80, "-"));
 
-        StringBuilder stringBuilder = new StringBuilder();
+        final StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Submitted timeline");
         stringBuilder.append(lineSeparator);
         stringBuilder.append(timelineSeparator);
         stringBuilder.append(lineSeparator);
-        Iterator<TimelineItem> iterator = this.timelineStack.iterator();
+        final Iterator<TimelineItem> iterator = this.timelineStack.iterator();
         while (iterator.hasNext()) {
-            TimelineItem item = iterator.next();
+            final TimelineItem item = iterator.next();
             stringBuilder.append(item.toString());
             stringBuilder.append(lineSeparator);
         }
@@ -157,14 +157,14 @@ public class TimelineExecutionEngine {
         this.scheduledFuture = this.scheduler.scheduleAtFixedRate(() -> {
             try {
                 tick();
-            } catch (Throwable t) {
+            } catch (final Throwable t) {
                 this.onError(t);
             }
         }, 0, this.tickInterval, TimeUnit.MILLISECONDS);
     }
 
     private void tick() {
-        long timestamp = SystemClock.getTime().getValue();
+        final long timestamp = SystemClock.getTime().getValue();
         // Log tick timestamps for easier debugging
         // LOGGER.info("Timestamp: " + HelperTime.time2readableString(new Time(timestamp)));
 
@@ -175,7 +175,7 @@ public class TimelineExecutionEngine {
 
         while (timelineStack.peek() != null && timelineStack.peek().getLatestStartTime() < timestamp) {
             // Item latest start time has passed
-            TimelineItem item = timelineStack.pop();
+            final TimelineItem item = timelineStack.pop();
             if (item.getLatestStartTime() + tickInterval >= timestamp) {
                 // If it passed less than tickInterval ago, still execute the item
                 LOGGER.info("Executing item " + item.getItemId());
@@ -187,7 +187,7 @@ public class TimelineExecutionEngine {
             }
         }
         while (timelineStack.peek() != null && timelineStack.peek().getEarliestStartTime() < timestamp) {
-            TimelineItem item = timelineStack.pop();
+            final TimelineItem item = timelineStack.pop();
             LOGGER.info("Executing item " + item.getItemId());
             item.getCallback().execute();
         }
@@ -226,7 +226,7 @@ public class TimelineExecutionEngine {
         }
     }
 
-    private void onError(Throwable t) {
+    private void onError(final Throwable t) {
         if (this.callback != null) {
             this.callback.onError(t);
         }

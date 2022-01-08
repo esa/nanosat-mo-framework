@@ -57,7 +57,7 @@ public class CommunicationsTopPanel extends javax.swing.JPanel {
 
         jButton1.setText("Manual Connection");
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        final javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -94,7 +94,7 @@ public class CommunicationsTopPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void connect_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connect_buttonActionPerformed
+    private void connect_buttonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connect_buttonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_connect_buttonActionPerformed
 

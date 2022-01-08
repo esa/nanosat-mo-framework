@@ -83,7 +83,7 @@ public class COMServicesConsumer {
             if (details != null) {
                 archiveSyncService = new ArchiveSyncConsumerServiceImpl(details, authenticationId, localNamePrefix);
             }
-        } catch (MALException | MALInteractionException | MalformedURLException ex) {
+        } catch (final MALException | MALInteractionException | MalformedURLException ex) {
             Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -106,7 +106,7 @@ public class COMServicesConsumer {
      * @param eventService Event service consumer
      * @param archiveService Archive service consumer
      */
-    public void setServices(EventConsumerServiceImpl eventService, ArchiveConsumerServiceImpl archiveService) {
+    public void setServices(final EventConsumerServiceImpl eventService, final ArchiveConsumerServiceImpl archiveService) {
         this.eventService = eventService;
         this.archiveService = archiveService;
     }
@@ -116,7 +116,7 @@ public class COMServicesConsumer {
      *
      * @param eventService Event service consumer
      */
-    public void setEventService(EventConsumerServiceImpl eventService) {
+    public void setEventService(final EventConsumerServiceImpl eventService) {
         this.eventService = eventService;
     }
 
@@ -125,7 +125,7 @@ public class COMServicesConsumer {
      *
      * @param archiveService Archive service consumer
      */
-    public void setArchiveService(ArchiveConsumerServiceImpl archiveService) {
+    public void setArchiveService(final ArchiveConsumerServiceImpl archiveService) {
         this.archiveService = archiveService;
     }
 
@@ -147,7 +147,7 @@ public class COMServicesConsumer {
         }
     }
 
-    public void setAuthenticationId(Blob authenticationId) {
+    public void setAuthenticationId(final Blob authenticationId) {
         if (this.eventService != null) {
             this.eventService.setAuthenticationId(authenticationId);
         }

@@ -80,7 +80,7 @@ public abstract class ConsumerServiceImpl implements AutoCloseable
             {
                 tmConsumer.close();
             }
-            catch (MALException ex)
+            catch (final MALException ex)
             {
                 Logger.getLogger(ConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -96,7 +96,7 @@ public abstract class ConsumerServiceImpl implements AutoCloseable
      * @throws org.ccsds.moims.mo.mal.MALException
      * @throws java.net.MalformedURLException
      */
-    public Object createConsumer(String subsystem, MALService service) throws MALException, MalformedURLException
+    public Object createConsumer(final String subsystem, final MALService service) throws MALException, MalformedURLException
     {
         return createConsumer(subsystem, service, null, null);
     }
@@ -112,16 +112,16 @@ public abstract class ConsumerServiceImpl implements AutoCloseable
      * @throws org.ccsds.moims.mo.mal.MALException
      * @throws java.net.MalformedURLException
      */
-    public Object createConsumer(String subsystem,
-                                 MALService service,
-                                 Blob authenticationId,
-                                 String localNamePrefix) throws MALException, MalformedURLException
+    public Object createConsumer(final String subsystem,
+                                 final MALService service,
+                                 final Blob authenticationId,
+                                 final String localNamePrefix) throws MALException, MalformedURLException
     {
 
         Logger.getLogger(ConsumerServiceImpl.class.getName())
                 .log(Level.INFO, "URI" + this.connectionDetails.getProviderURI().toString() + "@" + subsystem);
 
-        MALConsumer consumer = connection
+        final MALConsumer consumer = connection
                 .startService(new URI(this.connectionDetails.getProviderURI().toString() + "@" + subsystem),
                               this.connectionDetails.getBrokerURI(),
                               this.connectionDetails.getDomain(),
@@ -129,7 +129,7 @@ public abstract class ConsumerServiceImpl implements AutoCloseable
                               authenticationId,
                               localNamePrefix);
 
-        Object stub = generateServiceStub(consumer);
+        final Object stub = generateServiceStub(consumer);
         servicesMap.put(new Identifier(subsystem), stub);
         return stub;
     }
@@ -159,7 +159,7 @@ public abstract class ConsumerServiceImpl implements AutoCloseable
         return null;
     }
 
-    public void setAuthenticationId(Blob authenticationId)
+    public void setAuthenticationId(final Blob authenticationId)
     {
         if (null != tmConsumer)
         {

@@ -51,7 +51,7 @@ public class SortByField implements Comparator {
     private final String fieldName;
     private Field field;
 
-    SortByField(Class<?> beanClass, String fieldName, boolean ascending) throws NoSuchFieldException, SecurityException {
+    SortByField(final Class<?> beanClass, final String fieldName, final boolean ascending) throws NoSuchFieldException, SecurityException {
         this.ascending = ascending;
 
         if (fieldName != null) {  // Is it timestamp sorting?
@@ -70,7 +70,7 @@ public class SortByField implements Comparator {
 
         if (beanClass != null && fieldName != null) {
 
-            String[] parts = fieldName.split("\\.");
+            final String[] parts = fieldName.split("\\.");
 
             if (parts.length == 0) {  // Something went wrong...
                 throw new NoSuchFieldException();
@@ -84,7 +84,7 @@ public class SortByField implements Comparator {
 
                 Object obj;
                 for (int i = 0; i < parts.length; i++) {
-                    String part = parts[i];
+                    final String part = parts[i];
 
                     if (i == 0) {  // For the first field we do it manually...
                         this.field = beanClass.getDeclaredField(part);
@@ -109,7 +109,7 @@ public class SortByField implements Comparator {
      */
     @SuppressWarnings("unchecked")
     @Override
-    public int compare(Object in1, Object in2) {
+    public int compare(final Object in1, final Object in2) {
         Object obj1 = null;
         Object obj2 = null;
 
@@ -117,13 +117,13 @@ public class SortByField implements Comparator {
             if (!timestampSorting) {
                 try {
                     obj1 = HelperCOM.getNestedObject(((ArchivePersistenceObject) in1).getObject(), this.fieldName);
-                } catch (NoSuchFieldException ex) {
+                } catch (final NoSuchFieldException ex) {
                     obj1 = null;
                 }
 
                 try {
                     obj2 = HelperCOM.getNestedObject(((ArchivePersistenceObject) in2).getObject(), this.fieldName);
-                } catch (NoSuchFieldException ex) {
+                } catch (final NoSuchFieldException ex) {
                     obj2 = null;
                 }
 
@@ -132,9 +132,9 @@ public class SortByField implements Comparator {
                 obj1 = this.field.get(((ArchivePersistenceObject) in1).getArchiveDetails());
                 obj2 = this.field.get(((ArchivePersistenceObject) in2).getArchiveDetails());
             }
-        } catch (IllegalAccessException | IllegalArgumentException e) {
+        } catch (final IllegalAccessException | IllegalArgumentException e) {
             throw new RuntimeException(e);
-        } catch (SecurityException ex) {
+        } catch (final SecurityException ex) {
             Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -207,7 +207,7 @@ public class SortByField implements Comparator {
             } else {
                 c1 = HelperAttributes.attribute2double((Attribute) c1);
                 c2 = HelperAttributes.attribute2double((Attribute) c2);
-                double diff = (((Double) c1) - ((Double) c2));
+                final double diff = (((Double) c1) - ((Double) c2));
 
                 if (diff == 0) {
                     return 0;
@@ -232,7 +232,7 @@ public class SortByField implements Comparator {
         IdentifierList tmpDomain;
         ObjectType tmpObjType;
         ArrayList<ArchivePersistenceObject> stackB;
-        ArrayList<ArchivePersistenceObject> stackOut = new ArrayList<>();
+        final ArrayList<ArchivePersistenceObject> stackOut = new ArrayList<>();
 
         // Requirement 3.4.4.2.27: 
         // "Each domain/object type pair shall be sorted separately from other domain/object type 
@@ -260,8 +260,8 @@ public class SortByField implements Comparator {
         return stackOut;
     }
 
-    private static ArrayList<ArchivePersistenceObject> sortStack(ArrayList<ArchivePersistenceObject> stack,
-            final String fieldString, final Boolean ascending) throws NoSuchFieldException {
+    private static ArrayList<ArchivePersistenceObject> sortStack(final ArrayList<ArchivePersistenceObject> stack,
+                                                                 final String fieldString, final Boolean ascending) throws NoSuchFieldException {
 
         if (stack == null) {
             return null;
@@ -271,7 +271,7 @@ public class SortByField implements Comparator {
             return stack;
         }
 
-        Class aClass;
+        final Class aClass;
 
         // Requirement 3.4.4.2.26: 
         // "The returned lists shall be sorted based on the sorting options specified in ArchiveQuery"
@@ -284,7 +284,7 @@ public class SortByField implements Comparator {
             return stack;
         }
 
-        SortByField comparator = new SortByField(aClass, fieldString, ascending);
+        final SortByField comparator = new SortByField(aClass, fieldString, ascending);
         // stack.sort(comparator);
         // Changed to be compatible with java 6:
         stack.sort(comparator);

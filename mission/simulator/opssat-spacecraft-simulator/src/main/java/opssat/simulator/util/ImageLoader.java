@@ -32,7 +32,7 @@ public class ImageLoader {
    * @throws IllegalArgumentException Iff targetWidth <= 0 || targetHeight <= 0 ||
    *                                  input == null.
    */
-  public static BufferedImage rescale(int targetWidth, int targetHeight, BufferedImage input)
+  public static BufferedImage rescale(final int targetWidth, final int targetHeight, final BufferedImage input)
       throws IllegalArgumentException {
     if (targetWidth <= 0 || targetHeight <= 0) {
       throw new IllegalArgumentException("The target dimensions must be positive.");
@@ -40,10 +40,10 @@ public class ImageLoader {
     if (input == null) {
       throw new IllegalArgumentException("The provided image must not be null");
     }
-    BufferedImage out = new BufferedImage(targetWidth, targetHeight, input.getType());
+    final BufferedImage out = new BufferedImage(targetWidth, targetHeight, input.getType());
 
-    double x_ratio = (double) input.getWidth() / (double) targetWidth;
-    double y_ratio = (double) input.getHeight() / (double) targetHeight;
+    final double x_ratio = (double) input.getWidth() / (double) targetWidth;
+    final double y_ratio = (double) input.getHeight() / (double) targetHeight;
     double posX = 0.0;
     double posY = 0.0;
     for (int i = 0; i < targetHeight; i++) {
@@ -65,21 +65,21 @@ public class ImageLoader {
    *         pattern RGGB.
    * @throws IllegalArgumentException Iff input == null.
    */
-  public static byte[] convertToBayerPattern(BufferedImage input) throws IllegalArgumentException {
+  public static byte[] convertToBayerPattern(final BufferedImage input) throws IllegalArgumentException {
     if (input == null) {
       throw new IllegalArgumentException("Input must not be null!");
     }
 
-    int width = input.getWidth();
-    int height = input.getHeight();
-    int numBytes = width * height * 2;
-    byte[] output = new byte[numBytes];
+    final int width = input.getWidth();
+    final int height = input.getHeight();
+    final int numBytes = width * height * 2;
+    final byte[] output = new byte[numBytes];
     int k = 0;
 
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
-        int pixel = input.getRGB(j, i);
-        byte col;
+        final int pixel = input.getRGB(j, i);
+        final byte col;
         if (i % 2 == 0) { // G R G R G R
           if (j % 2 == 0) {
             col = ImageLoader.getGreen(pixel);
@@ -122,11 +122,11 @@ public class ImageLoader {
    * @throws IOException              Iff something unexpected occurs while
    *                                  reading the file.
    */
-  public static byte[] loadNonRawImage(String path) throws IllegalArgumentException, IOException {
+  public static byte[] loadNonRawImage(final String path) throws IllegalArgumentException, IOException {
     if (path == null) {
       throw new IllegalArgumentException("Path must not be null.");
     }
-    File f = new File(path);
+    final File f = new File(path);
     BufferedImage temp = ImageIO.read(f);
     if (temp.getWidth() != RESOLUTION_WIDTH || temp.getHeight() != RESOLUTION_HEIGHT) {
       temp = ImageLoader.rescale(RESOLUTION_WIDTH, RESOLUTION_HEIGHT, temp);
@@ -134,15 +134,15 @@ public class ImageLoader {
     return ImageLoader.convertToBayerPattern(temp);
   }
 
-  public static byte getRed(int pixel) {
+  public static byte getRed(final int pixel) {
     return (byte) ((pixel & 0x00FF0000) >> 16);
   }
 
-  public static byte getGreen(int pixel) {
+  public static byte getGreen(final int pixel) {
     return (byte) ((pixel & 0x0000FF00) >> 8);
   }
 
-  public static byte getBlue(int pixel) {
+  public static byte getBlue(final int pixel) {
     return (byte) (pixel & 0x000000FF);
   }
 

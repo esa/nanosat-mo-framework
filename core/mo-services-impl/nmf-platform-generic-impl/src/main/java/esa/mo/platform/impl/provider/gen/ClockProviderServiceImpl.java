@@ -49,7 +49,7 @@ public class ClockProviderServiceImpl extends ClockInheritanceSkeleton {
      * @param adapter     The Clock adapter
      * @throws MALException On initialisation error.
      */
-    public synchronized void init(ClockAdapterInterface adapter) throws MALException {
+    public synchronized void init(final ClockAdapterInterface adapter) throws MALException {
         if (!initialiased) {
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -66,7 +66,7 @@ public class ClockProviderServiceImpl extends ClockInheritanceSkeleton {
 
             try {
                 ClockHelper.init(MALContextFactory.getElementFactoryRegistry());
-            } catch (MALException ex) {
+            } catch (final MALException ex) {
                 // nothing to be done..
             }
         }
@@ -94,18 +94,18 @@ public class ClockProviderServiceImpl extends ClockInheritanceSkeleton {
             }
 
             connection.closeAll();
-        } catch (MALException ex) {
+        } catch (final MALException ex) {
             LOGGER.log(Level.WARNING, "Exception during close down of the provider {0}", ex);
         }
 }
 
     @Override
-    public Time getTime(MALInteraction interaction) throws MALInteractionException, MALException {
+    public Time getTime(final MALInteraction interaction) throws MALInteractionException, MALException {
         return this.adapter.getTime();
     }
 
     @Override
-    public Integer getTimeFactor(MALInteraction interaction) throws MALInteractionException, MALException {
+    public Integer getTimeFactor(final MALInteraction interaction) throws MALInteractionException, MALException {
         return this.adapter.getTimeFactor();
     }
 }

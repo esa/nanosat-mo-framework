@@ -35,23 +35,23 @@ import org.ccsds.moims.mo.mal.structures.Enumeration;
  */
 public class FieldsHandler {
 
-    public static Object filterRawObject(Object obj) {
+    public static Object filterRawObject(final Object obj) {
         try {
             return HelperAttributes.javaType2Attribute(obj);
-        } catch (IllegalArgumentException ex) {
+        } catch (final IllegalArgumentException ex) {
         }
 
         return null;
     }
     
-    public static Field[] getDeclaredFields(Object obj) {
+    public static Field[] getDeclaredFields(final Object obj) {
 
         Field[] fields = obj.getClass().getDeclaredFields();
 
         // Does it have a super class?
         if (!obj.getClass().getSuperclass().getSimpleName().equals("Composite")) {
-            Field[] superFields = obj.getClass().getSuperclass().getDeclaredFields();
-            Field[] newFields = new Field[fields.length + superFields.length];
+            final Field[] superFields = obj.getClass().getSuperclass().getDeclaredFields();
+            final Field[] newFields = new Field[fields.length + superFields.length];
 
             for (int i = 0; i < newFields.length; i++) {
                 if (i < fields.length) {
@@ -67,19 +67,19 @@ public class FieldsHandler {
         return fields;
     }
 
-    public static boolean isFieldNull(Field field, Object obj) {
-        Object objectWithValue;
+    public static boolean isFieldNull(final Field field, final Object obj) {
+        final Object objectWithValue;
         try {
             field.setAccessible(true);
             objectWithValue = field.get(obj);
-        } catch (IllegalArgumentException | IllegalAccessException ex) {
+        } catch (final IllegalArgumentException | IllegalAccessException ex) {
             return true;
         }
 
         return (objectWithValue == null);
     }
 
-    public static Object generateFieldObject(Field field, Object obj) {
+    public static Object generateFieldObject(final Field field, final Object obj) {
 
         Object rawObj = null;
         Attribute secondObj = null;
@@ -87,11 +87,11 @@ public class FieldsHandler {
 
         // First try if we can grab it immediately
         try {
-            Object objectWithValue1 = field.get(obj);
+            final Object objectWithValue1 = field.get(obj);
             if (objectWithValue1 != null) {
                 return objectWithValue1;
             }
-        } catch (IllegalArgumentException | IllegalAccessException ex) {
+        } catch (final IllegalArgumentException | IllegalAccessException ex) {
             // Ja.. just continue the rest of the tests...
         }
 
@@ -100,38 +100,38 @@ public class FieldsHandler {
             rawObj = field.getType().newInstance();
             secondObj = (Attribute) rawObj;
             return secondObj;
-        } catch (ClassCastException | IllegalAccessException | InstantiationException ex0) {
+        } catch (final ClassCastException | IllegalAccessException | InstantiationException ex0) {
             FieldsHandler.generateFieldObjectFromField(rawObj, field);
         }
 
         return null;
     }
 
-    private static Object generateFieldObjectFromField(Object rawObj, Field field) {
+    private static Object generateFieldObjectFromField(final Object rawObj, final Field field) {
         if (rawObj != null) {
             return FieldsHandler.filterRawObject(rawObj);
         } else {
-            Constructor[] constructors = field.getType().getDeclaredConstructors();
+            final Constructor[] constructors = field.getType().getDeclaredConstructors();
             if (constructors.length == 0) {
                 return null;
             }
 
             // Enumeration case...
             if (constructors.length == 1) {
-                Constructor constructor = constructors[0];  // Use the first constructor
+                final Constructor constructor = constructors[0];  // Use the first constructor
                 constructor.setAccessible(true);
                 try {
                     return (Enumeration) constructor.newInstance(0);
-                } catch (InstantiationException | InvocationTargetException | IllegalArgumentException | IllegalAccessException ex) {
+                } catch (final InstantiationException | InvocationTargetException | IllegalArgumentException | IllegalAccessException ex) {
                     Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
 
             // Octet case...
             if (constructors.length == 2) {
-                Constructor constructor = constructors[0];  // Use the first constructor
+                final Constructor constructor = constructors[0];  // Use the first constructor
                 constructor.setAccessible(true);
-                String name = constructor.getName();
+                final String name = constructor.getName();
                 try {
                     if (name.equals("java.lang.Boolean")) {
                         return HelperAttributes.javaType2Attribute(constructor.newInstance(true));
@@ -146,7 +146,7 @@ public class FieldsHandler {
                     }
 
                     return HelperAttributes.javaType2Attribute(constructor.newInstance(1));
-                } catch (InstantiationException | InvocationTargetException | IllegalArgumentException | IllegalAccessException ex) {
+                } catch (final InstantiationException | InvocationTargetException | IllegalArgumentException | IllegalAccessException ex) {
                     Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }

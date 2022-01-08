@@ -52,7 +52,7 @@ public class Demo10secAlert {
         this.timer.scheduleTask(new Thread(() -> {
             try {
                 connector.publishAlertEvent("10SecondsAlert", null);
-            } catch (NMFException ex) {
+            } catch (final NMFException ex) {
                 Logger.getLogger(Demo10secAlert.class.getName()).log(Level.SEVERE,
                         "The Alert could not be published to the consumer!", ex);
             }
@@ -66,28 +66,28 @@ public class Demo10secAlert {
      * @throws java.lang.Exception If there is an error
      */
     public static void main(final String[] args) throws Exception {
-        Demo10secAlert demo = new Demo10secAlert();
+        final Demo10secAlert demo = new Demo10secAlert();
     }
 
     class Adapter extends MonitorAndControlNMFAdapter {
 
         @Override
-        public void initialRegistrations(MCRegistration registrationObject) {
+        public void initialRegistrations(final MCRegistration registrationObject) {
         }
 
         @Override
-        public UInteger actionArrived(Identifier idntfr, AttributeValueList avl,
-                Long l, boolean bln, MALInteraction mali) {
+        public UInteger actionArrived(final Identifier idntfr, final AttributeValueList avl,
+                                      final Long l, final boolean bln, final MALInteraction mali) {
             throw new UnsupportedOperationException("Not supported.");
         }
 
         @Override
-        public Attribute onGetValue(Identifier idntfr, Byte b) {
+        public Attribute onGetValue(final Identifier idntfr, final Byte b) {
             throw new UnsupportedOperationException("Not supported.");
         }
 
         @Override
-        public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
+        public Boolean onSetValue(final IdentifierList identifiers, final ParameterRawValueList values) {
             throw new UnsupportedOperationException("Not supported.");
         }
 

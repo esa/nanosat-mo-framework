@@ -41,7 +41,7 @@ public class TCPServerReceiveOnly extends Thread {
     private boolean shouldClose;
     private Logger logger;
 
-    public void setShouldClose(boolean shouldClose) {
+    public void setShouldClose(final boolean shouldClose) {
         this.shouldClose = shouldClose;
     }
     
@@ -64,15 +64,15 @@ public class TCPServerReceiveOnly extends Thread {
                 welcomeSocket = new ServerSocket(port);
                 this.logger.log(Level.INFO,"Created ServerSocket on port [" + port + "]");
 
-                Socket connectionSocket;
+                final Socket connectionSocket;
                 try {
                     connectionSocket = welcomeSocket.accept();
-                } catch (IOException ex) {
+                } catch (final IOException ex) {
                     Logger.getLogger(TCPServerReceiveOnly.class.getName()).log(Level.SEVERE, null, ex);
                     break;
                 }
                 this.logger.log(Level.INFO,"Accepted Socket from [" + connectionSocket.getInetAddress() + "]");
-                BufferedReader inFromClient;
+                final BufferedReader inFromClient;
                 try {
                     inFromClient = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
                     while (!shouldClose) {
@@ -84,7 +84,7 @@ public class TCPServerReceiveOnly extends Thread {
                                 break;
 
                             }
-                        } catch (IOException ex) {
+                        } catch (final IOException ex) {
                             Logger.getLogger(TCPServerReceiveOnly.class.getName()).log(Level.SEVERE, null, ex);
                             connectionSocket.close();
                             welcomeSocket.close();
@@ -95,18 +95,18 @@ public class TCPServerReceiveOnly extends Thread {
                             data = clientSentence;
                         }
                     }
-                } catch (IOException ex) {
+                } catch (final IOException ex) {
                     welcomeSocket.close();
                     Logger.getLogger(TCPServerReceiveOnly.class.getName()).log(Level.SEVERE, null, ex);
                     break;
                 }
 
-            } catch (IOException ex) {
+            } catch (final IOException ex) {
                 if (welcomeSocket!=null)
                 {
                     try {
                         welcomeSocket.close();
-                    } catch (IOException ex1) {
+                    } catch (final IOException ex1) {
                         Logger.getLogger(TCPServerReceiveOnly.class.getName()).log(Level.SEVERE, null, ex1);
                     }
                 }
@@ -116,20 +116,20 @@ public class TCPServerReceiveOnly extends Thread {
         }
         try {
             welcomeSocket.close();
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             Logger.getLogger(TCPServerReceiveOnly.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
-    public TCPServerReceiveOnly(int port, Logger logger) {
+    public TCPServerReceiveOnly(final int port, final Logger logger) {
         this.logger=logger;
         this.port = port;
 
     }
     
-    public static void main(String[] argv) {
-        TCPServerReceiveOnly tcpServer = new TCPServerReceiveOnly(10500,Logger.getLogger(Logger.GLOBAL_LOGGER_NAME));
+    public static void main(final String[] argv) {
+        final TCPServerReceiveOnly tcpServer = new TCPServerReceiveOnly(10500,Logger.getLogger(Logger.GLOBAL_LOGGER_NAME));
         tcpServer.start();
     }
 }

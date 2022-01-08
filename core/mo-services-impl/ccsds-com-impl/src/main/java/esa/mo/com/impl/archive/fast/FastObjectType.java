@@ -52,27 +52,27 @@ public class FastObjectType extends FastIndex<Long> {
         // Retrieve all the ids and objectTypes from the Database
         try {
           dbBackend.getAvailability().acquire();
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
           Logger.getLogger(FastObjectType.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         int max = 0;
         try {
-            Connection c = dbBackend.getConnection();
-            Statement query = c.createStatement();
+            final Connection c = dbBackend.getConnection();
+            final Statement query = c.createStatement();
             query.execute("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (id INTEGER NOT NULL, value BIGINT, PRIMARY KEY (id))");
             insertStmt = c.prepareStatement(QUERY_INSERT);
-            ResultSet rs = query.executeQuery(QUERY_SELECT);
+            final ResultSet rs = query.executeQuery(QUERY_SELECT);
 
             while (rs.next()) {
-                Integer id = rs.getInt(1);
-                Long objType = TransactionsProcessor.convert2Long(rs.getObject(2));
+                final Integer id = rs.getInt(1);
+                final Long objType = TransactionsProcessor.convert2Long(rs.getObject(2));
                 this.fastID.put(objType, id);
                 this.fastIDreverse.put(id, objType);
 
                 max = (id > max) ? id : max;
             }
-        } catch (SQLException ex) {
+        } catch (final SQLException ex) {
             Logger.getLogger(FastObjectType.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -95,14 +95,14 @@ public class FastObjectType extends FastIndex<Long> {
 
             long tmpObjectTypeId;
             long objTypeANDed;
-            for (Map.Entry<Long, Integer> entry : this.fastID.entrySet()) {
+            for (final Map.Entry<Long, Integer> entry : this.fastID.entrySet()) {
                 try {
                     tmpObjectTypeId = HelperCOM.generateSubKey(this.getObjectType(entry.getValue()));
                     objTypeANDed = (tmpObjectTypeId & bitMask);
                     if (objTypeANDed == objTypeId) { // Comparison
                         ids.add(entry.getValue());
                     }
-                } catch (Exception ex) {
+                } catch (final Exception ex) {
                     Logger.getLogger(FastObjectType.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -126,10 +126,10 @@ public class FastObjectType extends FastIndex<Long> {
     }
     
     private static Long objectType2Mask(final ObjectType objType) {
-        long areaVal = (objType.getArea().getValue() == 0) ? (long) 0 : (long) 0xFFFF;
-        long serviceVal = (objType.getService().getValue() == 0) ? (long) 0 : (long) 0xFFFF;
-        long versionVal = (objType.getVersion().getValue() == 0) ? (long) 0 : (long) 0xFF;
-        long numberVal = (objType.getNumber().getValue() == 0) ? (long) 0 : (long) 0xFFFF;
+        final long areaVal = (objType.getArea().getValue() == 0) ? (long) 0 : (long) 0xFFFF;
+        final long serviceVal = (objType.getService().getValue() == 0) ? (long) 0 : (long) 0xFFFF;
+        final long versionVal = (objType.getVersion().getValue() == 0) ? (long) 0 : (long) 0xFF;
+        final long numberVal = (objType.getNumber().getValue() == 0) ? (long) 0 : (long) 0xFFFF;
 
         return (areaVal << 48
                 | serviceVal << 32

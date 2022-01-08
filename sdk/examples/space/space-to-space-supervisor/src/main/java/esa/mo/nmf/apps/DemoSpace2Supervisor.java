@@ -29,12 +29,12 @@ import esa.mo.nmf.spacemoadapter.SpaceMOApdapterImpl;
 public class DemoSpace2Supervisor {
 
     public DemoSpace2Supervisor() {
-        Space2SupervisorAdapter adapter = new Space2SupervisorAdapter();
-        NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
+        final Space2SupervisorAdapter adapter = new Space2SupervisorAdapter();
+        final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
         connector.init(adapter);
 
         // Initialize application's NMF consumer (consuming the supervisor)
-        SpaceMOApdapterImpl supervisorSMA =
+        final SpaceMOApdapterImpl supervisorSMA =
                 SpaceMOApdapterImpl.forNMFSupervisor(connector.readCentralDirectoryServiceURI());
 
         adapter.setConnector(connector);
@@ -49,6 +49,6 @@ public class DemoSpace2Supervisor {
      * @throws java.lang.Exception If there is an error
      */
     public static void main(final String[] args) throws Exception {
-        DemoSpace2Supervisor demo = new DemoSpace2Supervisor();
+        final DemoSpace2Supervisor demo = new DemoSpace2Supervisor();
     }
 }

@@ -78,7 +78,7 @@ public final class AggregationManager extends MCManager {
     private Long uniqueObjIdAVal;
     private final ParameterManager parameterManager;
 
-    public AggregationManager(COMServicesProvider comServices, ParameterManager parameterManager) {
+    public AggregationManager(final COMServicesProvider comServices, final ParameterManager parameterManager) {
         super(comServices);
         this.parameterManager = parameterManager;
 
@@ -95,7 +95,7 @@ public final class AggregationManager extends MCManager {
         }
     }
 
-    public AggregationDefinitionDetails getAggregationDefinition(Long identityId) {
+    public AggregationDefinitionDetails getAggregationDefinition(final Long identityId) {
         return (AggregationDefinitionDetails) this.getDefinition(identityId);
     }
 
@@ -106,8 +106,8 @@ public final class AggregationManager extends MCManager {
      *
      * @param identityIdList The list of identity Ids
      */
-    protected void createAggregationValuesList(LongList identityIdList) {
-        for (Long identityId : identityIdList) {
+    protected void createAggregationValuesList(final LongList identityIdList) {
+        for (final Long identityId : identityIdList) {
             periodicAggregationValuesLast.put(identityId, new AggregationValue());
             periodicAggregationValuesCurrent.put(identityId, new AggregationValue());
             isFilterTriggered.put(identityId, false);
@@ -128,9 +128,9 @@ public final class AggregationManager extends MCManager {
      * @param identityId The identity Id.
      */
     public void populateAggregationValues(final Long identityId) {
-        AggregationSetValueList aggregationSetValueListLast = new AggregationSetValueList();
-        AggregationSetValueList aggregationSetValueListCurrent = new AggregationSetValueList();
-        AggregationDefinitionDetails definition = this.getAggregationDefinition(identityId);
+        final AggregationSetValueList aggregationSetValueListLast = new AggregationSetValueList();
+        final AggregationSetValueList aggregationSetValueListCurrent = new AggregationSetValueList();
+        final AggregationDefinitionDetails definition = this.getAggregationDefinition(identityId);
         final int paramSetSize = definition.getParameterSets().size();
         //reset the latest sample-time and the sample-counter
         if (paramSetSize != 0) {
@@ -157,11 +157,11 @@ public final class AggregationManager extends MCManager {
      * @param identityId The identity Id.
      * @return true if it was successful, false if identity not found
      */
-    public Boolean resetAggregationSampleHelperVariables(Long identityId) {
+    public Boolean resetAggregationSampleHelperVariables(final Long identityId) {
         if (!this.existsIdentity(identityId)) {
             return false;
         }
-        AggregationDefinitionDetails definition = this.getAggregationDefinition(identityId);
+        final AggregationDefinitionDetails definition = this.getAggregationDefinition(identityId);
         final int paramSetSize = definition.getParameterSets().size();
         //reset the latest sample-time and the sample-counter
         if (paramSetSize != 0) {
@@ -183,7 +183,7 @@ public final class AggregationManager extends MCManager {
      *
      * @param identityId The identity Id.
      */
-    public void removeAggregationValues(Long identityId) {
+    public void removeAggregationValues(final Long identityId) {
         periodicAggregationValuesLast.remove(identityId);
         periodicAggregationValuesCurrent.remove(identityId);
         latestSampleTimeList.remove(identityId);
@@ -191,17 +191,17 @@ public final class AggregationManager extends MCManager {
         sampleCountList.remove(identityId);
     }
 
-    public Long storeAndGenerateAValobjId(AggregationValue aVal, Long related, ObjectId source, URI uri, FineTime timestamp) {
+    public Long storeAndGenerateAValobjId(final AggregationValue aVal, final Long related, final ObjectId source, final URI uri, final FineTime timestamp) {
         if (super.getArchiveService() == null) {
             uniqueObjIdAVal++;
             return this.uniqueObjIdAVal;
         } else {
-            AggregationValueList aValList = new AggregationValueList();
+            final AggregationValueList aValList = new AggregationValueList();
             aValList.add(aVal);
 
             try {
                 //requirement: 3.7.4.d, 3.7.6.b
-                LongList objIds = super.getArchiveService().store(
+                final LongList objIds = super.getArchiveService().store(
                         true,
                         AggregationHelper.AGGREGATIONVALUEINSTANCE_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
@@ -217,7 +217,7 @@ public final class AggregationManager extends MCManager {
                 if (objIds.size() == 1) {
                     return objIds.get(0);
                 }
-            } catch (MALException | MALInteractionException ex) {
+            } catch (final MALException | MALInteractionException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
 
@@ -235,10 +235,10 @@ public final class AggregationManager extends MCManager {
      * will be expired.
      * @return ParameterValue of the parameter, or an empty ParameterValue with INVALID state if parameter cannot be retrieved
      */
-    private ParameterValue sampleParameter(Long paramIdentityId, boolean aggrExpired) {
+    private ParameterValue sampleParameter(final Long paramIdentityId, final boolean aggrExpired) {
         try {
             return parameterManager.getParameterValue(paramIdentityId, aggrExpired);
-        } catch (MALInteractionException ex) {
+        } catch (final MALInteractionException ex) {
             return new ParameterValue(new UOctet((short)ValidityState.INVALID_RAW_NUM_VALUE.getValue()), null, null);
         }
     }
@@ -257,9 +257,9 @@ public final class AggregationManager extends MCManager {
      * will be expired.
      * @return
      */
-    private AggregationParameterValueList sampleParameters(LongList paramIdentityIds, boolean aggrExpired, boolean sendDefinitions) {
-        AggregationParameterValueList aggrPValList = new AggregationParameterValueList();
-        for (Long identityId : paramIdentityIds) {
+    private AggregationParameterValueList sampleParameters(final LongList paramIdentityIds, final boolean aggrExpired, final boolean sendDefinitions) {
+        final AggregationParameterValueList aggrPValList = new AggregationParameterValueList();
+        for (final Long identityId : paramIdentityIds) {
             final Long paramDefId = sendDefinitions ? parameterManager.getDefinitionId(identityId) : null;
             final ParameterValue paramValue = sampleParameter(identityId, aggrExpired);
             aggrPValList.add(new AggregationParameterValue(paramValue, paramDefId));
@@ -268,7 +268,7 @@ public final class AggregationManager extends MCManager {
         return aggrPValList;
     }
 
-    private Boolean triggeredFilter(Attribute previousValue, Attribute currentValue, ThresholdFilter filter) {
+    private Boolean triggeredFilter(final Attribute previousValue, final Attribute currentValue, final ThresholdFilter filter) {
         if (filter == null) {
             return false;  // If there's no filter, then it will never be ignored! 
         }
@@ -296,7 +296,7 @@ public final class AggregationManager extends MCManager {
      * @param identityId The identity Id.
      * @param indexOfparameterSet
      */
-    protected void sampleParam(Long identityId, int indexOfparameterSet) {
+    protected void sampleParam(final Long identityId, final int indexOfparameterSet) {
         this.sampleParam(identityId, indexOfparameterSet, false, null);
     }
 
@@ -312,8 +312,8 @@ public final class AggregationManager extends MCManager {
      * @param newAggrParameterValueSamples the new parameterSamples to be set.
      * if null new parameterSamples will be generated
      */
-    public void sampleParam(Long identityId, int indexOfparameterSet, boolean aggrExpired,
-            AggregationParameterValueList newAggrParameterValueSamples) {
+    public void sampleParam(final Long identityId, final int indexOfparameterSet, final boolean aggrExpired,
+                            AggregationParameterValueList newAggrParameterValueSamples) {
         final AggregationDefinitionDetails aggrDef = this.getAggregationDefinition(identityId);
 
         if (newAggrParameterValueSamples == null) {
@@ -345,7 +345,7 @@ public final class AggregationManager extends MCManager {
      * @param indexOfparameterSet the index in the aggregation to set the
      * newParameterValueSamples at
      */
-    public void sampleAndFilterParam(Long identityId, int indexOfparameterSet) {
+    public void sampleAndFilterParam(final Long identityId, final int indexOfparameterSet) {
         this.sampleAndFilterParam(identityId, indexOfparameterSet, false, null);
     }
 
@@ -362,7 +362,7 @@ public final class AggregationManager extends MCManager {
      * @param newParameterValueSamples the newParameterValueSamples to be set.
      * if null new parameterSamples will be generated
      */
-    public void sampleAndFilterParam(Long identityId, int indexOfparameterSet, boolean aggrExpired, AggregationParameterValueList newParameterValueSamples) {
+    public void sampleAndFilterParam(final Long identityId, final int indexOfparameterSet, final boolean aggrExpired, AggregationParameterValueList newParameterValueSamples) {
         final AggregationDefinitionDetails aggrDef = this.getAggregationDefinition(identityId);
         final AggregationParameterSet aggrParamSet = aggrDef.getParameterSets().get(indexOfparameterSet);
         // Add another sample on the AggregationValue that will be returned later:
@@ -389,7 +389,7 @@ public final class AggregationManager extends MCManager {
         }
         //requirement: 3.7.3.k
         if (aggrDef.getFilterEnabled()) {
-            boolean filterIsTriggered = this.checkFilterIsTriggered(aggrParamSet, currentUpdateValues, newParameterValueSamples);
+            final boolean filterIsTriggered = this.checkFilterIsTriggered(aggrParamSet, currentUpdateValues, newParameterValueSamples);
             if (filterIsTriggered) {
                 this.setParameterSamplesInternally(identityId, indexOfparameterSet, newParameterValueSamples);
                 this.setFilterTriggered(identityId, filterIsTriggered);
@@ -411,8 +411,8 @@ public final class AggregationManager extends MCManager {
      * @param newParameterValueSamples
      * @return
      */
-    private AggregationParameterValueList checkForExpiredValues(Long identityId, int indexOfparameterSet,
-            AggregationParameterSet aggrParamSet, AggregationParameterValueList newParameterValueSamples) {
+    private AggregationParameterValueList checkForExpiredValues(final Long identityId, final int indexOfparameterSet,
+                                                                final AggregationParameterSet aggrParamSet, final AggregationParameterValueList newParameterValueSamples) {
         final AggregationParameterValueList currentParamValues = this.periodicAggregationValuesCurrent.get(identityId).getParameterSetValues().get(indexOfparameterSet).getValues();
         //requirement: 3.3.3.i (ParameterService-requirement)
         //if sendUnchanged is true: replace validity-state with an EXPIRED state
@@ -441,9 +441,9 @@ public final class AggregationManager extends MCManager {
      * FILTEREDTIMEOUT)
      * @return the most recent values
      */
-    public AggregationValueList getAggregationValuesList(LongList identityIds, GenerationMode generationMode) {
-        AggregationValueList aValList = new AggregationValueList();
-        for (Long identityId : identityIds) {
+    public AggregationValueList getAggregationValuesList(final LongList identityIds, final GenerationMode generationMode) {
+        final AggregationValueList aValList = new AggregationValueList();
+        for (final Long identityId : identityIds) {
 
             aValList.add(getAggregationValue(identityId, generationMode));
         }
@@ -459,16 +459,16 @@ public final class AggregationManager extends MCManager {
      * @param identityId
      * @return
      */
-    public AggregationValue getValue(Long identityId) {
-        AggregationValue aVal = new AggregationValue();
-        AggregationDefinitionDetails aggrDef = this.getAggregationDefinition(identityId);
-        AggregationParameterSetList parameterSets = aggrDef.getParameterSets();
-        AggregationSetValueList parameterSetValues = new AggregationSetValueList();
+    public AggregationValue getValue(final Long identityId) {
+        final AggregationValue aVal = new AggregationValue();
+        final AggregationDefinitionDetails aggrDef = this.getAggregationDefinition(identityId);
+        final AggregationParameterSetList parameterSets = aggrDef.getParameterSets();
+        final AggregationSetValueList parameterSetValues = new AggregationSetValueList();
 
         //fill AggregationSetValue-objects for each parameterSet
         for (int j = 0; j < parameterSets.size(); j++) {   //Cycle through the parameterSets (requirement: 3.7.3.n)
-            AggregationParameterValueList sampleParameters = this.sampleParameters(aggrDef.getParameterSets().get(j).getParameters(), false, aggrDef.getSendDefinitions());
-            AggregationSetValue aggrSetValue = new AggregationSetValue(null, null, sampleParameters);
+            final AggregationParameterValueList sampleParameters = this.sampleParameters(aggrDef.getParameterSets().get(j).getParameters(), false, aggrDef.getSendDefinitions());
+            final AggregationSetValue aggrSetValue = new AggregationSetValue(null, null, sampleParameters);
             parameterSetValues.add(aggrSetValue);
         }
 
@@ -489,11 +489,11 @@ public final class AggregationManager extends MCManager {
      * FILTEREDTIMEOUT)
      * @return the most recent values
      */
-    public AggregationValue getAggregationValue(Long identityId, GenerationMode generationMode) {
-        AggregationValue aVal = new AggregationValue();
-        AggregationDefinitionDetails aggrDef = this.getAggregationDefinition(identityId);
-        AggregationParameterSetList parameterSets = aggrDef.getParameterSets();
-        AggregationSetValueList parameterSetValues = new AggregationSetValueList();
+    public AggregationValue getAggregationValue(final Long identityId, final GenerationMode generationMode) {
+        final AggregationValue aVal = new AggregationValue();
+        final AggregationDefinitionDetails aggrDef = this.getAggregationDefinition(identityId);
+        final AggregationParameterSetList parameterSets = aggrDef.getParameterSets();
+        final AggregationSetValueList parameterSetValues = new AggregationSetValueList();
 
         //fill AggregationSetValue-objects for each parameterSet
         for (int j = 0; j < parameterSets.size(); j++) {  //Cycle through the parameterSets (requirement: 3.7.3.r)
@@ -501,10 +501,10 @@ public final class AggregationManager extends MCManager {
             final Duration updateInterval = aggrDef.getReportInterval();
             //calculate the the new aggregation-values interval times
 
-            AggregationParameterValueList val = evaluateSendUnchanged(aggrDef, identityId, j);
+            final AggregationParameterValueList val = evaluateSendUnchanged(aggrDef, identityId, j);
 
             if (val != null) {
-                AggregationSetValue parameterSetValue = calcAggrSetValueTimes(generationMode, sampleInterval, updateInterval, identityId, j);
+                final AggregationSetValue parameterSetValue = calcAggrSetValueTimes(generationMode, sampleInterval, updateInterval, identityId, j);
                 //requirement: 3.7.3.q if unchanged values should be sent with a value replaced by a null, then replace them 
                 //set the values of the parameter-set that will be published
                 parameterSetValue.setValues(val);
@@ -531,29 +531,29 @@ public final class AggregationManager extends MCManager {
      * @param parameterSetValue
      * @return
      */
-    private AggregationSetValue calcAggrSetValueTimes(GenerationMode generationMode,
-            Duration sampleInterval, Duration updateInterval, Long identityId, int indexParameterSet) {
+    private AggregationSetValue calcAggrSetValueTimes(final GenerationMode generationMode,
+                                                      final Duration sampleInterval, final Duration updateInterval, final Long identityId, final int indexParameterSet) {
         //periodic updates should get the value from the last sampled value
-        AggregationSetValue parameterSetValue = new AggregationSetValue();
+        final AggregationSetValue parameterSetValue = new AggregationSetValue();
         if (generationMode == GenerationMode.PERIODIC
                 && sampleInterval.getValue() != 0
                 && sampleInterval.getValue() < updateInterval.getValue()) {
             //calculate the intervals
-            Time currentTime = HelperTime.getTimestampMillis();
+            final Time currentTime = HelperTime.getTimestampMillis();
 //            Time AggTimeStamp = new Time(currentTime.getValue() - (long) updateInterval.getValue() * 1000);
 //            Time firstSampleTime = new Time(this.latestSampleTimeList.get(identityId).get(indexParameterSet).getValue());
-            Time previousSetTimeStamp;
+            final Time previousSetTimeStamp;
             if (indexParameterSet == 0) { //if its the first Set, the reference-time is the start of this aggregation-update
                 previousSetTimeStamp = new Time(currentTime.getValue() - (long) (updateInterval.getValue() * 1000));
             } else { //otherwise its the time of the last value of the previous set
                 previousSetTimeStamp = new Time(this.latestSampleTimeList.get(identityId).get(indexParameterSet - 1).getValue());
             }
 
-            Time firstSampleTime = new Time(this.latestSampleTimeList.get(identityId).get(indexParameterSet).getValue()
+            final Time firstSampleTime = new Time(this.latestSampleTimeList.get(identityId).get(indexParameterSet).getValue()
                     - (long) (sampleInterval.getValue() * 1000) * sampleCountList.get(identityId).get(indexParameterSet));
 
             // Delta-TIme =  firstSampleTime(Setx) - (firstSampleTime(Setx-1) + y*sampleInterval) | y = amount of updates.
-            Duration deltaTime = new Duration(((float) (firstSampleTime.getValue() - previousSetTimeStamp.getValue())) / 1000);
+            final Duration deltaTime = new Duration(((float) (firstSampleTime.getValue() - previousSetTimeStamp.getValue())) / 1000);
             // Duration is in seconds but Time is in miliseconds
             parameterSetValue.setDeltaTime(deltaTime);
             parameterSetValue.setIntervalTime(sampleInterval);
@@ -575,8 +575,8 @@ public final class AggregationManager extends MCManager {
      * @param indexParameterSet the index of the parameter-set
      * @return
      */
-    private AggregationParameterValueList evaluateSendUnchanged(AggregationDefinitionDetails aggrDef,
-            Long identityId, int indexParameterSet) { //requirement: 3.7.3.m
+    private AggregationParameterValueList evaluateSendUnchanged(final AggregationDefinitionDetails aggrDef,
+                                                                final Long identityId, final int indexParameterSet) { //requirement: 3.7.3.m
         return evaluateSendUnchanged(aggrDef, identityId, indexParameterSet, null);
     }
 
@@ -593,8 +593,8 @@ public final class AggregationManager extends MCManager {
      * be compare with
      * @return
      */
-    private AggregationParameterValueList evaluateSendUnchanged(AggregationDefinitionDetails aggrDef,
-            Long identityId, int indexParameterSet, AggregationParameterValueList currentParamValues) { //requirement: 3.7.3.m
+    private AggregationParameterValueList evaluateSendUnchanged(final AggregationDefinitionDetails aggrDef,
+                                                                final Long identityId, final int indexParameterSet, AggregationParameterValueList currentParamValues) { //requirement: 3.7.3.m
         AggregationParameterValueList retParamValues = new AggregationParameterValueList();
         if (currentParamValues == null) {
             currentParamValues = this.periodicAggregationValuesCurrent.get(identityId).getParameterSetValues().get(indexParameterSet).getValues();
@@ -640,8 +640,8 @@ public final class AggregationManager extends MCManager {
         // because size = 1 and the remaining Parameter Values inside get the null state
         // So we can crawl the list until we find the first non-null element and compare it with the previousParameterValue
         for (int i = 0; i < currentParameterValue.size(); i++) {
-            ParameterValue current = currentParameterValue.get(i).getValue();
-            ParameterValue previous = previousUpdateValue.get(i).getValue();
+            final ParameterValue current = currentParameterValue.get(i).getValue();
+            final ParameterValue previous = previousUpdateValue.get(i).getValue();
 
             if (current != null && previous != null) {
                 // Compare the values:
@@ -677,9 +677,9 @@ public final class AggregationManager extends MCManager {
      * @param bool the value if the filter was triggered
      * @return if a filter existed before
      */
-    public Boolean setFilterTriggered(Long identityId, Boolean bool) {
+    public Boolean setFilterTriggered(final Long identityId, final Boolean bool) {
 //        this.isFilterTriggered.replace(objId, bool);
-        boolean existed = (this.isFilterTriggered.remove(identityId) != null);
+        final boolean existed = (this.isFilterTriggered.remove(identityId) != null);
 
         if (existed) {
             this.isFilterTriggered.put(identityId, bool);
@@ -694,7 +694,7 @@ public final class AggregationManager extends MCManager {
      * @param identityId
      * @return
      */
-    public Boolean isFilterTriggered(Long identityId) {
+    public Boolean isFilterTriggered(final Long identityId) {
         return this.isFilterTriggered.get(identityId);
     }
 
@@ -706,7 +706,7 @@ public final class AggregationManager extends MCManager {
      * @param indexOfparameterSet
      * @return
      */
-    private AggregationParameterValueList getLastUpdateValue(Long identityId, int indexOfparameterSet) {
+    private AggregationParameterValueList getLastUpdateValue(final Long identityId, final int indexOfparameterSet) {
         if (this.periodicAggregationValuesLast.get(identityId).getParameterSetValues() == null) // It was never sampled before?
         {
             return null;
@@ -728,7 +728,7 @@ public final class AggregationManager extends MCManager {
      * @param indexOfparameterSet
      * @return
      */
-    private AggregationParameterValueList getCurrentUpdateValue(Long identityId, int indexOfparameterSet) {
+    private AggregationParameterValueList getCurrentUpdateValue(final Long identityId, final int indexOfparameterSet) {
         if (this.periodicAggregationValuesCurrent.get(identityId).getParameterSetValues() == null) // It was never sampled before?
         {
             return null;
@@ -754,7 +754,7 @@ public final class AggregationManager extends MCManager {
      * @param newParamSample the new values that should be set
      * @return
      */
-    private AggregationParameterValueList setParameterSamplesInternally(Long identityId, int indexOfparameterSet, AggregationParameterValueList newParamSample) {
+    private AggregationParameterValueList setParameterSamplesInternally(final Long identityId, final int indexOfparameterSet, final AggregationParameterValueList newParamSample) {
 
         final AggregationParameterValueList currentParamValues = this.periodicAggregationValuesCurrent.get(identityId).getParameterSetValues().get(indexOfparameterSet).getValues();
         this.periodicAggregationValuesLast.get(identityId).getParameterSetValues().get(indexOfparameterSet).setValues(currentParamValues);
@@ -767,9 +767,9 @@ public final class AggregationManager extends MCManager {
         return newParamSample;
     }
 
-    public ObjectInstancePair add(Identifier name, AggregationDefinitionDetails definition, ObjectId source, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
+    public ObjectInstancePair add(final Identifier name, final AggregationDefinitionDetails definition, final ObjectId source, final SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
 
-        ObjectInstancePair newIdPair;
+        final ObjectInstancePair newIdPair;
         if (super.getArchiveService() == null) {
             //add to providers local list
             uniqueObjIdIdentity++; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
@@ -785,10 +785,10 @@ public final class AggregationManager extends MCManager {
 
                 //in case the AggregationName never existed before, create a new identity
                 if (identityId == null) {
-                    IdentifierList names = new IdentifierList();
+                    final IdentifierList names = new IdentifierList();
                     names.add(name);
                     //add to the archive
-                    LongList identityIds = super.getArchiveService().store(true,
+                    final LongList identityIds = super.getArchiveService().store(true,
                             AggregationHelper.AGGREGATIONIDENTITY_OBJECT_TYPE,
                             ConfigurationProviderSingleton.getDomain(),
                             HelperArchive.generateArchiveDetailsList(null, source, connectionDetails),
@@ -798,9 +798,9 @@ public final class AggregationManager extends MCManager {
                 }
 
                 //not matter if the Aggregation was created or loaded, a new definition will be created
-                AggregationDefinitionDetailsList defs = new AggregationDefinitionDetailsList();
+                final AggregationDefinitionDetailsList defs = new AggregationDefinitionDetailsList();
                 defs.add(definition);
-                LongList defIds = super.getArchiveService().store(true,
+                final LongList defIds = super.getArchiveService().store(true,
                         AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
                         HelperArchive.generateArchiveDetailsList(identityId, source, connectionDetails),
@@ -810,7 +810,7 @@ public final class AggregationManager extends MCManager {
                 //add to providers local list
                 newIdPair = new ObjectInstancePair(identityId, defIds.get(0));
 
-            } catch (MALException | MALInteractionException ex) {
+            } catch (final MALException | MALInteractionException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
                 return null;
             }
@@ -837,7 +837,7 @@ public final class AggregationManager extends MCManager {
      * @param connectionDetails
      * @return the id of the new definition
      */
-    public Long update(Long identityId, AggregationDefinitionDetails definition, ObjectId source, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
+    public Long update(final Long identityId, final AggregationDefinitionDetails definition, final ObjectId source, final SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
         Long newDefId = null;
 
         if (super.getArchiveService() == null) { //only update locally
@@ -847,11 +847,11 @@ public final class AggregationManager extends MCManager {
 
         } else {  // update in the COM Archive
             try {
-                AggregationDefinitionDetailsList defs = new AggregationDefinitionDetailsList();
+                final AggregationDefinitionDetailsList defs = new AggregationDefinitionDetailsList();
                 defs.add(definition);
 
                 //requirement 3.7.6.a
-                LongList defIds = super.getArchiveService().store(true,
+                final LongList defIds = super.getArchiveService().store(true,
                         AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
                         HelperArchive.generateArchiveDetailsList(identityId, source, connectionDetails), //requirement: 3.7.4.d, h
@@ -859,7 +859,7 @@ public final class AggregationManager extends MCManager {
                         null);
 
                 newDefId = defIds.get(0);
-            } catch (MALException | MALInteractionException ex) {
+            } catch (final MALException | MALInteractionException ex) {
                 Logger.getLogger(AggregationManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -869,7 +869,7 @@ public final class AggregationManager extends MCManager {
         return newDefId;
     }
 
-    public boolean delete(Long identityId) {
+    public boolean delete(final Long identityId) {
 
         if (!this.deleteIdentity(identityId)) {
             return false;
@@ -882,8 +882,8 @@ public final class AggregationManager extends MCManager {
         return true;
     }
 
-    public Long setGenerationEnabled(Long identityId, Boolean bool, ObjectId source, SingleConnectionDetails connectionDetails) {
-        AggregationDefinitionDetails def = this.getAggregationDefinition(identityId);
+    public Long setGenerationEnabled(final Long identityId, final Boolean bool, final ObjectId source, final SingleConnectionDetails connectionDetails) {
+        final AggregationDefinitionDetails def = this.getAggregationDefinition(identityId);
 
         if (def == null) {
             return null;
@@ -898,11 +898,11 @@ public final class AggregationManager extends MCManager {
         return this.update(identityId, def, source, connectionDetails);
     }
 
-    public void setGenerationEnabledAll(Boolean bool, ObjectId source, SingleConnectionDetails connectionDetails) {
-        LongList identityIds = this.listAllIdentities();
+    public void setGenerationEnabledAll(final Boolean bool, final ObjectId source, final SingleConnectionDetails connectionDetails) {
+        final LongList identityIds = this.listAllIdentities();
 
-        for (Long identityId : identityIds) {
-            AggregationDefinitionDetails def = this.getAggregationDefinition(identityId);
+        for (final Long identityId : identityIds) {
+            final AggregationDefinitionDetails def = this.getAggregationDefinition(identityId);
             if (def.getGenerationEnabled().booleanValue() != bool) {
                 def.setGenerationEnabled(bool);
                 this.update(identityId, def, source, connectionDetails);
@@ -919,9 +919,9 @@ public final class AggregationManager extends MCManager {
      * @param connectionDetails
      * @return true if it was set successfully, false if it wasnt set.
      */
-    public boolean setFilterEnabled(Long identityId, Boolean bool, ObjectId source, SingleConnectionDetails connectionDetails) {
+    public boolean setFilterEnabled(final Long identityId, final Boolean bool, final ObjectId source, final SingleConnectionDetails connectionDetails) {
 
-        AggregationDefinitionDetails def = this.getAggregationDefinition(identityId);
+        final AggregationDefinitionDetails def = this.getAggregationDefinition(identityId);
 
         if (def == null) {
             return false;
@@ -938,11 +938,11 @@ public final class AggregationManager extends MCManager {
         return true;
     }
 
-    public void setFilterEnabledAll(Boolean bool, ObjectId source, SingleConnectionDetails connectionDetails) {
-        LongList identityIds = this.listAllIdentities();
+    public void setFilterEnabledAll(final Boolean bool, final ObjectId source, final SingleConnectionDetails connectionDetails) {
+        final LongList identityIds = this.listAllIdentities();
 
-        for (Long identityId : identityIds) {
-            AggregationDefinitionDetails def = this.getAggregationDefinition(identityId);
+        for (final Long identityId : identityIds) {
+            final AggregationDefinitionDetails def = this.getAggregationDefinition(identityId);
             if (def.getFilterEnabled().booleanValue() != bool) {
                 def.setFilterEnabled(bool);
                 this.update(identityId, def, source, connectionDetails);

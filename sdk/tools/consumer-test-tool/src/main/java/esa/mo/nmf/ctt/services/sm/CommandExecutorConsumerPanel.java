@@ -61,7 +61,7 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel
    *
    * @param serviceSMCommandExecutor
    */
-  public CommandExecutorConsumerPanel(CommandExecutorConsumerServiceImpl serviceSMCommandExecutor)
+  public CommandExecutorConsumerPanel(final CommandExecutorConsumerServiceImpl serviceSMCommandExecutor)
   {
     initComponents();
 
@@ -71,28 +71,28 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel
     recentCommandsTable.getTable().addMouseListener(new MouseListener()
     {
       @Override
-      public void mousePressed(MouseEvent evt)
+      public void mousePressed(final MouseEvent evt)
       {
       }
 
       @Override
-      public void mouseClicked(MouseEvent e)
+      public void mouseClicked(final MouseEvent e)
       {
       }
 
       @Override
-      public void mouseReleased(MouseEvent e)
+      public void mouseReleased(final MouseEvent e)
       {
         refreshOutputBufferWindow(null);
       }
 
       @Override
-      public void mouseEntered(MouseEvent e)
+      public void mouseEntered(final MouseEvent e)
       {
       }
 
       @Override
-      public void mouseExited(MouseEvent e)
+      public void mouseExited(final MouseEvent e)
       {
       }
     });
@@ -111,7 +111,7 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel
         subscription, new EventReceivedAdapter());
   }
 
-  private void refreshOutputBufferWindow(Long justUpdatedObjId)
+  private void refreshOutputBufferWindow(final Long justUpdatedObjId)
   {
     // If there is a concrete row selected...
     if (recentCommandsTable.getSelectedRow() != -1) {
@@ -120,7 +120,7 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel
       if (justUpdatedObjId != null && !justUpdatedObjId.equals(objId)) {
         return;
       }
-      StringBuffer outputBuf = outputBuffers.get(objId);
+      final StringBuffer outputBuf = outputBuffers.get(objId);
       if (outputBuf != null) {
         appVerboseTextArea.setText(outputBuffers.get(objId).toString());
       } else {
@@ -177,7 +177,7 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel
 
     jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+    final javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
     this.setLayout(layout);
     layout.setHorizontalGroup(
       layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -200,7 +200,7 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel
     );
   }// </editor-fold>//GEN-END:initComponents
 
-    private void listRecentCommandsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listRecentCommandsButtonActionPerformed
+    private void listRecentCommandsButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listRecentCommandsButtonActionPerformed
       /*
       LongList commandInstIds; // query archive
       appsTable.refreshTableWithIds(commandInstIds,
@@ -210,16 +210,16 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel
 
     }//GEN-LAST:event_listRecentCommandsButtonActionPerformed
 
-    private void runCommandButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runCommandButtonActionPerformed
-      String commandText = JOptionPane.showInputDialog(this, "Please input the command:");
+    private void runCommandButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runCommandButtonActionPerformed
+      final String commandText = JOptionPane.showInputDialog(this, "Please input the command:");
       if (commandText == null || commandText.isEmpty()) {
         // Either cancelled or didn't input any data
         return;
       }
-      CommandDetails cd = new CommandDetails(commandText, null, null);
+      final CommandDetails cd = new CommandDetails(commandText, null, null);
       try {
         serviceSMCommandExecutor.getCommandExecutorStub().asyncRunCommand(cd, asyncAdapter);
-      } catch (MALInteractionException | MALException ex) {
+      } catch (final MALInteractionException | MALException ex) {
         JOptionPane.showMessageDialog(null, "Error!\nException:\n" + ex + "\n" + ex.getMessage(),
             "Error!", JOptionPane.PLAIN_MESSAGE);
         LOGGER.log(Level.SEVERE, null, ex);
@@ -230,16 +230,16 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel
   {
 
     @Override
-    public void onDataReceived(EventCOMObject eventCOMObject)
+    public void onDataReceived(final EventCOMObject eventCOMObject)
     {
       Element object = null;
       if (eventCOMObject.getBody() != null) {
         object = (Element) HelperAttributes.javaType2Attribute(eventCOMObject.getBody());
       }
-      ObjectType objType = eventCOMObject.getObjType();
+      final ObjectType objType = eventCOMObject.getObjType();
 
-      String time = HelperTime.time2readableString(eventCOMObject.getTimestamp());
-      Long sourceObjId = eventCOMObject.getSource().getKey().getInstId();
+      final String time = HelperTime.time2readableString(eventCOMObject.getTimestamp());
+      final Long sourceObjId = eventCOMObject.getSource().getKey().getInstId();
       if (sourceObjId == null) {
         LOGGER.log(Level.SEVERE,
             "Missing source object in a received event (oID {0}). This should never happen.",
@@ -263,7 +263,7 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel
       }
     }
 
-    private synchronized void addCommandOutput(Long sourceObjId, String data)
+    private synchronized void addCommandOutput(final Long sourceObjId, final String data)
     {
       outputBuffers.computeIfAbsent(sourceObjId, k -> new StringBuffer());
       outputBuffers.get(sourceObjId).append(data);
@@ -275,10 +275,10 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel
   {
 
     @Override
-    public void runCommandResponseReceived(MALMessageHeader msgHeader, Long commandInstId,
-        Map qosProperties)
+    public void runCommandResponseReceived(final MALMessageHeader msgHeader, final Long commandInstId,
+                                           final Map qosProperties)
     {
-      ArchivePersistenceObject comObj = HelperArchive.getArchiveCOMObject(
+      final ArchivePersistenceObject comObj = HelperArchive.getArchiveCOMObject(
           serviceSMCommandExecutor.getCOMServices().getArchiveService().getArchiveStub(),
           CommandExecutorHelper.COMMAND_OBJECT_TYPE,
           serviceSMCommandExecutor.getConnectionDetails().getDomain(), commandInstId);

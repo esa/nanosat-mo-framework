@@ -72,7 +72,7 @@ public class HelperAttributes {
    * @param in The MAL Attribute data type
    * @return The convert Double value or null if in == null
    */
-  public static Double attribute2double(Attribute in) {
+  public static Double attribute2double(final Attribute in) {
 
     if (in instanceof Union) {
       if (in.getTypeShortForm().equals(Union.BOOLEAN_TYPE_SHORT_FORM)) { // 2
@@ -104,10 +104,10 @@ public class HelperAttributes {
       }
 
       if (in.getTypeShortForm().equals(Union.STRING_TYPE_SHORT_FORM)) { // 15
-        double dou;
+        final double dou;
         try {
           dou = Double.parseDouble(((Union) in).getStringValue());
-        } catch (NumberFormatException ex) {
+        } catch (final NumberFormatException ex) {
           return null; // Return a null
         }
 
@@ -123,7 +123,7 @@ public class HelperAttributes {
     if (in instanceof Identifier) { // 6
       try {
         return Double.parseDouble(((Identifier) in).getValue());
-      } catch (NumberFormatException ex) {
+      } catch (final NumberFormatException ex) {
         return null;
       }
     }
@@ -155,7 +155,7 @@ public class HelperAttributes {
     if (in instanceof URI) { // 18
       try {
         return Double.parseDouble(((URI) in).getValue());
-      } catch (NumberFormatException ex) {
+      } catch (final NumberFormatException ex) {
         return null;
       }
     }
@@ -169,7 +169,7 @@ public class HelperAttributes {
    * @param in The MAL Attribute data type
    * @return The convert String value
    */
-  public static String attribute2string(Object in) {
+  public static String attribute2string(final Object in) {
 
     if (in == null) {
       return "null";
@@ -254,7 +254,7 @@ public class HelperAttributes {
     if (in instanceof Blob) {
       try {
         return Arrays.toString(((Blob) in).getValue());
-      } catch (MALException ex) {
+      } catch (final MALException ex) {
       }
     }
 
@@ -292,7 +292,7 @@ public class HelperAttributes {
    * @return The object
    * @throws java.lang.IllegalArgumentException If attributeName == null
    */
-  public static Object attributeName2object(String attributeName) throws IllegalArgumentException {
+  public static Object attributeName2object(final String attributeName) throws IllegalArgumentException {
 
     if (attributeName == null) {
       throw new IllegalArgumentException("AttributeName must not be null.");
@@ -365,7 +365,7 @@ public class HelperAttributes {
    * @return The Attribute instance
    * @throws java.lang.IllegalArgumentException If attributeName == null
    */
-  public static Attribute attributeName2Attribute(String attributeName) throws IllegalArgumentException {
+  public static Attribute attributeName2Attribute(final String attributeName) throws IllegalArgumentException {
     Object obj = attributeName2object(attributeName);
 
     // We got a Attribute already
@@ -395,7 +395,7 @@ public class HelperAttributes {
    * @return The final object with the selected value or null if in == null
    * @throws java.lang.IllegalArgumentException If value == null
    */
-  public static Object string2attribute(Object in, String value)
+  public static Object string2attribute(final Object in, final String value)
       throws IllegalArgumentException {
     if (value == null) {
       throw new IllegalArgumentException("The value must not be null.");
@@ -491,7 +491,7 @@ public class HelperAttributes {
    * @param obj The object in the Java data type
    * @return The object in the MAL data type or the original object
    */
-  public static Object javaType2Attribute(Object obj) {
+  public static Object javaType2Attribute(final Object obj) {
 
     if (obj instanceof java.lang.Boolean) {
       return new Union((Boolean) obj);
@@ -534,10 +534,10 @@ public class HelperAttributes {
    * @param obj The object in the MAL data type
    * @return The object in the Java data type
    */
-  public static Object attribute2JavaType(Object obj) {
+  public static Object attribute2JavaType(final Object obj) {
 
     if (obj instanceof Union) {
-      Integer typeShortForm = ((Union) obj).getTypeShortForm();
+      final Integer typeShortForm = ((Union) obj).getTypeShortForm();
 
       if (typeShortForm.intValue() == Attribute.BOOLEAN_TYPE_SHORT_FORM.intValue()) {
         return ((Union) obj).getBooleanValue();
@@ -581,7 +581,7 @@ public class HelperAttributes {
    * @param obj The object in the Java data type
    * @return A MAL data type Elements List
    */
-  public static ElementList generateElementListFromJavaType(Object obj) {
+  public static ElementList generateElementListFromJavaType(final Object obj) {
 
     if (obj instanceof java.lang.Boolean) {
       return new BooleanList();
@@ -624,7 +624,7 @@ public class HelperAttributes {
    * @param typeShortForm The type short form number
    * @return The name of the MAL Attribute
    */
-  public static String typeShortForm2attributeName(Integer typeShortForm) {
+  public static String typeShortForm2attributeName(final Integer typeShortForm) {
 
     if (typeShortForm == Attribute.BLOB_TYPE_SHORT_FORM) {
       return "Blob";
@@ -694,7 +694,7 @@ public class HelperAttributes {
    * @return The type short form number
    * @throws java.lang.IllegalArgumentException If attributeName == null
    */
-  public static Integer attributeName2typeShortForm(String attributeName)
+  public static Integer attributeName2typeShortForm(final String attributeName)
       throws IllegalArgumentException {
     if (attributeName == null) {
       throw new IllegalArgumentException("ArgumentName must not be null.");
@@ -767,8 +767,8 @@ public class HelperAttributes {
    * @return The Blob with the serialized object inside
    * @throws java.io.IOException When the serialization of the object fails
    */
-  public static Blob serialObject2blobAttribute(Serializable obj) throws IOException {
-    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+  public static Blob serialObject2blobAttribute(final Serializable obj) throws IOException {
+    final ByteArrayOutputStream baos = new ByteArrayOutputStream();
     ObjectOutput out = null;
     byte[] serialBytesOut = null;
 
@@ -781,12 +781,12 @@ public class HelperAttributes {
         if (out != null) {
           out.close();
         }
-      } catch (IOException ex) {
+      } catch (final IOException ex) {
         // ignore close exception
       }
       try {
         baos.close();
-      } catch (IOException ex) {
+      } catch (final IOException ex) {
         // ignore close exception
       }
     }
@@ -803,7 +803,7 @@ public class HelperAttributes {
    *                                            object fails
    * @throws java.lang.IllegalArgumentException If obj == null
    */
-  public static Serializable blobAttribute2serialObject(Blob obj)
+  public static Serializable blobAttribute2serialObject(final Blob obj)
       throws IOException, IllegalArgumentException {
 
     if (obj == null) {
@@ -818,29 +818,29 @@ public class HelperAttributes {
       try {
         in = new ObjectInputStream(bis);
         o = in.readObject();
-      } catch (ClassNotFoundException ex) {
+      } catch (final ClassNotFoundException ex) {
         Logger.getLogger(HelperAttributes.class.getName()).log(Level.SEVERE, null, ex);
       } finally {
         try {
           bis.close();
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
           // ignore close exception
         }
         try {
           if (in != null) {
             in.close();
           }
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
           // ignore close exception
         }
       }
-    } catch (MALException ex) {
+    } catch (final MALException ex) {
       Logger.getLogger(HelperAttributes.class.getName()).log(Level.SEVERE, null, ex);
       return obj; // the object could not be Deserialized, so, just deliver the Blob itself
     } finally {
       try {
         bis.close();
-      } catch (IOException ex) {
+      } catch (final IOException ex) {
         Logger.getLogger(HelperAttributes.class.getName()).log(Level.SEVERE, null, ex);
         // ignore close exception
       }

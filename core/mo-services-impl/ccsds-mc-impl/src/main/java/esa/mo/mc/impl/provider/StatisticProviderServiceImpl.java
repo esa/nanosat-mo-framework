@@ -136,9 +136,9 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
      * @param statisticFunctions
      * @throws MALException On initialisation error.
      */
-    public synchronized void init(COMServicesProvider comServices,
-            ParameterManager parameterManager,
-            ExternalStatisticFunctionsInterface statisticFunctions)
+    public synchronized void init(final COMServicesProvider comServices,
+                                  final ParameterManager parameterManager,
+                                  final ExternalStatisticFunctionsInterface statisticFunctions)
             throws MALException {
 
         if (!initialiased) {
@@ -202,7 +202,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
 
             connection.close();
             running = false;
-        } catch (MALException ex) {
+        } catch (final MALException ex) {
             Logger.getLogger(StatisticProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during close down of the provider {0}", ex);
         }
     }
@@ -239,33 +239,33 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
             final Time timestamp = HelperTime.getTimestampMillis(); //  requirement: 3.6.9.2.e
 
             final UpdateHeaderList hdrlst = new UpdateHeaderList();
-            LongList relatedId = new LongList();
+            final LongList relatedId = new LongList();
             final ObjectIdList sourceId = new ObjectIdList();
 
             hdrlst.add(new UpdateHeader(timestamp, connection.getConnectionDetails().getProviderURI(), UpdateType.UPDATE, ekey));
             sourceId.add(source); // requirement: 3.6.9.2.f and 3.6.9.2.g
 
-            StatisticValueList statisticValues = new StatisticValueList();
+            final StatisticValueList statisticValues = new StatisticValueList();
             statisticValues.add(sVal); // requirement: 3.6.9.2.h
 
             relatedId.add(objIdLinkDef);
 
             publisher.publish(hdrlst, relatedId, sourceId, statisticValues);
 
-        } catch (IllegalArgumentException | MALInteractionException | MALException ex) {
+        } catch (final IllegalArgumentException | MALInteractionException | MALException ex) {
             Logger.getLogger(AggregationProviderServiceImpl.class.getName()).log(Level.WARNING,
                     "Exception during publishing process on the provider {0}", ex);
         }
     }
 
     @Override
-    public StatisticEvaluationReportList getStatistics(LongList funcObjInstIds, Boolean isGroupIds, ObjectKeyList reportInstances, MALInteraction interaction) throws MALInteractionException, MALException {
+    public StatisticEvaluationReportList getStatistics(final LongList funcObjInstIds, final Boolean isGroupIds, final ObjectKeyList reportInstances, final MALInteraction interaction) throws MALInteractionException, MALException {
 
-        UIntegerList unkIndexList = new UIntegerList();
-        UIntegerList invIndexList = new UIntegerList();
+        final UIntegerList unkIndexList = new UIntegerList();
+        final UIntegerList invIndexList = new UIntegerList();
 
-        LongList paramIdsToBeReported = new LongList();
-        LongList linksToBeReported = new LongList();
+        final LongList paramIdsToBeReported = new LongList();
+        final LongList linksToBeReported = new LongList();
 
         if (null == isGroupIds || null == reportInstances) { // Are the inputs null?
             throw new IllegalArgumentException("isGroupIds and enableInstances arguments must not be null");
@@ -274,7 +274,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
         //requirement: 3.6.7.2.c, 3.6.7.2.g -  handle the wildcards first 
         //check statistic function ids for wildcard 
         boolean foundStatFuncWildcard = false;
-        for (Long funcObjInstId : funcObjInstIds) {
+        for (final Long funcObjInstId : funcObjInstIds) {
             if (funcObjInstId == 0) { //requirement: 3.6.7.2.b
                 foundStatFuncWildcard = true;
                 break;
@@ -283,7 +283,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
 
         //check parameter/group identity ids for wildcard
         boolean foundParamWildcard = false;
-        for (ObjectKey instance : reportInstances) {
+        for (final ObjectKey instance : reportInstances) {
             if (instance.getInstId() == 0) {  // Is it the wildcard '0'? requirement: 3.6.7.2.f
                 foundParamWildcard = true;
                 break;
@@ -304,7 +304,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
                 //the Ids are parameter-identity-ids requirement 3.6.7.2.e
                 if (!isGroupIds) {
                     for (int index = 0; index < reportInstances.size(); index++) {
-                        ObjectKey reportInstance = reportInstances.get(index);
+                        final ObjectKey reportInstance = reportInstances.get(index);
                         paramIdsToBeReported.add(reportInstance.getInstId());
 
                         if (!manager.existsParameterIdentity(reportInstance.getInstId())) { // does it exist? 
@@ -315,26 +315,26 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
                 } else {//the ids are group-definition-ids, requirement: 3.6.7.2.d
                     //TODO: sure? groupddefintion or identity-ids? -> issue #135, #179
                     //in the next for loop, ignore the other group definitions, they will be checked in other iterations.
-                    LongList ignoreList = new LongList();
-                    for (ObjectKey instance : reportInstances) {
+                    final LongList ignoreList = new LongList();
+                    for (final ObjectKey instance : reportInstances) {
                         //instances of different domains are not handled yet
                         ignoreList.add(instance.getInstId());
                     }
                     for (int index = 0; index < reportInstances.size(); index++) {
                         //these are Group-Definition-ids req: 3.9.4.g,h
-                        ObjectKey reportInstance = reportInstances.get(index);
+                        final ObjectKey reportInstance = reportInstances.get(index);
                         final Long groupId = reportInstance.getInstId();
-                        GroupDetails group = groupService.retrieveGroupDetailsFromArchive(reportInstance.getDomain(), groupId);
+                        final GroupDetails group = groupService.retrieveGroupDetailsFromArchive(reportInstance.getDomain(), groupId);
                         if (group == null) { //group wasnt found
                             unkIndexList.add(new UInteger(index)); // requirement 3.6.7.2.h
                             continue;
                         } else { //if group was found, then get the instances of it and its groups
                             ignoreList.remove(groupId);
-                            GroupServiceImpl.IdObjectTypeList idObjectTypes = groupService.getGroupObjectIdsFromGroup(groupId, group, ignoreList);
+                            final GroupServiceImpl.IdObjectTypeList idObjectTypes = groupService.getGroupObjectIdsFromGroup(groupId, group, ignoreList);
                             ignoreList.add(groupId);
 
                             //checks if the given identityId is found in the internal Parameter-list, if not its not a parameter and invalid
-                            for (GroupServiceImpl.IdObjectType idObjectType : idObjectTypes) {
+                            for (final GroupServiceImpl.IdObjectType idObjectType : idObjectTypes) {
                                 if (idObjectType.getObjectType().equals(ParameterHelper.PARAMETERIDENTITY_OBJECT_TYPE)) {
                                     final Long identityId = idObjectType.getId();
                                     //checks if the parameterId referenced in the group is known
@@ -369,19 +369,19 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
             if (foundStatFuncWildcard) {
                 linksToBeReported.addAll(manager.listAllLinks());
             } else {
-                for (Long funcObjInstId : funcObjInstIds) {
+                for (final Long funcObjInstId : funcObjInstIds) {
                     linksToBeReported.addAll(manager.getStatisticLinksForFunction(funcObjInstId)); //requirement: 3.6.7.2.a
                 }
             }
         } else {
             //iterate through each statLink and check if the the wanted combination of statFunc and Param exists
             //only add if it does
-            for (Long statLinkId : manager.listAllLinks()) {
+            for (final Long statLinkId : manager.listAllLinks()) {
                 final StatisticCreationRequest statLinkObj = manager.getStatisticLink(statLinkId);
                 //statFuncWildCards found
                 if (foundStatFuncWildcard) {
                     //add statLinks that use the given parameter
-                    for (Long paramId : paramIdsToBeReported) {
+                    for (final Long paramId : paramIdsToBeReported) {
                         if (statLinkObj.getParameterId().getInstId().equals(paramId)) {
                             linksToBeReported.add(statLinkId);
                             break;
@@ -394,8 +394,8 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
                     PARAM_STATFUNC_LOOPS:
                     {
                         //add statLinks that use the given parameter and given statLinks
-                        for (Long paramId : paramIdsToBeReported) {
-                            for (Long statFuncId : funcObjInstIds) {
+                        for (final Long paramId : paramIdsToBeReported) {
+                            for (final Long statFuncId : funcObjInstIds) {
                                 if (statLinkObj.getParameterId().getInstId().equals(paramId) && statLinkObj.getStatFuncInstId().equals(statFuncId)) { //requirement: 3.6.7.2.a, e
                                     linksToBeReported.add(statLinkId);
                                     break PARAM_STATFUNC_LOOPS;
@@ -407,14 +407,14 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
             }
         }
 
-        ObjectId source = manager.storeCOMOperationActivity(interaction); // requirement: 3.6.4.o
-        StatisticEvaluationReportList evaluationReports = new StatisticEvaluationReportList();
+        final ObjectId source = manager.storeCOMOperationActivity(interaction); // requirement: 3.6.4.o
+        final StatisticEvaluationReportList evaluationReports = new StatisticEvaluationReportList();
 
         //create a new EvaluationReport and return it 
-        for (Long statLinkId : linksToBeReported) {
-            StatisticCreationRequest link = manager.getStatisticLink(statLinkId);
-            StatisticValue statValue = generateStatisticValue(statLinkId, link); // requirement: 3.6.7.2.j, l 
-            Long statLinkDefId = manager.getStatisticLinkDefinitionId(statLinkId);
+        for (final Long statLinkId : linksToBeReported) {
+            final StatisticCreationRequest link = manager.getStatisticLink(statLinkId);
+            final StatisticValue statValue = generateStatisticValue(statLinkId, link); // requirement: 3.6.7.2.j, l
+            final Long statLinkDefId = manager.getStatisticLinkDefinitionId(statLinkId);
             manager.storeAndGenerateStatValueInsobjId(statValue, statLinkDefId, connection.getConnectionDetails(), source);
 
             if (statValue != null) { //requirement 3.6.7.2.k 
@@ -433,25 +433,25 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
      * @param link
      * @return
      */
-    private StatisticValue generateStatisticValue(Long statLinkId, StatisticCreationRequest link) {
+    private StatisticValue generateStatisticValue(final Long statLinkId, final StatisticCreationRequest link) {
         if (link == null) {
             return null;
         }
         // slice the times and values in order to only use those values gathered during the last collection period
-        double oldestTime = System.currentTimeMillis() - link.getLinkDetails().getCollectionInterval().getValue() * 1000.0;
-        Integer oldestIndex = manager.getDataSets().getOldestIndex(statLinkId, oldestTime);
+        final double oldestTime = System.currentTimeMillis() - link.getLinkDetails().getCollectionInterval().getValue() * 1000.0;
+        final Integer oldestIndex = manager.getDataSets().getOldestIndex(statLinkId, oldestTime);
         // Retrieve the corresponding data set
         TimeList times = new TimeList();
         AttributeValueList values = new AttributeValueList();
-        TimeList allTimes = manager.getDataSets().getTimeSet(statLinkId);
-        AttributeValueList allValues = manager.getDataSets().getDataSet(statLinkId);
+        final TimeList allTimes = manager.getDataSets().getTimeSet(statLinkId);
+        final AttributeValueList allValues = manager.getDataSets().getDataSet(statLinkId);
         if (oldestIndex == null) {
             times = allTimes;
             values = allValues;
         } else {
-            List<Time> timesArr = allTimes.subList(oldestIndex, allTimes.size());
+            final List<Time> timesArr = allTimes.subList(oldestIndex, allTimes.size());
             times.addAll(timesArr);
-            List<AttributeValue> valuesArr = allValues.subList(oldestIndex, allValues.size());
+            final List<AttributeValue> valuesArr = allValues.subList(oldestIndex, allValues.size());
             values.addAll(valuesArr);
         }
         // Generate the Statistic Report
@@ -459,12 +459,12 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
     }
 
     @Override
-    public StatisticEvaluationReportList resetEvaluation(Boolean isGroupIds, LongList resetInstances, Boolean returnCurrentEval, MALInteraction interaction) throws MALInteractionException, MALException {
+    public StatisticEvaluationReportList resetEvaluation(final Boolean isGroupIds, final LongList resetInstances, final Boolean returnCurrentEval, final MALInteraction interaction) throws MALInteractionException, MALException {
 
-        UIntegerList unkIndexList = new UIntegerList();
-        UIntegerList invIndexList = new UIntegerList();
+        final UIntegerList unkIndexList = new UIntegerList();
+        final UIntegerList invIndexList = new UIntegerList();
 
-        LongList objIdsToBeReset = new LongList();
+        final LongList objIdsToBeReset = new LongList();
 
         if (null == isGroupIds || null == resetInstances || returnCurrentEval == null) { // Are the inputs null?
             throw new IllegalArgumentException("isGroupIds and enableInstances arguments must not be null");
@@ -472,7 +472,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
 
         boolean foundWildcard = false;
 
-        for (Long instId : resetInstances) {
+        for (final Long instId : resetInstances) {
             if (instId == 0) {  // Is it the wildcard '0'? requirement: 3.6.8.2.c
                 objIdsToBeReset.addAll(resetInstances);
                 foundWildcard = true;
@@ -484,7 +484,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
             //the Ids are statistic-function-ids 3.6.8.2.a
             if (!isGroupIds) {
                 for (int index = 0; index < resetInstances.size(); index++) {
-                    Long statFuncId = resetInstances.get(index);
+                    final Long statFuncId = resetInstances.get(index);
                     // does function exist? 
                     if (manager.getStatisticFunction(statFuncId) == null) {
                         unkIndexList.add(new UInteger(index)); // requirement: 3.6.8.2.d
@@ -496,24 +496,24 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
             } else {//the ids are group-definition-ids, req: 3.6.8.2.a, 3.9.4.g,h
                 //TODO: sure? groupddefintion or identity-ids? -> issue #135, #179
                 //in the next for loop, ignore the other group definitions, they will be checked in other iterations.
-                LongList ignoreList = new LongList();
+                final LongList ignoreList = new LongList();
                 ignoreList.addAll(resetInstances);
                 //add all instances referenced in all groups to list of values to be enabled
                 for (int index = 0; index < resetInstances.size(); index++) {
                     //these are Group-Definition-ids req: 3.9.4.g,h
                     final Long groupId = resetInstances.get(index);
                     //is group known?
-                    GroupDetails group = groupService.retrieveGroupDetailsFromArchive(ConfigurationProviderSingleton.getDomain(), groupId);
+                    final GroupDetails group = groupService.retrieveGroupDetailsFromArchive(ConfigurationProviderSingleton.getDomain(), groupId);
                     if (group == null) { //group wasnt found
                         unkIndexList.add(new UInteger(index)); // requirement: 3.6.8.2.d
                         continue;
                     } else { //if group was found, then get the instances of it and its groups
                         ignoreList.remove(groupId);
-                        GroupServiceImpl.IdObjectTypeList idObjectTypes = groupService.getGroupObjectIdsFromGroup(groupId, group, ignoreList);
+                        final GroupServiceImpl.IdObjectTypeList idObjectTypes = groupService.getGroupObjectIdsFromGroup(groupId, group, ignoreList);
                         ignoreList.add(groupId);
 
                         //checks if the given identityId is found in the internal StatisticLink-list, if not its not a StatisticLink and invalid
-                        for (GroupServiceImpl.IdObjectType idObjectTypePair : idObjectTypes) {
+                        for (final GroupServiceImpl.IdObjectType idObjectTypePair : idObjectTypes) {
                             if (idObjectTypePair.getObjectType().equals(StatisticHelper.STATISTICLINK_OBJECT_TYPE)) {  //requirement: 3.6.8.2.b
                                 final Long statLinkId = idObjectTypePair.getId();
                                 //checks if the parameterId referenced in the group is known
@@ -545,14 +545,14 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
         // requirement: 3.6.8.2.g (This part of the code is only reached if no error was raised)
         if (returnCurrentEval) { // requirement: 3.6.8.2.f
 
-            ObjectId source = manager.storeCOMOperationActivity(interaction); // requirement: 3.6.4.o
-            StatisticEvaluationReportList outEvaluations = new StatisticEvaluationReportList();
+            final ObjectId source = manager.storeCOMOperationActivity(interaction); // requirement: 3.6.4.o
+            final StatisticEvaluationReportList outEvaluations = new StatisticEvaluationReportList();
 
             //create a new StatisticValue
-            for (Long statLinkId : objIdsToBeReset) {
-                StatisticCreationRequest link = manager.getStatisticLink(statLinkId);
-                StatisticValue statValue = generateStatisticValue(statLinkId, link); // requirement: 3.6.7.2.j, l 
-                Long statLinkDefId = manager.getStatisticLinkDefinitionId(statLinkId);
+            for (final Long statLinkId : objIdsToBeReset) {
+                final StatisticCreationRequest link = manager.getStatisticLink(statLinkId);
+                final StatisticValue statValue = generateStatisticValue(statLinkId, link); // requirement: 3.6.7.2.j, l
+                final Long statLinkDefId = manager.getStatisticLinkDefinitionId(statLinkId);
                 manager.storeAndGenerateStatValueInsobjId(statValue, statLinkDefId, connection.getConnectionDetails(), source);
 
                 //add to returned reports
@@ -561,7 +561,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
             }
             return outEvaluations;
         } else { // requirement: 3.6.8.2.f
-            for (Long statLinkId : objIdsToBeReset) {
+            for (final Long statLinkId : objIdsToBeReset) {
                 manager.resetStatisticEvaluationReport(statLinkId);
             }
             return null;
@@ -570,7 +570,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
     }
 
     @Override
-    public void enableService(Boolean enableService, MALInteraction interaction) throws MALInteractionException, MALException {
+    public void enableService(final Boolean enableService, final MALInteraction interaction) throws MALInteractionException, MALException {
         if (enableService) {
             this.periodicSamplingManager.start();
             this.periodicReportingManager.start(); // requirement: 3.6.10.2.a
@@ -584,18 +584,18 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
     }
 
     @Override
-    public Boolean getServiceStatus(MALInteraction interaction) throws MALInteractionException, MALException {
+    public Boolean getServiceStatus(final MALInteraction interaction) throws MALInteractionException, MALException {
         return this.periodicReportingManager.getStatus();
     }
 
     @Override
-    public void enableReporting(Boolean isGroupIds, InstanceBooleanPairList enableInstances, MALInteraction interaction) throws MALInteractionException, MALException {
+    public void enableReporting(final Boolean isGroupIds, final InstanceBooleanPairList enableInstances, final MALInteraction interaction) throws MALInteractionException, MALException {
 
-        UIntegerList unkIndexList = new UIntegerList();
-        UIntegerList invIndexList = new UIntegerList();
+        final UIntegerList unkIndexList = new UIntegerList();
+        final UIntegerList invIndexList = new UIntegerList();
 
-        LongList objIdToBeEnabled = new LongList();
-        BooleanList valueToBeEnabled = new BooleanList();
+        final LongList objIdToBeEnabled = new LongList();
+        final BooleanList valueToBeEnabled = new BooleanList();
 
         if (null == isGroupIds || null == enableInstances) { // Are the inputs null?
             throw new IllegalArgumentException("isGroupIds and enableInstances arguments must not be null");
@@ -603,7 +603,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
 
         boolean foundWildcard = false;
 
-        for (InstanceBooleanPair instance : enableInstances) {  // requirement: 3.6.12.2.d
+        for (final InstanceBooleanPair instance : enableInstances) {  // requirement: 3.6.12.2.d
             if (instance.getId() == 0) {  // Is it the wildcard '0'? requirement: 3.6.12.2.c
                 // requirement: 3.6.12.2.e and 3.6.12.2.f and 3.6.12.2.j
                 manager.setReportingEnabledAll(instance.getValue(), connection.getConnectionDetails());
@@ -619,7 +619,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
             //the Ids are statistic-function-ids 3.6.12.2.a
             if (!isGroupIds) {
                 for (int index = 0; index < enableInstances.size(); index++) {
-                    InstanceBooleanPair enableInstance = enableInstances.get(index);
+                    final InstanceBooleanPair enableInstance = enableInstances.get(index);
                     // does function exist? 
                     if (manager.getStatisticFunction(enableInstance.getId()) == null) {
                         unkIndexList.add(new UInteger(index)); // requirement: 3.6.12.2.g
@@ -628,7 +628,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
                     //add the statisticLinks that reference to the StatisticFunction to the list of values to be enabled
                     final LongList statLinksForFunction = manager.getStatisticLinksForFunction(enableInstance.getId());  //requirement: 3.6.12.2.b
                     final Boolean value = enableInstance.getValue();
-                    for (Long statLink : statLinksForFunction) {
+                    for (final Long statLink : statLinksForFunction) {
                         objIdToBeEnabled.add(statLink);
                         valueToBeEnabled.add(value);
                     }
@@ -636,27 +636,27 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
             } else {//the ids are group-definition-ids, req: 3.4.6.12.2.a, 3.9.4.g,h
                 //TODO: sure? groupddefintion or identity-ids? -> issue #135, #179
                 //in the next for loop, ignore the other group definitions, they will be checked in other iterations.
-                LongList ignoreList = new LongList();
-                for (InstanceBooleanPair instance : enableInstances) {
+                final LongList ignoreList = new LongList();
+                for (final InstanceBooleanPair instance : enableInstances) {
                     ignoreList.add(instance.getId());
                 }
                 //add all instances referenced in all groups to list of values to be enabled
                 for (int index = 0; index < enableInstances.size(); index++) {
                     //these are Group-Definition-ids req: 3.9.4.g,h
-                    InstanceBooleanPair enableInstance = enableInstances.get(index);
+                    final InstanceBooleanPair enableInstance = enableInstances.get(index);
                     final Long groupId = enableInstance.getId();
                     //is group known?
-                    GroupDetails group = groupService.retrieveGroupDetailsFromArchive(ConfigurationProviderSingleton.getDomain(), groupId);
+                    final GroupDetails group = groupService.retrieveGroupDetailsFromArchive(ConfigurationProviderSingleton.getDomain(), groupId);
                     if (group == null) { //group wasnt found
                         unkIndexList.add(new UInteger(index)); // requirement: 3.3.10.2.g
                         continue;
                     } else { //if group was found, then get the instances of it and its groups
                         ignoreList.remove(groupId);
-                        GroupServiceImpl.IdObjectTypeList idObjectTypes = groupService.getGroupObjectIdsFromGroup(groupId, group, ignoreList);
+                        final GroupServiceImpl.IdObjectTypeList idObjectTypes = groupService.getGroupObjectIdsFromGroup(groupId, group, ignoreList);
                         ignoreList.add(groupId);
 
                         //checks if the given identityId is found in the internal StatisticLink-list, if not its not a StatisticLink and invalid
-                        for (GroupServiceImpl.IdObjectType idObjectTypePair : idObjectTypes) {
+                        for (final GroupServiceImpl.IdObjectType idObjectTypePair : idObjectTypes) {
                             if (idObjectTypePair.getObjectType().equals(StatisticHelper.STATISTICLINK_OBJECT_TYPE)) {  //requirement: 3.6.12.2.b
                                 final Long statLinkId = idObjectTypePair.getId();
                                 //checks if the parameterId referenced in the group is known
@@ -699,17 +699,17 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
     }
 
     @Override
-    public ObjectInstancePairList addParameterEvaluation(StatisticCreationRequestList newDetails, MALInteraction interaction) throws MALInteractionException, MALException {
+    public ObjectInstancePairList addParameterEvaluation(final StatisticCreationRequestList newDetails, final MALInteraction interaction) throws MALInteractionException, MALException {
 
-        UIntegerList invIndexList = new UIntegerList();
-        UIntegerList unkIndexList = new UIntegerList();
+        final UIntegerList invIndexList = new UIntegerList();
+        final UIntegerList unkIndexList = new UIntegerList();
 
         if (null == newDetails) { // Is the input null?
             throw new IllegalArgumentException("newDetails argument must not be null");
         }
 
         for (int index = 0; index < newDetails.size(); index++) { // requirement: 3.6.14.2.n (incremental "for cycle" guarantees that)
-            StatisticCreationRequest statDefDetail = newDetails.get(index); // requirement: 3.6.14.2.a
+            final StatisticCreationRequest statDefDetail = newDetails.get(index); // requirement: 3.6.14.2.a
 
             // Get the StatisticFunction
             final StatisticFunctionDetails statFunc = manager.getStatisticFunction(statDefDetail.getStatFuncInstId());  // requirement: 3.6.14.2.b
@@ -728,7 +728,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
             }
 
             // Check that statistical function can be applied to type of parameter
-            int paramType;
+            final int paramType;
             if (statDefDetail.getLinkDetails().getUseConverted()) {
                 if (parameterDef.getConversion() == null) {
                     invIndexList.add(new UInteger(index));
@@ -764,10 +764,10 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
         }
 
         // If no errors, then add!  // requirement: 3.6.14.2.i
-        ObjectInstancePairList oipl = new ObjectInstancePairList();
-        LongList statLinkIds = new LongList();
-        for (StatisticCreationRequest statDetails : newDetails) {  // requirement: 3.6.14.2.j, m
-            ObjectInstancePair newLink = manager.add(statDetails, connection.getConnectionDetails());
+        final ObjectInstancePairList oipl = new ObjectInstancePairList();
+        final LongList statLinkIds = new LongList();
+        for (final StatisticCreationRequest statDetails : newDetails) {  // requirement: 3.6.14.2.j, m
+            final ObjectInstancePair newLink = manager.add(statDetails, connection.getConnectionDetails());
             oipl.add(newLink); // requirement: 3.6.14.2.l, 3.6.14.2.a
             statLinkIds.add(newLink.getObjIdentityInstanceId());
         }
@@ -781,10 +781,10 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
     }
 
     @Override
-    public LongList updateParameterEvaluation(LongList objInstIds, StatisticLinkDetailsList newDetails, MALInteraction interaction) throws MALInteractionException, MALException {
+    public LongList updateParameterEvaluation(final LongList objInstIds, final StatisticLinkDetailsList newDetails, final MALInteraction interaction) throws MALInteractionException, MALException {
 
-        UIntegerList invIndexList = new UIntegerList();
-        UIntegerList unkIndexList = new UIntegerList();
+        final UIntegerList invIndexList = new UIntegerList();
+        final UIntegerList unkIndexList = new UIntegerList();
         StatisticLinkDetails statLink;
         Long linkId;
 
@@ -793,8 +793,8 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
         }
 
         if (objInstIds.size() != newDetails.size()) { // requirement: 3.6.1.5.2.g
-            int min = (objInstIds.size() < newDetails.size()) ? objInstIds.size() : newDetails.size();
-            int max = (objInstIds.size() > newDetails.size()) ? objInstIds.size() : newDetails.size();
+            final int min = (objInstIds.size() < newDetails.size()) ? objInstIds.size() : newDetails.size();
+            final int max = (objInstIds.size() > newDetails.size()) ? objInstIds.size() : newDetails.size();
 
             for (int i = min; i < max; i++) {
                 invIndexList.add(new UInteger(i));
@@ -829,15 +829,15 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
             throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
         }
 
-        LongList newDefIds = new LongList();
+        final LongList newDefIds = new LongList();
         // If no errors, then update!  // requirement: 3.6.15.2.h
         for (int index = 0; index < newDetails.size(); index++) { // requirement: 3.6.15.2.f, 3.6.15.2.l
             linkId = objInstIds.get(index);  // requirement: 3.6.15.2.a
 
             // Get the Statistic Link
-            StatisticCreationRequest editLink = manager.getStatisticLink(linkId);
+            final StatisticCreationRequest editLink = manager.getStatisticLink(linkId);
             editLink.setLinkDetails(newDetails.get(index)); // requirement: 3.6.15.2.e
-            Long newLinkDefId = manager.update(linkId, editLink, connection.getConnectionDetails()); // requirement: 3.6.15.2.i
+            final Long newLinkDefId = manager.update(linkId, editLink, connection.getConnectionDetails()); // requirement: 3.6.15.2.i
 
             // Refresh the sampling
             this.periodicSamplingManager.update(linkId); // requirement: 3.6.15.2.j
@@ -850,11 +850,11 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
     }
 
     @Override
-    public void removeParameterEvaluation(LongList objInstIds, MALInteraction interaction) throws MALInteractionException, MALException {
+    public void removeParameterEvaluation(final LongList objInstIds, final MALInteraction interaction) throws MALInteractionException, MALException {
 
-        UIntegerList unkIndexList = new UIntegerList();
+        final UIntegerList unkIndexList = new UIntegerList();
         Long tempLong;
-        LongList tempIdsToRemoveLst = new LongList();
+        final LongList tempIdsToRemoveLst = new LongList();
 
         if (null == objInstIds) { // Is the input null?
             throw new IllegalArgumentException("LongList argument must not be null");
@@ -882,7 +882,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
         }
 
         // requirement: 3.6.15.3.e (Inserting the errors before this line guarantees that the requirement is met)
-        for (Long toDelete : tempIdsToRemoveLst) {
+        for (final Long toDelete : tempIdsToRemoveLst) {
             manager.delete(toDelete); // requirement: 3.6.15.2.a, COM archive is left untouched: 3.6.15.2.d
         }
 
@@ -894,16 +894,16 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
     }
 
     @Override
-    public StatisticLinkSummaryList listParameterEvaluations(LongList statObjInstId, MALInteraction interaction) throws MALInteractionException, MALException {
-        LongList statLinkIds = new LongList();
-        UIntegerList unkIndexList = new UIntegerList();
+    public StatisticLinkSummaryList listParameterEvaluations(final LongList statObjInstId, final MALInteraction interaction) throws MALInteractionException, MALException {
+        final LongList statLinkIds = new LongList();
+        final UIntegerList unkIndexList = new UIntegerList();
 
         if (null == statObjInstId) { // Is the input null?
             throw new IllegalArgumentException("LongList argument must not be null");
         }
 
         for (int i = 0; i < statObjInstId.size(); i++) {
-            Long statFuncId = statObjInstId.get(i);
+            final Long statFuncId = statObjInstId.get(i);
             // requirement: 3.6.13.2.b, c Check for wildcards
             if (statFuncId == 0L) {
                 statLinkIds.clear();  // if the wildcard is in the middle of the input list, we clear the output list and...
@@ -925,10 +925,10 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
             throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
         }
 
-        StatisticLinkSummaryList statLinkSummaries = new StatisticLinkSummaryList(statLinkIds.size());
-        for (Long statLinkId : statLinkIds) {
+        final StatisticLinkSummaryList statLinkSummaries = new StatisticLinkSummaryList(statLinkIds.size());
+        for (final Long statLinkId : statLinkIds) {
             //requirement: 3.6.13.2.e
-            StatisticCreationRequest statLink = manager.getStatisticLink(statLinkId);
+            final StatisticCreationRequest statLink = manager.getStatisticLink(statLinkId);
             final Long statFuncId = statLink.getStatFuncInstId();
             final Long statLinkDefId = manager.getStatisticLinkDefinitionId(statLinkId);
             final boolean reportingEnabled = statLink.getLinkDetails().getReportingEnabled();
@@ -993,7 +993,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
             this.start(); // set active flag to true
         }
 
-        private void removePeriodicReporting(Long identityId) {
+        private void removePeriodicReporting(final Long identityId) {
             this.stopTimer(identityId);
             sampleTimerList.remove(identityId);
             manager.getDataSets().removeDataSet(identityId);
@@ -1004,7 +1004,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
          *
          * @param identityId
          */
-        public void update(Long identityId) {
+        public void update(final Long identityId) {
             if (sampleTimerList.containsKey(identityId)) { // Does it exist in the PeriodicSamplingManager?
                 removePeriodicReporting(identityId);
             }
@@ -1018,7 +1018,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
          *
          * @param identityId
          */
-        public void refresh(Long identityId) {
+        public void refresh(final Long identityId) {
             //do the sampling from the first enabling to the removal of the statisticLink
             if (sampleTimerList.containsKey(identityId)) { // Does it exist in the PeriodicSamplingManager?
                 if (!manager.statLinkExists(identityId)) //Its in the list but doesnt exist anymore? -> remove 
@@ -1032,16 +1032,16 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
             }
         }
 
-        public void refreshList(LongList identityIds) {
+        public void refreshList(final LongList identityIds) {
             if (identityIds == null) {
                 return;
             }
-            for (Long identityId : identityIds) {
+            for (final Long identityId : identityIds) {
                 refresh(identityId);
             }
         }
 
-        private void addPeriodicSampling(Long identityId) {
+        private void addPeriodicSampling(final Long identityId) {
             final StatisticCreationRequest statLink = manager.getStatisticLink(identityId);
 
             //requirement 3.6.2.n.b: Periodic Sampling shall not occur if the generation was disabled. So if it was never enabled nothing happens. If is was already enabled it should not even reach this code as the refresh-method will not be called in the enabledGeneration-operation
@@ -1050,9 +1050,9 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
             //}
             // Add to the Periodic Sampling Manager only if there's a sampleInterval selected for the parameterSet
             // NOTE: The standard says its "perfectly possible" to set a sampleInterval greater than a reporting or collection interval so no other checks of the sampleinterval necessary here
-            Duration sampleInterval = statLink.getLinkDetails().getSamplingInterval();
+            final Duration sampleInterval = statLink.getLinkDetails().getSamplingInterval();
             if (sampleInterval.getValue() != 0) {
-                TaskScheduler timer = new TaskScheduler(1, true);  // Take care of adding a new timer
+                final TaskScheduler timer = new TaskScheduler(1, true);  // Take care of adding a new timer
                 sampleTimerList.put(identityId, timer);
                 startTimer(identityId, sampleInterval, statLink.getLinkDetails().getUseConverted());
             }
@@ -1069,12 +1069,12 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
         }
 
         private void sampleParamValue(final Long identityId, final boolean useConverted) {
-            ParameterValue pVal;
+            final ParameterValue pVal;
             try {
                 pVal = manager.getParameterValue(identityId); // Get the Parameter Value of the parameter referenced in the statLink
                 // Add the value to the data set
                 manager.getDataSets().addAttributeToDataSet(identityId, useConverted ? pVal.getConvertedValue() : pVal.getRawValue(), HelperTime.getTimestampMillis());
-            } catch (MALInteractionException ex) {
+            } catch (final MALInteractionException ex) {
                 manager.getDataSets().addAttributeToDataSet(identityId, null, HelperTime.getTimestampMillis());
             }
             generateAndAddStatisticEvaluationReport(identityId);
@@ -1082,14 +1082,14 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
 
         private void generateAndAddStatisticEvaluationReport(final Long statLinkId) {
             // Retrieve the Statistic Link
-            StatisticCreationRequest link = manager.getStatisticLink(statLinkId);
+            final StatisticCreationRequest link = manager.getStatisticLink(statLinkId);
 
             // Retrieve the corresponding data set
-            StatisticValue statValue = generateStatisticValue(statLinkId, link);
+            final StatisticValue statValue = generateStatisticValue(statLinkId, link);
             manager.addStatisticValueToStatisticEvaluationReport(statLinkId, statValue);
         }
 
-        private void stopTimer(Long objId) {
+        private void stopTimer(final Long objId) {
             sampleTimerList.get(objId).stopLast();
         }
 
@@ -1108,11 +1108,11 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
             this.refreshList(manager.listAllLinks());
         }
 
-        public void refreshList(LongList objIds) {
+        public void refreshList(final LongList objIds) {
             if (objIds == null) {
                 return;
             }
-            for (Long objId : objIds) {
+            for (final Long objId : objIds) {
                 refresh(objId);
             }
         }
@@ -1130,7 +1130,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
             this.start(); // set active flag to true
         }
 
-        public void refresh(Long objId) {
+        public void refresh(final Long objId) {
             if (collectionTimerList.containsKey(objId)) { // Does it exist in the PeriodicSamplingManager?
                 this.removePeriodicCollecting(objId);
             }
@@ -1142,44 +1142,44 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
             manager.resetStatisticEvaluationReport(objId); // Reset the Reports
         }
 
-        private void addPeriodicCollecting(Long objId) {
+        private void addPeriodicCollecting(final Long objId) {
             final StatisticCreationRequest statLink = manager.getStatisticLink(objId);
 
             if (!statLink.getLinkDetails().getReportingEnabled()) {
                 return; // Periodic Sampling shall not occur if the generation is not enabled at the definition level
             }
 
-            Duration collectionInterval = statLink.getLinkDetails().getCollectionInterval();
+            final Duration collectionInterval = statLink.getLinkDetails().getCollectionInterval();
 
             // Add to the Periodic Collection Manager
             if (collectionInterval.getValue() != 0) {
-                TaskScheduler timer = new TaskScheduler(1, true);  // Take care of adding a new timer
+                final TaskScheduler timer = new TaskScheduler(1, true);  // Take care of adding a new timer
                 collectionTimerList.put(objId, timer);
                 startTimer(objId, collectionInterval);
             }
 
         }
 
-        private void removePeriodicCollecting(Long objId) {
+        private void removePeriodicCollecting(final Long objId) {
             this.stopTimer(objId);
             collectionTimerList.remove(objId);
         }
 
-        private void startTimer(final Long statLinkId, Duration interval) {
+        private void startTimer(final Long statLinkId, final Duration interval) {
 
             collectionTimerList.get(statLinkId).scheduleTask(new Thread() {
                 @Override
                 public void run() { // Periodic sampling
                     if (active) {
                         manager.getDataSets().lock(); // Lock the Sets
-                        StatisticCreationRequest link = manager.getStatisticLink(statLinkId);
+                        final StatisticCreationRequest link = manager.getStatisticLink(statLinkId);
 
                         //publish if the intervals dont align
                         if (link.getLinkDetails().getCollectionInterval().getValue() % link.getLinkDetails().getReportingInterval().getValue() != 0) //requirement: 3.6.3.e
                         {
                             // Retrieve the Statistic Link
                             generateAndAddStatisticEvaluationReport(link);
-                            Long statLinkDefId = manager.getStatisticLinkDefinitionId(statLinkId);
+                            final Long statLinkDefId = manager.getStatisticLinkDefinitionId(statLinkId);
                             publishStatisticsUpdate(statLinkId, statLinkDefId, manager.getStatisticEvaluationReport(statLinkId).getValue(), null);
                         }
 
@@ -1191,9 +1191,9 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
                     }
                 }
 
-                private void generateAndAddStatisticEvaluationReport(StatisticCreationRequest link) {
+                private void generateAndAddStatisticEvaluationReport(final StatisticCreationRequest link) {
                     // Retrieve the corresponding data set
-                    StatisticValue statValue = generateStatisticValue(statLinkId, link);
+                    final StatisticValue statValue = generateStatisticValue(statLinkId, link);
                     manager.addStatisticValueToStatisticEvaluationReport(statLinkId, statValue);
                 }
 
@@ -1201,7 +1201,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
             }, (int) (interval.getValue() * 1000), (int) (interval.getValue() * 1000), TimeUnit.MILLISECONDS, true);
         }
 
-        private void stopTimer(Long objId) {
+        private void stopTimer(final Long objId) {
             collectionTimerList.get(objId).stopLast();
         }
 
@@ -1237,20 +1237,20 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
             this.start(); // set active flag to true
         }
 
-        public void refreshAndReport(Long objId) {
+        public void refreshAndReport(final Long objId) {
             refresh(objId, true);
         }
 
-        public void refresh(Long objId) {
+        public void refresh(final Long objId) {
             refresh(objId, false);
         }
 
-        private void refresh(Long objId, boolean immediateReport) {
+        private void refresh(final Long objId, final boolean immediateReport) {
             if (updateTimerList.containsKey(objId)) { // Does it exist in the Periodic Reporting Manager?
                 this.removePeriodicReporting(objId);
             }
             // getStatisticLink aggregation definition
-            StatisticCreationRequest statLink = manager.getStatisticLink(objId);
+            final StatisticCreationRequest statLink = manager.getStatisticLink(objId);
             if (statLink != null) { // Does it exist in the Statistic Links List?
                 if (statLink.getLinkDetails().getReportingInterval().getValue() != 0 //requirement: 3.6.3.c
                         && statLink.getLinkDetails().getReportingEnabled()) { // Is the periodic reporting active?
@@ -1261,27 +1261,27 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
 //            manager.getDataSets().resetEvaluation(objId); // Reset the Evaluation
         }
 
-        public void refreshList(LongList objIds) {
+        public void refreshList(final LongList objIds) {
             if (objIds == null) {
                 return;
             }
-            for (Long objId : objIds) {
+            for (final Long objId : objIds) {
                 this.refresh(objId);
             }
         }
 
-        private void addPeriodicReporting(Long statLinkId, boolean immediateReport) {
-            TaskScheduler timer = new TaskScheduler(1, true);
+        private void addPeriodicReporting(final Long statLinkId, final boolean immediateReport) {
+            final TaskScheduler timer = new TaskScheduler(1, true);
             updateTimerList.put(statLinkId, timer);
             this.startReportingTimer(statLinkId, manager.getStatisticLink(statLinkId).getLinkDetails().getReportingInterval(), immediateReport); //requirement: 3.6.2.h, 3.6.3.b
         }
 
-        private void removePeriodicReporting(Long objId) {
+        private void removePeriodicReporting(final Long objId) {
             this.stopUpdatesTimer(objId);
             updateTimerList.remove(objId);
         }
 
-        private void startReportingTimer(final Long statLinkId, final Duration interval, boolean immediateReport) {
+        private void startReportingTimer(final Long statLinkId, final Duration interval, final boolean immediateReport) {
             updateTimerList.get(statLinkId).scheduleTask(new Thread(() -> {  //requirement: 3.6.2.h, 3.6.3.b
                 if (active) {
                     reportStatistic(statLinkId);
@@ -1291,9 +1291,9 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
         }
 
         private void reportStatistic(final Long statLinkId) {
-            StatisticEvaluationReport report = manager.getStatisticEvaluationReport(statLinkId);
+            final StatisticEvaluationReport report = manager.getStatisticEvaluationReport(statLinkId);
             if (report != null) {
-                Long statLinkDefId = manager.getStatisticLinkDefinitionId(statLinkId);
+                final Long statLinkDefId = manager.getStatisticLinkDefinitionId(statLinkId);
                 publishStatisticsUpdate(statLinkId, statLinkDefId, manager.getStatisticEvaluationReport(statLinkId).getValue(), null);
             }
 //            }

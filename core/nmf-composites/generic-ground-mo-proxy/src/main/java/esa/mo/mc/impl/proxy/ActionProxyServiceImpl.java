@@ -72,8 +72,8 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
      * @param actionConsumer
      * @throws MALException On initialisation error.
      */
-    public synchronized void init(COMServicesProvider localCOMServices,
-            ActionConsumerServiceImpl actionConsumer) throws MALException {
+    public synchronized void init(final COMServicesProvider localCOMServices,
+                                  final ActionConsumerServiceImpl actionConsumer) throws MALException {
         if (!initialiased) {
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -109,8 +109,8 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
             connection.closeAll();
         }
 
-        Random random = new Random();
-        String name = ActionHelper.ACTION_SERVICE_NAME.toString() + "_" + random.nextInt();
+        final Random random = new Random();
+        final String name = ActionHelper.ACTION_SERVICE_NAME.toString() + "_" + random.nextInt();
         actionServiceProvider = connection.startService(name, ActionHelper.ACTION_SERVICE, false, this);
 
         running = true;
@@ -132,7 +132,7 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
 
             connection.closeAll();
             running = false;
-        } catch (MALException ex) {
+        } catch (final MALException ex) {
             Logger.getLogger(ActionProxyServiceImpl.class.getName()).log(Level.WARNING,
                     "Exception during close down of the provider {0}", ex);
         }
@@ -143,8 +143,8 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
     }
 
     @Override
-    public void submitAction(Long actionInstId, ActionInstanceDetails actionDetails,
-            MALInteraction interaction) throws MALInteractionException, MALException {
+    public void submitAction(final Long actionInstId, final ActionInstanceDetails actionDetails,
+                             final MALInteraction interaction) throws MALInteractionException, MALException {
         // Publish Activity Tracking event: Reception Event
         manager.getCOMServices().getActivityTrackingService().publishReceptionEvent(
                 interaction,
@@ -158,12 +158,12 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
                 actionDetails,
                 new ActionAdapter() {
             @Override
-            public void submitActionAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
+            public void submitActionAckReceived(final MALMessageHeader msgHeader, final Map qosProperties) {
                 // Expected!
             }
 
             @Override
-            public void submitActionErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+            public void submitActionErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error, final Map qosProperties) {
                 Logger.getLogger(ActionProxyServiceImpl.class.getName()).log(Level.WARNING,
                         "The Action could not be submitted to the provider. {0}", error);
             }
@@ -180,9 +180,9 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
     }
 
     @Override
-    public Boolean preCheckAction(ActionInstanceDetails actionDetails,
-            MALInteraction interaction) throws MALInteractionException, MALException {
-        UIntegerList invIndexList = new UIntegerList();
+    public Boolean preCheckAction(final ActionInstanceDetails actionDetails,
+                                  final MALInteraction interaction) throws MALInteractionException, MALException {
+        final UIntegerList invIndexList = new UIntegerList();
 
         // 3.2.10.3.2
         if (!manager.existsDef(actionDetails.getDefInstId())) {
@@ -190,7 +190,7 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
         }
 
         // 3.2.10.2.c
-        boolean accepted = manager.checkActionInstanceDetails(actionDetails, invIndexList);
+        final boolean accepted = manager.checkActionInstanceDetails(actionDetails, invIndexList);
 
         // Errors
         if (!invIndexList.isEmpty()) { // requirement: 3.2.9.3.1
@@ -201,25 +201,25 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
     }
 
     @Override
-    public ObjectInstancePairList listDefinition(IdentifierList il,
-            MALInteraction mali) throws MALInteractionException, MALException {
+    public ObjectInstancePairList listDefinition(final IdentifierList il,
+                                                 final MALInteraction mali) throws MALInteractionException, MALException {
         return actionConsumer.getActionStub().listDefinition(il);
     }
 
     @Override
-    public ObjectInstancePairList addAction(ActionCreationRequestList acrl,
-            MALInteraction mali) throws MALInteractionException, MALException {
+    public ObjectInstancePairList addAction(final ActionCreationRequestList acrl,
+                                            final MALInteraction mali) throws MALInteractionException, MALException {
         return actionConsumer.getActionStub().addAction(acrl);
     }
 
     @Override
-    public LongList updateDefinition(LongList ll, ActionDefinitionDetailsList addl,
-            MALInteraction mali) throws MALInteractionException, MALException {
+    public LongList updateDefinition(final LongList ll, final ActionDefinitionDetailsList addl,
+                                     final MALInteraction mali) throws MALInteractionException, MALException {
         return actionConsumer.getActionStub().updateDefinition(ll, addl);
     }
 
     @Override
-    public void removeAction(LongList ll, MALInteraction mali) throws MALInteractionException, MALException {
+    public void removeAction(final LongList ll, final MALInteraction mali) throws MALInteractionException, MALException {
         actionConsumer.getActionStub().removeAction(ll);
     }
 

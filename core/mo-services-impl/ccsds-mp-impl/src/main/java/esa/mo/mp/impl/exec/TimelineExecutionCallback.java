@@ -27,5 +27,5 @@ public interface TimelineExecutionCallback {
     public default void onStart() {}
     public default void onStop() {}
     public default void onFinish() {}
-    public default void onError(Throwable t) {}
+    public default void onError(final Throwable t) {}
 }

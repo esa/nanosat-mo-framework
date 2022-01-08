@@ -260,7 +260,7 @@ public class PGPS extends GenericPeripheral implements IGPS {
       public final static int CHECKSUM = 7;
     }
 
-    public static double DDMMpMMMM2degrees(String DDMMpMMMM) {
+    public static double DDMMpMMMM2degrees(final String DDMMpMMMM) {
       if (DDMMpMMMM.length() == 9) {
         return Double.parseDouble(DDMMpMMMM.substring(0, 2))
             + (Double.parseDouble(DDMMpMMMM.substring(2, 4))
@@ -270,7 +270,7 @@ public class PGPS extends GenericPeripheral implements IGPS {
       }
     }
 
-    public static double DDDMMpMMMM2degrees(String DDMMpMMMM) {
+    public static double DDDMMpMMMM2degrees(final String DDMMpMMMM) {
       if (DDMMpMMMM.length() == 10) {
         // DDDMMpMMMM sentence
         return Double.parseDouble(DDMMpMMMM.substring(0, 3))
@@ -281,7 +281,7 @@ public class PGPS extends GenericPeripheral implements IGPS {
       }
     }
 
-    public static double DDMMpMMMMMMM2degrees(String DDMMpMMMMMMM) {
+    public static double DDMMpMMMMMMM2degrees(final String DDMMpMMMMMMM) {
       if (DDMMpMMMMMMM.length() == 12) {
         // System.out.println(DDMMpMMMMMMM.substring(0, 2));
         // System.out.println(DDMMpMMMMMMM.substring(2, 4));
@@ -295,7 +295,7 @@ public class PGPS extends GenericPeripheral implements IGPS {
       }
     }
 
-    public static double degMinutes2Degrees(String DDDMMpMMMMMMM) {
+    public static double degMinutes2Degrees(final String DDDMMpMMMMMMM) {
       if (DDDMMpMMMMMMM.length() == 13) {
         return Double.parseDouble(DDDMMpMMMMMMM.substring(0, 3))
             + (Double.parseDouble(DDDMMpMMMMMMM.substring(3, 5))
@@ -305,42 +305,42 @@ public class PGPS extends GenericPeripheral implements IGPS {
       }
     }
 
-    public static String degrees2DDMMpMMMM(double decimal_degrees) {
-      int degrees = (int) Math.floor(decimal_degrees);
-      double decimal_minutes = 60 * (decimal_degrees - degrees);
-      int minutes = (int) Math.floor(decimal_minutes);
-      int minutes_remainder = (int) Math.floor((decimal_minutes - minutes) * 1000);
+    public static String degrees2DDMMpMMMM(final double decimal_degrees) {
+      final int degrees = (int) Math.floor(decimal_degrees);
+      final double decimal_minutes = 60 * (decimal_degrees - degrees);
+      final int minutes = (int) Math.floor(decimal_minutes);
+      final int minutes_remainder = (int) Math.floor((decimal_minutes - minutes) * 1000);
       return String.format("%02d%02d.%04d", degrees, minutes, minutes_remainder);
     }
 
-    public static String degrees2DDDMMpMMMM(double decimal_degrees) {
-      int degrees = (int) Math.floor(decimal_degrees);
-      double decimal_minutes = 60 * (decimal_degrees - degrees);
-      int minutes = (int) Math.floor(decimal_minutes);
-      int minutes_remainder = (int) Math.floor((decimal_minutes - minutes) * 1000);
+    public static String degrees2DDDMMpMMMM(final double decimal_degrees) {
+      final int degrees = (int) Math.floor(decimal_degrees);
+      final double decimal_minutes = 60 * (decimal_degrees - degrees);
+      final int minutes = (int) Math.floor(decimal_minutes);
+      final int minutes_remainder = (int) Math.floor((decimal_minutes - minutes) * 1000);
       return String.format("%03d%02d.%04d", degrees, minutes, minutes_remainder);
     }
 
-    public static String degrees2DDMMpMMMMMMM(double decimal_degrees) {
+    public static String degrees2DDMMpMMMMMMM(final double decimal_degrees) {
       // System.out.println("degrees2DDMMpMMMMMMM input ["+decimal_degrees+"]");
-      int degrees = (int) Math.floor(decimal_degrees);
-      double decimal_minutes = 60 * (decimal_degrees - degrees);
-      int minutes = (int) Math.floor(decimal_minutes);
-      long minutes_remainder = (long) Math.floor((decimal_minutes - minutes) * 1000000);
+      final int degrees = (int) Math.floor(decimal_degrees);
+      final double decimal_minutes = 60 * (decimal_degrees - degrees);
+      final int minutes = (int) Math.floor(decimal_minutes);
+      final long minutes_remainder = (long) Math.floor((decimal_minutes - minutes) * 1000000);
       return String.format("%02d%02d.%07d", degrees, minutes, minutes_remainder);
     }
 
-    public static String degrees2DDDMMpMMMMMMM(double decimal_degrees) {
-      int degrees = (int) Math.floor(decimal_degrees);
-      double decimal_minutes = 60 * (decimal_degrees - degrees);
-      int minutes = (int) Math.floor(decimal_minutes);
-      long minutes_remainder = (long) Math.floor((decimal_minutes - minutes) * 1000000);
+    public static String degrees2DDDMMpMMMMMMM(final double decimal_degrees) {
+      final int degrees = (int) Math.floor(decimal_degrees);
+      final double decimal_minutes = 60 * (decimal_degrees - degrees);
+      final int minutes = (int) Math.floor(decimal_minutes);
+      final long minutes_remainder = (long) Math.floor((decimal_minutes - minutes) * 1000000);
       return String.format("%03d%02d.%07d", degrees, minutes, minutes_remainder);
     }
 
   }
 
-  public PGPS(SimulatorNode simulatorNode, String name) {
+  public PGPS(final SimulatorNode simulatorNode, final String name) {
     super(simulatorNode, name);
   }
 
@@ -349,8 +349,8 @@ public class PGPS extends GenericPeripheral implements IGPS {
    */
   @Override
   @InternalData(internalID = 2001, commandIDs = { "", "" }, argNames = { "inputSentence" })
-  public String getNMEASentence(String inputSentence) {
-    ArrayList<Object> argObject = new ArrayList<>();
+  public String getNMEASentence(final String inputSentence) {
+    final ArrayList<Object> argObject = new ArrayList<>();
     argObject.add(inputSentence);
     return (String) super.getSimulatorNode().runGenericMethod(2001, argObject);
   }
@@ -358,21 +358,21 @@ public class PGPS extends GenericPeripheral implements IGPS {
   @Override
   @InternalData(internalID = 2002, commandIDs = { "", "" }, argNames = { "" })
   public String getLastKnownPosition() {
-    ArrayList<Object> argObject = null;
+    final ArrayList<Object> argObject = null;
     return (String) super.getSimulatorNode().runGenericMethod(2002, argObject);
   }
 
   @Override
   @InternalData(internalID = 2003, commandIDs = { "", "" }, argNames = { "" })
   public String getBestXYZSentence() {
-    ArrayList<Object> argObject = null;
+    final ArrayList<Object> argObject = null;
     return (String) super.getSimulatorNode().runGenericMethod(2003, argObject);
   }
 
   @Override
   @InternalData(internalID = 2004, commandIDs = { "", "" }, argNames = { "" })
   public String getTIMEASentence() {
-    ArrayList<Object> argObject = null;
+    final ArrayList<Object> argObject = null;
     return (String) super.getSimulatorNode().runGenericMethod(2004, argObject);
   }
 }

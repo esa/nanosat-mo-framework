@@ -43,15 +43,15 @@ public class SimpleGround
   private static final String APP_PREFIX = "App: ";
   private final Logger LOGGER = Logger.getLogger(SimpleGround.class.getName());
 
-  public SimpleGround(String directoryURI, String providerName)
+  public SimpleGround(final String directoryURI, final String providerName)
   {
     try {
-      ProviderSummaryList providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(
+      final ProviderSummaryList providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(
               new URI(directoryURI));
 
       GroundMOAdapterImpl gma = null;
       if (!providers.isEmpty()) {
-        for (ProviderSummary provider : providers) {
+        for (final ProviderSummary provider : providers) {
           if (provider.getProviderId().toString().equals(APP_PREFIX + providerName)) {
             gma = new GroundMOAdapterImpl(provider);
             gma.addDataReceivedListener(new DataReceivedAdapter());
@@ -64,7 +64,7 @@ public class SimpleGround
       {
         LOGGER.log(Level.SEVERE, "Failed to connect to the provider. No such provider found - " + providerName);
       }
-    } catch (MalformedURLException | MALException | MALInteractionException ex) {
+    } catch (final MalformedURLException | MALException | MALInteractionException ex) {
       LOGGER.log(Level.SEVERE, "Failed to connect to the provider.", ex);
     }
 
@@ -84,14 +84,14 @@ public class SimpleGround
       System.err.println("e.g. maltcp://123.123.123.123:1024/nanosat-mo-supervisor-Directory publish-clock");
       System.exit(1);
     }
-    SimpleGround demo = new SimpleGround(args[0], args[1]);
+    final SimpleGround demo = new SimpleGround(args[0], args[1]);
   }
 
   class DataReceivedAdapter extends SimpleDataReceivedListener
   {
 
     @Override
-    public void onDataReceived(String parameterName, Serializable data)
+    public void onDataReceived(final String parameterName, final Serializable data)
     {
       LOGGER.log(Level.INFO,
           "\nParameter name: {0}" + "\n" + "Data content:\n{1}",

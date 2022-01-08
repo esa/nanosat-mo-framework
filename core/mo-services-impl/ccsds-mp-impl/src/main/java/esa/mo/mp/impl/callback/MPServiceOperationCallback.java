@@ -33,11 +33,11 @@ import org.ccsds.moims.mo.mp.structures.RequestVersionDetails;
  */
 public abstract class MPServiceOperationCallback {
 
-    public void validate(RequestVersionDetails requestVersion) {}
+    public void validate(final RequestVersionDetails requestVersion) {}
 
-    public void validate(PlanVersionDetails planVersion, ActivityInstanceDetails activityInstance) {}
+    public void validate(final PlanVersionDetails planVersion, final ActivityInstanceDetails activityInstance) {}
 
-    public void validate(PlanVersionDetails planVersion, EventInstanceDetails eventInstance) {}
+    public void validate(final PlanVersionDetails planVersion, final EventInstanceDetails eventInstance) {}
 
     public abstract void onCallback(List<MPServiceOperationArguments> arguments) throws MALException, MALInteractionException;
 }

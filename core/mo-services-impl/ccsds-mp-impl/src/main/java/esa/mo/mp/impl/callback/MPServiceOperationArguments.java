@@ -36,7 +36,7 @@ public class MPServiceOperationArguments {
     private final MALInteraction interaction;
     private final ObjectId source;
 
-    public MPServiceOperationArguments(ObjectId identityId, ObjectId definitionId, ObjectId instanceId, ObjectId statusId, MALInteraction interaction, ObjectId source) {
+    public MPServiceOperationArguments(final ObjectId identityId, final ObjectId definitionId, final ObjectId instanceId, final ObjectId statusId, final MALInteraction interaction, final ObjectId source) {
         this.identityId = identityId;
         this.definitionId = definitionId;
         this.instanceId = instanceId;

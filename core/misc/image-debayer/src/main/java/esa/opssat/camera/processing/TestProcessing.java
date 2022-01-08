@@ -38,10 +38,10 @@ import javax.imageio.ImageIO;
  */
 public class TestProcessing {
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         try {
             testDebayer();
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             Logger.getLogger(TestProcessing.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -49,10 +49,10 @@ public class TestProcessing {
     public static String RAW_PATH = "../../../payloads-test/toGround/img_msec_1633341865066_50.ims_rgb";
 
     public static void testDebayer() throws IOException {
-        byte[] inBytes = Files.readAllBytes(Paths.get(RAW_PATH));
-        BufferedImage outBuf = OPSSATCameraDebayering.getDebayeredImage(inBytes);
+        final byte[] inBytes = Files.readAllBytes(Paths.get(RAW_PATH));
+        final BufferedImage outBuf = OPSSATCameraDebayering.getDebayeredImage(inBytes);
 
-        FileOutputStream stream = new FileOutputStream(RAW_PATH + ".png");
+        final FileOutputStream stream = new FileOutputStream(RAW_PATH + ".png");
 
         ImageIO.write(outBuf, "PNG", stream);
         stream.close();

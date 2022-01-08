@@ -67,7 +67,7 @@ public class CelestiaIf implements Runnable {
     BufferedReader in;
     private Logger logger;
 
-    public CelestiaIf(ConcurrentLinkedQueue<Object> sendQueue, int listenPort, String mission_ID, Logger logger) {
+    public CelestiaIf(final ConcurrentLinkedQueue<Object> sendQueue, final int listenPort, final String mission_ID, final Logger logger) {
         this.logger = logger;
         this.sendQueue = sendQueue;
         this.port = listenPort;
@@ -88,11 +88,11 @@ public class CelestiaIf implements Runnable {
                         if (this.connection != null) {
                             this.connection.close();
                         }
-                    } catch (IOException ex) {
+                    } catch (final IOException ex) {
                         Logger.getLogger(CelestiaIf.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     continue;
-                } catch (InterruptedException ex) {
+                } catch (final InterruptedException ex) {
                     Logger.getLogger(CelestiaIf.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -135,7 +135,7 @@ public class CelestiaIf implements Runnable {
                     }
 
                 } while (!inMsg.equals(this.STOP_MESSAGE)); // keep connection until STOP_MESSAGE received from Celestia
-            } catch (Exception e) {
+            } catch (final Exception e) {
                 System.err.println(e.toString());
                 outMsg = this.STOP_MESSAGE;
             } finally {
@@ -146,7 +146,7 @@ public class CelestiaIf implements Runnable {
                     this.out.close();
                     this.socket.close();
                     logger.log(Level.FINE, "All connections closed.");
-                } catch (IOException ioException) {
+                } catch (final IOException ioException) {
                     System.err.println(ioException.toString());
                 }
             }
@@ -206,7 +206,7 @@ public class CelestiaIf implements Runnable {
             while (!in.ready() && waitedTime < DURATION_ACK_RECOVER) {
                 try {
                     Thread.sleep(SLEEP_DURATION_ACK);
-                } catch (InterruptedException ex) {
+                } catch (final InterruptedException ex) {
                     Logger.getLogger(CelestiaIf.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 waitedTime = waitedTime + SLEEP_DURATION_ACK;
@@ -223,7 +223,7 @@ public class CelestiaIf implements Runnable {
 
             retries = 0;
 
-        } catch (IOException e) {
+        } catch (final IOException e) {
             logger.log(Level.SEVERE, "Error establishing connection1" + e.toString());
             return false;
         }
@@ -235,12 +235,12 @@ public class CelestiaIf implements Runnable {
      *
      * @param msg
      */
-    private void sendMessage(String msg) {
+    private void sendMessage(final String msg) {
         this.out.println(msg);
         this.out.flush();
     }
 
-    public void putDataInBuffer(Object obj) {
+    public void putDataInBuffer(final Object obj) {
         this.sendQueue.add(obj);
     }
 
@@ -249,16 +249,16 @@ public class CelestiaIf implements Runnable {
      *
      * @return The message
      */
-    String buildMessage(CelestiaData data) {
+    String buildMessage(final CelestiaData data) {
 
-        StringBuilder dataStringSc = new StringBuilder();
-        StringBuilder dataStringParam = new StringBuilder();
-        StringBuilder dataStringValue = new StringBuilder();
-        StringBuilder dataStringUnit = new StringBuilder();
+        final StringBuilder dataStringSc = new StringBuilder();
+        final StringBuilder dataStringParam = new StringBuilder();
+        final StringBuilder dataStringValue = new StringBuilder();
+        final StringBuilder dataStringUnit = new StringBuilder();
         String outMsg = "";
         String scId = "";
 
-        float[] rv = data.getRv();//{-7000,0,0,4,5,6}; // [x, y, z, vx, vy, vz]
+        final float[] rv = data.getRv();//{-7000,0,0,4,5,6}; // [x, y, z, vx, vy, vz]
         //LocalDateTime dateTime = LocalDateTime.now();  
 
         /*
@@ -271,13 +271,13 @@ public class CelestiaIf implements Runnable {
                 + ":" + String.format("%02d", data.getSeconds()));
 */
         
-        float[] q = {data.getQ()[0], data.getQ()[1], data.getQ()[2], data.getQ()[3]}; // [qs, q1, q2, q3]
+        final float[] q = {data.getQ()[0], data.getQ()[1], data.getQ()[2], data.getQ()[3]}; // [qs, q1, q2, q3]
 //        LocalDateTime anxTime = LocalDateTime.parse("2015-08-09T10:00:00");
 //        LocalDateTime dnxTime = LocalDateTime.parse("2015-08-09T10:45:33");
 //        LocalDateTime aosKirTime = LocalDateTime.parse("2015-08-09T11:49:00");
 //        LocalDateTime losKirTime = LocalDateTime.parse("2015-08-09T12:01:00");
 
-        ListIterator<String> iter = this.SPACECRAFT_ID.listIterator();
+        final ListIterator<String> iter = this.SPACECRAFT_ID.listIterator();
 
         // build message
         while (iter.hasNext()) {

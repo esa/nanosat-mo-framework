@@ -34,10 +34,10 @@ import org.ccsds.moims.mo.platform.softwaredefinedradio.provider.SoftwareDefined
  */
 public interface PlatformServicesProviderInterface {
 
-  default void init(COMServicesProvider comServices) throws MALException{
+  default void init(final COMServicesProvider comServices) throws MALException{
   }
 
-  default void startStatusTracking(ConnectionConsumer connection){}
+  default void startStatusTracking(final ConnectionConsumer connection){}
 
   CameraInheritanceSkeleton getCameraService();
 

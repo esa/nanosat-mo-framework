@@ -55,12 +55,12 @@ public class CommandResult implements Serializable {
         } else if (output instanceof Byte) {
             formattedArgs = formattedArgs + "Byte ={" + String.format("0x%02X", output) + "}";
         } else if (output instanceof byte[]) {
-            StringBuilder sb = new StringBuilder();
-            StringBuilder sb2 = new StringBuilder();
-            byte[] bytes = (byte[]) output;
+            final StringBuilder sb = new StringBuilder();
+            final StringBuilder sb2 = new StringBuilder();
+            final byte[] bytes = (byte[]) output;
             int bytesLen = 0;
             int byteCount = 0;
-            for (byte b : bytes) {
+            for (final byte b : bytes) {
                 sb.append(String.format("0x%02X", b));
                 sb2.append(String.format("(%d)0x%02X", byteCount++, b));
                 if (++bytesLen < bytes.length) {
@@ -68,7 +68,7 @@ public class CommandResult implements Serializable {
                     sb2.append(",");
                 }
                 if (bytesLen > 1024) {
-                    String continuation = "+ [" + (bytes.length - bytesLen)
+                    final String continuation = "+ [" + (bytes.length - bytesLen)
                             + "] more , total [" + bytes.length + "] bytes.";
                     sb.append(continuation);
                     sb2.append(continuation);
@@ -79,17 +79,17 @@ public class CommandResult implements Serializable {
             formattedArgs = formattedArgs + "\n";
             formattedArgs = formattedArgs + "byte[] ={" + sb2.toString() + "}";
         } else if (output instanceof double[]) {
-            StringBuilder sb = new StringBuilder();
-            double[] bytes = (double[]) output;
+            final StringBuilder sb = new StringBuilder();
+            final double[] bytes = (double[]) output;
             int bytesLen = 0;
-            int byteCount = 0;
-            for (double b : bytes) {
+            final int byteCount = 0;
+            for (final double b : bytes) {
                 sb.append(String.format("%s", b));
                 if (++bytesLen < bytes.length) {
                     sb.append(",");
                 }
                 if (bytesLen > 1024) {
-                    String continuation = "+ [" + (bytes.length - bytesLen)
+                    final String continuation = "+ [" + (bytes.length - bytesLen)
                             + "] more , total [" + bytes.length + "] doubles.";
                     sb.append(continuation);
                     break;
@@ -119,7 +119,7 @@ public class CommandResult implements Serializable {
         return output;
     }
 
-    public void setOutput(Object output) {
+    public void setOutput(final Object output) {
         this.output = output;
     }
 
@@ -127,7 +127,7 @@ public class CommandResult implements Serializable {
         return commandFailed;
     }
 
-    public void setCommandFailed(boolean commandFailed) {
+    public void setCommandFailed(final boolean commandFailed) {
         this.commandFailed = commandFailed;
     }
 
@@ -141,7 +141,7 @@ public class CommandResult implements Serializable {
         return commandDescriptor;
     }
 
-    public CommandResult(CommandDescriptor commandDescriptor, Date executionTime, Date simulatorTime) {
+    public CommandResult(final CommandDescriptor commandDescriptor, final Date executionTime, final Date simulatorTime) {
         this.commandDescriptor = commandDescriptor;
         this.executionTime = executionTime;
         this.simulatorTime = simulatorTime;

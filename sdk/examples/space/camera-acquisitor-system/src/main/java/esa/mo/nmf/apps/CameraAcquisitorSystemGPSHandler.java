@@ -48,13 +48,13 @@ public class CameraAcquisitorSystemGPSHandler extends GPSAdapter
 
   private final CameraAcquisitorSystemMCAdapter casMCAdapter;
 
-  public CameraAcquisitorSystemGPSHandler(CameraAcquisitorSystemMCAdapter casMCAdapter)
+  public CameraAcquisitorSystemGPSHandler(final CameraAcquisitorSystemMCAdapter casMCAdapter)
   {
     this.casMCAdapter = casMCAdapter;
   }
 
-  public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
-      Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction)
+  public UInteger actionArrived(final Identifier name, final AttributeValueList attributeValues,
+                                final Long actionInstanceObjId, final boolean reportProgress, final MALInteraction interaction)
   {
     return new UInteger(0); // error code 0 - unknown error
   }
@@ -66,17 +66,17 @@ public class CameraAcquisitorSystemGPSHandler extends GPSAdapter
    */
   public GeodeticPoint getCurrentPosition()
   {
-    GetLastKnownPositionResponse pos;
+    final GetLastKnownPositionResponse pos;
     try {
       casMCAdapter.getConnector().getPlatformServices().getGPSService().getPosition(this);
       pos = casMCAdapter.getConnector().getPlatformServices().getGPSService().getLastKnownPosition();
       //get geographical position
-      float latitude = pos.getBodyElement0().getLatitude();
-      float longitude = pos.getBodyElement0().getLongitude();
-      float altitude = pos.getBodyElement0().getAltitude();
+      final float latitude = pos.getBodyElement0().getLatitude();
+      final float longitude = pos.getBodyElement0().getLongitude();
+      final float altitude = pos.getBodyElement0().getAltitude();
       return new GeodeticPoint(latitude, longitude, altitude);
 
-    } catch (NMFException | IOException | MALInteractionException | MALException ex) {
+    } catch (final NMFException | IOException | MALInteractionException | MALException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
     }
     return null;

@@ -36,11 +36,11 @@ public class PayloadsTestApp
   public static void main(final String[] args) throws Exception
   {
     final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
-    PayloadsTestMCAdapter adapter = new PayloadsTestMCAdapter(connector);
+    final PayloadsTestMCAdapter adapter = new PayloadsTestMCAdapter(connector);
     connector.init(adapter);
     adapter.startAdcsAttitudeMonitoring();
     // Initialize the loopback connection to consume own interfaces easily
-    ConnectionConsumer connectionConsumer = new ConnectionConsumer();
+    final ConnectionConsumer connectionConsumer = new ConnectionConsumer();
     connectionConsumer.loadURIs();
     adapter.setSimpleCommandingInterface(new CommonMOAdapterImpl(connectionConsumer));
   }

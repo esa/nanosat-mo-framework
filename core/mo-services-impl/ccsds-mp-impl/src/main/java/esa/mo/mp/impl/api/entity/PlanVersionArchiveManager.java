@@ -44,7 +44,7 @@ import esa.mo.mp.impl.com.pattern.COMInstanceVersionArchiveManager;
  */
 public class PlanVersionArchiveManager extends COMInstanceVersionArchiveManager<PlanIdentityDetails, PlanIdentityDetailsList, PlanVersionDetails, PlanVersionDetailsList, PlanUpdateDetails, PlanUpdateDetailsList> {
 
-    public PlanVersionArchiveManager(COMServicesProvider comServices, COMConfiguration configuration) {
+    public PlanVersionArchiveManager(final COMServicesProvider comServices, final COMConfiguration configuration) {
         super(comServices, configuration);
     }
 
@@ -60,19 +60,19 @@ public class PlanVersionArchiveManager extends COMInstanceVersionArchiveManager<
         return super.listAllStatusIds(PlanDistributionHelper.PLANUPDATE_OBJECT_TYPE);
     }
 
-    public ObjectId getIdentityId(Identifier identity) {
+    public ObjectId getIdentityId(final Identifier identity) {
         return super.getIdentityId(identity, PlanDistributionHelper.PLANIDENTITY_OBJECT_TYPE);
     }
 
-    public ObjectIdList getIdentityIds(IdentifierList identities) {
+    public ObjectIdList getIdentityIds(final IdentifierList identities) {
         return super.getIdentityIds(identities, PlanDistributionHelper.PLANIDENTITY_OBJECT_TYPE);
     }
 
-    public PlanVersionDetails getInstance(Identifier identity) {
+    public PlanVersionDetails getInstance(final Identifier identity) {
         return super.getInstance(identity, PlanDistributionHelper.PLANIDENTITY_OBJECT_TYPE);
     }
 
-    public PlanVersionDetailsList getInstances(IdentifierList identities) {
+    public PlanVersionDetailsList getInstances(final IdentifierList identities) {
         return super.getInstances(identities, PlanDistributionHelper.PLANIDENTITY_OBJECT_TYPE);
     }
 }

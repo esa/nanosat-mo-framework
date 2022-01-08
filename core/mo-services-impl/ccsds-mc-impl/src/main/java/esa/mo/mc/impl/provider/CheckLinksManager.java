@@ -42,7 +42,7 @@ class CheckLinksManager extends MCManager {
     private final HashMap<Long, CheckLinkDetails> checkLinkDetails; //contains the checkLinkDefinitionId and the CheckLinkDetails
 
     //CheckLinkDefinitionId <-> CheckLinkDetails (CheckLinkDefinition) => checkLinkDetails
-    public CheckLinksManager(COMServicesProvider comServices) {
+    public CheckLinksManager(final COMServicesProvider comServices) {
         super(comServices);
 //        this.checkIdentityDefIds = new HashMap<Long, Long>();
         this.checkLinkDetails = new HashMap<>();
@@ -60,7 +60,7 @@ class CheckLinksManager extends MCManager {
 //        return (LongList) checkIdentityDefIds.values();
 //    }
     public LongList listAllCheckLinkIds() {
-        LongList checkLinkIdList = new LongList();
+        final LongList checkLinkIdList = new LongList();
         checkLinkIdList.addAll(checkLinkIds.keySet());
         return checkLinkIdList;
     }
@@ -95,7 +95,7 @@ class CheckLinksManager extends MCManager {
 //        }
 //        return null;
 //    }
-    public Long getCheckLinkDefId(Long checkLinkId) {
+    public Long getCheckLinkDefId(final Long checkLinkId) {
         return this.checkLinkIds.get(checkLinkId);
     }
 
@@ -106,12 +106,12 @@ class CheckLinksManager extends MCManager {
      * @param checkLinkId
      * @return
      */
-    public boolean existsCheckLink(Long checkLinkId) {
+    public boolean existsCheckLink(final Long checkLinkId) {
         return this.checkLinkIds.containsKey(checkLinkId);
     }
 
-    public Long getCheckLinkId(Long checkLinkDefId) {
-        for (Long key : checkLinkIds.keySet()) {
+    public Long getCheckLinkId(final Long checkLinkDefId) {
+        for (final Long key : checkLinkIds.keySet()) {
             if(checkLinkIds.get(key) == null && checkLinkDefId == null){
                 return key;
             }
@@ -122,11 +122,11 @@ class CheckLinksManager extends MCManager {
         return null;
     }
 
-    public ObjectDetails getCheckLinkLinks(Long checkLinkId) {
+    public ObjectDetails getCheckLinkLinks(final Long checkLinkId) {
         return this.checkLinkLinks.get(checkLinkId);
     }
 
-    public CheckLinkDetails getCheckLinkDetails(Long checkLinkDefId) {
+    public CheckLinkDetails getCheckLinkDetails(final Long checkLinkDefId) {
         return this.checkLinkDetails.get(checkLinkDefId);
     }
 
@@ -141,7 +141,7 @@ class CheckLinksManager extends MCManager {
 //    protected void updateCheckIdentityDefPair(Long identityId, Long defId) {
 //        this.checkIdentityDefIds.put(identityId, defId);
 //    }
-    protected void addCheckLink(Long checkLinkId, ObjectDetails objDetails, Long checkLinkDefId, CheckLinkDetails checkLinkDetails) {
+    protected void addCheckLink(final Long checkLinkId, final ObjectDetails objDetails, final Long checkLinkDefId, final CheckLinkDetails checkLinkDetails) {
         this.checkLinkIds.put(checkLinkId, checkLinkDefId);
         this.checkLinkLinks.put(checkLinkId, objDetails);
         this.checkLinkDetails.put(checkLinkDefId, checkLinkDetails);
@@ -153,7 +153,7 @@ class CheckLinksManager extends MCManager {
      * @param checkLinkId
      * @param objectDetails
      */
-    protected void updateCheckLinkLinks(Long checkLinkId, ObjectDetails objectDetails) {
+    protected void updateCheckLinkLinks(final Long checkLinkId, final ObjectDetails objectDetails) {
         this.checkLinkLinks.put(checkLinkId, objectDetails);
     }
 
@@ -163,7 +163,7 @@ class CheckLinksManager extends MCManager {
      * @param checkLinkDefId the defId of the CheckLinkDefinition-object
      * @param checkLinkDetails The new details for the checkLink
      */
-    protected void updateCheckLinkDetails(Long checkLinkDefId, CheckLinkDetails checkLinkDetails) {
+    protected void updateCheckLinkDetails(final Long checkLinkDefId, final CheckLinkDetails checkLinkDetails) {
         this.checkLinkDetails.put(checkLinkDefId, checkLinkDetails);
     }
 
@@ -175,7 +175,7 @@ class CheckLinksManager extends MCManager {
      * @param newCheckLinkDefId the defId of the new CheckLinkDefinition-object
      * @param checkLinkDetails The new details for the checkLink
      */
-    protected void updateCheckLink(Long checkLinkId, Long newCheckLinkDefId, CheckLinkDetails checkLinkDetails) {
+    protected void updateCheckLink(final Long checkLinkId, final Long newCheckLinkDefId, final CheckLinkDetails checkLinkDetails) {
         final Long oldCheckLinkDefid = checkLinkIds.get(checkLinkId);
         this.checkLinkIds.put(checkLinkId, newCheckLinkDefId);
         this.checkLinkDetails.remove(oldCheckLinkDefid);
@@ -189,7 +189,7 @@ class CheckLinksManager extends MCManager {
      * @param checkLinkId
      * @param checkLinkDefId
      */
-    protected void updateCheckLinkIds(Long checkLinkId, Long checkLinkDefId) {
+    protected void updateCheckLinkIds(final Long checkLinkId, final Long checkLinkDefId) {
         this.checkLinkIds.put(checkLinkId, checkLinkDefId);
     }
 
@@ -209,8 +209,8 @@ class CheckLinksManager extends MCManager {
      *
      * @param checkLinkId id of the checkLink to be deleted
      */
-    protected void deleteCheckLink(Long checkLinkId) {
-        Long defId = getCheckLinkDefId(checkLinkId);
+    protected void deleteCheckLink(final Long checkLinkId) {
+        final Long defId = getCheckLinkDefId(checkLinkId);
         this.checkLinkDetails.remove(defId);
         this.checkLinkLinks.remove(checkLinkId);
         this.checkLinkIds.remove(checkLinkId);

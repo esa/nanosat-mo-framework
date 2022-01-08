@@ -27,8 +27,8 @@ final class CallableGetCOMObjects implements Callable<List<COMObjectEntity>> {
     private final Integer domainId;
     private final Integer objTypeId;
 
-    CallableGetCOMObjects(TransactionsProcessor transactionsProcessor, LongList ids, Integer domainId,
-            Integer objTypeId) {
+    CallableGetCOMObjects(final TransactionsProcessor transactionsProcessor, final LongList ids, final Integer domainId,
+                          final Integer objTypeId) {
         this.transactionsProcessor = transactionsProcessor;
         this.ids = ids;
         this.domainId = domainId;
@@ -39,27 +39,27 @@ final class CallableGetCOMObjects implements Callable<List<COMObjectEntity>> {
     public List<COMObjectEntity> call() {
         try {
             this.transactionsProcessor.dbBackend.getAvailability().acquire();
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             TransactionsProcessor.LOGGER.log(Level.SEVERE, null, ex);
         }
 
-        List<COMObjectEntity> perObjs = new ArrayList<>();
-        Connection c = this.transactionsProcessor.dbBackend.getConnection();
+        final List<COMObjectEntity> perObjs = new ArrayList<>();
+        final Connection c = this.transactionsProcessor.dbBackend.getConnection();
 
         try {
-            ResultSet rs;
+            final ResultSet rs;
             if (this.transactionsProcessor.dbBackend.isPostgres) {
                 // Array-bind is supported in Postgres
-                PreparedStatement stmt = this.transactionsProcessor.dbBackend.getPreparedStatements()
+                final PreparedStatement stmt = this.transactionsProcessor.dbBackend.getPreparedStatements()
                                                                              .getSelectCOMObjects();
-                Array idsArray = c.createArrayOf("BIGINT", ids.toArray());
+                final Array idsArray = c.createArrayOf("BIGINT", ids.toArray());
                 stmt.setInt(1, objTypeId);
                 stmt.setInt(2, domainId);
                 stmt.setArray(3, idsArray);
                 rs = stmt.executeQuery();
             } else {
-                String parameters = ids.stream().map(Object::toString).collect(Collectors.joining(", "));
-                String query = String.format(SELECT_COM_OBJECTS, objTypeId.toString(), domainId.toString(), parameters);
+                final String parameters = ids.stream().map(Object::toString).collect(Collectors.joining(", "));
+                final String query = String.format(SELECT_COM_OBJECTS, objTypeId.toString(), domainId.toString(), parameters);
                 rs = c.createStatement().executeQuery(query);
             }
 
@@ -72,7 +72,7 @@ final class CallableGetCOMObjects implements Callable<List<COMObjectEntity>> {
                                 TransactionsProcessor.convert2Long(rs.getObject(9))),
                         TransactionsProcessor.convert2Long(rs.getObject(10)), (byte[]) rs.getObject(11)));
             }
-        } catch (SQLException ex) {
+        } catch (final SQLException ex) {
             TransactionsProcessor.LOGGER.log(Level.SEVERE, null, ex);
         }
 

@@ -87,7 +87,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
      * @param archiveService The COM Archive service provider.
      * @throws MALException On initialization error.
      */
-    public synchronized void init(ArchiveProviderServiceImpl archiveService) throws MALException {
+    public synchronized void init(final ArchiveProviderServiceImpl archiveService) throws MALException {
         if (!initialiased) {
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -125,7 +125,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
 
     }
 
-    public void setArchiveService(ArchiveProviderServiceImpl archiveService) {
+    public void setArchiveService(final ArchiveProviderServiceImpl archiveService) {
         this.archiveService = archiveService;
     }
 
@@ -184,7 +184,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
     private Long generateAndStoreEvent(final ObjectType objType, final IdentifierList domain, final Element eventObjBody,
             final Long related, final ObjectId source, final MALInteraction interaction, final URI uri, final Identifier network) {
 
-        ObjectDetailsList objectDetailsList = new ObjectDetailsList();
+        final ObjectDetailsList objectDetailsList = new ObjectDetailsList();
         objectDetailsList.add(new ObjectDetails(related, source));
         ElementList events = null;
 
@@ -199,7 +199,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
                 }
             }
 
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -299,19 +299,19 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
             } else {
                 eventBodies = new UIntegerList(hdrlst.size());
 
-                for (UpdateHeader hdrlst1 : hdrlst) {
+                for (final UpdateHeader hdrlst1 : hdrlst) {
                     eventBodies.add(new UInteger());
                 }
             }
 
             publisher.publish(hdrlst, objectDetailsList, eventBodies); // requirement: 3.7.2.15
-        } catch (IllegalArgumentException ex) {
+        } catch (final IllegalArgumentException ex) {
             Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.WARNING,
                     "Exception during publishing process on the provider (0)", ex);
-        } catch (MALException ex) {
+        } catch (final MALException ex) {
             Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.WARNING,
                     "Exception during publishing process on the provider (1)", ex);
-        } catch (MALInteractionException ex) {
+        } catch (final MALInteractionException ex) {
             Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.WARNING,
                     "Exception during publishing process on the provider (2)", ex);
         }
@@ -380,19 +380,19 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
             } else {
                 eventBodies = new UIntegerList(hdrlst.size());
 
-                for (UpdateHeader hdrlst1 : hdrlst) {
+                for (final UpdateHeader hdrlst1 : hdrlst) {
                     eventBodies.add(new UInteger());
                 }
             }
 
             publisher.publish(hdrlst, objectDetailsList, eventBodies); // requirement: 3.7.2.15
-        } catch (IllegalArgumentException ex) {
+        } catch (final IllegalArgumentException ex) {
             Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.WARNING,
                     "Exception during publishing process on the provider (0)", ex);
-        } catch (MALException ex) {
+        } catch (final MALException ex) {
             Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.WARNING,
                     "Exception during publishing process on the provider (1)", ex);
-        } catch (MALInteractionException ex) {
+        } catch (final MALInteractionException ex) {
             Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.WARNING,
                     "Exception during publishing process on the provider (2)", ex);
         }
@@ -400,7 +400,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
 
     public LongList generateAndStoreEvents(final ObjectType objType, final IdentifierList domain,
             final LongList relateds, final ObjectIdList sourceList, final MALInteraction interaction) {
-        ObjectDetailsList objectDetailsList = new ObjectDetailsList(sourceList.size());
+        final ObjectDetailsList objectDetailsList = new ObjectDetailsList(sourceList.size());
 
         for (int i = 0; i < sourceList.size(); i++) {
             if (relateds != null) {
@@ -410,7 +410,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
             }
         }
 
-        ElementList events = null;
+        final ElementList events = null;
         Identifier network = null;
         URI uri = null;
 
@@ -423,10 +423,10 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
             return null;
         }
 
-        ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList(objectDetailsList.size());
+        final ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList(objectDetailsList.size());
 
         for (int i = 0; i < objectDetailsList.size(); i++) {
-            ArchiveDetails archiveDetails = new ArchiveDetails();
+            final ArchiveDetails archiveDetails = new ArchiveDetails();
             archiveDetails.setDetails(objectDetailsList.get(i));
             archiveDetails.setInstId(0L); // no need to worry about objIds
             archiveDetails.setTimestamp(HelperTime.getTimestamp());
@@ -449,7 +449,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
         try {
             // requirement 3.3.4.2.8
             return this.archiveService.store(true, objType, domain, archiveDetailsList, events, null);
-        } catch (MALException | MALInteractionException ex) {
+        } catch (final MALException | MALInteractionException ex) {
             Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -508,7 +508,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
             // Currently being taken
         }
 
-        ArchiveDetails archiveDetails = new ArchiveDetails();
+        final ArchiveDetails archiveDetails = new ArchiveDetails();
         archiveDetails.setDetails(objectDetailsList.get(0));
         archiveDetails.setInstId(0L); // no need to worry about objIds
 
@@ -526,13 +526,13 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
 
         archiveDetails.setTimestamp(HelperTime.getTimestamp());
 
-        ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
+        final ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
         archiveDetailsList.add(archiveDetails);
 
         try {
             // requirement 3.3.4.2.8
             return this.archiveService.store(true, objType, domain, archiveDetailsList, events, null).get(0);
-        } catch (MALException | MALInteractionException ex) {
+        } catch (final MALException | MALInteractionException ex) {
             Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
@@ -549,7 +549,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
 
             connection.closeAll();
             running = false;
-        } catch (MALException ex) {
+        } catch (final MALException ex) {
             Logger.getLogger(ArchiveProviderServiceImpl.class.getName()).log(Level.WARNING,
                     "Exception during close down of the provider.", ex);
         }

@@ -77,7 +77,7 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
     private final EventDefTablePanel eventDefTable;
     private final ResourceDefTablePanel resourceDefTable;
 
-    public PlanInformationManagementConsumerPanel(PlanInformationManagementConsumerServiceImpl pimService) {
+    public PlanInformationManagementConsumerPanel(final PlanInformationManagementConsumerServiceImpl pimService) {
         initComponents();
 
         this.pimService = pimService;
@@ -246,7 +246,7 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
 
         parameterTab.add(jPanel9);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        final javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -266,47 +266,47 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void addRequestDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_addDefinitionButtonActionPerformed
-        RequestTemplateDetails definition = new RequestTemplateDetails();
+    private void addRequestDefinitionButtonActionPerformed(final java.awt.event.ActionEvent evt) {// GEN-FIRST:event_addDefinitionButtonActionPerformed
+        final RequestTemplateDetails definition = new RequestTemplateDetails();
 
         // Activities
-        SimpleActivityDetails activity = new SimpleActivityDetails();
+        final SimpleActivityDetails activity = new SimpleActivityDetails();
         activity.setComments("Test simple activity");
         activity.setTags(new StringList());
 
-        ActivityNode activityNode = new ActivityNode();
+        final ActivityNode activityNode = new ActivityNode();
         activityNode.setComments("Test activity");
 
-        c_ActivityDetails activityDetails = new c_ActivityDetails();
+        final c_ActivityDetails activityDetails = new c_ActivityDetails();
         activityDetails.setSimpleActivityDetails(activity);
-        c_ActivityDetailsList detailsList = new c_ActivityDetailsList();
+        final c_ActivityDetailsList detailsList = new c_ActivityDetailsList();
         detailsList.add(activityDetails);
         activityNode.setActivities(detailsList);
 
         // Argument defs
-        c_ArgDefList argDefList = new c_ArgDefList();
+        final c_ArgDefList argDefList = new c_ArgDefList();
 
         // Numeric argument
-        c_ArgDef numericDef = new c_ArgDef();
+        final c_ArgDef numericDef = new c_ArgDef();
         numericDef.setNumericArgDef((NumericArgDef) new NumericArgDef());
         argDefList.add(numericDef);
 
         // String argument
-        c_ArgDef stringDef = new c_ArgDef();
+        final c_ArgDef stringDef = new c_ArgDef();
         stringDef.setStringArgDef((StringArgDef) new StringArgDef());
         argDefList.add(stringDef);
 
         // Status argument
-        c_ArgDef statusDef = new c_ArgDef();
+        final c_ArgDef statusDef = new c_ArgDef();
         stringDef.setStatusArgDef((StatusArgDef) new StatusArgDef());
         argDefList.add(statusDef);
 
         // Constraints
-        ConstraintNode constraints = new ConstraintNode();
+        final ConstraintNode constraints = new ConstraintNode();
         constraints.setNegate(false);
         constraints.setOperator(LogicOp.AND);
 
-        c_ConstraintList constraintList = new c_ConstraintList();
+        final c_ConstraintList constraintList = new c_ConstraintList();
         constraints.setConstraints(constraintList);
 
         definition.setActivities(activityNode);
@@ -316,25 +316,25 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
         definition.setStandingOrder(true);
         definition.setVersion("Test version");
 
-        Identifier identity = new Identifier("Test request identity");
-        MOWindow identityWindow = new MOWindow(identity, true);
+        final Identifier identity = new Identifier("Test request identity");
+        final MOWindow identityWindow = new MOWindow(identity, true);
 
-        IdentifierList identities = new IdentifierList();
+        final IdentifierList identities = new IdentifierList();
 
         try {
             identities.add((Identifier) identityWindow.getObject());
-        } catch (InterruptedIOException e) {
+        } catch (final InterruptedIOException e) {
             LOGGER.log(Level.SEVERE, null, e);
             return;
         }
 
-        MOWindow definitionWindow = new MOWindow(definition, true);
+        final MOWindow definitionWindow = new MOWindow(definition, true);
 
-        RequestTemplateDetailsList definitions = new RequestTemplateDetailsList();
+        final RequestTemplateDetailsList definitions = new RequestTemplateDetailsList();
 
         try {
             definitions.add((RequestTemplateDetails) definitionWindow.getObject());
-        } catch (InterruptedIOException e) {
+        } catch (final InterruptedIOException e) {
             LOGGER.log(Level.SEVERE, null, e);
             return;
         }
@@ -342,39 +342,39 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
         try {
             this.pimService.getPlanInformationManagementStub().asyncAddRequestDef(identities, definitions, new PlanInformationManagementAdapter() {
                 @Override
-                public void addRequestDefResponseReceived(MALMessageHeader msgHeader, ObjectInstancePairList objIds, Map qosProperties) {
+                public void addRequestDefResponseReceived(final MALMessageHeader msgHeader, final ObjectInstancePairList objIds, final Map qosProperties) {
                     listRequestDefinitionAllButtonActionPerformed(null);
                 }
 
                 @Override
-                public void addRequestDefErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                public void addRequestDefErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error, final Map qosProperties) {
                     JOptionPane.showMessageDialog(null, "There was an error during the addRequestDef operation.\n" + error.toString() , "Error", JOptionPane.PLAIN_MESSAGE);
                     LOGGER.log(Level.SEVERE, null, error);
                 }
             });
-        } catch (MALInteractionException e) {
+        } catch (final MALInteractionException e) {
             LOGGER.log(Level.SEVERE, null, e);
-        } catch (MALException e) {
+        } catch (final MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
     }
 
-    private void updateRequestDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateRequestDefinitionButtonActionPerformed
+    private void updateRequestDefinitionButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateRequestDefinitionButtonActionPerformed
         if (requestDefTable.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(null, "Please select a request definition", "Info", JOptionPane.PLAIN_MESSAGE);
             return; // No rows selected
         }
 
-        ArchivePersistenceObject selectedObject = requestDefTable.getSelectedCOMObject();
-        MOWindow moObject = new MOWindow(selectedObject.getObject(), true);
+        final ArchivePersistenceObject selectedObject = requestDefTable.getSelectedCOMObject();
+        final MOWindow moObject = new MOWindow(selectedObject.getObject(), true);
 
-        LongList objIds = new LongList();
+        final LongList objIds = new LongList();
         objIds.add(requestDefTable.getSelectedIdentityObjId());
 
-        RequestTemplateDetailsList definitions = new RequestTemplateDetailsList();
+        final RequestTemplateDetailsList definitions = new RequestTemplateDetailsList();
         try {
             definitions.add((RequestTemplateDetails) moObject.getObject());
-        } catch (InterruptedIOException e) {
+        } catch (final InterruptedIOException e) {
             LOGGER.log(Level.SEVERE, null, e);
             return;
         }
@@ -382,62 +382,62 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
         try {
             this.pimService.getPlanInformationManagementStub().asyncUpdateRequestDef(objIds, definitions, new PlanInformationManagementAdapter() {
                 @Override
-                public void updateRequestDefResponseReceived(MALMessageHeader msgHeader, LongList defID, Map qosProperties) {
+                public void updateRequestDefResponseReceived(final MALMessageHeader msgHeader, final LongList defID, final Map qosProperties) {
                     listRequestDefinitionAllButtonActionPerformed(null);
                 }
 
                 @Override
-                public void updateRequestDefErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                public void updateRequestDefErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error, final Map qosProperties) {
                     JOptionPane.showMessageDialog(null, "There was an error during the updateRequestDef operation.\n" + error.toString() , "Error", JOptionPane.PLAIN_MESSAGE);
                     LOGGER.log(Level.SEVERE, null, error);
                 }
             });
-        } catch (MALInteractionException e) {
+        } catch (final MALInteractionException e) {
             LOGGER.log(Level.SEVERE, null, e);
-        } catch (MALException e) {
+        } catch (final MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_updateRequestDefinitionButtonActionPerformed
 
-    private void removeRequestDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeRequestDefinitionButtonActionPerformed
+    private void removeRequestDefinitionButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeRequestDefinitionButtonActionPerformed
         if (requestDefTable.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(null, "Please select a request definition", "Info", JOptionPane.PLAIN_MESSAGE);
             return; // No rows selected
         }
 
-        LongList identityIds = new LongList();
+        final LongList identityIds = new LongList();
         identityIds.add(requestDefTable.getSelectedIdentityObjId());
 
         try {
             this.pimService.getPlanInformationManagementStub().asyncRemoveRequestDef(identityIds, new PlanInformationManagementAdapter() {
                 @Override
-                public void removeRequestDefAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
+                public void removeRequestDefAckReceived(final MALMessageHeader msgHeader, final Map qosProperties) {
                     listRequestDefinitionAllButtonActionPerformed(null);
                 }
 
                 @Override
-                public void removeRequestDefErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                public void removeRequestDefErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error, final Map qosProperties) {
                     JOptionPane.showMessageDialog(null, "There was an error during the removeRequestDef operation.\n" + error.toString() , "Error", JOptionPane.PLAIN_MESSAGE);
                     LOGGER.log(Level.SEVERE, null, error);
                 }
             });
-        } catch (MALInteractionException e) {
+        } catch (final MALInteractionException e) {
             LOGGER.log(Level.SEVERE, null, e);
-        } catch (MALException e) {
+        } catch (final MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_removeRequestDefinitionButtonActionPerformed
 
-    private void listRequestDefinitionAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listRequestDefinitionAllButtonActionPerformed
-        IdentifierList idList = new IdentifierList();
+    private void listRequestDefinitionAllButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listRequestDefinitionAllButtonActionPerformed
+        final IdentifierList idList = new IdentifierList();
         idList.add(new Identifier("*"));
 
         try {
             this.pimService.getPlanInformationManagementStub().asyncListRequestDefs(idList, new PlanInformationManagementAdapter() {
                 @Override
-                public void listRequestDefsResponseReceived(MALMessageHeader msgHeader, ObjectInstancePairList defInstIds, Map qosProperties) {
-                    org.ccsds.moims.mo.mc.structures.ObjectInstancePairList ids = new org.ccsds.moims.mo.mc.structures.ObjectInstancePairList();
-                    for (ObjectInstancePair defId : defInstIds) {
+                public void listRequestDefsResponseReceived(final MALMessageHeader msgHeader, final ObjectInstancePairList defInstIds, final Map qosProperties) {
+                    final org.ccsds.moims.mo.mc.structures.ObjectInstancePairList ids = new org.ccsds.moims.mo.mc.structures.ObjectInstancePairList();
+                    for (final ObjectInstancePair defId : defInstIds) {
                         ids.add(new org.ccsds.moims.mo.mc.structures.ObjectInstancePair(
                             defId.getObjectIdentityInstanceId(),
                             defId.getObjectInstanceId()
@@ -452,73 +452,73 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
                 }
 
                 @Override
-                public void listRequestDefsErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                public void listRequestDefsErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error, final Map qosProperties) {
                     JOptionPane.showMessageDialog(null, "There was an error during the listRequestDefinition operation.\n" + error.toString(), "Error", JOptionPane.PLAIN_MESSAGE);
                     LOGGER.log(Level.SEVERE, null, error);
                 }
             }
             );
-        } catch (MALInteractionException e) {
+        } catch (final MALInteractionException e) {
             LOGGER.log(Level.SEVERE, null, e);
-        } catch (MALException e) {
+        } catch (final MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_listRequestDefinitionAllButtonActionPerformed
 
-    private void removeRequestDefinitionAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeRequestDefinitionAllButtonActionPerformed
-        int resultConfirm = JOptionPane.showConfirmDialog(null,
+    private void removeRequestDefinitionAllButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeRequestDefinitionAllButtonActionPerformed
+        final int resultConfirm = JOptionPane.showConfirmDialog(null,
             "All request definitions will be removed. Do you want to continue?",
             "Warning", JOptionPane.OK_CANCEL_OPTION);
         if (resultConfirm == JOptionPane.CANCEL_OPTION) return;
 
-        LongList identityIds = new LongList();
+        final LongList identityIds = new LongList();
         identityIds.add(0L);
 
         try {
             this.pimService.getPlanInformationManagementStub().asyncRemoveRequestDef(identityIds, new PlanInformationManagementAdapter() {
                 @Override
-                public void removeRequestDefAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
+                public void removeRequestDefAckReceived(final MALMessageHeader msgHeader, final Map qosProperties) {
                     listRequestDefinitionAllButtonActionPerformed(null);
                 }
 
                 @Override
-                public void removeRequestDefErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                public void removeRequestDefErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error, final Map qosProperties) {
                     JOptionPane.showMessageDialog(null, "There was an error during the removeRequestDef operation.\n" + error.toString() , "Error", JOptionPane.PLAIN_MESSAGE);
                     LOGGER.log(Level.SEVERE, null, error);
                 }
             });
-        } catch (MALInteractionException e) {
+        } catch (final MALInteractionException e) {
             LOGGER.log(Level.SEVERE, null, e);
-        } catch (MALException e) {
+        } catch (final MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_removeRequestDefinitionAllButtonActionPerformed
 
-    private void addActivityDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActivityDefinitionButtonActionPerformed
-        ActivityDefinitionDetails definition = new ActivityDefinitionDetails();
+    private void addActivityDefinitionButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActivityDefinitionButtonActionPerformed
+        final ActivityDefinitionDetails definition = new ActivityDefinitionDetails();
 
         definition.setDescription("Test activity definition");
         definition.setVersion("Test version");
 
-        Identifier identity = new Identifier("Test activity identity");
-        MOWindow identityWindow = new MOWindow(identity, true);
+        final Identifier identity = new Identifier("Test activity identity");
+        final MOWindow identityWindow = new MOWindow(identity, true);
 
-        IdentifierList identities = new IdentifierList();
+        final IdentifierList identities = new IdentifierList();
 
         try {
             identities.add((Identifier) identityWindow.getObject());
-        } catch (InterruptedIOException e) {
+        } catch (final InterruptedIOException e) {
             LOGGER.log(Level.SEVERE, null, e);
             return;
         }
 
-        MOWindow definitionWindow = new MOWindow(definition, true);
+        final MOWindow definitionWindow = new MOWindow(definition, true);
 
-        ActivityDefinitionDetailsList definitions = new ActivityDefinitionDetailsList();
+        final ActivityDefinitionDetailsList definitions = new ActivityDefinitionDetailsList();
 
         try {
             definitions.add((ActivityDefinitionDetails) definitionWindow.getObject());
-        } catch (InterruptedIOException e) {
+        } catch (final InterruptedIOException e) {
             LOGGER.log(Level.SEVERE, null, e);
             return;
         }
@@ -526,39 +526,39 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
         try {
             this.pimService.getPlanInformationManagementStub().asyncAddActivityDef(identities, definitions, new PlanInformationManagementAdapter() {
                 @Override
-                public void addActivityDefResponseReceived(MALMessageHeader msgHeader, ObjectInstancePairList objIds, Map qosProperties) {
+                public void addActivityDefResponseReceived(final MALMessageHeader msgHeader, final ObjectInstancePairList objIds, final Map qosProperties) {
                     listActivityDefinitionAllButtonActionPerformed(null);
                 }
 
                 @Override
-                public void addActivityDefErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                public void addActivityDefErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error, final Map qosProperties) {
                     JOptionPane.showMessageDialog(null, "There was an error during the addActivityDef operation.\n" + error.toString() , "Error", JOptionPane.PLAIN_MESSAGE);
                     LOGGER.log(Level.SEVERE, null, error);
                 }
             });
-        } catch (MALInteractionException e) {
+        } catch (final MALInteractionException e) {
             LOGGER.log(Level.SEVERE, null, e);
-        } catch (MALException e) {
+        } catch (final MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_addActivityDefinitionButtonActionPerformed
 
-    private void updateActivityDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActivityDefinitionButtonActionPerformed
+    private void updateActivityDefinitionButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActivityDefinitionButtonActionPerformed
         if (activityDefTable.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(null, "Please select an activity definition", "Info", JOptionPane.PLAIN_MESSAGE);
             return; // No rows selected
         }
 
-        ArchivePersistenceObject selectedObject = activityDefTable.getSelectedCOMObject();
-        MOWindow moObject = new MOWindow(selectedObject.getObject(), true);
+        final ArchivePersistenceObject selectedObject = activityDefTable.getSelectedCOMObject();
+        final MOWindow moObject = new MOWindow(selectedObject.getObject(), true);
 
-        LongList objIds = new LongList();
+        final LongList objIds = new LongList();
         objIds.add(activityDefTable.getSelectedIdentityObjId());
 
-        ActivityDefinitionDetailsList definitions = new ActivityDefinitionDetailsList();
+        final ActivityDefinitionDetailsList definitions = new ActivityDefinitionDetailsList();
         try {
             definitions.add((ActivityDefinitionDetails) moObject.getObject());
-        } catch (InterruptedIOException e) {
+        } catch (final InterruptedIOException e) {
             LOGGER.log(Level.SEVERE, null, e);
             return;
         }
@@ -566,62 +566,62 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
         try {
             this.pimService.getPlanInformationManagementStub().asyncUpdateActivityDef(objIds, definitions, new PlanInformationManagementAdapter() {
                 @Override
-                public void updateActivityDefResponseReceived(MALMessageHeader msgHeader, LongList defID, Map qosProperties) {
+                public void updateActivityDefResponseReceived(final MALMessageHeader msgHeader, final LongList defID, final Map qosProperties) {
                     listActivityDefinitionAllButtonActionPerformed(null);
                 }
 
                 @Override
-                public void updateActivityDefErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                public void updateActivityDefErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error, final Map qosProperties) {
                     JOptionPane.showMessageDialog(null, "There was an error during the updateActivityDef operation.\n" + error.toString() , "Error", JOptionPane.PLAIN_MESSAGE);
                     LOGGER.log(Level.SEVERE, null, error);
                 }
             });
-        } catch (MALInteractionException e) {
+        } catch (final MALInteractionException e) {
             LOGGER.log(Level.SEVERE, null, e);
-        } catch (MALException e) {
+        } catch (final MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_updateActivityDefinitionButtonActionPerformed
 
-    private void removeActivityDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeActivityDefinitionButtonActionPerformed
+    private void removeActivityDefinitionButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeActivityDefinitionButtonActionPerformed
         if (activityDefTable.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(null, "Please select an activity definition", "Info", JOptionPane.PLAIN_MESSAGE);
             return; // No rows selected
         }
 
-        LongList identityIds = new LongList();
+        final LongList identityIds = new LongList();
         identityIds.add(activityDefTable.getSelectedIdentityObjId());
 
         try {
             this.pimService.getPlanInformationManagementStub().asyncRemoveActivityDef(identityIds, new PlanInformationManagementAdapter() {
                 @Override
-                public void removeActivityDefAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
+                public void removeActivityDefAckReceived(final MALMessageHeader msgHeader, final Map qosProperties) {
                     listActivityDefinitionAllButtonActionPerformed(null);
                 }
 
                 @Override
-                public void removeActivityDefErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                public void removeActivityDefErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error, final Map qosProperties) {
                     JOptionPane.showMessageDialog(null, "There was an error during the removeActivityDef operation.\n" + error.toString() , "Error", JOptionPane.PLAIN_MESSAGE);
                     LOGGER.log(Level.SEVERE, null, error);
                 }
             });
-        } catch (MALInteractionException e) {
+        } catch (final MALInteractionException e) {
             LOGGER.log(Level.SEVERE, null, e);
-        } catch (MALException e) {
+        } catch (final MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_removeActivityDefinitionButtonActionPerformed
 
-    private void listActivityDefinitionAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listActivityDefinitionAllButtonActionPerformed
-        IdentifierList idList = new IdentifierList();
+    private void listActivityDefinitionAllButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listActivityDefinitionAllButtonActionPerformed
+        final IdentifierList idList = new IdentifierList();
         idList.add(new Identifier("*"));
 
         try {
             this.pimService.getPlanInformationManagementStub().asyncListActivityDefs(idList, new PlanInformationManagementAdapter() {
                 @Override
-                public void listActivityDefsResponseReceived(MALMessageHeader msgHeader, ObjectInstancePairList defInstIds, Map qosProperties) {
-                    org.ccsds.moims.mo.mc.structures.ObjectInstancePairList ids = new org.ccsds.moims.mo.mc.structures.ObjectInstancePairList();
-                    for (ObjectInstancePair defId : defInstIds) {
+                public void listActivityDefsResponseReceived(final MALMessageHeader msgHeader, final ObjectInstancePairList defInstIds, final Map qosProperties) {
+                    final org.ccsds.moims.mo.mc.structures.ObjectInstancePairList ids = new org.ccsds.moims.mo.mc.structures.ObjectInstancePairList();
+                    for (final ObjectInstancePair defId : defInstIds) {
                         ids.add(new org.ccsds.moims.mo.mc.structures.ObjectInstancePair(
                             defId.getObjectIdentityInstanceId(),
                             defId.getObjectInstanceId()
@@ -636,73 +636,73 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
                 }
 
                 @Override
-                public void listRequestDefsErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                public void listRequestDefsErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error, final Map qosProperties) {
                     JOptionPane.showMessageDialog(null, "There was an error during the listActivityDefinition operation.\n" + error.toString(), "Error", JOptionPane.PLAIN_MESSAGE);
                     LOGGER.log(Level.SEVERE, null, error);
                 }
             }
             );
-        } catch (MALInteractionException e) {
+        } catch (final MALInteractionException e) {
             LOGGER.log(Level.SEVERE, null, e);
-        } catch (MALException e) {
+        } catch (final MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_listActivityDefinitionAllButtonActionPerformed
 
-    private void removeActivityDefinitionAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeActivityDefinitionAllButtonActionPerformed
-        int resultConfirm = JOptionPane.showConfirmDialog(null,
+    private void removeActivityDefinitionAllButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeActivityDefinitionAllButtonActionPerformed
+        final int resultConfirm = JOptionPane.showConfirmDialog(null,
             "All activity definitions will be removed. Do you want to continue?",
             "Warning", JOptionPane.OK_CANCEL_OPTION);
         if (resultConfirm == JOptionPane.CANCEL_OPTION) return;
 
-        LongList identityIds = new LongList();
+        final LongList identityIds = new LongList();
         identityIds.add(0L);
 
         try {
             this.pimService.getPlanInformationManagementStub().asyncRemoveActivityDef(identityIds, new PlanInformationManagementAdapter() {
                 @Override
-                public void removeActivityDefAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
+                public void removeActivityDefAckReceived(final MALMessageHeader msgHeader, final Map qosProperties) {
                     listActivityDefinitionAllButtonActionPerformed(null);
                 }
 
                 @Override
-                public void removeActivityDefErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                public void removeActivityDefErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error, final Map qosProperties) {
                     JOptionPane.showMessageDialog(null, "There was an error during the removeActivityDef operation.\n" + error.toString() , "Error", JOptionPane.PLAIN_MESSAGE);
                     LOGGER.log(Level.SEVERE, null, error);
                 }
             });
-        } catch (MALInteractionException e) {
+        } catch (final MALInteractionException e) {
             LOGGER.log(Level.SEVERE, null, e);
-        } catch (MALException e) {
+        } catch (final MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_removeActivityDefinitionAllButtonActionPerformed
 
-    private void addEventDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addEventDefinitionButtonActionPerformed
-        EventDefinitionDetails definition = new EventDefinitionDetails();
+    private void addEventDefinitionButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addEventDefinitionButtonActionPerformed
+        final EventDefinitionDetails definition = new EventDefinitionDetails();
 
         definition.setDescription("Test event definition");
         definition.setVersion("Test version");
 
-        Identifier identity = new Identifier("Test event identity");
-        MOWindow identityWindow = new MOWindow(identity, true);
+        final Identifier identity = new Identifier("Test event identity");
+        final MOWindow identityWindow = new MOWindow(identity, true);
 
-        IdentifierList identities = new IdentifierList();
+        final IdentifierList identities = new IdentifierList();
 
         try {
             identities.add((Identifier) identityWindow.getObject());
-        } catch (InterruptedIOException e) {
+        } catch (final InterruptedIOException e) {
             LOGGER.log(Level.SEVERE, null, e);
             return;
         }
 
-        MOWindow definitionWindow = new MOWindow(definition, true);
+        final MOWindow definitionWindow = new MOWindow(definition, true);
 
-        EventDefinitionDetailsList definitions = new EventDefinitionDetailsList();
+        final EventDefinitionDetailsList definitions = new EventDefinitionDetailsList();
 
         try {
             definitions.add((EventDefinitionDetails) definitionWindow.getObject());
-        } catch (InterruptedIOException e) {
+        } catch (final InterruptedIOException e) {
             LOGGER.log(Level.SEVERE, null, e);
             return;
         }
@@ -710,39 +710,39 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
         try {
             this.pimService.getPlanInformationManagementStub().asyncAddEventDef(identities, definitions, new PlanInformationManagementAdapter() {
                 @Override
-                public void addEventDefResponseReceived(MALMessageHeader msgHeader, ObjectInstancePairList objIds, Map qosProperties) {
+                public void addEventDefResponseReceived(final MALMessageHeader msgHeader, final ObjectInstancePairList objIds, final Map qosProperties) {
                     listEventDefinitionAllButtonActionPerformed(null);
                 }
 
                 @Override
-                public void addEventDefErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                public void addEventDefErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error, final Map qosProperties) {
                     JOptionPane.showMessageDialog(null, "There was an error during the addEventDef operation.\n" + error.toString() , "Error", JOptionPane.PLAIN_MESSAGE);
                     LOGGER.log(Level.SEVERE, null, error);
                 }
             });
-        } catch (MALInteractionException e) {
+        } catch (final MALInteractionException e) {
             LOGGER.log(Level.SEVERE, null, e);
-        } catch (MALException e) {
+        } catch (final MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_addEventDefinitionButtonActionPerformed
 
-    private void updateEventDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateEventDefinitionButtonActionPerformed
+    private void updateEventDefinitionButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateEventDefinitionButtonActionPerformed
         if (eventDefTable.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(null, "Please select an event definition", "Info", JOptionPane.PLAIN_MESSAGE);
             return; // No rows selected
         }
 
-        ArchivePersistenceObject selectedObject = eventDefTable.getSelectedCOMObject();
-        MOWindow moObject = new MOWindow(selectedObject.getObject(), true);
+        final ArchivePersistenceObject selectedObject = eventDefTable.getSelectedCOMObject();
+        final MOWindow moObject = new MOWindow(selectedObject.getObject(), true);
 
-        LongList identityIds = new LongList();
+        final LongList identityIds = new LongList();
         identityIds.add(eventDefTable.getSelectedIdentityObjId());
 
-        EventDefinitionDetailsList definitions = new EventDefinitionDetailsList();
+        final EventDefinitionDetailsList definitions = new EventDefinitionDetailsList();
         try {
             definitions.add((EventDefinitionDetails) moObject.getObject());
-        } catch (InterruptedIOException e) {
+        } catch (final InterruptedIOException e) {
             LOGGER.log(Level.SEVERE, null, e);
             return;
         }
@@ -750,62 +750,62 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
         try {
             this.pimService.getPlanInformationManagementStub().asyncUpdateEventDef(identityIds, definitions, new PlanInformationManagementAdapter() {
                 @Override
-                public void updateEventDefResponseReceived(MALMessageHeader msgHeader, LongList defID, Map qosProperties) {
+                public void updateEventDefResponseReceived(final MALMessageHeader msgHeader, final LongList defID, final Map qosProperties) {
                     listEventDefinitionAllButtonActionPerformed(null);
                 }
 
                 @Override
-                public void updateEventDefErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                public void updateEventDefErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error, final Map qosProperties) {
                     JOptionPane.showMessageDialog(null, "There was an error during the updateEventDef operation.\n" + error.toString() , "Error", JOptionPane.PLAIN_MESSAGE);
                     LOGGER.log(Level.SEVERE, null, error);
                 }
             });
-        } catch (MALInteractionException e) {
+        } catch (final MALInteractionException e) {
             LOGGER.log(Level.SEVERE, null, e);
-        } catch (MALException e) {
+        } catch (final MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_updateEventDefinitionButtonActionPerformed
 
-    private void removeEventDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeEventDefinitionButtonActionPerformed
+    private void removeEventDefinitionButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeEventDefinitionButtonActionPerformed
         if (eventDefTable.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(null, "Please select an event definition", "Info", JOptionPane.PLAIN_MESSAGE);
             return; // No rows selected
         }
 
-        LongList identityIds = new LongList();
+        final LongList identityIds = new LongList();
         identityIds.add(eventDefTable.getSelectedIdentityObjId());
 
         try {
             this.pimService.getPlanInformationManagementStub().asyncRemoveEventDef(identityIds, new PlanInformationManagementAdapter() {
                 @Override
-                public void removeEventDefAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
+                public void removeEventDefAckReceived(final MALMessageHeader msgHeader, final Map qosProperties) {
                     listEventDefinitionAllButtonActionPerformed(null);
                 }
 
                 @Override
-                public void removeEventDefErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                public void removeEventDefErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error, final Map qosProperties) {
                     JOptionPane.showMessageDialog(null, "There was an error during the removeEventDef operation.\n" + error.toString() , "Error", JOptionPane.PLAIN_MESSAGE);
                     LOGGER.log(Level.SEVERE, null, error);
                 }
             });
-        } catch (MALInteractionException e) {
+        } catch (final MALInteractionException e) {
             LOGGER.log(Level.SEVERE, null, e);
-        } catch (MALException e) {
+        } catch (final MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_removeEventDefinitionButtonActionPerformed
 
-    private void listEventDefinitionAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listEventDefinitionAllButtonActionPerformed
-        IdentifierList idList = new IdentifierList();
+    private void listEventDefinitionAllButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listEventDefinitionAllButtonActionPerformed
+        final IdentifierList idList = new IdentifierList();
         idList.add(new Identifier("*"));
 
         try {
             this.pimService.getPlanInformationManagementStub().asyncListEventDefs(idList, new PlanInformationManagementAdapter() {
                 @Override
-                public void listEventDefsResponseReceived(MALMessageHeader msgHeader, ObjectInstancePairList defInstIds, Map qosProperties) {
-                    org.ccsds.moims.mo.mc.structures.ObjectInstancePairList ids = new org.ccsds.moims.mo.mc.structures.ObjectInstancePairList();
-                    for (ObjectInstancePair defId : defInstIds) {
+                public void listEventDefsResponseReceived(final MALMessageHeader msgHeader, final ObjectInstancePairList defInstIds, final Map qosProperties) {
+                    final org.ccsds.moims.mo.mc.structures.ObjectInstancePairList ids = new org.ccsds.moims.mo.mc.structures.ObjectInstancePairList();
+                    for (final ObjectInstancePair defId : defInstIds) {
                         ids.add(new org.ccsds.moims.mo.mc.structures.ObjectInstancePair(
                             defId.getObjectIdentityInstanceId(),
                             defId.getObjectInstanceId()
@@ -820,82 +820,82 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
                 }
 
                 @Override
-                public void listEventDefsErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                public void listEventDefsErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error, final Map qosProperties) {
                     JOptionPane.showMessageDialog(null, "There was an error during the listEventDefinition operation.\n" + error.toString(), "Error", JOptionPane.PLAIN_MESSAGE);
                     LOGGER.log(Level.SEVERE, null, error);
                 }
             }
             );
-        } catch (MALInteractionException e) {
+        } catch (final MALInteractionException e) {
             LOGGER.log(Level.SEVERE, null, e);
-        } catch (MALException e) {
+        } catch (final MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_listEventDefinitionAllButtonActionPerformed
 
-    private void removeEventDefinitionAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeEventDefinitionAllButtonActionPerformed
-        int resultConfirm = JOptionPane.showConfirmDialog(null,
+    private void removeEventDefinitionAllButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeEventDefinitionAllButtonActionPerformed
+        final int resultConfirm = JOptionPane.showConfirmDialog(null,
             "All event definitions will be removed. Do you want to continue?",
             "Warning", JOptionPane.OK_CANCEL_OPTION);
         if (resultConfirm == JOptionPane.CANCEL_OPTION) return;
 
-        LongList identityIds = new LongList();
+        final LongList identityIds = new LongList();
         identityIds.add(0L);
 
         try {
             this.pimService.getPlanInformationManagementStub().asyncRemoveEventDef(identityIds, new PlanInformationManagementAdapter() {
                 @Override
-                public void removeEventDefAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
+                public void removeEventDefAckReceived(final MALMessageHeader msgHeader, final Map qosProperties) {
                     listEventDefinitionAllButtonActionPerformed(null);
                 }
 
                 @Override
-                public void removeEventDefErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                public void removeEventDefErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error, final Map qosProperties) {
                     JOptionPane.showMessageDialog(null, "There was an error during the removeEventDef operation.\n" + error.toString() , "Error", JOptionPane.PLAIN_MESSAGE);
                     LOGGER.log(Level.SEVERE, null, error);
                 }
             });
-        } catch (MALInteractionException e) {
+        } catch (final MALInteractionException e) {
             LOGGER.log(Level.SEVERE, null, e);
-        } catch (MALException e) {
+        } catch (final MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_removeEventDefinitionAllButtonActionPerformed
 
-    private void addResourceDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addResourceDefinitionButtonActionPerformed
-        c_ResourceDefinitionDetails definition = new c_ResourceDefinitionDetails();
+    private void addResourceDefinitionButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addResourceDefinitionButtonActionPerformed
+        final c_ResourceDefinitionDetails definition = new c_ResourceDefinitionDetails();
 
-        NumericResourceDefinitionDetails numericResourceDef = new NumericResourceDefinitionDetails();
+        final NumericResourceDefinitionDetails numericResourceDef = new NumericResourceDefinitionDetails();
         numericResourceDef.setDescription("Test numeric resource");
         definition.setNumericResourceDef(numericResourceDef);
 
-        StringResourceDefinitionDetails stringResourceDef = new StringResourceDefinitionDetails();
+        final StringResourceDefinitionDetails stringResourceDef = new StringResourceDefinitionDetails();
         stringResourceDef.setDescription("Test string resource");
         definition.setStringResourceDef(stringResourceDef);
 
-        StatusResourceDefinitionDetails statusResourceDef = new StatusResourceDefinitionDetails();
+        final StatusResourceDefinitionDetails statusResourceDef = new StatusResourceDefinitionDetails();
         statusResourceDef.setDescription("Test status resource");
         definition.setStatusResourceDef(statusResourceDef);
 
-        Identifier identity = new Identifier("Test resource identity");
-        MOWindow identityWindow = new MOWindow(identity, true);
+        final Identifier identity = new Identifier("Test resource identity");
+        final MOWindow identityWindow = new MOWindow(identity, true);
 
-        IdentifierList identities = new IdentifierList();
+        final IdentifierList identities = new IdentifierList();
 
         try {
             identities.add((Identifier) identityWindow.getObject());
-        } catch (InterruptedIOException e) {
+        } catch (final InterruptedIOException e) {
             LOGGER.log(Level.SEVERE, null, e);
             return;
         }
 
-        MOWindow definitionWindow = new MOWindow(definition, true);
+        final MOWindow definitionWindow = new MOWindow(definition, true);
 
-        c_ResourceDefinitionDetailsList definitions = new c_ResourceDefinitionDetailsList();
+        final c_ResourceDefinitionDetailsList definitions = new c_ResourceDefinitionDetailsList();
 
         try {
             definitions.add((c_ResourceDefinitionDetails) definitionWindow.getObject());
-        } catch (InterruptedIOException e) {
+        } catch (final InterruptedIOException e) {
             LOGGER.log(Level.SEVERE, null, e);
             return;
         }
@@ -903,39 +903,39 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
         try {
             this.pimService.getPlanInformationManagementStub().asyncAddResourceDef(identities, definitions, new PlanInformationManagementAdapter() {
                 @Override
-                public void addResourceDefResponseReceived(MALMessageHeader msgHeader, ObjectInstancePairList objIds, Map qosProperties) {
+                public void addResourceDefResponseReceived(final MALMessageHeader msgHeader, final ObjectInstancePairList objIds, final Map qosProperties) {
                     listResourceDefinitionAllButtonActionPerformed(null);
                 }
 
                 @Override
-                public void addResourceDefErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                public void addResourceDefErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error, final Map qosProperties) {
                     JOptionPane.showMessageDialog(null, "There was an error during the addResourceDef operation.\n" + error.toString() , "Error", JOptionPane.PLAIN_MESSAGE);
                     LOGGER.log(Level.SEVERE, null, error);
                 }
             });
-        } catch (MALInteractionException e) {
+        } catch (final MALInteractionException e) {
             LOGGER.log(Level.SEVERE, null, e);
-        } catch (MALException e) {
+        } catch (final MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_addResourceDefinitionButtonActionPerformed
 
-    private void updateResourceDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateResourceDefinitionButtonActionPerformed
+    private void updateResourceDefinitionButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateResourceDefinitionButtonActionPerformed
         if (resourceDefTable.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(null, "Please select a resource definition", "Info", JOptionPane.PLAIN_MESSAGE);
             return; // No rows selected
         }
 
-        ArchivePersistenceObject selectedObject = resourceDefTable.getSelectedCOMObject();
-        MOWindow moObject = new MOWindow(selectedObject.getObject(), true);
+        final ArchivePersistenceObject selectedObject = resourceDefTable.getSelectedCOMObject();
+        final MOWindow moObject = new MOWindow(selectedObject.getObject(), true);
 
-        LongList objIds = new LongList();
+        final LongList objIds = new LongList();
         objIds.add(resourceDefTable.getSelectedIdentityObjId());
 
-        c_ResourceDefinitionDetailsList definitions = new c_ResourceDefinitionDetailsList();
+        final c_ResourceDefinitionDetailsList definitions = new c_ResourceDefinitionDetailsList();
         try {
             definitions.add((c_ResourceDefinitionDetails) moObject.getObject());
-        } catch (InterruptedIOException e) {
+        } catch (final InterruptedIOException e) {
             LOGGER.log(Level.SEVERE, null, e);
             return;
         }
@@ -943,62 +943,62 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
         try {
             this.pimService.getPlanInformationManagementStub().asyncUpdateResourceDef(objIds, definitions, new PlanInformationManagementAdapter() {
                 @Override
-                public void updateResourceDefResponseReceived(MALMessageHeader msgHeader, LongList defID, Map qosProperties) {
+                public void updateResourceDefResponseReceived(final MALMessageHeader msgHeader, final LongList defID, final Map qosProperties) {
                     listResourceDefinitionAllButtonActionPerformed(null);
                 }
 
                 @Override
-                public void updateResourceDefErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                public void updateResourceDefErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error, final Map qosProperties) {
                     JOptionPane.showMessageDialog(null, "There was an error during the updateResourceDef operation.\n" + error.toString() , "Error", JOptionPane.PLAIN_MESSAGE);
                     LOGGER.log(Level.SEVERE, null, error);
                 }
             });
-        } catch (MALInteractionException e) {
+        } catch (final MALInteractionException e) {
             LOGGER.log(Level.SEVERE, null, e);
-        } catch (MALException e) {
+        } catch (final MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_updateResourceDefinitionButtonActionPerformed
 
-    private void removeResourceDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeResourceDefinitionButtonActionPerformed
+    private void removeResourceDefinitionButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeResourceDefinitionButtonActionPerformed
         if (resourceDefTable.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(null, "Please select a resource definition", "Info", JOptionPane.PLAIN_MESSAGE);
             return; // No rows selected
         }
 
-        LongList identityIds = new LongList();
+        final LongList identityIds = new LongList();
         identityIds.add(resourceDefTable.getSelectedIdentityObjId());
 
         try {
             this.pimService.getPlanInformationManagementStub().asyncRemoveResourceDef(identityIds, new PlanInformationManagementAdapter() {
                 @Override
-                public void removeResourceDefAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
+                public void removeResourceDefAckReceived(final MALMessageHeader msgHeader, final Map qosProperties) {
                     listResourceDefinitionAllButtonActionPerformed(null);
                 }
 
                 @Override
-                public void removeResourceDefErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                public void removeResourceDefErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error, final Map qosProperties) {
                     JOptionPane.showMessageDialog(null, "There was an error during the removeResourceDef operation.\n" + error.toString() , "Error", JOptionPane.PLAIN_MESSAGE);
                     LOGGER.log(Level.SEVERE, null, error);
                 }
             });
-        } catch (MALInteractionException e) {
+        } catch (final MALInteractionException e) {
             LOGGER.log(Level.SEVERE, null, e);
-        } catch (MALException e) {
+        } catch (final MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_removeResourceDefinitionButtonActionPerformed
 
-    private void listResourceDefinitionAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listResourceDefinitionAllButtonActionPerformed
-        IdentifierList idList = new IdentifierList();
+    private void listResourceDefinitionAllButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listResourceDefinitionAllButtonActionPerformed
+        final IdentifierList idList = new IdentifierList();
         idList.add(new Identifier("*"));
 
         try {
             this.pimService.getPlanInformationManagementStub().asyncListResourceDefs(idList, new PlanInformationManagementAdapter() {
                 @Override
-                public void listResourceDefsResponseReceived(MALMessageHeader msgHeader, ObjectInstancePairList defInstIds, Map qosProperties) {
-                    org.ccsds.moims.mo.mc.structures.ObjectInstancePairList ids = new org.ccsds.moims.mo.mc.structures.ObjectInstancePairList();
-                    for (ObjectInstancePair defId : defInstIds) {
+                public void listResourceDefsResponseReceived(final MALMessageHeader msgHeader, final ObjectInstancePairList defInstIds, final Map qosProperties) {
+                    final org.ccsds.moims.mo.mc.structures.ObjectInstancePairList ids = new org.ccsds.moims.mo.mc.structures.ObjectInstancePairList();
+                    for (final ObjectInstancePair defId : defInstIds) {
                         ids.add(new org.ccsds.moims.mo.mc.structures.ObjectInstancePair(
                             defId.getObjectIdentityInstanceId(),
                             defId.getObjectInstanceId()
@@ -1013,44 +1013,44 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
                 }
 
                 @Override
-                public void listResourceDefsErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                public void listResourceDefsErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error, final Map qosProperties) {
                     JOptionPane.showMessageDialog(null, "There was an error during the listResourceDefinition operation.\n" + error.toString(), "Error", JOptionPane.PLAIN_MESSAGE);
                     LOGGER.log(Level.SEVERE, null, error);
                 }
             }
             );
-        } catch (MALInteractionException e) {
+        } catch (final MALInteractionException e) {
             LOGGER.log(Level.SEVERE, null, e);
-        } catch (MALException e) {
+        } catch (final MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_listResourceDefinitionAllButtonActionPerformed
 
-    private void removeResourceDefinitionAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeResourceDefinitionAllButtonActionPerformed
-        int resultConfirm = JOptionPane.showConfirmDialog(null,
+    private void removeResourceDefinitionAllButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeResourceDefinitionAllButtonActionPerformed
+        final int resultConfirm = JOptionPane.showConfirmDialog(null,
             "All resource definitions will be removed. Do you want to continue?",
             "Warning", JOptionPane.OK_CANCEL_OPTION);
         if (resultConfirm == JOptionPane.CANCEL_OPTION) return;
 
-        LongList identityIds = new LongList();
+        final LongList identityIds = new LongList();
         identityIds.add(0L);
 
         try {
             this.pimService.getPlanInformationManagementStub().asyncRemoveResourceDef(identityIds, new PlanInformationManagementAdapter() {
                 @Override
-                public void removeResourceDefAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
+                public void removeResourceDefAckReceived(final MALMessageHeader msgHeader, final Map qosProperties) {
                     listResourceDefinitionAllButtonActionPerformed(null);
                 }
 
                 @Override
-                public void removeResourceDefErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                public void removeResourceDefErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error, final Map qosProperties) {
                     JOptionPane.showMessageDialog(null, "There was an error during the removeResourceDef operation.\n" + error.toString() , "Error", JOptionPane.PLAIN_MESSAGE);
                     LOGGER.log(Level.SEVERE, null, error);
                 }
             });
-        } catch (MALInteractionException e) {
+        } catch (final MALInteractionException e) {
             LOGGER.log(Level.SEVERE, null, e);
-        } catch (MALException e) {
+        } catch (final MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_removeResourceDefinitionAllButtonActionPerformed

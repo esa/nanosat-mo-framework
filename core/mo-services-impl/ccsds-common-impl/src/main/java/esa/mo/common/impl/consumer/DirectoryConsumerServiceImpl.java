@@ -90,13 +90,13 @@ public class DirectoryConsumerServiceImpl extends ConsumerServiceImpl
             {
                 tmConsumer.close();
             }
-            catch (MALException ex)
+            catch (final MALException ex)
             {
                 Logger.getLogger(DirectoryConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
-        IdentifierList domain = new IdentifierList();
+        final IdentifierList domain = new IdentifierList();
         domain.add(new Identifier("*"));
 
         tmConsumer =
@@ -112,7 +112,7 @@ public class DirectoryConsumerServiceImpl extends ConsumerServiceImpl
     }
 
     @Override
-    public Object generateServiceStub(MALConsumer tmConsumer)
+    public Object generateServiceStub(final MALConsumer tmConsumer)
     {
         return new DirectoryStub(tmConsumer);
     }

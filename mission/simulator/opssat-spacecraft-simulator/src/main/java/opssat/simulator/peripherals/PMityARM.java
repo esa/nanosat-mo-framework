@@ -31,13 +31,13 @@ import opssat.simulator.interfaces.IMityARM;
  * @author Cezar Suteu
  */
 public class PMityARM extends GenericPeripheral implements IMityARM{
-public PMityARM(SimulatorNode simulatorNode,String name){
+public PMityARM(final SimulatorNode simulatorNode, final String name){
 super(simulatorNode,name);
 }
     @Override
     @InternalData (internalID=9001,commandIDs={"",""},argNames={"cmdID","data"})
-    public byte[] runRawCommand(int cmdID,byte[] data) {
-        ArrayList<Object> argObject = new ArrayList<>();
+    public byte[] runRawCommand(final int cmdID, final byte[] data) {
+        final ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(cmdID);
         argObject.add(data);
         return (byte[]) super.getSimulatorNode().runGenericMethod(9001,argObject);

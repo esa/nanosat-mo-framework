@@ -90,7 +90,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
 
         try {
             ConversionHelper.init(MALContextFactory.getElementFactoryRegistry());
-        } catch (MALException ex) {
+        } catch (final MALException ex) {
             // nothing to be done..
         }
 
@@ -104,14 +104,14 @@ public class ParameterAddModify extends javax.swing.JFrame {
 
     }
 
-    public void setParameterDefinitionSelectedIndex(int in) {
+    public void setParameterDefinitionSelectedIndex(final int in) {
         this.parameterDefinitionSelectedIndex = in;
     }
 
-    public ParameterDefinitionDetails makeNewParameterDefinition(int rawType,
-            String rawUnit, String description, boolean generationEnabled, float interval,
-            ParameterExpression validityExpression, ParameterConversion conversion) {
-        ParameterDefinitionDetails PDef = new ParameterDefinitionDetails();
+    public ParameterDefinitionDetails makeNewParameterDefinition(final int rawType,
+                                                                 final String rawUnit, final String description, final boolean generationEnabled, final float interval,
+                                                                 final ParameterExpression validityExpression, final ParameterConversion conversion) {
+        final ParameterDefinitionDetails PDef = new ParameterDefinitionDetails();
         PDef.setDescription(description);
         PDef.setRawType((byte) rawType);
         PDef.setRawUnit(rawUnit);
@@ -124,8 +124,8 @@ public class ParameterAddModify extends javax.swing.JFrame {
         return PDef;
     }
 
-    public ParameterExpression makeNewParameterExpression(Long instId, int operator, Boolean useConverted, String value) {
-        ParameterExpression PExp = new ParameterExpression();
+    public ParameterExpression makeNewParameterExpression(final Long instId, final int operator, final Boolean useConverted, final String value) {
+        final ParameterExpression PExp = new ParameterExpression();
 
         PExp.setParameterId(new ObjectKey(serviceMCParameter.getConnectionDetails().getDomain(), instId));
         PExp.setOperator(ExpressionOperator.fromOrdinal(operator));
@@ -135,7 +135,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
         return PExp;
     }
 
-    public Duration makeDuration(float input) {
+    public Duration makeDuration(final float input) {
 //        Duration durationOne = new Duration(1);
 //        Object value = durationOne.getValue();
 
@@ -150,7 +150,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
         }
     }
 
-    public void setUpdateParameterForm(javax.swing.JTable parameterTable) {
+    public void setUpdateParameterForm(final javax.swing.JTable parameterTable) {
         titleEditParameter.setText("Update Parameter Definition");
         nameTF.setText(parameterTable.getValueAt(parameterDefinitionSelectedIndex, 1).toString());
         descriptionTF.setText(parameterTable.getValueAt(parameterDefinitionSelectedIndex, 2).toString());
@@ -160,8 +160,8 @@ public class ParameterAddModify extends javax.swing.JFrame {
         validityExpressionCB.setSelected(false);
         validityExpressionCBActionPerformed(null);
 
-        String str = parameterTable.getValueAt(parameterTable.getSelectedRow(), 5).toString();
-        boolean curState = (str.equals("true")); // String to Boolean conversion
+        final String str = parameterTable.getValueAt(parameterTable.getSelectedRow(), 5).toString();
+        final boolean curState = (str.equals("true")); // String to Boolean conversion
         generationEnabledCB.setSelected(curState);
         generationEnabledCB.setEnabled(true);
         isAddDef = false;
@@ -394,7 +394,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
         objTypeCB.setPreferredSize(new java.awt.Dimension(150, 20));
         objTypeCB.addActionListener(this::objTypeCBActionPerformed);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        final javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -445,7 +445,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
 
         jPanel3.add(jPanel4);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        final javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -461,15 +461,15 @@ public class ParameterAddModify extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void updateIntervalTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateIntervalTFActionPerformed
+    private void updateIntervalTFActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateIntervalTFActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_updateIntervalTFActionPerformed
 
-    private void generationEnabledCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generationEnabledCBActionPerformed
+    private void generationEnabledCBActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generationEnabledCBActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_generationEnabledCBActionPerformed
 
-    private void validityExpressionCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_validityExpressionCBActionPerformed
+    private void validityExpressionCBActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_validityExpressionCBActionPerformed
 
         validity1.setEnabled(validityExpressionCB.isSelected());
         validity2.setEnabled(validityExpressionCB.isSelected());
@@ -477,27 +477,27 @@ public class ParameterAddModify extends javax.swing.JFrame {
         validity4.setEnabled(validityExpressionCB.isSelected());
     }//GEN-LAST:event_validityExpressionCBActionPerformed
 
-    private void validity1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_validity1ActionPerformed
+    private void validity1ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_validity1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_validity1ActionPerformed
 
-    private void validity2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_validity2ActionPerformed
+    private void validity2ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_validity2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_validity2ActionPerformed
 
-    private void validity3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_validity3ActionPerformed
+    private void validity3ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_validity3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_validity3ActionPerformed
 
-    private void validity4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_validity4ActionPerformed
+    private void validity4ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_validity4ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_validity4ActionPerformed
 
-    private void conversionCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_conversionCBActionPerformed
+    private void conversionCBActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_conversionCBActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_conversionCBActionPerformed
 
-    private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
+    private void submitButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
 
         if (nameTF.getText().equals("")
                 || descriptionTF.getText().equals("")
@@ -511,16 +511,16 @@ public class ParameterAddModify extends javax.swing.JFrame {
 
         try {
             Double.parseDouble(updateIntervalTF.getText());  // Check if it is a number
-        } catch (NumberFormatException nfe) {
+        } catch (final NumberFormatException nfe) {
             JOptionPane.showMessageDialog(null, "updateInterval is not a number!", "Warning!", JOptionPane.PLAIN_MESSAGE);
             return;
         }
 
-        ParameterExpression PExp;
+        final ParameterExpression PExp;
 
         if (validityExpressionCB.isSelected()) {
             if (validity2.getSelectedIndex() != -1 && !validity3.getText().equals("")) {
-                Long instId = Long.valueOf(parameterTableData.getValueAt(validity1.getSelectedIndex(), 0).toString());
+                final Long instId = Long.valueOf(parameterTableData.getValueAt(validity1.getSelectedIndex(), 0).toString());
                 PExp = makeNewParameterExpression(instId, validity2.getSelectedIndex(), validity4.isSelected(), validity3.getText());
             } else {
                 JOptionPane.showMessageDialog(null, "Please select an operator and a value!", "Warning!", JOptionPane.PLAIN_MESSAGE);
@@ -530,15 +530,15 @@ public class ParameterAddModify extends javax.swing.JFrame {
             PExp = null;
         }
 
-        ParameterConversion pConv;
+        final ParameterConversion pConv;
 
         if (conversionCB.isSelected()) {
             // Reference to the conversion Object
-            ObjectId referenceId = new ObjectId();
+            final ObjectId referenceId = new ObjectId();
             referenceId.setKey(new ObjectKey(serviceMCParameter.getConnectionDetails().getDomain(),
                     Long.valueOf(referenceObjIdTF.getText())));  // Get the first objId
 
-            int index = objTypeCB.getSelectedIndex();
+            final int index = objTypeCB.getSelectedIndex();
 
             switch (index) {
                 case 1:
@@ -558,8 +558,8 @@ public class ParameterAddModify extends javax.swing.JFrame {
                     break;
             }
 
-            ConditionalConversionList conversionConditions = new ConditionalConversionList();
-            ConditionalConversion conversionCondition = new ConditionalConversion();
+            final ConditionalConversionList conversionConditions = new ConditionalConversionList();
+            final ConditionalConversion conversionCondition = new ConditionalConversion();
             conversionCondition.setCondition(null);
             conversionCondition.setConversionId(referenceId.getKey());
             conversionConditions.add(conversionCondition);
@@ -573,7 +573,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
             pConv = null;
         }
 
-        ParameterDefinitionDetails Pdef;
+        final ParameterDefinitionDetails Pdef;
         Pdef = makeNewParameterDefinition(
                 rawTypeCB.getSelectedIndex(),
                 rawUnitTF.getText(),
@@ -583,14 +583,14 @@ public class ParameterAddModify extends javax.swing.JFrame {
                 PExp,
                 pConv);
 
-        ParameterDefinitionDetailsList PDefs = new ParameterDefinitionDetailsList();
+        final ParameterDefinitionDetailsList PDefs = new ParameterDefinitionDetailsList();
         PDefs.add(Pdef);
 
-        ParameterCreationRequest request = new ParameterCreationRequest();
+        final ParameterCreationRequest request = new ParameterCreationRequest();
         request.setName(new Identifier(nameTF.getText()));
         request.setParamDefDetails(Pdef);
 
-        ParameterCreationRequestList requestList = new ParameterCreationRequestList();
+        final ParameterCreationRequestList requestList = new ParameterCreationRequestList();
         requestList.add(request);
 
         this.setVisible(false);
@@ -599,7 +599,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
             try {
                 // Are we adding a new definition?
                 Logger.getLogger(ParameterAddModify.class.getName()).info("addDefinition started");
-                ObjectInstancePairList output = serviceMCParameter.getParameterStub().addParameter(requestList);
+                final ObjectInstancePairList output = serviceMCParameter.getParameterStub().addParameter(requestList);
                 Logger.getLogger(ParameterAddModify.class.getName()).log(Level.INFO,
                         "addDefinition returned {0} object instance identifiers", output.size());
 
@@ -608,14 +608,14 @@ public class ParameterAddModify extends javax.swing.JFrame {
                             rawTypeCB.getItemAt(Pdef.getRawType()).toString(), Pdef.getRawUnit(),
                             Pdef.getGenerationEnabled(), Pdef.getReportInterval().getValue()}
                 );
-            } catch (MALInteractionException | MALException ex) {
+            } catch (final MALInteractionException | MALException ex) {
                 Logger.getLogger(ParameterAddModify.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
             try {
                 // Well, then we are updating a previous selected definition
                 Logger.getLogger(ParameterAddModify.class.getName()).info("updateDefinition started");
-                LongList objIds = new LongList();
+                final LongList objIds = new LongList();
                 objIds.add(Long.valueOf(parameterTableData.getValueAt(parameterDefinitionSelectedIndex, 0).toString()));
                 serviceMCParameter.getParameterStub().updateDefinition(objIds, PDefs);
                 parameterTableData.removeRow(parameterDefinitionSelectedIndex);
@@ -625,13 +625,13 @@ public class ParameterAddModify extends javax.swing.JFrame {
                             Pdef.getGenerationEnabled(), Pdef.getReportInterval().getValue()}
                 );
                 Logger.getLogger(ParameterAddModify.class.getName()).info("updateDefinition executed");
-            } catch (MALInteractionException | MALException ex) {
+            } catch (final MALInteractionException | MALException ex) {
                 Logger.getLogger(ParameterAddModify.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_submitButtonActionPerformed
 
-    private void objTypeCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_objTypeCBActionPerformed
+    private void objTypeCBActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_objTypeCBActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_objTypeCBActionPerformed
 

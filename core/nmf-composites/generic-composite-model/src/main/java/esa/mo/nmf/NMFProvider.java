@@ -142,7 +142,7 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
         try {
             this.getMCServices().getActionService().reportExecutionProgress(success,
                     new UInteger(errorNumber), progressStage, totalNumberOfProgressStages, actionInstId);
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             throw new NMFException("The action execution progress could not be reported!", ex);
         }
     }
@@ -176,13 +176,13 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
         if (!(obj instanceof Attribute)) {
             try {
                 obj = HelperAttributes.serialObject2blobAttribute((Serializable) obj);
-            } catch (IOException ex) {
+            } catch (final IOException ex) {
                 Logger.getLogger(NMFProvider.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
-        ParameterInstance instance = new ParameterInstance(new Identifier(name), (Attribute) obj, null, null);
-        ArrayList<ParameterInstance> parameters = new ArrayList<>(1); // We just add 1 element
+        final ParameterInstance instance = new ParameterInstance(new Identifier(name), (Attribute) obj, null, null);
+        final ArrayList<ParameterInstance> parameters = new ArrayList<>(1); // We just add 1 element
         parameters.add(instance);
 
         return this.getMCServices().getParameterService().pushMultipleParameterValues(parameters, storeIt);
@@ -197,7 +197,7 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
         return this.getMCServices().getParameterService().pushMultipleParameterValues(parameters, storeIt);
     }
 
-    public final void startMCServices(MonitorAndControlNMFAdapter mcAdapter) throws MALException {
+    public final void startMCServices(final MonitorAndControlNMFAdapter mcAdapter) throws MALException {
         if (mcAdapter != null) {
             mcServices = new MCServicesProviderNMF();
             mcServices.init(comServices, mcAdapter);
@@ -208,7 +208,7 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
         }
     }
 
-    public final void startMPServices(MissionPlanningNMFAdapter mpAdapter) throws MALException {
+    public final void startMPServices(final MissionPlanningNMFAdapter mpAdapter) throws MALException {
         if (mpAdapter != null) {
             this.mpServices = new MPServicesProvider();
             this.mpServices.init(comServices);
@@ -216,7 +216,7 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
     }
 
     @Override
-    public void setOnConfigurationChangeListener(ConfigurationChangeListener configurationAdapter) {
+    public void setOnConfigurationChangeListener(final ConfigurationChangeListener configurationAdapter) {
         this.providerConfigurationAdapter = configurationAdapter;
     }
 
@@ -226,7 +226,7 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
     }
 
     @Override
-    public Boolean reloadConfiguration(ConfigurationObjectDetails configurationObjectDetails) {
+    public Boolean reloadConfiguration(final ConfigurationObjectDetails configurationObjectDetails) {
         throw new UnsupportedOperationException("The NMF does no support reconfiguration.");
     }
 
@@ -270,7 +270,7 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
           return new URI(System.getProperty(Const.CENTRAL_DIRECTORY_URI_PROPERTY));
         }
         else {
-            String path = ".."
+            final String path = ".."
                 + File.separator + ".."
                 + File.separator
                 + Const.NANOSAT_MO_SUPERVISOR_NAME
@@ -280,22 +280,22 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
                 "Property {0} not set. Falling back to reading from {1}.", new Object[]{
                 Const.CENTRAL_DIRECTORY_URI_PROPERTY, path});
 
-            File file = new File(path); // Select the file that we want to read from
+            final File file = new File(path); // Select the file that we want to read from
 
             try {
                 // Get the text out of that file...
-                InputStreamReader isr = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8);
-                BufferedReader br = new BufferedReader(isr);
+                final InputStreamReader isr = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8);
+                final BufferedReader br = new BufferedReader(isr);
 
                 try {
-                    String line = br.readLine(); // Reads the first line!
+                    final String line = br.readLine(); // Reads the first line!
                     br.close();
                     return new URI(line);
-                } catch (IOException ex) {
+                } catch (final IOException ex) {
                     Logger.getLogger(NMFProvider.class.getName()).log(Level.SEVERE,
                             "An error happened!", ex);
                 }
-            } catch (FileNotFoundException ex) {
+            } catch (final FileNotFoundException ex) {
                 Logger.getLogger(NMFProvider.class.getName()).log(Level.WARNING,
                         "The File {0} could not be found!", file.getPath());
                 return null;
@@ -305,14 +305,14 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
     }
 
     public final void writeCentralDirectoryServiceURI(final String centralDirectoryURI, final String secondaryURI) {
-        try (BufferedWriter wrt = new BufferedWriter(new FileWriter(Const.FILENAME_CENTRAL_DIRECTORY_SERVICE, false))) { // Reset the file
+        try (final BufferedWriter wrt = new BufferedWriter(new FileWriter(Const.FILENAME_CENTRAL_DIRECTORY_SERVICE, false))) { // Reset the file
             if (secondaryURI != null) {
                 wrt.write(secondaryURI);
                 wrt.write("\n");
             }
 
             wrt.write(centralDirectoryURI);
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             Logger.getLogger(NMFProvider.class.getName()).log(Level.WARNING,
                     "Unable to reset URI information from properties file {0}", ex);
         }

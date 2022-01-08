@@ -63,29 +63,29 @@ public class FiveStagesAction {
      * @throws java.lang.Exception If there is an error
      */
     public static void main(final String[] args) throws Exception {
-        FiveStagesAction demo = new FiveStagesAction();
+        final FiveStagesAction demo = new FiveStagesAction();
     }
 
     public class MCAdapter extends MonitorAndControlNMFAdapter {
 
         @Override
-        public void initialRegistrations(MCRegistration registrationObject) {
-            ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
-            IdentifierList names = new IdentifierList();
+        public void initialRegistrations(final MCRegistration registrationObject) {
+            final ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
+            final IdentifierList names = new IdentifierList();
 
-            ArgumentDefinitionDetailsList argDef = new ArgumentDefinitionDetailsList();
+            final ArgumentDefinitionDetailsList argDef = new ArgumentDefinitionDetailsList();
             {
-                Byte rawType = Attribute._DURATION_TYPE_SHORT_FORM;
-                String rawUnit = "seconds";
-                ConditionalConversionList conditionalConversions = null;
-                Byte convertedType = null;
-                String convertedUnit = null;
+                final Byte rawType = Attribute._DURATION_TYPE_SHORT_FORM;
+                final String rawUnit = "seconds";
+                final ConditionalConversionList conditionalConversions = null;
+                final Byte convertedType = null;
+                final String convertedUnit = null;
 
                 argDef.add(new ArgumentDefinitionDetails(new Identifier("1"), null,
                         rawType, rawUnit, conditionalConversions, convertedType, convertedUnit));
             }
 
-            ActionDefinitionDetails actionDef1 = new ActionDefinitionDetails(
+            final ActionDefinitionDetails actionDef1 = new ActionDefinitionDetails(
                     "Example of an Action with 5 stages.",
                     new UOctet((short) 0),
                     new UShort(5),
@@ -97,23 +97,23 @@ public class FiveStagesAction {
         }
 
         @Override
-        public Attribute onGetValue(Identifier identifier, Byte rawType) {
+        public Attribute onGetValue(final Identifier identifier, final Byte rawType) {
             return null;
         }
 
         @Override
-        public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
+        public Boolean onSetValue(final IdentifierList identifiers, final ParameterRawValueList values) {
             return false;  // to confirm that no variable was set
         }
 
         @Override
-        public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
-                Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
+        public UInteger actionArrived(final Identifier name, final AttributeValueList attributeValues,
+                                      final Long actionInstanceObjId, final boolean reportProgress, final MALInteraction interaction) {
             if (ACTION5STAGES.equals(name.getValue())) {
                 try {
                     // action1 was called?
                     reportFiveStepsAction(actionInstanceObjId);
-                } catch (NMFException ex) {
+                } catch (final NMFException ex) {
                     Logger.getLogger(FiveStagesAction.class.getName()).log(Level.SEVERE,
                             "The action could not report the five steps!", ex);
                     return new UInteger(0);
@@ -126,13 +126,13 @@ public class FiveStagesAction {
         }
     }
 
-    public void reportFiveStepsAction(Long actionId) throws NMFException {
+    public void reportFiveStepsAction(final Long actionId) throws NMFException {
         for (int stage = 1; stage < TOTAL_N_OF_STAGES + 1; stage++) {
             connector.reportActionExecutionProgress(true, 0, stage, TOTAL_N_OF_STAGES, actionId);
 
             try { // Quick and dirty, but enough for demo purposes!
                 Thread.sleep(SLEEP_TIME * 1000); // 1000 is the ms multiplier.
-            } catch (InterruptedException ex) {
+            } catch (final InterruptedException ex) {
                 Thread.currentThread().interrupt();
             }
         }

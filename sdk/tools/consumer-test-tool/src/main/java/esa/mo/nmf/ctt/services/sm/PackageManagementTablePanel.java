@@ -50,7 +50,7 @@ public class PackageManagementTablePanel extends SharedTablePanel {
     }
 
     public Identifier getSelectedPackage() {
-        int index = this.getSelectedRow();
+        final int index = this.getSelectedRow();
         // The name is on column 0
         return (Identifier) tableData.getValueAt(index, 0);
     }
@@ -58,7 +58,7 @@ public class PackageManagementTablePanel extends SharedTablePanel {
     public void addEntry(final Identifier name, final boolean isInstalled) {
         try {
             semaphore.acquire();
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -70,10 +70,10 @@ public class PackageManagementTablePanel extends SharedTablePanel {
         semaphore.release();
     }
 
-    public void switchEnabledstatus(boolean status) {
+    public void switchEnabledstatus(final boolean status) {
         try {
             semaphore.acquire();
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -86,7 +86,7 @@ public class PackageManagementTablePanel extends SharedTablePanel {
     @Override
     public void defineTableContent() {
 
-        String[] tableCol = new String[]{
+        final String[] tableCol = new String[]{
             "Package name", "isInstalled"};
 
         tableData = new javax.swing.table.DefaultTableModel(
@@ -96,12 +96,12 @@ public class PackageManagementTablePanel extends SharedTablePanel {
             };
 
             @Override               //all cells false
-            public boolean isCellEditable(int row, int column) {
+            public boolean isCellEditable(final int row, final int column) {
                 return false;
             }
 
             @Override
-            public Class getColumnClass(int columnIndex) {
+            public Class getColumnClass(final int columnIndex) {
                 return types[columnIndex];
             }
         };

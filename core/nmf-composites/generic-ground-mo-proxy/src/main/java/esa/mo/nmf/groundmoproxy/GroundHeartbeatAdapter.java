@@ -50,8 +50,8 @@ public class GroundHeartbeatAdapter extends HeartbeatAdapter
   {
     this.moProxy = moProxy;
     this.heartbeat = heartbeat;
-    long timestamp = System.currentTimeMillis();
-    double value = heartbeat.getHeartbeatStub().getPeriod().getValue();
+    final long timestamp = System.currentTimeMillis();
+    final double value = heartbeat.getHeartbeatStub().getPeriod().getValue();
     lag = System.currentTimeMillis() - timestamp;
     period = (long) (value * 1000);
     LOGGER.log(Level.INFO, "The provider is reachable! Beat period: {0} seconds", value);
@@ -73,10 +73,10 @@ public class GroundHeartbeatAdapter extends HeartbeatAdapter
 
   @Override
   public synchronized void beatNotifyReceived(
-      org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-      org.ccsds.moims.mo.mal.structures.Identifier _Identifier0,
-      org.ccsds.moims.mo.mal.structures.UpdateHeaderList _UpdateHeaderList1,
-      java.util.Map qosProperties)
+          final org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+          final org.ccsds.moims.mo.mal.structures.Identifier _Identifier0,
+          final org.ccsds.moims.mo.mal.structures.UpdateHeaderList _UpdateHeaderList1,
+          final java.util.Map qosProperties)
   {
     synchronized (timer) {
       lastBeatAt = HelperTime.getTimestampMillis();
@@ -105,7 +105,7 @@ public class GroundHeartbeatAdapter extends HeartbeatAdapter
     private final GroundMOProxy moProxy;
     private final HeartbeatConsumerServiceImpl heartbeat;
 
-    public HeartbeatRefreshTask(GroundMOProxy moProxy, HeartbeatConsumerServiceImpl heartbeat)
+    public HeartbeatRefreshTask(final GroundMOProxy moProxy, final HeartbeatConsumerServiceImpl heartbeat)
     {
       this.moProxy = moProxy;
       this.heartbeat = heartbeat;
@@ -118,7 +118,7 @@ public class GroundHeartbeatAdapter extends HeartbeatAdapter
       synchronized (timer) {
         final Time currentTime = HelperTime.getTimestampMillis();
         // If the current time has passed the last beat + the beat period + a delta error
-        long threshold = lastBeatAt.getValue() + period + DELTA_ERROR;
+        final long threshold = lastBeatAt.getValue() + period + DELTA_ERROR;
         if (currentTime.getValue() > threshold) {
           // Then the provider is unresponsive
           moProxy.setNmsAliveStatus(false);
@@ -129,10 +129,10 @@ public class GroundHeartbeatAdapter extends HeartbeatAdapter
           if (tryNumber >= 3) {
             // Every third try...
             try {
-              long timestamp = System.currentTimeMillis();
+              final long timestamp = System.currentTimeMillis();
               heartbeat.getHeartbeatStub().getPeriod();
               lag = System.currentTimeMillis() - timestamp; // Calculate the lag
-            } catch (MALInteractionException | MALException ex) {
+            } catch (final MALInteractionException | MALException ex) {
               LOGGER.log(Level.SEVERE, null, ex);
             }
             tryNumber = 0;

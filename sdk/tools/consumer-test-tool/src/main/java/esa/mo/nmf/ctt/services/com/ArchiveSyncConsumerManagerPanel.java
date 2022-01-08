@@ -76,8 +76,8 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
      * @param serviceCOMArchive
      * @param serviceCOMArchiveSync
      */
-    public ArchiveSyncConsumerManagerPanel(ArchiveConsumerServiceImpl serviceCOMArchive,
-            ArchiveSyncConsumerServiceImpl serviceCOMArchiveSync) {
+    public ArchiveSyncConsumerManagerPanel(final ArchiveConsumerServiceImpl serviceCOMArchive,
+                                           final ArchiveSyncConsumerServiceImpl serviceCOMArchiveSync) {
         initComponents();
         this.serviceCOMArchive = serviceCOMArchive;
         this.serviceCOMArchiveSync = serviceCOMArchiveSync;
@@ -95,7 +95,7 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
         private final Date date = new Date(System.currentTimeMillis());
         private final String functionName;
 
-        ArchiveSyncTab(String stringLabel) {
+        ArchiveSyncTab(final String stringLabel) {
             pnlTab.setOpaque(false);
             functionName = stringLabel;
             this.refreshTabCounter();
@@ -105,12 +105,12 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
         }
 
         private void refreshTabCounter() {
-            JLabel label = new JLabel(functionName + " (" + dateFormat.format(date) + ")" + " (" + n_objs_counter + ")");
-            JLabel closeLabel = new JLabel("x");
+            final JLabel label = new JLabel(functionName + " (" + dateFormat.format(date) + ")" + " (" + n_objs_counter + ")");
+            final JLabel closeLabel = new JLabel("x");
             closeLabel.addMouseListener(new CloseMouseHandler(this));
             closeLabel.setFont(closeLabel.getFont().deriveFont(closeLabel.getFont().getStyle() | Font.BOLD));
 
-            GridBagConstraints gbc = new GridBagConstraints();
+            final GridBagConstraints gbc = new GridBagConstraints();
             gbc.gridx = 0;
             gbc.gridy = 0;
             gbc.weightx = 1;
@@ -122,7 +122,7 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
             pnlTab.add(label, gbc);
             pnlTab.add(closeLabel, gbc);
 
-            int index = tabs.indexOfTabComponent(archiveTablePanel);
+            final int index = tabs.indexOfTabComponent(archiveTablePanel);
 
             if (index == -1) {
                 return;
@@ -134,7 +134,7 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
         public synchronized void finalizeAdapter() {
             try {
                 this.finalize();
-            } catch (Throwable ex) {
+            } catch (final Throwable ex) {
                 Logger.getLogger(ArchiveSyncConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -143,11 +143,11 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
             return archiveTablePanel.getSelectedRow();
         }
 
-        protected void setObjType(ObjectType objType) {
+        protected void setObjType(final ObjectType objType) {
             this.objType = objType;
         }
 
-        protected void setDomain(IdentifierList domain) {
+        protected void setDomain(final IdentifierList domain) {
             this.domain = domain;
         }
 
@@ -159,9 +159,9 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
             return this.domain;
         }
 
-        public synchronized void add(ObjectType objType, IdentifierList domain,
-                ArchiveDetailsList objDetails, ElementList objBodies) {
-            ArchiveCOMObjectsOutput archiveObjectOutput = new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies);
+        public synchronized void add(final ObjectType objType, final IdentifierList domain,
+                                     final ArchiveDetailsList objDetails, final ElementList objBodies) {
+            final ArchiveCOMObjectsOutput archiveObjectOutput = new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies);
             archiveTablePanel.addEntries(archiveObjectOutput);
             n_objs_counter = n_objs_counter + objDetails.size();
             refreshTabCounter();
@@ -171,11 +171,11 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
         protected void deleteAllInTable() {
             try {
                 isOver.acquire();
-            } catch (InterruptedException ex) {
+            } catch (final InterruptedException ex) {
                 Logger.getLogger(ArchiveSyncConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            List<ArchivePersistenceObject> comObjects = archiveTablePanel.getAllCOMObjects();
+            final List<ArchivePersistenceObject> comObjects = archiveTablePanel.getAllCOMObjects();
 
             /*
             for (ArchivePersistenceObject comObject : comObjects) {
@@ -202,15 +202,15 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
 
         private final ArchiveSyncTab adapter;
 
-        CloseMouseHandler(ArchiveSyncTab adapter) {
+        CloseMouseHandler(final ArchiveSyncTab adapter) {
             this.adapter = adapter;
         }
 
         @Override
-        public void mouseClicked(MouseEvent evt) {
+        public void mouseClicked(final MouseEvent evt) {
             for (int i = 0; i < tabs.getTabCount(); i++) {
-                Component component = tabs.getTabComponentAt(i);
-                JPanel panel = adapter.getPanel();
+                final Component component = tabs.getTabComponentAt(i);
+                final JPanel panel = adapter.getPanel();
 
                 if (component == panel) {
                     tabs.remove(i);
@@ -218,7 +218,7 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
 
                     try {
                         super.finalize();
-                    } catch (Throwable ex) {
+                    } catch (final Throwable ex) {
                         Logger.getLogger(ArchiveSyncConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     return;
@@ -227,19 +227,19 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
         }
 
         @Override
-        public void mousePressed(MouseEvent me) {
+        public void mousePressed(final MouseEvent me) {
         }
 
         @Override
-        public void mouseReleased(MouseEvent me) {
+        public void mouseReleased(final MouseEvent me) {
         }
 
         @Override
-        public void mouseEntered(MouseEvent me) {
+        public void mouseEntered(final MouseEvent me) {
         }
 
         @Override
-        public void mouseExited(MouseEvent me) {
+        public void mouseExited(final MouseEvent me) {
         }
     }
 
@@ -321,7 +321,7 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
         test_button.setText("---");
         test_button.addActionListener(this::test_buttonActionPerformed);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        final javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -387,53 +387,53 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonGetTimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGetTimeActionPerformed
+    private void jButtonGetTimeActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGetTimeActionPerformed
         try {
-            GetTimeResponse response = serviceCOMArchiveSync.getArchiveSyncStub().getTime();
-            MOWindow genObjType = new MOWindow(response, false);
+            final GetTimeResponse response = serviceCOMArchiveSync.getArchiveSyncStub().getTime();
+            final MOWindow genObjType = new MOWindow(response, false);
             Logger.getLogger(ArchiveSyncConsumerManagerPanel.class.getName()).log(Level.INFO,
                     "Current time: " + response.getBodyElement0()
                     + " - Last sync: " + response.getBodyElement0());
-        } catch (MALInteractionException | MALException ex) {
+        } catch (final MALInteractionException | MALException ex) {
             Logger.getLogger(ArchiveSyncConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButtonGetTimeActionPerformed
 
-    private void retrieveAutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_retrieveAutoActionPerformed
+    private void retrieveAutoActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_retrieveAutoActionPerformed
         FineTime from = new FineTime(0);
-        MOWindow windowFrom = new MOWindow(from, true);
+        final MOWindow windowFrom = new MOWindow(from, true);
         try {
             from = (FineTime) windowFrom.getObject();
-        } catch (InterruptedIOException ex) {
+        } catch (final InterruptedIOException ex) {
             return;
         }
 
         FineTime until = HelperTime.getTimestamp();
-        MOWindow windowUntil = new MOWindow(until, true);
+        final MOWindow windowUntil = new MOWindow(until, true);
         try {
             until = (FineTime) windowUntil.getObject();
-        } catch (InterruptedIOException ex) {
+        } catch (final InterruptedIOException ex) {
             return;
         }
 
         // Select Parameter Definitions by default
         ObjectTypeList objTypes = new ObjectTypeList();
-        UShort shorty = new UShort((short) 0);
+        final UShort shorty = new UShort((short) 0);
         objTypes.add(new ObjectType(shorty, shorty, new UOctet((short) 0), shorty));
-        MOWindow genObjType = new MOWindow(objTypes, true);
+        final MOWindow genObjType = new MOWindow(objTypes, true);
         try {
             objTypes = (ObjectTypeList) genObjType.getObject();
-        } catch (InterruptedIOException ex) {
+        } catch (final InterruptedIOException ex) {
             return;
         }
 
-        ArrayList<COMObjectStructure> objs = serviceCOMArchiveSync.retrieveCOMObjects(from, until, objTypes);
+        final ArrayList<COMObjectStructure> objs = serviceCOMArchiveSync.retrieveCOMObjects(from, until, objTypes);
 
-        ArchiveSyncTab newTab = new ArchiveSyncTab("Synchronized!");
+        final ArchiveSyncTab newTab = new ArchiveSyncTab("Synchronized!");
 
-        for (COMObjectStructure obj : objs) {
+        for (final COMObjectStructure obj : objs) {
             ElementList bodies;
-            ArchiveDetailsList archList = new ArchiveDetailsList();
+            final ArchiveDetailsList archList = new ArchiveDetailsList();
             archList.add(obj.getArchiveDetails());
 
             newTab.add(obj.getObjType(), obj.getDomain(), archList, obj.getObjects());
@@ -441,16 +441,16 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
 
     }//GEN-LAST:event_retrieveAutoActionPerformed
 
-    private void jButtonQueryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonQueryActionPerformed
+    private void jButtonQueryActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonQueryActionPerformed
 
 
     }//GEN-LAST:event_jButtonQueryActionPerformed
 
-    private void jButtonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteActionPerformed
+    private void jButtonDeleteActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteActionPerformed
 
-        ArchivePersistenceObject comObject = ((ArchiveTablePanel) tabs.getSelectedComponent()).getSelectedCOMObject();
+        final ArchivePersistenceObject comObject = ((ArchiveTablePanel) tabs.getSelectedComponent()).getSelectedCOMObject();
 
-        LongList objIds = new LongList();
+        final LongList objIds = new LongList();
         objIds.add(comObject.getObjectId());
 
         /*
@@ -466,45 +466,45 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
 
     }//GEN-LAST:event_jButtonDeleteActionPerformed
 
-    private void jButtonRetrieveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRetrieveActionPerformed
-        ArchiveSyncGenAdapter adapter = new ArchiveSyncGenAdapter();
+    private void jButtonRetrieveActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRetrieveActionPerformed
+        final ArchiveSyncGenAdapter adapter = new ArchiveSyncGenAdapter();
 
         FineTime from = new FineTime(0);
-        MOWindow windowFrom = new MOWindow(from, true);
+        final MOWindow windowFrom = new MOWindow(from, true);
         try {
             from = (FineTime) windowFrom.getObject();
-        } catch (InterruptedIOException ex) {
+        } catch (final InterruptedIOException ex) {
             return;
         }
 
         FineTime until = HelperTime.getTimestamp();
-        MOWindow windowUntil = new MOWindow(until, true);
+        final MOWindow windowUntil = new MOWindow(until, true);
         try {
             until = (FineTime) windowUntil.getObject();
-        } catch (InterruptedIOException ex) {
+        } catch (final InterruptedIOException ex) {
             return;
         }
 
         // Select Parameter Definitions by default
         ObjectTypeList objTypes = new ObjectTypeList();
-        UShort shorty = new UShort((short) 0);
+        final UShort shorty = new UShort((short) 0);
         objTypes.add(new ObjectType(shorty, shorty, new UOctet((short) 0), shorty));
-        MOWindow genObjType = new MOWindow(objTypes, true);
+        final MOWindow genObjType = new MOWindow(objTypes, true);
         try {
             objTypes = (ObjectTypeList) genObjType.getObject();
-        } catch (InterruptedIOException ex) {
+        } catch (final InterruptedIOException ex) {
             return;
         }
 
         try {
             serviceCOMArchiveSync.getArchiveSyncStub().retrieveRange(from, until, objTypes, new Identifier(""), adapter);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (final MALInteractionException | MALException ex) {
             Logger.getLogger(ArchiveSyncConsumerManagerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButtonRetrieveActionPerformed
 
     @SuppressWarnings("unchecked")
-    private void jButtonUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdateActionPerformed
+    private void jButtonUpdateActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdateActionPerformed
 
         /*
         ArchivePersistenceObject comObject = ((ArchiveTablePanel) tabs.getSelectedComponent()).getSelectedCOMObject();
@@ -516,7 +516,7 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
 
     }//GEN-LAST:event_jButtonUpdateActionPerformed
 
-    private void jButtonCountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCountActionPerformed
+    private void jButtonCountActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCountActionPerformed
 
         /*
         // Object Type
@@ -580,7 +580,7 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
 
     }//GEN-LAST:event_jButtonCountActionPerformed
 
-    private void jButtonStoreConversionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStoreConversionsActionPerformed
+    private void jButtonStoreConversionsActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStoreConversionsActionPerformed
 
         /*
 //        archiveDetailsList = new ArchiveDetailsList();
@@ -646,12 +646,12 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
 
     }//GEN-LAST:event_jButtonStoreConversionsActionPerformed
 
-    private void jButtonStoreActionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStoreActionsActionPerformed
+    private void jButtonStoreActionsActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStoreActionsActionPerformed
 
 
     }//GEN-LAST:event_jButtonStoreActionsActionPerformed
 
-    private void jButtonStoreGroupsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStoreGroupsActionPerformed
+    private void jButtonStoreGroupsActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStoreGroupsActionPerformed
         /*
         // Object Type
         ObjectType objType = new ObjectType(new UShort(4), new UShort(8), new UOctet((short) 1), new UShort(1));
@@ -696,17 +696,17 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
          */
     }//GEN-LAST:event_jButtonStoreGroupsActionPerformed
 
-    private void TBoxStoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TBoxStoreActionPerformed
+    private void TBoxStoreActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TBoxStoreActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_TBoxStoreActionPerformed
 
-    private void jButtonDeleteAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteAllActionPerformed
+    private void jButtonDeleteAllActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteAllActionPerformed
 
     }//GEN-LAST:event_jButtonDeleteAllActionPerformed
 
     public static ArchiveQuery generateArchiveQuery() {
         // ArchiveDetails
-        ArchiveQuery archiveQuery = new ArchiveQuery();
+        final ArchiveQuery archiveQuery = new ArchiveQuery();
         archiveQuery.setDomain(null);
         archiveQuery.setNetwork(null);
         archiveQuery.setProvider(null);
@@ -721,7 +721,7 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
     }
 
     public static CompositeFilter generateCompositeFilter() {
-        CompositeFilter compositeFilter = new CompositeFilter();
+        final CompositeFilter compositeFilter = new CompositeFilter();
         compositeFilter.setFieldName("name");
         compositeFilter.setType(ExpressionOperator.fromNumericValue(ExpressionOperator.EQUAL_NUM_VALUE));
         compositeFilter.setFieldValue(new Identifier("AggregationUpdate"));
@@ -730,7 +730,7 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
     }
 
 
-    private void test_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_test_buttonActionPerformed
+    private void test_buttonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_test_buttonActionPerformed
 
 
     }//GEN-LAST:event_test_buttonActionPerformed

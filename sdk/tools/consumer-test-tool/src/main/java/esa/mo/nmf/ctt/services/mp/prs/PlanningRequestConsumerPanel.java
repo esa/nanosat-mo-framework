@@ -93,7 +93,7 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
     private final PlanningRequestTablePanel planningRequestTable;
     private final PlanningRequestStatusTablePanel planningRequestStatusTable;
 
-    public PlanningRequestConsumerPanel(PlanningRequestConsumerServiceImpl planningRequestService) {
+    public PlanningRequestConsumerPanel(final PlanningRequestConsumerServiceImpl planningRequestService) {
         initComponents();
 
         this.planningRequestService = planningRequestService;
@@ -180,7 +180,7 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
 
         parameterTab.add(jPanel5);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        final javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -200,11 +200,11 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void submitRequestButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitRequestButtonActionPerformed
+    private void submitRequestButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitRequestButtonActionPerformed
         Identifier identity = new Identifier("Request 1");
         RequestVersionDetails request = createGenericRequest();
 
-        String selectedItem = (String) jComboBox1.getSelectedItem();
+        final String selectedItem = (String) jComboBox1.getSelectedItem();
         switch (selectedItem) {
             case GENERIC_REQUEST:
                 request = createGenericRequest();
@@ -222,18 +222,18 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
                 break;
         }
 
-        MOWindow identityWindow = new MOWindow(identity, true);
+        final MOWindow identityWindow = new MOWindow(identity, true);
         try {
             identity = (Identifier) identityWindow.getObject();
-        } catch (InterruptedIOException e) {
+        } catch (final InterruptedIOException e) {
             LOGGER.log(Level.SEVERE, null, e);
             return;
         }
 
-        MOWindow requestWindow = new MOWindow(request, true);
+        final MOWindow requestWindow = new MOWindow(request, true);
         try {
             request = (RequestVersionDetails) requestWindow.getObject();
-        } catch (InterruptedIOException e) {
+        } catch (final InterruptedIOException e) {
             LOGGER.log(Level.SEVERE, null, e);
             return;
         }
@@ -242,61 +242,61 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
             this.planningRequestService.getPlanningRequestStub().asyncSubmitRequest(identity, request, new PlanningRequestAdapter() {
 
                 @Override
-                public void submitRequestResponseReceived(MALMessageHeader msgHeader, Long requestIdentityId, Long requestVersionId, Map qosProperties) {
+                public void submitRequestResponseReceived(final MALMessageHeader msgHeader, final Long requestIdentityId, final Long requestVersionId, final Map qosProperties) {
                     getRequestAllButtonActionPerformed(null);
                 }
 
                 @Override
-                public void submitRequestErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                public void submitRequestErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error, final Map qosProperties) {
                     JOptionPane.showMessageDialog(null, "There was an error during the submitRequest operation.\n" + error.toString() , "Error", JOptionPane.PLAIN_MESSAGE);
                     LOGGER.log(Level.SEVERE, null, error);
                 }
             });
-        } catch (MALInteractionException | MALException e) {
+        } catch (final MALInteractionException | MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_submitRequestButtonActionPerformed
 
     private RequestVersionDetails createGenericRequest() {
-        RequestVersionDetails requestVersion = MPFactory.createRequestVersion();
+        final RequestVersionDetails requestVersion = MPFactory.createRequestVersion();
 
-        ObjectId requestTemplateId = COMObjectIdHelper.getObjectId(1L, PlanInformationManagementHelper.REQUESTTEMPLATE_OBJECT_TYPE);
+        final ObjectId requestTemplateId = COMObjectIdHelper.getObjectId(1L, PlanInformationManagementHelper.REQUESTTEMPLATE_OBJECT_TYPE);
 
-        SimpleActivityDetails activity = new SimpleActivityDetails();
+        final SimpleActivityDetails activity = new SimpleActivityDetails();
         activity.setActivityDef(1L);
         activity.setComments("Take picture");
 
-        TemporalRepetition timeRepetition = new TemporalRepetition();
+        final TemporalRepetition timeRepetition = new TemporalRepetition();
         timeRepetition.setCount(10);
         timeRepetition.setInitialTime(new TimeExpression("=", null, ArgType.TIME, new Time(1577836800)));
         timeRepetition.setSeparation(new DurationExpression("=", null, ArgType.DURATION, new Duration(86400)));
 
-        c_ActivityDetails activityDetails = new c_ActivityDetails();
+        final c_ActivityDetails activityDetails = new c_ActivityDetails();
         activityDetails.setSimpleActivityDetails(activity);
 
-        c_ActivityDetailsList activityList = new c_ActivityDetailsList();
+        final c_ActivityDetailsList activityList = new c_ActivityDetailsList();
         activityList.add(activityDetails);
 
-        ActivityNode activities = new ActivityNode();
+        final ActivityNode activities = new ActivityNode();
         activities.setActivities(activityList);
 
-        c_Repetition repetition = new c_Repetition();
+        final c_Repetition repetition = new c_Repetition();
         repetition.setTemporalRepetition(timeRepetition);
         activities.setRepetition(repetition);
 
-        ArgumentList arguments = new ArgumentList();
+        final ArgumentList arguments = new ArgumentList();
 
-        ConstraintNode constraints = new ConstraintNode();
+        final ConstraintNode constraints = new ConstraintNode();
 
-        String planningPeriod = Integer.toString(Year.now().getValue());
+        final String planningPeriod = Integer.toString(Year.now().getValue());
 
-        TimeReference timeReference = TimeReference.fromOrdinal(0);
+        final TimeReference timeReference = TimeReference.fromOrdinal(0);
 
-        Identifier user = new Identifier("CTT");
+        final Identifier user = new Identifier("CTT");
 
-        EventWindowList validityEvent = new EventWindowList();
+        final EventWindowList validityEvent = new EventWindowList();
 
-        TimeWindowList validityTime = createValidityTime();
+        final TimeWindowList validityTime = createValidityTime();
 
         requestVersion.setActivities(activities);
         requestVersion.setArguments(arguments);
@@ -314,40 +314,40 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
         return requestVersion;
     }
 
-    private RequestVersionDetails createTakeImageRequest(String[] positions) {
-        RequestVersionDetails requestVersion = MPFactory.createRequestVersion();
+    private RequestVersionDetails createTakeImageRequest(final String[] positions) {
+        final RequestVersionDetails requestVersion = MPFactory.createRequestVersion();
 
-        String description = "Take picture at " + Arrays.toString(positions);
+        final String description = "Take picture at " + Arrays.toString(positions);
 
-        List<ActivityDetails> activityDetailsList = new ArrayList<>();
+        final List<ActivityDetails> activityDetailsList = new ArrayList<>();
 
-        for (String position : positions) {
-            SimpleActivityDetails takeImageActivity = createTakeImageActivity(position);
+        for (final String position : positions) {
+            final SimpleActivityDetails takeImageActivity = createTakeImageActivity(position);
             activityDetailsList.add(takeImageActivity);
         }
 
-        c_ActivityDetailsList activities = MPPolyFix.encodeActivityDetails(activityDetailsList);
+        final c_ActivityDetailsList activities = MPPolyFix.encodeActivityDetails(activityDetailsList);
 
-        ActivityNode activityNode = new ActivityNode();
+        final ActivityNode activityNode = new ActivityNode();
         activityNode.setComments("Take picture activity");
 
         activityNode.setActivities(activities);
 
-        ObjectId requestTemplateId = COMObjectIdHelper.getObjectId(1L, PlanInformationManagementHelper.REQUESTTEMPLATE_OBJECT_TYPE);
+        final ObjectId requestTemplateId = COMObjectIdHelper.getObjectId(1L, PlanInformationManagementHelper.REQUESTTEMPLATE_OBJECT_TYPE);
 
-        ArgumentList arguments = new ArgumentList();
+        final ArgumentList arguments = new ArgumentList();
 
-        ConstraintNode constraints = new ConstraintNode();
+        final ConstraintNode constraints = new ConstraintNode();
 
-        String planningPeriod = Integer.toString(Year.now().getValue());
+        final String planningPeriod = Integer.toString(Year.now().getValue());
 
-        TimeReference timeReference = TimeReference.fromOrdinal(0);
+        final TimeReference timeReference = TimeReference.fromOrdinal(0);
 
-        Identifier user = new Identifier("CTT");
+        final Identifier user = new Identifier("CTT");
 
-        EventWindowList validityEvent = new EventWindowList();
+        final EventWindowList validityEvent = new EventWindowList();
 
-        TimeWindowList validityTime = createValidityTime();
+        final TimeWindowList validityTime = createValidityTime();
 
         requestVersion.setActivities(activityNode);
         requestVersion.setArguments(arguments);
@@ -365,50 +365,50 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
         return requestVersion;
     }
 
-    private SimpleActivityDetails createTakeImageActivity(String position) {
-        SimpleActivityDetails takeImageActivity = new SimpleActivityDetails();
+    private SimpleActivityDetails createTakeImageActivity(final String position) {
+        final SimpleActivityDetails takeImageActivity = new SimpleActivityDetails();
         takeImageActivity.setActivityDef(1L);
 
-        PositionExpression positionExpression = new PositionExpression("==", null, ArgType.POSITION, new Union(position));
-        c_Expression expression = MPPolyFix.encode(positionExpression);
-        ArgSpec positionArg = new ArgSpec(new Identifier("position"), expression, null);
+        final PositionExpression positionExpression = new PositionExpression("==", null, ArgType.POSITION, new Union(position));
+        final c_Expression expression = MPPolyFix.encode(positionExpression);
+        final ArgSpec positionArg = new ArgSpec(new Identifier("position"), expression, null);
 
-        ArgSpecList argSpecList = new ArgSpecList();
+        final ArgSpecList argSpecList = new ArgSpecList();
         argSpecList.add(positionArg);
         takeImageActivity.setArgSpecs(argSpecList);
         return takeImageActivity;
     }
 
     private TimeWindowList createValidityTime() {
-        long timeNow = SystemClock.getTime().getValue();
-        TimeExpression windowStart = new TimeExpression("==", null, ArgType.TIME, new Time(timeNow + 10000L));
-        TimeExpression windowEnd = new TimeExpression("==", null, ArgType.TIME, new Time(timeNow + 30 * 24 * 60 * 60 * 1000L)); // 30 days
-        TimeWindow timeWindow = new TimeWindow(windowStart, windowEnd);
+        final long timeNow = SystemClock.getTime().getValue();
+        final TimeExpression windowStart = new TimeExpression("==", null, ArgType.TIME, new Time(timeNow + 10000L));
+        final TimeExpression windowEnd = new TimeExpression("==", null, ArgType.TIME, new Time(timeNow + 30 * 24 * 60 * 60 * 1000L)); // 30 days
+        final TimeWindow timeWindow = new TimeWindow(windowStart, windowEnd);
 
-        TimeWindowList timeWindows = new TimeWindowList();
+        final TimeWindowList timeWindows = new TimeWindowList();
         timeWindows.add(timeWindow);
         return timeWindows;
     }
 
-    private RequestVersionDetails createScoutRequest(String[] positions) {
-        RequestVersionDetails requestVersion = MPFactory.createRequestVersion();
+    private RequestVersionDetails createScoutRequest(final String[] positions) {
+        final RequestVersionDetails requestVersion = MPFactory.createRequestVersion();
 
-        String description = "Scout at " + Arrays.toString(positions) + " for Volcano, Reef, Human-made, Land or Water";
+        final String description = "Scout at " + Arrays.toString(positions) + " for Volcano, Reef, Human-made, Land or Water";
 
-        Argument positionArgument = new Argument();
+        final Argument positionArgument = new Argument();
         positionArgument.setArgName(new Identifier("positions"));
-        StringList positionValues = new StringList();
+        final StringList positionValues = new StringList();
 
-        for (String position : positions) {
+        for (final String position : positions) {
             positionValues.add(position);
         }
 
         positionArgument.setArgValue(positionValues);
         positionArgument.setCount(positionValues.size());
 
-        Argument interestArgument = new Argument();
+        final Argument interestArgument = new Argument();
         interestArgument.setArgName(new Identifier("interests"));
-        StringList interestValues = new StringList();
+        final StringList interestValues = new StringList();
         interestValues.add("Volcano");
         interestValues.add("Reef");
         interestValues.add("Human-made");
@@ -417,23 +417,23 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
         interestArgument.setArgValue(interestValues);
         positionArgument.setCount(interestValues.size());
 
-        ArgumentList argumentList = new ArgumentList();
+        final ArgumentList argumentList = new ArgumentList();
         argumentList.add(positionArgument);
         argumentList.add(interestArgument);
 
-        ObjectId requestTemplateId = COMObjectIdHelper.getObjectId(2L, PlanInformationManagementHelper.REQUESTTEMPLATE_OBJECT_TYPE);
+        final ObjectId requestTemplateId = COMObjectIdHelper.getObjectId(2L, PlanInformationManagementHelper.REQUESTTEMPLATE_OBJECT_TYPE);
 
-        ConstraintNode constraints = new ConstraintNode();
+        final ConstraintNode constraints = new ConstraintNode();
 
-        String planningPeriod = Integer.toString(Year.now().getValue());
+        final String planningPeriod = Integer.toString(Year.now().getValue());
 
-        TimeReference timeReference = TimeReference.fromOrdinal(0);
+        final TimeReference timeReference = TimeReference.fromOrdinal(0);
 
-        Identifier user = new Identifier("CTT");
+        final Identifier user = new Identifier("CTT");
 
-        EventWindowList validityEvent = new EventWindowList();
+        final EventWindowList validityEvent = new EventWindowList();
 
-        TimeWindowList validityTime = createValidityTime();
+        final TimeWindowList validityTime = createValidityTime();
 
         requestVersion.setArguments(argumentList);
         requestVersion.setComments("");
@@ -450,22 +450,22 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
         return requestVersion;
     }
 
-    private void updateRequestButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateRequestButtonActionPerformed
+    private void updateRequestButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateRequestButtonActionPerformed
         if (planningRequestTable.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(null, "Please select a request version", "Info", JOptionPane.PLAIN_MESSAGE);
             return; // No rows selected
         }
 
-        ArchivePersistenceObject selectedObject = planningRequestTable.getSelectedCOMObject();
+        final ArchivePersistenceObject selectedObject = planningRequestTable.getSelectedCOMObject();
 
-        Long identityId = planningRequestTable.getSelectedIdentityObjId();
+        final Long identityId = planningRequestTable.getSelectedIdentityObjId();
         RequestVersionDetails updatedRequestVersion = (RequestVersionDetails) selectedObject.getObject();
 
-        MOWindow moObject = new MOWindow(selectedObject.getObject(), true);
+        final MOWindow moObject = new MOWindow(selectedObject.getObject(), true);
 
         try {
             updatedRequestVersion = (RequestVersionDetails) moObject.getObject();
-        } catch (InterruptedIOException e) {
+        } catch (final InterruptedIOException e) {
             LOGGER.log(Level.SEVERE, null, e);
             return;
         }
@@ -473,56 +473,56 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
         try {
             this.planningRequestService.getPlanningRequestStub().asyncUpdateRequest(identityId, updatedRequestVersion, new PlanningRequestAdapter() {
                 @Override
-                public void updateRequestResponseReceived(MALMessageHeader msgHeader, Long requestVersionId, Map qosProperties) {
+                public void updateRequestResponseReceived(final MALMessageHeader msgHeader, final Long requestVersionId, final Map qosProperties) {
                     getRequestAllButtonActionPerformed(null);
                 }
 
                 @Override
-                public void updateRequestErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                public void updateRequestErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error, final Map qosProperties) {
                     JOptionPane.showMessageDialog(null, "There was an error during the updateRequest operation.\n" + error.toString() , "Error", JOptionPane.PLAIN_MESSAGE);
                     LOGGER.log(Level.SEVERE, null, error);
                 }
             });
-        } catch (MALInteractionException | MALException e) {
+        } catch (final MALInteractionException | MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_updateRequestButtonActionPerformed
 
-    private void cancelRequestButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelRequestButtonActionPerformed
+    private void cancelRequestButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelRequestButtonActionPerformed
         if (planningRequestTable.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(null, "Please select a request version", "Info", JOptionPane.PLAIN_MESSAGE);
             return; // No rows selected
         }
 
-        Long identityId = planningRequestTable.getSelectedIdentityObjId();
+        final Long identityId = planningRequestTable.getSelectedIdentityObjId();
 
         try {
             this.planningRequestService.getPlanningRequestStub().asyncCancelRequest(identityId, new PlanningRequestAdapter() {
                 @Override
-                public void cancelRequestAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
+                public void cancelRequestAckReceived(final MALMessageHeader msgHeader, final Map qosProperties) {
                     getRequestStatusAllButtonActionPerformed(null);
                 }
 
                 @Override
-                public void cancelRequestErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                public void cancelRequestErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error, final Map qosProperties) {
                     JOptionPane.showMessageDialog(null, "There was an error during the cancelRequest operation.\n" + error.toString() , "Error", JOptionPane.PLAIN_MESSAGE);
                     LOGGER.log(Level.SEVERE, null, error);
                 }
             });
-        } catch (MALInteractionException | MALException e) {
+        } catch (final MALInteractionException | MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_cancelRequestButtonActionPerformed
 
-    private void getRequestAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getRequestAllButtonActionPerformed
-        RequestFilter filter = new RequestFilter();
+    private void getRequestAllButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getRequestAllButtonActionPerformed
+        final RequestFilter filter = new RequestFilter();
         filter.setReturnAll(true);
 
         try {
             this.planningRequestService.getPlanningRequestStub().asyncGetRequest(filter, new PlanningRequestAdapter() {
                 @Override
-                public void getRequestResponseReceived(MALMessageHeader msgHeader, LongList requestIdentityIds, LongList requestInstanceIds, RequestVersionDetailsList requestVersions, Map qosProperties) {
-                    org.ccsds.moims.mo.mc.structures.ObjectInstancePairList ids = new org.ccsds.moims.mo.mc.structures.ObjectInstancePairList();
+                public void getRequestResponseReceived(final MALMessageHeader msgHeader, final LongList requestIdentityIds, final LongList requestInstanceIds, final RequestVersionDetailsList requestVersions, final Map qosProperties) {
+                    final org.ccsds.moims.mo.mc.structures.ObjectInstancePairList ids = new org.ccsds.moims.mo.mc.structures.ObjectInstancePairList();
                     for (int index = 0; index < requestIdentityIds.size(); index++) {
                         ids.add(new org.ccsds.moims.mo.mc.structures.ObjectInstancePair(
                             requestIdentityIds.get(index),
@@ -536,27 +536,27 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
                 }
 
                 @Override
-                public void getRequestResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                public void getRequestResponseErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error, final Map qosProperties) {
                     JOptionPane.showMessageDialog(null, "There was an error during the getRequest operation.\n" + error.toString(), "Error", JOptionPane.PLAIN_MESSAGE);
                     LOGGER.log(Level.SEVERE, null, error);
                 }
             });
-        } catch (MALInteractionException e) {
+        } catch (final MALInteractionException e) {
             LOGGER.log(Level.SEVERE, null, e);
-        } catch (MALException e) {
+        } catch (final MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_getRequestAllButtonActionPerformed
 
-    private void getRequestStatusAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getRequestStatusAllButtonActionPerformed
-        RequestFilter filter = new RequestFilter();
+    private void getRequestStatusAllButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getRequestStatusAllButtonActionPerformed
+        final RequestFilter filter = new RequestFilter();
         filter.setReturnAll(true);
 
         try {
             this.planningRequestService.getPlanningRequestStub().asyncGetRequestStatus(filter, new PlanningRequestAdapter() {
 
                 @Override
-                public void getRequestStatusResponseReceived(MALMessageHeader msgHeader, LongList requestIdentityIds, LongList requestVersionIds, RequestUpdateDetailsList requestUpdate, Map qosProperties) {
+                public void getRequestStatusResponseReceived(final MALMessageHeader msgHeader, final LongList requestIdentityIds, final LongList requestVersionIds, final RequestUpdateDetailsList requestUpdate, final Map qosProperties) {
                     planningRequestStatusTable.removeAllEntries();
                     for (int index = 0; index < requestIdentityIds.size(); index++) {
                         planningRequestStatusTable.addEntry(
@@ -570,15 +570,15 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
                 }
 
                 @Override
-                public void getRequestStatusErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                public void getRequestStatusErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error, final Map qosProperties) {
                     JOptionPane.showMessageDialog(null, "There was an error during the getRequestStatus operation.\n" + error.toString(), "Error", JOptionPane.PLAIN_MESSAGE);
                     LOGGER.log(Level.SEVERE, null, error);
                 }
             }
             );
-        } catch (MALInteractionException e) {
+        } catch (final MALInteractionException e) {
             LOGGER.log(Level.SEVERE, null, e);
-        } catch (MALException e) {
+        } catch (final MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_getRequestStatusAllButtonActionPerformed

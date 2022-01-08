@@ -31,7 +31,7 @@ public class SimulatorTimer {
     long duration;
     long setDuration;
 
-    public void timeElapsed(long timeElapsed) {
+    public void timeElapsed(final long timeElapsed) {
         if (duration < 0) {
             duration = setDuration;
         }
@@ -42,12 +42,12 @@ public class SimulatorTimer {
         return duration < 0;
     }
 
-    public SimulatorTimer(String name, long duration) {
+    public SimulatorTimer(final String name, final long duration) {
         this.name = name;
         this.setDuration = duration;
     }
 
-    public void setDuration(long duration) {
+    public void setDuration(final long duration) {
         this.setDuration = duration;
     }
 }

@@ -80,7 +80,7 @@ public class ParameterMonitoringManager {
      */
     private final HashMap<Long, List<Long>> onChangeNotifierList = new HashMap<>();
 
-    public ParameterMonitoringManager(CheckManager manager, MCServicesConsumer mcServicesConsumer, ParameterManager paramManager) {
+    public ParameterMonitoringManager(final CheckManager manager, final MCServicesConsumer mcServicesConsumer, final ParameterManager paramManager) {
         this.manager = manager;
         this.paramManager = paramManager;
         this.parameterStub = mcServicesConsumer.getParameterService().getParameterStub();
@@ -101,10 +101,10 @@ public class ParameterMonitoringManager {
      * @throws MALException
      * @throws MALInteractionException
      */
-    public void add(Long checkLinkId) throws MALException, MALInteractionException {
+    public void add(final Long checkLinkId) throws MALException, MALInteractionException {
         final CheckLinkDetails checkLinkDetails = manager.getCheckLinkDetails(manager.getCheckLinkDefId(checkLinkId));
         //add linked parameter
-        Long paramIdentityId = manager.getCheckLinkLinks(checkLinkId).getSource().getKey().getInstId();
+        final Long paramIdentityId = manager.getCheckLinkLinks(checkLinkId).getSource().getKey().getInstId();
         addParameterToMonitor(paramIdentityId, checkLinkDetails, checkLinkId);
         //add condition-parameter
         if (checkLinkDetails.getCondition() != null) {
@@ -132,7 +132,7 @@ public class ParameterMonitoringManager {
      * @throws MALException
      * @throws MALInteractionException
      */
-    public void remove(Long checkLinkId) throws MALException, MALInteractionException {
+    public void remove(final Long checkLinkId) throws MALException, MALInteractionException {
         //remove referenced parameter
         final Long paramIdentityId = manager.getCheckLinkLinks(checkLinkId).getSource().getKey().getInstId();
         removeParameterFromLists(paramIdentityId, checkLinkId);
@@ -160,7 +160,7 @@ public class ParameterMonitoringManager {
      * @throws MALException
      * @throws MALInteractionException
      */
-    private void addParameterToMonitor(Long paramIdentityId, final CheckLinkDetails checkLinkDetails, Long checkLinkId) throws MALException, MALInteractionException {
+    private void addParameterToMonitor(final Long paramIdentityId, final CheckLinkDetails checkLinkDetails, final Long checkLinkId) throws MALException, MALInteractionException {
         addToParameterCheckList(paramIdentityId, checkLinkId);
         //add to the OnChange-Notifier List, if necessary
         if (checkLinkDetails.getCheckOnChange()) {
@@ -172,7 +172,7 @@ public class ParameterMonitoringManager {
         }
     }
 
-    private void addParameterReferenceToMonitor(Long paramIdentityId, Long checkLinkId) throws MALException, MALInteractionException {
+    private void addParameterReferenceToMonitor(final Long paramIdentityId, final Long checkLinkId) throws MALException, MALInteractionException {
         addToParameterCheckList(paramIdentityId, checkLinkId);
 
         final List<Long> currentRefCheckLinks = parameterReferences.get(paramIdentityId);
@@ -192,14 +192,14 @@ public class ParameterMonitoringManager {
         }
     }
 
-    private void addToParameterValuesListAndRegister(Long paramIdentityId) throws MALException, MALInteractionException {
+    private void addToParameterValuesListAndRegister(final Long paramIdentityId) throws MALException, MALInteractionException {
         //add to list of monitored parameterValues
-        List<ParameterValueEntry> values = new ArrayList<>();
+        final List<ParameterValueEntry> values = new ArrayList<>();
         //get the first Values
         values.add(new ParameterValueEntry(paramManager.getParameterValue(paramIdentityId), new Time(System.currentTimeMillis())));
         parameterValues.put(paramIdentityId, values);
         //parameter will be registered at the adapter
-        Subscription sub = subscriptionKeys(new Identifier("" + paramIdentityId), new Identifier("*"), paramIdentityId, 0L, 0L);
+        final Subscription sub = subscriptionKeys(new Identifier("" + paramIdentityId), new Identifier("*"), paramIdentityId, 0L, 0L);
         parameterStub.monitorValueRegister(sub, adapter);
     }
 
@@ -210,7 +210,7 @@ public class ParameterMonitoringManager {
      * @param paramIdentityId
      * @param checkLinkId
      */
-    private void addToOnChangeNotifierList(Long paramIdentityId, Long checkLinkId) {
+    private void addToOnChangeNotifierList(final Long paramIdentityId, final Long checkLinkId) {
         final List<Long> currentCheckLinks = onChangeNotifierList.get(paramIdentityId);
         if (currentCheckLinks == null) {
             final List<Long> newCheckLinks = new ArrayList<>();
@@ -232,7 +232,7 @@ public class ParameterMonitoringManager {
      * @param paramIdentityId
      * @param checkLinkId
      */
-    private void addToParameterCheckList(Long paramIdentityId, Long checkLinkId) {
+    private void addToParameterCheckList(final Long paramIdentityId, final Long checkLinkId) {
         final List<Long> currentCheckLinks = parameterChecks.get(paramIdentityId);
         if (currentCheckLinks == null) {
             final List<Long> newCheckLinks = new ArrayList<>();
@@ -246,7 +246,7 @@ public class ParameterMonitoringManager {
         }
     }
 
-    private void removeParameterFromLists(final Long paramIdentityId, Long checkLinkId) throws MALException, MALInteractionException {
+    private void removeParameterFromLists(final Long paramIdentityId, final Long checkLinkId) throws MALException, MALInteractionException {
         //remove form general lists of paramChecks
         final List<Long> checkLinks = parameterChecks.get(paramIdentityId);
         if (checkLinks != null) {
@@ -258,7 +258,7 @@ public class ParameterMonitoringManager {
             parameterValues.remove(paramIdentityId);
             onChangeNotifierList.remove(paramIdentityId);
             //parameter will be deregistered at the adapter
-            IdentifierList subIdList = new IdentifierList();
+            final IdentifierList subIdList = new IdentifierList();
             subIdList.add(new Identifier("" + paramIdentityId));
             parameterStub.monitorValueDeregister(subIdList);
         }
@@ -287,8 +287,8 @@ public class ParameterMonitoringManager {
      * @throws MALInteractionException
      */
     public void startAll() throws MALException, MALInteractionException {
-        for (Long paramIdentityId : parameterChecks.keySet()) {
-            Subscription sub = subscriptionKeys(new Identifier("" + paramIdentityId), new Identifier("*"), paramIdentityId, 0L, 0L);
+        for (final Long paramIdentityId : parameterChecks.keySet()) {
+            final Subscription sub = subscriptionKeys(new Identifier("" + paramIdentityId), new Identifier("*"), paramIdentityId, 0L, 0L);
             parameterStub.monitorValueRegister(sub, adapter);
         }
     }
@@ -301,7 +301,7 @@ public class ParameterMonitoringManager {
      * @throws MALInteractionException
      */
     public void pauseAll() throws MALException, MALInteractionException {
-        IdentifierList subIdList = new IdentifierList();
+        final IdentifierList subIdList = new IdentifierList();
         subIdList.add(new Identifier("*"));
         parameterStub.monitorValueDeregister(subIdList);
     }
@@ -316,15 +316,15 @@ public class ParameterMonitoringManager {
      * standard says: "The Obejct that caused the check evaluation to occur,
      * most liely the relevant ParamterValueinstance object."
      */
-    public synchronized void setParameterValue(Long paramIdentityId, ParameterValue newParamValue, ObjectId source) {
+    public synchronized void setParameterValue(final Long paramIdentityId, final ParameterValue newParamValue, final ObjectId source) {
         final List<ParameterValueEntry> paramValues = parameterValues.get(paramIdentityId);
-        ParameterValue oldParamValue = paramValues.get(paramValues.size() - 1).getValue();
+        final ParameterValue oldParamValue = paramValues.get(paramValues.size() - 1).getValue();
         paramValues.add(new ParameterValueEntry(newParamValue, new Time(System.currentTimeMillis())));
         //check the onChange-CheckLinks 
         if (!oldParamValue.equals(newParamValue)) {
             final List<Long> checkLinkIdsToNotify = onChangeNotifierList.get(paramIdentityId);
             if (checkLinkIdsToNotify != null)
-                for (Long checkLinkId : checkLinkIdsToNotify) {
+                for (final Long checkLinkId : checkLinkIdsToNotify) {
                     manager.executeCheck(checkLinkId, newParamValue, false, false, source);
                 }
         }
@@ -332,14 +332,14 @@ public class ParameterMonitoringManager {
         final List<Long> refCheckLinks = parameterReferences.get(paramIdentityId);
         if (refCheckLinks != null) {
             //set the new value to the referenceValue if there are validCount samples in the last deltaTime seconds
-            for (Long refCheckLink : refCheckLinks) {
+            for (final Long refCheckLink : refCheckLinks) {
                 final CheckDefinitionDetails actCheckDef = manager.getActualCheckDefinitionFromCheckLinks(refCheckLink);
-                ReferenceValue refValue = actCheckDef instanceof ReferenceCheckDefinition ? ((ReferenceCheckDefinition) actCheckDef).getCheckReference() : ((DeltaCheckDefinition) actCheckDef).getCheckReference();
-                List<ParameterValueEntry> values = parameterValues.get(paramIdentityId);
+                final ReferenceValue refValue = actCheckDef instanceof ReferenceCheckDefinition ? ((ReferenceCheckDefinition) actCheckDef).getCheckReference() : ((DeltaCheckDefinition) actCheckDef).getCheckReference();
+                final List<ParameterValueEntry> values = parameterValues.get(paramIdentityId);
                 //task: make it more effective and delete the expired ones
-                long now = System.currentTimeMillis();
+                final long now = System.currentTimeMillis();
                 int counter = 0;
-                for (ParameterValueEntry value : values) {
+                for (final ParameterValueEntry value : values) {
                     if (now - value.getCreationTime().getValue() < Math.round(refValue.getDeltaTime().getValue() * 1000)) {
                         counter++;
                     }
@@ -365,7 +365,7 @@ public class ParameterMonitoringManager {
      * @param key4 Fourth key - value-id
      * @return The subscription object
      */
-    private Subscription subscriptionKeys(Identifier subId, Identifier key1, Long key2, Long key3, Long key4) {
+    private Subscription subscriptionKeys(final Identifier subId, final Identifier key1, final Long key2, final Long key3, final Long key4) {
         final EntityKeyList entityKeys = new EntityKeyList();
         final EntityKey entitykey = new EntityKey(key1, key2, key3, key4);
         entityKeys.add(entitykey);

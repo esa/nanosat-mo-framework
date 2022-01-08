@@ -38,23 +38,23 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 public class MCSoftwareSimulatorAdapter extends MonitorAndControlNMFAdapter {
 
     @Override
-    public void initialRegistrations(MCRegistration registrationObject) {
+    public void initialRegistrations(final MCRegistration registrationObject) {
         // Nothing to be done
     }
 
     @Override
-    public Attribute onGetValue(Identifier identifier, Byte rawType) {
+    public Attribute onGetValue(final Identifier identifier, final Byte rawType) {
         return null;
     }
 
     @Override
-    public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
+    public Boolean onSetValue(final IdentifierList identifiers, final ParameterRawValueList values) {
         return false;  // to confirm that no variable was set
     }
 
     @Override
-    public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
-            Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
+    public UInteger actionArrived(final Identifier name, final AttributeValueList attributeValues,
+                                  final Long actionInstanceObjId, final boolean reportProgress, final MALInteraction interaction) {
         return new UInteger(1);  // Action service not integrated
     }
 

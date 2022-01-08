@@ -61,9 +61,9 @@ public class ArchiveCommandsImplementations {
      * @param databaseFile source SQLite database file
      * @param jsonFile target JSON file
      */
-    public static void dumpRawArchiveTables(String databaseFile, String jsonFile) {
+    public static void dumpRawArchiveTables(final String databaseFile, final String jsonFile) {
         // Test if DB file exists
-        File temp = new File(databaseFile);
+        final File temp = new File(databaseFile);
         if (!temp.exists() || temp.isDirectory()) {
             LOGGER.log(Level.SEVERE,
                        String.format("Provided database file %s doesn't exist or is a directory", databaseFile));
@@ -71,49 +71,49 @@ public class ArchiveCommandsImplementations {
         }
 
         // root JSON object
-        JSONArray tables = new JSONArray();
+        final JSONArray tables = new JSONArray();
 
         // parse DB
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + databaseFile)) {
+        try (final Connection conn = DriverManager.getConnection("jdbc:sqlite:" + databaseFile)) {
             // for each table
-            ResultSet tablesNamesRs = conn.getMetaData().getTables(null, null, null, null);
+            final ResultSet tablesNamesRs = conn.getMetaData().getTables(null, null, null, null);
             while (tablesNamesRs.next()) {
                 // query table
-                String table = tablesNamesRs.getString("TABLE_NAME");
-                String selectAllQuery = "SELECT  * FROM " + table;
-                ResultSet rowsRs = conn.createStatement().executeQuery(selectAllQuery);
-                ResultSetMetaData rowsRsMeta = rowsRs.getMetaData();
+                final String table = tablesNamesRs.getString("TABLE_NAME");
+                final String selectAllQuery = "SELECT  * FROM " + table;
+                final ResultSet rowsRs = conn.createStatement().executeQuery(selectAllQuery);
+                final ResultSetMetaData rowsRsMeta = rowsRs.getMetaData();
 
                 // table JSON object
-                JSONArray rows = new JSONArray();
-                JSONObject jsonTable = new JSONObject();
+                final JSONArray rows = new JSONArray();
+                final JSONObject jsonTable = new JSONObject();
                 jsonTable.put(table, rows);
 
                 // for each row
                 while (rowsRs.next()) {
-                    JSONObject rowObject = new JSONObject();
+                    final JSONObject rowObject = new JSONObject();
 
                     // for each column
                     for (int i = 0; i < rowsRsMeta.getColumnCount(); i++) {
-                        String columnName = rowsRsMeta.getColumnName(i + 1);
-                        String columnValue = rowsRs.getString(i + 1) == null ? "null" : rowsRs.getString(i + 1);
+                        final String columnName = rowsRsMeta.getColumnName(i + 1);
+                        final String columnValue = rowsRs.getString(i + 1) == null ? "null" : rowsRs.getString(i + 1);
                         rowObject.put(columnName, columnValue);
                     }
                     rows.add(rowObject);
                 }
                 tables.add(jsonTable);
             }
-        } catch (SQLException e) {
+        } catch (final SQLException e) {
             LOGGER.log(Level.SEVERE, String.format("SQL error reading %s", databaseFile), e);
         }
 
         // write JSON file
-        try (FileWriter file = new FileWriter(jsonFile)) {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String prettyJsonString = gson.toJson(tables);
+        try (final FileWriter file = new FileWriter(jsonFile)) {
+            final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            final String prettyJsonString = gson.toJson(tables);
             file.write(prettyJsonString);
             file.flush();
-        } catch (IOException e) {
+        } catch (final IOException e) {
             LOGGER.log(Level.SEVERE, String.format("Error writing JSON file %s", jsonFile), e);
         }
     }
@@ -131,8 +131,8 @@ public class ArchiveCommandsImplementations {
      *        stamp to, but not greater than endTime.
      * @param jsonFile target JSON file
      */
-    public static void dumpFormattedArchive(String databaseFile, String providerURI, String domainId,
-                                            String comType, String startTime, String endTime, String jsonFile) {
+    public static void dumpFormattedArchive(final String databaseFile, final String providerURI, final String domainId,
+                                            final String comType, final String startTime, final String endTime, final String jsonFile) {
         // prepare comType filter
         int areaNumber = 0;
         int serviceNumber = 0;
@@ -140,7 +140,7 @@ public class ArchiveCommandsImplementations {
         int objectNumber = 0;
 
         if (comType != null) {
-            String[] subTypes = comType.split("\\.");
+            final String[] subTypes = comType.split("\\.");
             if (subTypes.length == 4) {
                 areaNumber = Integer.parseInt(subTypes[0]);
                 serviceNumber = Integer.parseInt(subTypes[1]);
@@ -152,24 +152,24 @@ public class ArchiveCommandsImplementations {
             }
         }
 
-        ObjectType objectsTypes = new ObjectType(new UShort(areaNumber), new UShort(serviceNumber),
+        final ObjectType objectsTypes = new ObjectType(new UShort(areaNumber), new UShort(serviceNumber),
                                                  new UOctet((short) areaVersion), new UShort(objectNumber));
 
         // prepare domain and time filters
-        ArchiveQueryList archiveQueryList = new ArchiveQueryList();
-        IdentifierList domain = domainId == null ? null : HelperMisc.domainId2domain(domainId);
-        FineTime startTimeF = startTime == null ? null : HelperTime.readableString2FineTime(startTime);
-        FineTime endTimeF = endTime == null ? null : HelperTime.readableString2FineTime(endTime);
-        ArchiveQuery archiveQuery =
+        final ArchiveQueryList archiveQueryList = new ArchiveQueryList();
+        final IdentifierList domain = domainId == null ? null : HelperMisc.domainId2domain(domainId);
+        final FineTime startTimeF = startTime == null ? null : HelperTime.readableString2FineTime(startTime);
+        final FineTime endTimeF = endTime == null ? null : HelperTime.readableString2FineTime(endTime);
+        final ArchiveQuery archiveQuery =
                 new ArchiveQuery(domain, null, null, 0L, null, startTimeF, endTimeF, null, null);
         archiveQueryList.add(archiveQuery);
 
-        LocalOrRemoteConsumer consumers = createConsumer(providerURI, databaseFile);
-        ArchiveConsumerServiceImpl localConsumer = consumers.getLocalConsumer();
-        NMFConsumer remoteConsumer = consumers.getRemoteConsumer();
+        final LocalOrRemoteConsumer consumers = createConsumer(providerURI, databaseFile);
+        final ArchiveConsumerServiceImpl localConsumer = consumers.getLocalConsumer();
+        final NMFConsumer remoteConsumer = consumers.getRemoteConsumer();
 
         // execute query
-        ArchiveToJsonAdapter adapter = new ArchiveToJsonAdapter(jsonFile);
+        final ArchiveToJsonAdapter adapter = new ArchiveToJsonAdapter(jsonFile);
         queryArchive(objectsTypes, archiveQueryList, adapter, adapter, remoteConsumer == null ? localConsumer : remoteConsumer.getCOMServices().getArchiveService());
 
         closeConsumer(consumers);
@@ -180,8 +180,8 @@ public class ArchiveCommandsImplementations {
      *
      * @param centralDirectoryServiceURI URI of the central directory to use
      */
-    public static void listArchiveProviders(String centralDirectoryServiceURI) {
-        ArrayList<String> archiveProviderURIs =
+    public static void listArchiveProviders(final String centralDirectoryServiceURI) {
+        final ArrayList<String> archiveProviderURIs =
                 CentralDirectoryHelper.listCOMArchiveProviders(new URI(centralDirectoryServiceURI));
 
         // No provider found warning
@@ -193,7 +193,7 @@ public class ArchiveCommandsImplementations {
 
         // List providers found
         System.out.println("Found the following COM archive providers: ");
-        for (String providerURI : archiveProviderURIs) {
+        for (final String providerURI : archiveProviderURIs) {
             System.out.println(String.format(" - %s", providerURI));
         }
     }

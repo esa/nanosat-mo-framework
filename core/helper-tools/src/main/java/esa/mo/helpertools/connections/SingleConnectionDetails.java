@@ -34,27 +34,27 @@ public class SingleConnectionDetails {
     private IdentifierList domain;
     private IntegerList serviceKey = new IntegerList();
 
-    public void setProviderURI(String providerURI) {
+    public void setProviderURI(final String providerURI) {
         this.providerURI = new URI(providerURI);
     }
 
-    public void setProviderURI(URI providerURI) {
+    public void setProviderURI(final URI providerURI) {
         this.providerURI = providerURI;
     }
 
-    public void setBrokerURI(String brokerURI) {
+    public void setBrokerURI(final String brokerURI) {
         this.brokerURI = new URI(brokerURI);
     }
 
-    public void setBrokerURI(URI brokerURI) {
+    public void setBrokerURI(final URI brokerURI) {
         this.brokerURI = brokerURI;
     }
 
-    public void setDomain(IdentifierList domain) {
+    public void setDomain(final IdentifierList domain) {
         this.domain = domain;
     }
 
-    public void setServiceKey(IntegerList serviceKey) {
+    public void setServiceKey(final IntegerList serviceKey) {
         this.serviceKey = serviceKey;
     }
 

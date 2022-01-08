@@ -75,7 +75,7 @@ public class VectorPointingSimulator implements AttitudeProvider
    * @param margin angle that the real vector is allowed to differ from target (WARNING small values
    *               might lead to jitter)
    */
-  public void start(float x, float y, float z, float margin)
+  public void start(final float x, final float y, final float z, final float margin)
   {
     this.targetVec = new Vector3D(x, y, z);
 
@@ -93,7 +93,7 @@ public class VectorPointingSimulator implements AttitudeProvider
   }
 
   @Override
-  public Attitude getAttitude(PVCoordinatesProvider pvProv, AbsoluteDate date, Frame frame)
+  public Attitude getAttitude(final PVCoordinatesProvider pvProv, final AbsoluteDate date, final Frame frame)
   {
     if (isHoldingPosition) {
       return angleStep(date, frame);
@@ -105,24 +105,24 @@ public class VectorPointingSimulator implements AttitudeProvider
 
   @Override
   public <T extends RealFieldElement<T>> FieldAttitude<T> getAttitude(
-      FieldPVCoordinatesProvider<T> pvProv, FieldAbsoluteDate<T> date, Frame frame)
+          final FieldPVCoordinatesProvider<T> pvProv, final FieldAbsoluteDate<T> date, final Frame frame)
   {
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 
-  public void update(SpacecraftState newState)
+  public void update(final SpacecraftState newState)
   {
     lastState = newState.getAttitude();
   }
 
-  private Attitude angleStep(AbsoluteDate date, Frame frame)
+  private Attitude angleStep(final AbsoluteDate date, final Frame frame)
   {
-    Rotation currentRotation = this.lastState.withReferenceFrame(
+    final Rotation currentRotation = this.lastState.withReferenceFrame(
         FramesFactory.getICRF()).getRotation();
 
-    Attitude result;
+    final Attitude result;
 
-    Vector3D diff = new Vector3D(
+    final Vector3D diff = new Vector3D(
         new Rotation(new Vector3D(0, 0, -1), currentRotation.applyInverseTo(targetVec))
             .getAngles(RotationOrder.XYZ, RotationConvention.VECTOR_OPERATOR));
 
@@ -172,7 +172,7 @@ public class VectorPointingSimulator implements AttitudeProvider
    * @param axis       the axis of the rotation in Spacecraft Frame.
    * @return
    */
-  Rotation angleStepAxis(Rotation currentRot, double angle, AXIS axis)
+  Rotation angleStepAxis(final Rotation currentRot, final double angle, final AXIS axis)
   {
     // transforms the axis from spacecraft frame into the frame of the given rotation, than uses it as rotaion axis
     switch (axis) {

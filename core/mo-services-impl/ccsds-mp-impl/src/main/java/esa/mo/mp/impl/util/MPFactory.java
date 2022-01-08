@@ -57,7 +57,7 @@ public class MPFactory extends MOFactory {
      * Creates a blank Request Version instance
      */
     public static RequestVersionDetails createRequestVersion() {
-        RequestVersionDetails requestVersion = new RequestVersionDetails();
+        final RequestVersionDetails requestVersion = new RequestVersionDetails();
 
         requestVersion.setArguments(new ArgumentList());
         requestVersion.setComments("");
@@ -70,13 +70,13 @@ public class MPFactory extends MOFactory {
      * Creates a blank Activity instance
      */
     public static ActivityInstanceDetails createActivityInstance() {
-        ActivityInstanceDetails activityInstance = new ActivityInstanceDetails();
+        final ActivityInstanceDetails activityInstance = new ActivityInstanceDetails();
 
         activityInstance.setChildren(new LongList());
 
         activityInstance.setComments("");
 
-        ConstraintNode constraints = new ConstraintNode();
+        final ConstraintNode constraints = new ConstraintNode();
         constraints.setConstraints(new c_ConstraintList());
         activityInstance.setConstraints(constraints);
 
@@ -86,8 +86,8 @@ public class MPFactory extends MOFactory {
     /**
      * Creates a blank Activity update with given status and current time
      */
-    public static ActivityUpdateDetails createActivityUpdate(ActivityStatus activityStatus) {
-        ActivityUpdateDetails activityUpdate = new ActivityUpdateDetails();
+    public static ActivityUpdateDetails createActivityUpdate(final ActivityStatus activityStatus) {
+        final ActivityUpdateDetails activityUpdate = new ActivityUpdateDetails();
 
         activityUpdate.setStatus(activityStatus);
         activityUpdate.setTimestamp(HelperTime.getTimestampMillis());
@@ -105,10 +105,10 @@ public class MPFactory extends MOFactory {
     /**
      * Creates an Event instance with given events
      */
-    public static EventInstanceDetails createEventInstance(Long... events) {
-        EventInstanceDetails eventInstance = new EventInstanceDetails();
+    public static EventInstanceDetails createEventInstance(final Long... events) {
+        final EventInstanceDetails eventInstance = new EventInstanceDetails();
 
-        LongList eventList = new LongList();
+        final LongList eventList = new LongList();
         eventList.addAll(Arrays.asList(events));
         eventInstance.setEvents(eventList);
 
@@ -119,18 +119,18 @@ public class MPFactory extends MOFactory {
      * Creates a blank Plan Version instance
      */
     public static PlanVersionDetails createPlanVersion() {
-        PlanVersionDetails planVersion = new PlanVersionDetails();
+        final PlanVersionDetails planVersion = new PlanVersionDetails();
 
         planVersion.setHasPrecursor(false);
         planVersion.setPatchPlan(false);
 
-        PlanInformation planInformation = new PlanInformation();
+        final PlanInformation planInformation = new PlanInformation();
         planInformation.setComments("");
         planInformation.setDescription("");
         planInformation.setProductionDate(HelperTime.getTimestampMillis());
         planVersion.setInformation(planInformation);
 
-        PlannedItems plannedItems = new PlannedItems();
+        final PlannedItems plannedItems = new PlannedItems();
         plannedItems.setPlannedActivities(new PlannedActivityList());
         plannedItems.setPlannedEvents(new PlannedEventList());
         planVersion.setItems(plannedItems);
@@ -142,8 +142,8 @@ public class MPFactory extends MOFactory {
      * Creates a plan update with given status and current time
      */
 
-    public static PlanUpdateDetails createPlanUpdate(PlanStatus planStatus) {
-        PlanUpdateDetails planUpdate = new PlanUpdateDetails();
+    public static PlanUpdateDetails createPlanUpdate(final PlanStatus planStatus) {
+        final PlanUpdateDetails planUpdate = new PlanUpdateDetails();
 
         planUpdate.setStatus(planStatus);
         planUpdate.setAlternate(false);
@@ -156,7 +156,7 @@ public class MPFactory extends MOFactory {
      * Creates a blank Activity Definition
      */
     public static ActivityDefinitionDetails createActivityDefinition() {
-        ActivityDefinitionDetails activityDefinition = new ActivityDefinitionDetails();
+        final ActivityDefinitionDetails activityDefinition = new ActivityDefinitionDetails();
 
         activityDefinition.setArgDefs(new c_ArgDefList());
         activityDefinition.setChildren(new ActivityNode());
@@ -174,7 +174,7 @@ public class MPFactory extends MOFactory {
      * Creates a blank Event Definition
      */
     public static EventDefinitionDetails createEventDefinition() {
-        EventDefinitionDetails eventDefinition = new EventDefinitionDetails();
+        final EventDefinitionDetails eventDefinition = new EventDefinitionDetails();
 
         eventDefinition.setArgDefs(new c_ArgDefList());
         eventDefinition.setDescription("");
@@ -189,7 +189,7 @@ public class MPFactory extends MOFactory {
      * Creates a blank Request Template
      */
     public static RequestTemplateDetails createRequestTemplate() {
-        RequestTemplateDetails requestTemplate = new RequestTemplateDetails();
+        final RequestTemplateDetails requestTemplate = new RequestTemplateDetails();
 
         requestTemplate.setActivities(new ActivityNode());
         requestTemplate.setArgDefs(new c_ArgDefList());
@@ -205,7 +205,7 @@ public class MPFactory extends MOFactory {
      * Creates a blank Numeric Resource Definition
      */
     public static NumericResourceDefinitionDetails createNumericResourceDefinition() {
-        NumericResourceDefinitionDetails numericResourceDefinition = new NumericResourceDefinitionDetails();
+        final NumericResourceDefinitionDetails numericResourceDefinition = new NumericResourceDefinitionDetails();
 
         numericResourceDefinition.setDescription("");
         numericResourceDefinition.setMaximum(new ResourceProfile());

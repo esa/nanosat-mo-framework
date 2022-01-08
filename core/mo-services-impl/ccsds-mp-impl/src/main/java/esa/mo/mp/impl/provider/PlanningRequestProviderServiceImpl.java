@@ -101,7 +101,7 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
      * @param comServices
      * @throws MALException            On initialisation error.
      */
-    public synchronized void init(COMServicesProvider comServices, MPArchiveManager archiveManager, MPServiceOperationManager registration) throws MALException {
+    public synchronized void init(final COMServicesProvider comServices, final MPArchiveManager archiveManager, final MPServiceOperationManager registration) throws MALException {
         if (!this.initialised) {
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -117,7 +117,7 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
 
             try {
                 PlanningRequestHelper.init(MALContextFactory.getElementFactoryRegistry());
-            } catch (MALException ex) {
+            } catch (final MALException ex) {
                 // nothing to be done..
             }
         }
@@ -147,25 +147,25 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
 
         // Listen Event Service for Request Version updates in COM Archive
         try {
-            EventConsumerServiceImpl consumer = new EventConsumerServiceImpl(comServices.getEventService().getConnectionProvider().getConnectionDetails());
-            Subscription subcription = HelperCOM.generateCOMEventSubscriptionBySourceType("RequestStatusUpdates", PlanningRequestHelper.REQUESTSTATUSUPDATE_OBJECT_TYPE);
+            final EventConsumerServiceImpl consumer = new EventConsumerServiceImpl(comServices.getEventService().getConnectionProvider().getConnectionDetails());
+            final Subscription subcription = HelperCOM.generateCOMEventSubscriptionBySourceType("RequestStatusUpdates", PlanningRequestHelper.REQUESTSTATUSUPDATE_OBJECT_TYPE);
             consumer.addEventReceivedListener(subcription, new EventReceivedListener(){
                 @Override
-                public void onDataReceived(EventCOMObject eventCOMObject) {
-                    ObjectId statusId = eventCOMObject.getSource();
-                    ObjectId requestVersionId = archiveManager.REQUEST_VERSION.getInstanceIdByStatusId(statusId);
-                    ObjectId requestIdentityId = archiveManager.REQUEST_VERSION.getIdentityIdByInstanceId(requestVersionId);
-                    Identifier requestIdentity = archiveManager.REQUEST_VERSION.getIdentity(requestIdentityId);
-                    RequestUpdateDetails status = archiveManager.REQUEST_VERSION.getStatus(statusId);
+                public void onDataReceived(final EventCOMObject eventCOMObject) {
+                    final ObjectId statusId = eventCOMObject.getSource();
+                    final ObjectId requestVersionId = archiveManager.REQUEST_VERSION.getInstanceIdByStatusId(statusId);
+                    final ObjectId requestIdentityId = archiveManager.REQUEST_VERSION.getIdentityIdByInstanceId(requestVersionId);
+                    final Identifier requestIdentity = archiveManager.REQUEST_VERSION.getIdentity(requestIdentityId);
+                    final RequestUpdateDetails status = archiveManager.REQUEST_VERSION.getStatus(statusId);
                     try {
                         publishRequestUpdate(requestIdentity, requestIdentityId, requestVersionId, status);
-                    } catch (IllegalArgumentException | MALInteractionException | MALException e) {
+                    } catch (final IllegalArgumentException | MALInteractionException | MALException e) {
                         LOGGER.warning("Error publishing request update");
                     }
                 }
             });
             LOGGER.info("Subscribed to RequestVersion updates");
-        } catch (MALInteractionException | MalformedURLException e) {
+        } catch (final MALInteractionException | MalformedURLException e) {
             throw new MALException(e.getMessage());
         }
 
@@ -183,7 +183,7 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
             }
 
             this.connection.closeAll();
-        } catch (MALException ex) {
+        } catch (final MALException ex) {
             LOGGER.log(Level.WARNING, "Exception during close down of the provider {0}", ex);
         }
     }
@@ -193,7 +193,7 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
     }
 
     @Override
-    public SubmitRequestResponse submitRequest(Identifier identity, RequestVersionDetails requestVersion, MALInteraction interaction) throws MALInteractionException, MALException {
+    public SubmitRequestResponse submitRequest(final Identifier identity, final RequestVersionDetails requestVersion, final MALInteraction interaction) throws MALInteractionException, MALException {
         // Validate request template
         validateRequestTemplate(requestVersion);
 
@@ -201,16 +201,16 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
         operationCallbackManager.notifyRequestValidation(MPServiceOperation.SUBMIT_REQUEST, requestVersion);
 
         // Store Request Identity and Request Version to COM Archive
-        ObjectIdPair pair = this.archiveManager.REQUEST_VERSION.addInstance(identity, requestVersion, null, interaction);
-        ObjectId requestIdentityId = pair.getIdentityId();
-        ObjectId requestVersionId = pair.getObjectId();
+        final ObjectIdPair pair = this.archiveManager.REQUEST_VERSION.addInstance(identity, requestVersion, null, interaction);
+        final ObjectId requestIdentityId = pair.getIdentityId();
+        final ObjectId requestVersionId = pair.getObjectId();
 
         // Store Request Update to COM Archive
-        RequestUpdateDetails status = new RequestUpdateDetails();
+        final RequestUpdateDetails status = new RequestUpdateDetails();
         status.setRequestId(requestVersionId);
         status.setStatus(RequestStatus.REQUESTED);
         status.setTimestamp(HelperTime.getTimestampMillis());
-        ObjectId statusId = this.archiveManager.REQUEST_VERSION.addStatus(requestVersionId, status, null, interaction);
+        final ObjectId statusId = this.archiveManager.REQUEST_VERSION.addStatus(requestVersionId, status, null, interaction);
 
         // Operation callback
         operationCallbackManager.notify(
@@ -226,10 +226,10 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
         );
 
         // Send response to consumer
-        SubmitRequestResponse response = new SubmitRequestResponse();
+        final SubmitRequestResponse response = new SubmitRequestResponse();
 
-        Long identityInstanceId = COMObjectIdHelper.getInstanceId(requestIdentityId);
-        Long versionInstanceId = COMObjectIdHelper.getInstanceId(requestVersionId);
+        final Long identityInstanceId = COMObjectIdHelper.getInstanceId(requestIdentityId);
+        final Long versionInstanceId = COMObjectIdHelper.getInstanceId(requestVersionId);
 
         response.setBodyElement0(identityInstanceId);
         response.setBodyElement1(versionInstanceId);
@@ -237,7 +237,7 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
     }
 
     @Override
-    public Long updateRequest(Long requestIdentityId, RequestVersionDetails requestVersion, MALInteraction interaction) throws MALInteractionException, MALException {
+    public Long updateRequest(final Long requestIdentityId, final RequestVersionDetails requestVersion, final MALInteraction interaction) throws MALInteractionException, MALException {
         // Validate request template
         validateRequestTemplate(requestVersion);
 
@@ -245,15 +245,15 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
         operationCallbackManager.notifyRequestValidation(MPServiceOperation.UPDATE_REQUEST, requestVersion);
 
         // Store updated request version to COM Archive
-        ObjectId identityId = COMObjectIdHelper.getObjectId(requestIdentityId, PlanningRequestHelper.REQUESTIDENTITY_OBJECT_TYPE);
-        ObjectId requestVersionId = this.archiveManager.REQUEST_VERSION.updateInstance(identityId, requestVersion, null, interaction);
+        final ObjectId identityId = COMObjectIdHelper.getObjectId(requestIdentityId, PlanningRequestHelper.REQUESTIDENTITY_OBJECT_TYPE);
+        final ObjectId requestVersionId = this.archiveManager.REQUEST_VERSION.updateInstance(identityId, requestVersion, null, interaction);
 
         // Store updated request version update to COM Archive
-        RequestUpdateDetails status = new RequestUpdateDetails();
+        final RequestUpdateDetails status = new RequestUpdateDetails();
         status.setRequestId(requestVersionId);
         status.setStatus(RequestStatus.REQUESTED);
         status.setTimestamp(HelperTime.getTimestampMillis());
-        ObjectId statusId = this.archiveManager.REQUEST_VERSION.addStatus(requestVersionId, status, null, interaction);
+        final ObjectId statusId = this.archiveManager.REQUEST_VERSION.addStatus(requestVersionId, status, null, interaction);
 
         // Operation callback
         operationCallbackManager.notify(
@@ -269,22 +269,22 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
         );
 
         // Send response to consumer
-        Long updatedInstanceId = COMObjectIdHelper.getInstanceId(requestVersionId);
+        final Long updatedInstanceId = COMObjectIdHelper.getInstanceId(requestVersionId);
         return updatedInstanceId;
     }
 
     @Override
-    public void cancelRequest(Long requestIdentityId, MALInteraction interaction) throws MALInteractionException, MALException {
+    public void cancelRequest(final Long requestIdentityId, final MALInteraction interaction) throws MALInteractionException, MALException {
         // Find request version
-        ObjectId identityId = COMObjectIdHelper.getObjectId(requestIdentityId, PlanningRequestHelper.REQUESTIDENTITY_OBJECT_TYPE);
-        ObjectId requestVersionId = archiveManager.REQUEST_VERSION.getInstanceIdByIdentityId(identityId);
+        final ObjectId identityId = COMObjectIdHelper.getObjectId(requestIdentityId, PlanningRequestHelper.REQUESTIDENTITY_OBJECT_TYPE);
+        final ObjectId requestVersionId = archiveManager.REQUEST_VERSION.getInstanceIdByIdentityId(identityId);
 
         // Store updated request version update to COM Archive
-        RequestUpdateDetails status = new RequestUpdateDetails();
+        final RequestUpdateDetails status = new RequestUpdateDetails();
         status.setRequestId(requestVersionId);
         status.setStatus(RequestStatus.CANCELLED);
         status.setTimestamp(HelperTime.getTimestampMillis());
-        ObjectId statusId = this.archiveManager.REQUEST_VERSION.updateStatus(requestVersionId, status, null, interaction);
+        final ObjectId statusId = this.archiveManager.REQUEST_VERSION.updateStatus(requestVersionId, status, null, interaction);
 
         // Operation callback
         operationCallbackManager.notify(
@@ -301,24 +301,24 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
     }
 
     @Override
-    public GetRequestStatusResponse getRequestStatus(RequestFilter requestFilter, MALInteraction interaction) throws MALInteractionException, MALException {
-        LongList identityIdList = new LongList();
-        LongList instanceIdList = new LongList();
-        RequestUpdateDetailsList statusList = new RequestUpdateDetailsList();
+    public GetRequestStatusResponse getRequestStatus(final RequestFilter requestFilter, final MALInteraction interaction) throws MALInteractionException, MALException {
+        final LongList identityIdList = new LongList();
+        final LongList instanceIdList = new LongList();
+        final RequestUpdateDetailsList statusList = new RequestUpdateDetailsList();
 
         // List all request versions and find
-        ObjectIdList identityIds = archiveManager.REQUEST_VERSION.listAllIdentityIds();
-        ObjectIdList versionIds = archiveManager.REQUEST_VERSION.getInstanceIdsByIdentityIds(identityIds);
-        ObjectIdList statusIds = archiveManager.REQUEST_VERSION.getStatusIdsByInstanceIds(versionIds);
+        final ObjectIdList identityIds = archiveManager.REQUEST_VERSION.listAllIdentityIds();
+        final ObjectIdList versionIds = archiveManager.REQUEST_VERSION.getInstanceIdsByIdentityIds(identityIds);
+        final ObjectIdList statusIds = archiveManager.REQUEST_VERSION.getStatusIdsByInstanceIds(versionIds);
         for (int index = 0; index < statusIds.size(); index++) {
-            ObjectId identityId = identityIds.get(index);
-            ObjectId versionId = versionIds.get(index);
-            ObjectId statusId = statusIds.get(index);
+            final ObjectId identityId = identityIds.get(index);
+            final ObjectId versionId = versionIds.get(index);
+            final ObjectId statusId = statusIds.get(index);
             if (!checkRequestFilter(requestFilter, identityId)) {
                 // Skip all identities that do not match the filter
                 continue;
             }
-            RequestUpdateDetails status = archiveManager.REQUEST_VERSION.getStatus(statusId);
+            final RequestUpdateDetails status = archiveManager.REQUEST_VERSION.getStatus(statusId);
             if (versionId == null || status == null) {
                 // There is no instance or no status
                 continue;
@@ -329,7 +329,7 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
         }
 
         // Send response to consumer
-        GetRequestStatusResponse response = new GetRequestStatusResponse();
+        final GetRequestStatusResponse response = new GetRequestStatusResponse();
         response.setBodyElement0(identityIdList);
         response.setBodyElement1(instanceIdList);
         response.setBodyElement2(statusList);
@@ -337,22 +337,22 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
     }
 
     @Override
-    public void getRequest(RequestFilter requestFilter, GetRequestInteraction interaction) throws MALInteractionException, MALException {
-        LongList identityIdList = new LongList();
-        LongList versionIdList = new LongList();
-        RequestVersionDetailsList instanceList = new RequestVersionDetailsList();
+    public void getRequest(final RequestFilter requestFilter, final GetRequestInteraction interaction) throws MALInteractionException, MALException {
+        final LongList identityIdList = new LongList();
+        final LongList versionIdList = new LongList();
+        final RequestVersionDetailsList instanceList = new RequestVersionDetailsList();
 
-        ObjectIdList identityIds = archiveManager.REQUEST_VERSION.listAllIdentityIds();
-        ObjectIdList versionIds = archiveManager.REQUEST_VERSION.getInstanceIdsByIdentityIds(identityIds);
+        final ObjectIdList identityIds = archiveManager.REQUEST_VERSION.listAllIdentityIds();
+        final ObjectIdList versionIds = archiveManager.REQUEST_VERSION.getInstanceIdsByIdentityIds(identityIds);
         for (int index = 0; index < versionIds.size(); index++) {
-            ObjectId identityId = identityIds.get(index);
-            ObjectId versionId = versionIds.get(index);
+            final ObjectId identityId = identityIds.get(index);
+            final ObjectId versionId = versionIds.get(index);
             if (!checkRequestFilter(requestFilter, identityId)) {
                 // Skip all requests that do not match the filter
                 continue;
             }
 
-            RequestVersionDetails instance = archiveManager.REQUEST_VERSION.getInstance(versionId);
+            final RequestVersionDetails instance = archiveManager.REQUEST_VERSION.getInstance(versionId);
             if (versionId == null || instance == null) {
                 // There is no instance or no status
                 continue;
@@ -363,22 +363,22 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
         }
 
         // Send response to consumer
-        Short numberOfUpdates = 0;
+        final Short numberOfUpdates = 0;
         interaction.sendAcknowledgement(numberOfUpdates);
         interaction.sendResponse(identityIdList, versionIdList, instanceList);
     }
 
-    private void validateRequestTemplate(RequestVersionDetails requestVersion) throws MALInteractionException {
+    private void validateRequestTemplate(final RequestVersionDetails requestVersion) throws MALInteractionException {
         if (requestVersion == null || requestVersion.getTemplate() == null) return;
-        ObjectId requestTemplateId = requestVersion.getTemplate();
-        Long requestTemplateInstanceId = COMObjectIdHelper.getInstanceId(requestTemplateId);
-        RequestTemplateDetails requestTemplate = archiveManager.REQUEST_TEMPLATE.getDefinition(requestTemplateId);
+        final ObjectId requestTemplateId = requestVersion.getTemplate();
+        final Long requestTemplateInstanceId = COMObjectIdHelper.getInstanceId(requestTemplateId);
+        final RequestTemplateDetails requestTemplate = archiveManager.REQUEST_TEMPLATE.getDefinition(requestTemplateId);
         if (requestTemplateInstanceId == 0L || requestTemplate == null) {
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, new Union("Invalid Request Template Id")));
         }
     }
 
-    private void publishRequestUpdate(Identifier identity, ObjectId identityId, ObjectId versionId, RequestUpdateDetails update) throws IllegalArgumentException, MALInteractionException, MALException {
+    private void publishRequestUpdate(final Identifier identity, final ObjectId identityId, final ObjectId versionId, final RequestUpdateDetails update) throws IllegalArgumentException, MALInteractionException, MALException {
         if (!this.isPublisherRegistered) {
             final EntityKeyList entityKeys = new EntityKeyList();
             entityKeys.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
@@ -386,27 +386,27 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
             this.isPublisherRegistered = true;
         }
 
-        UpdateHeaderList headerList = new UpdateHeaderList();
+        final UpdateHeaderList headerList = new UpdateHeaderList();
 
-        Identifier firstSubKey = identity;
-        Long secondSubKey = COMObjectIdHelper.getInstanceId(identityId);
-        Long thirdSubKey = COMObjectIdHelper.getInstanceId(versionId);
-        Long fourthSubKey = Long.valueOf(update.getStatus().getNumericValue().getValue());
+        final Identifier firstSubKey = identity;
+        final Long secondSubKey = COMObjectIdHelper.getInstanceId(identityId);
+        final Long thirdSubKey = COMObjectIdHelper.getInstanceId(versionId);
+        final Long fourthSubKey = Long.valueOf(update.getStatus().getNumericValue().getValue());
 
-        EntityKey entityKey = new EntityKey(firstSubKey, secondSubKey, thirdSubKey, fourthSubKey);
+        final EntityKey entityKey = new EntityKey(firstSubKey, secondSubKey, thirdSubKey, fourthSubKey);
         headerList.add(new UpdateHeader(
             update.getTimestamp(),
             connection.getConnectionDetails().getProviderURI(),
             UpdateType.CREATION,
             entityKey
         ));
-        RequestUpdateDetailsList requestStatusList = new RequestUpdateDetailsList();
+        final RequestUpdateDetailsList requestStatusList = new RequestUpdateDetailsList();
         requestStatusList.add(update);
 
         requestPublisher.publish(headerList, requestStatusList);
     }
 
-    private boolean checkRequestFilter(RequestFilter requestFilter, ObjectId identityId) {
+    private boolean checkRequestFilter(final RequestFilter requestFilter, final ObjectId identityId) {
         if (requestFilter.getReturnAll() != null && requestFilter.getReturnAll()) {
             return true;
         }
@@ -414,7 +414,7 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
         // TODO: Check domain
         // TODO: Check source
         // Check identities
-        Long identityInstanceId = COMObjectIdHelper.getInstanceId(identityId);
+        final Long identityInstanceId = COMObjectIdHelper.getInstanceId(identityId);
         if (requestFilter.getRequestIdentityId() != null && requestFilter.getRequestIdentityId().contains(identityInstanceId)) {
             match = true;
         }

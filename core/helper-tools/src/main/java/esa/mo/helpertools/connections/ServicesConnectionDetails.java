@@ -43,19 +43,19 @@ public class ServicesConnectionDetails {
         return this.services;
     }
 
-    public void setServices(HashMap<String, SingleConnectionDetails> services) {
+    public void setServices(final HashMap<String, SingleConnectionDetails> services) {
         this.services = services;
     }
 
-    public SingleConnectionDetails get(String string) {
+    public SingleConnectionDetails get(final String string) {
         return services.get(string);
     }
 
-    public SingleConnectionDetails get(Identifier id) {
+    public SingleConnectionDetails get(final Identifier id) {
         return services.get(id.toString());
     }
 
-    public void add(String key, SingleConnectionDetails value) {
+    public void add(final String key, final SingleConnectionDetails value) {
         services.put(key, value);
     }
 
@@ -90,12 +90,12 @@ public class ServicesConnectionDetails {
             filename = System.getProperty("providerURI.properties", HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME);
         }
 
-        File configFile = new File(filename);
+        final File configFile = new File(filename);
         if (!configFile.exists()) {
             throw new FileNotFoundException(filename + " not found.");
         }
 
-        Properties uriProps = HelperMisc.loadProperties(configFile.toURI().toURL(), "providerURI.properties");
+        final Properties uriProps = HelperMisc.loadProperties(configFile.toURI().toURL(), "providerURI.properties");
         return loadURIFromProperties(uriProps);
     }
 
@@ -107,23 +107,23 @@ public class ServicesConnectionDetails {
      * @throws java.net.MalformedURLException when the MALconsumer is not
      * initialized correctly
      */
-    public ServicesConnectionDetails loadURIFromProperties(Properties uriProps) throws MalformedURLException {
+    public ServicesConnectionDetails loadURIFromProperties(final Properties uriProps) throws MalformedURLException {
 
         // Reading the values out of the properties file
-        Set propKeys = uriProps.keySet();
-        Object[] array = propKeys.toArray();
+        final Set propKeys = uriProps.keySet();
+        final Object[] array = propKeys.toArray();
 
         for (int i = 0; i < array.length; i++) {
-            String propString = array[i].toString();
+            final String propString = array[i].toString();
 
             if (propString.endsWith(HelperConnections.SUFFIX_URI)) {  // Is it a URI property of some service?
-                String serviceName = propString.substring(0, propString.length() - HelperConnections.SUFFIX_URI.length());  // Remove the URI part of it
-                SingleConnectionDetails details = new SingleConnectionDetails();
+                final String serviceName = propString.substring(0, propString.length() - HelperConnections.SUFFIX_URI.length());  // Remove the URI part of it
+                final SingleConnectionDetails details = new SingleConnectionDetails();
 
                 // Get the URI + Broker + Domain from the Properties
                 details.setProviderURI(uriProps.getProperty(serviceName + HelperConnections.SUFFIX_URI));
 
-                String brokerURI = uriProps.getProperty(serviceName + HelperConnections.SUFFIX_BROKER);
+                final String brokerURI = uriProps.getProperty(serviceName + HelperConnections.SUFFIX_BROKER);
                 details.setBrokerURI(brokerURI);
 
                 if ("null".equals(brokerURI)) {
@@ -131,12 +131,12 @@ public class ServicesConnectionDetails {
                 }
 
                 details.setDomain(HelperMisc.domainId2domain(uriProps.getProperty(serviceName + HelperConnections.SUFFIX_DOMAIN)));
-                String serviceKeyRaw = uriProps.getProperty(serviceName + HelperConnections.SUFFIX_SERVICE_KEY);
+                final String serviceKeyRaw = uriProps.getProperty(serviceName + HelperConnections.SUFFIX_SERVICE_KEY);
 
                 if (serviceKeyRaw != null) {
                     // 1 in order to remove the '['
-                    String[] a = serviceKeyRaw.substring(1, serviceKeyRaw.length() - 1).split(", ");
-                    IntegerList serviceKey = new IntegerList();
+                    final String[] a = serviceKeyRaw.substring(1, serviceKeyRaw.length() - 1).split(", ");
+                    final IntegerList serviceKey = new IntegerList();
                     serviceKey.add(Integer.parseInt(a[0]));
                     serviceKey.add(Integer.parseInt(a[1]));
                     serviceKey.add(Integer.parseInt(a[2]));

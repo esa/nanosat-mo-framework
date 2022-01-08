@@ -65,7 +65,7 @@ public class PushClock {
         this.timer.scheduleTask(new Thread(() -> {
             try {
                 pushClock();
-            } catch (NMFException ex) {
+            } catch (final NMFException ex) {
                 Logger.getLogger(PushClock.class.getName()).log(Level.SEVERE,
                         "The Clock could not be pushed to the consumer!", ex);
             }
@@ -102,30 +102,30 @@ public class PushClock {
      * @throws java.lang.Exception If there is an error
      */
     public static void main(final String[] args) throws Exception {
-        PushClock demo = new PushClock();
+        final PushClock demo = new PushClock();
     }
 
     public class MCAdapter extends MonitorAndControlNMFAdapter {
 
         @Override
-        public void initialRegistrations(MCRegistration registrationObject) {
+        public void initialRegistrations(final MCRegistration registrationObject) {
             // Not necessary because the NMF will do the registrations
             // automatically after the first push
         }
 
         @Override
-        public UInteger actionArrived(Identifier idntfr, AttributeValueList avl,
-                Long l, boolean bln, MALInteraction mali) {
+        public UInteger actionArrived(final Identifier idntfr, final AttributeValueList avl,
+                                      final Long l, final boolean bln, final MALInteraction mali) {
             throw new UnsupportedOperationException("Not supported.");
         }
 
         @Override
-        public Attribute onGetValue(Identifier idntfr, Byte b) {
+        public Attribute onGetValue(final Identifier idntfr, final Byte b) {
             throw new UnsupportedOperationException("Not supported.");
         }
 
         @Override
-        public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
+        public Boolean onSetValue(final IdentifierList identifiers, final ParameterRawValueList values) {
             throw new UnsupportedOperationException("Not supported.");
         }
     }

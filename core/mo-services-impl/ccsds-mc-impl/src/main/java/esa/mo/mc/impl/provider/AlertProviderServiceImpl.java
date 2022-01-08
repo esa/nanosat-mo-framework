@@ -93,7 +93,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
      * @param comServices
      * @throws MALException On initialisation error.
      */
-    public synchronized void init(COMServicesProvider comServices) throws MALException {
+    public synchronized void init(final COMServicesProvider comServices) throws MALException {
         if (!initialiased) {
 
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
@@ -140,7 +140,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
 
             connection.closeAll();
             running = false;
-        } catch (MALException ex) {
+        } catch (final MALException ex) {
             Logger.getLogger(AlertProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during close down of the provider {0}", ex);
         }
     }
@@ -150,19 +150,19 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
     }
 
     @Override
-    public void setOnConfigurationChangeListener(ConfigurationChangeListener configurationAdapter){
+    public void setOnConfigurationChangeListener(final ConfigurationChangeListener configurationAdapter){
         this.configurationAdapter = configurationAdapter;
     }
         
     @Override
-    public LongList enableGeneration(Boolean isGroupIds, InstanceBooleanPairList enableInstances,
-            MALInteraction interaction) throws MALInteractionException, MALException {
-        UIntegerList unkIndexList = new UIntegerList();
-        UIntegerList invIndexList = new UIntegerList();
+    public LongList enableGeneration(final Boolean isGroupIds, final InstanceBooleanPairList enableInstances,
+                                     final MALInteraction interaction) throws MALInteractionException, MALException {
+        final UIntegerList unkIndexList = new UIntegerList();
+        final UIntegerList invIndexList = new UIntegerList();
         InstanceBooleanPair enableInstance;
 
-        LongList objIdToBeEnabled = new LongList();
-        BooleanList valueToBeEnabled = new BooleanList();
+        final LongList objIdToBeEnabled = new LongList();
+        final BooleanList valueToBeEnabled = new BooleanList();
 
         if (null == isGroupIds || null == enableInstances) { // Are the inputs null?
             throw new IllegalArgumentException("isGroupIds and enableInstances arguments must not be null");
@@ -170,8 +170,8 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
 
         boolean foundWildcard = false;
 
-        ObjectId source = manager.storeCOMOperationActivity(interaction); // requirement: 3.4.4.h
-        for (InstanceBooleanPair instance : enableInstances) {  // requirement: 3.4.8.2.d
+        final ObjectId source = manager.storeCOMOperationActivity(interaction); // requirement: 3.4.4.h
+        for (final InstanceBooleanPair instance : enableInstances) {  // requirement: 3.4.8.2.d
             if (instance.getId() == 0) {  // Is it the wildcard '0'? requirement: 3.3.8.2.c
                 manager.setGenerationEnabledAll(instance.getValue(), source, connection.getConnectionDetails());
                 foundWildcard = true;
@@ -195,20 +195,20 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
             } else {//the ids are group-definition-ids, req: 3.4.8.2.a, 3.9.4.g,h
                 //TODO: sure? groupddefintion or identity-ids? -> issue #135, #179
                 //in the next for loop, ignore the other group definitions, they will be checked in other iterations.
-                LongList ignoreList = new LongList();
-                for (InstanceBooleanPair instance : enableInstances) {
+                final LongList ignoreList = new LongList();
+                for (final InstanceBooleanPair instance : enableInstances) {
                     ignoreList.add(instance.getId());
                 }
                 for (int index = 0; index < enableInstances.size(); index++) {
                     //these are Group-Definition-ids req: 3.9.4.g,h
                     enableInstance = enableInstances.get(index);
                     final Long groupId = enableInstance.getId();
-                    GroupDetails group = groupService.retrieveGroupDetailsFromArchive(ConfigurationProviderSingleton.getDomain(), groupId);
+                    final GroupDetails group = groupService.retrieveGroupDetailsFromArchive(ConfigurationProviderSingleton.getDomain(), groupId);
                     if (group == null) { //group wasnt found
                         unkIndexList.add(new UInteger(index)); // requirement: 3.4.8.2.g
                     } else { //if group was found, then get the instances of it and its groups
                         ignoreList.remove(groupId);
-                        GroupServiceImpl.IdObjectTypeList idObjectTypes = groupService.getGroupObjectIdsFromGroup(groupId, group, ignoreList);
+                        final GroupServiceImpl.IdObjectTypeList idObjectTypes = groupService.getGroupObjectIdsFromGroup(groupId, group, ignoreList);
                         ignoreList.add(groupId);
 
                         // workaround for empty groups of the wrong type
@@ -217,7 +217,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
                         }
 
                         //checks if the given identityId is found in the internal Alert-list, if not its not a alert and invalid
-                        for (GroupServiceImpl.IdObjectType idObjectType : idObjectTypes) {
+                        for (final GroupServiceImpl.IdObjectType idObjectType : idObjectTypes) {
                             if (idObjectType.getObjectType().equals(AlertHelper.ALERTIDENTITY_OBJECT_TYPE)) {
                                 final Long identityId = idObjectType.getId(); // requirement: 3.4.8.2.b
                                 //checks if the alertId referenced in the group is known
@@ -247,12 +247,12 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
         }
 
-        LongList output = new LongList();
+        final LongList output = new LongList();
 
         // requirement: 3.4.8.2.i (This part of the code is only reached if no error was raised)
         for (int index = 0; index < objIdToBeEnabled.size(); index++) {
             // requirement: 3.4.8.e and 3.4.8.f and 3.4.8.j
-            Long out = manager.setGenerationEnabled(objIdToBeEnabled.get(index), 
+            final Long out = manager.setGenerationEnabled(objIdToBeEnabled.get(index),
                     valueToBeEnabled.get(index), source, connection.getConnectionDetails());
             output.add(out);
         }
@@ -265,15 +265,15 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
     }
 
     @Override
-    public ObjectInstancePairList listDefinition(IdentifierList alertNames, MALInteraction interaction) throws MALInteractionException, MALException {
-        ObjectInstancePairList outPairLst = new ObjectInstancePairList();
+    public ObjectInstancePairList listDefinition(final IdentifierList alertNames, final MALInteraction interaction) throws MALInteractionException, MALException {
+        final ObjectInstancePairList outPairLst = new ObjectInstancePairList();
 
         if (null == alertNames) { // Is the input null?
             throw new IllegalArgumentException("alertNames argument must not be null");
         }
 
         boolean wildcardFound = false;
-        for (Identifier alertName : alertNames) {  // requirement: 3.4.9.2.f
+        for (final Identifier alertName : alertNames) {  // requirement: 3.4.9.2.f
             // Check for the wildcard
             if (alertName.toString().equals("*")) {  // requirement: 3.4.9.2.b
                 outPairLst.addAll(manager.listAllIdentityDefinitions()); // ... add all in a row; requirement: 3.4.9.2.e
@@ -283,9 +283,9 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         }
 
         if (!wildcardFound) {
-            UIntegerList unkIndexList = new UIntegerList();
+            final UIntegerList unkIndexList = new UIntegerList();
             for (int i = 0; i < alertNames.size(); i++) { //requirement: 3.4.9.2.f foreach-cycle steps through list in order
-                Identifier alertName = alertNames.get(i);
+                final Identifier alertName = alertNames.get(i);
 
                 final ObjectInstancePair idPair = manager.getIdentityDefinition(alertName);
                 if (idPair == null) {  //requirement: 3.4.9.2.d
@@ -306,9 +306,9 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
     }
 
     @Override
-    public ObjectInstancePairList addAlert(AlertCreationRequestList alertCreationRequests, MALInteraction interaction) throws MALInteractionException, MALException {
-        UIntegerList invIndexList = new UIntegerList();
-        UIntegerList dupIndexList = new UIntegerList();
+    public ObjectInstancePairList addAlert(final AlertCreationRequestList alertCreationRequests, final MALInteraction interaction) throws MALInteractionException, MALException {
+        final UIntegerList invIndexList = new UIntegerList();
+        final UIntegerList dupIndexList = new UIntegerList();
 
         if (null == alertCreationRequests) // Is the input null?
         {
@@ -317,8 +317,8 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
 
         for (int index = 0; index < alertCreationRequests.size(); index++) {
             //requirement: 3.4.10.2.a
-            AlertCreationRequest alertCreationReq = alertCreationRequests.get(index);
-            Identifier alertName = alertCreationReq.getName();
+            final AlertCreationRequest alertCreationReq = alertCreationRequests.get(index);
+            final Identifier alertName = alertCreationReq.getName();
 
             // Check if the name field of the AlertDefinition is invalid.
             if (alertName.equals(new Identifier("*"))
@@ -343,10 +343,10 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
             throw new MALInteractionException(new MALStandardError(COMHelper.DUPLICATE_ERROR_NUMBER, dupIndexList));
         }
 
-        ObjectInstancePairList outPairLst = new ObjectInstancePairList();
-        ObjectId source = manager.storeCOMOperationActivity(interaction); // requirement: 3.4.4.g,h
+        final ObjectInstancePairList outPairLst = new ObjectInstancePairList();
+        final ObjectId source = manager.storeCOMOperationActivity(interaction); // requirement: 3.4.4.g,h
         //requirement: 3.4.10.2.h -> cycling with for loop through  the requests assures that
-        for (AlertCreationRequest alertCreationRequest : alertCreationRequests) {
+        for (final AlertCreationRequest alertCreationRequest : alertCreationRequests) {
             //requirement: 3.4.10.2.a
             outPairLst.add(manager.add(alertCreationRequest.getName(), alertCreationRequest.getAlertDefDetails(), 
                     source, connection.getConnectionDetails())); //  requirement: 3.4.10.2.f
@@ -360,11 +360,11 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
     }
 
     @Override
-    public LongList updateDefinition(LongList alertObjInstIds, AlertDefinitionDetailsList newAlertDefDetails, 
-            MALInteraction interaction) throws MALInteractionException, MALException {
+    public LongList updateDefinition(final LongList alertObjInstIds, final AlertDefinitionDetailsList newAlertDefDetails,
+                                     final MALInteraction interaction) throws MALInteractionException, MALException {
 
-        UIntegerList unkIndexList = new UIntegerList();
-        UIntegerList invIndexList = new UIntegerList();
+        final UIntegerList unkIndexList = new UIntegerList();
+        final UIntegerList invIndexList = new UIntegerList();
 
         if (null == alertObjInstIds || null == newAlertDefDetails) { // Are the inputs null?
             throw new IllegalArgumentException("alertObjInstIds and alertDefDetails arguments must not be null");
@@ -394,8 +394,8 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
             throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
         }
 
-        LongList outLst = new LongList();
-        ObjectId source = manager.storeCOMOperationActivity(interaction); // requirement: 3.3.4.g, h
+        final LongList outLst = new LongList();
+        final ObjectId source = manager.storeCOMOperationActivity(interaction); // requirement: 3.3.4.g, h
         // requirement: 3.4.11.2.e, 3.4.11.2.j
         for (int index = 0; index < alertObjInstIds.size(); index++) {
             //requirement: 3.4.11.2.a, 3.4.11.2.d
@@ -411,9 +411,9 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
     }
 
     @Override
-    public void removeAlert(LongList alertIdentityIds, MALInteraction interaction) throws MALInteractionException, MALException {
-        UIntegerList unkIndexList = new UIntegerList();
-        LongList removalLst = new LongList();
+    public void removeAlert(final LongList alertIdentityIds, final MALInteraction interaction) throws MALInteractionException, MALException {
+        final UIntegerList unkIndexList = new UIntegerList();
+        final LongList removalLst = new LongList();
 
         if (null == alertIdentityIds) { // Is the input null?
             throw new IllegalArgumentException("LongList argument must not be null");
@@ -421,7 +421,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
 
         for (int index = 0; index < alertIdentityIds.size(); index++) {
             //requirement: 3.4.12.2.a
-            Long identityId = alertIdentityIds.get(index);
+            final Long identityId = alertIdentityIds.get(index);
             if (identityId == 0) {  // Is it the wildcard '0'? requirement: 3.4.12.2.b
                 removalLst.clear();  // if the wildcard is in the middle of the input list, we clear the output list and...
                 removalLst.addAll(manager.listAllIdentities()); // ... add all in a row
@@ -442,7 +442,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         }
 
         // requirement: 3.4.12.2.e (Inserting the errors before this line guarantees that the requirement is met)
-        for (Long removalId : removalLst) {
+        for (final Long removalId : removalLst) {
             //requirement: 3.4.12.2.a
             manager.delete(removalId);  // COM archive is left untouched. requirement: 3.4.12.2.d
         }
@@ -486,7 +486,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         final Long defId = pair.getObjDefInstanceId();
         
         // Also, check if the Alert is enabled or not!
-        AlertDefinitionDetails alertDef = manager.getAlertDefinitionFromDefId(defId);
+        final AlertDefinitionDetails alertDef = manager.getAlertDefinitionFromDefId(defId);
 
         if (alertDef == null) { // requirement: 3.4.12.2.g
             return null;
@@ -507,24 +507,24 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
             }
         }
 
-        AlertEventDetails alertEvent = new AlertEventDetails();
+        final AlertEventDetails alertEvent = new AlertEventDetails();
         alertEvent.setArgumentValues(argumentValues);
         alertEvent.setArgumentIds(argumentIds);
 
         // COM and Event usage 
         // requirement: 3.4.3.d
         // requirement: 3.4.7.b, 3.4.4.d, 3.4.4.f
-        Long alertEventObjId = manager.getEventService().generateAndStoreEvent(AlertHelper.ALERTEVENT_OBJECT_TYPE,
+        final Long alertEventObjId = manager.getEventService().generateAndStoreEvent(AlertHelper.ALERTEVENT_OBJECT_TYPE,
                 ConfigurationProviderSingleton.getDomain(), alertEvent, defId, source, interaction);
 
         // requirement: 3.4.5.a and 3.4.5.b and 3.4.5.c
-        AlertEventDetailsList alertEvents = new AlertEventDetailsList();
+        final AlertEventDetailsList alertEvents = new AlertEventDetailsList();
         alertEvents.add(alertEvent);
         final URI uri = EventProviderServiceImpl.convertMALInteractionToURI(interaction);
 
         try {
             manager.getEventService().publishEvent(uri, alertEventObjId, AlertHelper.ALERTEVENT_OBJECT_TYPE, defId, source, alertEvents);
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             Logger.getLogger(AlertProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -542,20 +542,20 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
      */
     private Long generateAlertDefinition(final AttributeValueList argumentValues, 
             final Identifier alertDefinitionName, final MALInteraction interaction, Long identityId) {
-        AlertCreationRequest alertCreationDef = new AlertCreationRequest();
-        AlertDefinitionDetails alertDef = new AlertDefinitionDetails();
+        final AlertCreationRequest alertCreationDef = new AlertCreationRequest();
+        final AlertDefinitionDetails alertDef = new AlertDefinitionDetails();
         alertDef.setDescription("This def. was auto-generated by the Alert service");
         alertDef.setSeverity(Severity.INFORMATIONAL);
         alertDef.setGenerationEnabled(true);
         
-        ArgumentDefinitionDetailsList args = new ArgumentDefinitionDetailsList();
+        final ArgumentDefinitionDetailsList args = new ArgumentDefinitionDetailsList();
         ArgumentDefinitionDetails arg = new ArgumentDefinitionDetails(); // Generate the Argument Definition
         
         if (argumentValues == null) {
             arg = null;
         } else {
             for (int i = 0; i < argumentValues.size(); i++) {  // Go one by one and figure it out what they are
-                AttributeValue argumentValue = argumentValues.get(i);
+                final AttributeValue argumentValue = argumentValues.get(i);
 
                 if (argumentValue.getValue() == null) {  // Well, let's then consider it is a Double
                     arg.setRawType(Union.DOUBLE_TYPE_SHORT_FORM.byteValue());
@@ -576,25 +576,25 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         alertCreationDef.setName(alertDefinitionName);
         alertCreationDef.setAlertDefDetails(alertDef);
         // And... add it to the provider
-        AlertCreationRequestList alertCreationDefs = new AlertCreationRequestList(1);
+        final AlertCreationRequestList alertCreationDefs = new AlertCreationRequestList(1);
         alertCreationDefs.add(alertCreationDef);
         
         try {
-            ObjectInstancePairList returnedObjIds = this.addAlert(alertCreationDefs, interaction);
+            final ObjectInstancePairList returnedObjIds = this.addAlert(alertCreationDefs, interaction);
             identityId = returnedObjIds.get(0).getObjIdentityInstanceId();
 
             // Enable the Alert reporting!
 //            InstanceBooleanPairList ids = new InstanceBooleanPairList();
 //            ids.add(new InstanceBooleanPair(identityId, true));
 //            this.enableGeneration(true, ids, interaction); // Enable the reporting for this Alert Definition
-        } catch (MALInteractionException | MALException ex) {
+        } catch (final MALInteractionException | MALException ex) {
             Logger.getLogger(AlertProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return identityId;
     }
 
     @Override
-    public Boolean reloadConfiguration(ConfigurationObjectDetails configurationObjectDetails) {
+    public Boolean reloadConfiguration(final ConfigurationObjectDetails configurationObjectDetails) {
         // Validate the returned configuration...
         if(configurationObjectDetails == null){
             return false;
@@ -609,8 +609,8 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
             return false;
         }
 
-        ConfigurationObjectSet confSet0 = configurationObjectDetails.getConfigObjects().get(0);
-        ConfigurationObjectSet confSet1 = configurationObjectDetails.getConfigObjects().get(1);
+        final ConfigurationObjectSet confSet0 = configurationObjectDetails.getConfigObjects().get(0);
+        final ConfigurationObjectSet confSet1 = configurationObjectDetails.getConfigObjects().get(1);
 
         // Confirm the objTypes
         if (!confSet0.getObjType().equals(AlertHelper.ALERTDEFINITION_OBJECT_TYPE) &&
@@ -639,17 +639,17 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
 
         // ok, we're good to go...
         // Load the Parameter Definitions from this configuration...
-        ConfigurationObjectSet confSetDefs = (confSet0.getObjType().equals(AlertHelper.ALERTDEFINITION_OBJECT_TYPE)) ? confSet0 : confSet1;
+        final ConfigurationObjectSet confSetDefs = (confSet0.getObjType().equals(AlertHelper.ALERTDEFINITION_OBJECT_TYPE)) ? confSet0 : confSet1;
         
-        AlertDefinitionDetailsList pDefs = (AlertDefinitionDetailsList) HelperArchive.getObjectBodyListFromArchive(
+        final AlertDefinitionDetailsList pDefs = (AlertDefinitionDetailsList) HelperArchive.getObjectBodyListFromArchive(
                 manager.getArchiveService(),
                 AlertHelper.ALERTDEFINITION_OBJECT_TYPE,
                 ConfigurationProviderSingleton.getDomain(),
                 confSetDefs.getObjInstIds());
 
-        ConfigurationObjectSet confSetIdents = (confSet0.getObjType().equals(AlertHelper.ALERTIDENTITY_OBJECT_TYPE)) ? confSet0 : confSet1;
+        final ConfigurationObjectSet confSetIdents = (confSet0.getObjType().equals(AlertHelper.ALERTIDENTITY_OBJECT_TYPE)) ? confSet0 : confSet1;
         
-        IdentifierList idents = (IdentifierList) HelperArchive.getObjectBodyListFromArchive(
+        final IdentifierList idents = (IdentifierList) HelperArchive.getObjectBodyListFromArchive(
                 manager.getArchiveService(),
                 AlertHelper.ALERTIDENTITY_OBJECT_TYPE,
                 ConfigurationProviderSingleton.getDomain(),
@@ -664,12 +664,12 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
     @Override
     public ConfigurationObjectDetails getCurrentConfiguration() {
         // Create a Configuration Object with all the objs of the provider
-        ConfigurationObjectSetList list = manager.getCurrentConfiguration();
+        final ConfigurationObjectSetList list = manager.getCurrentConfiguration();
         list.get(0).setObjType(AlertHelper.ALERTIDENTITY_OBJECT_TYPE);
         list.get(1).setObjType(AlertHelper.ALERTDEFINITION_OBJECT_TYPE);
         
         // Needs the Common API here!
-        ConfigurationObjectDetails set = new ConfigurationObjectDetails();
+        final ConfigurationObjectDetails set = new ConfigurationObjectDetails();
         set.setConfigObjects(list);
 
         return set;

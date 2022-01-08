@@ -40,20 +40,20 @@ public class VirtualSPPURIsManager {
     private final AtomicInteger uniqueSourceId;
     private final Object MUTEX = new Object();
 
-    public VirtualSPPURIsManager(int apidRangeStart, int apidRangeEnd) {
+    public VirtualSPPURIsManager(final int apidRangeStart, final int apidRangeEnd) {
         this.apidRangeStart = apidRangeStart;
         this.apidRangeEnd = apidRangeEnd;
 
-        Random random = new Random();
-        int apid = random.nextInt((apidRangeEnd - apidRangeStart) + 1) + apidRangeStart;
-        int sourceId = random.nextInt((SOURDEID_RANGE_END - SOURDEID_RANGE_START) + 1) + SOURDEID_RANGE_START;
+        final Random random = new Random();
+        final int apid = random.nextInt((apidRangeEnd - apidRangeStart) + 1) + apidRangeStart;
+        final int sourceId = random.nextInt((SOURDEID_RANGE_END - SOURDEID_RANGE_START) + 1) + SOURDEID_RANGE_START;
 
         uniqueAPID = new AtomicInteger(apid);
         uniqueSourceId = new AtomicInteger(sourceId);
     }
 
-    public String getURI(String virtualSPPURI) {
-        String reverse;
+    public String getURI(final String virtualSPPURI) {
+        final String reverse;
 
         synchronized (MUTEX) {
             reverse = reverseMap.get(virtualSPPURI);
@@ -67,7 +67,7 @@ public class VirtualSPPURIsManager {
         return reverse;
     }
 
-    public String getVirtualSPPURI(String uriFrom) {
+    public String getVirtualSPPURI(final String uriFrom) {
         String virtualAPID;
 
         synchronized (MUTEX) {
@@ -105,7 +105,7 @@ public class VirtualSPPURIsManager {
     }
 
     public static int getAPIDFromVirtualSPPURI(final String virtualSPPURI) {
-        String[] str = virtualSPPURI.split("/");
+        final String[] str = virtualSPPURI.split("/");
         return Integer.parseInt(str[1]);
     }
 

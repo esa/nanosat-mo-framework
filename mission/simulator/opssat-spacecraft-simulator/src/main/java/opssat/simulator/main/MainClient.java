@@ -34,9 +34,9 @@ public class MainClient {
 
     private static GuiApp guiApp;
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
       
-        LookAndFeelInfo[] info = UIManager.getInstalledLookAndFeels();
+        final LookAndFeelInfo[] info = UIManager.getInstalledLookAndFeels();
         for(int i = 0; i < info.length; i++) {
           System.out.println(info[i].toString());
         }

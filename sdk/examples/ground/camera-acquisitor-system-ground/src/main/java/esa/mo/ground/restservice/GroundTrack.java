@@ -31,7 +31,7 @@ public class GroundTrack
   private final long id;
   private final PositionAndTime[] trackPoints;
 
-  public GroundTrack(long id, PositionAndTime[] track)
+  public GroundTrack(final long id, final PositionAndTime[] track)
   {
     this.id = id;
     this.trackPoints = track;

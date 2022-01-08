@@ -52,29 +52,29 @@ public class HKTelemetry {
 
         try {
             adcsApi.Print_Info();
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             LOGGER.log(Level.WARNING, "(01) Error!");
             return;
         }
 
         System.out.printf("---Stage 1---");
 
-        SEPP_IADCS_API_STANDARD_TELEMETRY stdTM;
-        SEPP_IADCS_API_POWER_STATUS_TELEMETRY powerTM;
-        SEPP_IADCS_API_INFO_TELEMETRY infoTM;
+        final SEPP_IADCS_API_STANDARD_TELEMETRY stdTM;
+        final SEPP_IADCS_API_POWER_STATUS_TELEMETRY powerTM;
+        final SEPP_IADCS_API_INFO_TELEMETRY infoTM;
 
         try {
             stdTM = adcsApi.Get_Standard_Telemetry();
             powerTM = adcsApi.Get_Power_Status_Telemetry();
             infoTM = adcsApi.Get_Info_Telemetry();
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             LOGGER.log(Level.WARNING, "(02) Error!");
             return;
         }
 
         System.out.println("---Stage 2---");
 
-        IADCS_100_System_Status_Register status_register = stdTM.getSYSTEM_STATUS_REGISTER();
+        final IADCS_100_System_Status_Register status_register = stdTM.getSYSTEM_STATUS_REGISTER();
 
         if (status_register != null) {
             System.out.println("->status_register");
@@ -98,7 +98,7 @@ public class HKTelemetry {
             System.out.println("->status_register is null   x(");
         }
 
-        IADCS_100_System_Error_Register error_register = stdTM.getSYSTEM_ERROR_REGISTER();
+        final IADCS_100_System_Error_Register error_register = stdTM.getSYSTEM_ERROR_REGISTER();
 
         if (error_register != null) {
             System.out.println("->error_register");
@@ -134,7 +134,7 @@ public class HKTelemetry {
             System.out.println("->error_register is null   x(");
         }
 
-        IADCS_100_Control_Status_Register csr = stdTM.getCONTROL_MODULE_REGISTERS().getCSR();
+        final IADCS_100_Control_Status_Register csr = stdTM.getCONTROL_MODULE_REGISTERS().getCSR();
 
         if (csr != null) {
             System.out.println("->csr");
@@ -150,7 +150,7 @@ public class HKTelemetry {
             System.out.println("->csr is null   x(");
         }
 
-        IADCS_100_Control_Error_Register cer = stdTM.getCONTROL_MODULE_REGISTERS().getCER();
+        final IADCS_100_Control_Error_Register cer = stdTM.getCONTROL_MODULE_REGISTERS().getCER();
 
         if (cer != null) {
             System.out.println("->cer");
@@ -167,7 +167,7 @@ public class HKTelemetry {
             System.out.println("->cer is null   x(");
         }
 
-        IADCS_100_System_Livelyhood_Register livelyhood_register = stdTM.getLIVELYHOOD_REGISTER();
+        final IADCS_100_System_Livelyhood_Register livelyhood_register = stdTM.getLIVELYHOOD_REGISTER();
 
         if (cer != null) {
             System.out.println("->livelyhood_register");
@@ -195,7 +195,7 @@ public class HKTelemetry {
             System.out.println("->livelyhood_register is null   x(");
         }
 
-        long time = stdTM.getEPOCH_TIME_MSEC();
+        final long time = stdTM.getEPOCH_TIME_MSEC();
         System.out.println("getEPOCH_TIME_MSEC() : " + time);
         /*        
             stdTM.getLIVELYHOOD_REGISTER(),
@@ -317,7 +317,7 @@ public class HKTelemetry {
 
     }
 
-    private static String boolean2string(boolean detumbling_mode) {
+    private static String boolean2string(final boolean detumbling_mode) {
         return detumbling_mode ? "true" : "false";
     }
 

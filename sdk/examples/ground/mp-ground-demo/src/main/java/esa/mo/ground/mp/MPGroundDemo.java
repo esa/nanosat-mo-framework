@@ -55,11 +55,11 @@ public class MPGroundDemo {
     private static PlanInformationManagementStub pimService;
 
     public MPGroundDemo() {
-        ConnectionConsumer connection = new ConnectionConsumer();
+        final ConnectionConsumer connection = new ConnectionConsumer();
 
         try {
             connection.getServicesDetails().loadURIFromFiles();
-        } catch (MalformedURLException | FileNotFoundException ex) {
+        } catch (final MalformedURLException | FileNotFoundException ex) {
             LOGGER.log(Level.SEVERE, "The URIs could not be loaded from a file.", ex);
         }
 
@@ -73,66 +73,66 @@ public class MPGroundDemo {
      * @throws java.lang.Exception If there is an error
      */
     public static void main(final String args[]) {
-        MPGroundDemo test = new MPGroundDemo();
+        final MPGroundDemo test = new MPGroundDemo();
 
         pimService = test.gma.getMPServices().getPlanInformationManagementService().getPlanInformationManagementStub();
 
         // Add single Activity definition
-        ActivityDefinitionDetails activityDefinition = MPFactory.createActivityDefinition();
+        final ActivityDefinitionDetails activityDefinition = MPFactory.createActivityDefinition();
         activityDefinition.setDescription("NMF Activity");
         activityDefinition.setExecDef(new Identifier("TAKE_PICTURE"));
 
-        ActivityDefinitionDetailsList activityDefinitions = new ActivityDefinitionDetailsList();
+        final ActivityDefinitionDetailsList activityDefinitions = new ActivityDefinitionDetailsList();
         activityDefinitions.add(activityDefinition);
-        IdentifierList activityIdentities = new IdentifierList();
+        final IdentifierList activityIdentities = new IdentifierList();
         activityIdentities.add(new Identifier("Activity Definition"));
         try {
             pimService.addActivityDef(activityIdentities, activityDefinitions);
-        } catch (MALInteractionException | MALException e) {
+        } catch (final MALInteractionException | MALException e) {
             LOGGER.log(Level.WARNING, null, e);
         }
 
         // Add single Event definition
-        EventDefinitionDetails eventDefinition = MPFactory.createEventDefinition();
+        final EventDefinitionDetails eventDefinition = MPFactory.createEventDefinition();
         eventDefinition.setDescription("NMF Event");
 
-        EventDefinitionDetailsList eventDefinitions = new EventDefinitionDetailsList();
+        final EventDefinitionDetailsList eventDefinitions = new EventDefinitionDetailsList();
         eventDefinitions.add(eventDefinition);
-        IdentifierList eventIdentities = new IdentifierList();
+        final IdentifierList eventIdentities = new IdentifierList();
         eventIdentities.add(new Identifier("Event Definition"));
         try {
             pimService.addEventDef(eventIdentities, eventDefinitions);
-        } catch (MALInteractionException | MALException e) {
+        } catch (final MALInteractionException | MALException e) {
             LOGGER.log(Level.WARNING, null, e);
         }
 
         // Add single Resource definition
-        NumericResourceDefinitionDetails numericResourceDefinition = MPFactory.createNumericResourceDefinition();
+        final NumericResourceDefinitionDetails numericResourceDefinition = MPFactory.createNumericResourceDefinition();
         numericResourceDefinition.setDescription("NMF Resource");
 
-        c_ResourceDefinitionDetails c_ResourceDefinition = new c_ResourceDefinitionDetails();
+        final c_ResourceDefinitionDetails c_ResourceDefinition = new c_ResourceDefinitionDetails();
         c_ResourceDefinition.setNumericResourceDef(numericResourceDefinition);
-        c_ResourceDefinitionDetailsList c_ResourceDefinitions = new c_ResourceDefinitionDetailsList ();
+        final c_ResourceDefinitionDetailsList c_ResourceDefinitions = new c_ResourceDefinitionDetailsList ();
         c_ResourceDefinitions.add(c_ResourceDefinition);
-        IdentifierList resourceIdentities = new IdentifierList();
+        final IdentifierList resourceIdentities = new IdentifierList();
         resourceIdentities.add(new Identifier("Resource Definition"));
         try {
             pimService.addResourceDef(resourceIdentities, c_ResourceDefinitions);
-        } catch (MALInteractionException | MALException e) {
+        } catch (final MALInteractionException | MALException e) {
             LOGGER.log(Level.WARNING, null, e);
         }
 
         // Add single Request template
-        RequestTemplateDetails requestTemplate = MPFactory.createRequestTemplate();
+        final RequestTemplateDetails requestTemplate = MPFactory.createRequestTemplate();
         requestTemplate.setDescription("NMF Request");
 
-        RequestTemplateDetailsList requestTemplates = new RequestTemplateDetailsList();
+        final RequestTemplateDetailsList requestTemplates = new RequestTemplateDetailsList();
         requestTemplates.add(requestTemplate);
-        IdentifierList requestTemplateIdentities = new IdentifierList();
+        final IdentifierList requestTemplateIdentities = new IdentifierList();
         requestTemplateIdentities.add(new Identifier("Request Template"));
         try {
             pimService.addRequestDef(requestTemplateIdentities, requestTemplates);
-        } catch (MALInteractionException | MALException e) {
+        } catch (final MALInteractionException | MALException e) {
             LOGGER.log(Level.WARNING, null, e);
         }
 

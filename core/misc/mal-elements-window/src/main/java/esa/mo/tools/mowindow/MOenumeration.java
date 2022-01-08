@@ -34,30 +34,30 @@ public class MOenumeration extends MOelement {
 
     private javax.swing.JComboBox comboBox;
 
-    public MOenumeration(String fieldNameIn, Element obj, boolean editable, boolean objIsNull) {
+    public MOenumeration(final String fieldNameIn, final Element obj, final boolean editable, final boolean objIsNull) {
         super(fieldNameIn, obj, editable, objIsNull);
 
         comboBox = new javax.swing.JComboBox();
         super.middlePanel.add(comboBox);
         this.comboBox.setEnabled(editable);
 
-        Enumeration enumeration = (Enumeration) obj;
-        Field[] fields = enumeration.getClass().getDeclaredFields();
+        final Enumeration enumeration = (Enumeration) obj;
+        final Field[] fields = enumeration.getClass().getDeclaredFields();
 
-        Field field = fields[fields.length - 2]; // Get the string enumerations
+        final Field field = fields[fields.length - 2]; // Get the string enumerations
         field.setAccessible(true);
 
         try {
-            String[] enumerationStrings = (String[]) field.get(enumeration);
+            final String[] enumerationStrings = (String[]) field.get(enumeration);
 
-            for (String enumerationString : enumerationStrings) {
+            for (final String enumerationString : enumerationStrings) {
                 this.comboBox.addItem(enumerationString); // Set the text
             }
 
             // Set the selected index;
             this.comboBox.setSelectedItem(enumeration.toString());
 
-        } catch (IllegalArgumentException | IllegalAccessException ex) {
+        } catch (final IllegalArgumentException | IllegalAccessException ex) {
             Logger.getLogger(MOenumeration.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -74,17 +74,17 @@ public class MOenumeration extends MOelement {
             return null;
         }
 
-        Enumeration enumeration = (Enumeration) object;
-        Field[] fields = enumeration.getClass().getDeclaredFields();
+        final Enumeration enumeration = (Enumeration) object;
+        final Field[] fields = enumeration.getClass().getDeclaredFields();
 
-        int index = this.comboBox.getSelectedIndex();
+        final int index = this.comboBox.getSelectedIndex();
 
-        Field field = fields[8 + index * 3];  // Calculation to get the correct enumeration
+        final Field field = fields[8 + index * 3];  // Calculation to get the correct enumeration
         field.setAccessible(true);
 
         try {
             return field.get(object);
-        } catch (IllegalArgumentException | IllegalAccessException ex) {
+        } catch (final IllegalArgumentException | IllegalAccessException ex) {
             Logger.getLogger(MOenumeration.class.getName()).log(Level.SEVERE, null, ex);
         }
 

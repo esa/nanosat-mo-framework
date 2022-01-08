@@ -35,13 +35,13 @@ import opssat.simulator.threading.SimulatorNode;
                                    "int:cameraBufferOperatingIndex"})
 public class PCamera extends GenericPeripheral implements ICamera {
 
-    public PCamera(SimulatorNode simulatorNode,String name) {
+    public PCamera(final SimulatorNode simulatorNode, final String name) {
         super(simulatorNode,name);
     }
     @Override
     @InternalData (internalID=3001,commandIDs={"",""},argNames={"width","height"})
-    public byte[] takePicture(int width,int height) {
-        ArrayList<Object> argObject = new ArrayList<>();
+    public byte[] takePicture(final int width, final int height) {
+        final ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(width);
         argObject.add(height);
         return (byte[]) super.getSimulatorNode().runGenericMethod(3001,argObject);
@@ -49,8 +49,8 @@ public class PCamera extends GenericPeripheral implements ICamera {
 
     @Override
     @InternalData (internalID=3002,commandIDs={"",""},argNames={"fileName"})
-    public void simPreloadPicture(String fileName) {
-        ArrayList<Object> argObject = new ArrayList<>();
+    public void simPreloadPicture(final String fileName) {
+        final ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(fileName);
         super.getSimulatorNode().runGenericMethod(3002,argObject);
     }

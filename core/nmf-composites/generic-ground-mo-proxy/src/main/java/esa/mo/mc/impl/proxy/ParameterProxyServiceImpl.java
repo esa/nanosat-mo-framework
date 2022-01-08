@@ -68,7 +68,7 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
      *
      * @param adaptersList
      */
-    public synchronized void initProxy(HashMap<String, NMFConsumer> adaptersList) throws MALException {
+    public synchronized void initProxy(final HashMap<String, NMFConsumer> adaptersList) throws MALException {
         if (!proxyInitialiased) {
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -128,26 +128,26 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
     }
 
     @Override
-    public ParameterValueDetailsList getValue(LongList ll, MALInteraction interaction) throws MALInteractionException, MALException {
+    public ParameterValueDetailsList getValue(final LongList ll, final MALInteraction interaction) throws MALInteractionException, MALException {
         // In this case, the object this.consumer represents the connection 
         // between the consumer part of the proxy to the provider on Space
         
         //  Check the interaction object to know to whom the message should be forwarded to...
-        URI uriTo = interaction.getMessageHeader().getURITo();
+        final URI uriTo = interaction.getMessageHeader().getURITo();
 
         // Remove the first part of the uriTo
-        URI uriOfSpaceProvider = this.removePrefix(uriTo);
+        final URI uriOfSpaceProvider = this.removePrefix(uriTo);
 
         // Select the right provider from a List of providers based on the 
         // uriOfSpaceProvider. If it does not exist, then initialize the 
         // connection to it.
         
         
-        boolean weCareAboutConnectionAvailableToGS = true; // Will be a future property that can be set
-        boolean weHaveQueueing = true;                     // Will be a future property that can be set
-        boolean isConnectionAvailable = true;              // Proxy needs to periodically check the connection for this var
-        boolean isSatelliteInSight = true;                 // This information must be provided OR it can be calculated if the orbit is known
-        int TIME_BETWEEN_COMMANDS = 50;                    // The time between each telecommand in milliseconds
+        final boolean weCareAboutConnectionAvailableToGS = true; // Will be a future property that can be set
+        final boolean weHaveQueueing = true;                     // Will be a future property that can be set
+        final boolean isConnectionAvailable = true;              // Proxy needs to periodically check the connection for this var
+        final boolean isSatelliteInSight = true;                 // This information must be provided OR it can be calculated if the orbit is known
+        final int TIME_BETWEEN_COMMANDS = 50;                    // The time between each telecommand in milliseconds
 
 //------------------Check Connection------------------        
         if (weCareAboutConnectionAvailableToGS) {
@@ -171,7 +171,7 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
             // Make each telecommand wait TIME_BETWEEN_COMMANDS milliseconds before the previous
             Thread.sleep(TIME_BETWEEN_COMMANDS);
 
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             Logger.getLogger(ParameterProxyServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -201,32 +201,32 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    private URI removePrefix(URI uriTo) {
+    private URI removePrefix(final URI uriTo) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void setValue(ParameterRawValueList prvl, MALInteraction mali) throws MALInteractionException, MALException {
+    public void setValue(final ParameterRawValueList prvl, final MALInteraction mali) throws MALInteractionException, MALException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public ObjectInstancePairList addParameter(ParameterCreationRequestList pcrl, MALInteraction mali) throws MALInteractionException, MALException {
+    public ObjectInstancePairList addParameter(final ParameterCreationRequestList pcrl, final MALInteraction mali) throws MALInteractionException, MALException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void removeParameter(LongList ll, MALInteraction mali) throws MALInteractionException, MALException {
+    public void removeParameter(final LongList ll, final MALInteraction mali) throws MALInteractionException, MALException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public ObjectInstancePairList listDefinition(IdentifierList il, MALInteraction mali) throws MALInteractionException, MALException {
+    public ObjectInstancePairList listDefinition(final IdentifierList il, final MALInteraction mali) throws MALInteractionException, MALException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public LongList updateDefinition(LongList ll, ParameterDefinitionDetailsList pddl, MALInteraction mali) throws MALInteractionException, MALException {
+    public LongList updateDefinition(final LongList ll, final ParameterDefinitionDetailsList pddl, final MALInteraction mali) throws MALInteractionException, MALException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -61,11 +61,11 @@ public class PlanningRequestConsumerServiceImpl extends ConsumerServiceImpl {
     }
 
     @Override
-    public Object generateServiceStub(MALConsumer tmConsumer) {
+    public Object generateServiceStub(final MALConsumer tmConsumer) {
         return new PlanningRequestStub(tmConsumer);
     }
 
-    public PlanningRequestConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices) throws MALException, MalformedURLException {
+    public PlanningRequestConsumerServiceImpl(final SingleConnectionDetails connectionDetails, final COMServicesConsumer comServices) throws MALException, MalformedURLException {
         if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
             MALHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
@@ -80,7 +80,7 @@ public class PlanningRequestConsumerServiceImpl extends ConsumerServiceImpl {
 
         try {
             PlanningRequestHelper.init(MALContextFactory.getElementFactoryRegistry());
-        } catch (MALException ex) {
+        } catch (final MALException ex) {
             // nothing to be done..
         }
 
@@ -91,7 +91,7 @@ public class PlanningRequestConsumerServiceImpl extends ConsumerServiceImpl {
         if (tmConsumer != null) {
             try {
                 tmConsumer.close();
-            } catch (MALException ex) {
+            } catch (final MALException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
             }
         }

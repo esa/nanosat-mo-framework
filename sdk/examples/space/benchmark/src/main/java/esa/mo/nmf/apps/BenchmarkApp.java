@@ -42,7 +42,7 @@ public class BenchmarkApp {
      * @throws java.lang.Exception If there is an error
      */
     public static void main(final String[] args) throws Exception {
-        BenchmarkApp demo = new BenchmarkApp();
+        final BenchmarkApp demo = new BenchmarkApp();
     }
 
 }

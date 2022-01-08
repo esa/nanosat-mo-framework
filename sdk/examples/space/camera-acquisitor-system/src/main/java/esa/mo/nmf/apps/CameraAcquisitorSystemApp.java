@@ -39,7 +39,7 @@ public class CameraAcquisitorSystemApp
   public static void main(final String[] args) throws Exception
   {
     final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
-    CameraAcquisitorSystemMCAdapter adapter = new CameraAcquisitorSystemMCAdapter(connector);
+    final CameraAcquisitorSystemMCAdapter adapter = new CameraAcquisitorSystemMCAdapter(connector);
     connector.init(adapter);
     adapter.recoverLastState();
   }

@@ -63,15 +63,15 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
      */
     public ProviderSummaryList syncLocalDirectoryServiceWithCentral(final URI centralDirectoryServiceURI,
             final URI routedURI) throws MALException, MalformedURLException, MALInteractionException {
-        ProviderSummaryList providers = NMFConsumer.retrieveProvidersFromDirectory(true, centralDirectoryServiceURI);
+        final ProviderSummaryList providers = NMFConsumer.retrieveProvidersFromDirectory(true, centralDirectoryServiceURI);
         addProxyPrefix(providers, routedURI.getValue());
 
         // Clean the current list of provider that are available
         // on the Local Directory service
         this.withdrawAllProviders();
 
-        for (ProviderSummary provider : providers) {
-            PublishDetails pub = new PublishDetails();
+        for (final ProviderSummary provider : providers) {
+            final PublishDetails pub = new PublishDetails();
             pub.setDomain(provider.getProviderKey().getDomain());
             pub.setNetwork(new Identifier("not_available"));
             pub.setProviderDetails(provider.getProviderDetails());
@@ -101,16 +101,16 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
             throw new IllegalArgumentException("The provider object cannot be null.");
         }
 
-        for (ProviderSummary provider : providers) {
+        for (final ProviderSummary provider : providers) {
             final ServiceCapabilityList capabilities = provider.getProviderDetails().getServiceCapabilities();
 
-            for (ServiceCapability capability : capabilities) {
-                for (AddressDetails dets : capability.getServiceAddresses()) {
-                    String serviceURI = proxyURI + "@" + dets.getServiceURI().getValue();
+            for (final ServiceCapability capability : capabilities) {
+                for (final AddressDetails dets : capability.getServiceAddresses()) {
+                    final String serviceURI = proxyURI + "@" + dets.getServiceURI().getValue();
                     dets.setServiceURI(new URI(serviceURI));
 
                     if (dets.getBrokerURI() != null) {
-                        String brokerURI = proxyURI + "@" + dets.getBrokerURI().getValue();
+                        final String brokerURI = proxyURI + "@" + dets.getBrokerURI().getValue();
                         dets.setBrokerURI(new URI(brokerURI));
                     }
                 }
@@ -125,22 +125,22 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
      * @param providerDomain The domain of the provider to be routed.
      * @param to The new URI.
      */
-    public void rerouteArchiveServiceURI(IdentifierList providerDomain, URI to) {
+    public void rerouteArchiveServiceURI(final IdentifierList providerDomain, final URI to) {
         synchronized (MUTEX) {
-            Collection<PublishDetails> providers = providersAvailable.values();
+            final Collection<PublishDetails> providers = providersAvailable.values();
 
-            for (PublishDetails provider : providers) {
+            for (final PublishDetails provider : providers) {
                 if (providerDomain.equals(provider.getDomain())) {
-                    ServiceCapabilityList capabilities = provider.getProviderDetails().getServiceCapabilities();
+                    final ServiceCapabilityList capabilities = provider.getProviderDetails().getServiceCapabilities();
 
                     // Find the Archive service
-                    for (ServiceCapability capability : capabilities) {
-                        ServiceKey key = capability.getServiceKey();
+                    for (final ServiceCapability capability : capabilities) {
+                        final ServiceKey key = capability.getServiceKey();
 
                         if (COMHelper._COM_AREA_NUMBER == key.getKeyArea().getValue()
                                 && ArchiveHelper._ARCHIVE_SERVICE_NUMBER == key.getKeyService().getValue()
                                 && COMHelper._COM_AREA_VERSION == key.getKeyAreaVersion().getValue()) {
-                            AddressDetails details = capability.getServiceAddresses().get(0);
+                            final AddressDetails details = capability.getServiceAddresses().get(0);
                             details.setServiceURI(to);
                         }
                     }
@@ -156,22 +156,22 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
      * @param providerDomain The domain of the provider to be routed.
      * @param to The new URI.
      */
-    public void rerouteActionServiceURI(IdentifierList providerDomain, URI to) {
+    public void rerouteActionServiceURI(final IdentifierList providerDomain, final URI to) {
         synchronized (MUTEX) {
-            Collection<PublishDetails> providers = providersAvailable.values();
+            final Collection<PublishDetails> providers = providersAvailable.values();
 
-            for (PublishDetails provider : providers) {
+            for (final PublishDetails provider : providers) {
                 if (providerDomain.equals(provider.getDomain())) {
-                    ServiceCapabilityList capabilities = provider.getProviderDetails().getServiceCapabilities();
+                    final ServiceCapabilityList capabilities = provider.getProviderDetails().getServiceCapabilities();
 
                     // Find the Archive service
-                    for (ServiceCapability capability : capabilities) {
-                        ServiceKey key = capability.getServiceKey();
+                    for (final ServiceCapability capability : capabilities) {
+                        final ServiceKey key = capability.getServiceKey();
 
                         if (MCHelper._MC_AREA_NUMBER == key.getKeyArea().getValue()
                                 && ActionHelper._ACTION_SERVICE_NUMBER == key.getKeyService().getValue()
                                 && MCHelper._MC_AREA_VERSION == key.getKeyAreaVersion().getValue()) {
-                            AddressDetails details = capability.getServiceAddresses().get(0);
+                            final AddressDetails details = capability.getServiceAddresses().get(0);
                             details.setServiceURI(to);
                         }
                     }

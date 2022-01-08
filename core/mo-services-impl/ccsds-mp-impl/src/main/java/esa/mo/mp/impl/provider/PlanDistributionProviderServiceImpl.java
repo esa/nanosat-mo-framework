@@ -99,7 +99,7 @@ public class PlanDistributionProviderServiceImpl extends PlanDistributionInherit
      * @param comServices
      * @throws MALException On initialisation error.
      */
-    public synchronized void init(COMServicesProvider comServices, MPArchiveManager archiveManager, MPServiceOperationManager registration) throws MALException {
+    public synchronized void init(final COMServicesProvider comServices, final MPArchiveManager archiveManager, final MPServiceOperationManager registration) throws MALException {
         if (!this.initialised) {
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -115,7 +115,7 @@ public class PlanDistributionProviderServiceImpl extends PlanDistributionInherit
 
             try {
                 PlanDistributionHelper.init(MALContextFactory.getElementFactoryRegistry());
-            } catch (MALException ex) {
+            } catch (final MALException ex) {
                 // nothing to be done..
             }
         }
@@ -155,48 +155,48 @@ public class PlanDistributionProviderServiceImpl extends PlanDistributionInherit
 
         // Listen Event Service for Plan Version updates in COM Archive
         try {
-            EventConsumerServiceImpl consumer = new EventConsumerServiceImpl(comServices.getEventService().getConnectionProvider().getConnectionDetails());
-            Subscription subcription = HelperCOM.generateCOMEventSubscriptionBySourceType("PlanUpdates", PlanDistributionHelper.PLANVERSION_OBJECT_TYPE);
+            final EventConsumerServiceImpl consumer = new EventConsumerServiceImpl(comServices.getEventService().getConnectionProvider().getConnectionDetails());
+            final Subscription subcription = HelperCOM.generateCOMEventSubscriptionBySourceType("PlanUpdates", PlanDistributionHelper.PLANVERSION_OBJECT_TYPE);
             consumer.addEventReceivedListener(subcription, new EventReceivedListener(){
                 @Override
-                public void onDataReceived(EventCOMObject eventCOMObject) {
-                    ObjectId planVersionId = eventCOMObject.getSource();
-                    ObjectId planIdentityId = archiveManager.PLAN.getIdentityIdByInstanceId(planVersionId);
-                    Identifier planIdentity = archiveManager.PLAN.getIdentity(planIdentityId);
-                    PlanVersionDetails planVersion = archiveManager.PLAN.getInstance(planVersionId);
+                public void onDataReceived(final EventCOMObject eventCOMObject) {
+                    final ObjectId planVersionId = eventCOMObject.getSource();
+                    final ObjectId planIdentityId = archiveManager.PLAN.getIdentityIdByInstanceId(planVersionId);
+                    final Identifier planIdentity = archiveManager.PLAN.getIdentity(planIdentityId);
+                    final PlanVersionDetails planVersion = archiveManager.PLAN.getInstance(planVersionId);
                     try {
                         publishPlan(planIdentity, planIdentityId, planVersionId, planVersion, null);
-                    } catch (IllegalArgumentException | MALInteractionException | MALException e) {
+                    } catch (final IllegalArgumentException | MALInteractionException | MALException e) {
                         LOGGER.warning("Error publishing plan update");
                     }
                 }
             });
             LOGGER.info("Subscribed to PlanVersion updates");
-        } catch (MALInteractionException | MalformedURLException e) {
+        } catch (final MALInteractionException | MalformedURLException e) {
             throw new MALException(e.getMessage());
         }
 
         // Listen Event Service for Plan Version status updates in COM Archive
         try {
-            EventConsumerServiceImpl consumer = new EventConsumerServiceImpl(comServices.getEventService().getConnectionProvider().getConnectionDetails());
-            Subscription subcription = HelperCOM.generateCOMEventSubscriptionBySourceType("PlanStatusUpdates", PlanDistributionHelper.PLANUPDATE_OBJECT_TYPE);
+            final EventConsumerServiceImpl consumer = new EventConsumerServiceImpl(comServices.getEventService().getConnectionProvider().getConnectionDetails());
+            final Subscription subcription = HelperCOM.generateCOMEventSubscriptionBySourceType("PlanStatusUpdates", PlanDistributionHelper.PLANUPDATE_OBJECT_TYPE);
             consumer.addEventReceivedListener(subcription, new EventReceivedListener(){
                 @Override
-                public void onDataReceived(EventCOMObject eventCOMObject) {
-                    ObjectId planStatusId = eventCOMObject.getSource();
-                    ObjectId planVersionId = archiveManager.PLAN.getInstanceIdByStatusId(planStatusId);
-                    ObjectId planIdentityId = archiveManager.PLAN.getIdentityIdByInstanceId(planVersionId);
-                    Identifier planIdentity = archiveManager.PLAN.getIdentity(planIdentityId);
-                    PlanUpdateDetails planUpdate = archiveManager.PLAN.getStatus(planStatusId);
+                public void onDataReceived(final EventCOMObject eventCOMObject) {
+                    final ObjectId planStatusId = eventCOMObject.getSource();
+                    final ObjectId planVersionId = archiveManager.PLAN.getInstanceIdByStatusId(planStatusId);
+                    final ObjectId planIdentityId = archiveManager.PLAN.getIdentityIdByInstanceId(planVersionId);
+                    final Identifier planIdentity = archiveManager.PLAN.getIdentity(planIdentityId);
+                    final PlanUpdateDetails planUpdate = archiveManager.PLAN.getStatus(planStatusId);
                     try {
                         publishPlanStatus(planIdentity, planIdentityId, planVersionId, planUpdate);
-                    } catch (IllegalArgumentException | MALInteractionException | MALException e) {
+                    } catch (final IllegalArgumentException | MALInteractionException | MALException e) {
                         LOGGER.warning("Error publishing plan status update");
                     }
                 }
             });
             LOGGER.info("Subscribed to PlanVersion status updates");
-        } catch (MALInteractionException | MalformedURLException e) {
+        } catch (final MALInteractionException | MalformedURLException e) {
             throw new MALException(e.getMessage());
         }
 
@@ -214,7 +214,7 @@ public class PlanDistributionProviderServiceImpl extends PlanDistributionInherit
             }
 
             this.connection.closeAll();
-        } catch (MALException ex) {
+        } catch (final MALException ex) {
             LOGGER.log(Level.WARNING, "Exception during close down of the provider {0}", ex);
         }
     }
@@ -224,23 +224,23 @@ public class PlanDistributionProviderServiceImpl extends PlanDistributionInherit
     }
 
     @Override
-    public ListPlansResponse listPlans(PlanFilter planFilter, MALInteraction interaction) throws MALInteractionException, MALException {
-        LongList identityIdList = new LongList();
-        LongList versionIdList = new LongList();
-        PlanInformationList informationList = new PlanInformationList();
-        PlanStatusList statusList = new PlanStatusList();
+    public ListPlansResponse listPlans(final PlanFilter planFilter, final MALInteraction interaction) throws MALInteractionException, MALException {
+        final LongList identityIdList = new LongList();
+        final LongList versionIdList = new LongList();
+        final PlanInformationList informationList = new PlanInformationList();
+        final PlanStatusList statusList = new PlanStatusList();
 
         // List all instanceIds
-        ObjectIdList versionIds = archiveManager.PLAN.listAllInstanceIds();
-        ObjectIdList identityIds = archiveManager.PLAN.getIdentityIdsByInstanceIds(versionIds);
-        ObjectIdList statusIds = archiveManager.PLAN.getStatusIdsByInstanceIds(versionIds);
-        PlanVersionDetailsList planVersions = archiveManager.PLAN.getInstances(versionIds);
-        PlanUpdateDetailsList planUpdates = archiveManager.PLAN.getStatuses(statusIds);
+        final ObjectIdList versionIds = archiveManager.PLAN.listAllInstanceIds();
+        final ObjectIdList identityIds = archiveManager.PLAN.getIdentityIdsByInstanceIds(versionIds);
+        final ObjectIdList statusIds = archiveManager.PLAN.getStatusIdsByInstanceIds(versionIds);
+        final PlanVersionDetailsList planVersions = archiveManager.PLAN.getInstances(versionIds);
+        final PlanUpdateDetailsList planUpdates = archiveManager.PLAN.getStatuses(statusIds);
         for (int index = 0; index < versionIds.size(); index++) {
-            ObjectId identityId = identityIds.get(index);
-            ObjectId versionId = versionIds.get(index);
-            PlanVersionDetails planVersion = planVersions.get(index);
-            PlanUpdateDetails planUpdate = planUpdates.get(index);
+            final ObjectId identityId = identityIds.get(index);
+            final ObjectId versionId = versionIds.get(index);
+            final PlanVersionDetails planVersion = planVersions.get(index);
+            final PlanUpdateDetails planUpdate = planUpdates.get(index);
             if (!checkPlanFilter(planFilter, planVersion, planUpdate)) {
                 // Skip all plans that do not match the filter
                 continue;
@@ -252,65 +252,65 @@ public class PlanDistributionProviderServiceImpl extends PlanDistributionInherit
         }
 
         // Send response to consumer
-        ListPlansResponse response = new ListPlansResponse(identityIdList, versionIdList, informationList, statusList);
+        final ListPlansResponse response = new ListPlansResponse(identityIdList, versionIdList, informationList, statusList);
         return response;
     }
 
     @Override
-    public GetPlanResponse getPlan(LongList planIdentityIds, MALInteraction interaction) throws MALInteractionException, MALException {
-        LongList versionIdList = new LongList();
-        PlanVersionDetailsList versionList = new PlanVersionDetailsList();
+    public GetPlanResponse getPlan(final LongList planIdentityIds, final MALInteraction interaction) throws MALInteractionException, MALException {
+        final LongList versionIdList = new LongList();
+        final PlanVersionDetailsList versionList = new PlanVersionDetailsList();
 
-        ObjectIdList identityIds = COMObjectIdHelper.getObjectIds(planIdentityIds, PlanDistributionHelper.PLANIDENTITY_OBJECT_TYPE);
-        ObjectIdList versionIds = archiveManager.PLAN.getInstanceIdsByIdentityIds(identityIds);
+        final ObjectIdList identityIds = COMObjectIdHelper.getObjectIds(planIdentityIds, PlanDistributionHelper.PLANIDENTITY_OBJECT_TYPE);
+        final ObjectIdList versionIds = archiveManager.PLAN.getInstanceIdsByIdentityIds(identityIds);
 
-        for (ObjectId versionId : versionIds) {
-            Long versionInstanceId = COMObjectIdHelper.getInstanceId(versionId);
-            PlanVersionDetails planVersion = archiveManager.PLAN.getInstance(versionId);
+        for (final ObjectId versionId : versionIds) {
+            final Long versionInstanceId = COMObjectIdHelper.getInstanceId(versionId);
+            final PlanVersionDetails planVersion = archiveManager.PLAN.getInstance(versionId);
 
             versionIdList.add(versionInstanceId);
             versionList.add(planVersion);
         }
 
         // Send response to consumer
-        GetPlanResponse response = new GetPlanResponse(versionIdList, versionList);
+        final GetPlanResponse response = new GetPlanResponse(versionIdList, versionList);
         return response;
     }
 
     @Override
-    public GetPlanStatusResponse getPlanStatus(LongList planIdentityIds, MALInteraction interaction) throws MALInteractionException, MALException {
-        LongList versionIdList = new LongList();
-        PlanStatusList statusList = new PlanStatusList();
+    public GetPlanStatusResponse getPlanStatus(final LongList planIdentityIds, final MALInteraction interaction) throws MALInteractionException, MALException {
+        final LongList versionIdList = new LongList();
+        final PlanStatusList statusList = new PlanStatusList();
 
-        ObjectIdList identityIds = COMObjectIdHelper.getObjectIds(planIdentityIds, PlanDistributionHelper.PLANIDENTITY_OBJECT_TYPE);
-        ObjectIdList versionIds = archiveManager.PLAN.getInstanceIdsByIdentityIds(identityIds);
+        final ObjectIdList identityIds = COMObjectIdHelper.getObjectIds(planIdentityIds, PlanDistributionHelper.PLANIDENTITY_OBJECT_TYPE);
+        final ObjectIdList versionIds = archiveManager.PLAN.getInstanceIdsByIdentityIds(identityIds);
 
-        for (ObjectId versionId : versionIds) {
-            Long versionInstanceId = COMObjectIdHelper.getInstanceId(versionId);
-            PlanUpdateDetails planUpdate = archiveManager.PLAN.getStatusByInstanceId(versionId);
+        for (final ObjectId versionId : versionIds) {
+            final Long versionInstanceId = COMObjectIdHelper.getInstanceId(versionId);
+            final PlanUpdateDetails planUpdate = archiveManager.PLAN.getStatusByInstanceId(versionId);
 
             versionIdList.add(versionInstanceId);
             statusList.add(planUpdate.getStatus());
         }
 
         // Send response to consumer
-        GetPlanStatusResponse response = new GetPlanStatusResponse(versionIdList, statusList);
+        final GetPlanStatusResponse response = new GetPlanStatusResponse(versionIdList, statusList);
         return response;
     }
 
     @Override
-    public void queryPlan(PlanFilter planFilter, QueryPlanInteraction interaction) throws MALInteractionException, MALException {
-        LongList versionIdList = new LongList();
-        PlanVersionDetailsList instanceList = new PlanVersionDetailsList();
+    public void queryPlan(final PlanFilter planFilter, final QueryPlanInteraction interaction) throws MALInteractionException, MALException {
+        final LongList versionIdList = new LongList();
+        final PlanVersionDetailsList instanceList = new PlanVersionDetailsList();
 
-        ObjectIdList statusIds = archiveManager.PLAN.listAllStatusIds();
-        ObjectIdList versionIds = archiveManager.PLAN.getInstanceIdsByStatusIds(statusIds);
-        PlanVersionDetailsList planVersions = archiveManager.PLAN.getInstances(versionIds);
-        PlanUpdateDetailsList planUpdates = archiveManager.PLAN.getStatuses(statusIds);
+        final ObjectIdList statusIds = archiveManager.PLAN.listAllStatusIds();
+        final ObjectIdList versionIds = archiveManager.PLAN.getInstanceIdsByStatusIds(statusIds);
+        final PlanVersionDetailsList planVersions = archiveManager.PLAN.getInstances(versionIds);
+        final PlanUpdateDetailsList planUpdates = archiveManager.PLAN.getStatuses(statusIds);
         for (int index = 0; index < versionIds.size(); index++) {
-            ObjectId versionId = versionIds.get(index);
-            PlanVersionDetails planVersion = planVersions.get(index);
-            PlanUpdateDetails planUpdate = planUpdates.get(index);
+            final ObjectId versionId = versionIds.get(index);
+            final PlanVersionDetails planVersion = planVersions.get(index);
+            final PlanUpdateDetails planUpdate = planUpdates.get(index);
             if (!checkPlanFilter(planFilter, planVersion, planUpdate)) {
                 // Skip all planVersions that do not match the filter
                 continue;
@@ -320,13 +320,13 @@ public class PlanDistributionProviderServiceImpl extends PlanDistributionInherit
         }
 
         // Send response to consumer
-        Short numberOfUpdates = 0;
+        final Short numberOfUpdates = 0;
         interaction.sendAcknowledgement(numberOfUpdates);
 
         interaction.sendResponse(versionIdList, instanceList);
     }
 
-    private boolean checkPlanFilter(PlanFilter planFilter, PlanVersionDetails planVersion, PlanUpdateDetails planUpdate) {
+    private boolean checkPlanFilter(final PlanFilter planFilter, final PlanVersionDetails planVersion, final PlanUpdateDetails planUpdate) {
         if (planFilter.getReturnAll() != null && planFilter.getReturnAll()) {
             return true;
         }
@@ -340,7 +340,7 @@ public class PlanDistributionProviderServiceImpl extends PlanDistributionInherit
         return match;
     }
 
-    private void publishPlan(Identifier planIdentity, ObjectId planIdentityId, ObjectId planVersionId, PlanVersionDetails planVersion, PlanUpdateDetails planUpdate) throws MALInteractionException, MALException {
+    private void publishPlan(final Identifier planIdentity, final ObjectId planIdentityId, final ObjectId planVersionId, final PlanVersionDetails planVersion, final PlanUpdateDetails planUpdate) throws MALInteractionException, MALException {
         if (!this.isPlanPublisherRegistered) {
             final EntityKeyList entityKeys = new EntityKeyList();
             entityKeys.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
@@ -348,27 +348,27 @@ public class PlanDistributionProviderServiceImpl extends PlanDistributionInherit
             this.isPlanPublisherRegistered = true;
         }
 
-        UpdateHeaderList headerList = new UpdateHeaderList();
+        final UpdateHeaderList headerList = new UpdateHeaderList();
 
-        Identifier firstSubKey = planIdentity;
-        Long secondSubKey = COMObjectIdHelper.getInstanceId(planIdentityId);
-        Long thirdSubKey = COMObjectIdHelper.getInstanceId(planVersionId);
-        Long fourthSubKey = planUpdate != null ? Long.valueOf(planUpdate.getStatus().getNumericValue().getValue()) : 0L;
+        final Identifier firstSubKey = planIdentity;
+        final Long secondSubKey = COMObjectIdHelper.getInstanceId(planIdentityId);
+        final Long thirdSubKey = COMObjectIdHelper.getInstanceId(planVersionId);
+        final Long fourthSubKey = planUpdate != null ? Long.valueOf(planUpdate.getStatus().getNumericValue().getValue()) : 0L;
 
-        EntityKey entityKey = new EntityKey(firstSubKey, secondSubKey, thirdSubKey, fourthSubKey);
+        final EntityKey entityKey = new EntityKey(firstSubKey, secondSubKey, thirdSubKey, fourthSubKey);
         headerList.add(new UpdateHeader(
             HelperTime.getTimestampMillis(),
             connection.getConnectionDetails().getProviderURI(),
             UpdateType.CREATION,
             entityKey
         ));
-        PlanVersionDetailsList planVersionList = new PlanVersionDetailsList();
+        final PlanVersionDetailsList planVersionList = new PlanVersionDetailsList();
         planVersionList.add(planVersion);
 
         planPublisher.publish(headerList, planVersionList);
     }
 
-    private void publishPlanStatus(Identifier planIdentity, ObjectId planIdentityId, ObjectId planVersionId, PlanUpdateDetails planUpdate) throws MALInteractionException, MALException {
+    private void publishPlanStatus(final Identifier planIdentity, final ObjectId planIdentityId, final ObjectId planVersionId, final PlanUpdateDetails planUpdate) throws MALInteractionException, MALException {
         if (!this.isPlanStatusPublisherRegistered) {
             final EntityKeyList entityKeys = new EntityKeyList();
             entityKeys.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
@@ -376,14 +376,14 @@ public class PlanDistributionProviderServiceImpl extends PlanDistributionInherit
             this.isPlanStatusPublisherRegistered = true;
         }
 
-        UpdateHeaderList headerList = new UpdateHeaderList();
+        final UpdateHeaderList headerList = new UpdateHeaderList();
 
-        Identifier firstSubKey = planIdentity;
-        Long secondSubKey = COMObjectIdHelper.getInstanceId(planIdentityId);
-        Long thirdSubKey = COMObjectIdHelper.getInstanceId(planVersionId);
-        Long fourthSubKey = Long.valueOf(planUpdate.getStatus().getNumericValue().getValue());
+        final Identifier firstSubKey = planIdentity;
+        final Long secondSubKey = COMObjectIdHelper.getInstanceId(planIdentityId);
+        final Long thirdSubKey = COMObjectIdHelper.getInstanceId(planVersionId);
+        final Long fourthSubKey = Long.valueOf(planUpdate.getStatus().getNumericValue().getValue());
 
-        EntityKey entityKey = new EntityKey(firstSubKey, secondSubKey, thirdSubKey, fourthSubKey);
+        final EntityKey entityKey = new EntityKey(firstSubKey, secondSubKey, thirdSubKey, fourthSubKey);
         headerList.add(new UpdateHeader(
             HelperTime.getTimestampMillis(),
             connection.getConnectionDetails().getProviderURI(),
@@ -391,10 +391,10 @@ public class PlanDistributionProviderServiceImpl extends PlanDistributionInherit
             entityKey
         ));
 
-        ObjectIdList planVersionIdList = new ObjectIdList();
+        final ObjectIdList planVersionIdList = new ObjectIdList();
         planVersionIdList.add(planVersionId);
 
-        PlanUpdateDetailsList planUpdateList = new PlanUpdateDetailsList();
+        final PlanUpdateDetailsList planUpdateList = new PlanUpdateDetailsList();
         planUpdateList.add(planUpdate);
 
         planStatusPublisher.publish(headerList, planVersionIdList, planUpdateList);

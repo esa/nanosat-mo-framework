@@ -47,7 +47,7 @@ import esa.mo.mp.impl.com.pattern.COMInstanceArchiveManager;
  */
 public class ActivityArchiveManager extends COMInstanceArchiveManager<ActivityIdentityDetails, ActivityIdentityDetailsList, ActivityDefinitionDetails, ActivityDefinitionDetailsList, ActivityInstanceDetails, ActivityInstanceDetailsList, ActivityUpdateDetails, ActivityUpdateDetailsList> {
 
-    public ActivityArchiveManager(COMServicesProvider comServices, COMConfiguration configuration) {
+    public ActivityArchiveManager(final COMServicesProvider comServices, final COMConfiguration configuration) {
         super(comServices, configuration);
     }
 
@@ -67,19 +67,19 @@ public class ActivityArchiveManager extends COMInstanceArchiveManager<ActivityId
         return super.listAllStatusIds(PlanEditHelper.ACTIVITYINSTANCE_OBJECT_TYPE);
     }
 
-    public ObjectId getIdentityId(Identifier identity) {
+    public ObjectId getIdentityId(final Identifier identity) {
         return super.getIdentityId(identity, PlanInformationManagementHelper.ACTIVITYIDENTITY_OBJECT_TYPE);
     }
 
-    public ObjectIdList getIdentityIds(IdentifierList identities) {
+    public ObjectIdList getIdentityIds(final IdentifierList identities) {
         return super.getIdentityIds(identities, PlanInformationManagementHelper.ACTIVITYIDENTITY_OBJECT_TYPE);
     }
 
-    public ActivityDefinitionDetails getDefinition(Identifier identity) {
+    public ActivityDefinitionDetails getDefinition(final Identifier identity) {
         return super.getDefinition(identity, PlanInformationManagementHelper.ACTIVITYIDENTITY_OBJECT_TYPE);
     }
 
-    public ActivityDefinitionDetailsList getDefinitions(IdentifierList identities) {
+    public ActivityDefinitionDetailsList getDefinitions(final IdentifierList identities) {
         return super.getDefinitions(identities, PlanInformationManagementHelper.ACTIVITYIDENTITY_OBJECT_TYPE);
     }
 }

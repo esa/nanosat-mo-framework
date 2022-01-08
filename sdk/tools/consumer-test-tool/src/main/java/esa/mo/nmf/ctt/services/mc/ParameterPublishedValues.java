@@ -96,11 +96,11 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
     public void removeNotify()
     {
         super.removeNotify();
-        IdentifierList ids = new IdentifierList();
+        final IdentifierList ids = new IdentifierList();
         ids.add(subscription.getSubscriptionId());
         try {
             parameterService.getParameterStub().monitorValueDeregister(ids);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (final MALInteractionException | MALException ex) {
             Logger.getLogger(ParameterPublishedValues.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -126,19 +126,19 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
                     final int index = (int) ((5 * numberOfColumns) * Math.floor(objId / (5)) + objId % numberOfColumns);
 
                     if ((0 <= index) && (index < labels.length)) {
-                        String nameId = "(" + objId + ") " + updateHeader.getKey().getFirstSubKey().getValue();
-                        UOctet validityState = parameterValue.getValidityState();
-                        String validity = ValidityState.fromNumericValue(new UInteger(validityState.getValue())).toString();
-                        String rawValue = HelperAttributes.attribute2string(parameterValue.getRawValue());
-                        String convertedValue = HelperAttributes.attribute2string(parameterValue.getConvertedValue());
+                        final String nameId = "(" + objId + ") " + updateHeader.getKey().getFirstSubKey().getValue();
+                        final UOctet validityState = parameterValue.getValidityState();
+                        final String validity = ValidityState.fromNumericValue(new UInteger(validityState.getValue())).toString();
+                        final String rawValue = HelperAttributes.attribute2string(parameterValue.getRawValue());
+                        final String convertedValue = HelperAttributes.attribute2string(parameterValue.getConvertedValue());
 
-                        boolean isNotValid = (validityState.getValue() != ValidityState._VALID_INDEX);
+                        final boolean isNotValid = (validityState.getValue() != ValidityState._VALID_INDEX);
                         labels[index + 0 * numberOfColumns].setNewValue(nameId, isNotValid);
                         labels[index + 1 * numberOfColumns].setNewValue(validity, isNotValid);
                         labels[index + 2 * numberOfColumns].setNewValue(rawValue, isNotValid);
                         labels[index + 3 * numberOfColumns].setNewValue(convertedValue, isNotValid);
                     }
-                } catch (NumberFormatException ex) {
+                } catch (final NumberFormatException ex) {
                     Logger.getLogger(ParameterPublishedValues.class.getName()).log(Level.WARNING,
                             "Error decoding update with name: {0}", name);
                 }
@@ -155,7 +155,7 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        final javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

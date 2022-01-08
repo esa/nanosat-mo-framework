@@ -61,17 +61,17 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
     private static final String ACTION_STORE_AGGS = "StoreAggregations";
     private static final String ACTION_STORE_PARS = "StoreParameters";
 
-    MCAdapter(NanoSatMOConnectorImpl connector) {
+    MCAdapter(final NanoSatMOConnectorImpl connector) {
         this.connector = connector;
     }
 
     @Override
-    public void initialRegistrations(MCRegistration registration) {
+    public void initialRegistrations(final MCRegistration registration) {
         registration.setMode(MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS);
 
         // ------------------ Parameters ------------------
-        ParameterDefinitionDetailsList parDef = new ParameterDefinitionDetailsList();
-        IdentifierList paramNames = new IdentifierList();
+        final ParameterDefinitionDetailsList parDef = new ParameterDefinitionDetailsList();
+        final IdentifierList paramNames = new IdentifierList();
 
         // Creates a periodic parameter
         parDef.add(new ParameterDefinitionDetails(
@@ -100,16 +100,16 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
         registration.registerParameters(paramNames, parDef);
 
         // ------------------ Actions ------------------
-        ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
-        IdentifierList actionNames = new IdentifierList();
+        final ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
+        final IdentifierList actionNames = new IdentifierList();
 
-        ArgumentDefinitionDetailsList arguments1 = new ArgumentDefinitionDetailsList();
+        final ArgumentDefinitionDetailsList arguments1 = new ArgumentDefinitionDetailsList();
         {
-            Byte rawType = Attribute._INTEGER_TYPE_SHORT_FORM;
-            String rawUnit = "-";
-            ConditionalConversionList conditionalConversions = null;
-            Byte convertedType = null;
-            String convertedUnit = null;
+            final Byte rawType = Attribute._INTEGER_TYPE_SHORT_FORM;
+            final String rawUnit = "-";
+            final ConditionalConversionList conditionalConversions = null;
+            final Byte convertedType = null;
+            final String convertedUnit = null;
 
             arguments1.add(new ArgumentDefinitionDetails(new Identifier("1"), "", rawType, rawUnit,
                     conditionalConversions, convertedType, convertedUnit));
@@ -131,18 +131,18 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
         ));
         actionNames.add(new Identifier(ACTION_STORE_PARS));
         
-        LongList actionObjIds = registration.registerActions(actionNames, actionDefs);
+        final LongList actionObjIds = registration.registerActions(actionNames, actionDefs);
     }
 
     @Override
-    public Attribute onGetValue(Identifier identifier, Byte rawType) throws IOException {
+    public Attribute onGetValue(final Identifier identifier, final Byte rawType) throws IOException {
         if (PARAMETER_PERIODIC.equals(identifier.getValue())) {
             return (Attribute) HelperAttributes.javaType2Attribute(123.456);
         }
         
         if (PARAMETER_ARCHIVE_SIZE.equals(identifier.getValue())) {
-            File f = new File("comArchive.db");
-            long size = f.length();
+            final File f = new File("comArchive.db");
+            final long size = f.length();
             return (Attribute) HelperAttributes.javaType2Attribute(size);
         }
 
@@ -150,13 +150,13 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
     }
 
     @Override
-    public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
+    public Boolean onSetValue(final IdentifierList identifiers, final ParameterRawValueList values) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
-            Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
+    public UInteger actionArrived(final Identifier name, final AttributeValueList attributeValues,
+                                  final Long actionInstanceObjId, final boolean reportProgress, final MALInteraction interaction) {
         if (ACTION_STORE_AGGS.equals(name.getValue())) {
             StoreAggregations.storeAggregations(NUMBER_OF_OBJS, connector);
         }

@@ -51,7 +51,7 @@ public class InstrumentsSimulator {
     }
 
     public void printRealPosition() {
-        Orbit.OrbitParameters param = this.darkDusk.getParameters();
+        final Orbit.OrbitParameters param = this.darkDusk.getParameters();
         System.out.printf("\n\nLatitude, Longitude: %f, %f\nAltitude: %f\nTime: %s\n\n\n", 
                 param.getlatitude(), param.getlongitude(), param.geta(), param.gettime().toString());
     }
@@ -80,7 +80,7 @@ public class InstrumentsSimulator {
         return fineADCS.getMagnetometer().getB_theta();
     }
     
-    public boolean setMode(int modeNumber){
+    public boolean setMode(final int modeNumber){
         this.mode = modeNumber;
         return true;
     }
@@ -89,7 +89,7 @@ public class InstrumentsSimulator {
         return this.mode;
     }
     
-    public boolean setTemperature(double temperature){
+    public boolean setTemperature(final double temperature){
         this.temperature = temperature;
         return true;
     }

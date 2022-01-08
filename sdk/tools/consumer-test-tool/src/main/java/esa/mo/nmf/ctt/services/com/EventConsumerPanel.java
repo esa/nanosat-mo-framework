@@ -65,12 +65,12 @@ public class EventConsumerPanel extends javax.swing.JPanel {
      * @param eventService
      * @param archiveService
      */
-    public EventConsumerPanel(EventConsumerServiceImpl eventService, final ArchiveConsumerServiceImpl archiveService) {
+    public EventConsumerPanel(final EventConsumerServiceImpl eventService, final ArchiveConsumerServiceImpl archiveService) {
         initComponents();
         serviceCOMEvent = eventService;
         comObjects = new ArrayList<>();
 
-        String[] parameterTableCol = new String[]{
+        final String[] parameterTableCol = new String[]{
             "Timestamp", "Source URI", "From Service", "Event name", "Domain",
             "ObjId", "Source objType", "Related: ObjDetails",
             "Source: ObjDetails", "Number of events"};
@@ -84,12 +84,12 @@ public class EventConsumerPanel extends javax.swing.JPanel {
             };
 
             @Override               //all cells false
-            public boolean isCellEditable(int row, int column) {
+            public boolean isCellEditable(final int row, final int column) {
                 return false;
             }
 
             @Override
-            public Class getColumnClass(int columnIndex) {
+            public Class getColumnClass(final int columnIndex) {
                 return types[columnIndex];
             }
         };
@@ -98,19 +98,19 @@ public class EventConsumerPanel extends javax.swing.JPanel {
 
         eventTable.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mouseClicked(final MouseEvent e) {
                 if (e.getClickCount() == 2) {
                     // Get from the list of objects the one we want and display
-                    ArchivePersistenceObject comObject = comObjects.get(eventTable.getSelectedRow());
+                    final ArchivePersistenceObject comObject = comObjects.get(eventTable.getSelectedRow());
                     try {
-                        COMObjectWindow comObjectWindow = new COMObjectWindow(comObject, false, archiveService.getArchiveStub());
-                    } catch (IOException ex) {
+                        final COMObjectWindow comObjectWindow = new COMObjectWindow(comObject, false, archiveService.getArchiveStub());
+                    } catch (final IOException ex) {
                         Logger.getLogger(EventConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }
         });
-        TableRowSorter<TableModel> sorter = new TableRowSorter<>(eventTable.getModel());
+        final TableRowSorter<TableModel> sorter = new TableRowSorter<>(eventTable.getModel());
         eventTable.setRowSorter(sorter);
     }
 
@@ -123,27 +123,27 @@ public class EventConsumerPanel extends javax.swing.JPanel {
     public class EventReceivedAdapter extends EventReceivedListener {
 
         @Override
-        public void onDataReceived(EventCOMObject eventCOMObject) {
+        public void onDataReceived(final EventCOMObject eventCOMObject) {
 
-            int n_events = 0;
+            final int n_events = 0;
             Element object = null;
 
             if (eventCOMObject.getBody() != null) {
                 object = (Element) HelperAttributes.javaType2Attribute(eventCOMObject.getBody());
             }
 
-            ObjectType objType2 = new ObjectType(eventCOMObject.getObjType().getArea(),
+            final ObjectType objType2 = new ObjectType(eventCOMObject.getObjType().getArea(),
                     eventCOMObject.getObjType().getService(), eventCOMObject.getObjType().getVersion(), new UShort(0));
-            String eKey2 = HelperCOM.objType2string(objType2);
-            String eKey4 = (eventCOMObject.getSource() != null) ? HelperCOM.objType2string(eventCOMObject.getSource().getType()) : "";
-            ObjectDetails objectDetails = new ObjectDetails(eventCOMObject.getRelated(), eventCOMObject.getSource());
+            final String eKey2 = HelperCOM.objType2string(objType2);
+            final String eKey4 = (eventCOMObject.getSource() != null) ? HelperCOM.objType2string(eventCOMObject.getSource().getType()) : "";
+            final ObjectDetails objectDetails = new ObjectDetails(eventCOMObject.getRelated(), eventCOMObject.getSource());
 
-            String objDetailsRelated = (eventCOMObject.getRelated() != null) ? eventCOMObject.getRelated().toString() : "null";
-            String objDetailsSource = (eventCOMObject.getSource() != null) ? eventCOMObject.getSource().getKey().getInstId().toString() : "null";
+            final String objDetailsRelated = (eventCOMObject.getRelated() != null) ? eventCOMObject.getRelated().toString() : "null";
+            final String objDetailsSource = (eventCOMObject.getSource() != null) ? eventCOMObject.getSource().getKey().getInstId().toString() : "null";
 
-            String time = HelperTime.time2readableString(eventCOMObject.getTimestamp());
-            String domainName = HelperMisc.domain2domainId(eventCOMObject.getDomain());
-            String eventName = HelperCOM.objType2COMObject(eventCOMObject.getObjType()).getObjectName().toString();
+            final String time = HelperTime.time2readableString(eventCOMObject.getTimestamp());
+            final String domainName = HelperMisc.domain2domainId(eventCOMObject.getDomain());
+            final String eventName = HelperCOM.objType2COMObject(eventCOMObject.getObjType()).getObjectName().toString();
 
             eventTableData.addRow(new Object[]{
                 time,
@@ -158,7 +158,7 @@ public class EventConsumerPanel extends javax.swing.JPanel {
                 n_events}
             );
 
-            ArchiveDetails archiveDetails = new ArchiveDetails(
+            final ArchiveDetails archiveDetails = new ArchiveDetails(
                     eventCOMObject.getObjId(),
                     objectDetails,
                     eventCOMObject.getNetworkZone(),
@@ -166,7 +166,7 @@ public class EventConsumerPanel extends javax.swing.JPanel {
                     eventCOMObject.getSourceURI()
             );
 
-            ArchivePersistenceObject comObject = new ArchivePersistenceObject(
+            final ArchivePersistenceObject comObject = new ArchivePersistenceObject(
                     eventCOMObject.getObjType(),
                     eventCOMObject.getDomain(),
                     eventCOMObject.getObjId(),
@@ -216,7 +216,7 @@ public class EventConsumerPanel extends javax.swing.JPanel {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
 
-            public Class getColumnClass(int columnIndex) {
+            public Class getColumnClass(final int columnIndex) {
                 return types [columnIndex];
             }
         });
@@ -226,13 +226,13 @@ public class EventConsumerPanel extends javax.swing.JPanel {
         eventTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         eventTable.setMaximumSize(null);
         eventTable.addContainerListener(new java.awt.event.ContainerAdapter() {
-            public void componentAdded(java.awt.event.ContainerEvent evt) {
+            public void componentAdded(final java.awt.event.ContainerEvent evt) {
                 eventTableComponentAdded(evt);
             }
         });
         jScrollPane2.setViewportView(eventTable);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        final javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -253,7 +253,7 @@ public class EventConsumerPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void eventTableComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_eventTableComponentAdded
+    private void eventTableComponentAdded(final java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_eventTableComponentAdded
         // TODO add your handling code here:
     }//GEN-LAST:event_eventTableComponentAdded
 

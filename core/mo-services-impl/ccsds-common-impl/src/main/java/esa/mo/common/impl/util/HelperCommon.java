@@ -54,16 +54,16 @@ public class HelperCommon {
      * @param provider The ProviderSummary object
      * @return ConnectionConsumer The ConnectionConsumer object
      */
-    public static ConnectionConsumer providerSummaryToConnectionConsumer(ProviderSummary provider) {
+    public static ConnectionConsumer providerSummaryToConnectionConsumer(final ProviderSummary provider) {
         final ConnectionConsumer connection = new ConnectionConsumer();
 
         final ServicesConnectionDetails serviceDetails = new ServicesConnectionDetails();
         final HashMap<String, SingleConnectionDetails> services = new HashMap<>();
 
         // Cycle all the services in the provider and put them in the serviceDetails object
-        for (ServiceCapability serviceInfo : provider.getProviderDetails().getServiceCapabilities()) {
-            ServiceKey key = serviceInfo.getServiceKey();
-            AddressDetails addressDetails;
+        for (final ServiceCapability serviceInfo : provider.getProviderDetails().getServiceCapabilities()) {
+            final ServiceKey key = serviceInfo.getServiceKey();
+            final AddressDetails addressDetails;
 
             // If there are no address info we cannot connect...
             if (!serviceInfo.getServiceAddresses().isEmpty()) {
@@ -78,7 +78,7 @@ public class HelperCommon {
                 continue;
             }
 
-            SingleConnectionDetails details = new SingleConnectionDetails();
+            final SingleConnectionDetails details = new SingleConnectionDetails();
             details.setBrokerURI(addressDetails.getBrokerURI());
             details.setProviderURI(addressDetails.getServiceURI());
             details.setDomain(provider.getProviderKey().getDomain());
@@ -133,8 +133,8 @@ public class HelperCommon {
         final ServiceCapabilityList newCapabilities = new ServiceCapabilityList();
 
         for (int i = 0; i < oldCapabilities.size(); i++) {
-            AddressDetailsList addresses = oldCapabilities.get(i).getServiceAddresses();
-            ServiceCapability cap = new ServiceCapability();
+            final AddressDetailsList addresses = oldCapabilities.get(i).getServiceAddresses();
+            final ServiceCapability cap = new ServiceCapability();
             cap.setServiceKey(oldCapabilities.get(i).getServiceKey());
             cap.setServiceProperties(oldCapabilities.get(i).getServiceProperties());
             cap.setSupportedCapabilitySets(oldCapabilities.get(i).getSupportedCapabilitySets());
@@ -143,10 +143,10 @@ public class HelperCommon {
                 final int bestIndex = getBestIPCServiceAddressIndex(addresses);
 
                 // Select only the best address for IPC
-                AddressDetailsList newAddresses = new AddressDetailsList();
+                final AddressDetailsList newAddresses = new AddressDetailsList();
                 newAddresses.add(addresses.get(bestIndex));
                 cap.setServiceAddresses(newAddresses);
-            } catch (IllegalArgumentException ex) {
+            } catch (final IllegalArgumentException ex) {
                 LOGGER.log(Level.SEVERE,
                         "The best IPC service address index could not be determined!", ex);
             }
@@ -167,7 +167,7 @@ public class HelperCommon {
      * @return Index of the address in the list with the best IPC transport
      * @throws IllegalArgumentException If addresses is empty
      */
-    public static int getBestIPCServiceAddressIndex(AddressDetailsList addresses) throws
+    public static int getBestIPCServiceAddressIndex(final AddressDetailsList addresses) throws
         IllegalArgumentException
     {
       if (addresses.isEmpty()) {
@@ -182,7 +182,7 @@ public class HelperCommon {
       // My preference would be, in order: tcp/ip, rmi, other, spp
       // SPP is in last because usually this is the transport supposed
       // to be used on the ground-to-space link and not internally.
-      StringList availableTransports = getAvailableTransports(addresses);
+      final StringList availableTransports = getAvailableTransports(addresses);
 
       int index = getTransportIndex(availableTransports, "tcpip");
       if (index != -1) {
@@ -206,20 +206,20 @@ public class HelperCommon {
       }
     }
 
-    private static StringList getAvailableTransports(AddressDetailsList addresses)
+    private static StringList getAvailableTransports(final AddressDetailsList addresses)
     {
-      StringList transports = new StringList(); // List of transport names
+      final StringList transports = new StringList(); // List of transport names
 
-      for (AddressDetails address : addresses) {
+      for (final AddressDetails address : addresses) {
         // The name of the transport is always before ":"
-        String[] parts = address.getServiceURI().toString().split(":");
+        final String[] parts = address.getServiceURI().toString().split(":");
         transports.add(parts[0]);
       }
 
       return transports;
     }
 
-    private static int getTransportIndex(StringList transports, String findString)
+    private static int getTransportIndex(final StringList transports, final String findString)
     {
       for (int i = 0; i < transports.size(); i++) {
         if (findString.equals(transports.get(i))) {

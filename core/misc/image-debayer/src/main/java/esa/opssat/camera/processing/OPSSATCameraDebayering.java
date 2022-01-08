@@ -43,7 +43,7 @@ public class OPSSATCameraDebayering {
      * @param data
      * @return
      */
-    public static BufferedImage getDebayeredImage(byte[] data) {
+    public static BufferedImage getDebayeredImage(final byte[] data) {
         return OPSSATCameraDebayering.getDebayeredImage(data, 0);
     }
 
@@ -61,8 +61,8 @@ public class OPSSATCameraDebayering {
      * @param algorithm
      * @return
      */
-    public static BufferedImage getDebayeredImage(byte[] data, int algorithm) {
-        FileInfo fi = new FileInfo();
+    public static BufferedImage getDebayeredImage(final byte[] data, final int algorithm) {
+        final FileInfo fi = new FileInfo();
         fi.fileFormat = FileInfo.RAW;
         fi.width = 2048;
         fi.height = 1944;
@@ -75,24 +75,24 @@ public class OPSSATCameraDebayering {
 
         fi.fileType = FileInfo.GRAY16_UNSIGNED;
 
-        FileOpener fo = new FileOpener(fi);
-        ColorModel cm = fo.createColorModel(fi);
+        final FileOpener fo = new FileOpener(fi);
+        final ColorModel cm = fo.createColorModel(fi);
 
         // Convert the byte array to a shorts array
-        short[] shorts = new short[data.length / 2];
+        final short[] shorts = new short[data.length / 2];
         ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN).asShortBuffer().get(shorts);
 
-        ShortProcessor processor = new ShortProcessor(fi.width, fi.height, shorts, cm);
-        ImagePlus imp = new ImagePlus("", processor);
+        final ShortProcessor processor = new ShortProcessor(fi.width, fi.height, shorts, cm);
+        final ImagePlus imp = new ImagePlus("", processor);
 
-        ImagePlus outImage = OPSSATCameraDebayering.processImage(imp, algorithm);
+        final ImagePlus outImage = OPSSATCameraDebayering.processImage(imp, algorithm);
 //        outImage.show();
 
         return outImage.getBufferedImage();
     }
 
-    private static ImagePlus processImage(ImagePlus imp, int algorithm) {
-        Debayer_Image debayeringFilter = new Debayer_Image();
+    private static ImagePlus processImage(final ImagePlus imp, final int algorithm) {
+        final Debayer_Image debayeringFilter = new Debayer_Image();
         debayeringFilter.setup(String.valueOf(algorithm), imp);
         debayeringFilter.run(null);
         return debayeringFilter.getImage();

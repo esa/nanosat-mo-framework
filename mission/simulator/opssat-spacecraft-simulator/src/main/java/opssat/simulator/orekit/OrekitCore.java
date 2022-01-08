@@ -237,18 +237,18 @@ public class OrekitCore
   private final java.util.Timer stateTargetTimer = new java.util.Timer();
   TimerTask stateTargetTask;
 
-  public OrekitCore(double a, double e, double i, double omega, double raan, double lM,
-      SimulatorHeader simulatorHeader, Logger logger, SimulatorNode simulatorNode)
+  public OrekitCore(final double a, final double e, final double i, final double omega, final double raan, final double lM,
+                    final SimulatorHeader simulatorHeader, final Logger logger, final SimulatorNode simulatorNode)
       throws OrekitException
   {
     this.logger = logger;
 
     // Setup orekit, must contain the IGRF and WMM data files
-    DataProvidersManager manager = DataProvidersManager.getInstance();
+    final DataProvidersManager manager = DataProvidersManager.getInstance();
     manager.addProvider(OrekitResources.getOrekitData());
 
     // Initial date in UTC time scale
-    TimeScale utc = TimeScalesFactory.getUTC();
+    final TimeScale utc = TimeScalesFactory.getUTC();
 
     this.initialDate = new AbsoluteDate(simulatorHeader.getYearStartDate(),
         simulatorHeader.getMonthStartDate(), simulatorHeader.getDayStartDate(),
@@ -302,7 +302,7 @@ public class OrekitCore
     changeAttitude(ATTITUDE_MODE.SUN_POINTING);
 
     // Propagators
-    boolean TLERequired = "tle".equals(simulatorHeader.getOrekitPropagator());
+    final boolean TLERequired = "tle".equals(simulatorHeader.getOrekitPropagator());
     if (TLE.isFormatOK(simulatorHeader.getOrekitTLE1(), simulatorHeader.getOrekitTLE2())) {
       this.initialTLE = new TLE(simulatorHeader.getOrekitTLE1(), simulatorHeader.getOrekitTLE2());
       if (TLERequired) {
@@ -329,14 +329,14 @@ public class OrekitCore
       this.runningPropagator = this.kepler;
     }
 
-    AttitudeDetector sunDetector = new AttitudeDetector(0);
-    AttitudeDetector nadirDetector = new AttitudeDetector(1);
-    AttitudeDetector targetTrackingDetector = new AttitudeDetector(2);
-    AttitudeDetector lofTargetDetector = new AttitudeDetector(3);
-    AttitudeDetector lofTargetSpinDetector = new AttitudeDetector(4);
-    AttitudeDetector bDotDetumbleDetector = new AttitudeDetector(5);
-    AttitudeDetector spinStabilizedDetector = new AttitudeDetector(6);
-    AttitudeDetector vectorPointingDetector = new AttitudeDetector(7);
+    final AttitudeDetector sunDetector = new AttitudeDetector(0);
+    final AttitudeDetector nadirDetector = new AttitudeDetector(1);
+    final AttitudeDetector targetTrackingDetector = new AttitudeDetector(2);
+    final AttitudeDetector lofTargetDetector = new AttitudeDetector(3);
+    final AttitudeDetector lofTargetSpinDetector = new AttitudeDetector(4);
+    final AttitudeDetector bDotDetumbleDetector = new AttitudeDetector(5);
+    final AttitudeDetector spinStabilizedDetector = new AttitudeDetector(6);
+    final AttitudeDetector vectorPointingDetector = new AttitudeDetector(7);
 
     // Transitions to sunpointing
     attitudesSequence.addSwitchingCondition(nadirPointing, sunPointing, sunDetector, true, false,
@@ -477,7 +477,7 @@ public class OrekitCore
         "LVLH");
     // this.geoMagneticField = GeoMagneticFieldFactory.getWMM(2016);
 
-    double decimalYear = getDecimalYear(this.extrapDate);
+    final double decimalYear = getDecimalYear(this.extrapDate);
     extrapDate.toDate(utc);
     logger.log(Level.FINE, "Decimal year is [" + decimalYear + "]");
     this.geoMagneticField = GeoMagneticFieldFactory.getIGRF(decimalYear);
@@ -498,7 +498,7 @@ public class OrekitCore
     this.staESOCFrame = new TopocentricFrame(this.earth, stationESOC, "ESOC");
     this.sunVector = new double[3];
 
-    BufferedReader in;
+    final BufferedReader in;
     // GPS Constellation simulator
     if (!simulatorHeader.isUpdateInternet()) {
       // Handle gps file from resources
@@ -512,21 +512,21 @@ public class OrekitCore
       URL noradGpsOps = null;
       try {
         noradGpsOps = new URL(celestrakURL);
-      } catch (MalformedURLException ex) {
+      } catch (final MalformedURLException ex) {
         logger.log(Level.INFO, ex.toString());
       }
       BufferedReader readerURL = null;
       if (noradGpsOps != null) {
         try {
           readerURL = new BufferedReader(new InputStreamReader((noradGpsOps.openStream())));
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
           logger.log(Level.WARNING, "Unable to update  norad satellites" + ex.toString());
         }
       }
       if (readerURL != null) {
         String line;
         BufferedWriter out = null;
-        File gpsOps = simulatorNode.getGPSOpsFile();
+        final File gpsOps = simulatorNode.getGPSOpsFile();
         if (!gpsOps.getParentFile().exists()) {
           gpsOps.getParentFile().mkdir();
         }
@@ -536,12 +536,12 @@ public class OrekitCore
             out.write(line + "\n");
           }
           out.close();
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
           logger.log(Level.SEVERE, ex.toString());
         }
         try {
           readerURL.close();
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
           logger.log(Level.SEVERE, ex.toString());
         }
       }
@@ -563,10 +563,10 @@ public class OrekitCore
           }
           if (name != null && tle1 != null && tle2 != null) {
             if (TLE.isFormatOK(tle1, tle2)) {
-              TLE newTLE = new TLE(tle1, tle2);
-              TLEPropagator tempTLEPropagator = TLEPropagator.selectExtrapolator(newTLE);
+              final TLE newTLE = new TLE(tle1, tle2);
+              final TLEPropagator tempTLEPropagator = TLEPropagator.selectExtrapolator(newTLE);
               tempTLEPropagator.setSlaveMode();
-              GPSSatellite newSat = new GPSSatellite(name, tempTLEPropagator);
+              final GPSSatellite newSat = new GPSSatellite(name, tempTLEPropagator);
               this.gpsConstellation.add(newSat);
             }
             name = null;
@@ -575,10 +575,10 @@ public class OrekitCore
           }
         }
         in.close();
-      } catch (IOException ex) {
+      } catch (final IOException ex) {
         logger.log(Level.SEVERE, ex.toString());
       }
-    } catch (FileNotFoundException ex) {
+    } catch (final FileNotFoundException ex) {
       logger.log(Level.SEVERE, ex.toString());
       // No internet connection available and no file saved
     }
@@ -591,13 +591,13 @@ public class OrekitCore
     return gpsConstellation;
   }
 
-  private double getDecimalYear(AbsoluteDate extrapDate)
+  private double getDecimalYear(final AbsoluteDate extrapDate)
   {
 
     try {
       return extrapDate.getComponents(0).getDate().getYear()
           + extrapDate.getComponents(0).getDate().getDayOfYear() / 365.0;
-    } catch (OrekitException ex) {
+    } catch (final OrekitException ex) {
       Logger.getLogger(OrekitCore.class.getName()).log(Level.SEVERE, null, ex);
     }
     return 0.0;
@@ -622,22 +622,22 @@ public class OrekitCore
     }
   }
 
-  public void setConstellationPropagationCounter(int constellationPropagationCounter)
+  public void setConstellationPropagationCounter(final int constellationPropagationCounter)
   {
     synchronized (this.constellationPropagationCounterMutex) {
       this.constellationPropagationCounter = constellationPropagationCounter;
     }
   }
 
-  private String getETAFromAbsDate(AbsoluteDate date)
+  private String getETAFromAbsDate(final AbsoluteDate date)
   {
     int seconds = -(int) this.extrapDate.durationFrom(date);
     if (seconds > 0) {
-      int hours = seconds / 3600;
+      final int hours = seconds / 3600;
       seconds = seconds % 3600;
-      int minutes = seconds / 60;
+      final int minutes = seconds / 60;
       seconds = seconds % 60;
-      String result1 = date.toString();
+      final String result1 = date.toString();
       return result1.substring(5, result1.length() - 4) + "--ETA=>" + hours + "h"
           + minutes + "m" + seconds + "s";
     } else {
@@ -645,24 +645,24 @@ public class OrekitCore
     }
   }
 
-  public static boolean parseTLEFromStrings(byte[] date, String tle1, String tle2,
-      StringBuilder exception)
+  public static boolean parseTLEFromStrings(final byte[] date, final String tle1, final String tle2,
+                                            final StringBuilder exception)
   {
     boolean TLEOk = false;
     //logger.log(Level.INFO, "1Trying to parse [\n" + tle1 + "\n" + tle2 + "\n], size is ["
     //    + (tle1.length() + tle2.length()) + " bytes]");
     try {
       TLEOk = TLE.isFormatOK(tle1, tle2);
-    } catch (OrekitException ex) {
+    } catch (final OrekitException ex) {
       Logger.getLogger(OrekitCore.class.getName()).log(Level.SEVERE, null, ex);
       exception.append(ex.toString());
 
     }
     if (TLEOk) {
-      String together = tle1 + '\n' + tle2 + '\n';
+      final String together = tle1 + '\n' + tle2 + '\n';
       int index = 0;
-      for (char c : together.toCharArray()) {
-        byte b = (byte) c;
+      for (final char c : together.toCharArray()) {
+        final byte b = (byte) c;
         // System.out.print(b);
         date[index++] = b;
       }
@@ -672,15 +672,15 @@ public class OrekitCore
     return TLEOk;
   }
 
-  public static boolean parseTLEFromBytes(byte[] date, StringBuilder tle1, StringBuilder tle2)
+  public static boolean parseTLEFromBytes(final byte[] date, final StringBuilder tle1, final StringBuilder tle2)
   {
     //logger.log(Level.INFO,
     //    "Trying to parse [" + date.toString() + "], size is [" + date.length + "]");
     StringBuilder stringBuilder = new StringBuilder();
     String tl1 = null, tl2 = null;
     int index = 1;
-    for (byte b : date) {
-      char c = (char) b;
+    for (final byte b : date) {
+      final char c = (char) b;
       stringBuilder.append(c);
       index++;
       if (index == 70) {
@@ -698,13 +698,13 @@ public class OrekitCore
     tle2.append(tl2);
     try {
       return TLE.isFormatOK(tle1.toString(), tle2.toString());
-    } catch (OrekitException ex) {
+    } catch (final OrekitException ex) {
       Logger.getLogger(OrekitCore.class.getName()).log(Level.SEVERE, null, ex);
     }
     return false;
   }
 
-  public void setNewTLEs(SimulatorHeader simulatorHeader)
+  public void setNewTLEs(final SimulatorHeader simulatorHeader)
   {
     try {
       // logger.log(Level.INFO,simulatorHeader.getOrekitTLE1());
@@ -713,7 +713,7 @@ public class OrekitCore
       // logger.log(Level.INFO,this.initialTLE.toString());
       this.runningPropagator = TLEPropagator.selectExtrapolator(initialTLE, attitudesSequence,
             6.0);
-    } catch (OrekitException ex) {
+    } catch (final OrekitException ex) {
       Logger.getLogger(OrekitCore.class.getName()).log(Level.SEVERE, null, ex);
     }
   }
@@ -725,7 +725,7 @@ public class OrekitCore
     } else if (this.runningPropagator instanceof TLEPropagator) {
       try {
         return TLEPropagator.selectExtrapolator(this.initialTLE);
-      } catch (OrekitException ex) {
+      } catch (final OrekitException ex) {
         Logger.getLogger(OrekitCore.class.getName()).log(Level.SEVERE, null, ex);
       }
     }
@@ -734,8 +734,8 @@ public class OrekitCore
 
   public String getOrekitInfo()
   {
-    String result = "UnknownPropagator!";
-    String attitudeInfo = this.attitudeMode.toString();
+    final String result = "UnknownPropagator!";
+    final String attitudeInfo = this.attitudeMode.toString();
     if (this.runningPropagator instanceof KeplerianPropagator) {
       return "Kepler|" + attitudeInfo;
     } else if (this.runningPropagator instanceof TLEPropagator) {
@@ -780,11 +780,11 @@ public class OrekitCore
     }
   }
 
-  public void changeAttitudeLof(double x, double y, double z, double rate)
+  public void changeAttitudeLof(final double x, final double y, final double z, final double rate)
   {
-    double x_rad = FastMath.toRadians(x);
-    double y_rad = FastMath.toRadians(y);
-    double z_rad = FastMath.toRadians(z);
+    final double x_rad = FastMath.toRadians(x);
+    final double y_rad = FastMath.toRadians(y);
+    final double z_rad = FastMath.toRadians(z);
 
     logger.log(Level.INFO,
         "changeAttitudeLof x [" + x + "] y [" + y + "] z [" + z + "] rate [" + rate + "]");
@@ -798,14 +798,14 @@ public class OrekitCore
       } else {
         this.attitudeMode = ATTITUDE_MODE.LOF_TARGET;
       }
-    } catch (OrekitException ex) {
+    } catch (final OrekitException ex) {
       Logger.getLogger(OrekitCore.class.getName()).log(Level.SEVERE, null, ex);
     }
     //attitudesSequence.resetActiveProvider(spinStabilized);
     scheduleStateTargetTimer();
   }
 
-  public void changeAttitudeTarget(double latitude, double longitude, double altitude)
+  public void changeAttitudeTarget(final double latitude, final double longitude, final double altitude)
   {
     logger.log(Level.INFO,
         "changeAttitudeTarget latitude [" + latitude + "] longitude [" + longitude + "]");
@@ -814,7 +814,7 @@ public class OrekitCore
           FastMath.toRadians(longitude), altitude);
       this.targetTracking.setProvider(new TargetPointing(this.inertialFrame, this.targetGeo,
           this.earth));
-    } catch (OrekitException ex) {
+    } catch (final OrekitException ex) {
       Logger.getLogger(OrekitCore.class.getName()).log(Level.SEVERE, null, ex);
     }
     //attitudesSequence.resetActiveProvider(targetTracking);
@@ -822,7 +822,7 @@ public class OrekitCore
     scheduleStateTargetTimer();
   }
 
-  public void changeAttitudeVectorTarget(float x, float y, float z, float margin)
+  public void changeAttitudeVectorTarget(final float x, final float y, final float z, final float margin)
   {
     this.vectorPointing.update(this.spacecraftState);
     logger.log(Level.INFO, "changeAttitudeVectorTarget vector: [{0}, {1}, {2}] margin [{3}]",
@@ -833,7 +833,7 @@ public class OrekitCore
     scheduleStateTargetTimer();
   }
 
-  public void changeAttitude(ATTITUDE_MODE newAttitude)
+  public void changeAttitude(final ATTITUDE_MODE newAttitude)
   {
     boolean found = false;
     logger.log(Level.FINE, "Changing attitude to " + newAttitude);
@@ -897,7 +897,7 @@ public class OrekitCore
   public double[] getMagnetometer()
   {
     synchronized (magneticFieldVectorLock) {
-      double[] magnetometerVector = new double[3];
+      final double[] magnetometerVector = new double[3];
       // FramesFactory.
       this.getLofRotation().applyInverseTo(this.magneticFieldVector, magnetometerVector);
       return magnetometerVector;
@@ -914,7 +914,7 @@ public class OrekitCore
 
   }
 
-  private boolean isInGSView(SpacecraftState s)
+  private boolean isInGSView(final SpacecraftState s)
   {
     return getGSElevation(s) >= 0;
   }
@@ -929,19 +929,19 @@ public class OrekitCore
     return getGSAzimuth(this.spacecraftState);
   }
 
-  private double getGSAzimuth(SpacecraftState s)
+  private double getGSAzimuth(final SpacecraftState s)
   {
     try {
       final double azimuth = this.staESOCFrame.getAzimuth(s.getPVCoordinates().getPosition(),
           s.getFrame(), s.getDate());
       return FastMath.toDegrees(azimuth);
-    } catch (OrekitException ex) {
+    } catch (final OrekitException ex) {
       Logger.getLogger(OrekitCore.class.getName()).log(Level.SEVERE, null, ex);
     }
     return 0;
   }
 
-  private double getGSElevation(SpacecraftState s)
+  private double getGSElevation(final SpacecraftState s)
   {
     try {
       final double trueElevation = this.staESOCFrame
@@ -952,31 +952,31 @@ public class OrekitCore
       // s.getFrame(), s.getDate());
       calculatedElevation = trueElevation;
       return FastMath.toDegrees(calculatedElevation) - DARMSTADT_MIN_ELEVATION;
-    } catch (OrekitException ex) {
+    } catch (final OrekitException ex) {
       Logger.getLogger(OrekitCore.class.getName()).log(Level.SEVERE, null, ex);
     }
 
     return 0;
   }
 
-  private AbsoluteDate findNextSignalEvent(boolean isAOS)
+  private AbsoluteDate findNextSignalEvent(final boolean isAOS)
   {
     if (isAOS) {
       this.hasAOS = true;
     } else {
       this.hasLOS = true;
     }
-    int timeStep = 1;
-    String nodeDetectStr = (isAOS ? "AOS" : "LOS");
+    final int timeStep = 1;
+    final String nodeDetectStr = (isAOS ? "AOS" : "LOS");
     if (debug1) {
       logger.log(Level.INFO, nodeDetectStr + ".. Timestep is [" + timeStep + "]");
     }
-    int maxSteps = 10000;
-    int speedFactor = 10;
+    final int maxSteps = 10000;
+    final int speedFactor = 10;
     int i = 0;
-    boolean localDebug = false;
+    final boolean localDebug = false;
     AbsoluteDate tempExtrapDate = new AbsoluteDate(extrapDate, 0);
-    AbstractPropagator tempPropagator = getNewPropagator();
+    final AbstractPropagator tempPropagator = getNewPropagator();
     SpacecraftState tempSpacecraftState = null;
     GeodeticPoint positionThen;
     boolean allowCrossingLock = false;
@@ -989,7 +989,7 @@ public class OrekitCore
       // logger.log(Level.INFO,"Step ["+i+"], time
       // ["+tempExtrapDate.toString()+"],"+positionThen.toString()+"
       // elevation["+getGSElevation(tempSpacecraftState)+"]");
-      boolean tempInViewRange = isInGSView(tempSpacecraftState);
+      final boolean tempInViewRange = isInGSView(tempSpacecraftState);
       if ((!tempInViewRange && isAOS) || (tempInViewRange && !isAOS)) {
         allowCrossingLock = true;
       }
@@ -1009,7 +1009,7 @@ public class OrekitCore
     return null;
   }
 
-  private AbsoluteDate findNextCrossing(boolean isAnx)
+  private AbsoluteDate findNextCrossing(final boolean isAnx)
   {
     if (isAnx) {
       this.hasAnx = true;
@@ -1017,17 +1017,17 @@ public class OrekitCore
       this.hasDnx = true;
     }
     // Propagate until anx is found
-    int timeStep = 1;
-    String nodeDetectStr = (isAnx ? "ANX" : "DNX");
+    final int timeStep = 1;
+    final String nodeDetectStr = (isAnx ? "ANX" : "DNX");
     // logger.log(Level.INFO,nodeDetectStr+".. Timestep is ["+timeStep+"]");
-    int maxSteps = 100;
-    int speedFactor = 100;
+    final int maxSteps = 100;
+    final int speedFactor = 100;
     int i = 0;
     AbsoluteDate tempExtrapDate = new AbsoluteDate(extrapDate, 0);
     SpacecraftState tempSpacecraftState = null;
     GeodeticPoint positionThen;
     boolean allowCrossingLock = false;
-    AbstractPropagator tempPropagator = getNewPropagator();
+    final AbstractPropagator tempPropagator = getNewPropagator();
     while (++i < maxSteps) {
       tempExtrapDate = tempExtrapDate.shiftedBy(timeStep * speedFactor);
       tempSpacecraftState = tempPropagator.propagate(tempExtrapDate);
@@ -1080,20 +1080,20 @@ public class OrekitCore
     executor.submit(() -> {
       // logger.log(Level.INFO,"Propagating constellation..");
 
-      GeodeticPoint opsSatGeoDPoint = getGeodeticPoint(gpsCurrentSCState);
-      TopocentricFrame opsSatCurrentFrame = new TopocentricFrame(earth, opsSatGeoDPoint,
+      final GeodeticPoint opsSatGeoDPoint = getGeodeticPoint(gpsCurrentSCState);
+      final TopocentricFrame opsSatCurrentFrame = new TopocentricFrame(earth, opsSatGeoDPoint,
           "OPS-SAT");
 
-      LinkedList<GPSSatInView> tempSatsInView = new LinkedList<>();
+      final LinkedList<GPSSatInView> tempSatsInView = new LinkedList<>();
 
-      for (GPSSatellite t : gpsConstellation) {
+      for (final GPSSatellite t : gpsConstellation) {
         t.setState(t.propagator.propagate(gpsExtrapDate));
 
         //
-        double distance = Vector3D.distance(gpsCurrentSCState.getPVCoordinates().getPosition(),
+        final double distance = Vector3D.distance(gpsCurrentSCState.getPVCoordinates().getPosition(),
             t.getState().getPVCoordinates().getPosition());
 
-        GPSSatInView tempGPSSatInView = new GPSSatInView(t.name, distance);
+        final GPSSatInView tempGPSSatInView = new GPSSatInView(t.name, distance);
         double elevation = 0, azimuth = 0;
         try {
           elevation = opsSatCurrentFrame.getElevation(
@@ -1101,7 +1101,7 @@ public class OrekitCore
               t.getState().getDate());
           azimuth = opsSatCurrentFrame.getAzimuth(t.getState().getPVCoordinates().getPosition(),
               t.getState().getFrame(), t.getState().getDate());
-        } catch (OrekitException ex) {
+        } catch (final OrekitException ex) {
           Logger.getLogger(OrekitCore.class.getName()).log(Level.SEVERE, null, ex);
         }
         tempGPSSatInView.setElevation(FastMath.toDegrees(elevation));
@@ -1128,7 +1128,7 @@ public class OrekitCore
 
   public LinkedList<GPSSatInView> getSatsInViewAsList()
   {
-    LinkedList<GPSSatInView> result;
+    final LinkedList<GPSSatInView> result;
     synchronized (gpsSatsInView) {
       result = new LinkedList<>(gpsSatsInView);
     }
@@ -1137,10 +1137,10 @@ public class OrekitCore
 
   public String getSatsInView()
   {
-    StringBuilder result = new StringBuilder();
+    final StringBuilder result = new StringBuilder();
     synchronized (gpsSatsInView) {
       result.append("[" + this.gpsSatsInView.size() + "] satellites\n");
-      for (GPSSatInView a : this.gpsSatsInView) {
+      for (final GPSSatInView a : this.gpsSatsInView) {
         result.append(a.toString());
         result.append("\n");
       }
@@ -1150,7 +1150,7 @@ public class OrekitCore
 
   public GPSSatInViewScience getSatsInViewScience()
   {
-    LinkedList<GPSSatInView> result;
+    final LinkedList<GPSSatInView> result;
     synchronized (gpsSatsInView) {
       result = new LinkedList<>(gpsSatsInView);
     }
@@ -1171,7 +1171,7 @@ public class OrekitCore
       avgElevation = 0;
       stdDevDistance = 0;
       stdDevElevation = 0;
-      for (GPSSatInView sat : result) {
+      for (final GPSSatInView sat : result) {
         if (sat.distance > maxDistance) {
           maxDistance = sat.distance;
         }
@@ -1191,7 +1191,7 @@ public class OrekitCore
       avgDistance /= result.size();
       avgElevation /= result.size();
       // STD
-      for (GPSSatInView sat : result) {
+      for (final GPSSatInView sat : result) {
         stdDevDistance += FastMath.pow(sat.distance - avgDistance, 2);
         stdDevElevation += FastMath.pow(sat.getElevation() - avgElevation, 2);
 
@@ -1214,12 +1214,12 @@ public class OrekitCore
 
   }
 
-  public void processPropagateStep(double timeStep) throws OrekitException
+  public void processPropagateStep(final double timeStep) throws OrekitException
   {
     this.timeElapsed = this.timeElapsed + timeStep;
     extrapDate = extrapDate.shiftedBy(timeStep);
     synchronized (magneticFieldVectorLock) {
-      boolean[] active = {
+      final boolean[] active = {
         this.attitudeMode.equals(ATTITUDE_MODE.SUN_POINTING),
         this.attitudeMode.equals(ATTITUDE_MODE.NADIR_POINTING),
         this.attitudeMode.equals(ATTITUDE_MODE.TARGET_TRACKING),
@@ -1238,18 +1238,18 @@ public class OrekitCore
     if (!propagatingConstellation) {
       processGPSConstellationPropagateStep();
     }
-    Transform inertToSpacecraft = this.spacecraftState.toTransform();
+    final Transform inertToSpacecraft = this.spacecraftState.toTransform();
     final PVCoordinatesProvider sunPVProvider = CelestialBodyFactory.getSun();
-    Vector3D sunInert = sunPVProvider
+    final Vector3D sunInert = sunPVProvider
         .getPVCoordinates(spacecraftState.getDate(), spacecraftState.getFrame()).getPosition();
-    Vector3D sunSat = inertToSpacecraft.transformPosition(sunInert);
-    double sunX = sunSat.getX() / sunSat.getNorm();
-    double sunY = sunSat.getY() / sunSat.getNorm();
-    double sunZ = sunSat.getZ() / sunSat.getNorm();
+    final Vector3D sunSat = inertToSpacecraft.transformPosition(sunInert);
+    final double sunX = sunSat.getX() / sunSat.getNorm();
+    final double sunY = sunSat.getY() / sunSat.getNorm();
+    final double sunZ = sunSat.getZ() / sunSat.getNorm();
     this.sunVector[0] = sunX;
     this.sunVector[1] = sunY;
     this.sunVector[2] = sunZ;
-    GeodeticPoint newPosition = this.getGeodeticPoint();
+    final GeodeticPoint newPosition = this.getGeodeticPoint();
     synchronized (magneticFieldVectorLock) {
       this.geoMagneticField = GeoMagneticFieldFactory.getIGRF(getDecimalYear(extrapDate));
       this.magneticFieldVector = this.geoMagneticField
@@ -1258,7 +1258,7 @@ public class OrekitCore
           .getFieldVector().toArray();
     }
     if (this.lastPosition != null) {
-      boolean isInView = isInGSView(this.spacecraftState);
+      final boolean isInView = isInGSView(this.spacecraftState);
       if (this.lastPosition.getLatitude() < 0 && newPosition.getLatitude() >= 0) {
         this.hasAnx = false;
         checkAOSLOS();
@@ -1353,7 +1353,7 @@ public class OrekitCore
                         + "Element number will start at 0 and count up on every call of getTLE()");
         lastTLEPropagatorWarningTime = System.currentTimeMillis();
       }
-      KeplerianOrbit orbit = (KeplerianOrbit) OrbitType.KEPLERIAN.convertType(this.getOrbit());
+      final KeplerianOrbit orbit = (KeplerianOrbit) OrbitType.KEPLERIAN.convertType(this.getOrbit());
 
       int SatelliteNumber = 0;
       char classification = 'U';
@@ -1409,9 +1409,9 @@ public class OrekitCore
     return this.spacecraftState.getAttitude();
   }
 
-  public void putQuaternionsInVectorFromYPR(double yaw, double pitch, double roll, float[] q)
+  public void putQuaternionsInVectorFromYPR(final double yaw, final double pitch, final double roll, final float[] q)
   {
-    Rotation test = new Rotation(RotationOrder.YXZ, RotationConvention.FRAME_TRANSFORM,
+    final Rotation test = new Rotation(RotationOrder.YXZ, RotationConvention.FRAME_TRANSFORM,
         FastMath.toRadians(-yaw), FastMath.toRadians(pitch), FastMath.toRadians(-roll));
     q[0] = (float) test.getQ0();
     q[1] = (float) test.getQ1();
@@ -1419,10 +1419,10 @@ public class OrekitCore
     q[3] = (float) test.getQ3();
   }
 
-  public void putQuaternionsInVector(float[] q)
+  public void putQuaternionsInVector(final float[] q)
   {
 
-    Attitude attitude = this.spacecraftState.getAttitude();
+    final Attitude attitude = this.spacecraftState.getAttitude();
     q[0] = (float) attitude.getRotation().getQ0();
     q[1] = (float) attitude.getRotation().getQ1();
     q[2] = (float) attitude.getRotation().getQ2();
@@ -1430,12 +1430,12 @@ public class OrekitCore
 
   }
 
-  public GeodeticPoint getGeodeticPoint(SpacecraftState state)
+  public GeodeticPoint getGeodeticPoint(final SpacecraftState state)
   {
     try {
       return this.earth.transform(state.getOrbit().getPVCoordinates().getPosition(),
               inertialFrame, this.initialDate.shiftedBy(timeElapsed));
-    } catch (OrekitException ex) {
+    } catch (final OrekitException ex) {
       Logger.getLogger(OrekitCore.class.getName()).log(Level.SEVERE, null, ex);
     }
     return null;
@@ -1455,7 +1455,7 @@ public class OrekitCore
             this.initialDate.shiftedBy(timeElapsed));
       }
       return point;
-    } catch (OrekitException ex) {
+    } catch (final OrekitException ex) {
       Logger.getLogger(OrekitCore.class.getName()).log(Level.SEVERE, null, ex);
     }
     return null;
@@ -1491,17 +1491,17 @@ public class OrekitCore
     private final AtomicInteger threadNumber = new AtomicInteger(1);
     private final String namePrefix;
 
-    SimThreadFactory(String prefix)
+    SimThreadFactory(final String prefix)
     {
-      SecurityManager s = System.getSecurityManager();
+      final SecurityManager s = System.getSecurityManager();
       group = (s != null) ? s.getThreadGroup() : Thread.currentThread().getThreadGroup();
       namePrefix = prefix + "-thread-";
     }
 
     @Override
-    public Thread newThread(Runnable r)
+    public Thread newThread(final Runnable r)
     {
-      Thread t = new Thread(group, r, namePrefix + threadNumber.getAndIncrement(), 0);
+      final Thread t = new Thread(group, r, namePrefix + threadNumber.getAndIncrement(), 0);
       if (t.isDaemon()) {
         t.setDaemon(false);
       }

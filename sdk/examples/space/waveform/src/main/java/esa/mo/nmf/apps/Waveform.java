@@ -74,7 +74,7 @@ public class Waveform
 
   public void pushVal() throws NMFException
   {
-    double res = amplitude * Math.sin(
+    final double res = amplitude * Math.sin(
         ((double) System.nanoTime() / 1000000000.0) * 2 * Math.PI * frequency);
     connector.pushParameterValue("Sine", res);
   }
@@ -87,7 +87,7 @@ public class Waveform
    */
   public static void main(final String[] args) throws Exception
   {
-    Waveform demo = new Waveform();
+    final Waveform demo = new Waveform();
   }
 
   public void startWave()
@@ -100,7 +100,7 @@ public class Waveform
     this.tasker.scheduleTask(new Thread(() -> {
       try {
         pushVal();
-      } catch (NMFException ex) {
+      } catch (final NMFException ex) {
         Logger.getLogger(Waveform.class.getName()).log(Level.SEVERE,
             "The sine value could not be pushed!", ex);
       }
@@ -119,7 +119,7 @@ public class Waveform
   {
 
     @Override
-    public void initialRegistrations(MCRegistration registrationObject)
+    public void initialRegistrations(final MCRegistration registrationObject)
     {
       registrationObject.setMode(MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS);
 
@@ -165,9 +165,9 @@ public class Waveform
       names.add(new Identifier("Sine"));
       names.add(new Identifier("Refresh"));
       registrationObject.registerParameters(names, defs);
-      IdentifierList actionNames = new IdentifierList();
-      ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
-      ActionDefinitionDetails actionDef1 = new ActionDefinitionDetails(
+      final IdentifierList actionNames = new IdentifierList();
+      final ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
+      final ActionDefinitionDetails actionDef1 = new ActionDefinitionDetails(
           "Start the plotter.",
           new UOctet((short) 0),
           new UShort(0),
@@ -175,7 +175,7 @@ public class Waveform
       );
       actionNames.add(new Identifier("start"));
       actionDefs.add(actionDef1);
-      ActionDefinitionDetails actionDef2 = new ActionDefinitionDetails(
+      final ActionDefinitionDetails actionDef2 = new ActionDefinitionDetails(
           "Stop the plotter.",
           new UOctet((short) 0),
           new UShort(0),
@@ -184,18 +184,18 @@ public class Waveform
       actionNames.add(new Identifier("stop"));
       actionDefs.add(actionDef2);
 
-      ArgumentDefinitionDetailsList argDef1 = new ArgumentDefinitionDetailsList();
+      final ArgumentDefinitionDetailsList argDef1 = new ArgumentDefinitionDetailsList();
       {
-        Byte rawType = Attribute.DOUBLE_SHORT_FORM.byteValue();
-        String rawUnit = "Units";
-        ConditionalConversionList conditionalConversions = null;
-        Byte convertedType = null;
-        String convertedUnit = null;
+        final Byte rawType = Attribute.DOUBLE_SHORT_FORM.byteValue();
+        final String rawUnit = "Units";
+        final ConditionalConversionList conditionalConversions = null;
+        final Byte convertedType = null;
+        final String convertedUnit = null;
         argDef1.add(new ArgumentDefinitionDetails(new Identifier("Amplitude"), null,
             rawType, rawUnit, conditionalConversions, convertedType, convertedUnit));
       }
 
-      ActionDefinitionDetails actionDef3 = new ActionDefinitionDetails(
+      final ActionDefinitionDetails actionDef3 = new ActionDefinitionDetails(
           "Update the Amplitude",
           new UOctet((short) 0),
           new UShort(0),
@@ -204,18 +204,18 @@ public class Waveform
       actionNames.add(new Identifier("updateAmplitude"));
       actionDefs.add(actionDef3);
 
-      ArgumentDefinitionDetailsList argDef2 = new ArgumentDefinitionDetailsList();
+      final ArgumentDefinitionDetailsList argDef2 = new ArgumentDefinitionDetailsList();
       {
-        Byte rawType = Attribute.DOUBLE_SHORT_FORM.byteValue();
-        String rawUnit = "Hz";
-        ConditionalConversionList conditionalConversions = null;
-        Byte convertedType = null;
-        String convertedUnit = null;
+        final Byte rawType = Attribute.DOUBLE_SHORT_FORM.byteValue();
+        final String rawUnit = "Hz";
+        final ConditionalConversionList conditionalConversions = null;
+        final Byte convertedType = null;
+        final String convertedUnit = null;
         argDef2.add(new ArgumentDefinitionDetails(new Identifier("Frequency"), null,
             rawType, rawUnit, conditionalConversions, convertedType, convertedUnit));
       }
 
-      ActionDefinitionDetails actionDef4 = new ActionDefinitionDetails(
+      final ActionDefinitionDetails actionDef4 = new ActionDefinitionDetails(
           "Update the Frequency",
           new UOctet((short) 0),
           new UShort(0),
@@ -228,15 +228,15 @@ public class Waveform
     }
 
     @Override
-    public UInteger actionArrived(Identifier idntfr, AttributeValueList avl,
-        Long l, boolean bln, MALInteraction mali)
+    public UInteger actionArrived(final Identifier idntfr, final AttributeValueList avl,
+                                  final Long l, final boolean bln, final MALInteraction mali)
     {
       if (idntfr.getValue().equals("start")) {
         Logger.getLogger(Waveform.class.getName()).log(Level.FINER,
               "Started wave");
         startWave();
-        Enumeration<String> loggers =  LogManager.getLogManager().getLoggerNames();
-        StringBuilder sb = new StringBuilder();
+        final Enumeration<String> loggers =  LogManager.getLogManager().getLoggerNames();
+        final StringBuilder sb = new StringBuilder();
         while(loggers.hasMoreElements())
           sb.append("- "+loggers.nextElement()+"\n");
         Logger.getLogger(Waveform.class.getName()).log(Level.INFO, sb.toString());
@@ -274,7 +274,7 @@ public class Waveform
     }
 
     @Override
-    public Attribute onGetValue(Identifier idntfr, Byte b)
+    public Attribute onGetValue(final Identifier idntfr, final Byte b)
     {
       if (idntfr.getValue().equals("Amplitude")) {
         return (Attribute) HelperAttributes.javaType2Attribute(amplitude);
@@ -291,7 +291,7 @@ public class Waveform
     }
 
     @Override
-    public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values)
+    public Boolean onSetValue(final IdentifierList identifiers, final ParameterRawValueList values)
     {
       if (identifiers.get(0).getValue().equals("Amplitude")) {
         amplitude = HelperAttributes.attribute2double(values.get(0).getRawValue());

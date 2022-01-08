@@ -74,7 +74,7 @@ public class ArchiveToAppAdapter extends ArchiveAdapter implements QueryStatusPr
    * 
    * @param appName
    */
-  public ArchiveToAppAdapter(String appName) {
+  public ArchiveToAppAdapter(final String appName) {
     this.appName = appName;
   }
 
@@ -84,9 +84,9 @@ public class ArchiveToAppAdapter extends ArchiveAdapter implements QueryStatusPr
    * @param archiveObjectOutput the archive objects outputs
    */
   private synchronized void ProcessArchiveObjectsOutput(
-      ArchiveCOMObjectsOutput archiveObjectOutput) {
+          final ArchiveCOMObjectsOutput archiveObjectOutput) {
     // empty comType means query returned nothing
-    ObjectType comType = archiveObjectOutput.getObjectType();
+    final ObjectType comType = archiveObjectOutput.getObjectType();
     if (comType == null) {
       return;
     }
@@ -103,12 +103,12 @@ public class ArchiveToAppAdapter extends ArchiveAdapter implements QueryStatusPr
 
     // look for the App by name
     for (int i = 0; i < archiveObjectOutput.getObjectBodies().size(); i++) {
-      AppDetails appObject = (AppDetails) archiveObjectOutput.getObjectBodies().get(i);
-      String appName = appObject.getName().getValue();
-      Long appInstanceId = archiveObjectOutput.getArchiveDetailsList().get(i).getInstId();
+      final AppDetails appObject = (AppDetails) archiveObjectOutput.getObjectBodies().get(i);
+      final String appName = appObject.getName().getValue();
+      final Long appInstanceId = archiveObjectOutput.getArchiveDetailsList().get(i).getInstId();
       // TODO uncomment when archive sync fixed
       // IdentifierList appDomain = archiveObjectOutput.getDomain();
-      IdentifierList appDomain = new IdentifierList();
+      final IdentifierList appDomain = new IdentifierList();
       appDomain.add(new Identifier("*"));
 
       if (this.appName.equals(appName)) {
@@ -119,39 +119,39 @@ public class ArchiveToAppAdapter extends ArchiveAdapter implements QueryStatusPr
   }
 
   @Override
-  public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType,
-      IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies,
-      Map qosProperties) {
+  public void queryResponseReceived(final MALMessageHeader msgHeader, final ObjectType objType,
+                                    final IdentifierList domain, final ArchiveDetailsList objDetails, final ElementList objBodies,
+                                    final Map qosProperties) {
     ProcessArchiveObjectsOutput(
         new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies));
     setIsQueryOver(true);
   }
 
   @Override
-  public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType,
-      IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies,
-      Map qosProperties) {
+  public void queryUpdateReceived(final MALMessageHeader msgHeader, final ObjectType objType,
+                                  final IdentifierList domain, final ArchiveDetailsList objDetails, final ElementList objBodies,
+                                  final Map qosProperties) {
     ProcessArchiveObjectsOutput(
         new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies));
   }
 
   @Override
-  public void queryAckErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
-      Map qosProperties) {
+  public void queryAckErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error,
+                                    final Map qosProperties) {
     LOGGER.log(Level.SEVERE, "queryAckErrorReceived", error);
     setIsQueryOver(true);
   }
 
   @Override
-  public void queryUpdateErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
-      Map qosProperties) {
+  public void queryUpdateErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error,
+                                       final Map qosProperties) {
     LOGGER.log(Level.SEVERE, "queryUpdateErrorReceived", error);
     setIsQueryOver(true);
   }
 
   @Override
-  public void queryResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
-      Map qosProperties) {
+  public void queryResponseErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error,
+                                         final Map qosProperties) {
     LOGGER.log(Level.SEVERE, "queryResponseErrorReceived", error);
     setIsQueryOver(true);
   }
@@ -171,7 +171,7 @@ public class ArchiveToAppAdapter extends ArchiveAdapter implements QueryStatusPr
     return isQueryOver;
   }
 
-  private synchronized void setIsQueryOver(boolean isQueryOver) {
+  private synchronized void setIsQueryOver(final boolean isQueryOver) {
     this.isQueryOver = isQueryOver;
   }
 }

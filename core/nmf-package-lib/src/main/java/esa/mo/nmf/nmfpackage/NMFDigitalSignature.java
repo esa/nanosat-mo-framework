@@ -48,26 +48,26 @@ public class NMFDigitalSignature {
 
     public static KeyPair generateKeyPar() {
         try {
-            KeyPairGenerator keyGen = KeyPairGenerator.getInstance("DSA", "SUN");
-            SecureRandom random = SecureRandom.getInstance("SHA1PRNG", "SUN");
+            final KeyPairGenerator keyGen = KeyPairGenerator.getInstance("DSA", "SUN");
+            final SecureRandom random = SecureRandom.getInstance("SHA1PRNG", "SUN");
             keyGen.initialize(1024, random);
 
             return keyGen.generateKeyPair();
-        } catch (NoSuchAlgorithmException | NoSuchProviderException ex) {
+        } catch (final NoSuchAlgorithmException | NoSuchProviderException ex) {
             Logger.getLogger(NMFDigitalSignature.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return null;
     }
 
-    public static byte[] signWithData(PrivateKey privateKey, String file) {
+    public static byte[] signWithData(final PrivateKey privateKey, final String file) {
         try {
-            Signature dsa = Signature.getInstance(SIGNATURE_ALGORITHM, SIGNATURE_PROVIDER);
+            final Signature dsa = Signature.getInstance(SIGNATURE_ALGORITHM, SIGNATURE_PROVIDER);
             dsa.initSign(privateKey);
 
-            FileInputStream fis = new FileInputStream(file);
-            BufferedInputStream bufin = new BufferedInputStream(fis);
-            byte[] buffer = new byte[1024];
+            final FileInputStream fis = new FileInputStream(file);
+            final BufferedInputStream bufin = new BufferedInputStream(fis);
+            final byte[] buffer = new byte[1024];
             int len;
             while ((len = bufin.read(buffer)) >= 0) {
                 dsa.update(buffer, 0, len);
@@ -75,7 +75,7 @@ public class NMFDigitalSignature {
             bufin.close();
 
             return dsa.sign(); // Returns the signature
-        } catch (NoSuchProviderException | SignatureException | InvalidKeyException | NoSuchAlgorithmException | IOException ex) {
+        } catch (final NoSuchProviderException | SignatureException | InvalidKeyException | NoSuchAlgorithmException | IOException ex) {
             Logger.getLogger(NMFDigitalSignature.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -90,16 +90,16 @@ public class NMFDigitalSignature {
      * @param file The signed file
      * @return
      */
-    public static boolean verifyDigitalSignature(PublicKey publicKey, byte[] signatureToVerify, String file) {
+    public static boolean verifyDigitalSignature(final PublicKey publicKey, final byte[] signatureToVerify, final String file) {
         // https://docs.oracle.com/javase/tutorial/security/apisign/vstep4.html
         try {
-            Signature sig = Signature.getInstance(SIGNATURE_ALGORITHM, SIGNATURE_PROVIDER);
+            final Signature sig = Signature.getInstance(SIGNATURE_ALGORITHM, SIGNATURE_PROVIDER);
             sig.initVerify(publicKey);
 
-            FileInputStream datafis = new FileInputStream(file);
-            BufferedInputStream bufin = new BufferedInputStream(datafis);
+            final FileInputStream datafis = new FileInputStream(file);
+            final BufferedInputStream bufin = new BufferedInputStream(datafis);
 
-            byte[] buffer = new byte[1024];
+            final byte[] buffer = new byte[1024];
             int len;
             while (bufin.available() != 0) {
                 len = bufin.read(buffer);
@@ -109,7 +109,7 @@ public class NMFDigitalSignature {
             bufin.close();
 
             return sig.verify(signatureToVerify);
-        } catch (NoSuchProviderException | InvalidKeyException | NoSuchAlgorithmException | SignatureException | IOException ex) {
+        } catch (final NoSuchProviderException | InvalidKeyException | NoSuchAlgorithmException | SignatureException | IOException ex) {
             Logger.getLogger(NMFDigitalSignature.class.getName()).log(Level.SEVERE, null, ex);
         }
 

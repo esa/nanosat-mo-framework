@@ -44,7 +44,7 @@ public abstract class DefinitionsManager {
     private final ActivityTrackingProviderServiceImpl activityTrackingService;
     private final COMServicesProvider comServices;
 
-    public DefinitionsManager(COMServicesProvider comServices) {
+    public DefinitionsManager(final COMServicesProvider comServices) {
         this.defs = new HashMap<>();
 
         if (comServices != null) {
@@ -82,7 +82,7 @@ public abstract class DefinitionsManager {
      * @param input The object instance identifier of the definition
      * @return True if exists. False otherwise.
      */
-    public synchronized boolean exists(Long input) {
+    public synchronized boolean exists(final Long input) {
         return defs.containsKey(input);
     }
 
@@ -93,9 +93,9 @@ public abstract class DefinitionsManager {
      * @return The object instance identifier of the Definition. Null if not
      * found.
      */
-    public synchronized Long list(Identifier input) {
+    public synchronized Long list(final Identifier input) {
         final LongList objIds = this.listAll();
-        for (Long objId : objIds) {
+        for (final Long objId : objIds) {
             if (compareName(objId, input)) {
                 return objId;
             }
@@ -109,7 +109,7 @@ public abstract class DefinitionsManager {
      * @return The object instance identifiers of the Definitions.
      */
     public synchronized LongList listAll() {
-        LongList list = new LongList();
+        final LongList list = new LongList();
         list.addAll(defs.keySet());
         return list;
     }
@@ -120,7 +120,7 @@ public abstract class DefinitionsManager {
      * @return The Definitions.
      */
     public synchronized ElementList getAllDefs() {
-        ElementList list = this.newDefinitionList();
+        final ElementList list = this.newDefinitionList();
         list.addAll(defs.values());
         return list;
     }
@@ -131,7 +131,7 @@ public abstract class DefinitionsManager {
      * @param objId The object instance identifier
      * @return The Definition
      */
-    public synchronized Element getDef(Long objId) {
+    public synchronized Element getDef(final Long objId) {
         return defs.get(objId);
     }
 
@@ -142,7 +142,7 @@ public abstract class DefinitionsManager {
      * @param definition The object body of the definition
      * @return True if successful.
      */
-    public synchronized Boolean addDef(Long objId, Element definition) {
+    public synchronized Boolean addDef(final Long objId, final Element definition) {
         defs.put(objId, definition);
         return true;
     }
@@ -155,7 +155,7 @@ public abstract class DefinitionsManager {
      * @return True if successful. False if the object instance identifier does
      * not exist in the manager, in this case, the definition is not added.
      */
-    public synchronized boolean updateDef(Long objId, Element definition) {
+    public synchronized boolean updateDef(final Long objId, final Element definition) {
         return (this.deleteDef(objId)) ? this.addDef(objId, definition) : false;
     }
 
@@ -166,7 +166,7 @@ public abstract class DefinitionsManager {
      * @return True if successful. False if the object instance identifier does
      * not exist in the manager.
      */
-    public synchronized boolean deleteDef(Long objId) {
+    public synchronized boolean deleteDef(final Long objId) {
         return (defs.remove(objId) != null);
     }
 
@@ -188,7 +188,7 @@ public abstract class DefinitionsManager {
      * @return True if the configuration was successfully changed. False
      * otherwise.
      */
-    public synchronized Boolean reconfigureDefinitions(LongList objIds, ElementList definitions) {
+    public synchronized Boolean reconfigureDefinitions(final LongList objIds, final ElementList definitions) {
         if (objIds == null || definitions == null) {
             return false;
         }

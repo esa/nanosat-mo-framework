@@ -41,7 +41,7 @@ public class SocketClient extends Thread {
   private String targetURL;
   private int targetPort;
 
-  public static boolean validIP(String ip) {
+  public static boolean validIP(final String ip) {
     if (ip == null || ip.length() < 7 || ip.length() > 15) {
       return false;
     }
@@ -64,12 +64,12 @@ public class SocketClient extends Thread {
           || ip.charAt(++y) == '-' || Integer.parseInt(ip.substring(y)) > 255
           || ip.charAt(ip.length() - 1) == '.');
 
-    } catch (NumberFormatException e) {
+    } catch (final NumberFormatException e) {
       return false;
     }
   }
 
-  public void setTargetConnection(String targetURL, int targetPort) {
+  public void setTargetConnection(final String targetURL, final int targetPort) {
     if (validIP(targetURL)) {
       this.targetURL = targetURL;
       this.targetPort = targetPort;
@@ -77,7 +77,7 @@ public class SocketClient extends Thread {
       String dnsLookup = "";
       try {
         dnsLookup = InetAddress.getByName(targetURL).getHostAddress();
-      } catch (UnknownHostException ex) {
+      } catch (final UnknownHostException ex) {
         Logger.getLogger(SocketClient.class.getName()).log(Level.SEVERE, null, ex);
       }
       if (validIP(dnsLookup)) {
@@ -91,7 +91,7 @@ public class SocketClient extends Thread {
   private GuiApp parent;
   private Socket s;
 
-  public SocketClient(String targetURL, int targetPort, GuiApp tcpClientNode) {
+  public SocketClient(final String targetURL, final int targetPort, final GuiApp tcpClientNode) {
     this.targetURL = targetURL;
     this.targetPort = targetPort;
     this.parent = tcpClientNode;
@@ -108,11 +108,11 @@ public class SocketClient extends Thread {
             .offer("Local;Connected to server @ " + targetURL + ":" + targetPort);
         parent.getToServerQueue().offer("List");
         // this.parent.getGuiMainWindow().showConnectedInfo(true);
-      } catch (UnknownHostException uhe) {
+      } catch (final UnknownHostException uhe) {
         // Server Host unreachable
         System.out.println("Unknown Host :" + targetURL);
         s = null;
-      } catch (IOException ioe) {
+      } catch (final IOException ioe) {
         // Cannot connect to port on given server host
         this.parent.getFromServerQueue()
             .offer("Local;Cannot connect to server @ " + targetURL + ":" + targetPort);
@@ -124,16 +124,16 @@ public class SocketClient extends Thread {
           Thread.sleep(5000);
           this.parent.getFromServerQueue().offer("Local;Trying to reconnect..");
           continue;
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
           Logger.getLogger(SocketClient.class.getName()).log(Level.SEVERE, null, ex);
         }
         break;
       }
       this.s = s;
       connectionEstablished = true;
-      SocketClientThreadReceiver socketClientThreadReceiver = new SocketClientThreadReceiver(s,
+      final SocketClientThreadReceiver socketClientThreadReceiver = new SocketClientThreadReceiver(s,
           parent);
-      SocketClientThreadSender socketClientThreadSender = new SocketClientThreadSender(s, parent);
+      final SocketClientThreadSender socketClientThreadSender = new SocketClientThreadSender(s, parent);
       socketClientThreadReceiver.start();
       socketClientThreadSender.start();
     }
@@ -144,7 +144,7 @@ public class SocketClient extends Thread {
     private Socket socket;
     private GuiApp parent;
 
-    SocketClientThreadReceiver(Socket socket, GuiApp tcpClientNode) {
+    SocketClientThreadReceiver(final Socket socket, final GuiApp tcpClientNode) {
       this.socket = socket;
       this.parent = tcpClientNode;
       System.out.println("Created SocketClientThreadReceiver");
@@ -163,21 +163,21 @@ public class SocketClient extends Thread {
           try {
             // Object received=
             // Receive the reply.
-            Object received = in.readObject();
+            final Object received = in.readObject();
             //System.out.println("Received something ["+received.getClass().getName()+"]"+received.toString());
             parent.getFromServerQueue().offer(received);
-          } catch (ClassNotFoundException ex) {
+          } catch (final ClassNotFoundException ex) {
             Logger.getLogger(SocketClient.class.getName()).log(Level.SEVERE, null, ex);
           }
           if (in.available() == 0) {
             try {
               Thread.sleep(250);
-            } catch (InterruptedException ex) {
+            } catch (final InterruptedException ex) {
               Logger.getLogger(SocketClient.class.getName()).log(Level.SEVERE, null, ex);
             }
           }
         }
-      } catch (IOException ioe) {
+      } catch (final IOException ioe) {
         System.out
             .println("Receiver Exception during communication. Server probably closed connection.");
         this.parent.getGuiMainWindow().showConnectedInfo(false);
@@ -192,7 +192,7 @@ public class SocketClient extends Thread {
           in.close();
           // Close the socket before quitting
           s.close();
-        } catch (Exception e) {
+        } catch (final Exception e) {
           e.printStackTrace();
         }
         this.parent.restartSocket();
@@ -206,7 +206,7 @@ public class SocketClient extends Thread {
     private Socket socket;
     private GuiApp parent;
 
-    SocketClientThreadSender(Socket socket, GuiApp tcpClientNode) {
+    SocketClientThreadSender(final Socket socket, final GuiApp tcpClientNode) {
       this.socket = socket;
       this.parent = tcpClientNode;
       System.out.println("Created SocketClientThreadSender");
@@ -222,7 +222,7 @@ public class SocketClient extends Thread {
 
         while (true) {
 
-          Object toSend = this.parent.getToServerQueue().poll();
+          final Object toSend = this.parent.getToServerQueue().poll();
           out.reset();
           if (toSend != null) {
             this.parent.getLogger().log(Level.FINE, "Sending something [" + toSend + "]");
@@ -233,11 +233,11 @@ public class SocketClient extends Thread {
 
           try {
             Thread.sleep(250);
-          } catch (InterruptedException ex) {
+          } catch (final InterruptedException ex) {
             Logger.getLogger(SocketClient.class.getName()).log(Level.SEVERE, null, ex);
           }
         }
-      } catch (IOException ioe) {
+      } catch (final IOException ioe) {
         System.out
             .println("Sender Exception during communication. Server probably closed connection.");
 
@@ -251,7 +251,7 @@ public class SocketClient extends Thread {
           out.close();
           // Close the socket before quitting
           this.socket.close();
-        } catch (Exception e) {
+        } catch (final Exception e) {
           e.printStackTrace();
         }
 

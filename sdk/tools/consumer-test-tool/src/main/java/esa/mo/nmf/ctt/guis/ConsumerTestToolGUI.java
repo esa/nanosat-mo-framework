@@ -60,8 +60,8 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame
     try {
       // Set cross-platform Java L&F (also called "Metal")
       UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-    } catch (UnsupportedLookAndFeelException | InstantiationException | ClassNotFoundException e) {
-    } catch (IllegalAccessException e) {
+    } catch (final UnsupportedLookAndFeelException | InstantiationException | ClassNotFoundException e) {
+    } catch (final IllegalAccessException e) {
       // handle exception
     }
 
@@ -86,11 +86,11 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame
 
     try {
       connection.getServicesDetails().loadURIFromFiles();
-    } catch (MalformedURLException ex) {
+    } catch (final MalformedURLException ex) {
       JOptionPane.showMessageDialog(null, "The URIs could not be loaded from the file!", "Error",
           JOptionPane.PLAIN_MESSAGE);
       LOGGER.log(Level.SEVERE, null, ex);
-    } catch (FileNotFoundException ex) {
+    } catch (final FileNotFoundException ex) {
       LOGGER.log(Level.INFO, "The file with provider URIs is not present.");
     }
 
@@ -102,7 +102,7 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame
       CommonHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
       SoftwareManagementHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
       PlatformHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-    } catch (MALException ex) {
+    } catch (final MALException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
     }
   }
@@ -142,7 +142,7 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
           @Override
-          public void windowClosing(java.awt.event.WindowEvent e) {
+          public void windowClosing(final java.awt.event.WindowEvent e) {
               // call dispose here, so on panels the removeNotify is also called
               // to clean up the connections
               e.getWindow().dispose();

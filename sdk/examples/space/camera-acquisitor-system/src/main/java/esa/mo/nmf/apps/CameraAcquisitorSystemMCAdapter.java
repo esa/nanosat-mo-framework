@@ -188,9 +188,9 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
     try {
       // load orekit-data wich is required for many parts of orekit to work.
       LOGGER.log(Level.INFO, "Loading orekit data");
-      DataProvidersManager manager = DataProvidersManager.getInstance();
+      final DataProvidersManager manager = DataProvidersManager.getInstance();
       manager.addProvider(OrekitResources.getOrekitData());
-    } catch (OrekitException e) {
+    } catch (final OrekitException e) {
       LOGGER.log(Level.SEVERE, "Failed to initialise Orekit:\n{0}", e.getMessage());
     }
 
@@ -209,12 +209,12 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
       stepCount = CameraAcquisitorSystemCameraTargetHandler.PHOTOGRAPH_LOCATION_STAGES,
       name = CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION)
   public UInteger photographLocation(
-      Long actionInstanceObjId,
-      boolean reportProgress,
-      MALInteraction interaction,
-      @ActionParameter(name = "targetLatitude", rawUnit = "degree") Double targetLatitude,
-      @ActionParameter(name = "targetLongitude", rawUnit = "degree") Double targetLongitude,
-      @ActionParameter(name = "timeStamp") String timeStamp)
+          final Long actionInstanceObjId,
+          final boolean reportProgress,
+          final MALInteraction interaction,
+          @ActionParameter(name = "targetLatitude", rawUnit = "degree") final Double targetLatitude,
+          @ActionParameter(name = "targetLongitude", rawUnit = "degree") final Double targetLongitude,
+          @ActionParameter(name = "timeStamp") final String timeStamp)
   {
     LOGGER.log(Level.SEVERE,
         "" + targetLatitude + " " + targetLongitude + " " + timeStamp);
@@ -225,9 +225,9 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
   @Action(
       description = "takes a photograph immediately",
       stepCount = CameraAcquisitorSystemCameraHandler.PHOTOGRAPH_NOW_STAGES)
-  public UInteger photographNow(Long actionInstanceObjId,
-      boolean reportProgress,
-      MALInteraction interaction)
+  public UInteger photographNow(final Long actionInstanceObjId,
+                                final boolean reportProgress,
+                                final MALInteraction interaction)
   {
     return this.cameraHandler.photographNow(actionInstanceObjId, reportProgress, interaction);
   }
@@ -239,9 +239,9 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
    */
   public static AbsoluteDate getNow()
   {
-    Instant instant = Instant.now();
-    TimeScale utc = TimeScalesFactory.getUTC();
-    LocalDateTime time = LocalDateTime.ofInstant(instant, ZoneId.of("UTC"));
+    final Instant instant = Instant.now();
+    final TimeScale utc = TimeScalesFactory.getUTC();
+    final LocalDateTime time = LocalDateTime.ofInstant(instant, ZoneId.of("UTC"));
 
     return new AbsoluteDate(time.getYear(), time.getMonthValue(), time.getDayOfMonth(),
         time.getHour(), time.getMinute(), time.getSecond(), utc);

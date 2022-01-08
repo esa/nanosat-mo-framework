@@ -36,15 +36,15 @@ public class ActivityExecutionEngine {
 
     private final HashMap<String, ExecutableActivity> registrations = new HashMap<>();
 
-    public void register(String execDef, ExecutableActivity activity) {
+    public void register(final String execDef, final ExecutableActivity activity) {
         registrations.put(execDef, activity);
     }
 
-    public void executeActivity(String execDef, ObjectId activityInstanceId) {
+    public void executeActivity(final String execDef, final ObjectId activityInstanceId) {
         if (registrations.containsKey(execDef)) {
             try {
                 registrations.get(execDef).execute(activityInstanceId);
-            } catch (MALException | MALInteractionException e) {
+            } catch (final MALException | MALInteractionException e) {
                 LOGGER.log(Level.SEVERE, null, e);
             }
         } else {
@@ -52,11 +52,11 @@ public class ActivityExecutionEngine {
         }
     }
 
-    public void missedActivity(String execDef, ObjectId activityInstanceId) {
+    public void missedActivity(final String execDef, final ObjectId activityInstanceId) {
         if (registrations.containsKey(execDef)) {
             try {
                 registrations.get(execDef).missed(activityInstanceId);
-            } catch (MALException | MALInteractionException e) {
+            } catch (final MALException | MALInteractionException e) {
                 LOGGER.log(Level.SEVERE, null, e);
             }
         } else {

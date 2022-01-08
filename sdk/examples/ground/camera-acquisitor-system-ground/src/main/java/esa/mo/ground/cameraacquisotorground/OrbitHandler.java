@@ -73,7 +73,7 @@ public class OrbitHandler
    *
    * @param tle the current TLE
    */
-  public OrbitHandler(TLE tle)
+  public OrbitHandler(final TLE tle)
   {
     earthFrame = FramesFactory.getITRF(IERSConventions.IERS_2010, true);
     earth = new OneAxisEllipsoid(
@@ -89,7 +89,7 @@ public class OrbitHandler
    *
    * @param tle the new TLE
    */
-  public void updateTLE(TLE tle)
+  public void updateTLE(final TLE tle)
   {
     initialTLE = tle;
     propagator = TLEPropagator.selectExtrapolator(tle);
@@ -111,28 +111,28 @@ public class OrbitHandler
    * @param timeStepSeconds seconds between entries.
    * @return
    */
-  public PositionAndTime[] getGroundTrack(AbsoluteDate startDate, AbsoluteDate endDate,
-      long timeStepSeconds)
+  public PositionAndTime[] getGroundTrack(final AbsoluteDate startDate, final AbsoluteDate endDate,
+                                          final long timeStepSeconds)
   {
-    LinkedList<PositionAndTime> positionSeries = new LinkedList<>();
+    final LinkedList<PositionAndTime> positionSeries = new LinkedList<>();
 
     // get position at every timestep
     for (AbsoluteDate currentDate = startDate;
         currentDate.compareTo(endDate) < 0;
         currentDate = currentDate.shiftedBy(timeStepSeconds)) {
 
-      SpacecraftState currentState = this.propagator.propagate(startDate, currentDate);
-      GeodeticPoint currentLocation = earth.transform(
+      final SpacecraftState currentState = this.propagator.propagate(startDate, currentDate);
+      final GeodeticPoint currentLocation = earth.transform(
           currentState.getPVCoordinates(earthFrame).getPosition(), earthFrame, currentDate);
       positionSeries.add(new PositionAndTime(currentDate, currentLocation));
     }
     return positionSeries.toArray(new PositionAndTime[0]);
   }
 
-  public GeodeticPoint getPosition(AbsoluteDate endDate)
+  public GeodeticPoint getPosition(final AbsoluteDate endDate)
   {
     System.out.println(propagator.getInitialState().getDate());
-    SpacecraftState finalState = propagator.propagate(endDate);
+    final SpacecraftState finalState = propagator.propagate(endDate);
     System.out.println(propagator.getInitialState().getDate());
     return earth.transform(
         finalState.getPVCoordinates(earthFrame).getPosition(), earthFrame, finalState.getDate());
@@ -150,13 +150,13 @@ public class OrbitHandler
    * @param simulationRange
    * @return the earliest pass that fits the given parameters
    */
-  public Pass getPassTime(double latitude, double longitude, double maxAngle,
-      TimeModeEnum timeMode, AbsoluteDate notBeforeDate, long worstCaseRotationTimeSeconds,
-      long simulationRange)
+  public Pass getPassTime(final double latitude, final double longitude, final double maxAngle,
+                          final TimeModeEnum timeMode, final AbsoluteDate notBeforeDate, final long worstCaseRotationTimeSeconds,
+                          final long simulationRange)
   {
 
-    GeodeticPoint targetLocation = new GeodeticPoint(FastMath.toRadians(latitude), FastMath.toRadians(longitude), 0);
-    TopocentricFrame groundFrame = new TopocentricFrame(earth, targetLocation, "cameraTarget");
+    final GeodeticPoint targetLocation = new GeodeticPoint(FastMath.toRadians(latitude), FastMath.toRadians(longitude), 0);
+    final TopocentricFrame groundFrame = new TopocentricFrame(earth, targetLocation, "cameraTarget");
 
     // ------------------ create Detectors ------------------
     /**
@@ -165,9 +165,9 @@ public class OrbitHandler
     EventDetector overpassDetector = new ElevationDetector(groundFrame)
         .withConstantElevation(FastMath.toRadians(90.0 - maxAngle));
 
-    Pass pass = new Pass(notBeforeDate, worstCaseRotationTimeSeconds);
+    final Pass pass = new Pass(notBeforeDate, worstCaseRotationTimeSeconds);
     if (timeMode != TimeModeEnum.ANY) {
-      PVCoordinatesProvider sun = CelestialBodyFactory.getSun(); //create detector for nighttime
+      final PVCoordinatesProvider sun = CelestialBodyFactory.getSun(); //create detector for nighttime
 
       EventDetector timeModeDetector = new GroundAtNightDetector(groundFrame, sun, FastMath.toRadians(-18.0),
           new EarthITU453AtmosphereRefraction(0));
@@ -185,8 +185,8 @@ public class OrbitHandler
 
     propagator.addEventDetector(overpassDetector);
 
-    AbsoluteDate endDate = notBeforeDate.shiftedBy(simulationRange);
-    SpacecraftState finalState = propagator.propagate(endDate);
+    final AbsoluteDate endDate = notBeforeDate.shiftedBy(simulationRange);
+    final SpacecraftState finalState = propagator.propagate(endDate);
 
     propagator.clearEventsDetectors();
 

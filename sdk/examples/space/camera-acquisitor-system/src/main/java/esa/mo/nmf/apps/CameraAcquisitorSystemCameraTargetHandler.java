@@ -72,20 +72,20 @@ public class CameraAcquisitorSystemCameraTargetHandler
   // time to keep track of all scheduled photographs
   private final java.util.Timer timer = new java.util.Timer();
 
-  public CameraAcquisitorSystemCameraTargetHandler(CameraAcquisitorSystemMCAdapter casMCAdapter)
+  public CameraAcquisitorSystemCameraTargetHandler(final CameraAcquisitorSystemMCAdapter casMCAdapter)
   {
     this.casMCAdapter = casMCAdapter;
   }
 
   UInteger photographLocation(
-      AttributeValueList attributeValues,
-      Long actionInstanceObjId,
-      boolean reportProgress, MALInteraction interaction)
+          final AttributeValueList attributeValues,
+          final Long actionInstanceObjId,
+          final boolean reportProgress, final MALInteraction interaction)
   {
     // get parameters
-    Double latitude = HelperAttributes.attribute2double(attributeValues.get(0).getValue());
-    Double longitude = HelperAttributes.attribute2double(attributeValues.get(1).getValue());
-    String timeStamp =
+    final Double latitude = HelperAttributes.attribute2double(attributeValues.get(0).getValue());
+    final Double longitude = HelperAttributes.attribute2double(attributeValues.get(1).getValue());
+    final String timeStamp =
         HelperAttributes.attribute2JavaType(attributeValues.get(2).getValue()).toString();
     //
     return photographLocation(
@@ -93,16 +93,16 @@ public class CameraAcquisitorSystemCameraTargetHandler
   }
 
 
-  UInteger photographLocation(double latitude, double longitude, String timeStamp,
-      Long actionInstanceObjId,
-      boolean reportProgress, MALInteraction interaction)
+  UInteger photographLocation(final double latitude, final double longitude, final String timeStamp,
+                              final Long actionInstanceObjId,
+                              final boolean reportProgress, final MALInteraction interaction)
   {
-    AbsoluteDate targetDate = new AbsoluteDate(timeStamp, TimeScalesFactory.getUTC());
+    final AbsoluteDate targetDate = new AbsoluteDate(timeStamp, TimeScalesFactory.getUTC());
 
-    double seconds = targetDate.durationFrom(CameraAcquisitorSystemMCAdapter.getNow());
+    final double seconds = targetDate.durationFrom(CameraAcquisitorSystemMCAdapter.getNow());
 
     // create TimerTask to schedule attitude correction shortly before targetDate
-    TimerTask task = new java.util.TimerTask()
+    final TimerTask task = new java.util.TimerTask()
     {
       @Override
       public void run()
@@ -112,17 +112,17 @@ public class CameraAcquisitorSystemCameraTargetHandler
               STAGE_WAIT_FOR_PASS,
               PHOTOGRAPH_LOCATION_STAGES,
               actionInstanceObjId);
-        } catch (NMFException ex) {
+        } catch (final NMFException ex) {
           LOGGER.log(
               Level.SEVERE,
               null, ex);
         }
 
-        Duration timeTillPhotograph = new Duration(
+        final Duration timeTillPhotograph = new Duration(
             targetDate.durationFrom(CameraAcquisitorSystemMCAdapter.getNow()));
 
         // set desired attitude using target latitude and longitude
-        AttitudeMode desiredAttitude = new AttitudeModeTargetTracking(
+        final AttitudeMode desiredAttitude = new AttitudeModeTargetTracking(
             (float) latitude,
             (float) longitude);
 
@@ -138,7 +138,7 @@ public class CameraAcquisitorSystemCameraTargetHandler
               PHOTOGRAPH_LOCATION_STAGES,
               actionInstanceObjId);
           LOGGER.log(Level.INFO, "Attitude Correction Running");
-        } catch (NMFException | IOException | MALInteractionException | MALException ex) {
+        } catch (final NMFException | IOException | MALInteractionException | MALException ex) {
           LOGGER.log(
               Level.SEVERE,
               null, ex);
@@ -146,13 +146,13 @@ public class CameraAcquisitorSystemCameraTargetHandler
 
         // wait again till optimal moment for photograph
         try {
-          double fractSeconds = timeTillPhotograph.getValue();
-          long seconds = (long) fractSeconds;
-          long milliSeconds = (long) ((fractSeconds - seconds) * 1000);
+          final double fractSeconds = timeTillPhotograph.getValue();
+          final long seconds = (long) fractSeconds;
+          final long milliSeconds = (long) ((fractSeconds - seconds) * 1000);
 
           TimeUnit.SECONDS.sleep(seconds);
           TimeUnit.MILLISECONDS.sleep(milliSeconds);
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
           LOGGER.log(
               Level.SEVERE,
               ex.getMessage());
@@ -170,7 +170,7 @@ public class CameraAcquisitorSystemCameraTargetHandler
           casMCAdapter.getCameraHandler().takePhotograph(actionInstanceObjId,
               STAGE_WAIT_FOR_OPTIMAL_PASS, PHOTOGRAPH_LOCATION_STAGES, "");
 
-        } catch (NMFException | IOException | MALInteractionException | MALException ex) {
+        } catch (final NMFException | IOException | MALInteractionException | MALException ex) {
           LOGGER.log(
               Level.SEVERE,
               ex.getMessage());
@@ -193,8 +193,8 @@ public class CameraAcquisitorSystemCameraTargetHandler
   void recoverLastState()
   {
     // get previous requests
-    ArchiveQueryList archiveQueryList = new ArchiveQueryList();
-    ArchiveQuery archiveQuery = new ArchiveQuery();
+    final ArchiveQueryList archiveQueryList = new ArchiveQueryList();
+    final ArchiveQuery archiveQuery = new ArchiveQuery();
 
     archiveQuery.setDomain(null);
     archiveQuery.setNetwork(null);
@@ -207,7 +207,7 @@ public class CameraAcquisitorSystemCameraTargetHandler
 
     archiveQueryList.add(archiveQuery);
 
-    SchedulerArchiveAdapter archiveAdapter = new SchedulerArchiveAdapter();
+    final SchedulerArchiveAdapter archiveAdapter = new SchedulerArchiveAdapter();
 
     // query all necessary information from archive service
     try {
@@ -229,7 +229,7 @@ public class CameraAcquisitorSystemCameraTargetHandler
             "NO Archive Service found!");
 
       }
-    } catch (NMFException | MALException | MALInteractionException ex) {
+    } catch (final NMFException | MALException | MALInteractionException ex) {
       LOGGER.log(Level.SEVERE,
           null, ex);
     }
@@ -247,19 +247,19 @@ public class CameraAcquisitorSystemCameraTargetHandler
     }
 
     @Override
-    public MALMessage sendResponse(ObjectType objType, IdentifierList domain,
-        ArchiveDetailsList objDetails, ElementList objBodies) throws MALInteractionException,
+    public MALMessage sendResponse(final ObjectType objType, final IdentifierList domain,
+                                   final ArchiveDetailsList objDetails, final ElementList objBodies) throws MALInteractionException,
         MALException
     {
       if (objBodies != null) {
-        int i = 0;
-        for (Object objBody : objBodies) {
+        final int i = 0;
+        for (final Object objBody : objBodies) {
           if (objBody instanceof ActionInstanceDetails) {
-            ActionInstanceDetails instance = ((ActionInstanceDetails) objBody);
+            final ActionInstanceDetails instance = ((ActionInstanceDetails) objBody);
             if (instance.getArgumentValues().size() == 3) {
-              String timeStamp = instance.getArgumentValues().get(2).getValue().toString();
+              final String timeStamp = instance.getArgumentValues().get(2).getValue().toString();
               try {
-                AbsoluteDate targetDate = new AbsoluteDate(timeStamp, TimeScalesFactory.getUTC());
+                final AbsoluteDate targetDate = new AbsoluteDate(timeStamp, TimeScalesFactory.getUTC());
 
                 if (targetDate.compareTo(CameraAcquisitorSystemMCAdapter.getNow()) > 0) {
                   photographLocation(instance.getArgumentValues(), objDetails.get(
@@ -272,7 +272,7 @@ public class CameraAcquisitorSystemCameraTargetHandler
                         instance.getArgumentValues().get(
                             1).getValue().toString()});
                 }
-              } catch (Exception e) {
+              } catch (final Exception e) {
                 LOGGER.log(
                     Level.WARNING,
                     "recover action failed: {0}", e.getMessage());
@@ -291,8 +291,8 @@ public class CameraAcquisitorSystemCameraTargetHandler
     }
 
     @Override
-    public MALMessage sendUpdate(ObjectType objType, IdentifierList domain,
-        ArchiveDetailsList objDetails, ElementList objBodies) throws MALInteractionException,
+    public MALMessage sendUpdate(final ObjectType objType, final IdentifierList domain,
+                                 final ArchiveDetailsList objDetails, final ElementList objBodies) throws MALInteractionException,
         MALException
     {
       sendResponse(objType, domain, objDetails, objBodies);

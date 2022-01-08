@@ -50,7 +50,7 @@ public class ParameterLabel extends javax.swing.JLabel implements Serializable {
     }
 
     public void displayValue() {
-        String newVal = value.getLabelValue();
+        final String newVal = value.getLabelValue();
 
         // display the new value
         if (newVal.equals("")) {

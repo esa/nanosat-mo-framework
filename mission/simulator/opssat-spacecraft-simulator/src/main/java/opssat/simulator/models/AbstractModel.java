@@ -28,7 +28,7 @@ package opssat.simulator.models;
 public class AbstractModel {
     String name;
 
-    public AbstractModel(String name) {
+    public AbstractModel(final String name) {
         this.name = name;
     }
     

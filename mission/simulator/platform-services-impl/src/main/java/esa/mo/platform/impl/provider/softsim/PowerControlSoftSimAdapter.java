@@ -54,7 +54,7 @@ public class PowerControlSoftSimAdapter implements PowerControlAdapterInterface,
     GPS("GPS");
 
     private Identifier identifier;
-    SimPayloadDevice(String name){
+    SimPayloadDevice(final String name){
       identifier = new Identifier(name);
     }
   }
@@ -90,7 +90,7 @@ public class PowerControlSoftSimAdapter implements PowerControlAdapterInterface,
             SimPayloadDevice.GPS);
   }
 
-  private void addDevice(Device device, SimPayloadDevice payload)
+  private void addDevice(final Device device, final SimPayloadDevice payload)
   {
     deviceByType.put(payload, device);
     payloadIdByObjInstId.put(device.getUnitObjInstId(), payload);
@@ -99,14 +99,14 @@ public class PowerControlSoftSimAdapter implements PowerControlAdapterInterface,
   @Override
   public Map<Identifier, Device> getDeviceMap()
   {
-    Map<Identifier, Device> mapByName = new HashMap<>();
+    final Map<Identifier, Device> mapByName = new HashMap<>();
     deviceByType.forEach((k,device) -> mapByName.put(device.getName(), device));
     return mapByName;
   }
 
-  private Device findByType(DeviceType type)
+  private Device findByType(final DeviceType type)
   {
-    for (Device device : deviceByType.values()) {
+    for (final Device device : deviceByType.values()) {
       if (device.getDeviceType() == type) {
         return device;
       }
@@ -115,15 +115,15 @@ public class PowerControlSoftSimAdapter implements PowerControlAdapterInterface,
   }
 
   @Override
-  public void enableDevices(DeviceList inputList) throws IOException
+  public void enableDevices(final DeviceList inputList) throws IOException
   {
-    for (Device device : inputList) {
+    for (final Device device : inputList) {
       LOGGER.log(Level.INFO, "Looking up Device {0}", new Object[]{device});
       SimPayloadDevice payloadId = payloadIdByObjInstId.get(device.getUnitObjInstId());
       if (device.getUnitObjInstId() != null) {
         payloadId = payloadIdByObjInstId.get(device.getUnitObjInstId());
       } else {
-        Device found = findByType(device.getDeviceType());
+        final Device found = findByType(device.getDeviceType());
         if (found != null) {
           payloadId = payloadIdByObjInstId.get(found.getUnitObjInstId());
         } else {
@@ -139,18 +139,18 @@ public class PowerControlSoftSimAdapter implements PowerControlAdapterInterface,
   }
 
   @Override
-  public boolean isDeviceEnabled(DeviceType deviceType) {
+  public boolean isDeviceEnabled(final DeviceType deviceType) {
 
-    Device device = findByType(deviceType);
+    final Device device = findByType(deviceType);
     return device == null ? false : device.getEnabled();
   }
 
   @Override
-  public void startStatusTracking(ConnectionConsumer connection) {
+  public void startStatusTracking(final ConnectionConsumer connection) {
       // In simulator we do nothing here. Otherwise subscribe to the status parameter.
   }
 
-  private void switchDevice(SimPayloadDevice device, Boolean enabled) throws IOException
+  private void switchDevice(final SimPayloadDevice device, final Boolean enabled) throws IOException
   {
     LOGGER.log(Level.INFO, "Switching device {0} to enabled: {1}", new Object[]{device, enabled});
     deviceByType.get(device).setEnabled(enabled);

@@ -55,35 +55,35 @@ public class PublishedRequestsTable extends SharedTablePanel {
     private final ArchiveConsumerServiceImpl archiveService;
     private final PlanningRequestConsumerServiceImpl planningRequestService;
 
-    public PublishedRequestsTable(ArchiveConsumerServiceImpl archiveService, PlanningRequestConsumerServiceImpl planningRequestService) {
+    public PublishedRequestsTable(final ArchiveConsumerServiceImpl archiveService, final PlanningRequestConsumerServiceImpl planningRequestService) {
         super(archiveService);
         this.archiveService = archiveService;
         this.planningRequestService = planningRequestService;
     }
 
     @Override
-    public void addEntry(Identifier identity, ArchivePersistenceObject comObject) {
+    public void addEntry(final Identifier identity, final ArchivePersistenceObject comObject) {
         // Not used
     }
 
-    public void addEntry(IdentifierList domain, Identifier identity, RequestUpdateDetails update) {
+    public void addEntry(final IdentifierList domain, final Identifier identity, final RequestUpdateDetails update) {
 
         try {
             semaphore.acquire();
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
-        ObjectType updateObjectType = PlanningRequestHelper.REQUESTSTATUSUPDATE_OBJECT_TYPE;
-        LongList objectIds = new LongList();
+        final ObjectType updateObjectType = PlanningRequestHelper.REQUESTSTATUSUPDATE_OBJECT_TYPE;
+        final LongList objectIds = new LongList();
         objectIds.add(0L);
-        List<ArchivePersistenceObject> updateObjects = HelperArchive
+        final List<ArchivePersistenceObject> updateObjects = HelperArchive
             .getArchiveCOMObjectList(this.archiveService.getArchiveStub(), updateObjectType, domain, objectIds);
 
         ArchivePersistenceObject comObject = null;
         if (updateObjects != null) {
-            for (ArchivePersistenceObject updateObject : updateObjects) {
-                RequestUpdateDetails archiveUpdate = (RequestUpdateDetails) updateObject.getObject();
+            for (final ArchivePersistenceObject updateObject : updateObjects) {
+                final RequestUpdateDetails archiveUpdate = (RequestUpdateDetails) updateObject.getObject();
                 if (Objects.equals(archiveUpdate, update)) {
                     comObject = updateObject;
                 }
@@ -106,7 +106,7 @@ public class PublishedRequestsTable extends SharedTablePanel {
 
     @Override
     public void defineTableContent() {
-        String[] tableCol = new String[]{
+        final String[] tableCol = new String[]{
             "Timestamp", "Request Identity", "Request Version ID",
             "Plan Ref ID", "Request Status", "Error code",
             "Error info"
@@ -121,12 +121,12 @@ public class PublishedRequestsTable extends SharedTablePanel {
                 };
 
                 @Override               //all cells false
-                public boolean isCellEditable(int row, int column) {
+                public boolean isCellEditable(final int row, final int column) {
                     return false;
                 }
 
                 @Override
-                public Class getColumnClass(int columnIndex) {
+                public Class getColumnClass(final int columnIndex) {
                     return types[columnIndex];
                 }
         };
@@ -145,15 +145,15 @@ public class PublishedRequestsTable extends SharedTablePanel {
         private int row = 0;
 
         @Override
-        public void monitorRequestsNotifyReceived(MALMessageHeader msgHeader, Identifier identifier,
-                UpdateHeaderList headerList, RequestUpdateDetailsList updateList,
-                Map qosProperties) {
+        public void monitorRequestsNotifyReceived(final MALMessageHeader msgHeader, final Identifier identifier,
+                                                  final UpdateHeaderList headerList, final RequestUpdateDetailsList updateList,
+                                                  final Map qosProperties) {
             for (int index = 0; index < updateList.size(); index++) {
-                UpdateHeader updateHeader = headerList.get(index);
-                RequestUpdateDetails update = updateList.get(index);
+                final UpdateHeader updateHeader = headerList.get(index);
+                final RequestUpdateDetails update = updateList.get(index);
 
-                IdentifierList domain = msgHeader.getDomain();
-                Identifier identity = updateHeader.getKey().getFirstSubKey();
+                final IdentifierList domain = msgHeader.getDomain();
+                final Identifier identity = updateHeader.getKey().getFirstSubKey();
 
                 addEntry(domain, identity, update);
             }

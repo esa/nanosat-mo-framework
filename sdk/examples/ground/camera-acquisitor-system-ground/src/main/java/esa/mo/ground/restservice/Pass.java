@@ -48,7 +48,7 @@ public class Pass implements EventHandler<BooleanDetector>
 
   private boolean startIsSet = false;
 
-  public Pass(AbsoluteDate notBeforeDate, long worstCaseRotationTimeSeconds)
+  public Pass(final AbsoluteDate notBeforeDate, final long worstCaseRotationTimeSeconds)
   {
     this.notBeforeDate = notBeforeDate;
     this.worstCaseRotationTimeSeconds = worstCaseRotationTimeSeconds;
@@ -80,7 +80,7 @@ public class Pass implements EventHandler<BooleanDetector>
   }
 
   @Override
-  public Action eventOccurred(SpacecraftState s, BooleanDetector detector, boolean increasing)
+  public Action eventOccurred(final SpacecraftState s, final BooleanDetector detector, final boolean increasing)
   {
     
     if (increasing) {
@@ -90,7 +90,7 @@ public class Pass implements EventHandler<BooleanDetector>
       }
     } else {
       this.passEnd = s.getDate();
-      double elapsedTime = this.passEnd.durationFrom(this.passStart);
+      final double elapsedTime = this.passEnd.durationFrom(this.passStart);
       this.optimalTime = this.passStart.shiftedBy(elapsedTime / 2);
       this.resultTime = this.optimalTime.toString();
       if (this.optimalTime.durationFrom(CameraAcquisitorSystemMCAdapter.getNow()) <= worstCaseRotationTimeSeconds && this.optimalTime.compareTo(

@@ -84,7 +84,7 @@ public final class StatisticManager {
     private final transient ParameterManager parameterManager;
     private final transient ExternalStatisticFunctionsInterface externalStatFunctions;
 
-    public StatisticManager(COMServicesProvider comServices, ParameterManager parameterManager, ExternalStatisticFunctionsInterface externalStatFunctions) {
+    public StatisticManager(final COMServicesProvider comServices, final ParameterManager parameterManager, final ExternalStatisticFunctionsInterface externalStatFunctions) {
         this.comServices = comServices;
         this.parameterManager = parameterManager;
         this.externalStatFunctions = externalStatFunctions;
@@ -125,15 +125,15 @@ public final class StatisticManager {
         return dataSets;
     }
 
-    public StatisticCreationRequest getStatisticLink(Long objIdLink) {
+    public StatisticCreationRequest getStatisticLink(final Long objIdLink) {
         return this.statLinks.get(objIdLink);
     }
 
-    public Long getStatisticLinkDefinitionId(Long statLinkId) {
+    public Long getStatisticLinkDefinitionId(final Long statLinkId) {
         return statLinkDefIdsByStatLinkIds.get(statLinkId);
     }
 
-    public StatisticFunctionDetails getStatisticFunction(Long objIdFunc) {
+    public StatisticFunctionDetails getStatisticFunction(final Long objIdFunc) {
         StatisticFunctionDetails fun = this.statFunctions.get(objIdFunc);
 
         if (fun == null && externalStatFunctions != null) {  // Dind't find it? Maybe it is a custom function... requirement: 3.6.4.f
@@ -143,10 +143,10 @@ public final class StatisticManager {
         return fun;
     }
 
-    public LongList getStatisticLinksForFunction(Long statFuncId) {
-        LongList foundList = new LongList();
+    public LongList getStatisticLinksForFunction(final Long statFuncId) {
+        final LongList foundList = new LongList();
         final Set<Long> statLinkIds = statLinks.keySet();
-        for (Long statLinkId : statLinkIds) {
+        for (final Long statLinkId : statLinkIds) {
             if (statLinks.get(statLinkId).getStatFuncInstId().equals(statFuncId)) {
                 foundList.add(statLinkId);
             }
@@ -154,21 +154,21 @@ public final class StatisticManager {
         return foundList;
     }
 
-    public ParameterDefinitionDetails getParameterDefinition(Long input) {
+    public ParameterDefinitionDetails getParameterDefinition(final Long input) {
         return this.parameterManager.getParameterDefinition(input);
     }
 
-    public ParameterValue getParameterValue(Long statLinkId) throws MALInteractionException {
+    public ParameterValue getParameterValue(final Long statLinkId) throws MALInteractionException {
         return this.parameterManager.getParameterValue(this.statLinks.get(statLinkId).getParameterId().getInstId());
     }
 
     protected LongList listAllLinks() {
-        LongList list = new LongList();
+        final LongList list = new LongList();
         list.addAll(statLinks.keySet());
         return list;
     }
 
-    public Long storeAndGenerateStatValueInsobjId(StatisticValue sVal, Long related, SingleConnectionDetails connectionDetails, ObjectId source) {
+    public Long storeAndGenerateStatValueInsobjId(final StatisticValue sVal, final Long related, final SingleConnectionDetails connectionDetails, final ObjectId source) {
         if (comServices.getArchiveService() == null) {
             uniqueObjIdAIns++;
             if (uniqueObjIdAIns % SAVING_PERIOD == 0) // It is used to avoid constant saving every time we generate a new obj Inst identifier.
@@ -177,11 +177,11 @@ public final class StatisticManager {
             }
             return this.uniqueObjIdAIns;
         } else {
-            StatisticValueList sValList = new StatisticValueList();
+            final StatisticValueList sValList = new StatisticValueList();
             sValList.add(sVal);
 
             try {
-                LongList objIds = comServices.getArchiveService().store( //requirement: 3.6.6.c
+                final LongList objIds = comServices.getArchiveService().store( //requirement: 3.6.6.c
                         true,
                         StatisticHelper.STATISTICVALUEINSTANCE_OBJECT_TYPE, //requirement: 3.6.4.i
                         ConfigurationProviderSingleton.getDomain(),
@@ -193,7 +193,7 @@ public final class StatisticManager {
                     return objIds.get(0);
                 }
 
-            } catch (MALException | MALInteractionException ex) {
+            } catch (final MALException | MALInteractionException ex) {
                 Logger.getLogger(StatisticManager.class.getName()).log(Level.SEVERE, null, ex);
             }
 
@@ -202,8 +202,8 @@ public final class StatisticManager {
 
     }
 
-    protected boolean setReportingEnabled(Long objId, Boolean bool, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
-        StatisticCreationRequest link = this.getStatisticLink(objId);
+    protected boolean setReportingEnabled(final Long objId, final Boolean bool, final SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
+        final StatisticCreationRequest link = this.getStatisticLink(objId);
 
         if (link == null) {
             return false;
@@ -218,18 +218,18 @@ public final class StatisticManager {
         return true;
     }
 
-    protected void setReportingEnabledAll(Boolean bool, SingleConnectionDetails connectionDetails) {
-        LongList objIds = new LongList();
+    protected void setReportingEnabledAll(final Boolean bool, final SingleConnectionDetails connectionDetails) {
+        final LongList objIds = new LongList();
         objIds.addAll(statLinks.keySet());
 
-        for (Long objId : objIds) {
-            StatisticCreationRequest link = this.getStatisticLink(objId);
+        for (final Long objId : objIds) {
+            final StatisticCreationRequest link = this.getStatisticLink(objId);
             link.getLinkDetails().setReportingEnabled(bool);
             this.update(objId, link, connectionDetails);
         }
     }
 
-    protected boolean statLinkExists(Long input) {
+    protected boolean statLinkExists(final Long input) {
         return statLinks.containsKey(input);
     }
 
@@ -254,15 +254,15 @@ public final class StatisticManager {
      */
 
     public StatisticFunctionDetailsList getAll() {
-        StatisticFunctionDetailsList list = new StatisticFunctionDetailsList();
+        final StatisticFunctionDetailsList list = new StatisticFunctionDetailsList();
         list.addAll(this.statFunctions.values());
         return list;
     }
 
-    public ObjectInstancePair add(StatisticCreationRequest statLink, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
+    public ObjectInstancePair add(final StatisticCreationRequest statLink, final SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
 
-        Long newLinkId;
-        Long newLinkDefId;
+        final Long newLinkId;
+        final Long newLinkDefId;
 
         if (comServices.getArchiveService() == null) {
             newLinkId = ++uniqueObjIdLink; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
@@ -270,9 +270,9 @@ public final class StatisticManager {
         } else {
             try {
                 // store the StatisticLink object
-                ObjectId source = new ObjectId(ParameterHelper.PARAMETERIDENTITY_OBJECT_TYPE,
+                final ObjectId source = new ObjectId(ParameterHelper.PARAMETERIDENTITY_OBJECT_TYPE,
                         statLink.getParameterId());
-                LongList linkIds = comServices.getArchiveService().store( //requirement: 3.6.6.b, 3.6.13.2.i
+                final LongList linkIds = comServices.getArchiveService().store( //requirement: 3.6.6.b, 3.6.13.2.i
                         true,
                         StatisticHelper.STATISTICLINK_OBJECT_TYPE, //requirement: 3.6.4.g, h
                         ConfigurationProviderSingleton.getDomain(),
@@ -283,10 +283,10 @@ public final class StatisticManager {
                 newLinkId = linkIds.get(0);
 
                 // store the StatisticLinkDefinition object
-                StatisticLinkDetailsList linkDetails = new StatisticLinkDetailsList();
+                final StatisticLinkDetailsList linkDetails = new StatisticLinkDetailsList();
                 linkDetails.add(statLink.getLinkDetails());
 
-                LongList linkDefIds = comServices.getArchiveService().store( //requirement: 3.6.6.b, 3.6.13.2.i
+                final LongList linkDefIds = comServices.getArchiveService().store( //requirement: 3.6.6.b, 3.6.13.2.i
                         true,
                         StatisticHelper.STATISTICLINKDEFINITION_OBJECT_TYPE, //requirement: 3.6.4.g, h
                         ConfigurationProviderSingleton.getDomain(),
@@ -296,7 +296,7 @@ public final class StatisticManager {
 
                 newLinkDefId = linkDefIds.get(0);
 
-            } catch (MALException | MALInteractionException ex) {
+            } catch (final MALException | MALInteractionException ex) {
                 Logger.getLogger(StatisticManager.class.getName()).log(Level.SEVERE, null, ex);
                 return null;
             }
@@ -307,17 +307,17 @@ public final class StatisticManager {
 
     }
 
-    public Long update(Long statLinkId, StatisticCreationRequest statLink, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
+    public Long update(final Long statLinkId, final StatisticCreationRequest statLink, final SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
 
-        Long newLinkDefId;
+        final Long newLinkDefId;
         if (comServices.getArchiveService() == null) {
             newLinkDefId = ++uniqueObjIdLinkDef; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
         } else {
             try {
-                StatisticLinkDetailsList links = new StatisticLinkDetailsList();
+                final StatisticLinkDetailsList links = new StatisticLinkDetailsList();
                 links.add(statLink.getLinkDetails());
 
-                LongList linkDefIds = comServices.getArchiveService().store( //requirement: 3.6.15.2.i
+                final LongList linkDefIds = comServices.getArchiveService().store( //requirement: 3.6.15.2.i
                         true,
                         StatisticHelper.STATISTICLINKDEFINITION_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
@@ -326,7 +326,7 @@ public final class StatisticManager {
                         null);
 
                 newLinkDefId = linkDefIds.get(0);
-            } catch (MALException | MALInteractionException ex) {
+            } catch (final MALException | MALInteractionException ex) {
                 Logger.getLogger(StatisticManager.class.getName()).log(Level.SEVERE, null, ex);
                 return null;
             }
@@ -338,7 +338,7 @@ public final class StatisticManager {
         return newLinkDefId;
     }
 
-    public boolean delete(Long objId) { // requirement: 3.3.2.5
+    public boolean delete(final Long objId) { // requirement: 3.3.2.5
         if (this.statLinks.remove(objId) == null) {
             return false;
         }
@@ -354,11 +354,11 @@ public final class StatisticManager {
         }
     }
 
-    protected StatisticEvaluationReport getStatisticEvaluationReport(Long statLinkId) {
+    protected StatisticEvaluationReport getStatisticEvaluationReport(final Long statLinkId) {
         return this.statEvaluationReports.get(statLinkId);
     }
 
-    protected void addStatisticValueToStatisticEvaluationReport(Long input, StatisticValue statisticValue) {
+    protected void addStatisticValueToStatisticEvaluationReport(final Long input, final StatisticValue statisticValue) {
         StatisticEvaluationReport report = this.statEvaluationReports.get(input);
 
         if (report == null) { // No report
@@ -370,12 +370,12 @@ public final class StatisticManager {
         report.setValue(statisticValue);
     }
 
-    protected void resetStatisticEvaluationReport(Long statLinkId) {
+    protected void resetStatisticEvaluationReport(final Long statLinkId) {
         this.statEvaluationReports.remove(statLinkId);
     }
 
-    protected StatisticValue generateStatisticValue(Long statFuncId, long paramIdentityId, TimeList times, AttributeValueList values) {
-        StatisticFunctionDetails statFunction = this.getStatisticFunction(statFuncId);
+    protected StatisticValue generateStatisticValue(final Long statFuncId, final long paramIdentityId, final TimeList times, final AttributeValueList values) {
+        final StatisticFunctionDetails statFunction = this.getStatisticFunction(statFuncId);
 
         if (statFunction == null) {
             return null;
@@ -406,8 +406,8 @@ public final class StatisticManager {
         return null;
     }
 
-    private StatisticValue generateStatisticValueMaximum(long paramIdentityId, TimeList times, AttributeValueList values) {
-        StatisticValue statValue = this.newStatisticValue(paramIdentityId, times, values);
+    private StatisticValue generateStatisticValueMaximum(final long paramIdentityId, final TimeList times, final AttributeValueList values) {
+        final StatisticValue statValue = this.newStatisticValue(paramIdentityId, times, values);
 
         if (statValue == null) {
             return null;
@@ -434,8 +434,8 @@ public final class StatisticManager {
         return statValue;
     }
 
-    private StatisticValue generateStatisticValueMinimum(long paramIdentityId, TimeList times, AttributeValueList values) {
-        StatisticValue statValue = this.newStatisticValue(paramIdentityId, times, values);
+    private StatisticValue generateStatisticValueMinimum(final long paramIdentityId, final TimeList times, final AttributeValueList values) {
+        final StatisticValue statValue = this.newStatisticValue(paramIdentityId, times, values);
 
         if (statValue == null) {
             return null;
@@ -462,8 +462,8 @@ public final class StatisticManager {
         return statValue;
     }
 
-    private StatisticValue generateStatisticValueMeanAverage(long paramIdentityId, TimeList times, AttributeValueList values) {
-        StatisticValue statValue = this.newStatisticValue(paramIdentityId, times, values);
+    private StatisticValue generateStatisticValueMeanAverage(final long paramIdentityId, final TimeList times, final AttributeValueList values) {
+        final StatisticValue statValue = this.newStatisticValue(paramIdentityId, times, values);
 
         if (statValue == null) {
             return null;
@@ -491,8 +491,8 @@ public final class StatisticManager {
         return statValue;
     }
 
-    private StatisticValue generateStatisticValueStandardDeviation(long paramIdentityId, TimeList times, AttributeValueList values) {
-        StatisticValue statValue = this.newStatisticValue(paramIdentityId, times, values);
+    private StatisticValue generateStatisticValueStandardDeviation(final long paramIdentityId, final TimeList times, final AttributeValueList values) {
+        final StatisticValue statValue = this.newStatisticValue(paramIdentityId, times, values);
 
         if (statValue == null) {
             return null;
@@ -517,7 +517,7 @@ public final class StatisticManager {
 
         // Go through all the data sets and find the maximum value...
         for (int i = 0; i < values.size(); i++) {
-            double tmp = HelperAttributes.attribute2double(values.get(i).getValue()) - mean;
+            final double tmp = HelperAttributes.attribute2double(values.get(i).getValue()) - mean;
             variance += Math.pow(tmp, 2);
         }
 
@@ -531,7 +531,7 @@ public final class StatisticManager {
         return statValue;
     }
 
-    private StatisticValue newStatisticValue(long paramIdentityId, TimeList times, AttributeValueList values) {
+    private StatisticValue newStatisticValue(final long paramIdentityId, final TimeList times, final AttributeValueList values) {
         if (times == null || values == null) { // Nothing to do here...
             return null;
         }
@@ -541,17 +541,17 @@ public final class StatisticManager {
             return null;
         }
 
-        StatisticValue statValue = new StatisticValue();
+        final StatisticValue statValue = new StatisticValue();
         statValue.setStartTime(times.get(0));
         statValue.setEndTime(times.get(times.size() - 1)); // Last element
         statValue.setSampleCount(new UInteger(times.size()));
-        long paramDefInstId = parameterManager.getDefinitionId(paramIdentityId);
+        final long paramDefInstId = parameterManager.getDefinitionId(paramIdentityId);
         statValue.setParamDefInstId(paramDefInstId);
 
         return statValue;
     }
 
-    public Boolean reconfigureLinks(LongList objIds, StatisticCreationRequestList statisticParameterDetailsList) {
+    public Boolean reconfigureLinks(final LongList objIds, final StatisticCreationRequestList statisticParameterDetailsList) {
         if (objIds.size() != statisticParameterDetailsList.size()) {
             return false;
         }
@@ -563,7 +563,7 @@ public final class StatisticManager {
         return true;
     }
 
-    boolean existsParameterIdentity(Long instId) {
+    boolean existsParameterIdentity(final Long instId) {
         return parameterManager.existsIdentity(instId);
     }
 
@@ -576,7 +576,7 @@ public final class StatisticManager {
         public void lock() {
             try {
                 this.semaphore.acquire();
-            } catch (InterruptedException ex) {
+            } catch (final InterruptedException ex) {
                 Logger.getLogger(StatisticManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -585,20 +585,20 @@ public final class StatisticManager {
             this.semaphore.release();
         }
 
-        public TimeList getTimeSet(Long objId) {
+        public TimeList getTimeSet(final Long objId) {
             return this.timeSets.get(objId);
         }
 
-        public AttributeValueList getDataSet(Long objId) {
+        public AttributeValueList getDataSet(final Long objId) {
             return this.dataSets.get(objId);
         }
 
-        public void resetDataSet(Long objId) {
+        public void resetDataSet(final Long objId) {
             this.dataSets.put(objId, new AttributeValueList());
             this.timeSets.put(objId, new TimeList());
         }
 
-        public void addAttributeToDataSet(Long objId, Attribute attribute, Time time) {
+        public void addAttributeToDataSet(final Long objId, final Attribute attribute, final Time time) {
             this.lock();
 
             if (this.dataSets.get(objId) == null) {
@@ -610,7 +610,7 @@ public final class StatisticManager {
                 this.dataSets.get(objId).add(null);
                 this.timeSets.get(objId).add(time);
             } else {
-                AttributeValue value = new AttributeValue();
+                final AttributeValue value = new AttributeValue();
                 value.setValue(attribute);
                 this.dataSets.get(objId).add(value);
                 this.timeSets.get(objId).add(time);
@@ -619,14 +619,14 @@ public final class StatisticManager {
             this.unlock();
         }
 
-        public void removeDataSet(Long objId) {
+        public void removeDataSet(final Long objId) {
             this.dataSets.remove(objId);
             this.timeSets.remove(objId);
         }
 
-        public Integer getOldestIndex(Long objId, double oldestTimeInMs) {
+        public Integer getOldestIndex(final Long objId, final double oldestTimeInMs) {
             // get index of oldestTimeInMs (or the next higher index, if oldestTimeInMs not in list)
-            TimeList allTimes = timeSets.get(objId);
+            final TimeList allTimes = timeSets.get(objId);
             if (allTimes == null) {
                 return null;
             }

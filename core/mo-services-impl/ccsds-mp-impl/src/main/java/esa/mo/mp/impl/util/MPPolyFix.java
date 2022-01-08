@@ -145,23 +145,23 @@ public class MPPolyFix {
      * Activity
      */
 
-    public static c_ActivityDetails encode(SimpleActivityDetails simpleActivity) {
+    public static c_ActivityDetails encode(final SimpleActivityDetails simpleActivity) {
         return (c_ActivityDetails) encode(simpleActivity, c_ActivityDetails.class);
     }
 
-    public static c_ActivityDetails encode(ActivityNode activityNode) {
+    public static c_ActivityDetails encode(final ActivityNode activityNode) {
         return (c_ActivityDetails) encode(activityNode, c_ActivityDetails.class);
     }
 
-    public static c_ActivityDetailsList encodeActivityDetails(List<ActivityDetails> activityDetails) {
+    public static c_ActivityDetailsList encodeActivityDetails(final List<ActivityDetails> activityDetails) {
         return (c_ActivityDetailsList) encode(activityDetails, c_ActivityDetailsList.class);
     }
 
-    public static ActivityDetails decode(c_ActivityDetails c_activityDetails) {
+    public static ActivityDetails decode(final c_ActivityDetails c_activityDetails) {
         return (ActivityDetails) decode((Object) c_activityDetails);
     }
 
-    public static List<ActivityDetails> decode(c_ActivityDetailsList c_activityDetailsList) {
+    public static List<ActivityDetails> decode(final c_ActivityDetailsList c_activityDetailsList) {
         return decode((ElementList) c_activityDetailsList);
     }
 
@@ -169,31 +169,31 @@ public class MPPolyFix {
      * ArgDef
      */
 
-    public static c_ArgDef encode(b_ArgDef argDef) {
+    public static c_ArgDef encode(final b_ArgDef argDef) {
         return (c_ArgDef) encode(argDef, c_ArgDef.class);
     }
 
-    public static c_ArgDef encode(NumericArgDef numericArgDef) {
+    public static c_ArgDef encode(final NumericArgDef numericArgDef) {
         return (c_ArgDef) encode(numericArgDef, c_ArgDef.class);
     }
 
-    public static c_ArgDef encode(StringArgDef stringArgDef) {
+    public static c_ArgDef encode(final StringArgDef stringArgDef) {
         return (c_ArgDef) encode(stringArgDef, c_ArgDef.class);
     }
 
-    public static c_ArgDef encode(StatusArgDef statusArgDef) {
+    public static c_ArgDef encode(final StatusArgDef statusArgDef) {
         return (c_ArgDef) encode(statusArgDef, c_ArgDef.class);
     }
 
-    public static c_ArgDefList encodeArgDefs(List<ArgDef> argDefs) {
+    public static c_ArgDefList encodeArgDefs(final List<ArgDef> argDefs) {
         return (c_ArgDefList) encode(argDefs, c_ArgDefList.class);
     }
 
-    public static ArgDef decode(c_ArgDef c_argDef) {
+    public static ArgDef decode(final c_ArgDef c_argDef) {
         return (ArgDef) decode((Object) c_argDef);
     }
 
-    public static List<ArgDef> decode(c_ArgDefList c_argDefList) {
+    public static List<ArgDef> decode(final c_ArgDefList c_argDefList) {
         return decode((ElementList) c_argDefList);
     }
 
@@ -201,127 +201,127 @@ public class MPPolyFix {
      * Constraint
      */
 
-    public static c_Constraint encode(c_ConditionalConstraint c_ConditionalConstraint) {
+    public static c_Constraint encode(final c_ConditionalConstraint c_ConditionalConstraint) {
         return (c_Constraint) encode(c_ConditionalConstraint, c_Constraint.class);
     }
 
-    public static c_Constraint encode(ConstraintNode constraintNode) {
+    public static c_Constraint encode(final ConstraintNode constraintNode) {
         return (c_Constraint) encode(constraintNode, c_Constraint.class);
     }
 
-    public static c_Constraint encode(c_Effect c_Effect) {
+    public static c_Constraint encode(final c_Effect c_Effect) {
         return (c_Constraint) encode(c_Effect, c_Constraint.class);
     }
 
-    public static c_Constraint encodeConstraint(ComplexConstraint complexConstraint) {
+    public static c_Constraint encodeConstraint(final ComplexConstraint complexConstraint) {
         return (c_Constraint) encode(complexConstraint, c_ConditionalConstraint.class, c_Constraint.class);
     }
 
-    public static c_Constraint encodeConstraint(TimeConstraint timeConstraint) {
+    public static c_Constraint encodeConstraint(final TimeConstraint timeConstraint) {
         return (c_Constraint) encode(timeConstraint, c_TemporalConstraint.class, c_ConditionalConstraint.class, c_Constraint.class);
     }
 
-    public static c_Constraint encodeConstraint(TimeWindowConstraint timeWindowConstraint) {
+    public static c_Constraint encodeConstraint(final TimeWindowConstraint timeWindowConstraint) {
         return (c_Constraint) encode(timeWindowConstraint, c_TemporalConstraint.class, c_ConditionalConstraint.class, c_Constraint.class);
     }
 
-    public static c_Constraint encodeConstraint(DurationConstraint durationConstraint) {
+    public static c_Constraint encodeConstraint(final DurationConstraint durationConstraint) {
         return (c_Constraint) encode(durationConstraint, c_TemporalConstraint.class, c_ConditionalConstraint.class, c_Constraint.class);
     }
 
-    public static c_Constraint encodeConstraint(SequentialConstraint sequentialConstraint) {
+    public static c_Constraint encodeConstraint(final SequentialConstraint sequentialConstraint) {
         return (c_Constraint) encode(sequentialConstraint, c_ConditionalConstraint.class, c_Constraint.class);
     }
 
-    public static c_Constraint encodeConstraint(ExclusionConstraint exclusionConstraint) {
+    public static c_Constraint encodeConstraint(final ExclusionConstraint exclusionConstraint) {
         return (c_Constraint) encode(exclusionConstraint, c_ConditionalConstraint.class, c_Constraint.class);
     }
 
-    public static c_Constraint encodeConstraint(b_ResourceConstraint resourceConstraint) {
+    public static c_Constraint encodeConstraint(final b_ResourceConstraint resourceConstraint) {
         return (c_Constraint) encode(resourceConstraint, c_ResourceConstraint.class, c_ConditionalConstraint.class, c_Constraint.class);
     }
 
-    public static c_Constraint encodeConstraint(ComplexResourceConstraint complexResourceConstraint) {
+    public static c_Constraint encodeConstraint(final ComplexResourceConstraint complexResourceConstraint) {
         return (c_Constraint) encode(complexResourceConstraint, c_ResourceConstraint.class, c_ConditionalConstraint.class, c_Constraint.class);
     }
 
-    public static c_Constraint encodeConstraint(ArgumentConstraint argumentConstraint) {
+    public static c_Constraint encodeConstraint(final ArgumentConstraint argumentConstraint) {
         return (c_Constraint) encode(argumentConstraint, c_ConditionalConstraint.class, c_Constraint.class);
     }
 
-    public static c_Constraint encodeConstraint(FunctionConstraint functionConstraint) {
+    public static c_Constraint encodeConstraint(final FunctionConstraint functionConstraint) {
         return (c_Constraint) encode(functionConstraint, c_ConditionalConstraint.class, c_Constraint.class);
     }
 
-    public static c_Constraint encodeConstraint(DistanceConstraint distanceConstraint) {
+    public static c_Constraint encodeConstraint(final DistanceConstraint distanceConstraint) {
         return (c_Constraint) encode(distanceConstraint, c_GeometricConstraint.class, c_ConditionalConstraint.class, c_Constraint.class);
     }
 
-    public static c_Constraint encodeConstraint(AngleConstraint angleConstraint) {
+    public static c_Constraint encodeConstraint(final AngleConstraint angleConstraint) {
         return (c_Constraint) encode(angleConstraint, c_GeometricConstraint.class, c_ConditionalConstraint.class, c_Constraint.class);
     }
 
-    public static c_Constraint encodeConstraint(OrbitalConstraint orbitalConstraint) {
+    public static c_Constraint encodeConstraint(final OrbitalConstraint orbitalConstraint) {
         return (c_Constraint) encode(orbitalConstraint, c_GeometricConstraint.class, c_ConditionalConstraint.class, c_Constraint.class);
     }
 
-    public static c_Constraint encodeConstraint(RevolutionConstraint revolutionConstraint) {
+    public static c_Constraint encodeConstraint(final RevolutionConstraint revolutionConstraint) {
         return (c_Constraint) encode(revolutionConstraint, c_GeometricConstraint.class, c_ConditionalConstraint.class, c_Constraint.class);
     }
 
-    public static c_Constraint encodeConstraint(b_PointingConstraint pointingConstraint) {
+    public static c_Constraint encodeConstraint(final b_PointingConstraint pointingConstraint) {
         return (c_Constraint) encode(pointingConstraint, c_PointingConstraint.class, c_GeometricConstraint.class, c_ConditionalConstraint.class, c_Constraint.class);
     }
 
-    public static c_Constraint encodeConstraint(InertialPointingConstraint pointingConstraint) {
+    public static c_Constraint encodeConstraint(final InertialPointingConstraint pointingConstraint) {
         return (c_Constraint) encode(pointingConstraint, c_PointingConstraint.class, c_GeometricConstraint.class, c_ConditionalConstraint.class, c_Constraint.class);
     }
 
-    public static c_Constraint encodeConstraint(SunPointingConstraint pointingConstraint) {
+    public static c_Constraint encodeConstraint(final SunPointingConstraint pointingConstraint) {
         return (c_Constraint) encode(pointingConstraint, c_PointingConstraint.class, c_GeometricConstraint.class, c_ConditionalConstraint.class, c_Constraint.class);
     }
 
-    public static c_Constraint encodeConstraint(TrackWithInertialDirectionYawSteeringConstraint pointingConstraint) {
+    public static c_Constraint encodeConstraint(final TrackWithInertialDirectionYawSteeringConstraint pointingConstraint) {
         return (c_Constraint) encode(pointingConstraint, c_PointingConstraint.class, c_GeometricConstraint.class, c_ConditionalConstraint.class, c_Constraint.class);
     }
 
-    public static c_Constraint encodeConstraint(TrackWithPowerOptimizedYawSteeringConstraint pointingConstraint) {
+    public static c_Constraint encodeConstraint(final TrackWithPowerOptimizedYawSteeringConstraint pointingConstraint) {
         return (c_Constraint) encode(pointingConstraint, c_PointingConstraint.class, c_GeometricConstraint.class, c_ConditionalConstraint.class, c_Constraint.class);
     }
 
-    public static c_Constraint encodeConstraint(NadirWithPowerOptimizedYawSteeringConstraint pointingConstraint) {
+    public static c_Constraint encodeConstraint(final NadirWithPowerOptimizedYawSteeringConstraint pointingConstraint) {
         return (c_Constraint) encode(pointingConstraint, c_PointingConstraint.class, c_GeometricConstraint.class, c_ConditionalConstraint.class, c_Constraint.class);
     }
 
-    public static c_Constraint encodeConstraint(NadirWithGroundTrackAlignedYawSteeringConstraint pointingConstraint) {
+    public static c_Constraint encodeConstraint(final NadirWithGroundTrackAlignedYawSteeringConstraint pointingConstraint) {
         return (c_Constraint) encode(pointingConstraint, c_PointingConstraint.class, c_GeometricConstraint.class, c_ConditionalConstraint.class, c_Constraint.class);
     }
 
-    public static c_Constraint encodeConstraint(NadirWithOrbitalPoleAlignedYawSteeringConstraint pointingConstraint) {
+    public static c_Constraint encodeConstraint(final NadirWithOrbitalPoleAlignedYawSteeringConstraint pointingConstraint) {
         return (c_Constraint) encode(pointingConstraint, c_PointingConstraint.class, c_GeometricConstraint.class, c_ConditionalConstraint.class, c_Constraint.class);
     }
 
-    public static c_Constraint encodeConstraint(LimbPointingWithPowerOptimizedYawSteeringConstraint pointingConstraint) {
+    public static c_Constraint encodeConstraint(final LimbPointingWithPowerOptimizedYawSteeringConstraint pointingConstraint) {
         return (c_Constraint) encode(pointingConstraint, c_PointingConstraint.class, c_GeometricConstraint.class, c_ConditionalConstraint.class, c_Constraint.class);
     }
 
-    public static c_Constraint encodeConstraint(LimbPointingWithInertialDirectionYawSteeringConstraint pointingConstraint) {
+    public static c_Constraint encodeConstraint(final LimbPointingWithInertialDirectionYawSteeringConstraint pointingConstraint) {
         return (c_Constraint) encode(pointingConstraint, c_PointingConstraint.class, c_GeometricConstraint.class, c_ConditionalConstraint.class, c_Constraint.class);
     }
 
-    public static c_Constraint encodeConstraint(VelocityPointingWithOrbitalPoleYawSteeringConstraint pointingConstraint) {
+    public static c_Constraint encodeConstraint(final VelocityPointingWithOrbitalPoleYawSteeringConstraint pointingConstraint) {
         return (c_Constraint) encode(pointingConstraint, c_PointingConstraint.class, c_GeometricConstraint.class, c_ConditionalConstraint.class, c_Constraint.class);
     }
 
-    public static c_ConstraintList encodeConstraints(List<Constraint> constraints) {
+    public static c_ConstraintList encodeConstraints(final List<Constraint> constraints) {
         return (c_ConstraintList) encode(constraints, c_ConstraintList.class);
     }
 
-    public static Constraint decode(c_Constraint c_constraint) {
+    public static Constraint decode(final c_Constraint c_constraint) {
         return (Constraint) decode((Object) c_constraint);
     }
 
-    public static List<Constraint> decode(c_ConstraintList c_constraintList) {
+    public static List<Constraint> decode(final c_ConstraintList c_constraintList) {
         return decode((ElementList) c_constraintList);
     }
 
@@ -329,51 +329,51 @@ public class MPPolyFix {
      * Expression
      */
 
-    public static c_Expression encode(b_Expression expression) {
+    public static c_Expression encode(final b_Expression expression) {
         return (c_Expression) encode(expression, c_Expression.class);
     }
 
-    public static c_Expression encode(BooleanExpression booleanExpression) {
+    public static c_Expression encode(final BooleanExpression booleanExpression) {
         return (c_Expression) encode(booleanExpression, c_Expression.class);
     }
 
-    public static c_Expression encode(TimeExpression timeExpression) {
+    public static c_Expression encode(final TimeExpression timeExpression) {
         return (c_Expression) encode(timeExpression, c_Expression.class);
     }
 
-    public static c_Expression encode(DurationExpression durationExpression) {
+    public static c_Expression encode(final DurationExpression durationExpression) {
         return (c_Expression) encode(durationExpression, c_Expression.class);
     }
 
-    public static c_Expression encode(PositionExpression positionExpression) {
+    public static c_Expression encode(final PositionExpression positionExpression) {
         return (c_Expression) encode(positionExpression, c_Expression.class);
     }
 
-    public static c_Expression encode(RealExpression realExpression) {
+    public static c_Expression encode(final RealExpression realExpression) {
         return (c_Expression) encode(realExpression, c_Expression.class);
     }
 
-    public static c_Expression encode(IntegerExpression integerExpression) {
+    public static c_Expression encode(final IntegerExpression integerExpression) {
         return (c_Expression) encode(integerExpression, c_Expression.class);
     }
 
-    public static c_Expression encode(DirectionExpression directionExpression) {
+    public static c_Expression encode(final DirectionExpression directionExpression) {
         return (c_Expression) encode(directionExpression, c_Expression.class);
     }
 
-    public static c_Expression encode(ObjectExpression objectExpression) {
+    public static c_Expression encode(final ObjectExpression objectExpression) {
         return (c_Expression) encode(objectExpression, c_Expression.class);
     }
 
-    public static c_ExpressionList encodeExpressions(List<Expression> expressions) {
+    public static c_ExpressionList encodeExpressions(final List<Expression> expressions) {
         return (c_ExpressionList) encode(expressions, c_ExpressionList.class);
     }
 
-    public static Expression decode(c_Expression c_expression) {
+    public static Expression decode(final c_Expression c_expression) {
         return (Expression) decode((Object) c_expression);
     }
 
-    public static List<Expression> decode(c_ExpressionList c_expressionList) {
+    public static List<Expression> decode(final c_ExpressionList c_expressionList) {
         return decode((ElementList) c_expressionList);
     }
 
@@ -381,23 +381,23 @@ public class MPPolyFix {
      * Effect
      */
 
-    public static c_Effect encode(SimpleEffect simpleEffect) {
+    public static c_Effect encode(final SimpleEffect simpleEffect) {
         return (c_Effect) encode(simpleEffect, c_Effect.class);
     }
 
-    public static c_Effect encode(ComplexEffect complexEffect) {
+    public static c_Effect encode(final ComplexEffect complexEffect) {
         return (c_Effect) encode(complexEffect, c_Effect.class);
     }
 
-    public static c_EffectList encodeEffects(List<Effect> effects) {
+    public static c_EffectList encodeEffects(final List<Effect> effects) {
         return (c_EffectList) encode(effects, c_EffectList.class);
     }
 
-    public static Effect decode(c_Effect c_effect) {
+    public static Effect decode(final c_Effect c_effect) {
         return (Effect) decode((Object) c_effect);
     }
 
-    public static List<Effect> decode(c_EffectList c_effectList) {
+    public static List<Effect> decode(final c_EffectList c_effectList) {
         return decode((ElementList) c_effectList);
     }
 
@@ -405,35 +405,35 @@ public class MPPolyFix {
      * Repetition
      */
 
-    public static c_Repetition encode(EventRepetition eventRepetition) {
+    public static c_Repetition encode(final EventRepetition eventRepetition) {
         return (c_Repetition) encode(eventRepetition, c_Repetition.class);
     }
 
-    public static c_Repetition encode(GeometricRepetition geometricRepetition) {
+    public static c_Repetition encode(final GeometricRepetition geometricRepetition) {
         return (c_Repetition) encode(geometricRepetition, c_Repetition.class);
     }
 
-    public static c_Repetition encode(OrbitalRepetition orbitalRepetition) {
+    public static c_Repetition encode(final OrbitalRepetition orbitalRepetition) {
         return (c_Repetition) encode(orbitalRepetition, c_Repetition.class);
     }
 
-    public static c_Repetition encode(RevolutionRepetition revolutionRepetition) {
+    public static c_Repetition encode(final RevolutionRepetition revolutionRepetition) {
         return (c_Repetition) encode(revolutionRepetition, c_Repetition.class);
     }
 
-    public static c_Repetition encode(TemporalRepetition temporalRepetition) {
+    public static c_Repetition encode(final TemporalRepetition temporalRepetition) {
         return (c_Repetition) encode(temporalRepetition, c_Repetition.class);
     }
 
-    public static c_RepetitionList encodeRepetitions(List<Repetition> repetitions) {
+    public static c_RepetitionList encodeRepetitions(final List<Repetition> repetitions) {
         return (c_RepetitionList) encode(repetitions, c_RepetitionList.class);
     }
 
-    public static Repetition decode(c_Repetition c_repetition) {
+    public static Repetition decode(final c_Repetition c_repetition) {
         return (Repetition) decode((Object) c_repetition);
     }
 
-    public static List<Repetition> decode(c_RepetitionList c_repetitionList) {
+    public static List<Repetition> decode(final c_RepetitionList c_repetitionList) {
         return decode((ElementList) c_repetitionList);
     }
 
@@ -441,31 +441,31 @@ public class MPPolyFix {
      * Resource Definition
      */
 
-    public static c_ResourceDefinitionDetails encode(b_ResourceDefinitionDetails resourceDefinition) {
+    public static c_ResourceDefinitionDetails encode(final b_ResourceDefinitionDetails resourceDefinition) {
         return (c_ResourceDefinitionDetails) encode(resourceDefinition, c_ResourceDefinitionDetails.class);
     }
 
-    public static c_ResourceDefinitionDetails encode(NumericResourceDefinitionDetails numericResourceDefinition) {
+    public static c_ResourceDefinitionDetails encode(final NumericResourceDefinitionDetails numericResourceDefinition) {
         return (c_ResourceDefinitionDetails) encode(numericResourceDefinition, c_ResourceDefinitionDetails.class);
     }
 
-    public static c_ResourceDefinitionDetails encode(StringResourceDefinitionDetails stringResourceDefinition) {
+    public static c_ResourceDefinitionDetails encode(final StringResourceDefinitionDetails stringResourceDefinition) {
         return (c_ResourceDefinitionDetails) encode(stringResourceDefinition, c_ResourceDefinitionDetails.class);
     }
 
-    public static c_ResourceDefinitionDetails encode(StatusResourceDefinitionDetails statusResourceDefinition) {
+    public static c_ResourceDefinitionDetails encode(final StatusResourceDefinitionDetails statusResourceDefinition) {
         return (c_ResourceDefinitionDetails) encode(statusResourceDefinition, c_ResourceDefinitionDetails.class);
     }
 
-    public static c_ResourceDefinitionDetailsList encodeResourceDefinitions(List<ResourceDefinitionDetails> resourceDefinitions) {
+    public static c_ResourceDefinitionDetailsList encodeResourceDefinitions(final List<ResourceDefinitionDetails> resourceDefinitions) {
         return (c_ResourceDefinitionDetailsList) encode(resourceDefinitions, c_ResourceDefinitionDetailsList.class);
     }
 
-    public static ResourceDefinitionDetails decode(c_ResourceDefinitionDetails c_resourceDefinition) {
+    public static ResourceDefinitionDetails decode(final c_ResourceDefinitionDetails c_resourceDefinition) {
         return (ResourceDefinitionDetails) decode((Object) c_resourceDefinition);
     }
 
-    public static List<ResourceDefinitionDetails> decode(c_ResourceDefinitionDetailsList c_resourceDefinitionDetailsList) {
+    public static List<ResourceDefinitionDetails> decode(final c_ResourceDefinitionDetailsList c_resourceDefinitionDetailsList) {
         return decode((ElementList) c_resourceDefinitionDetailsList);
     }
 
@@ -473,31 +473,31 @@ public class MPPolyFix {
      * Resource Update
      */
 
-    public static c_ResourceUpdateDetails encode(b_ResourceUpdateDetails resourceUpdate) {
+    public static c_ResourceUpdateDetails encode(final b_ResourceUpdateDetails resourceUpdate) {
         return (c_ResourceUpdateDetails) encode(resourceUpdate, c_ResourceUpdateDetails.class);
     }
 
-    public static c_ResourceUpdateDetails encode(NumericResourceUpdateDetails numericResourceUpdate) {
+    public static c_ResourceUpdateDetails encode(final NumericResourceUpdateDetails numericResourceUpdate) {
         return (c_ResourceUpdateDetails) encode(numericResourceUpdate, c_ResourceUpdateDetails.class);
     }
 
-    public static c_ResourceUpdateDetails encode(StringResourceUpdateDetails stringResourceUpdate) {
+    public static c_ResourceUpdateDetails encode(final StringResourceUpdateDetails stringResourceUpdate) {
         return (c_ResourceUpdateDetails) encode(stringResourceUpdate, c_ResourceUpdateDetails.class);
     }
 
-    public static c_ResourceUpdateDetails encode(StatusResourceUpdateDetails statusResourceUpdate) {
+    public static c_ResourceUpdateDetails encode(final StatusResourceUpdateDetails statusResourceUpdate) {
         return (c_ResourceUpdateDetails) encode(statusResourceUpdate, c_ResourceUpdateDetails.class);
     }
 
-    public static c_ResourceUpdateDetailsList encodeResourceUpdates(List<ResourceUpdateDetails> resourceUpdates) {
+    public static c_ResourceUpdateDetailsList encodeResourceUpdates(final List<ResourceUpdateDetails> resourceUpdates) {
         return (c_ResourceUpdateDetailsList) encode(resourceUpdates, c_ResourceUpdateDetailsList.class);
     }
 
-    public static ResourceUpdateDetails decode(c_ResourceUpdateDetails c_resourceUpdate) {
+    public static ResourceUpdateDetails decode(final c_ResourceUpdateDetails c_resourceUpdate) {
         return (ResourceUpdateDetails) decode((Object) c_resourceUpdate);
     }
 
-    public static List<ResourceUpdateDetails> decode(c_ResourceUpdateDetailsList c_resourceUpdateDetailsList) {
+    public static List<ResourceUpdateDetails> decode(final c_ResourceUpdateDetailsList c_resourceUpdateDetailsList) {
         return decode((ElementList) c_resourceUpdateDetailsList);
     }
 
@@ -505,35 +505,35 @@ public class MPPolyFix {
      * Trigger
      */
 
-    public static c_Trigger encode(EventTrigger eventTrigger) {
+    public static c_Trigger encode(final EventTrigger eventTrigger) {
         return (c_Trigger) encode(eventTrigger, c_Trigger.class);
     }
 
-    public static c_Trigger encode(OrbitTrigger orbitTrigger) {
+    public static c_Trigger encode(final OrbitTrigger orbitTrigger) {
         return (c_Trigger) encode(orbitTrigger, c_Trigger.class);
     }
 
-    public static c_Trigger encode(PositionTrigger positionTrigger) {
+    public static c_Trigger encode(final PositionTrigger positionTrigger) {
         return (c_Trigger) encode(positionTrigger, c_Trigger.class);
     }
 
-    public static c_Trigger encode(RevolutionTrigger revolutionTrigger) {
+    public static c_Trigger encode(final RevolutionTrigger revolutionTrigger) {
         return (c_Trigger) encode(revolutionTrigger, c_Trigger.class);
     }
 
-    public static c_Trigger encode(TimeTrigger timeTrigger) {
+    public static c_Trigger encode(final TimeTrigger timeTrigger) {
         return (c_Trigger) encode(timeTrigger, c_Trigger.class);
     }
 
-    public static c_TriggerList encodeTriggers(List<Trigger> triggers) {
+    public static c_TriggerList encodeTriggers(final List<Trigger> triggers) {
         return (c_TriggerList) encode(triggers, c_TriggerList.class);
     }
 
-    public static Trigger decode(c_Trigger c_trigger) {
+    public static Trigger decode(final c_Trigger c_trigger) {
         return (Trigger) decode((Object) c_trigger);
     }
 
-    public static List<Trigger> decode(c_TriggerList c_triggerList) {
+    public static List<Trigger> decode(final c_TriggerList c_triggerList) {
         return decode((ElementList) c_triggerList);
     }
 
@@ -544,8 +544,8 @@ public class MPPolyFix {
      * @param object to be encoded (e.g. ArgDef)
      * @return The encoded object with polymorphism fix applied
      */
-    public static Object encode(Object object) {
-        Class[] classes = getPolymorphismFixClasses(object);
+    public static Object encode(final Object object) {
+        final Class[] classes = getPolymorphismFixClasses(object);
         return encode(object, classes);
     }
 
@@ -556,25 +556,25 @@ public class MPPolyFix {
      * @param clazz of polymorphism fix class to be applied (e.g. c_ArgDef.class). Classes are applied recursively from left to right
      * @return The encoded object with polymorphism fix applied
      */
-    public static Object encode(Object object, Class ...clazz) {
+    public static Object encode(final Object object, final Class ...clazz) {
         if (clazz.length == 0) {
             return object;
         }
         Object encodedObject = null;
         try {
             encodedObject = clazz[0].getConstructor().newInstance();
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+        } catch (final InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
             LOGGER.log(Level.WARNING, null, e);
             return null;
         }
-        Field[] fields = encodedObject.getClass().getDeclaredFields();
-        for (Field field : fields) {
-            int modifier = field.getModifiers();
+        final Field[] fields = encodedObject.getClass().getDeclaredFields();
+        for (final Field field : fields) {
+            final int modifier = field.getModifiers();
             if (!Modifier.isFinal(modifier) && field.getType() == object.getClass() && !field.isSynthetic()) {
                 field.setAccessible(true);
                 try {
                     field.set(encodedObject, object);
-                } catch (IllegalAccessException e) {
+                } catch (final IllegalAccessException e) {
                     LOGGER.log(Level.WARNING, null, e);
                     return null;
                 }
@@ -590,18 +590,18 @@ public class MPPolyFix {
      * @param clazz of polymorphism fix to be applied (e.g. c_ArgDefList.class)
      * @return The encoded object with polymorphism fix applied
      */
-    public static Object encode(List objectList, Class clazz) {
+    public static Object encode(final List objectList, final Class clazz) {
         ArrayList<Object> encodedObjectList = null;
         try {
             encodedObjectList = (ArrayList<Object>) clazz.getConstructor().newInstance();
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+        } catch (final InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
             LOGGER.log(Level.WARNING, null, e);
             return null;
         }
 
-        for (Object object : objectList) {
-            Class[] classes = getPolymorphismFixClasses(object);
-            Object encodedObject = encode(object, classes);
+        for (final Object object : objectList) {
+            final Class[] classes = getPolymorphismFixClasses(object);
+            final Object encodedObject = encode(object, classes);
             encodedObjectList.add(encodedObject);
         }
         return encodedObjectList;
@@ -613,22 +613,22 @@ public class MPPolyFix {
      * @param object polymorphic fix object (e.g. c_ArgDef)
      * @return A decoded object (e.g. ArgDef)
      */
-    public static Object decode(Object object) {
+    public static Object decode(final Object object) {
         Class polymorphicClass = null;
         Object foundConcreteObject = null;
-        Field[] fields = object.getClass().getDeclaredFields();
-        for (Field field : fields) {
+        final Field[] fields = object.getClass().getDeclaredFields();
+        for (final Field field : fields) {
             field.setAccessible(true);
             Object value = null;
             try {
                 value = field.get(object);
-            } catch (IllegalAccessException e) {
+            } catch (final IllegalAccessException e) {
                 LOGGER.log(Level.WARNING, null, e);
                 return null;
             }
-            int modifier = field.getModifiers();
+            final int modifier = field.getModifiers();
             if (!Modifier.isFinal(modifier) && value != null && !field.isSynthetic()) {
-                Class fieldSuperClass = value.getClass().getSuperclass();
+                final Class fieldSuperClass = value.getClass().getSuperclass();
 
                 if (polymorphicClass == null) {
                     polymorphicClass = fieldSuperClass;
@@ -658,16 +658,16 @@ public class MPPolyFix {
      * @param elementList polymorphic fix object list (e.g. c_ArgDefList)
      * @return A decoded object (e.g. List{@literal <}ArgDef{@literal >})
      */
-    public static List decode(ElementList elementList) {
-        List<Object> decodedList = new ArrayList<>();
-        for (Object object : elementList) {
+    public static List decode(final ElementList elementList) {
+        final List<Object> decodedList = new ArrayList<>();
+        for (final Object object : elementList) {
             decodedList.add(decode(object));
         }
         return decodedList;
     }
 
-    private static Class[] getPolymorphismFixClasses(Object object) {
-        List<Class> result = new ArrayList<>();
+    private static Class[] getPolymorphismFixClasses(final Object object) {
+        final List<Class> result = new ArrayList<>();
 
         // Four levels deep
         if (object instanceof PointingConstraint) {

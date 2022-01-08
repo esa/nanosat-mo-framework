@@ -37,11 +37,11 @@ public class TestClass {
      * @param args the command line arguments
      */
     public static void main(final String[] args) {
-        TestClass demo = new TestClass();
+        final TestClass demo = new TestClass();
     }
 
     public TestClass() {
-        Timer timer = new Timer();
+        final Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {

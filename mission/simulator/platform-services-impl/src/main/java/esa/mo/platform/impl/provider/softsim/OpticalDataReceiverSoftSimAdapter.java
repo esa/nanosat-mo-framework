@@ -36,7 +36,7 @@ public class OpticalDataReceiverSoftSimAdapter implements OpticalDataReceiverAda
   private final ESASimulator instrumentsSimulator;
   private PowerControlAdapterInterface pcAdapter;
 
-  public OpticalDataReceiverSoftSimAdapter(ESASimulator instrumentsSimulator, PowerControlAdapterInterface pcAdapter)
+  public OpticalDataReceiverSoftSimAdapter(final ESASimulator instrumentsSimulator, final PowerControlAdapterInterface pcAdapter)
   {
     this.instrumentsSimulator = instrumentsSimulator;
     this.pcAdapter = pcAdapter;
@@ -49,9 +49,9 @@ public class OpticalDataReceiverSoftSimAdapter implements OpticalDataReceiverAda
   }
 
   @Override
-  public byte[] recordOpticalReceiverData(Duration recordingLength)
+  public byte[] recordOpticalReceiverData(final Duration recordingLength)
   {
-    int nSamples = (int) (recordingLength.getValue() * 1000); // Assume 1kHz sample rate
+    final int nSamples = (int) (recordingLength.getValue() * 1000); // Assume 1kHz sample rate
     return instrumentsSimulator.getpOpticalReceiver().readFromMessageBuffer(nSamples);
   }
 

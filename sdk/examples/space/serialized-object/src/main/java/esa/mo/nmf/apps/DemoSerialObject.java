@@ -53,13 +53,13 @@ public class DemoSerialObject {
      * @throws java.lang.Exception If there is an error
      */
     public static void main(final String[] args) throws Exception {
-        DemoSerialObject demo = new DemoSerialObject();
+        final DemoSerialObject demo = new DemoSerialObject();
     }
 
     public class MCAdapter extends SimpleMonitorAndControlAdapter {
 
         @Override
-        public void initialRegistrations(MCRegistration registrationObject) {
+        public void initialRegistrations(final MCRegistration registrationObject) {
             registrationObject.setMode(MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS);
 
             // ------------------ Parameters ------------------
@@ -81,19 +81,19 @@ public class DemoSerialObject {
         }
 
         @Override
-        public boolean actionArrivedSimple(String name, Serializable[] srlzbls, Long l) {
+        public boolean actionArrivedSimple(final String name, final Serializable[] srlzbls, final Long l) {
             throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
-        public Serializable onGetValueSimple(String name) {
-            AttributeValue aval = new AttributeValue();
+        public Serializable onGetValueSimple(final String name) {
+            final AttributeValue aval = new AttributeValue();
             aval.setValue(new UInteger(1234));
             return aval;
         }
 
         @Override
-        public boolean onSetValueSimple(String name, Serializable srlzbl) {
+        public boolean onSetValueSimple(final String name, final Serializable srlzbl) {
             throw new UnsupportedOperationException("Not supported yet.");
         }
     }

@@ -73,7 +73,7 @@ public class ConfigurationConsumer {
             try {
                 // The property does not exist?
                 HelperMisc.loadConsumerProperties(); // try to load the properties from the file...
-            } catch (IOException ex) {
+            } catch (final IOException ex) {
                 // Ignore the exception if it does not exist - the file is becoming deprecated
             }
         }

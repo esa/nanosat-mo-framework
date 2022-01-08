@@ -105,26 +105,26 @@ public class ProcessExecutionHandler
     if (shutdownHook != null) {
       try {
         Runtime.getRuntime().removeShutdownHook(shutdownHook);
-      } catch (IllegalStateException e) {
+      } catch (final IllegalStateException e) {
         // JVM already shutting down
       }
     }
   }
 
-  public static synchronized long getProcessPid(Process p) throws IOException
+  public static synchronized long getProcessPid(final Process p) throws IOException
   {
-    long pid;
+    final long pid;
 
     try {
       if (p.getClass().getName().equals("java.lang.UNIXProcess")) {
-        Field f = p.getClass().getDeclaredField("pid");
+        final Field f = p.getClass().getDeclaredField("pid");
         f.setAccessible(true);
         pid = f.getLong(p);
         f.setAccessible(false);
       } else {
         throw new IOException("Trying to resolve PID on an unsupported platform");
       }
-    } catch (IllegalAccessException | IllegalArgumentException | NoSuchFieldException
+    } catch (final IllegalAccessException | IllegalArgumentException | NoSuchFieldException
         | SecurityException ex) {
       throw new IOException("Exception when trying to resolve PID", ex);
     }
@@ -142,7 +142,7 @@ public class ProcessExecutionHandler
     long pid;
     try {
       pid = ProcessExecutionHandler.getProcessPid(process);
-    } catch (IOException ex) {
+    } catch (final IOException ex) {
       pid = -1;
     }
     stdoutReader = createReaderThread(stdoutBuf, new BufferedReader(new InputStreamReader(
@@ -153,11 +153,11 @@ public class ProcessExecutionHandler
     stderrReader.start();
     new Thread(() -> {
       try {
-        int exitCode = process.waitFor();
+        final int exitCode = process.waitFor();
         if (cb != null) {
           cb.processStopped(objId, exitCode);
         }
-      } catch (InterruptedException ex) {
+      } catch (final InterruptedException ex) {
         // Thread interrupted, pretend the application exited succesfully
         if (cb != null) {
           cb.processStopped(objId, 0);
@@ -180,7 +180,7 @@ public class ProcessExecutionHandler
             buf.append(line);
             buf.append("\n");
           }
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
           LOGGER.log(Level.INFO,
               "The stream of the process (objId: {0}) has been closed.", new Object[]{
                 objId});
@@ -196,7 +196,7 @@ public class ProcessExecutionHandler
     private final StringBuffer stdoutBuf;
     private final StringBuffer stderrBuf;
 
-    public TimerTaskImpl(StringBuffer stdoutBuf, StringBuffer stderrBuf)
+    public TimerTaskImpl(final StringBuffer stdoutBuf, final StringBuffer stderrBuf)
     {
       this.stdoutBuf = stdoutBuf;
       this.stderrBuf = stderrBuf;
@@ -218,12 +218,12 @@ public class ProcessExecutionHandler
 
     }
 
-    private String getBufferData(StringBuffer buffer)
+    private String getBufferData(final StringBuffer buffer)
     {
       // Change the buffer position
-      int bufSize = buffer.length();
+      final int bufSize = buffer.length();
       if (bufSize != 0) {
-        String dataToPropagate = buffer.substring(0, bufSize);
+        final String dataToPropagate = buffer.substring(0, bufSize);
         buffer.delete(0, bufSize);
         return dataToPropagate;
       }

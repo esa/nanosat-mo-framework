@@ -28,7 +28,7 @@ public class ClockSoftSimAdapter implements ClockAdapterInterface, SimulatorAdap
 
     private final ESASimulator instrumentsSimulator;
 
-    public ClockSoftSimAdapter(ESASimulator instrumentsSimulator) {
+    public ClockSoftSimAdapter(final ESASimulator instrumentsSimulator) {
         this.instrumentsSimulator = instrumentsSimulator;
     }
 

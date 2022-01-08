@@ -40,7 +40,7 @@ public class ClockConsumerPanel extends javax.swing.JPanel {
 
     private final ClockStub clockService;
 
-    public ClockConsumerPanel(ClockStub clockService) {
+    public ClockConsumerPanel(final ClockStub clockService) {
         initComponents();
 
         this.clockService = clockService;
@@ -83,7 +83,7 @@ public class ClockConsumerPanel extends javax.swing.JPanel {
         timeLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         timeLabel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        final javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -110,16 +110,16 @@ public class ClockConsumerPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void getTimeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getTimeButtonActionPerformed
+    private void getTimeButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getTimeButtonActionPerformed
 
         try {
             this.clockService.asyncGetTime(new ClockAdapter() {
                 @Override
-                public void getTimeResponseReceived(MALMessageHeader msgHeader, Time time, Map qosProperties) {
+                public void getTimeResponseReceived(final MALMessageHeader msgHeader, final Time time, final Map qosProperties) {
                     timeLabel.setText(HelperTime.time2readableString(time));
                 }
             });
-        } catch (MALInteractionException | MALException e) {
+        } catch (final MALInteractionException | MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_getTimeButtonActionPerformed

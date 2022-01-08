@@ -29,15 +29,15 @@ import java.util.logging.Logger;
  */
 public class EndlessWavStreamOperatingBuffer extends GenericWavFileBasedOperatingBuffer {
 
-    public EndlessWavStreamOperatingBuffer(Logger logger) {
+    public EndlessWavStreamOperatingBuffer(final Logger logger) {
         super(logger);
     }
     
-    public double[] getDataAsDoubleArray(int quantityOfData) {
+    public double[] getDataAsDoubleArray(final int quantityOfData) {
         int bytesNo= quantityOfData;
-        double[] result=new double[bytesNo];
-        double[] tempData=(double[])super.getDataBuffer();
-        int capacity=tempData.length;
+        final double[] result=new double[bytesNo];
+        final double[] tempData=(double[])super.getDataBuffer();
+        final int capacity=tempData.length;
         int tempOperatingIndex=super.getOperatingIndex();
         if (tempData!=null && capacity>0)
         {
@@ -55,7 +55,7 @@ public class EndlessWavStreamOperatingBuffer extends GenericWavFileBasedOperatin
         //System.out.println("result has ["+result.length+"] elements");
         return result;
     }
-    public void setDataFromByteArray(byte[] directData)
+    public void setDataFromByteArray(final byte[] directData)
     {
         super.setOperatingIndex(0);
         super.setDataBuffer(directData);

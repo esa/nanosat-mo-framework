@@ -13,27 +13,27 @@ import org.ccsds.moims.mo.mal.structures.IntegerList;
 public class CallableDeleteQuery extends CallableGenericQuery<Integer> {
     public static Logger LOGGER = Logger.getLogger(CallableDeleteQuery.class.getName());
 
-    public CallableDeleteQuery(TransactionsProcessor transactionsProcessor, IntegerList objTypeIds,
-            ArchiveQuery archiveQuery, IntegerList domainIds, Integer providerURIId, Integer networkId,
-            SourceLinkContainer sourceLink, QueryFilter filter) {
+    public CallableDeleteQuery(final TransactionsProcessor transactionsProcessor, final IntegerList objTypeIds,
+                               final ArchiveQuery archiveQuery, final IntegerList domainIds, final Integer providerURIId, final Integer networkId,
+                               final SourceLinkContainer sourceLink, final QueryFilter filter) {
         super(transactionsProcessor, objTypeIds, archiveQuery, domainIds, providerURIId, networkId, sourceLink, filter);
     }
 
     @Override
-    protected Integer innerCall(String queryString) {
+    protected Integer innerCall(final String queryString) {
         try {
-            Connection c = this.transactionsProcessor.dbBackend.getConnection();
-            Statement query = c.createStatement();
-            Integer result = query.executeUpdate(queryString);
+            final Connection c = this.transactionsProcessor.dbBackend.getConnection();
+            final Statement query = c.createStatement();
+            final Integer result = query.executeUpdate(queryString);
             return result;
-        } catch (SQLException ex) {
+        } catch (final SQLException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
         return 0;
     }
 
     @Override
-    protected String assembleQueryPrefix(String fieldsList) {
+    protected String assembleQueryPrefix(final String fieldsList) {
         return "DELETE FROM COMObjectEntity ";
     }
 

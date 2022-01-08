@@ -57,7 +57,7 @@ public class ParameterLister {
    * @throws SAXException
    * @throws IOException
    */
-  public ParameterLister(InputStream datapool)
+  public ParameterLister(final InputStream datapool)
       throws IOException, JAXBException, XMLStreamException {
     LOGGER.log(Level.INFO, "Loading OBSW parameters from datapool");
     this.parameterMap = readParameters(datapool);
@@ -82,22 +82,22 @@ public class ParameterLister {
    * @throws SAXException
    * @throws ParserConfigurationException
    */
-  private HashMap<Identifier, OBSWParameter> readParameters(InputStream datapool)
+  private HashMap<Identifier, OBSWParameter> readParameters(final InputStream datapool)
       throws IOException, JAXBException, XMLStreamException {
-    HashMap<Identifier, OBSWParameter> map = new HashMap<>();
+    final HashMap<Identifier, OBSWParameter> map = new HashMap<>();
 
-    XMLInputFactory xif = XMLInputFactory.newFactory();
-    XMLStreamReader xsr = xif.createXMLStreamReader(datapool);
+    final XMLInputFactory xif = XMLInputFactory.newFactory();
+    final XMLStreamReader xsr = xif.createXMLStreamReader(datapool);
 
-    JAXBContext jc = JAXBContext.newInstance(OBSWParameter.class);
-    Unmarshaller unmarshaller = jc.createUnmarshaller();
+    final JAXBContext jc = JAXBContext.newInstance(OBSWParameter.class);
+    final Unmarshaller unmarshaller = jc.createUnmarshaller();
 
     xsr.nextTag();
     while (xsr.hasNext()) {
       xsr.next();
 
       if (xsr.isStartElement() && xsr.getLocalName().equals("parameter")) {
-        OBSWParameter parameter = unmarshaller.unmarshal(xsr, OBSWParameter.class).getValue();
+        final OBSWParameter parameter = unmarshaller.unmarshal(xsr, OBSWParameter.class).getValue();
         map.put(new Identifier(parameter.getName()), parameter);
       }
     }

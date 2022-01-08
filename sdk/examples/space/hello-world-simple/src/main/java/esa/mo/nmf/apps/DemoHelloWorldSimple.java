@@ -63,14 +63,14 @@ public class DemoHelloWorldSimple
    */
   public static void main(final String[] args) throws Exception
   {
-    DemoHelloWorldSimple demo = new DemoHelloWorldSimple();
+    final DemoHelloWorldSimple demo = new DemoHelloWorldSimple();
   }
 
   public class MCAdapterSimple extends SimpleMonitorAndControlAdapter
   {
 
     @Override
-    public void initialRegistrations(MCRegistration registrationObject)
+    public void initialRegistrations(final MCRegistration registrationObject)
     {
       registrationObject.setMode(RegistrationMode.DONT_UPDATE_IF_EXISTS);
 
@@ -91,16 +91,16 @@ public class DemoHelloWorldSimple
       registrationObject.registerParameters(names, defs);
 
       // ------------------ Actions ------------------
-      ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
-      IdentifierList actionNames = new IdentifierList();
+      final ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
+      final IdentifierList actionNames = new IdentifierList();
 
-      ArgumentDefinitionDetailsList arguments1 = new ArgumentDefinitionDetailsList();
+      final ArgumentDefinitionDetailsList arguments1 = new ArgumentDefinitionDetailsList();
       {
-        Byte rawType = Attribute._DOUBLE_TYPE_SHORT_FORM;
-        String rawUnit = "-";
-        ConditionalConversionList conditionalConversions = null;
-        Byte convertedType = null;
-        String convertedUnit = null;
+        final Byte rawType = Attribute._DOUBLE_TYPE_SHORT_FORM;
+        final String rawUnit = "-";
+        final ConditionalConversionList conditionalConversions = null;
+        final Byte convertedType = null;
+        final String convertedUnit = null;
 
         arguments1.add(new ArgumentDefinitionDetails(new Identifier("1"), null,
                 rawType, rawUnit, conditionalConversions, convertedType, convertedUnit));
@@ -118,7 +118,7 @@ public class DemoHelloWorldSimple
     }
 
     @Override
-    public Serializable onGetValueSimple(String name)
+    public Serializable onGetValueSimple(final String name)
     {
       if (PARAMETER_NAME.equals(name)) {
         return var;
@@ -128,7 +128,7 @@ public class DemoHelloWorldSimple
     }
 
     @Override
-    public boolean onSetValueSimple(String name, Serializable value)
+    public boolean onSetValueSimple(final String name, final Serializable value)
     {
       if (PARAMETER_NAME.equals(name)) {
         var = value.toString();
@@ -139,8 +139,8 @@ public class DemoHelloWorldSimple
     }
 
     @Override
-    public boolean actionArrivedSimple(String name, Serializable[] values,
-        Long actionInstanceObjId)
+    public boolean actionArrivedSimple(final String name, final Serializable[] values,
+                                       final Long actionInstanceObjId)
     {
       if (ACTION_GO.equals(name)) {
         Logger.getLogger(DemoHelloWorldSimple.class.getName()).log(Level.INFO, "Action 'Go' activated. Success!");

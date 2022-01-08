@@ -20,10 +20,10 @@ public class Debayer_Image implements PlugInFilter {
   static int gauss_radius = 2;
   int algorithm;
 
-  public int setup(String arg, ImagePlus imp) {
+  public int setup(final String arg, final ImagePlus imp) {
     return setup(arg, imp, false);
   }
-  public int setup(String arg, ImagePlus imp, boolean nonDestructive) {
+  public int setup(final String arg, final ImagePlus imp, final boolean nonDestructive) {
     IJ.register(Debayer_Image.class);
     if (IJ.versionLessThan("1.32c"))
       return DONE;
@@ -36,16 +36,16 @@ public class Debayer_Image implements PlugInFilter {
     return DOES_16;
   }
 
-  public void run(ImageProcessor ip) {
+  public void run(final ImageProcessor ip) {
     width = image.getWidth();
     height = image.getHeight();
     ImageStack rgb = new ImageStack(width, height, image.getProcessor().getColorModel());
-    String[] orders = { "R-G-R-G", "B-G-B-G", "G-R-G-R", "G-B-G-B"
+    final String[] orders = { "R-G-R-G", "B-G-B-G", "G-R-G-R", "G-B-G-B"
     };
-    String[] algorithms = { "Replication", "Bilinear", "Smooth Hue", "Adaptive Smooth Hue"
+    final String[] algorithms = { "Replication", "Bilinear", "Smooth Hue", "Adaptive Smooth Hue"
     };
 
-    int row_order = 0; // Force "R-G-R-G"
+    final int row_order = 0; // Force "R-G-R-G"
     median = false;
     gauss = false;
     med_radius = (int) 2.0;
@@ -76,7 +76,7 @@ public class Debayer_Image implements PlugInFilter {
       IJ.run("Median...", "radius=" + gauss_radius + " stack");
     WindowManager.setTempCurrentImage(null);
 
-    RGBStackConverterOpt obj = new RGBStackConverterOpt();
+    final RGBStackConverterOpt obj = new RGBStackConverterOpt();
     obj.setImage(image);
     obj.run("");
   }
@@ -85,15 +85,15 @@ public class Debayer_Image implements PlugInFilter {
     return image;
   }
 
-  ImageStack replicate_decode(int row_order) { // Replication algorithm
+  ImageStack replicate_decode(final int row_order) { // Replication algorithm
     ip = image.getProcessor();
     width = image.getWidth();
     height = image.getHeight();
     int one = 0;
-    ImageStack rgb = new ImageStack(width, height, image.getProcessor().getColorModel());
-    ImageProcessor r = new ShortProcessor(width, height);
-    ImageProcessor g = new ShortProcessor(width, height);
-    ImageProcessor b = new ShortProcessor(width, height);
+    final ImageStack rgb = new ImageStack(width, height, image.getProcessor().getColorModel());
+    final ImageProcessor r = new ShortProcessor(width, height);
+    final ImageProcessor g = new ShortProcessor(width, height);
+    final ImageProcessor b = new ShortProcessor(width, height);
     // Short[] pixels = ip.getPixels();
 
     if (row_order == 0 || row_order == 1) {
@@ -196,7 +196,7 @@ public class Debayer_Image implements PlugInFilter {
 
   }
 
-  ImageStack average_decode(int row_order) { // Bilinear algorithm
+  ImageStack average_decode(final int row_order) { // Bilinear algorithm
     ip = image.getProcessor();
     width = image.getWidth();
     height = image.getHeight();
@@ -204,10 +204,10 @@ public class Debayer_Image implements PlugInFilter {
     int two = 0;
     int three = 0;
     int four = 0;
-    ImageStack rgb = new ImageStack(width, height, image.getProcessor().getColorModel());
-    ImageProcessor r = new ShortProcessor(width, height);
-    ImageProcessor g = new ShortProcessor(width, height);
-    ImageProcessor b = new ShortProcessor(width, height);
+    final ImageStack rgb = new ImageStack(width, height, image.getProcessor().getColorModel());
+    final ImageProcessor r = new ShortProcessor(width, height);
+    final ImageProcessor g = new ShortProcessor(width, height);
+    final ImageProcessor b = new ShortProcessor(width, height);
     // Short[] pixels = ip.getPixels();
 
     if (row_order == 0 || row_order == 1) {
@@ -342,7 +342,7 @@ public class Debayer_Image implements PlugInFilter {
 
   }
 
-  ImageStack smooth_decode(int row_order) { // Smooth Hue algorithm
+  ImageStack smooth_decode(final int row_order) { // Smooth Hue algorithm
     ip = image.getProcessor();
     width = image.getWidth();
     height = image.getHeight();
@@ -352,8 +352,8 @@ public class Debayer_Image implements PlugInFilter {
     double G4 = 0;
     double G5 = 0;
     double G6 = 0;
-    double G7 = 0;
-    double G8 = 0;
+    final double G7 = 0;
+    final double G8 = 0;
     double G9 = 0;
     double B1 = 0;
     double B2 = 0;
@@ -363,10 +363,10 @@ public class Debayer_Image implements PlugInFilter {
     double R2 = 0;
     double R3 = 0;
     double R4 = 0;
-    ImageStack rgb = new ImageStack(width, height, image.getProcessor().getColorModel());
-    ImageProcessor r = new ShortProcessor(width, height);
-    ImageProcessor g = new ShortProcessor(width, height);
-    ImageProcessor b = new ShortProcessor(width, height);
+    final ImageStack rgb = new ImageStack(width, height, image.getProcessor().getColorModel());
+    final ImageProcessor r = new ShortProcessor(width, height);
+    final ImageProcessor g = new ShortProcessor(width, height);
+    final ImageProcessor b = new ShortProcessor(width, height);
     // Short[] pixels = ip.getPixels();
 
     if (row_order == 0 || row_order == 1) {
@@ -590,7 +590,7 @@ public class Debayer_Image implements PlugInFilter {
 
   }
 
-  ImageStack adaptive_decode(int row_order) { // Adaptive Smooth Hue algorithm (Edge detecting)
+  ImageStack adaptive_decode(final int row_order) { // Adaptive Smooth Hue algorithm (Edge detecting)
     ip = image.getProcessor();
     width = image.getWidth();
     height = image.getHeight();
@@ -600,14 +600,14 @@ public class Debayer_Image implements PlugInFilter {
     double G4 = 0;
     double G5 = 0;
     double G6 = 0;
-    double G7 = 0;
-    double G8 = 0;
+    final double G7 = 0;
+    final double G8 = 0;
     double G9 = 0;
     double B1 = 0;
     double B2 = 0;
     double B3 = 0;
     double B4 = 0;
-    double B5 = 0;
+    final double B5 = 0;
     double R1 = 0;
     double R2 = 0;
     double R3 = 0;
@@ -617,10 +617,10 @@ public class Debayer_Image implements PlugInFilter {
     double S = 0;
     double E = 0;
     double W = 0;
-    ImageStack rgb = new ImageStack(width, height, image.getProcessor().getColorModel());
-    ImageProcessor r = new ShortProcessor(width, height);
-    ImageProcessor g = new ShortProcessor(width, height);
-    ImageProcessor b = new ShortProcessor(width, height);
+    final ImageStack rgb = new ImageStack(width, height, image.getProcessor().getColorModel());
+    final ImageProcessor r = new ShortProcessor(width, height);
+    final ImageProcessor g = new ShortProcessor(width, height);
+    final ImageProcessor b = new ShortProcessor(width, height);
     // Short[] pixels = ip.getPixels();
 
     if (row_order == 0 || row_order == 1) {

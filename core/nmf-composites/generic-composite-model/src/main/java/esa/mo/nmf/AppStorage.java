@@ -66,11 +66,11 @@ public class AppStorage {
      * @return The cache directory for this app.
      */
     public static File getAppCacheDir() {
-        StringBuilder path = pathToUserAppDir();
+        final StringBuilder path = pathToUserAppDir();
         path.append(FOLDER_CACHE);
 
         // Create it if it does not exist...
-        File directory = new File(path.toString());
+        final File directory = new File(path.toString());
         AppStorage.mkDirAndSetPermissions(directory);
         return directory;
     }
@@ -83,11 +83,11 @@ public class AppStorage {
      * @return The NMF internal data directory for this app.
      */
     public static File getAppNMFInternalDir() {
-        StringBuilder path = pathToUserAppDir();
+        final StringBuilder path = pathToUserAppDir();
         path.append(FOLDER_NMF_INTERNAL);
 
         // Create it if it does not exist...
-        File directory = new File(path.toString());
+        final File directory = new File(path.toString());
         AppStorage.mkDirAndSetPermissions(directory);
         return directory;
     }
@@ -105,17 +105,17 @@ public class AppStorage {
      * @return The userdata directory for this app.
      */
     public static File getAppUserdataDir() {
-        StringBuilder path = pathToUserAppDir();
+        final StringBuilder path = pathToUserAppDir();
         path.append(FOLDER_USERDATA);
 
         // Create it if it does not exist...
-        File directory = new File(path.toString());
+        final File directory = new File(path.toString());
         AppStorage.mkDirAndSetPermissions(directory);
         return directory;
     }
 
     private static StringBuilder pathToUserAppDir() {
-        StringBuilder path = new StringBuilder();
+        final StringBuilder path = new StringBuilder();
         path.append(System.getProperty("user.home"));
         path.append(File.separator);
         path.append(FOLDER_USER_NMF_DIR);
@@ -124,12 +124,12 @@ public class AppStorage {
         path.append(File.separator);
 
         // Create it if it does not exist...
-        File directory = new File(path.toString());
+        final File directory = new File(path.toString());
         AppStorage.mkDirAndSetPermissions(directory);
         return path;
     }
 
-    private static void mkDirAndSetPermissions(File directory) {
+    private static void mkDirAndSetPermissions(final File directory) {
         if (!directory.exists()) {
             directory.mkdirs();
             directory.setExecutable(false, false);

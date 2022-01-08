@@ -34,7 +34,7 @@ import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetails;
  */
 public class ConfigurationTablePanel extends SharedTablePanel {
 
-    public ConfigurationTablePanel(ArchiveConsumerServiceImpl archiveService) {
+    public ConfigurationTablePanel(final ArchiveConsumerServiceImpl archiveService) {
         super(archiveService);
     }
 
@@ -42,11 +42,11 @@ public class ConfigurationTablePanel extends SharedTablePanel {
     public void addEntry(final Identifier name, final ArchivePersistenceObject comObject) {
         try {
             semaphore.acquire();
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        ActionDefinitionDetails pDef = (ActionDefinitionDetails) comObject.getObject();
+        final ActionDefinitionDetails pDef = (ActionDefinitionDetails) comObject.getObject();
 
         tableData.addRow(new Object[]{
             comObject.getArchiveDetails().getInstId(),
@@ -62,7 +62,7 @@ public class ConfigurationTablePanel extends SharedTablePanel {
 
     @Override
     public void defineTableContent() {
-        String[] tableCol = new String[]{
+        final String[] tableCol = new String[]{
             "Configuration Type", "description"
         };
 
@@ -73,12 +73,12 @@ public class ConfigurationTablePanel extends SharedTablePanel {
             };
 
             @Override               //all cells false
-            public boolean isCellEditable(int row, int column) {
+            public boolean isCellEditable(final int row, final int column) {
                 return false;
             }
 
             @Override
-            public Class getColumnClass(int columnIndex) {
+            public Class getColumnClass(final int columnIndex) {
                 return types[columnIndex];
             }
         };

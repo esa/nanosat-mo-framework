@@ -52,10 +52,10 @@ public class AppInteraction implements MALInteraction {
     }
 
     @Override
-    public void setQoSProperty(String name, Object value) throws IllegalArgumentException {}
+    public void setQoSProperty(final String name, final Object value) throws IllegalArgumentException {}
 
     @Override
-    public Object getQoSProperty(String name) throws IllegalArgumentException {
+    public Object getQoSProperty(final String name) throws IllegalArgumentException {
         return null;
     }
 
@@ -73,7 +73,7 @@ class AppMessageHeader implements MALMessageHeader {
     }
 
     @Override
-    public void setURIFrom(URI newValue) {
+    public void setURIFrom(final URI newValue) {
         // TODO Auto-generated method stub
 
     }
@@ -85,7 +85,7 @@ class AppMessageHeader implements MALMessageHeader {
     }
 
     @Override
-    public void setAuthenticationId(Blob newValue) {
+    public void setAuthenticationId(final Blob newValue) {
         // TODO Auto-generated method stub
 
     }
@@ -97,7 +97,7 @@ class AppMessageHeader implements MALMessageHeader {
     }
 
     @Override
-    public void setURITo(URI newValue) {
+    public void setURITo(final URI newValue) {
         // TODO Auto-generated method stub
 
     }
@@ -109,7 +109,7 @@ class AppMessageHeader implements MALMessageHeader {
     }
 
     @Override
-    public void setTimestamp(Time newValue) {
+    public void setTimestamp(final Time newValue) {
         // TODO Auto-generated method stub
 
     }
@@ -127,7 +127,7 @@ class AppMessageHeader implements MALMessageHeader {
     }
 
     @Override
-    public void setPriority(UInteger newValue) {
+    public void setPriority(final UInteger newValue) {
         // TODO Auto-generated method stub
 
     }
@@ -139,7 +139,7 @@ class AppMessageHeader implements MALMessageHeader {
     }
 
     @Override
-    public void setDomain(IdentifierList newValue) {
+    public void setDomain(final IdentifierList newValue) {
         // TODO Auto-generated method stub
 
     }
@@ -150,7 +150,7 @@ class AppMessageHeader implements MALMessageHeader {
     }
 
     @Override
-    public void setNetworkZone(Identifier newValue) {
+    public void setNetworkZone(final Identifier newValue) {
         // TODO Auto-generated method stub
 
     }
@@ -162,7 +162,7 @@ class AppMessageHeader implements MALMessageHeader {
     }
 
     @Override
-    public void setSession(SessionType newValue) {
+    public void setSession(final SessionType newValue) {
         // TODO Auto-generated method stub
 
     }
@@ -174,7 +174,7 @@ class AppMessageHeader implements MALMessageHeader {
     }
 
     @Override
-    public void setSessionName(Identifier newValue) {
+    public void setSessionName(final Identifier newValue) {
         // TODO Auto-generated method stub
 
     }
@@ -186,7 +186,7 @@ class AppMessageHeader implements MALMessageHeader {
     }
 
     @Override
-    public void setInteractionType(InteractionType newValue) {
+    public void setInteractionType(final InteractionType newValue) {
         // TODO Auto-generated method stub
 
     }
@@ -198,7 +198,7 @@ class AppMessageHeader implements MALMessageHeader {
     }
 
     @Override
-    public void setInteractionStage(UOctet newValue) {
+    public void setInteractionStage(final UOctet newValue) {
         // TODO Auto-generated method stub
 
     }
@@ -210,7 +210,7 @@ class AppMessageHeader implements MALMessageHeader {
     }
 
     @Override
-    public void setTransactionId(Long newValue) {
+    public void setTransactionId(final Long newValue) {
         // TODO Auto-generated method stub
 
     }
@@ -222,7 +222,7 @@ class AppMessageHeader implements MALMessageHeader {
     }
 
     @Override
-    public void setServiceArea(UShort newValue) {
+    public void setServiceArea(final UShort newValue) {
         // TODO Auto-generated method stub
 
     }
@@ -234,7 +234,7 @@ class AppMessageHeader implements MALMessageHeader {
     }
 
     @Override
-    public void setService(UShort newValue) {
+    public void setService(final UShort newValue) {
         // TODO Auto-generated method stub
 
     }
@@ -246,7 +246,7 @@ class AppMessageHeader implements MALMessageHeader {
     }
 
     @Override
-    public void setOperation(UShort newValue) {
+    public void setOperation(final UShort newValue) {
         // TODO Auto-generated method stub
 
     }
@@ -258,7 +258,7 @@ class AppMessageHeader implements MALMessageHeader {
     }
 
     @Override
-    public void setAreaVersion(UOctet newValue) {
+    public void setAreaVersion(final UOctet newValue) {
         // TODO Auto-generated method stub
 
     }
@@ -270,13 +270,13 @@ class AppMessageHeader implements MALMessageHeader {
     }
 
     @Override
-    public void setIsErrorMessage(Boolean newValue) {
+    public void setIsErrorMessage(final Boolean newValue) {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void setQoSlevel(QoSLevel arg0) {
+    public void setQoSlevel(final QoSLevel arg0) {
         // TODO Auto-generated method stub
     }
 }

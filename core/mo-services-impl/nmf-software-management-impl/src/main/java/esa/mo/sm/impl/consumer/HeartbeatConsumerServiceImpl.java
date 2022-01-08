@@ -66,17 +66,17 @@ public class HeartbeatConsumerServiceImpl extends ConsumerServiceImpl {
     }
 
     @Override
-    public Object generateServiceStub(MALConsumer tmConsumer) {
+    public Object generateServiceStub(final MALConsumer tmConsumer) {
         return new HeartbeatStub(tmConsumer);
     }
 
-    public HeartbeatConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
+    public HeartbeatConsumerServiceImpl(final SingleConnectionDetails connectionDetails, final COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
         this(connectionDetails, comServices, null, null);
     }
 
-    public HeartbeatConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices,
-                                        Blob authenticationId,
-                                        String localNamePrefix) throws MALException, MalformedURLException, MALInteractionException {
+    public HeartbeatConsumerServiceImpl(final SingleConnectionDetails connectionDetails, final COMServicesConsumer comServices,
+                                        final Blob authenticationId,
+                                        final String localNamePrefix) throws MALException, MalformedURLException, MALInteractionException {
 
         if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
             MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -103,7 +103,7 @@ public class HeartbeatConsumerServiceImpl extends ConsumerServiceImpl {
         if (tmConsumer != null) {
             try {
                 tmConsumer.close();
-            } catch (MALException ex) {
+            } catch (final MALException ex) {
                 Logger.getLogger(HeartbeatConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -131,7 +131,7 @@ public class HeartbeatConsumerServiceImpl extends ConsumerServiceImpl {
             heartbeatSubscription = ConnectionConsumer.subscriptionWildcardRandom();
             try {
                 heartbeatService.beatRegister(heartbeatSubscription, adapter);
-            } catch (MALInteractionException | MALException ex) {
+            } catch (final MALInteractionException | MALException ex) {
                 Logger.getLogger(HeartbeatConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -147,10 +147,10 @@ public class HeartbeatConsumerServiceImpl extends ConsumerServiceImpl {
     public void stopListening() {
         if (heartbeatSubscription != null) {
             try {
-                IdentifierList ids = new IdentifierList();
+                final IdentifierList ids = new IdentifierList();
                 ids.add(heartbeatSubscription.getSubscriptionId());
                 heartbeatService.beatDeregister(ids);
-            } catch (MALInteractionException | MALException ex) {
+            } catch (final MALInteractionException | MALException ex) {
                 Logger.getLogger(HeartbeatConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

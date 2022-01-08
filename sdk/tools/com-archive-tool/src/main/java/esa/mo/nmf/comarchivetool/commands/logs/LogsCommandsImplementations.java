@@ -64,38 +64,38 @@ public class LogsCommandsImplementations {
      *        provided without the -s option, returns the single object that has the closest time
      *        stamp to, but not greater than endTime.
      */
-    public static void listLogs(String databaseFile, String providerURI, String domainId,
-                                String startTime, String endTime) {
+    public static void listLogs(final String databaseFile, final String providerURI, final String domainId,
+                                final String startTime, final String endTime) {
         // Query all objects from SoftwareManagement area filtering for
         // StandardOutput and StandardError events and App object is done in the query adapter
-        ObjectType objectsTypes =
+        final ObjectType objectsTypes =
                 new ObjectType(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER, new UShort(0),
                                SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION, new UShort(0));
 
-        LocalOrRemoteConsumer consumers = createConsumer(providerURI, databaseFile);
-        ArchiveConsumerServiceImpl localConsumer = consumers.getLocalConsumer();
-        NMFConsumer remoteConsumer = consumers.getRemoteConsumer();
+        final LocalOrRemoteConsumer consumers = createConsumer(providerURI, databaseFile);
+        final ArchiveConsumerServiceImpl localConsumer = consumers.getLocalConsumer();
+        final NMFConsumer remoteConsumer = consumers.getRemoteConsumer();
 
         // prepare domain, time and object id filters
-        IdentifierList domain = domainId == null ? null : HelperMisc.domainId2domain(domainId);
-        ArchiveQueryList archiveQueryList = new ArchiveQueryList();
-        FineTime startTimeF = startTime == null ? null : HelperTime.readableString2FineTime(startTime);
-        FineTime endTimeF = endTime == null ? null : HelperTime.readableString2FineTime(endTime);
-        ArchiveQuery archiveQuery =
+        final IdentifierList domain = domainId == null ? null : HelperMisc.domainId2domain(domainId);
+        final ArchiveQueryList archiveQueryList = new ArchiveQueryList();
+        final FineTime startTimeF = startTime == null ? null : HelperTime.readableString2FineTime(startTime);
+        final FineTime endTimeF = endTime == null ? null : HelperTime.readableString2FineTime(endTime);
+        final ArchiveQuery archiveQuery =
                 new ArchiveQuery(domain, null, null, 0L, null, startTimeF, endTimeF, null, null);
         archiveQueryList.add(archiveQuery);
 
         // execute query
-        ArchiveToAppListAdapter adapter = new ArchiveToAppListAdapter();
+        final ArchiveToAppListAdapter adapter = new ArchiveToAppListAdapter();
         queryArchive(objectsTypes, archiveQueryList, adapter, adapter, remoteConsumer == null ? localConsumer : remoteConsumer.getCOMServices().getArchiveService());
 
         // Display list of NMF apps that have logs
-        ArrayList<String> appsWithLogs = adapter.getAppWithLogs();
+        final ArrayList<String> appsWithLogs = adapter.getAppWithLogs();
         if (appsWithLogs.size() <= 0) {
             System.out.println("No NMF apps with logs found in the provided archive");
         } else {
             System.out.println("Found the following NMF apps with logs: ");
-            for (String appName : appsWithLogs) {
+            for (final String appName : appsWithLogs) {
                 System.out.println("\t - " + appName);
             }
         }
@@ -115,27 +115,27 @@ public class LogsCommandsImplementations {
      *        stamp to, but not greater than endTime.
      * @param logFile target LOG file
      */
-    public static void getLogs(String databaseFile, String providerURI, String appName,
-                               String domainId, String startTime, String endTime, String logFile, boolean addTimestamps) {
+    public static void getLogs(final String databaseFile, final String providerURI, final String appName,
+                               final String domainId, final String startTime, final String endTime, final String logFile, final boolean addTimestamps) {
         // Query all objects from SoftwareManagement area and CommandExecutor service,
         // filtering for StandardOutput and StandardError events is done in the query adapter
-        ObjectType outputObjectTypes =
+        final ObjectType outputObjectTypes =
                 new ObjectType(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER,
                                CommandExecutorHelper.COMMANDEXECUTOR_SERVICE_NUMBER,
                                SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION, new UShort(0));
 
-        ObjectType eventObjectTypes =
+        final ObjectType eventObjectTypes =
                 new ObjectType(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER,
                                AppsLauncherHelper.APPSLAUNCHER_SERVICE_NUMBER,
                                SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION, new UShort(0));
 
-        LocalOrRemoteConsumer consumers = createConsumer(providerURI, databaseFile, appName);
-        ArchiveConsumerServiceImpl localConsumer = consumers.getLocalConsumer();
-        NMFConsumer remoteConsumer = consumers.getRemoteConsumer();
+        final LocalOrRemoteConsumer consumers = createConsumer(providerURI, databaseFile, appName);
+        final ArchiveConsumerServiceImpl localConsumer = consumers.getLocalConsumer();
+        final NMFConsumer remoteConsumer = consumers.getRemoteConsumer();
 
         // Query archive for the App object id
-        IdentifierList domain = domainId == null ? null : HelperMisc.domainId2domain(domainId);
-        ObjectId appObjectId = getAppObjectId(appName, domain, remoteConsumer == null ? localConsumer : remoteConsumer.getCOMServices().getArchiveService());
+        final IdentifierList domain = domainId == null ? null : HelperMisc.domainId2domain(domainId);
+        final ObjectId appObjectId = getAppObjectId(appName, domain, remoteConsumer == null ? localConsumer : remoteConsumer.getCOMServices().getArchiveService());
 
         if (appObjectId == null) {
             if (databaseFile == null) {
@@ -150,19 +150,19 @@ public class LogsCommandsImplementations {
         }
 
         // prepare domain, time and object id filters
-        ArchiveQueryList archiveQueryList = new ArchiveQueryList();
-        FineTime startTimeF = startTime == null ? null : HelperTime.readableString2FineTime(startTime);
-        FineTime endTimeF = endTime == null ? null : HelperTime.readableString2FineTime(endTime);
-        ArchiveQuery outputArchiveQuery = new ArchiveQuery(domain, null, null, 0L, appObjectId,
+        final ArchiveQueryList archiveQueryList = new ArchiveQueryList();
+        final FineTime startTimeF = startTime == null ? null : HelperTime.readableString2FineTime(startTime);
+        final FineTime endTimeF = endTime == null ? null : HelperTime.readableString2FineTime(endTime);
+        final ArchiveQuery outputArchiveQuery = new ArchiveQuery(domain, null, null, 0L, appObjectId,
                                                      startTimeF, endTimeF, null, null);
         archiveQueryList.add(outputArchiveQuery);
 
         // execute query
-        ArchiveToLogAdapter adapter = new ArchiveToLogAdapter(logFile, addTimestamps);
+        final ArchiveToLogAdapter adapter = new ArchiveToLogAdapter(logFile, addTimestamps);
         queryArchive(outputObjectTypes, archiveQueryList, adapter, adapter, remoteConsumer == null ? localConsumer : remoteConsumer.getCOMServices().getArchiveService());
 
         archiveQueryList.clear();
-        ArchiveQuery eventArchiveQuery = new ArchiveQuery(domain, null, null, appObjectId.getKey().getInstId(), null,
+        final ArchiveQuery eventArchiveQuery = new ArchiveQuery(domain, null, null, appObjectId.getKey().getInstId(), null,
                                                            startTimeF, endTimeF, null, null);
         archiveQueryList.add(eventArchiveQuery);
         adapter.resetAdapter();

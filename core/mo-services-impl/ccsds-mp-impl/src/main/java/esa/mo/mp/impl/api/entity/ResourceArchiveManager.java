@@ -45,7 +45,7 @@ import esa.mo.mp.impl.com.pattern.COMStateArchiveManager;
  */
 public class ResourceArchiveManager extends COMStateArchiveManager<ResourceIdentityDetails, ResourceIdentityDetailsList, ResourceDefinitionDetails, ResourceDefinitionDetailsList, ResourceUpdateDetails, ResourceUpdateDetailsList> {
 
-    public ResourceArchiveManager(COMServicesProvider comServices, COMConfiguration configuration) {
+    public ResourceArchiveManager(final COMServicesProvider comServices, final COMConfiguration configuration) {
         super(comServices, configuration);
     }
 
@@ -61,19 +61,19 @@ public class ResourceArchiveManager extends COMStateArchiveManager<ResourceIdent
         return super.listAllStatusIds(PlanEditHelper.RESOURCEUPDATE_OBJECT_TYPE);
     }
 
-    public ObjectId getIdentityId(Identifier identity) {
+    public ObjectId getIdentityId(final Identifier identity) {
         return super.getIdentityId(identity, PlanInformationManagementHelper.RESOURCEIDENTITY_OBJECT_TYPE);
     }
 
-    public ObjectIdList getIdentityIds(IdentifierList identities) {
+    public ObjectIdList getIdentityIds(final IdentifierList identities) {
         return super.getIdentityIds(identities, PlanInformationManagementHelper.RESOURCEIDENTITY_OBJECT_TYPE);
     }
 
-    public ResourceDefinitionDetails getDefinition(Identifier identity) {
+    public ResourceDefinitionDetails getDefinition(final Identifier identity) {
         return super.getDefinition(identity, PlanInformationManagementHelper.RESOURCEIDENTITY_OBJECT_TYPE);
     }
 
-    public ResourceDefinitionDetailsList getDefinitions(IdentifierList identities) {
+    public ResourceDefinitionDetailsList getDefinitions(final IdentifierList identities) {
         return super.getDefinitions(identities, PlanInformationManagementHelper.RESOURCEIDENTITY_OBJECT_TYPE);
     }
 }

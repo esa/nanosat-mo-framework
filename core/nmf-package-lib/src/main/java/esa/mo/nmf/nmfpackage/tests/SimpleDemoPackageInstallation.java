@@ -42,12 +42,12 @@ public class SimpleDemoPackageInstallation {
     }
 
     public static void installPackage() {
-        String packagePath = "TBD";
-        String destinationFolder = "TBD";
+        final String packagePath = "TBD";
+        final String destinationFolder = "TBD";
         
         try {
             NMFPackageManager.install(packagePath, new File(destinationFolder));
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             Logger.getLogger(SimpleDemoPackageInstallation.class.getName()).log(
                     Level.SEVERE, "The package could not be installed!", ex);
         }

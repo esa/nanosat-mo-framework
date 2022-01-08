@@ -49,28 +49,28 @@ public class BlankApp {
      * @throws java.lang.Exception If there is an error
      */
     public static void main(final String[] args) throws Exception {
-        BlankApp demo = new BlankApp();
+        final BlankApp demo = new BlankApp();
     }
 
     public class MCAdapter extends MonitorAndControlNMFAdapter {
 
         @Override
-        public void initialRegistrations(MCRegistration registrationObject) {
+        public void initialRegistrations(final MCRegistration registrationObject) {
         }
 
         @Override
-        public Attribute onGetValue(Identifier identifier, Byte rawType) {
+        public Attribute onGetValue(final Identifier identifier, final Byte rawType) {
             return null;
         }
 
         @Override
-        public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
+        public Boolean onSetValue(final IdentifierList identifiers, final ParameterRawValueList values) {
             return false;
         }
 
         @Override
-        public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
-                Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
+        public UInteger actionArrived(final Identifier name, final AttributeValueList attributeValues,
+                                      final Long actionInstanceObjId, final boolean reportProgress, final MALInteraction interaction) {
             return null;
         }
     }

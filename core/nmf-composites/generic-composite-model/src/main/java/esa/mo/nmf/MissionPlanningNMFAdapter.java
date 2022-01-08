@@ -33,7 +33,7 @@ public abstract class MissionPlanningNMFAdapter {
 
     private MPArchiveManager archiveManager = null;
 
-    public void setArchiveManager(MPArchiveManager archiveManager) {
+    public void setArchiveManager(final MPArchiveManager archiveManager) {
         this.archiveManager = archiveManager;
     }
 

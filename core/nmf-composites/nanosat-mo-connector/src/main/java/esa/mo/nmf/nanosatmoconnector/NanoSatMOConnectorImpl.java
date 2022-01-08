@@ -99,7 +99,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
         try { // Use the folder name
             appName = (new File((new File("")).getCanonicalPath())).getName();
             System.setProperty(HelperMisc.PROP_MO_APP_NAME, appName);
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             LOGGER.log(Level.SEVERE,
                     "The NMF App name could not be established.");
         }
@@ -109,7 +109,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
         try {
             comServices.init();
             comServices.initArchiveSync();
-        } catch (MALException ex) {
+        } catch (final MALException ex) {
             LOGGER.log(Level.SEVERE,
                     "The services could not be initialized. "
                     + "Perhaps there's something wrong with the Transport Layer.", ex);
@@ -140,9 +140,9 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                 // Connect to the Central Directory service...
                 centralDirectory = new DirectoryConsumerServiceImpl(centralDirectoryURI);
 
-                IdentifierList domain = new IdentifierList();
+                final IdentifierList domain = new IdentifierList();
                 domain.add(new Identifier("*"));
-                COMService eventCOM = EventHelper.EVENT_SERVICE; // Filter for the Event service of the Supervisor
+                final COMService eventCOM = EventHelper.EVENT_SERVICE; // Filter for the Event service of the Supervisor
                 final ServiceKey serviceKey = new ServiceKey(eventCOM.getArea().getNumber(),
                         eventCOM.getNumber(), eventCOM.getArea().getVersion());
                 final ServiceFilter sf = new ServiceFilter(
@@ -159,7 +159,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                     // Convert provider to connectionDetails...
                     final SingleConnectionDetails connectionDetails = AppsLauncherManager.getSingleConnectionDetailsFromProviderSummaryList(supervisorEventServiceConnectionDetails);
                     serviceCOMEvent = new EventConsumerServiceImpl(connectionDetails);
-                } catch (IOException | MALException | MALInteractionException ex) {
+                } catch (final IOException | MALException | MALInteractionException ex) {
                     LOGGER.log(Level.SEVERE,
                             "Could not retrieve supervisor COM Event service details from the Central Directory.", ex);
                 }
@@ -204,7 +204,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
 
                     // Connect to them...
                     platformServices = new PlatformServicesConsumer();
-                    COMServicesConsumer comServicesConsumer = new COMServicesConsumer();
+                    final COMServicesConsumer comServicesConsumer = new COMServicesConsumer();
                     comServicesConsumer.init(supervisorCCPlat);
                     platformServices.init(supervisorCCPlat, comServicesConsumer);
                     initClockService();
@@ -216,9 +216,9 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                             "The NanoSat MO Connector was expecting a single NMF Platform services provider!"
                             + " Instead it found {0}.", supervisorConnections.size());
                 }
-            } catch (MALException | MalformedURLException ex) {
+            } catch (final MALException | MalformedURLException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
+            } catch (final MALInteractionException ex) {
                 LOGGER.log(Level.SEVERE,
                         "Could not connect to the Central Directory service! Maybe it is down...");
             }
@@ -229,7 +229,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
             this.startMCServices(mcAdapter);
             directoryService.init(comServices);
             heartbeatService.init();
-        } catch (MALException ex) {
+        } catch (final MALException ex) {
             LOGGER.log(Level.SEVERE,
                     "The services could not be initialized. "
                     + "Perhaps there's something wrong with the Transport Layer.", ex);
@@ -241,7 +241,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
         // Populate the local Directory service with the entries from the URIs File
         LOGGER.log(Level.INFO,
                 "Populating local Directory service...");
-        PublishDetails publishDetails = directoryService.loadURIs(this.providerName);
+        final PublishDetails publishDetails = directoryService.loadURIs(this.providerName);
 
         // Populate the provider list of services in the Central Directory service
         if (centralDirectoryURI != null) {
@@ -256,9 +256,9 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                     LOGGER.log(Level.INFO,
                             "Populated! And the connection to the Directory service has been successfully closed!");
                 }
-            } catch (MALException ex) {
+            } catch (final MALException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
+            } catch (final MALInteractionException ex) {
                 LOGGER.log(Level.SEVERE,
                         "Could not connect to the Central Directory service! Maybe it is down...");
             }
@@ -277,13 +277,13 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
 
             try {
                 super.providerConfiguration.loadPreviousConfigurations();
-            } catch (IOException ex) {
+            } catch (final IOException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
             }
         }
 
         if (mcAdapter != null) {
-            MCRegistration registration = new MCRegistration(comServices, mcServices.getParameterService(),
+            final MCRegistration registration = new MCRegistration(comServices, mcServices.getParameterService(),
                     mcServices.getAggregationService(), mcServices.getAlertService(), mcServices.getActionService());
             mcAdapter.initialRegistrations(registration);
         }
@@ -309,7 +309,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
         try { // Use the folder name
             appName = (new File((new File("")).getCanonicalPath())).getName();
             System.setProperty(HelperMisc.PROP_MO_APP_NAME, appName);
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             LOGGER.log(Level.SEVERE, "The NMF App name could not be established.");
         }
 
@@ -318,7 +318,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
         try {
             comServices.init();
             comServices.initArchiveSync();
-        } catch (MALException ex) {
+        } catch (final MALException ex) {
             LOGGER.log(Level.SEVERE,
                     "The services could not be initialized. "
                     + "Perhaps there's something wrong with the Transport Layer.", ex);
@@ -328,7 +328,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
         try {
             this.startMPServices(mpAdapter);
             directoryService.init(comServices);
-        } catch (MALException ex) {
+        } catch (final MALException ex) {
             LOGGER.log(Level.SEVERE,
                     "The services could not be initialized. "
                     + "Perhaps there's something wrong with the Transport Layer.", ex);
@@ -352,13 +352,13 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
 
             try {
                 super.providerConfiguration.loadPreviousConfigurations();
-            } catch (IOException ex) {
+            } catch (final IOException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
             }
         }
 
         if (mpAdapter != null) {
-            MPRegistration registration = new MPRegistration(comServices, mpServices.getOperationCallbackManager());
+            final MPRegistration registration = new MPRegistration(comServices, mpServices.getOperationCallbackManager());
             mpAdapter.setArchiveManager(mpServices.getArchiveManager());
             mpAdapter.initialRegistrations(registration);
         }
@@ -382,7 +382,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
         try { // Use the folder name
             appName = (new File((new File("")).getCanonicalPath())).getName();
             System.setProperty(HelperMisc.PROP_MO_APP_NAME, appName);
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             LOGGER.log(Level.SEVERE,
                     "The NMF App name could not be established.");
         }
@@ -392,7 +392,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
         try {
             comServices.init();
             comServices.initArchiveSync();
-        } catch (MALException ex) {
+        } catch (final MALException ex) {
             LOGGER.log(Level.SEVERE,
                     "The services could not be initialized. "
                     + "Perhaps there's something wrong with the Transport Layer.", ex);
@@ -423,9 +423,9 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                 // Connect to the Central Directory service...
                 centralDirectory = new DirectoryConsumerServiceImpl(centralDirectoryURI);
 
-                IdentifierList domain = new IdentifierList();
+                final IdentifierList domain = new IdentifierList();
                 domain.add(new Identifier("*"));
-                COMService eventCOM = EventHelper.EVENT_SERVICE; // Filter for the Event service of the Supervisor
+                final COMService eventCOM = EventHelper.EVENT_SERVICE; // Filter for the Event service of the Supervisor
                 final ServiceKey serviceKey = new ServiceKey(eventCOM.getArea().getNumber(),
                         eventCOM.getNumber(), eventCOM.getArea().getVersion());
                 final ServiceFilter sf = new ServiceFilter(
@@ -442,7 +442,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                     // Convert provider to connectionDetails...
                     final SingleConnectionDetails connectionDetails = AppsLauncherManager.getSingleConnectionDetailsFromProviderSummaryList(supervisorEventServiceConnectionDetails);
                     serviceCOMEvent = new EventConsumerServiceImpl(connectionDetails);
-                } catch (IOException | MALException | MALInteractionException ex) {
+                } catch (final IOException | MALException | MALInteractionException ex) {
                     LOGGER.log(Level.SEVERE,
                             "Could not retrieve supervisor COM Event service details from the Central Directory.", ex);
                 }
@@ -488,7 +488,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
 
                     // Connect to them...
                     platformServices = new PlatformServicesConsumer();
-                    COMServicesConsumer comServicesConsumer = new COMServicesConsumer();
+                    final COMServicesConsumer comServicesConsumer = new COMServicesConsumer();
                     comServicesConsumer.init(supervisorCCPlat);
                     platformServices.init(supervisorCCPlat, comServicesConsumer);
                     initClockService();
@@ -500,11 +500,11 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                             "The NanoSat MO Connector was expecting a single NMF Platform services provider!"
                             + " Instead it found {0}.", supervisorConnections.size());
                 }
-            } catch (MALException ex) {
+            } catch (final MALException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
-            } catch (MalformedURLException ex) {
+            } catch (final MalformedURLException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
+            } catch (final MALInteractionException ex) {
                 LOGGER.log(Level.SEVERE,
                         "Could not connect to the Central Directory service! Maybe it is down...");
             }
@@ -516,7 +516,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
             this.startMPServices(mpAdapter);
             directoryService.init(comServices);
             heartbeatService.init();
-        } catch (MALException ex) {
+        } catch (final MALException ex) {
             LOGGER.log(Level.SEVERE,
                     "The services could not be initialized. "
                     + "Perhaps there's something wrong with the Transport Layer.", ex);
@@ -528,7 +528,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
         // Populate the local Directory service with the entries from the URIs File
         LOGGER.log(Level.INFO,
                 "Populating local Directory service...");
-        PublishDetails publishDetails = directoryService.loadURIs(this.providerName);
+        final PublishDetails publishDetails = directoryService.loadURIs(this.providerName);
 
         // Populate the provider list of services in the Central Directory service
         if (centralDirectoryURI != null) {
@@ -543,9 +543,9 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                     LOGGER.log(Level.INFO,
                             "Populated! And the connection to the Directory service has been successfully closed!");
                 }
-            } catch (MALException ex) {
+            } catch (final MALException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
+            } catch (final MALInteractionException ex) {
                 LOGGER.log(Level.SEVERE,
                         "Could not connect to the Central Directory service! Maybe it is down...");
             }
@@ -564,19 +564,19 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
 
             try {
                 super.providerConfiguration.loadPreviousConfigurations();
-            } catch (IOException ex) {
+            } catch (final IOException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
             }
         }
 
         if (mcAdapter != null) {
-            MCRegistration registration = new MCRegistration(comServices, mcServices.getParameterService(),
+            final MCRegistration registration = new MCRegistration(comServices, mcServices.getParameterService(),
                     mcServices.getAggregationService(), mcServices.getAlertService(), mcServices.getActionService());
             mcAdapter.initialRegistrations(registration);
         }
 
         if (mpAdapter != null) {
-            MPRegistration registration = new MPRegistration(comServices, mpServices.getOperationCallbackManager());
+            final MPRegistration registration = new MPRegistration(comServices, mpServices.getOperationCallbackManager());
             mpAdapter.setArchiveManager(mpServices.getArchiveManager());
             mpAdapter.initialRegistrations(registration);
         }
@@ -615,13 +615,13 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
     public final void closeGracefully(final ObjectId source) {
         try {
             AppShutdownGuard.start();
-            long time = System.currentTimeMillis();
+            final long time = System.currentTimeMillis();
 
             // We can close the connection to the Supervisor
             this.serviceCOMEvent.close();
 
             // Acknowledge the reception of the request to close (Closing...)
-            Long eventId = this.getCOMServices().getEventService().generateAndStoreEvent(
+            final Long eventId = this.getCOMServices().getEventService().generateAndStoreEvent(
                     AppsLauncherHelper.STOPPING_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(),
                     null,
@@ -637,7 +637,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
             try {
                 this.getCOMServices().getEventService().publishEvent(uri, eventId,
                         AppsLauncherHelper.STOPPING_OBJECT_TYPE, null, source, null);
-            } catch (IOException ex) {
+            } catch (final IOException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
             }
 
@@ -654,12 +654,12 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
 
             if (centralDirectoryURI != null) {
                 try {
-                    DirectoryConsumerServiceImpl directoryServiceConsumer = new DirectoryConsumerServiceImpl(centralDirectoryURI);
+                    final DirectoryConsumerServiceImpl directoryServiceConsumer = new DirectoryConsumerServiceImpl(centralDirectoryURI);
                     directoryServiceConsumer.getDirectoryStub().withdrawProvider(this.getAppDirectoryId());
                     directoryServiceConsumer.close();
-                } catch (MALException | MalformedURLException ex) {
+                } catch (final MALException | MalformedURLException ex) {
                     LOGGER.log(Level.SEVERE, null, ex);
-                } catch (MALInteractionException ex) {
+                } catch (final MALInteractionException ex) {
                     LOGGER.log(Level.SEVERE,
                             "There was a problem while connecting to the Central Directory service on URI: {0}"
                             + "\nException: {1}",
@@ -667,7 +667,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                 }
             }
 
-            Long eventId2 = this.getCOMServices().getEventService().generateAndStoreEvent(
+            final Long eventId2 = this.getCOMServices().getEventService().generateAndStoreEvent(
                     AppsLauncherHelper.STOPPED_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(),
                     null,
@@ -678,7 +678,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
             try {
                 this.getCOMServices().getEventService().publishEvent(uri, eventId2,
                         AppsLauncherHelper.STOPPED_OBJECT_TYPE, null, source, null);
-            } catch (IOException ex) {
+            } catch (final IOException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
             }
 
@@ -691,7 +691,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
             LOGGER.log(Level.INFO,
                     "Success! The currently running Java Virtual Machine will now terminate. "
                     + "(App closed in: {0} ms)\n", System.currentTimeMillis() - time);
-        } catch (NMFException ex) {
+        } catch (final NMFException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
@@ -712,7 +712,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
             public Time getPlatformTime() {
                 try {
                     return platformServices.getClockService().getTime();
-                } catch (MALInteractionException | MALException | IOException e) {
+                } catch (final MALInteractionException | MALException | IOException e) {
                     LOGGER.log(Level.SEVERE, null, e);
                 }
                 return new Time(System.currentTimeMillis());
@@ -722,7 +722,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
             public int getPlatformTimeFactor() {
                 try {
                     return platformServices.getClockService().getTimeFactor();
-                } catch (MALInteractionException | MALException | IOException e) {
+                } catch (final MALInteractionException | MALException | IOException e) {
                     LOGGER.log(Level.SEVERE, null, e);
                 }
                 return 1;

@@ -44,7 +44,7 @@ import esa.mo.mp.impl.com.pattern.COMInstanceVersionArchiveManager;
  */
 public class RequestVersionArchiveManager extends COMInstanceVersionArchiveManager<RequestIdentityDetails, RequestIdentityDetailsList, RequestVersionDetails, RequestVersionDetailsList, RequestUpdateDetails, RequestUpdateDetailsList> {
 
-    public RequestVersionArchiveManager(COMServicesProvider comServices, COMConfiguration configuration) {
+    public RequestVersionArchiveManager(final COMServicesProvider comServices, final COMConfiguration configuration) {
         super(comServices, configuration);
     }
 
@@ -60,19 +60,19 @@ public class RequestVersionArchiveManager extends COMInstanceVersionArchiveManag
         return super.listAllStatusIds(PlanningRequestHelper.REQUESTSTATUSUPDATE_OBJECT_TYPE);
     }
 
-    public ObjectId getIdentityId(Identifier identity) {
+    public ObjectId getIdentityId(final Identifier identity) {
         return super.getIdentityId(identity, PlanningRequestHelper.REQUESTIDENTITY_OBJECT_TYPE);
     }
 
-    public ObjectIdList getIdentityIds(IdentifierList identities) {
+    public ObjectIdList getIdentityIds(final IdentifierList identities) {
         return super.getIdentityIds(identities, PlanningRequestHelper.REQUESTIDENTITY_OBJECT_TYPE);
     }
 
-    public RequestVersionDetails getInstance(Identifier identity) {
+    public RequestVersionDetails getInstance(final Identifier identity) {
         return super.getInstance(identity, PlanningRequestHelper.REQUESTIDENTITY_OBJECT_TYPE);
     }
 
-    public RequestVersionDetailsList getInstances(IdentifierList identities) {
+    public RequestVersionDetailsList getInstances(final IdentifierList identities) {
         return super.getInstances(identities, PlanningRequestHelper.REQUESTIDENTITY_OBJECT_TYPE);
     }
 }

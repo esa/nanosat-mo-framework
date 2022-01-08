@@ -59,7 +59,7 @@ public class CameraSoftSimAdapter implements CameraAdapterInterface, SimulatorAd
   private final PictureFormatList supportedFormats = new PictureFormatList();
   private PowerControlAdapterInterface pcAdapter;
 
-  public CameraSoftSimAdapter(ESASimulator instrumentsSimulator, PowerControlAdapterInterface pcAdapter)
+  public CameraSoftSimAdapter(final ESASimulator instrumentsSimulator, final PowerControlAdapterInterface pcAdapter)
   {
     supportedFormats.add(PictureFormat.RAW);
     supportedFormats.add(PictureFormat.RGB24);
@@ -79,7 +79,7 @@ public class CameraSoftSimAdapter implements CameraAdapterInterface, SimulatorAd
   @Override
   public PixelResolutionList getAvailableResolutions()
   {
-    PixelResolutionList availableResolutions = new PixelResolutionList();
+    final PixelResolutionList availableResolutions = new PixelResolutionList();
     // Only one:
     availableResolutions.add(new PixelResolution(new UInteger(IMAGE_WIDTH), new UInteger(
         IMAGE_HEIGHT)));
@@ -98,7 +98,7 @@ public class CameraSoftSimAdapter implements CameraAdapterInterface, SimulatorAd
     final byte[] data = instrumentsSimulator.getpCamera().takePicture(
         (int) resolution.getWidth().getValue(), (int) resolution.getHeight().getValue());
 
-    CameraSettings pictureSettings = new CameraSettings();
+    final CameraSettings pictureSettings = new CameraSettings();
     pictureSettings.setResolution(resolution);
     pictureSettings.setFormat(PictureFormat.RAW);
     pictureSettings.setExposureTime(exposureTime);
@@ -118,7 +118,7 @@ public class CameraSoftSimAdapter implements CameraAdapterInterface, SimulatorAd
       data = convertImage(data, settings.getFormat());
     }
 
-    CameraSettings pictureSettings = new CameraSettings();
+    final CameraSettings pictureSettings = new CameraSettings();
     pictureSettings.setResolution(settings.getResolution());
     pictureSettings.setFormat(settings.getFormat());
     pictureSettings.setExposureTime(settings.getExposureTime());
@@ -129,7 +129,7 @@ public class CameraSoftSimAdapter implements CameraAdapterInterface, SimulatorAd
   }
 
   @Override
-  public Picture takeAutoExposedPicture(CameraSettings settings) throws IOException, MALException
+  public Picture takeAutoExposedPicture(final CameraSettings settings) throws IOException, MALException
   {
     return takePicture(settings);
   }
@@ -140,18 +140,18 @@ public class CameraSoftSimAdapter implements CameraAdapterInterface, SimulatorAd
     return MINIMUM_DURATION;
   }
 
-  private byte[] convertImage(byte[] rawImage, final PictureFormat targetFormat) throws
+  private byte[] convertImage(final byte[] rawImage, final PictureFormat targetFormat) throws
       IOException
   {
-    BufferedImage image = OPSSATCameraDebayering.getDebayeredImage(rawImage);
+    final BufferedImage image = OPSSATCameraDebayering.getDebayeredImage(rawImage);
     byte[] ret = null;
 
-    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+    final ByteArrayOutputStream stream = new ByteArrayOutputStream();
 
     if (targetFormat.equals(PictureFormat.RGB24)) {
-      int w = image.getWidth();
-      int h = image.getHeight();
-      int[] rgba = image.getRGB(0, 0, w, h, null, 0, w);
+      final int w = image.getWidth();
+      final int h = image.getHeight();
+      final int[] rgba = image.getRGB(0, 0, w, h, null, 0, w);
       ret = new byte[rgba.length * 3];
       for (int i = 0; i < rgba.length; ++i) {
         final int pixelval = rgba[i];

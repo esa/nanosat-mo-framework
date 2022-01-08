@@ -55,7 +55,7 @@ public class ConversionConsumerServiceImpl {
                         .getServiceByName(ConversionHelper.CONVERSION_SERVICE_NAME) == null) {
                 ConversionHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
-        } catch (MALException ex) {
+        } catch (final MALException ex) {
             Logger.getLogger(ConversionConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
 

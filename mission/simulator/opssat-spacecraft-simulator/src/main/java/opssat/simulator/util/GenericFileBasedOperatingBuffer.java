@@ -39,70 +39,70 @@ public abstract class GenericFileBasedOperatingBuffer implements SimulatorOperat
   private int operatingIndex;
   private Logger logger;
 
-  public GenericFileBasedOperatingBuffer(Logger logger) {
-    byte[] tempArray = new byte[0];
+  public GenericFileBasedOperatingBuffer(final Logger logger) {
+    final byte[] tempArray = new byte[0];
     operatingIndex = 0;
     this.dataBuffer = tempArray;
     this.logger = logger;
   }
 
   @Override
-  public boolean loadFromPath(String path) {
+  public boolean loadFromPath(final String path) {
     try {
-      String absolutePath = SimulatorNode.handleResourcePath(path, logger,
+      final String absolutePath = SimulatorNode.handleResourcePath(path, logger,
           getClass().getClassLoader(), false);
 //            this.dataBuffer = Files.readAllBytes(Paths.get(absolutePath));
-      RandomAccessFile f = new RandomAccessFile(absolutePath, "r");
+      final RandomAccessFile f = new RandomAccessFile(absolutePath, "r");
       if (f.length() > Integer.MAX_VALUE) {
         throw new IOException("File is too large");
       }
-      byte[] data = new byte[(int) f.length()];
+      final byte[] data = new byte[(int) f.length()];
       f.readFully(data);
       this.dataBuffer = data;
 
-    } catch (IOException ex) {
+    } catch (final IOException ex) {
       return false;
     }
     return true;
   }
 
-  public boolean loadImageFromAbsolutePath(String path) {
+  public boolean loadImageFromAbsolutePath(final String path) {
     try {
       if (path == null) {
         throw new IOException("Image path is null. Please provide correct camerasim.imagefile property.");
       }
-      String[] parts = path.split("\\.");
-      String ending = parts[parts.length - 1];
+      final String[] parts = path.split("\\.");
+      final String ending = parts[parts.length - 1];
       if (ending.equals("raw")) {
-        RandomAccessFile f = new RandomAccessFile(path, "r");
+        final RandomAccessFile f = new RandomAccessFile(path, "r");
         if (f.length() > Integer.MAX_VALUE) {
           throw new IOException("File is too large");
         }
         if(f.length() != SimulatorNode.CAMERA_MAX_SIZE) {
           throw new IllegalArgumentException("RAW file does not fit camera resolution.");
         }
-        byte[] data = new byte[(int) f.length()];
+        final byte[] data = new byte[(int) f.length()];
         f.readFully(data);
         this.dataBuffer = data;
       } else {
         this.dataBuffer = ImageLoader.loadNonRawImage(path);
       }
-    } catch (IOException ex) {
+    } catch (final IOException ex) {
       return false;
     }
     return true;
   }
 
   @Override
-  public boolean preparePath(String path) {
+  public boolean preparePath(final String path) {
     boolean fileExists = true;
 
     try {
-      RandomAccessFile f = new RandomAccessFile(SimulatorNode.getResourcesPath() + path, "r");
+      final RandomAccessFile f = new RandomAccessFile(SimulatorNode.getResourcesPath() + path, "r");
       f.close();
-    } catch (FileNotFoundException ex) {
+    } catch (final FileNotFoundException ex) {
       fileExists = false;
-    } catch (IOException ex) {
+    } catch (final IOException ex) {
       Logger.getLogger(GenericFileBasedOperatingBuffer.class.getName()).log(Level.SEVERE, null, ex);
     }
 
@@ -120,10 +120,10 @@ public abstract class GenericFileBasedOperatingBuffer implements SimulatorOperat
 
   public String getDataBufferAsString() {
     if (dataBuffer instanceof byte[]) {
-      byte[] tempCast = (byte[]) dataBuffer;
-      StringBuilder result = new StringBuilder("byte[] {");
+      final byte[] tempCast = (byte[]) dataBuffer;
+      final StringBuilder result = new StringBuilder("byte[] {");
       int k = 0;
-      for (byte b : tempCast) {
+      for (final byte b : tempCast) {
         result.append(String.format("0x%02X", b));
         if (++k < tempCast.length) {
           result.append(",");
@@ -140,7 +140,7 @@ public abstract class GenericFileBasedOperatingBuffer implements SimulatorOperat
     return "Unknown data type [" + dataBuffer.getClass().getName() + "]";
   }
 
-  public void setDataBuffer(Object dataBuffer) {
+  public void setDataBuffer(final Object dataBuffer) {
     this.dataBuffer = dataBuffer;
   }
 
@@ -149,7 +149,7 @@ public abstract class GenericFileBasedOperatingBuffer implements SimulatorOperat
     return operatingIndex;
   }
 
-  public void setOperatingIndex(int operatingIndex) {
+  public void setOperatingIndex(final int operatingIndex) {
     this.operatingIndex = operatingIndex;
   }
 

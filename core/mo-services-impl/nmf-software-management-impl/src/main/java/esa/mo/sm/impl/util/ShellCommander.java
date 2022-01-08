@@ -41,15 +41,15 @@ public class ShellCommander {
     public ShellCommander(){
     }
 
-    public Process runCommand(String cmd) {
+    public Process runCommand(final String cmd) {
         return this.runCommand(cmd, null);
     }
 
-    public String runCommandAndGetOutputMessage(String cmd) {
+    public String runCommandAndGetOutputMessage(final String cmd) {
         try {
-            Process proc = this.runCommand(cmd, null);
-            StreamWrapper error = new StreamWrapper(proc.getErrorStream(), "ERROR");
-            StreamWrapper output = new StreamWrapper(proc.getInputStream(), "OUTPUT");
+            final Process proc = this.runCommand(cmd, null);
+            final StreamWrapper error = new StreamWrapper(proc.getErrorStream(), "ERROR");
+            final StreamWrapper output = new StreamWrapper(proc.getInputStream(), "OUTPUT");
             error.start();
             output.start();
             
@@ -58,18 +58,18 @@ public class ShellCommander {
             proc.destroyForcibly();
             
             return output.getMessage();
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         return "";
     }
    
-    public String runCommandAndGetOutputMessageAndError(String cmd) {
+    public String runCommandAndGetOutputMessageAndError(final String cmd) {
         try {
-            Process proc = this.runCommand(cmd, null);
-            StreamWrapper error = new StreamWrapper(proc.getErrorStream(), "ERROR");
-            StreamWrapper output = new StreamWrapper(proc.getInputStream(), "OUTPUT");
+            final Process proc = this.runCommand(cmd, null);
+            final StreamWrapper error = new StreamWrapper(proc.getErrorStream(), "ERROR");
+            final StreamWrapper output = new StreamWrapper(proc.getInputStream(), "OUTPUT");
             error.start();
             output.start();
             
@@ -78,7 +78,7 @@ public class ShellCommander {
             proc.destroyForcibly();
             
             return output.getMessage() + error.getMessage();
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE, 
                     "The command could not be executed!", ex);
         }
@@ -86,9 +86,9 @@ public class ShellCommander {
         return "";
     }
    
-    public Process runCommand(String cmd, File dirPath) {
+    public Process runCommand(final String cmd, final File dirPath) {
         try {
-            Process proc;
+            final Process proc;
 
             if (osValidator.isUnix()) {
                 proc = Runtime.getRuntime().exec(new String[]{"sh", "-c", cmd}, null, dirPath);
@@ -101,7 +101,7 @@ public class ShellCommander {
             }
 
             return proc;
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE, 
                     "The command could not be executed!", ex);
         }
@@ -119,7 +119,7 @@ public class ShellCommander {
             return message;
         }
 
-        StreamWrapper(InputStream is, String type) {
+        StreamWrapper(final InputStream is, final String type) {
             this.is = is;
             this.type = type;
         }
@@ -128,15 +128,15 @@ public class ShellCommander {
         public void run() {
             this.setName("ShellCommander_StreamWrapper");
             try {
-                BufferedReader br = new BufferedReader(new InputStreamReader(is));
-                StringBuilder buffer = new StringBuilder();
+                final BufferedReader br = new BufferedReader(new InputStreamReader(is));
+                final StringBuilder buffer = new StringBuilder();
                 String line = null;
                 while ((line = br.readLine()) != null) {
                     buffer.append(line);
                     buffer.append("\n");
                 }
                 message = buffer.toString();
-            } catch (IOException ioe) {
+            } catch (final IOException ioe) {
                 Logger.getLogger(ShellCommander.class.getName()).log(Level.INFO, 
                         "Error: ", ioe);
             }

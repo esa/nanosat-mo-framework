@@ -98,7 +98,7 @@ public final class COMObjectWindow extends javax.swing.JDialog {
         this.tfObjectType3.setText(comObject.getObjectType().getVersion().toString());
         this.tfObjectType4.setText(comObject.getObjectType().getNumber().toString());
 
-        ArchiveDetails archiveDetails = comObject.getArchiveDetails();
+        final ArchiveDetails archiveDetails = comObject.getArchiveDetails();
 
         if (archiveDetails != null) {
 
@@ -120,13 +120,13 @@ public final class COMObjectWindow extends javax.swing.JDialog {
                 this.tfProvider.setText("null");
             }
 
-            Long related = archiveDetails.getDetails().getRelated();
+            final Long related = archiveDetails.getDetails().getRelated();
 
             if (related == null) {
                 this.relatedObjId.setText("null");
                 this.relatedButton.setEnabled(false);
             } else {
-                COMObject comObjectInfo = HelperCOM.objType2COMObject(comObject.getObjectType());
+                final COMObject comObjectInfo = HelperCOM.objType2COMObject(comObject.getObjectType());
 
                 if (comObjectInfo.hasRelated()) {
                     if (comObjectInfo.getRelatedType() != null) {
@@ -144,7 +144,7 @@ public final class COMObjectWindow extends javax.swing.JDialog {
                 this.relatedObjId.setText(related.toString());
             }
 
-            ObjectId source = archiveDetails.getDetails().getSource();
+            final ObjectId source = archiveDetails.getDetails().getSource();
 
             if (source == null) {
                 this.sourceType.setText("null");
@@ -255,7 +255,7 @@ public final class COMObjectWindow extends javax.swing.JDialog {
 
         tfObjectType4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        javax.swing.GroupLayout topPanelLayout = new javax.swing.GroupLayout(topPanel);
+        final javax.swing.GroupLayout topPanelLayout = new javax.swing.GroupLayout(topPanel);
         topPanel.setLayout(topPanelLayout);
         topPanelLayout.setHorizontalGroup(
             topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -375,7 +375,7 @@ public final class COMObjectWindow extends javax.swing.JDialog {
 
         relatedType.addActionListener(this::relatedTypeActionPerformed);
 
-        javax.swing.GroupLayout componentsPanelLayout = new javax.swing.GroupLayout(componentsPanel);
+        final javax.swing.GroupLayout componentsPanelLayout = new javax.swing.GroupLayout(componentsPanel);
         componentsPanel.setLayout(componentsPanelLayout);
         componentsPanelLayout.setHorizontalGroup(
             componentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -526,7 +526,7 @@ public final class COMObjectWindow extends javax.swing.JDialog {
         button.setText("Submit");
         button.addActionListener(this::buttonActionPerformed);
 
-        javax.swing.GroupLayout bottomPanelLayout = new javax.swing.GroupLayout(bottomPanel);
+        final javax.swing.GroupLayout bottomPanelLayout = new javax.swing.GroupLayout(bottomPanel);
         bottomPanel.setLayout(bottomPanelLayout);
         bottomPanelLayout.setHorizontalGroup(
             bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -545,24 +545,24 @@ public final class COMObjectWindow extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonActionPerformed
+    private void buttonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonActionPerformed
         this.setVisible(false);
     }//GEN-LAST:event_buttonActionPerformed
 
-    private void objectBodyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_objectBodyButtonActionPerformed
+    private void objectBodyButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_objectBodyButtonActionPerformed
         // Open the body object
         if (this.comObject != null) {
-            Element object = (Element) HelperAttributes.javaType2Attribute(this.comObject.getObject());
+            final Element object = (Element) HelperAttributes.javaType2Attribute(this.comObject.getObject());
             if (object != null) {
-                MOWindow objectBodyWindow = new MOWindow(object, false);
+                final MOWindow objectBodyWindow = new MOWindow(object, false);
             }
         }
     }//GEN-LAST:event_objectBodyButtonActionPerformed
 
-    private void relatedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_relatedButtonActionPerformed
-        COMObject comObjectInfo = HelperCOM.objType2COMObject(comObject.getObjectType());
+    private void relatedButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_relatedButtonActionPerformed
+        final COMObject comObjectInfo = HelperCOM.objType2COMObject(comObject.getObjectType());
 
-        ArchivePersistenceObject relatedCOMObject = HelperArchive.getArchiveCOMObject(
+        final ArchivePersistenceObject relatedCOMObject = HelperArchive.getArchiveCOMObject(
                 archiveService,
                 comObjectInfo.getRelatedType(),
                 comObject.getDomain(),
@@ -575,14 +575,14 @@ public final class COMObjectWindow extends javax.swing.JDialog {
         }
 
         try {
-            COMObjectWindow newWindow = new COMObjectWindow(relatedCOMObject, editable, archiveService);
-        } catch (IOException ex) {
+            final COMObjectWindow newWindow = new COMObjectWindow(relatedCOMObject, editable, archiveService);
+        } catch (final IOException ex) {
             Logger.getLogger(COMObjectWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_relatedButtonActionPerformed
 
-    private void sourceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sourceButtonActionPerformed
-        ArchivePersistenceObject sourceCOMObject = HelperArchive.getArchiveCOMObject(
+    private void sourceButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sourceButtonActionPerformed
+        final ArchivePersistenceObject sourceCOMObject = HelperArchive.getArchiveCOMObject(
                 archiveService,
                 comObject.getArchiveDetails().getDetails().getSource().getType(),
                 comObject.getArchiveDetails().getDetails().getSource().getKey().getDomain(),
@@ -595,21 +595,21 @@ public final class COMObjectWindow extends javax.swing.JDialog {
         }
 
         try {
-            COMObjectWindow newWindow = new COMObjectWindow(sourceCOMObject, editable, archiveService);
-        } catch (IOException ex) {
+            final COMObjectWindow newWindow = new COMObjectWindow(sourceCOMObject, editable, archiveService);
+        } catch (final IOException ex) {
             Logger.getLogger(COMObjectWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_sourceButtonActionPerformed
 
-    private void tfObjectType2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfObjectType2ActionPerformed
+    private void tfObjectType2ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfObjectType2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfObjectType2ActionPerformed
 
-    private void sourceTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sourceTypeActionPerformed
+    private void sourceTypeActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sourceTypeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_sourceTypeActionPerformed
 
-    private void relatedTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_relatedTypeActionPerformed
+    private void relatedTypeActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_relatedTypeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_relatedTypeActionPerformed
 

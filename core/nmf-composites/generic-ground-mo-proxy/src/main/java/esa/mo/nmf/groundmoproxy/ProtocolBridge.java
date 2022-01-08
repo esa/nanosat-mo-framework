@@ -64,9 +64,9 @@ public class ProtocolBridge {
         return MALTransportFactory.newFactory(protocol).createTransport(null, properties);
     }
 
-    protected static MALEndpoint createEndpoint(String protocol, MALTransport trans) throws Exception {
+    protected static MALEndpoint createEndpoint(final String protocol, final MALTransport trans) throws Exception {
         System.out.println("Creating endpoint for transport " + protocol);
-        MALEndpoint ep = trans.createEndpoint("ProtocolBridge", null);
+        final MALEndpoint ep = trans.createEndpoint("ProtocolBridge", null);
         System.out.println("Transport " + protocol + " URI is " + ep.getURI().getValue());
 
         return ep;
@@ -84,63 +84,63 @@ public class ProtocolBridge {
 
         private final MALEndpoint destination;
 
-        public BridgeMessageHandler(MALEndpoint destination) {
+        public BridgeMessageHandler(final MALEndpoint destination) {
             this.destination = destination;
         }
 
         @Override
-        public void onInternalError(MALEndpoint callingEndpoint, Throwable err) {
+        public void onInternalError(final MALEndpoint callingEndpoint, final Throwable err) {
             throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
-        public void onTransmitError(MALEndpoint callingEndpoint, MALMessageHeader srcMessageHeader, MALStandardError err, Map qosMap) {
+        public void onTransmitError(final MALEndpoint callingEndpoint, final MALMessageHeader srcMessageHeader, final MALStandardError err, final Map qosMap) {
             throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
-        public void onMessage(MALEndpoint callingEndpoint, MALMessage srcMessage) {
+        public void onMessage(final MALEndpoint callingEndpoint, final MALMessage srcMessage) {
             try {
                 System.out.println("Received message from: " + srcMessage.getHeader().getURIFrom().getValue());
 
                 // copy source message into destination message format
-                MALMessage dMsg = cloneForwardMessage(destination, srcMessage);
+                final MALMessage dMsg = cloneForwardMessage(destination, srcMessage);
                 System.out.println("Injecting message...");
                 destination.sendMessage(dMsg);
-            } catch (MALException | MALTransmitErrorException ex) {
+            } catch (final MALException | MALTransmitErrorException ex) {
                 Logger.getLogger(ProtocolBridge.class.getName()).log(Level.SEVERE, null, ex);
                 // ToDo need to bounce this back to source... maybe
             }
         }
 
         @Override
-        public void onMessages(MALEndpoint callingEndpoint, MALMessage[] srcMessageList) {
+        public void onMessages(final MALEndpoint callingEndpoint, final MALMessage[] srcMessageList) {
             try {
-                MALMessage[] dMsgList = new MALMessage[srcMessageList.length];
+                final MALMessage[] dMsgList = new MALMessage[srcMessageList.length];
                 for (int i = 0; i < srcMessageList.length; i++) {
                     dMsgList[i] = cloneForwardMessage(destination, srcMessageList[i]);
                 }
 
                 destination.sendMessages(dMsgList);
-            } catch (MALException ex) {
+            } catch (final MALException ex) {
                 // ToDo need to bounce this back to source
             }
         }
     }
 
-    protected static MALMessage cloneForwardMessage(MALEndpoint destination, MALMessage srcMessage) throws MALException {
-        MALMessageHeader sourceHdr = srcMessage.getHeader();
-        MALMessageBody body = srcMessage.getBody();
+    protected static MALMessage cloneForwardMessage(final MALEndpoint destination, final MALMessage srcMessage) throws MALException {
+        final MALMessageHeader sourceHdr = srcMessage.getHeader();
+        final MALMessageBody body = srcMessage.getBody();
 
         System.out.println("cloneForwardMessage from : " + sourceHdr.getURIFrom() + "                to  :    " + sourceHdr.getURITo());
         String endpointUriPart = sourceHdr.getURITo().getValue();
         final int iSecond = endpointUriPart.indexOf("@");
         endpointUriPart = endpointUriPart.substring(iSecond + 1);
-        URI to = new URI(endpointUriPart);
-        URI from = new URI(destination.getURI().getValue() + "@" + sourceHdr.getURIFrom().getValue());
+        final URI to = new URI(endpointUriPart);
+        final URI from = new URI(destination.getURI().getValue() + "@" + sourceHdr.getURIFrom().getValue());
         System.out.println("cloneForwardMessage      : " + from + "                to  :    " + to);
 
-        MALMessage destMessage = destination.createMessage(
+        final MALMessage destMessage = destination.createMessage(
                 sourceHdr.getAuthenticationId(),
                 to,
                 sourceHdr.getTimestamp(),
