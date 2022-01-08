@@ -46,14 +46,10 @@ public class Debayer_Image implements PlugInFilter {
     };
 
     int row_order = 0; // Force "R-G-R-G"
-    // showStack = dia.getNextBoolean();
     median = false;
     gauss = false;
     med_radius = (int) 2.0;
     gauss_radius = (int) 2.0;
-    normalize = false; // optional
-    equalize = false;
-    stackHist = false;
 
     switch (algorithm) {
       case 0:
@@ -79,15 +75,6 @@ public class Debayer_Image implements PlugInFilter {
     if (gauss)
       IJ.run("Median...", "radius=" + gauss_radius + " stack");
     WindowManager.setTempCurrentImage(null);
-
-    ContrastEnhancerOpt cont = new ContrastEnhancerOpt();
-    cont.setImage(image);
-    cont.setSaturated(0.5);
-    cont.setEqualize(equalize);
-    cont.setNormalize(normalize);
-    cont.setStackHist(false);
-    cont.setProcessStack(true);
-    cont.run("");
 
     RGBStackConverterOpt obj = new RGBStackConverterOpt();
     obj.setImage(image);
