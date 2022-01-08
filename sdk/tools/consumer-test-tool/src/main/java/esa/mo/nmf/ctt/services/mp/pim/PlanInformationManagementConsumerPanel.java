@@ -159,169 +159,89 @@ public class PlanInformationManagementConsumerPanel extends javax.swing.JPanel {
         parameterTab.setLayout(new java.awt.GridLayout(4, 1));
 
         addRequestDefButton.setText("addRequestDef");
-        addRequestDefButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addRequestDefinitionButtonActionPerformed(evt);
-            }
-        });
+        addRequestDefButton.addActionListener(this::addRequestDefinitionButtonActionPerformed);
         jPanel5.add(addRequestDefButton);
 
         updateRequestDefButton.setText("updateRequestDef");
-        updateRequestDefButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateRequestDefinitionButtonActionPerformed(evt);
-            }
-        });
+        updateRequestDefButton.addActionListener(this::updateRequestDefinitionButtonActionPerformed);
         jPanel5.add(updateRequestDefButton);
 
         removeRequestDefButton.setText("removeRequestDef");
-        removeRequestDefButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeRequestDefinitionButtonActionPerformed(evt);
-            }
-        });
+        removeRequestDefButton.addActionListener(this::removeRequestDefinitionButtonActionPerformed);
         jPanel5.add(removeRequestDefButton);
 
         listRequestDefsButton.setText("listRequestDefs(\"*\")");
-        listRequestDefsButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                listRequestDefinitionAllButtonActionPerformed(evt);
-            }
-        });
+        listRequestDefsButton.addActionListener(this::listRequestDefinitionAllButtonActionPerformed);
         jPanel5.add(listRequestDefsButton);
 
         removeAllRequestDefButton.setText("removeRequestDef(0)");
-        removeAllRequestDefButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeRequestDefinitionAllButtonActionPerformed(evt);
-            }
-        });
+        removeAllRequestDefButton.addActionListener(this::removeRequestDefinitionAllButtonActionPerformed);
         jPanel5.add(removeAllRequestDefButton);
 
         parameterTab.add(jPanel5);
 
         addActivityDefButton.setText("addActivityDef");
-        addActivityDefButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addActivityDefinitionButtonActionPerformed(evt);
-            }
-        });
+        addActivityDefButton.addActionListener(this::addActivityDefinitionButtonActionPerformed);
         jPanel6.add(addActivityDefButton);
 
         updateActivityDefButton.setText("updateActivityDef");
-        updateActivityDefButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateActivityDefinitionButtonActionPerformed(evt);
-            }
-        });
+        updateActivityDefButton.addActionListener(this::updateActivityDefinitionButtonActionPerformed);
         jPanel6.add(updateActivityDefButton);
 
         removeActivityDefButton.setText("removeActivityDef");
-        removeActivityDefButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeActivityDefinitionButtonActionPerformed(evt);
-            }
-        });
+        removeActivityDefButton.addActionListener(this::removeActivityDefinitionButtonActionPerformed);
         jPanel6.add(removeActivityDefButton);
 
         listActivityDefsButton.setText("listActivityDefs(\"*\")");
-        listActivityDefsButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                listActivityDefinitionAllButtonActionPerformed(evt);
-            }
-        });
+        listActivityDefsButton.addActionListener(this::listActivityDefinitionAllButtonActionPerformed);
         jPanel6.add(listActivityDefsButton);
 
         removeAllActivityDefButton.setText("removeActivityDef(0)");
-        removeAllActivityDefButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeActivityDefinitionAllButtonActionPerformed(evt);
-            }
-        });
+        removeAllActivityDefButton.addActionListener(this::removeActivityDefinitionAllButtonActionPerformed);
         jPanel6.add(removeAllActivityDefButton);
 
         parameterTab.add(jPanel6);
 
         addEventDefButton.setText("addEventDef");
-        addEventDefButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addEventDefinitionButtonActionPerformed(evt);
-            }
-        });
+        addEventDefButton.addActionListener(this::addEventDefinitionButtonActionPerformed);
         jPanel7.add(addEventDefButton);
 
         updateEventDefButton.setText("updateEventDef");
-        updateEventDefButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateEventDefinitionButtonActionPerformed(evt);
-            }
-        });
+        updateEventDefButton.addActionListener(this::updateEventDefinitionButtonActionPerformed);
         jPanel7.add(updateEventDefButton);
 
         removeEventDefButton.setText("removeEventDef");
-        removeEventDefButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeEventDefinitionButtonActionPerformed(evt);
-            }
-        });
+        removeEventDefButton.addActionListener(this::removeEventDefinitionButtonActionPerformed);
         jPanel7.add(removeEventDefButton);
 
         listEventDefsButton.setText("listEventDefs(\"*\")");
-        listEventDefsButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                listEventDefinitionAllButtonActionPerformed(evt);
-            }
-        });
+        listEventDefsButton.addActionListener(this::listEventDefinitionAllButtonActionPerformed);
         jPanel7.add(listEventDefsButton);
 
         removeAllEventDefButton.setText("removeEventDef(0)");
-        removeAllEventDefButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeEventDefinitionAllButtonActionPerformed(evt);
-            }
-        });
+        removeAllEventDefButton.addActionListener(this::removeEventDefinitionAllButtonActionPerformed);
         jPanel7.add(removeAllEventDefButton);
 
         parameterTab.add(jPanel7);
 
         addResourceDefButton.setText("addResourceDef");
-        addResourceDefButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addResourceDefinitionButtonActionPerformed(evt);
-            }
-        });
+        addResourceDefButton.addActionListener(this::addResourceDefinitionButtonActionPerformed);
         jPanel9.add(addResourceDefButton);
 
         updateResourceDefButton.setText("updateResourceDef");
-        updateResourceDefButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateResourceDefinitionButtonActionPerformed(evt);
-            }
-        });
+        updateResourceDefButton.addActionListener(this::updateResourceDefinitionButtonActionPerformed);
         jPanel9.add(updateResourceDefButton);
 
         removeResourceDefButton.setText("removeResourceDef");
-        removeResourceDefButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeResourceDefinitionButtonActionPerformed(evt);
-            }
-        });
+        removeResourceDefButton.addActionListener(this::removeResourceDefinitionButtonActionPerformed);
         jPanel9.add(removeResourceDefButton);
 
         listResourceDefsButton.setText("listResourceDefs(\"*\")");
-        listResourceDefsButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                listResourceDefinitionAllButtonActionPerformed(evt);
-            }
-        });
+        listResourceDefsButton.addActionListener(this::listResourceDefinitionAllButtonActionPerformed);
         jPanel9.add(listResourceDefsButton);
 
         removeAllResourceDefButton.setText("removeResourceDef(0)");
-        removeAllResourceDefButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeResourceDefinitionAllButtonActionPerformed(evt);
-            }
-        });
+        removeAllResourceDefButton.addActionListener(this::removeResourceDefinitionAllButtonActionPerformed);
         jPanel9.add(removeAllResourceDefButton);
 
         parameterTab.add(jPanel9);

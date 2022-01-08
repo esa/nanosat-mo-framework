@@ -70,11 +70,7 @@ public class PublishedPlansPanel extends PublishedUpdatesPanel {
 
         setView(this.publishedPlansTable);
 
-        getRefreshButton().addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                refreshButtonActionPerformed(evt);
-            }
-        });
+        getRefreshButton().addActionListener(this::refreshButtonActionPerformed);
     }
 
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {

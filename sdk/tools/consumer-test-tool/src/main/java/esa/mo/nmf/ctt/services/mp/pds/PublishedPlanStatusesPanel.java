@@ -65,11 +65,7 @@ public class PublishedPlanStatusesPanel extends PublishedUpdatesPanel {
 
         setView(this.publishedPlanStatusesTable);
 
-        getRefreshButton().addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                refreshButtonActionPerformed(evt);
-            }
-        });
+        getRefreshButton().addActionListener(this::refreshButtonActionPerformed);
     }
 
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {

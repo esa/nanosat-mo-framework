@@ -159,43 +159,23 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
         jPanel5.add(jComboBox1);
 
         submitPlanningRequestButton.setText("submitPlanningRequest");
-        submitPlanningRequestButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                submitRequestButtonActionPerformed(evt);
-            }
-        });
+        submitPlanningRequestButton.addActionListener(this::submitRequestButtonActionPerformed);
         jPanel5.add(submitPlanningRequestButton);
 
         updatePlanningRequestButton.setText("updatePlanningRequest");
-        updatePlanningRequestButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateRequestButtonActionPerformed(evt);
-            }
-        });
+        updatePlanningRequestButton.addActionListener(this::updateRequestButtonActionPerformed);
         jPanel5.add(updatePlanningRequestButton);
 
         cancelPlanningRequestButton.setText("cancelPlanningRequest");
-        cancelPlanningRequestButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cancelRequestButtonActionPerformed(evt);
-            }
-        });
+        cancelPlanningRequestButton.addActionListener(this::cancelRequestButtonActionPerformed);
         jPanel5.add(cancelPlanningRequestButton);
 
         getRequestButton.setText("getRequest(\"*\")");
-        getRequestButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                getRequestAllButtonActionPerformed(evt);
-            }
-        });
+        getRequestButton.addActionListener(this::getRequestAllButtonActionPerformed);
         jPanel5.add(getRequestButton);
 
         getRequestStatusButton.setText("getRequestStatus(\"*\")");
-        getRequestStatusButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                getRequestStatusAllButtonActionPerformed(evt);
-            }
-        });
+        getRequestStatusButton.addActionListener(this::getRequestStatusAllButtonActionPerformed);
         jPanel5.add(getRequestStatusButton);
 
         parameterTab.add(jPanel5);

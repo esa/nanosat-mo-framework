@@ -109,35 +109,19 @@ public class PlanDistributionConsumerPanel extends javax.swing.JPanel {
         parameterTab.setLayout(new java.awt.GridLayout(1, 1));
 
         listPlansButton.setText("listPlans");
-        listPlansButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                listPlansButtonActionPerformed(evt);
-            }
-        });
+        listPlansButton.addActionListener(this::listPlansButtonActionPerformed);
         jPanel5.add(listPlansButton);
 
         getPlanButton.setText("getPlan(\"*\")");
-        getPlanButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                getPlanButtonActionPerformed(evt);
-            }
-        });
+        getPlanButton.addActionListener(this::getPlanButtonActionPerformed);
         jPanel5.add(getPlanButton);
 
         getPlanStatusButton.setText("getPlanStatus(\"*\")");
-        getPlanStatusButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                getPlanStatusButtonActionPerformed(evt);
-            }
-        });
+        getPlanStatusButton.addActionListener(this::getPlanStatusButtonActionPerformed);
         jPanel5.add(getPlanStatusButton);
 
         queryPlanButton.setText("queryPlan");
-        queryPlanButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                queryPlanButtonActionPerformed(evt);
-            }
-        });
+        queryPlanButton.addActionListener(this::queryPlanButtonActionPerformed);
         jPanel5.add(queryPlanButton);
 
         parameterTab.add(jPanel5);
