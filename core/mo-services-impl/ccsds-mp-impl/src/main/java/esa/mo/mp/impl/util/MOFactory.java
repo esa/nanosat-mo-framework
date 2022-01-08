@@ -59,7 +59,6 @@ public class MOFactory {
         EntityRequest entityRequest = new EntityRequest(subDomain, allAreas, allServices, allOperations, onlyOnChange, entityKeys);
         entities.add(entityRequest);
 
-        Subscription subscription = new Subscription(subscriptionId, entities);
-        return subscription;
+        return new Subscription(subscriptionId, entities);
     }
 }

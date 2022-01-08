@@ -269,8 +269,7 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
         );
 
         // Send response to consumer
-        Long updatedInstanceId = COMObjectIdHelper.getInstanceId(requestVersionId);
-        return updatedInstanceId;
+        return COMObjectIdHelper.getInstanceId(requestVersionId);
     }
 
     @Override
@@ -388,12 +387,11 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
 
         UpdateHeaderList headerList = new UpdateHeaderList();
 
-        Identifier firstSubKey = identity;
         Long secondSubKey = COMObjectIdHelper.getInstanceId(identityId);
         Long thirdSubKey = COMObjectIdHelper.getInstanceId(versionId);
         Long fourthSubKey = Long.valueOf(update.getStatus().getNumericValue().getValue());
 
-        EntityKey entityKey = new EntityKey(firstSubKey, secondSubKey, thirdSubKey, fourthSubKey);
+        EntityKey entityKey = new EntityKey(identity, secondSubKey, thirdSubKey, fourthSubKey);
         headerList.add(new UpdateHeader(
             update.getTimestamp(),
             connection.getConnectionDetails().getProviderURI(),

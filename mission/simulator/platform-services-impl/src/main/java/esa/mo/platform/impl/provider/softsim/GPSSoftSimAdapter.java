@@ -90,9 +90,8 @@ public class GPSSoftSimAdapter extends GPSNMEAonlyAdapter implements SimulatorAd
   @Override
   public TLE getTLE()
   {
-    TLE tle = this.instrumentsSimulator.getSimulatorNode().getTLE();
 
-    return tle;
+    return this.instrumentsSimulator.getSimulatorNode().getTLE();
   }
 
 }

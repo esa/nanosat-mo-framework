@@ -379,8 +379,7 @@ public class PlanInformationManagementProviderServiceImpl extends PlanInformatio
         List<MPServiceOperationArguments> arguments = MPServiceOperationHelper.asArgumentsList(pairs, null, interaction);
         this.operationCallbackManager.notify(operation, arguments);
 
-        ObjectInstancePairList response = COMObjectIdHelper.getInstancePairIds(pairs);
-        return response;
+        return COMObjectIdHelper.getInstancePairIds(pairs);
     }
 
     private LongList updateDef(MPServiceOperation operation, COMStaticItemArchiveManager archive, LongList identityInstanceIds, ObjectType identityType, ElementList definitions, MALInteraction interaction) throws MALInteractionException, MALException {
@@ -406,8 +405,7 @@ public class PlanInformationManagementProviderServiceImpl extends PlanInformatio
         List<MPServiceOperationArguments> arguments = MPServiceOperationHelper.asArgumentsList(identityIds, objectIdList, null, null, interaction, null);
         this.operationCallbackManager.notify(operation, arguments);
 
-        LongList response = COMObjectIdHelper.getInstanceIds(objectIdList);
-        return response;
+        return COMObjectIdHelper.getInstanceIds(objectIdList);
     }
 
     private ObjectInstancePairList listDefs(COMStaticItemArchiveManager archive, IdentifierList identities, ObjectType identityType, MALInteraction interaction) throws MALInteractionException, MALException {
@@ -442,20 +440,17 @@ public class PlanInformationManagementProviderServiceImpl extends PlanInformatio
 
     private ElementList getDef(COMStaticItemArchiveManager archive, LongList identityInstanceIds, ObjectType identityType, MALInteraction interaction, Element element) throws MALInteractionException, MALException {
         ObjectIdList identityIds = COMObjectIdHelper.getObjectIds(identityInstanceIds, identityType);
-        ElementList definitions = archive.getDefinitionsByIdentityIds(identityIds);
-        return definitions;
+        return archive.getDefinitionsByIdentityIds(identityIds);
     }
 
     private ElementList getDef(COMStateArchiveManager archive, LongList identityInstanceIds, ObjectType identityType, MALInteraction interaction, Element element) throws MALInteractionException, MALException {
         ObjectIdList identityIds = COMObjectIdHelper.getObjectIds(identityInstanceIds, identityType);
-        ElementList definitions = archive.getDefinitionsByIdentityIds(identityIds);
-        return definitions;
+        return archive.getDefinitionsByIdentityIds(identityIds);
     }
 
     private ElementList getDef(COMInstanceArchiveManager archive, LongList identityInstanceIds, ObjectType identityType, MALInteraction interaction, Element element) throws MALInteractionException, MALException {
         ObjectIdList identityIds = COMObjectIdHelper.getObjectIds(identityInstanceIds, identityType);
-        ElementList definitions = archive.getDefinitionsByIdentityIds(identityIds);
-        return definitions;
+        return archive.getDefinitionsByIdentityIds(identityIds);
     }
 
     private void removeDef(MPServiceOperation operation, COMStaticItemArchiveManager archive, LongList identityInstanceIds, ObjectType identityType, MALInteraction interaction) throws MALInteractionException, MALException {
