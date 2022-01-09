@@ -422,7 +422,7 @@ public final class AggregationManager extends MCManager {
                 final ParameterDefinitionDetails paramDef = parameterManager.getParameterDefinition(aggrParamSet.getParameters().get(k));
                 if (paramDef.getGenerationEnabled() && paramDef.getReportInterval().getValue() != 0) {
                     if (currentParamValues.get(k).getValue().getRawValue().equals(newParameterValueSamples.get(k).getValue().getRawValue())) {
-                        newParameterValueSamples.get(k).getValue().setValidityState(new UOctet(new Short("" + ValidityState.EXPIRED_NUM_VALUE)));
+                        newParameterValueSamples.get(k).getValue().setValidityState(new UOctet(Short.valueOf("" + ValidityState.EXPIRED_NUM_VALUE)));
                     }
                 }
             }

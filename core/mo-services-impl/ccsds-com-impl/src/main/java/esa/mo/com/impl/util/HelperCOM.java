@@ -460,6 +460,6 @@ public class HelperCOM {
         final Random random = new Random();
         return ConnectionConsumer.subscriptionKeys(
                 new Identifier(identifier + random.nextInt()),
-                new Identifier("*"), new Long(0), new Long(0), fourthEntityKey);
+                new Identifier("*"), Long.valueOf(0), Long.valueOf(0), fourthEntityKey);
     }
 }

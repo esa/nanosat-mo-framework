@@ -80,7 +80,7 @@ public class AggregationAddModify extends javax.swing.JFrame {
         for (int i = 0; i < parameterTableData.getRowCount(); i++) {
             String parameter = parameterTableData.getValueAt(i, 1).toString();
             if (parameter.equals(name)) {
-                return new Long(parameterTableData.getValueAt(i, 0).toString());
+                return Long.valueOf(parameterTableData.getValueAt(i, 0).toString());
             }
         }
         
