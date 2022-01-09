@@ -96,7 +96,7 @@ public class PublishedPlansTable extends SharedTablePanel {
 
         ObjectType instanceObjectType = PlanDistributionHelper.PLANVERSION_OBJECT_TYPE;
         LongList objectIds = new LongList();
-        objectIds.add(0l);
+        objectIds.add(0L);
         List<ArchivePersistenceObject> instanceObjects = HelperArchive
             .getArchiveCOMObjectList(this.archiveService.getArchiveStub(), instanceObjectType, domain, objectIds);
 
