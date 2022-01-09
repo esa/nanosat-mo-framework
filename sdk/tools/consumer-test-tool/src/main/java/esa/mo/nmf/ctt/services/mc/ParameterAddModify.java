@@ -520,7 +520,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
 
         if (validityExpressionCB.isSelected()) {
             if (validity2.getSelectedIndex() != -1 && !validity3.getText().equals("")) {
-                Long instId = new Long(parameterTableData.getValueAt(validity1.getSelectedIndex(), 0).toString());
+                Long instId = Long.valueOf(parameterTableData.getValueAt(validity1.getSelectedIndex(), 0).toString());
                 PExp = makeNewParameterExpression(instId, validity2.getSelectedIndex(), validity4.isSelected(), validity3.getText());
             } else {
                 JOptionPane.showMessageDialog(null, "Please select an operator and a value!", "Warning!", JOptionPane.PLAIN_MESSAGE);
@@ -536,7 +536,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
             // Reference to the conversion Object
             ObjectId referenceId = new ObjectId();
             referenceId.setKey(new ObjectKey(serviceMCParameter.getConnectionDetails().getDomain(),
-                    new Long(referenceObjIdTF.getText())));  // Get the first objId
+                    Long.valueOf(referenceObjIdTF.getText())));  // Get the first objId
 
             int index = objTypeCB.getSelectedIndex();
 
@@ -616,7 +616,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
                 // Well, then we are updating a previous selected definition
                 Logger.getLogger(ParameterAddModify.class.getName()).info("updateDefinition started");
                 LongList objIds = new LongList();
-                objIds.add(new Long(parameterTableData.getValueAt(parameterDefinitionSelectedIndex, 0).toString()));
+                objIds.add(Long.valueOf(parameterTableData.getValueAt(parameterDefinitionSelectedIndex, 0).toString()));
                 serviceMCParameter.getParameterStub().updateDefinition(objIds, PDefs);
                 parameterTableData.removeRow(parameterDefinitionSelectedIndex);
                 parameterTableData.insertRow(parameterDefinitionSelectedIndex,
