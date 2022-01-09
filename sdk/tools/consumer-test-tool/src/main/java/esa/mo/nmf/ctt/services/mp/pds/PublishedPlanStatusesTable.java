@@ -77,7 +77,7 @@ public class PublishedPlanStatusesTable extends SharedTablePanel {
 
         ObjectType updateObjectType = PlanDistributionHelper.PLANUPDATE_OBJECT_TYPE;
         LongList objectIds = new LongList();
-        objectIds.add(0l);
+        objectIds.add(0L);
         List<ArchivePersistenceObject> updateObjects = HelperArchive
             .getArchiveCOMObjectList(this.archiveService.getArchiveStub(), updateObjectType, domain, objectIds);
 

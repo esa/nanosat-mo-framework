@@ -401,8 +401,8 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
 
     private TimeWindowList createValidityTime() {
         long timeNow = SystemClock.getTime().getValue();
-        TimeExpression windowStart = new TimeExpression("==", null, ArgType.TIME, new Time(timeNow + 10000l));
-        TimeExpression windowEnd = new TimeExpression("==", null, ArgType.TIME, new Time(timeNow + 30 * 24 * 60 * 60 * 1000l)); // 30 days
+        TimeExpression windowStart = new TimeExpression("==", null, ArgType.TIME, new Time(timeNow + 10000L));
+        TimeExpression windowEnd = new TimeExpression("==", null, ArgType.TIME, new Time(timeNow + 30 * 24 * 60 * 60 * 1000L)); // 30 days
         TimeWindow timeWindow = new TimeWindow(windowStart, windowEnd);
 
         TimeWindowList timeWindows = new TimeWindowList();

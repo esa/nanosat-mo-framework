@@ -94,7 +94,7 @@ public class PublishedActivityUpdatesTable extends SharedTablePanel {
 
         ObjectType updateObjectType = PlanEditHelper.ACTIVITYUPDATE_OBJECT_TYPE;
         LongList objectIds = new LongList();
-        objectIds.add(0l);
+        objectIds.add(0L);
         List<ArchivePersistenceObject> updateObjects = HelperArchive
             .getArchiveCOMObjectList(this.archiveService.getArchiveStub(), updateObjectType, domain, objectIds);
 
