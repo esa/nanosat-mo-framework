@@ -531,6 +531,30 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
         new AttitudeModeVectorPointing(new VectorF3D(x, y, z), margin), this);
   }
 
+  @Action(description = "Changes the spacecraft's attitude to inertial pointing mode")
+  public UInteger adcs_InertialPointingMode(
+      Long actionInstanceObjId,
+      boolean reportProgress,
+      MALInteraction interaction,
+      @ActionParameter(name = "Hold Duration", rawUnit = "seconds") Duration holdDuration,
+      @ActionParameter(name = "losX", rawUnit = "degree") float losx,
+      @ActionParameter(name = "losY", rawUnit = "degree") float losy,
+      @ActionParameter(name = "losZ", rawUnit = "degree") float losz,
+      @ActionParameter(name = "flightX", rawUnit = "degree") float flightx,
+      @ActionParameter(name = "flightY", rawUnit = "degree") float flighty,
+      @ActionParameter(name = "flightZ", rawUnit = "degree") float flightz,
+      @ActionParameter(name = "quatA", rawUnit = "") float quatA,
+      @ActionParameter(name = "quatB", rawUnit = "") float quatB,
+      @ActionParameter(name = "quatC", rawUnit = "") float quatC,
+      @ActionParameter(name = "quatD", rawUnit = "") float quatD)
+  {
+    return actionsHandler.executeAdcsModeAction(holdDuration,
+        new AttitudeModeInertialPointing(
+          new VectorF3D(losx, losy, losz),
+          new VectorF3D(flightx, flighty, flightz),
+          new Quaternion(quatA, quatB, quatC, quatD)), this);
+  }
+
   @Action(description = "Unsets the spacecraft's attitude.")
   public UInteger adcs_UnsetAttitude(
       Long actionInstanceObjId,
