@@ -168,9 +168,9 @@ public class TransactionsProcessor {
     Future<List<COMObjectEntity>> future = dbTransactionsExecutor.submit(() -> {
       try {
         dbBackend.createEntityManager();
-        String strPU = "objectTypeId, objId, domainId, network, OBJ, providerURI, "
+        String fieldsList = "objectTypeId, objId, domainId, network, OBJ, providerURI, "
                       + "relatedLink, sourceLinkDomainId, sourceLinkObjId, sourceLinkObjectTypeId, timestampArchiveDetails";
-        String queryString = "SELECT " + strPU + " FROM COMObjectEntity PU WHERE PU.objectTypeId=" + objTypeId + " AND PU.domainId=" + domainId;
+        String queryString = "SELECT " + fieldsList + " FROM COMObjectEntity WHERE objectTypeId=" + objTypeId + " AND domainId=" + domainId;
 
         final Query query = dbBackend.getEM().createNativeQuery(queryString);
         final List<?> resultList = query.getResultList();
@@ -480,30 +480,30 @@ public class TransactionsProcessor {
       // Generate the query string
       String fieldsList = "objectTypeId, objId, domainId, network, OBJ, providerURI, "
           + "relatedLink, sourceLinkDomainId, sourceLinkObjId, sourceLinkObjectTypeId, timestampArchiveDetails";
-      String queryString = queryType.getQueryPrefix() + " " + (queryType == QueryType.SELECT ? fieldsList : "") + " FROM COMObjectEntity AS PU ";
+      String queryString = queryType.getQueryPrefix() + " " + (queryType == QueryType.SELECT ? fieldsList : "") + " FROM COMObjectEntity ";
 
       queryString += "WHERE ";
 
-      queryString += generateQueryStringFromLists("PU.domainId", domainIds);
-      queryString += generateQueryStringFromLists("PU.objectTypeId", objTypeIds);
+      queryString += generateQueryStringFromLists("domainId", domainIds);
+      queryString += generateQueryStringFromLists("objectTypeId", objTypeIds);
 
       queryString += (relatedContainsWildcard) ? ""
-          : "PU.relatedLink=" + archiveQuery.getRelated() + " AND ";
+          : "relatedLink=" + archiveQuery.getRelated() + " AND ";
       queryString += (startTimeContainsWildcard) ? ""
-          : "PU.timestampArchiveDetails>=" + archiveQuery.getStartTime().getValue() + " AND ";
+          : "timestampArchiveDetails>=" + archiveQuery.getStartTime().getValue() + " AND ";
       queryString += (endTimeContainsWildcard) ? ""
-          : "PU.timestampArchiveDetails<=" + archiveQuery.getEndTime().getValue() + " AND ";
+          : "timestampArchiveDetails<=" + archiveQuery.getEndTime().getValue() + " AND ";
       queryString += (providerURIContainsWildcard) ? ""
-          : "PU.providerURI=" + providerURIId + " AND ";
-      queryString += (networkContainsWildcard) ? "" : "PU.network=" + networkId + " AND ";
+          : "providerURI=" + providerURIId + " AND ";
+      queryString += (networkContainsWildcard) ? "" : "network=" + networkId + " AND ";
 
       if (!sourceContainsWildcard) {
-        queryString += generateQueryStringFromLists("PU.sourceLinkObjectTypeId",
+        queryString += generateQueryStringFromLists("sourceLinkObjectTypeId",
             sourceLink.getObjectTypeIds());
-        queryString += generateQueryStringFromLists("PU.sourceLinkDomainId",
+        queryString += generateQueryStringFromLists("sourceLinkDomainId",
             sourceLink.getDomainIds());
         queryString += (sourceObjIdContainsWildcard) ? ""
-            : "PU.sourceLinkObjId=" + sourceLink.getObjId() + " AND ";
+            : "sourceLinkObjId=" + sourceLink.getObjId() + " AND ";
       }
 
       queryString = queryString.substring(0, queryString.length() - 4);
@@ -520,7 +520,7 @@ public class TransactionsProcessor {
               sortOrder = (archiveQuery.getSortOrder()) ? "ASC " : "DESC ";
             }
 
-            queryString += "ORDER BY PU.timestampArchiveDetails "
+            queryString += "ORDER BY timestampArchiveDetails "
                 + sortOrder
                 + "LIMIT "
                 + pfilter.getLimit().getValue()
