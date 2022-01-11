@@ -250,9 +250,8 @@ public class DatabaseBackend {
             }
 
             Logger.getLogger(ArchiveManager.class.getName())
-                    .log(
-                            Level.WARNING,
-                            "The object could not be commited! Waiting 2500 ms and trying again...");
+                    .log(Level.WARNING,
+                            "The object could not be commited! Waiting 2500 ms and trying again...", ex);
             try {
                 Thread.sleep(2500);
             } catch (InterruptedException ex1) {
