@@ -32,7 +32,7 @@ import org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfigurat
  *
  * @author Cesar Coelho
  */
-public class SoftwareDefinedRadioSoftSimAdapter implements SoftwareDefinedRadioAdapterInterface
+public class SoftwareDefinedRadioSoftSimAdapter implements SoftwareDefinedRadioAdapterInterface, SimulatorAdapter
 {
 
   private final ESASimulator instrumentsSimulator;

@@ -38,7 +38,7 @@ import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceType;
  *
  * @author Cesar Coelho
  */
-public class PowerControlSoftSimAdapter implements PowerControlAdapterInterface
+public class PowerControlSoftSimAdapter implements PowerControlAdapterInterface, SimulatorAdapter
 {
 
   enum SimPayloadDevice
@@ -62,12 +62,10 @@ public class PowerControlSoftSimAdapter implements PowerControlAdapterInterface
   private final ConcurrentHashMap<SimPayloadDevice, Device> deviceByType;
   private final Map<Long, SimPayloadDevice> payloadIdByObjInstId;
   private static final Logger LOGGER = Logger.getLogger(PowerControlSoftSimAdapter.class.getName());
-  private final ESASimulator instrumentsSimulator;
 
-  public PowerControlSoftSimAdapter(ESASimulator instrumentsSimulator)
+  public PowerControlSoftSimAdapter()
   {
     LOGGER.log(Level.INFO, "Initialisation");
-    this.instrumentsSimulator = instrumentsSimulator; //TODO this is never used?
     deviceByType = new ConcurrentHashMap<>();
     payloadIdByObjInstId = new HashMap<>();
     initDevices();

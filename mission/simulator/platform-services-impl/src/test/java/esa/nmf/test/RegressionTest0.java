@@ -45,14 +45,14 @@ public class RegressionTest0 {
         doubleList21.trimToSize();
         int int43 = uRIList12.indexOf((java.lang.Object) doubleList21);
         opssat.simulator.main.ESASimulator eSASimulator44 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter44 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator44);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter44 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter45 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator44, pcAdapter44);
         boolean boolean46 = doubleList21.remove((java.lang.Object) autonomousADCSSoftSimAdapter45);
         opssat.simulator.main.ESASimulator eSASimulator47 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter47 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator47);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter47 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter48 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator47, pcAdapter47);
         opssat.simulator.main.ESASimulator eSASimulator49 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator49);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter50 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator49, pcAdapter49);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode51 = autonomousADCSSoftSimAdapter50.getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode52 = null;
@@ -116,7 +116,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = n
         doubleList10.trimToSize();
         int int32 = uRIList1.indexOf((java.lang.Object) doubleList10);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator33);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator33, pcAdapter33);
         boolean boolean35 = doubleList10.remove((java.lang.Object) autonomousADCSSoftSimAdapter34);
         doubleList10.ensureCapacity((-15));
@@ -193,7 +193,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = n
         java.util.Spliterator<org.ccsds.moims.mo.mal.structures.URI> uRISpliterator69 = uRIList20.spliterator();
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream70 = uRIList20.stream();
         opssat.simulator.main.ESASimulator eSASimulator71 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter71 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator71);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter71 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter72 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator71, pcAdapter71);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode73 = autonomousADCSSoftSimAdapter72.getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode74 = null;
@@ -284,7 +284,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter71 = n
         doubleList10.trimToSize();
         int int32 = uRIList1.indexOf((java.lang.Object) doubleList10);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator33);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator33, pcAdapter33);
         boolean boolean35 = doubleList10.remove((java.lang.Object) autonomousADCSSoftSimAdapter34);
         java.util.Spliterator<java.lang.Double> doubleSpliterator36 = doubleList10.spliterator();
@@ -312,7 +312,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test005");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator0, pcAdapter0);
         try {
             org.ccsds.moims.mo.platform.gps.structures.Position position2 = null; // flaky: gPSSoftSimAdapter1.getCurrentPosition();
@@ -332,19 +332,19 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         java.lang.String str8 = longList4.toString();
         java.util.stream.Stream<java.lang.Long> longStream9 = longList4.parallelStream();
         opssat.simulator.main.ESASimulator eSASimulator10 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter10 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator10);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter10 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter11 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator10, pcAdapter10);
         opssat.simulator.main.ESASimulator eSASimulator12 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter12 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator12);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter12 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter13 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator12, pcAdapter12);
         opssat.simulator.main.ESASimulator eSASimulator14 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter14 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator14);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter14 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter15 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator14, pcAdapter14);
         opssat.simulator.main.ESASimulator eSASimulator16 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter16 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator16);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter16 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter17 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator16, pcAdapter16);
         opssat.simulator.main.ESASimulator eSASimulator18 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter18 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator18);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter18 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter19 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator18, pcAdapter18);
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter[] gPSSoftSimAdapterArray20 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter[] { gPSSoftSimAdapter11, gPSSoftSimAdapter13, gPSSoftSimAdapter15, gPSSoftSimAdapter17, gPSSoftSimAdapter19 };
         try {
@@ -365,7 +365,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter18 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test007");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator0, pcAdapter0);
         try {
             org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList satelliteInfoList2 = null; // flaky: gPSSoftSimAdapter1.getSatelliteInfoList();
@@ -389,16 +389,16 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         int int15 = strList5.lastIndexOf((java.lang.Object) stringList11);
         java.util.Spliterator<java.lang.String> strSpliterator16 = strList5.spliterator();
         opssat.simulator.main.ESASimulator eSASimulator17 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter17 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator17);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter17 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter18 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator17, pcAdapter17);
         org.ccsds.moims.mo.mal.structures.Duration duration19 = cameraSoftSimAdapter18.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList20 = cameraSoftSimAdapter18.getAvailableResolutions();
         opssat.simulator.main.ESASimulator eSASimulator21 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator21);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter22 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator21, pcAdapter21);
         java.lang.String str23 = cameraSoftSimAdapter22.getExtraInfo();
         opssat.simulator.main.ESASimulator eSASimulator24 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter24 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator24);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter24 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter25 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator24, pcAdapter24);
         org.ccsds.moims.mo.mal.structures.Duration duration26 = cameraSoftSimAdapter25.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList27 = cameraSoftSimAdapter25.getAvailableResolutions();
@@ -435,7 +435,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter24 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test009");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean2 = gPSSoftSimAdapter1.isUnitAvailable();
         try {
@@ -483,13 +483,13 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean59 = intList22.removeAll((java.util.Collection<java.lang.Float>) floatList47);
         boolean boolean60 = shortList6.removeAll((java.util.Collection<java.lang.Float>) floatList47);
         opssat.simulator.main.ESASimulator eSASimulator61 = null;
-        esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter powerControlSoftSimAdapter62 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator61);
+        esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter powerControlSoftSimAdapter62 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         opssat.simulator.main.ESASimulator eSASimulator63 = null;
-        esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter powerControlSoftSimAdapter64 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator63);
+        esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter powerControlSoftSimAdapter64 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         opssat.simulator.main.ESASimulator eSASimulator65 = null;
-        esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter powerControlSoftSimAdapter66 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator65);
+        esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter powerControlSoftSimAdapter66 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         opssat.simulator.main.ESASimulator eSASimulator67 = null;
-        esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter powerControlSoftSimAdapter68 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator67);
+        esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter powerControlSoftSimAdapter68 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         java.util.Map<org.ccsds.moims.mo.mal.structures.Identifier, org.ccsds.moims.mo.platform.powercontrol.structures.Device> identifierMap69 = powerControlSoftSimAdapter68.getDeviceMap();
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter[] powerControlSoftSimAdapterArray70 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter[] { powerControlSoftSimAdapter62, powerControlSoftSimAdapter64, powerControlSoftSimAdapter66, powerControlSoftSimAdapter68 };
         try {
@@ -531,7 +531,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test011");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         java.lang.String str3 = cameraSoftSimAdapter1.getExtraInfo();
@@ -584,7 +584,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean43 = uShort40.equals((java.lang.Object) 2);
         int int44 = uShortList13.lastIndexOf((java.lang.Object) boolean43);
         opssat.simulator.main.ESASimulator eSASimulator45 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter45 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator45);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter45 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter46 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator45, pcAdapter45);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode47 = autonomousADCSSoftSimAdapter46.getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode48 = null;
@@ -637,7 +637,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter45 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test013");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
@@ -662,7 +662,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test014");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean2 = gPSSoftSimAdapter1.isUnitAvailable();
         try {
@@ -682,7 +682,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.ccsds.moims.mo.mal.structures.Element element2 = integerList0.createElement();
         integerList0.clear();
         opssat.simulator.main.ESASimulator eSASimulator4 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator4);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter5 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator4, pcAdapter4);
         boolean boolean6 = softwareDefinedRadioSoftSimAdapter5.isUnitAvailable();
         boolean boolean8 = softwareDefinedRadioSoftSimAdapter5.enableSDR((java.lang.Boolean) true);
@@ -704,7 +704,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test016");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean2 = gPSSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = gPSSoftSimAdapter1.isUnitAvailable();
@@ -732,15 +732,15 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean8 = shortList5.isEmpty();
         java.util.Iterator<java.lang.Short> shortItor9 = shortList5.iterator();
         opssat.simulator.main.ESASimulator eSASimulator10 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter10 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator10);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter10 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter11 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator10, pcAdapter10);
         esa.mo.platform.impl.provider.gen.GPSAdapterInterface[] gPSAdapterInterfaceArray12 = new esa.mo.platform.impl.provider.gen.GPSAdapterInterface[] { gPSSoftSimAdapter11 };
         opssat.simulator.main.ESASimulator eSASimulator13 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter13 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator13);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter13 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter14 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator13, pcAdapter13);
         esa.mo.platform.impl.provider.gen.GPSAdapterInterface[] gPSAdapterInterfaceArray15 = new esa.mo.platform.impl.provider.gen.GPSAdapterInterface[] { gPSSoftSimAdapter14 };
         opssat.simulator.main.ESASimulator eSASimulator16 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter16 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator16);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter16 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter17 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator16, pcAdapter16);
         esa.mo.platform.impl.provider.gen.GPSAdapterInterface[] gPSAdapterInterfaceArray18 = new esa.mo.platform.impl.provider.gen.GPSAdapterInterface[] { gPSSoftSimAdapter17 };
         esa.mo.platform.impl.provider.gen.GPSAdapterInterface[][] gPSAdapterInterfaceArray19 = new esa.mo.platform.impl.provider.gen.GPSAdapterInterface[][] { gPSAdapterInterfaceArray12, gPSAdapterInterfaceArray15, gPSAdapterInterfaceArray18 };
@@ -765,7 +765,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter16 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test018");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         double double3 = duration2.getValue();
@@ -886,7 +886,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test019");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean2 = gPSSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = gPSSoftSimAdapter1.isUnitAvailable();
@@ -949,24 +949,24 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean61 = uShortList2.remove((java.lang.Object) int60);
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream62 = uShortList2.parallelStream();
         opssat.simulator.main.ESASimulator eSASimulator63 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter63 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator63);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter63 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter64 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator63, pcAdapter63);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode65 = null;
         autonomousADCSSoftSimAdapter64.setDesiredAttitude(attitudeMode65);
         boolean boolean67 = autonomousADCSSoftSimAdapter64.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator68 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter68 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator68);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter68 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter69 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator68, pcAdapter68);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode70 = null;
         autonomousADCSSoftSimAdapter69.setDesiredAttitude(attitudeMode70);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode72 = autonomousADCSSoftSimAdapter69.getActiveAttitudeMode();
         opssat.simulator.main.ESASimulator eSASimulator73 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter73 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator73);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter73 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter74 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator73, pcAdapter73);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode75 = null;
         autonomousADCSSoftSimAdapter74.setDesiredAttitude(attitudeMode75);
         opssat.simulator.main.ESASimulator eSASimulator77 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter77 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator77);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter77 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter78 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator77, pcAdapter77);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode79 = null;
         autonomousADCSSoftSimAdapter78.setDesiredAttitude(attitudeMode79);
@@ -1022,19 +1022,19 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter77 = n
         java.util.ListIterator<java.lang.Short> shortItor6 = shortList3.listIterator();
         boolean boolean8 = shortList3.remove((java.lang.Object) (-1L));
         opssat.simulator.main.ESASimulator eSASimulator9 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter9 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator9);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter9 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter10 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator9, pcAdapter9);
         boolean boolean11 = softwareDefinedRadioSoftSimAdapter10.isUnitAvailable();
         boolean boolean13 = softwareDefinedRadioSoftSimAdapter10.enableSDR((java.lang.Boolean) false);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration14 = null;
         boolean boolean15 = softwareDefinedRadioSoftSimAdapter10.setConfiguration(sDRConfiguration14);
         opssat.simulator.main.ESASimulator eSASimulator16 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter16 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator16);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter16 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter17 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator16, pcAdapter16);
         boolean boolean18 = softwareDefinedRadioSoftSimAdapter17.isUnitAvailable();
         boolean boolean20 = softwareDefinedRadioSoftSimAdapter17.enableSDR((java.lang.Boolean) false);
         opssat.simulator.main.ESASimulator eSASimulator21 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator21);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter22 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator21, pcAdapter21);
         boolean boolean23 = softwareDefinedRadioSoftSimAdapter22.isUnitAvailable();
         boolean boolean24 = softwareDefinedRadioSoftSimAdapter22.isUnitAvailable();
@@ -1046,7 +1046,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = n
         boolean boolean32 = softwareDefinedRadioSoftSimAdapter22.setConfiguration(sDRConfiguration31);
         boolean boolean34 = softwareDefinedRadioSoftSimAdapter22.enableSDR((java.lang.Boolean) false);
         opssat.simulator.main.ESASimulator eSASimulator35 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter35 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator35);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter35 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter36 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator35, pcAdapter35);
         boolean boolean37 = softwareDefinedRadioSoftSimAdapter36.isUnitAvailable();
         boolean boolean38 = softwareDefinedRadioSoftSimAdapter36.isUnitAvailable();
@@ -1055,7 +1055,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter35 = n
         boolean boolean42 = softwareDefinedRadioSoftSimAdapter36.enableSDR((java.lang.Boolean) true);
         boolean boolean43 = softwareDefinedRadioSoftSimAdapter36.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator44 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter44 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator44);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter44 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter45 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator44, pcAdapter44);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration46 = null;
         boolean boolean47 = softwareDefinedRadioSoftSimAdapter45.setConfiguration(sDRConfiguration46);
@@ -1064,7 +1064,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter44 = n
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration50 = null;
         boolean boolean51 = softwareDefinedRadioSoftSimAdapter45.setConfiguration(sDRConfiguration50);
         opssat.simulator.main.ESASimulator eSASimulator52 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter52 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator52);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter52 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter53 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator52, pcAdapter52);
         boolean boolean54 = softwareDefinedRadioSoftSimAdapter53.isUnitAvailable();
         boolean boolean55 = softwareDefinedRadioSoftSimAdapter53.isUnitAvailable();
@@ -1115,7 +1115,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter52 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test022");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration3 = cameraSoftSimAdapter1.getMinimumPeriod();
@@ -1157,7 +1157,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean28 = longList18.retainAll((java.util.Collection<java.lang.Float>) floatList27);
         boolean boolean29 = doubleList9.containsAll((java.util.Collection<java.lang.Float>) floatList27);
         opssat.simulator.main.ESASimulator eSASimulator30 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter30 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator30);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter30 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter31 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator30, pcAdapter30);
         org.ccsds.moims.mo.mal.structures.Duration duration32 = cameraSoftSimAdapter31.getMinimumPeriod();
         java.lang.String str33 = cameraSoftSimAdapter31.getExtraInfo();
@@ -1230,7 +1230,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter30 = n
         java.lang.String str39 = uShortList37.toString();
         int int40 = floatList22.lastIndexOf((java.lang.Object) str39);
         opssat.simulator.main.ESASimulator eSASimulator41 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter41 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator41);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter41 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter42 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator41, pcAdapter41);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode43 = autonomousADCSSoftSimAdapter42.getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode44 = null;
@@ -1273,7 +1273,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter41 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test025");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration2 = null;
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.setConfiguration(sDRConfiguration2);
@@ -1294,7 +1294,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test026");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean2 = gPSSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = gPSSoftSimAdapter1.isUnitAvailable();
@@ -1337,7 +1337,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean28 = longList18.retainAll((java.util.Collection<java.lang.Float>) floatList27);
         boolean boolean29 = doubleList9.containsAll((java.util.Collection<java.lang.Float>) floatList27);
         opssat.simulator.main.ESASimulator eSASimulator30 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter30 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator30);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter30 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter31 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator30, pcAdapter30);
         org.ccsds.moims.mo.mal.structures.Duration duration32 = cameraSoftSimAdapter31.getMinimumPeriod();
         java.lang.String str33 = cameraSoftSimAdapter31.getExtraInfo();
@@ -1417,7 +1417,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter30 = n
         boolean boolean53 = doubleList16.add((java.lang.Double) 0.0d);
         java.util.stream.Stream<java.lang.Double> doubleStream54 = doubleList16.parallelStream();
         opssat.simulator.main.ESASimulator eSASimulator55 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter55 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator55);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter55 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter56 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator55, pcAdapter55);
         org.ccsds.moims.mo.mal.structures.Duration duration57 = cameraSoftSimAdapter56.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration58 = cameraSoftSimAdapter56.getMinimumPeriod();
@@ -1469,7 +1469,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter55 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test029");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = null;
         autonomousADCSSoftSimAdapter1.setDesiredAttitude(attitudeMode2);
@@ -1487,7 +1487,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test030");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
@@ -1522,7 +1522,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         java.lang.Integer int18 = octetList16.getTypeShortForm();
         java.util.Iterator<java.lang.Byte> byteItor19 = octetList16.iterator();
         opssat.simulator.main.ESASimulator eSASimulator20 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter20 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator20);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter20 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter21 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator20, pcAdapter20);
         org.ccsds.moims.mo.mal.structures.Duration duration22 = cameraSoftSimAdapter21.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration23 = cameraSoftSimAdapter21.getMinimumPeriod();
@@ -1530,13 +1530,13 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter20 = n
         org.ccsds.moims.mo.mal.structures.Duration duration25 = cameraSoftSimAdapter21.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList26 = cameraSoftSimAdapter21.getAvailableResolutions();
         opssat.simulator.main.ESASimulator eSASimulator27 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter27 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator27);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter27 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter28 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator27, pcAdapter27);
         org.ccsds.moims.mo.mal.structures.Duration duration29 = cameraSoftSimAdapter28.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration30 = cameraSoftSimAdapter28.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList31 = cameraSoftSimAdapter28.getAvailableResolutions();
         opssat.simulator.main.ESASimulator eSASimulator32 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter32 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator32);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter32 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter33 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator32, pcAdapter32);
         org.ccsds.moims.mo.mal.structures.Duration duration34 = cameraSoftSimAdapter33.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration35 = cameraSoftSimAdapter33.getMinimumPeriod();
@@ -1572,7 +1572,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter32 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test032");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
@@ -1615,7 +1615,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.ccsds.moims.mo.mal.structures.UOctet uOctet30 = new org.ccsds.moims.mo.mal.structures.UOctet();
         int int31 = strList5.lastIndexOf((java.lang.Object) uOctet30);
         opssat.simulator.main.ESASimulator eSASimulator32 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter32 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator32);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter32 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter33 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator32, pcAdapter32);
         boolean boolean34 = softwareDefinedRadioSoftSimAdapter33.isUnitAvailable();
         boolean boolean35 = softwareDefinedRadioSoftSimAdapter33.isUnitAvailable();
@@ -1688,7 +1688,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter32 = n
         boolean boolean58 = floatList28.retainAll((java.util.Collection<java.lang.Float>) floatList54);
         boolean boolean59 = longList3.retainAll((java.util.Collection<java.lang.Float>) floatList28);
         opssat.simulator.main.ESASimulator eSASimulator60 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter60 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator60);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter60 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter61 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator60, pcAdapter60);
         org.ccsds.moims.mo.mal.structures.Duration duration62 = cameraSoftSimAdapter61.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList63 = cameraSoftSimAdapter61.getAvailableResolutions();
@@ -1755,7 +1755,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter60 = n
         doubleList10.trimToSize();
         int int32 = uRIList1.indexOf((java.lang.Object) doubleList10);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator33);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator33, pcAdapter33);
         boolean boolean35 = doubleList10.remove((java.lang.Object) autonomousADCSSoftSimAdapter34);
         java.lang.Object obj36 = doubleList10.clone();
@@ -1788,7 +1788,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test036");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean2 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
@@ -1837,7 +1837,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean28 = longList18.retainAll((java.util.Collection<java.lang.Float>) floatList27);
         boolean boolean29 = doubleList9.containsAll((java.util.Collection<java.lang.Float>) floatList27);
         opssat.simulator.main.ESASimulator eSASimulator30 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter30 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator30);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter30 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter31 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator30, pcAdapter30);
         org.ccsds.moims.mo.mal.structures.Duration duration32 = cameraSoftSimAdapter31.getMinimumPeriod();
         java.lang.String str33 = cameraSoftSimAdapter31.getExtraInfo();
@@ -1887,20 +1887,20 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter30 = n
         org.ccsds.moims.mo.mal.structures.UShort uShort13 = uShortList11.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.Element element14 = uShortList11.createElement();
         opssat.simulator.main.ESASimulator eSASimulator15 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter15 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator15);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter15 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter16 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator15, pcAdapter15);
         opssat.simulator.main.ESASimulator eSASimulator17 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter17 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator17);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter17 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter18 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator17, pcAdapter17);
         opssat.simulator.main.ESASimulator eSASimulator19 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter19 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator19);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter19 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter20 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator19, pcAdapter19);
         opssat.simulator.main.ESASimulator eSASimulator21 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator21);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter22 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator21, pcAdapter21);
         boolean boolean23 = gPSSoftSimAdapter22.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator24 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter24 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator24);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter24 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter25 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator24, pcAdapter24);
         boolean boolean26 = gPSSoftSimAdapter25.isUnitAvailable();
         esa.mo.platform.impl.provider.gen.GPSAdapterInterface[] gPSAdapterInterfaceArray27 = new esa.mo.platform.impl.provider.gen.GPSAdapterInterface[] { gPSSoftSimAdapter16, gPSSoftSimAdapter18, gPSSoftSimAdapter20, gPSSoftSimAdapter22, gPSSoftSimAdapter25 };
@@ -1929,7 +1929,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter24 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test039");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean2 = gPSSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = gPSSoftSimAdapter1.isUnitAvailable();
@@ -1947,7 +1947,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test040");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean2 = gPSSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = gPSSoftSimAdapter1.isUnitAvailable();
@@ -1971,7 +1971,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test041");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean2 = gPSSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = gPSSoftSimAdapter1.isUnitAvailable();
@@ -1990,7 +1990,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
             System.out.format("%n%s%n", "RegressionTest0.test042");
         org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 100);
         opssat.simulator.main.ESASimulator eSASimulator2 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter2 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator2);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter2 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter3 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator2, pcAdapter2);
         boolean boolean4 = softwareDefinedRadioSoftSimAdapter3.isUnitAvailable();
         boolean boolean5 = softwareDefinedRadioSoftSimAdapter3.isUnitAvailable();
@@ -1999,17 +1999,17 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter2 = ne
         boolean boolean9 = softwareDefinedRadioSoftSimAdapter3.enableSDR((java.lang.Boolean) true);
         boolean boolean11 = softwareDefinedRadioSoftSimAdapter3.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator12 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter12 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator12);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter12 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter13 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator12, pcAdapter12);
         boolean boolean14 = softwareDefinedRadioSoftSimAdapter13.isUnitAvailable();
         boolean boolean16 = softwareDefinedRadioSoftSimAdapter13.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator17 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter17 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator17);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter17 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter18 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator17, pcAdapter17);
         boolean boolean19 = softwareDefinedRadioSoftSimAdapter18.isUnitAvailable();
         boolean boolean20 = softwareDefinedRadioSoftSimAdapter18.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator21 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator21);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter22 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator21, pcAdapter21);
         esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray23 = new esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] { softwareDefinedRadioSoftSimAdapter3, softwareDefinedRadioSoftSimAdapter13, softwareDefinedRadioSoftSimAdapter18, softwareDefinedRadioSoftSimAdapter22 };
         esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray24 = stringList1.toArray(softwareDefinedRadioAdapterInterfaceArray23);
@@ -2036,7 +2036,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test043");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean2 = gPSSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = gPSSoftSimAdapter1.isUnitAvailable();
@@ -2092,7 +2092,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean47 = doubleList10.add((java.lang.Double) 0.0d);
         java.util.stream.Stream<java.lang.Double> doubleStream48 = doubleList10.parallelStream();
         opssat.simulator.main.ESASimulator eSASimulator49 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator49);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter50 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator49, pcAdapter49);
         org.ccsds.moims.mo.mal.structures.Duration duration51 = cameraSoftSimAdapter50.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration52 = cameraSoftSimAdapter50.getMinimumPeriod();
@@ -2156,7 +2156,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = n
         doubleList10.trimToSize();
         int int32 = uRIList1.indexOf((java.lang.Object) doubleList10);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator33);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator33, pcAdapter33);
         boolean boolean35 = doubleList10.remove((java.lang.Object) autonomousADCSSoftSimAdapter34);
         java.lang.Object obj36 = doubleList10.clone();
@@ -2198,7 +2198,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = n
         uRIList0.trimToSize();
         java.lang.Long long6 = uRIList0.getShortForm();
         opssat.simulator.main.ESASimulator eSASimulator7 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter7 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator7);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter7 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter8 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator7, pcAdapter7);
         org.ccsds.moims.mo.mal.structures.Duration duration9 = cameraSoftSimAdapter8.getMinimumPeriod();
         double double10 = duration9.getValue();
@@ -2254,7 +2254,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter7 = ne
         boolean boolean41 = strList5.contains((java.lang.Object) uShort40);
         java.util.ListIterator<java.lang.String> strItor42 = strList5.listIterator();
         opssat.simulator.main.ESASimulator eSASimulator43 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter43 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator43);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter43 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter44 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator43, pcAdapter43);
         boolean boolean45 = gPSSoftSimAdapter44.isUnitAvailable();
         boolean boolean46 = gPSSoftSimAdapter44.isUnitAvailable();
@@ -2262,28 +2262,28 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter43 = n
         boolean boolean48 = gPSSoftSimAdapter44.isUnitAvailable();
         boolean boolean49 = gPSSoftSimAdapter44.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator50 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter50 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator50);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter50 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter51 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator50, pcAdapter50);
         boolean boolean52 = gPSSoftSimAdapter51.isUnitAvailable();
         boolean boolean53 = gPSSoftSimAdapter51.isUnitAvailable();
         boolean boolean54 = gPSSoftSimAdapter51.isUnitAvailable();
         boolean boolean55 = gPSSoftSimAdapter51.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator56 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter56 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator56);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter56 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter57 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator56, pcAdapter56);
         boolean boolean58 = gPSSoftSimAdapter57.isUnitAvailable();
         boolean boolean59 = gPSSoftSimAdapter57.isUnitAvailable();
         boolean boolean60 = gPSSoftSimAdapter57.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator61 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter61 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator61);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter61 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter62 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator61, pcAdapter61);
         boolean boolean63 = gPSSoftSimAdapter62.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator64 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter64 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator64);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter64 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter65 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator64, pcAdapter64);
         boolean boolean66 = gPSSoftSimAdapter65.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator67 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter67 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator67);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter67 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter68 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator67, pcAdapter67);
         boolean boolean69 = gPSSoftSimAdapter68.isUnitAvailable();
         boolean boolean70 = gPSSoftSimAdapter68.isUnitAvailable();
@@ -2363,7 +2363,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter67 = n
         doubleList10.trimToSize();
         int int32 = uRIList1.indexOf((java.lang.Object) doubleList10);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator33);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator33, pcAdapter33);
         boolean boolean35 = doubleList10.remove((java.lang.Object) autonomousADCSSoftSimAdapter34);
         java.util.Iterator<java.lang.Double> doubleItor36 = doubleList10.iterator();
@@ -2396,7 +2396,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test049");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
@@ -2440,7 +2440,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         doubleList10.trimToSize();
         int int32 = uRIList1.indexOf((java.lang.Object) doubleList10);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator33);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator33, pcAdapter33);
         boolean boolean35 = doubleList10.remove((java.lang.Object) autonomousADCSSoftSimAdapter34);
         java.lang.Object obj36 = doubleList10.clone();
@@ -2520,24 +2520,24 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = n
         boolean boolean67 = uShortList8.remove((java.lang.Object) int66);
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream68 = uShortList8.parallelStream();
         opssat.simulator.main.ESASimulator eSASimulator69 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter69 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator69);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter69 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter70 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator69, pcAdapter69);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode71 = null;
         autonomousADCSSoftSimAdapter70.setDesiredAttitude(attitudeMode71);
         boolean boolean73 = autonomousADCSSoftSimAdapter70.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator74 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter74 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator74);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter74 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter75 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator74, pcAdapter74);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode76 = null;
         autonomousADCSSoftSimAdapter75.setDesiredAttitude(attitudeMode76);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode78 = autonomousADCSSoftSimAdapter75.getActiveAttitudeMode();
         opssat.simulator.main.ESASimulator eSASimulator79 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter79 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator79);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter79 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter80 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator79, pcAdapter79);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode81 = null;
         autonomousADCSSoftSimAdapter80.setDesiredAttitude(attitudeMode81);
         opssat.simulator.main.ESASimulator eSASimulator83 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter83 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator83);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter83 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter84 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator83, pcAdapter83);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode85 = null;
         autonomousADCSSoftSimAdapter84.setDesiredAttitude(attitudeMode85);
@@ -2595,7 +2595,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter83 = n
         org.ccsds.moims.mo.mal.structures.Union union1 = new org.ccsds.moims.mo.mal.structures.Union((java.lang.Integer) (-9));
         org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = union1.getAreaVersion();
         opssat.simulator.main.ESASimulator eSASimulator3 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter3 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator3);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter3 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter4 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator3, pcAdapter3);
         boolean boolean5 = softwareDefinedRadioSoftSimAdapter4.isUnitAvailable();
         boolean boolean6 = softwareDefinedRadioSoftSimAdapter4.isUnitAvailable();
@@ -2660,7 +2660,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter3 = ne
         boolean boolean53 = doubleList16.add((java.lang.Double) 0.0d);
         java.util.stream.Stream<java.lang.Double> doubleStream54 = doubleList16.parallelStream();
         opssat.simulator.main.ESASimulator eSASimulator55 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter55 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator55);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter55 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter56 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator55, pcAdapter55);
         org.ccsds.moims.mo.mal.structures.Duration duration57 = cameraSoftSimAdapter56.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration58 = cameraSoftSimAdapter56.getMinimumPeriod();
@@ -2668,7 +2668,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter55 = n
         boolean boolean60 = uShort5.equals((java.lang.Object) doubleList16);
         org.ccsds.moims.mo.mal.structures.UShort uShort61 = uShort5.getServiceNumber();
         opssat.simulator.main.ESASimulator eSASimulator62 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter62 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator62);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter62 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter63 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator62, pcAdapter62);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration64 = null;
         boolean boolean65 = softwareDefinedRadioSoftSimAdapter63.setConfiguration(sDRConfiguration64);
@@ -2729,7 +2729,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter62 = n
         java.util.ArrayList<java.lang.Boolean> booleanList3 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList3, booleanArray2);
         opssat.simulator.main.ESASimulator eSASimulator5 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter5 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator5);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter5 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter6 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator5, pcAdapter5);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode7 = autonomousADCSSoftSimAdapter6.getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode8 = null;
@@ -2756,7 +2756,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter5 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test055");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
@@ -2785,7 +2785,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test056");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
@@ -2808,7 +2808,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test057");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration3 = cameraSoftSimAdapter1.getMinimumPeriod();
@@ -2825,7 +2825,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test058");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = null;
         autonomousADCSSoftSimAdapter1.setDesiredAttitude(attitudeMode2);
@@ -2840,7 +2840,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test059");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean2 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
@@ -2883,7 +2883,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         doubleList10.trimToSize();
         int int32 = uRIList1.indexOf((java.lang.Object) doubleList10);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator33);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator33, pcAdapter33);
         boolean boolean35 = doubleList10.remove((java.lang.Object) autonomousADCSSoftSimAdapter34);
         java.lang.Object obj36 = doubleList10.clone();
@@ -2937,7 +2937,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = n
         doubleList10.trimToSize();
         int int32 = uRIList1.indexOf((java.lang.Object) doubleList10);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator33);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator33, pcAdapter33);
         boolean boolean35 = doubleList10.remove((java.lang.Object) autonomousADCSSoftSimAdapter34);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode36 = autonomousADCSSoftSimAdapter34.getActiveAttitudeMode();
@@ -2975,7 +2975,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = n
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = uRIList1.getAreaNumber();
         java.lang.Integer int3 = uRIList1.getTypeShortForm();
         opssat.simulator.main.ESASimulator eSASimulator4 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator4);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter5 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator4, pcAdapter4);
         org.ccsds.moims.mo.mal.structures.Duration duration6 = cameraSoftSimAdapter5.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter5.getAvailableResolutions();
@@ -3001,7 +3001,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = ne
             System.out.format("%n%s%n", "RegressionTest0.test063");
         org.ccsds.moims.mo.mal.structures.UShortList uShortList1 = new org.ccsds.moims.mo.mal.structures.UShortList((int) 'a');
         opssat.simulator.main.ESASimulator eSASimulator2 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter2 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator2);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter2 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter3 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator2, pcAdapter2);
         org.ccsds.moims.mo.mal.structures.Duration duration4 = cameraSoftSimAdapter3.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList5 = cameraSoftSimAdapter3.getAvailableResolutions();
@@ -3024,7 +3024,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter2 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test064");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration2 = null;
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.setConfiguration(sDRConfiguration2);
@@ -3046,7 +3046,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test065");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
@@ -3079,7 +3079,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean12 = doubleList7.equals((java.lang.Object) uRIList9);
         uRIList9.ensureCapacity((int) (short) 100);
         opssat.simulator.main.ESASimulator eSASimulator15 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter15 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator15);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter15 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter16 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator15, pcAdapter15);
         org.ccsds.moims.mo.mal.structures.Duration duration17 = cameraSoftSimAdapter16.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList18 = cameraSoftSimAdapter16.getAvailableResolutions();
@@ -3153,7 +3153,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter15 = n
         boolean boolean58 = floatList28.retainAll((java.util.Collection<java.lang.Float>) floatList54);
         boolean boolean59 = longList3.retainAll((java.util.Collection<java.lang.Float>) floatList28);
         opssat.simulator.main.ESASimulator eSASimulator60 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter60 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator60);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter60 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter61 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator60, pcAdapter60);
         org.ccsds.moims.mo.mal.structures.Duration duration62 = cameraSoftSimAdapter61.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList63 = cameraSoftSimAdapter61.getAvailableResolutions();
@@ -3208,7 +3208,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter60 = n
             System.out.format("%n%s%n", "RegressionTest0.test068");
         org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 100);
         opssat.simulator.main.ESASimulator eSASimulator2 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter2 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator2);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter2 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter3 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator2, pcAdapter2);
         boolean boolean4 = softwareDefinedRadioSoftSimAdapter3.isUnitAvailable();
         boolean boolean5 = softwareDefinedRadioSoftSimAdapter3.isUnitAvailable();
@@ -3217,17 +3217,17 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter2 = ne
         boolean boolean9 = softwareDefinedRadioSoftSimAdapter3.enableSDR((java.lang.Boolean) true);
         boolean boolean11 = softwareDefinedRadioSoftSimAdapter3.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator12 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter12 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator12);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter12 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter13 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator12, pcAdapter12);
         boolean boolean14 = softwareDefinedRadioSoftSimAdapter13.isUnitAvailable();
         boolean boolean16 = softwareDefinedRadioSoftSimAdapter13.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator17 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter17 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator17);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter17 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter18 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator17, pcAdapter17);
         boolean boolean19 = softwareDefinedRadioSoftSimAdapter18.isUnitAvailable();
         boolean boolean20 = softwareDefinedRadioSoftSimAdapter18.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator21 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator21);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter22 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator21, pcAdapter21);
         esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray23 = new esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] { softwareDefinedRadioSoftSimAdapter3, softwareDefinedRadioSoftSimAdapter13, softwareDefinedRadioSoftSimAdapter18, softwareDefinedRadioSoftSimAdapter22 };
         esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray24 = stringList1.toArray(softwareDefinedRadioAdapterInterfaceArray23);
@@ -3263,7 +3263,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = n
         boolean boolean6 = doubleList1.equals((java.lang.Object) uRIList3);
         uRIList3.ensureCapacity((int) (short) 100);
         opssat.simulator.main.ESASimulator eSASimulator9 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter9 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator9);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter9 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter10 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator9, pcAdapter9);
         org.ccsds.moims.mo.mal.structures.Duration duration11 = cameraSoftSimAdapter10.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList12 = cameraSoftSimAdapter10.getAvailableResolutions();
@@ -3338,7 +3338,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter9 = ne
         boolean boolean47 = doubleList10.add((java.lang.Double) 0.0d);
         java.util.stream.Stream<java.lang.Double> doubleStream48 = doubleList10.parallelStream();
         opssat.simulator.main.ESASimulator eSASimulator49 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator49);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter50 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator49, pcAdapter49);
         org.ccsds.moims.mo.mal.structures.Duration duration51 = cameraSoftSimAdapter50.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration52 = cameraSoftSimAdapter50.getMinimumPeriod();
@@ -3386,7 +3386,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test071");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
@@ -3407,7 +3407,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test072");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean2 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
@@ -3432,7 +3432,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.ccsds.moims.mo.mal.structures.UOctet uOctet15 = floatList14.getAreaVersion();
         boolean boolean16 = integerList11.removeAll((java.util.Collection<java.lang.Float>) floatList14);
         opssat.simulator.main.ESASimulator eSASimulator17 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter17 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator17);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter17 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter18 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator17, pcAdapter17);
         org.ccsds.moims.mo.mal.structures.Duration duration19 = cameraSoftSimAdapter18.getMinimumPeriod();
         double double20 = duration19.getValue();
@@ -3458,7 +3458,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter17 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test074");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
@@ -3532,7 +3532,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean47 = doubleList10.add((java.lang.Double) 0.0d);
         java.util.stream.Stream<java.lang.Double> doubleStream48 = doubleList10.parallelStream();
         opssat.simulator.main.ESASimulator eSASimulator49 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator49);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter50 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator49, pcAdapter49);
         org.ccsds.moims.mo.mal.structures.Duration duration51 = cameraSoftSimAdapter50.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration52 = cameraSoftSimAdapter50.getMinimumPeriod();
@@ -3593,7 +3593,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = n
         int int45 = stringList1.lastIndexOf((java.lang.Object) intList36);
         org.ccsds.moims.mo.mal.structures.Element element46 = stringList1.createElement();
         opssat.simulator.main.ESASimulator eSASimulator47 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter47 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator47);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter47 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter48 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator47, pcAdapter47);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration49 = null;
         boolean boolean50 = softwareDefinedRadioSoftSimAdapter48.setConfiguration(sDRConfiguration49);
@@ -3618,7 +3618,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter47 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test077");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         double double3 = duration2.getValue();
@@ -3790,7 +3790,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean81 = doubleList78.isEmpty();
         int int82 = uShortList32.indexOf((java.lang.Object) doubleList78);
         opssat.simulator.main.ESASimulator eSASimulator83 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter83 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator83);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter83 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter84 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator83, pcAdapter83);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode85 = null;
         java.lang.String str86 = autonomousADCSSoftSimAdapter84.validateAttitudeDescriptor(attitudeMode85);
@@ -3857,7 +3857,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter83 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test079");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
@@ -3885,7 +3885,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
             System.out.format("%n%s%n", "RegressionTest0.test080");
         org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 100);
         opssat.simulator.main.ESASimulator eSASimulator2 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter2 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator2);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter2 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter3 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator2, pcAdapter2);
         boolean boolean4 = softwareDefinedRadioSoftSimAdapter3.isUnitAvailable();
         boolean boolean5 = softwareDefinedRadioSoftSimAdapter3.isUnitAvailable();
@@ -3894,17 +3894,17 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter2 = ne
         boolean boolean9 = softwareDefinedRadioSoftSimAdapter3.enableSDR((java.lang.Boolean) true);
         boolean boolean11 = softwareDefinedRadioSoftSimAdapter3.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator12 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter12 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator12);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter12 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter13 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator12, pcAdapter12);
         boolean boolean14 = softwareDefinedRadioSoftSimAdapter13.isUnitAvailable();
         boolean boolean16 = softwareDefinedRadioSoftSimAdapter13.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator17 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter17 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator17);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter17 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter18 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator17, pcAdapter17);
         boolean boolean19 = softwareDefinedRadioSoftSimAdapter18.isUnitAvailable();
         boolean boolean20 = softwareDefinedRadioSoftSimAdapter18.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator21 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator21);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter22 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator21, pcAdapter21);
         esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray23 = new esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] { softwareDefinedRadioSoftSimAdapter3, softwareDefinedRadioSoftSimAdapter13, softwareDefinedRadioSoftSimAdapter18, softwareDefinedRadioSoftSimAdapter22 };
         esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray24 = stringList1.toArray(softwareDefinedRadioAdapterInterfaceArray23);
@@ -3986,24 +3986,24 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = n
         boolean boolean67 = uShortList8.remove((java.lang.Object) int66);
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream68 = uShortList8.parallelStream();
         opssat.simulator.main.ESASimulator eSASimulator69 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter69 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator69);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter69 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter70 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator69, pcAdapter69);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode71 = null;
         autonomousADCSSoftSimAdapter70.setDesiredAttitude(attitudeMode71);
         boolean boolean73 = autonomousADCSSoftSimAdapter70.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator74 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter74 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator74);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter74 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter75 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator74, pcAdapter74);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode76 = null;
         autonomousADCSSoftSimAdapter75.setDesiredAttitude(attitudeMode76);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode78 = autonomousADCSSoftSimAdapter75.getActiveAttitudeMode();
         opssat.simulator.main.ESASimulator eSASimulator79 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter79 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator79);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter79 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter80 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator79, pcAdapter79);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode81 = null;
         autonomousADCSSoftSimAdapter80.setDesiredAttitude(attitudeMode81);
         opssat.simulator.main.ESASimulator eSASimulator83 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter83 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator83);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter83 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter84 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator83, pcAdapter83);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode85 = null;
         autonomousADCSSoftSimAdapter84.setDesiredAttitude(attitudeMode85);
@@ -4061,7 +4061,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter83 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test082");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean2 = gPSSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = gPSSoftSimAdapter1.isUnitAvailable();
@@ -4098,7 +4098,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         byte[] byteArray11 = blob6.getValue();
         boolean boolean12 = duration1.equals((java.lang.Object) blob6);
         opssat.simulator.main.ESASimulator eSASimulator13 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter13 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator13);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter13 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter14 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator13, pcAdapter13);
         boolean boolean15 = softwareDefinedRadioSoftSimAdapter14.isUnitAvailable();
         boolean boolean16 = blob6.equals((java.lang.Object) boolean15);
@@ -4118,7 +4118,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter13 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test084");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration2 = null;
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.setConfiguration(sDRConfiguration2);
@@ -4139,7 +4139,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test085");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
@@ -4168,20 +4168,20 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.ccsds.moims.mo.mal.structures.UShort uShort8 = uShortList6.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.Element element9 = uShortList6.createElement();
         opssat.simulator.main.ESASimulator eSASimulator10 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter10 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator10);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter10 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter11 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator10, pcAdapter10);
         opssat.simulator.main.ESASimulator eSASimulator12 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter12 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator12);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter12 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter13 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator12, pcAdapter12);
         opssat.simulator.main.ESASimulator eSASimulator14 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter14 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator14);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter14 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter15 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator14, pcAdapter14);
         opssat.simulator.main.ESASimulator eSASimulator16 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter16 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator16);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter16 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter17 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator16, pcAdapter16);
         boolean boolean18 = gPSSoftSimAdapter17.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator19 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter19 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator19);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter19 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter20 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator19, pcAdapter19);
         boolean boolean21 = gPSSoftSimAdapter20.isUnitAvailable();
         esa.mo.platform.impl.provider.gen.GPSAdapterInterface[] gPSAdapterInterfaceArray22 = new esa.mo.platform.impl.provider.gen.GPSAdapterInterface[] { gPSSoftSimAdapter11, gPSSoftSimAdapter13, gPSSoftSimAdapter15, gPSSoftSimAdapter17, gPSSoftSimAdapter20 };
@@ -4208,7 +4208,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter19 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test087");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
@@ -4233,7 +4233,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test088");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
@@ -4273,7 +4273,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         stringList28.clear();
         org.ccsds.moims.mo.mal.structures.Element element30 = stringList28.createElement();
         opssat.simulator.main.ESASimulator eSASimulator31 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter31 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator31);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter31 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter32 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator31, pcAdapter31);
         boolean boolean33 = softwareDefinedRadioSoftSimAdapter32.isUnitAvailable();
         boolean boolean34 = softwareDefinedRadioSoftSimAdapter32.isUnitAvailable();
@@ -4284,7 +4284,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter31 = n
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration41 = null;
         boolean boolean42 = softwareDefinedRadioSoftSimAdapter32.setConfiguration(sDRConfiguration41);
         opssat.simulator.main.ESASimulator eSASimulator43 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter43 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator43);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter43 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter44 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator43, pcAdapter43);
         boolean boolean45 = softwareDefinedRadioSoftSimAdapter44.isUnitAvailable();
         boolean boolean46 = softwareDefinedRadioSoftSimAdapter44.isUnitAvailable();
@@ -4293,19 +4293,19 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter43 = n
         boolean boolean50 = softwareDefinedRadioSoftSimAdapter44.enableSDR((java.lang.Boolean) true);
         boolean boolean52 = softwareDefinedRadioSoftSimAdapter44.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator53 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter53 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator53);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter53 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter54 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator53, pcAdapter53);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration55 = null;
         boolean boolean56 = softwareDefinedRadioSoftSimAdapter54.setConfiguration(sDRConfiguration55);
         boolean boolean57 = softwareDefinedRadioSoftSimAdapter54.isUnitAvailable();
         boolean boolean59 = softwareDefinedRadioSoftSimAdapter54.enableSDR((java.lang.Boolean) false);
         opssat.simulator.main.ESASimulator eSASimulator60 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter60 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator60);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter60 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter61 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator60, pcAdapter60);
         boolean boolean62 = softwareDefinedRadioSoftSimAdapter61.isUnitAvailable();
         boolean boolean64 = softwareDefinedRadioSoftSimAdapter61.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator65 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter65 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator65);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter65 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter66 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator65, pcAdapter65);
         boolean boolean67 = softwareDefinedRadioSoftSimAdapter66.isUnitAvailable();
         boolean boolean68 = softwareDefinedRadioSoftSimAdapter66.isUnitAvailable();
@@ -4316,7 +4316,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter65 = n
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration75 = null;
         boolean boolean76 = softwareDefinedRadioSoftSimAdapter66.setConfiguration(sDRConfiguration75);
         opssat.simulator.main.ESASimulator eSASimulator77 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter77 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator77);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter77 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter78 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator77, pcAdapter77);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration79 = null;
         boolean boolean80 = softwareDefinedRadioSoftSimAdapter78.setConfiguration(sDRConfiguration79);
@@ -4376,7 +4376,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter77 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test090");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
@@ -4410,7 +4410,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean6 = doubleList1.equals((java.lang.Object) uRIList3);
         uRIList3.ensureCapacity((int) (short) 100);
         opssat.simulator.main.ESASimulator eSASimulator9 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter9 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator9);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter9 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter10 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator9, pcAdapter9);
         org.ccsds.moims.mo.mal.structures.Duration duration11 = cameraSoftSimAdapter10.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList12 = cameraSoftSimAdapter10.getAvailableResolutions();
@@ -4446,7 +4446,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter9 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test092");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
@@ -4471,7 +4471,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test093");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration3 = cameraSoftSimAdapter1.getMinimumPeriod();
@@ -4492,7 +4492,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test094");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration2 = null;
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.setConfiguration(sDRConfiguration2);
@@ -4511,7 +4511,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test095");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
@@ -4537,7 +4537,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         java.util.ArrayList<java.lang.Boolean> booleanList3 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList3, booleanArray2);
         opssat.simulator.main.ESASimulator eSASimulator5 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter5 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator5);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter5 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter6 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator5, pcAdapter5);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode7 = autonomousADCSSoftSimAdapter6.getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode8 = null;
@@ -4601,7 +4601,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter5 = ne
         doubleList28.trimToSize();
         int int50 = uRIList19.indexOf((java.lang.Object) doubleList28);
         opssat.simulator.main.ESASimulator eSASimulator51 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter51 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator51);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter51 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter52 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator51, pcAdapter51);
         boolean boolean53 = doubleList28.remove((java.lang.Object) autonomousADCSSoftSimAdapter52);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode54 = autonomousADCSSoftSimAdapter52.getActiveAttitudeMode();
@@ -4652,7 +4652,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter51 = n
             System.out.format("%n%s%n", "RegressionTest0.test098");
         org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 100);
         opssat.simulator.main.ESASimulator eSASimulator2 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter2 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator2);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter2 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter3 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator2, pcAdapter2);
         boolean boolean4 = softwareDefinedRadioSoftSimAdapter3.isUnitAvailable();
         boolean boolean5 = softwareDefinedRadioSoftSimAdapter3.isUnitAvailable();
@@ -4661,17 +4661,17 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter2 = ne
         boolean boolean9 = softwareDefinedRadioSoftSimAdapter3.enableSDR((java.lang.Boolean) true);
         boolean boolean11 = softwareDefinedRadioSoftSimAdapter3.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator12 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter12 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator12);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter12 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter13 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator12, pcAdapter12);
         boolean boolean14 = softwareDefinedRadioSoftSimAdapter13.isUnitAvailable();
         boolean boolean16 = softwareDefinedRadioSoftSimAdapter13.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator17 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter17 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator17);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter17 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter18 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator17, pcAdapter17);
         boolean boolean19 = softwareDefinedRadioSoftSimAdapter18.isUnitAvailable();
         boolean boolean20 = softwareDefinedRadioSoftSimAdapter18.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator21 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator21);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter22 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator21, pcAdapter21);
         esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray23 = new esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] { softwareDefinedRadioSoftSimAdapter3, softwareDefinedRadioSoftSimAdapter13, softwareDefinedRadioSoftSimAdapter18, softwareDefinedRadioSoftSimAdapter22 };
         esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray24 = stringList1.toArray(softwareDefinedRadioAdapterInterfaceArray23);
@@ -4699,7 +4699,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test099");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration2 = null;
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.setConfiguration(sDRConfiguration2);
@@ -4728,7 +4728,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         java.util.stream.Stream<java.lang.Boolean> booleanStream7 = booleanList1.stream();
         org.ccsds.moims.mo.mal.structures.StringList stringList9 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 100);
         opssat.simulator.main.ESASimulator eSASimulator10 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter10 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator10);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter10 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter11 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator10, pcAdapter10);
         boolean boolean12 = softwareDefinedRadioSoftSimAdapter11.isUnitAvailable();
         boolean boolean13 = softwareDefinedRadioSoftSimAdapter11.isUnitAvailable();
@@ -4737,17 +4737,17 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter10 = n
         boolean boolean17 = softwareDefinedRadioSoftSimAdapter11.enableSDR((java.lang.Boolean) true);
         boolean boolean19 = softwareDefinedRadioSoftSimAdapter11.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator20 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter20 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator20);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter20 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter21 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator20, pcAdapter20);
         boolean boolean22 = softwareDefinedRadioSoftSimAdapter21.isUnitAvailable();
         boolean boolean24 = softwareDefinedRadioSoftSimAdapter21.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator25 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter25 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator25);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter25 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter26 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator25, pcAdapter25);
         boolean boolean27 = softwareDefinedRadioSoftSimAdapter26.isUnitAvailable();
         boolean boolean28 = softwareDefinedRadioSoftSimAdapter26.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator29 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter29 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator29);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter29 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter30 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator29, pcAdapter29);
         esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray31 = new esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] { softwareDefinedRadioSoftSimAdapter11, softwareDefinedRadioSoftSimAdapter21, softwareDefinedRadioSoftSimAdapter26, softwareDefinedRadioSoftSimAdapter30 };
         esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray32 = stringList9.toArray(softwareDefinedRadioAdapterInterfaceArray31);
@@ -4797,7 +4797,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter29 = n
         boolean boolean14 = longList11.isEmpty();
         boolean boolean15 = union1.equals((java.lang.Object) longList11);
         opssat.simulator.main.ESASimulator eSASimulator16 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter16 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator16);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter16 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter opticalDataReceiverSoftSimAdapter17 = new esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter(eSASimulator16, pcAdapter16);
         boolean boolean18 = opticalDataReceiverSoftSimAdapter17.isUnitAvailable();
         boolean boolean19 = opticalDataReceiverSoftSimAdapter17.isUnitAvailable();
@@ -4866,7 +4866,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter16 = n
         boolean boolean52 = doubleList17.removeAll((java.util.Collection<java.lang.Float>) floatList42);
         boolean boolean53 = uShortList1.retainAll((java.util.Collection<java.lang.Float>) floatList42);
         opssat.simulator.main.ESASimulator eSASimulator54 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter54 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator54);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter54 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter55 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator54, pcAdapter54);
         org.ccsds.moims.mo.mal.structures.Duration duration56 = cameraSoftSimAdapter55.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList57 = cameraSoftSimAdapter55.getAvailableResolutions();
@@ -4944,7 +4944,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter54 = n
         boolean boolean28 = longList18.retainAll((java.util.Collection<java.lang.Float>) floatList27);
         boolean boolean29 = doubleList9.containsAll((java.util.Collection<java.lang.Float>) floatList27);
         opssat.simulator.main.ESASimulator eSASimulator30 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter30 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator30);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter30 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter31 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator30, pcAdapter30);
         org.ccsds.moims.mo.mal.structures.Duration duration32 = cameraSoftSimAdapter31.getMinimumPeriod();
         java.lang.String str33 = cameraSoftSimAdapter31.getExtraInfo();
@@ -5019,7 +5019,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter30 = n
         boolean boolean47 = doubleList10.add((java.lang.Double) 0.0d);
         java.util.stream.Stream<java.lang.Double> doubleStream48 = doubleList10.parallelStream();
         opssat.simulator.main.ESASimulator eSASimulator49 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator49);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter50 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator49, pcAdapter49);
         org.ccsds.moims.mo.mal.structures.Duration duration51 = cameraSoftSimAdapter50.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration52 = cameraSoftSimAdapter50.getMinimumPeriod();
@@ -5065,7 +5065,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test105");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean2 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
@@ -5097,7 +5097,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test106");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
@@ -5126,7 +5126,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test107");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
@@ -5148,7 +5148,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test108");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
@@ -5173,7 +5173,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test109");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         java.lang.String str3 = cameraSoftSimAdapter1.getExtraInfo();
@@ -5194,7 +5194,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test110");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean2 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
@@ -5267,24 +5267,24 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean67 = uShortList8.remove((java.lang.Object) int66);
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream68 = uShortList8.parallelStream();
         opssat.simulator.main.ESASimulator eSASimulator69 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter69 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator69);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter69 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter70 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator69, pcAdapter69);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode71 = null;
         autonomousADCSSoftSimAdapter70.setDesiredAttitude(attitudeMode71);
         boolean boolean73 = autonomousADCSSoftSimAdapter70.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator74 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter74 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator74);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter74 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter75 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator74, pcAdapter74);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode76 = null;
         autonomousADCSSoftSimAdapter75.setDesiredAttitude(attitudeMode76);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode78 = autonomousADCSSoftSimAdapter75.getActiveAttitudeMode();
         opssat.simulator.main.ESASimulator eSASimulator79 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter79 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator79);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter79 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter80 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator79, pcAdapter79);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode81 = null;
         autonomousADCSSoftSimAdapter80.setDesiredAttitude(attitudeMode81);
         opssat.simulator.main.ESASimulator eSASimulator83 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter83 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator83);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter83 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter84 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator83, pcAdapter83);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode85 = null;
         autonomousADCSSoftSimAdapter84.setDesiredAttitude(attitudeMode85);
@@ -5342,7 +5342,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter83 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test112");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
@@ -5362,7 +5362,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test113");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean2 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
@@ -5389,7 +5389,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test114");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean2 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
@@ -5411,7 +5411,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test115");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
@@ -5444,7 +5444,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         java.util.stream.Stream<java.lang.Short> shortStream11 = shortList3.parallelStream();
         org.ccsds.moims.mo.mal.structures.StringList stringList13 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 100);
         opssat.simulator.main.ESASimulator eSASimulator14 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter14 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator14);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter14 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter15 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator14, pcAdapter14);
         boolean boolean16 = softwareDefinedRadioSoftSimAdapter15.isUnitAvailable();
         boolean boolean17 = softwareDefinedRadioSoftSimAdapter15.isUnitAvailable();
@@ -5453,17 +5453,17 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter14 = n
         boolean boolean21 = softwareDefinedRadioSoftSimAdapter15.enableSDR((java.lang.Boolean) true);
         boolean boolean23 = softwareDefinedRadioSoftSimAdapter15.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator24 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter24 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator24);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter24 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter25 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator24, pcAdapter24);
         boolean boolean26 = softwareDefinedRadioSoftSimAdapter25.isUnitAvailable();
         boolean boolean28 = softwareDefinedRadioSoftSimAdapter25.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator29 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter29 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator29);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter29 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter30 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator29, pcAdapter29);
         boolean boolean31 = softwareDefinedRadioSoftSimAdapter30.isUnitAvailable();
         boolean boolean32 = softwareDefinedRadioSoftSimAdapter30.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator33);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator33, pcAdapter33);
         esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray35 = new esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] { softwareDefinedRadioSoftSimAdapter15, softwareDefinedRadioSoftSimAdapter25, softwareDefinedRadioSoftSimAdapter30, softwareDefinedRadioSoftSimAdapter34 };
         esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray36 = stringList13.toArray(softwareDefinedRadioAdapterInterfaceArray35);
@@ -5495,7 +5495,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test117");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
@@ -5537,24 +5537,24 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.ccsds.moims.mo.mal.structures.LongList longList22 = new org.ccsds.moims.mo.mal.structures.LongList(11);
         int int23 = octetList16.lastIndexOf((java.lang.Object) longList22);
         opssat.simulator.main.ESASimulator eSASimulator24 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter24 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator24);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter24 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter25 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator24, pcAdapter24);
         boolean boolean26 = gPSSoftSimAdapter25.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator27 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter27 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator27);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter27 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter28 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator27, pcAdapter27);
         boolean boolean29 = gPSSoftSimAdapter28.isUnitAvailable();
         boolean boolean30 = gPSSoftSimAdapter28.isUnitAvailable();
         boolean boolean31 = gPSSoftSimAdapter28.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator32 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter32 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator32);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter32 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter33 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator32, pcAdapter32);
         boolean boolean34 = gPSSoftSimAdapter33.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator35 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter35 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator35);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter35 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter36 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator35, pcAdapter35);
         opssat.simulator.main.ESASimulator eSASimulator37 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter37 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator37);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter37 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter38 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator37, pcAdapter37);
         boolean boolean39 = gPSSoftSimAdapter38.isUnitAvailable();
         boolean boolean40 = gPSSoftSimAdapter38.isUnitAvailable();
@@ -5598,7 +5598,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter37 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test119");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean2 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
@@ -5635,7 +5635,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.ccsds.moims.mo.mal.structures.UShort uShort13 = uRIList12.getAreaNumber();
         java.lang.Integer int14 = uRIList12.getTypeShortForm();
         opssat.simulator.main.ESASimulator eSASimulator15 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter15 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator15);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter15 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter16 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator15, pcAdapter15);
         org.ccsds.moims.mo.mal.structures.Duration duration17 = cameraSoftSimAdapter16.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList18 = cameraSoftSimAdapter16.getAvailableResolutions();
@@ -5665,7 +5665,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter15 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test121");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
@@ -5693,7 +5693,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test122");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
@@ -5737,7 +5737,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         doubleList10.trimToSize();
         int int32 = uRIList1.indexOf((java.lang.Object) doubleList10);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator33);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator33, pcAdapter33);
         boolean boolean35 = doubleList10.remove((java.lang.Object) autonomousADCSSoftSimAdapter34);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode36 = autonomousADCSSoftSimAdapter34.getActiveAttitudeMode();
@@ -5777,7 +5777,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = n
         java.util.stream.Stream<java.lang.Byte> byteStream8 = octetList7.stream();
         boolean boolean9 = uRIList0.equals((java.lang.Object) byteStream8);
         opssat.simulator.main.ESASimulator eSASimulator10 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter10 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator10);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter10 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter11 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator10, pcAdapter10);
         org.ccsds.moims.mo.mal.structures.Duration duration12 = cameraSoftSimAdapter11.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList13 = cameraSoftSimAdapter11.getAvailableResolutions();
@@ -5809,7 +5809,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter10 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test125");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean2 = gPSSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = gPSSoftSimAdapter1.isUnitAvailable();
@@ -5837,7 +5837,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test126");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean2 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
@@ -5883,24 +5883,24 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.ccsds.moims.mo.mal.structures.LongList longList18 = new org.ccsds.moims.mo.mal.structures.LongList(11);
         int int19 = octetList12.lastIndexOf((java.lang.Object) longList18);
         opssat.simulator.main.ESASimulator eSASimulator20 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter20 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator20);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter20 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter21 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator20, pcAdapter20);
         boolean boolean22 = gPSSoftSimAdapter21.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator23 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter23 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator23);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter23 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter24 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator23, pcAdapter23);
         boolean boolean25 = gPSSoftSimAdapter24.isUnitAvailable();
         boolean boolean26 = gPSSoftSimAdapter24.isUnitAvailable();
         boolean boolean27 = gPSSoftSimAdapter24.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator28 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter28 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator28);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter28 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter29 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator28, pcAdapter28);
         boolean boolean30 = gPSSoftSimAdapter29.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator31 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter31 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator31);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter31 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter32 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator31, pcAdapter31);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator33);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator33, pcAdapter33);
         boolean boolean35 = gPSSoftSimAdapter34.isUnitAvailable();
         boolean boolean36 = gPSSoftSimAdapter34.isUnitAvailable();
@@ -5944,7 +5944,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test128");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         java.lang.String str3 = cameraSoftSimAdapter1.getExtraInfo();
@@ -6000,7 +6000,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         int int46 = floatList28.lastIndexOf((java.lang.Object) union43);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet47 = union43.getAreaVersion();
         opssat.simulator.main.ESASimulator eSASimulator48 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter48 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator48);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter48 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter49 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator48, pcAdapter48);
         org.ccsds.moims.mo.mal.structures.Duration duration50 = cameraSoftSimAdapter49.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration51 = cameraSoftSimAdapter49.getMinimumPeriod();
@@ -6066,7 +6066,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter48 = n
         doubleList10.trimToSize();
         int int32 = uRIList1.indexOf((java.lang.Object) doubleList10);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator33);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator33, pcAdapter33);
         boolean boolean35 = doubleList10.remove((java.lang.Object) autonomousADCSSoftSimAdapter34);
         java.util.Iterator<java.lang.Double> doubleItor36 = doubleList10.iterator();
@@ -6099,7 +6099,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test131");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean2 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration3 = null;
@@ -6133,7 +6133,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         uShortList2.clear();
         uShortList2.ensureCapacity(0);
         opssat.simulator.main.ESASimulator eSASimulator18 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter18 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator18);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter18 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter19 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator18, pcAdapter18);
         org.ccsds.moims.mo.mal.structures.Duration duration20 = cameraSoftSimAdapter19.getMinimumPeriod();
         double double21 = duration20.getValue();
@@ -6164,7 +6164,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter18 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test133");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.UShort uShort3 = duration2.getServiceNumber();
@@ -6189,7 +6189,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test134");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
@@ -6225,7 +6225,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         stringList6.clear();
         org.ccsds.moims.mo.mal.structures.Element element8 = stringList6.createElement();
         opssat.simulator.main.ESASimulator eSASimulator9 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter9 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator9);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter9 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter10 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator9, pcAdapter9);
         boolean boolean11 = softwareDefinedRadioSoftSimAdapter10.isUnitAvailable();
         boolean boolean12 = softwareDefinedRadioSoftSimAdapter10.isUnitAvailable();
@@ -6236,7 +6236,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter9 = ne
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration19 = null;
         boolean boolean20 = softwareDefinedRadioSoftSimAdapter10.setConfiguration(sDRConfiguration19);
         opssat.simulator.main.ESASimulator eSASimulator21 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator21);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter22 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator21, pcAdapter21);
         boolean boolean23 = softwareDefinedRadioSoftSimAdapter22.isUnitAvailable();
         boolean boolean24 = softwareDefinedRadioSoftSimAdapter22.isUnitAvailable();
@@ -6245,19 +6245,19 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = n
         boolean boolean28 = softwareDefinedRadioSoftSimAdapter22.enableSDR((java.lang.Boolean) true);
         boolean boolean30 = softwareDefinedRadioSoftSimAdapter22.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator31 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter31 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator31);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter31 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter32 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator31, pcAdapter31);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration33 = null;
         boolean boolean34 = softwareDefinedRadioSoftSimAdapter32.setConfiguration(sDRConfiguration33);
         boolean boolean35 = softwareDefinedRadioSoftSimAdapter32.isUnitAvailable();
         boolean boolean37 = softwareDefinedRadioSoftSimAdapter32.enableSDR((java.lang.Boolean) false);
         opssat.simulator.main.ESASimulator eSASimulator38 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter38 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator38);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter38 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter39 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator38, pcAdapter38);
         boolean boolean40 = softwareDefinedRadioSoftSimAdapter39.isUnitAvailable();
         boolean boolean42 = softwareDefinedRadioSoftSimAdapter39.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator43 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter43 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator43);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter43 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter44 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator43, pcAdapter43);
         boolean boolean45 = softwareDefinedRadioSoftSimAdapter44.isUnitAvailable();
         boolean boolean46 = softwareDefinedRadioSoftSimAdapter44.isUnitAvailable();
@@ -6268,7 +6268,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter43 = n
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration53 = null;
         boolean boolean54 = softwareDefinedRadioSoftSimAdapter44.setConfiguration(sDRConfiguration53);
         opssat.simulator.main.ESASimulator eSASimulator55 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter55 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator55);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter55 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter56 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator55, pcAdapter55);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration57 = null;
         boolean boolean58 = softwareDefinedRadioSoftSimAdapter56.setConfiguration(sDRConfiguration57);
@@ -6315,7 +6315,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter55 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test136");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = null;
         autonomousADCSSoftSimAdapter1.setDesiredAttitude(attitudeMode2);
@@ -6337,7 +6337,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test137");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
@@ -6381,24 +6381,24 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.ccsds.moims.mo.mal.structures.LongList longList18 = new org.ccsds.moims.mo.mal.structures.LongList(11);
         int int19 = octetList12.lastIndexOf((java.lang.Object) longList18);
         opssat.simulator.main.ESASimulator eSASimulator20 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter20 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator20);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter20 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter21 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator20, pcAdapter20);
         boolean boolean22 = gPSSoftSimAdapter21.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator23 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter23 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator23);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter23 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter24 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator23, pcAdapter23);
         boolean boolean25 = gPSSoftSimAdapter24.isUnitAvailable();
         boolean boolean26 = gPSSoftSimAdapter24.isUnitAvailable();
         boolean boolean27 = gPSSoftSimAdapter24.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator28 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter28 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator28);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter28 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter29 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator28, pcAdapter28);
         boolean boolean30 = gPSSoftSimAdapter29.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator31 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter31 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator31);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter31 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter32 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator31, pcAdapter31);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator33);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator33, pcAdapter33);
         boolean boolean35 = gPSSoftSimAdapter34.isUnitAvailable();
         boolean boolean36 = gPSSoftSimAdapter34.isUnitAvailable();
@@ -6439,7 +6439,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test139");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean2 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
@@ -6468,7 +6468,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test140");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
@@ -6501,7 +6501,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.ccsds.moims.mo.mal.structures.Union union1 = new org.ccsds.moims.mo.mal.structures.Union((java.lang.Integer) (-9));
         org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = union1.getAreaVersion();
         opssat.simulator.main.ESASimulator eSASimulator3 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter3 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator3);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter3 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter4 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator3, pcAdapter3);
         boolean boolean5 = softwareDefinedRadioSoftSimAdapter4.isUnitAvailable();
         boolean boolean6 = softwareDefinedRadioSoftSimAdapter4.isUnitAvailable();
@@ -6568,7 +6568,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter3 = ne
         boolean boolean56 = doubleList19.add((java.lang.Double) 0.0d);
         java.util.stream.Stream<java.lang.Double> doubleStream57 = doubleList19.parallelStream();
         opssat.simulator.main.ESASimulator eSASimulator58 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter58 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator58);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter58 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter59 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator58, pcAdapter58);
         org.ccsds.moims.mo.mal.structures.Duration duration60 = cameraSoftSimAdapter59.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration61 = cameraSoftSimAdapter59.getMinimumPeriod();
@@ -6641,7 +6641,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter58 = n
         doubleList10.trimToSize();
         int int32 = uRIList1.indexOf((java.lang.Object) doubleList10);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator33);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator33, pcAdapter33);
         boolean boolean35 = doubleList10.remove((java.lang.Object) autonomousADCSSoftSimAdapter34);
         java.lang.Object obj36 = doubleList10.clone();
@@ -6680,7 +6680,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = n
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = uRIList1.getAreaNumber();
         java.lang.Integer int3 = uRIList1.getTypeShortForm();
         opssat.simulator.main.ESASimulator eSASimulator4 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator4);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter5 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator4, pcAdapter4);
         org.ccsds.moims.mo.mal.structures.Duration duration6 = cameraSoftSimAdapter5.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter5.getAvailableResolutions();
@@ -6737,7 +6737,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = ne
         java.util.ArrayList<java.lang.Boolean> booleanList32 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList32, booleanArray31);
         opssat.simulator.main.ESASimulator eSASimulator34 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter34 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator34);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter34 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter35 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator34, pcAdapter34);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode36 = autonomousADCSSoftSimAdapter35.getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode37 = null;
@@ -6839,7 +6839,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter34 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test146");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         double double3 = duration2.getValue();
@@ -6858,7 +6858,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test147");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         java.lang.String str3 = cameraSoftSimAdapter1.getExtraInfo();
@@ -6879,7 +6879,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test148");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
@@ -6901,7 +6901,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test149");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration3 = cameraSoftSimAdapter1.getMinimumPeriod();
@@ -6918,7 +6918,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test150");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
@@ -6939,7 +6939,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test151");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         double double3 = duration2.getValue();
@@ -6960,7 +6960,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test152");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration3 = cameraSoftSimAdapter1.getMinimumPeriod();
@@ -6984,7 +6984,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = uRIList1.getAreaNumber();
         java.lang.Integer int3 = uRIList1.getTypeShortForm();
         opssat.simulator.main.ESASimulator eSASimulator4 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator4);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter5 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator4, pcAdapter4);
         org.ccsds.moims.mo.mal.structures.Duration duration6 = cameraSoftSimAdapter5.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter5.getAvailableResolutions();
@@ -7009,7 +7009,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test154");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration2 = null;
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.setConfiguration(sDRConfiguration2);
@@ -7035,7 +7035,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test155");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         double double3 = duration2.getValue();
@@ -7144,7 +7144,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test156");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean2 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
@@ -7160,7 +7160,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test157");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
@@ -7185,7 +7185,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test158");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration2 = null;
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.setConfiguration(sDRConfiguration2);
@@ -7211,7 +7211,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test159");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         java.lang.String str2 = cameraSoftSimAdapter1.getExtraInfo();
         org.ccsds.moims.mo.mal.structures.Duration duration3 = cameraSoftSimAdapter1.getMinimumPeriod();
@@ -7226,7 +7226,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test160");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration2 = null;
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.setConfiguration(sDRConfiguration2);
@@ -7264,7 +7264,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         java.lang.Object obj15 = longList3.clone();
         boolean boolean16 = longList3.isEmpty();
         opssat.simulator.main.ESASimulator eSASimulator17 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter17 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator17);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter17 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter18 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator17, pcAdapter17);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration19 = null;
         boolean boolean20 = softwareDefinedRadioSoftSimAdapter18.setConfiguration(sDRConfiguration19);
@@ -7302,7 +7302,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter17 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test162");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
@@ -7328,7 +7328,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test163");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean2 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
@@ -7359,7 +7359,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test164");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration3 = cameraSoftSimAdapter1.getMinimumPeriod();
@@ -7376,7 +7376,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test165");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean2 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
@@ -7427,7 +7427,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean47 = doubleList10.add((java.lang.Double) 0.0d);
         java.util.stream.Stream<java.lang.Double> doubleStream48 = doubleList10.parallelStream();
         opssat.simulator.main.ESASimulator eSASimulator49 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator49);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter50 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator49, pcAdapter49);
         org.ccsds.moims.mo.mal.structures.Duration duration51 = cameraSoftSimAdapter50.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration52 = cameraSoftSimAdapter50.getMinimumPeriod();
@@ -7502,7 +7502,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = n
         doubleList10.trimToSize();
         int int32 = uRIList1.indexOf((java.lang.Object) doubleList10);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator33);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator33, pcAdapter33);
         boolean boolean35 = doubleList10.remove((java.lang.Object) autonomousADCSSoftSimAdapter34);
         java.lang.Object obj36 = doubleList10.clone();
@@ -7538,7 +7538,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test168");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration3 = cameraSoftSimAdapter1.getMinimumPeriod();
@@ -7574,7 +7574,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         doubleList10.trimToSize();
         int int32 = uRIList1.indexOf((java.lang.Object) doubleList10);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator33);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator33, pcAdapter33);
         boolean boolean35 = doubleList10.remove((java.lang.Object) autonomousADCSSoftSimAdapter34);
         java.lang.Object obj36 = doubleList10.clone();
@@ -7606,7 +7606,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test170");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
@@ -7627,7 +7627,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test171");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
@@ -7650,7 +7650,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test172");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean2 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
@@ -7681,7 +7681,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = uRIList1.getAreaNumber();
         java.lang.Integer int3 = uRIList1.getTypeShortForm();
         opssat.simulator.main.ESASimulator eSASimulator4 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator4);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter5 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator4, pcAdapter4);
         org.ccsds.moims.mo.mal.structures.Duration duration6 = cameraSoftSimAdapter5.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter5.getAvailableResolutions();
@@ -7707,7 +7707,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test174");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
@@ -7733,7 +7733,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test175");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration2 = null;
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.setConfiguration(sDRConfiguration2);
@@ -7751,7 +7751,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test176");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
@@ -7774,7 +7774,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test177");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
@@ -7807,7 +7807,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test178");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
@@ -7843,7 +7843,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = booleanList1.getAreaNumber();
         java.lang.Object obj3 = booleanList1.clone();
         opssat.simulator.main.ESASimulator eSASimulator4 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator4);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter5 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator4, pcAdapter4);
         boolean boolean6 = gPSSoftSimAdapter5.isUnitAvailable();
         boolean boolean7 = gPSSoftSimAdapter5.isUnitAvailable();
@@ -7869,7 +7869,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test180");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration3 = cameraSoftSimAdapter1.getMinimumPeriod();
@@ -7907,7 +7907,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean25 = shortList1.equals((java.lang.Object) str24);
         java.util.stream.Stream<java.lang.Short> shortStream26 = shortList1.parallelStream();
         opssat.simulator.main.ESASimulator eSASimulator27 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter27 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator27);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter27 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter28 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator27, pcAdapter27);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode29 = autonomousADCSSoftSimAdapter28.getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode30 = null;
@@ -7972,20 +7972,20 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter27 = n
         org.ccsds.moims.mo.mal.structures.UShort uShort3 = uShortList1.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.Element element4 = uShortList1.createElement();
         opssat.simulator.main.ESASimulator eSASimulator5 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter5 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator5);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter5 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter6 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator5, pcAdapter5);
         opssat.simulator.main.ESASimulator eSASimulator7 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter7 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator7);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter7 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter8 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator7, pcAdapter7);
         opssat.simulator.main.ESASimulator eSASimulator9 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter9 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator9);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter9 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter10 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator9, pcAdapter9);
         opssat.simulator.main.ESASimulator eSASimulator11 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter11 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator11);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter11 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter12 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator11, pcAdapter11);
         boolean boolean13 = gPSSoftSimAdapter12.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator14 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter14 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator14);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter14 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter15 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator14, pcAdapter14);
         boolean boolean16 = gPSSoftSimAdapter15.isUnitAvailable();
         esa.mo.platform.impl.provider.gen.GPSAdapterInterface[] gPSAdapterInterfaceArray17 = new esa.mo.platform.impl.provider.gen.GPSAdapterInterface[] { gPSSoftSimAdapter6, gPSSoftSimAdapter8, gPSSoftSimAdapter10, gPSSoftSimAdapter12, gPSSoftSimAdapter15 };
@@ -8048,7 +8048,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter14 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test183");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean2 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
@@ -8065,7 +8065,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test184");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
@@ -8135,7 +8135,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         doubleList10.trimToSize();
         int int32 = uRIList1.indexOf((java.lang.Object) doubleList10);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator33);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator33, pcAdapter33);
         boolean boolean35 = doubleList10.remove((java.lang.Object) autonomousADCSSoftSimAdapter34);
         doubleList10.ensureCapacity((-15));
@@ -8235,7 +8235,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test186");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean2 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
@@ -8287,7 +8287,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         doubleList10.trimToSize();
         int int32 = uRIList1.indexOf((java.lang.Object) doubleList10);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator33);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator33, pcAdapter33);
         boolean boolean35 = doubleList10.remove((java.lang.Object) autonomousADCSSoftSimAdapter34);
         java.util.Iterator<java.lang.Double> doubleItor36 = doubleList10.iterator();
@@ -8317,7 +8317,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test188");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         double double3 = duration2.getValue();
@@ -8424,7 +8424,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test189");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean2 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
@@ -8478,7 +8478,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean36 = stringList1.retainAll((java.util.Collection<java.lang.Float>) floatList30);
         org.ccsds.moims.mo.mal.structures.StringList stringList38 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 100);
         opssat.simulator.main.ESASimulator eSASimulator39 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter39 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator39);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter39 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter40 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator39, pcAdapter39);
         boolean boolean41 = softwareDefinedRadioSoftSimAdapter40.isUnitAvailable();
         boolean boolean42 = softwareDefinedRadioSoftSimAdapter40.isUnitAvailable();
@@ -8487,17 +8487,17 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter39 = n
         boolean boolean46 = softwareDefinedRadioSoftSimAdapter40.enableSDR((java.lang.Boolean) true);
         boolean boolean48 = softwareDefinedRadioSoftSimAdapter40.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator49 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator49);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter50 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator49, pcAdapter49);
         boolean boolean51 = softwareDefinedRadioSoftSimAdapter50.isUnitAvailable();
         boolean boolean53 = softwareDefinedRadioSoftSimAdapter50.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator54 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter54 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator54);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter54 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter55 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator54, pcAdapter54);
         boolean boolean56 = softwareDefinedRadioSoftSimAdapter55.isUnitAvailable();
         boolean boolean57 = softwareDefinedRadioSoftSimAdapter55.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator58 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter58 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator58);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter58 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter59 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator58, pcAdapter58);
         esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray60 = new esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] { softwareDefinedRadioSoftSimAdapter40, softwareDefinedRadioSoftSimAdapter50, softwareDefinedRadioSoftSimAdapter55, softwareDefinedRadioSoftSimAdapter59 };
         esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray61 = stringList38.toArray(softwareDefinedRadioAdapterInterfaceArray60);
@@ -8541,7 +8541,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter58 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test191");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
@@ -8567,7 +8567,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test192");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
@@ -8595,7 +8595,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.ccsds.moims.mo.mal.structures.Element element8 = integerList6.createElement();
         integerList6.clear();
         opssat.simulator.main.ESASimulator eSASimulator10 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter10 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator10);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter10 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter11 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator10, pcAdapter10);
         boolean boolean12 = softwareDefinedRadioSoftSimAdapter11.isUnitAvailable();
         boolean boolean14 = softwareDefinedRadioSoftSimAdapter11.enableSDR((java.lang.Boolean) true);
@@ -8621,7 +8621,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter10 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test194");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration2 = null;
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.setConfiguration(sDRConfiguration2);
@@ -8639,7 +8639,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test195");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
@@ -8672,7 +8672,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         double double1 = duration0.getValue();
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = duration0.getAreaNumber();
         opssat.simulator.main.ESASimulator eSASimulator3 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter3 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator3);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter3 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter4 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator3, pcAdapter3);
         org.ccsds.moims.mo.mal.structures.Duration duration5 = cameraSoftSimAdapter4.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter4.getAvailableResolutions();
@@ -8749,7 +8749,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter3 = ne
         boolean boolean64 = integerList1.retainAll((java.util.Collection<java.lang.Float>) floatList44);
         java.lang.Integer int65 = integerList1.getTypeShortForm();
         opssat.simulator.main.ESASimulator eSASimulator66 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter66 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator66);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter66 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter67 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator66, pcAdapter66);
         org.ccsds.moims.mo.mal.structures.Duration duration68 = cameraSoftSimAdapter67.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList69 = cameraSoftSimAdapter67.getAvailableResolutions();
@@ -8810,7 +8810,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter66 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test198");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
@@ -8837,7 +8837,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         java.util.stream.Stream<java.lang.Byte> byteStream8 = octetList7.stream();
         boolean boolean9 = uRIList0.equals((java.lang.Object) byteStream8);
         opssat.simulator.main.ESASimulator eSASimulator10 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter10 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator10);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter10 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter11 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator10, pcAdapter10);
         org.ccsds.moims.mo.mal.structures.Duration duration12 = cameraSoftSimAdapter11.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList13 = cameraSoftSimAdapter11.getAvailableResolutions();
@@ -8942,7 +8942,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter10 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test200");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
@@ -8977,7 +8977,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         java.util.stream.Stream<java.lang.Byte> byteStream12 = octetList11.stream();
         boolean boolean13 = uRIList4.equals((java.lang.Object) byteStream12);
         opssat.simulator.main.ESASimulator eSASimulator14 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter14 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator14);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter14 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter15 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator14, pcAdapter14);
         org.ccsds.moims.mo.mal.structures.Duration duration16 = cameraSoftSimAdapter15.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList17 = cameraSoftSimAdapter15.getAvailableResolutions();
@@ -9083,7 +9083,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter14 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test202");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
@@ -9142,14 +9142,14 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.ccsds.moims.mo.mal.structures.Element element44 = shortList41.createElement();
         java.lang.Long long45 = shortList41.getShortForm();
         opssat.simulator.main.ESASimulator eSASimulator46 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter46 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator46);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter46 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter opticalDataReceiverSoftSimAdapter47 = new esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter(eSASimulator46, pcAdapter46);
         boolean boolean48 = opticalDataReceiverSoftSimAdapter47.isUnitAvailable();
         boolean boolean49 = opticalDataReceiverSoftSimAdapter47.isUnitAvailable();
         boolean boolean50 = opticalDataReceiverSoftSimAdapter47.isUnitAvailable();
         boolean boolean51 = opticalDataReceiverSoftSimAdapter47.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator52 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter52 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator52);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter52 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter opticalDataReceiverSoftSimAdapter53 = new esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter(eSASimulator52, pcAdapter52);
         boolean boolean54 = opticalDataReceiverSoftSimAdapter53.isUnitAvailable();
         boolean boolean55 = opticalDataReceiverSoftSimAdapter53.isUnitAvailable();
@@ -9205,7 +9205,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter52 = n
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = uRIList1.getAreaNumber();
         java.lang.Integer int3 = uRIList1.getTypeShortForm();
         opssat.simulator.main.ESASimulator eSASimulator4 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator4);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter5 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator4, pcAdapter4);
         org.ccsds.moims.mo.mal.structures.Duration duration6 = cameraSoftSimAdapter5.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter5.getAvailableResolutions();
@@ -9251,7 +9251,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = ne
         doubleList10.trimToSize();
         int int32 = uRIList1.indexOf((java.lang.Object) doubleList10);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator33);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator33, pcAdapter33);
         boolean boolean35 = doubleList10.remove((java.lang.Object) autonomousADCSSoftSimAdapter34);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode36 = autonomousADCSSoftSimAdapter34.getActiveAttitudeMode();
@@ -9283,7 +9283,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test206");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
@@ -9306,7 +9306,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test207");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
@@ -9329,7 +9329,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test208");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         java.lang.String str3 = cameraSoftSimAdapter1.getExtraInfo();
@@ -9344,7 +9344,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test209");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = null;
         autonomousADCSSoftSimAdapter1.setDesiredAttitude(attitudeMode2);
@@ -9396,24 +9396,24 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.ccsds.moims.mo.mal.structures.LongList longList40 = new org.ccsds.moims.mo.mal.structures.LongList(11);
         int int41 = octetList34.lastIndexOf((java.lang.Object) longList40);
         opssat.simulator.main.ESASimulator eSASimulator42 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter42 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator42);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter42 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter43 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator42, pcAdapter42);
         boolean boolean44 = gPSSoftSimAdapter43.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator45 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter45 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator45);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter45 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter46 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator45, pcAdapter45);
         boolean boolean47 = gPSSoftSimAdapter46.isUnitAvailable();
         boolean boolean48 = gPSSoftSimAdapter46.isUnitAvailable();
         boolean boolean49 = gPSSoftSimAdapter46.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator50 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter50 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator50);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter50 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter51 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator50, pcAdapter50);
         boolean boolean52 = gPSSoftSimAdapter51.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator53 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter53 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator53);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter53 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter54 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator53, pcAdapter53);
         opssat.simulator.main.ESASimulator eSASimulator55 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter55 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator55);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter55 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter56 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator55, pcAdapter55);
         boolean boolean57 = gPSSoftSimAdapter56.isUnitAvailable();
         boolean boolean58 = gPSSoftSimAdapter56.isUnitAvailable();
@@ -9496,7 +9496,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter55 = n
         boolean boolean47 = doubleList10.add((java.lang.Double) 0.0d);
         java.util.stream.Stream<java.lang.Double> doubleStream48 = doubleList10.parallelStream();
         opssat.simulator.main.ESASimulator eSASimulator49 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator49);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter50 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator49, pcAdapter49);
         org.ccsds.moims.mo.mal.structures.Duration duration51 = cameraSoftSimAdapter50.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration52 = cameraSoftSimAdapter50.getMinimumPeriod();
@@ -9594,24 +9594,24 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = n
         boolean boolean67 = uShortList8.remove((java.lang.Object) int66);
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream68 = uShortList8.parallelStream();
         opssat.simulator.main.ESASimulator eSASimulator69 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter69 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator69);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter69 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter70 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator69, pcAdapter69);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode71 = null;
         autonomousADCSSoftSimAdapter70.setDesiredAttitude(attitudeMode71);
         boolean boolean73 = autonomousADCSSoftSimAdapter70.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator74 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter74 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator74);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter74 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter75 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator74, pcAdapter74);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode76 = null;
         autonomousADCSSoftSimAdapter75.setDesiredAttitude(attitudeMode76);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode78 = autonomousADCSSoftSimAdapter75.getActiveAttitudeMode();
         opssat.simulator.main.ESASimulator eSASimulator79 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter79 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator79);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter79 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter80 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator79, pcAdapter79);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode81 = null;
         autonomousADCSSoftSimAdapter80.setDesiredAttitude(attitudeMode81);
         opssat.simulator.main.ESASimulator eSASimulator83 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter83 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator83);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter83 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter84 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator83, pcAdapter83);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode85 = null;
         autonomousADCSSoftSimAdapter84.setDesiredAttitude(attitudeMode85);
@@ -9678,7 +9678,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter83 = n
         boolean boolean12 = identifier1.equals((java.lang.Object) stringList6);
         java.util.ListIterator<java.lang.String> strItor13 = stringList6.listIterator();
         opssat.simulator.main.ESASimulator eSASimulator14 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter14 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator14);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter14 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter15 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator14, pcAdapter14);
         org.ccsds.moims.mo.mal.structures.Duration duration16 = cameraSoftSimAdapter15.getMinimumPeriod();
         java.lang.String str17 = cameraSoftSimAdapter15.getExtraInfo();
@@ -9738,7 +9738,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter14 = n
         boolean boolean47 = doubleList10.add((java.lang.Double) 0.0d);
         java.util.stream.Stream<java.lang.Double> doubleStream48 = doubleList10.parallelStream();
         opssat.simulator.main.ESASimulator eSASimulator49 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator49);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter50 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator49, pcAdapter49);
         org.ccsds.moims.mo.mal.structures.Duration duration51 = cameraSoftSimAdapter50.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration52 = cameraSoftSimAdapter50.getMinimumPeriod();
@@ -9793,7 +9793,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = n
         java.lang.Integer int3 = fineTime0.getTypeShortForm();
         org.ccsds.moims.mo.mal.structures.UShort uShort4 = fineTime0.getAreaNumber();
         opssat.simulator.main.ESASimulator eSASimulator5 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter5 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator5);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter5 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter6 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator5, pcAdapter5);
         org.ccsds.moims.mo.mal.structures.Duration duration7 = cameraSoftSimAdapter6.getMinimumPeriod();
         java.lang.String str8 = cameraSoftSimAdapter6.getExtraInfo();
@@ -9820,7 +9820,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter5 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test216");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
@@ -9849,7 +9849,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
             System.out.format("%n%s%n", "RegressionTest0.test217");
         org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration((double) 281475010265086L);
         opssat.simulator.main.ESASimulator eSASimulator2 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter2 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator2);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter2 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter3 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator2, pcAdapter2);
         org.ccsds.moims.mo.mal.structures.Duration duration4 = cameraSoftSimAdapter3.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList5 = cameraSoftSimAdapter3.getAvailableResolutions();
@@ -9895,7 +9895,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter2 = ne
         doubleList10.trimToSize();
         int int32 = uRIList1.indexOf((java.lang.Object) doubleList10);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator33);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator33, pcAdapter33);
         boolean boolean35 = doubleList10.remove((java.lang.Object) autonomousADCSSoftSimAdapter34);
         java.lang.Object obj36 = doubleList10.clone();
@@ -9940,7 +9940,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test219");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration3 = cameraSoftSimAdapter1.getMinimumPeriod();
@@ -10006,7 +10006,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean63 = fineTime20.equals(obj62);
         java.lang.Long long64 = fineTime20.getShortForm();
         opssat.simulator.main.ESASimulator eSASimulator65 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter65 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator65);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter65 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter66 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator65, pcAdapter65);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode67 = autonomousADCSSoftSimAdapter66.getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode68 = null;
@@ -10070,7 +10070,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter65 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test221");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean2 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
@@ -10105,7 +10105,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.ccsds.moims.mo.mal.structures.Element element8 = integerList6.createElement();
         integerList6.clear();
         opssat.simulator.main.ESASimulator eSASimulator10 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter10 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator10);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter10 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter11 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator10, pcAdapter10);
         boolean boolean12 = softwareDefinedRadioSoftSimAdapter11.isUnitAvailable();
         boolean boolean14 = softwareDefinedRadioSoftSimAdapter11.enableSDR((java.lang.Boolean) true);
@@ -10131,7 +10131,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter10 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test223");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
@@ -10155,7 +10155,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test224");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration2 = null;
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.setConfiguration(sDRConfiguration2);
@@ -10176,7 +10176,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         java.util.ArrayList<java.lang.Boolean> booleanList3 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList3, booleanArray2);
         opssat.simulator.main.ESASimulator eSASimulator5 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter5 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator5);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter5 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter6 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator5, pcAdapter5);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode7 = autonomousADCSSoftSimAdapter6.getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode8 = null;
@@ -10255,7 +10255,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter5 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test226");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean2 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
@@ -10297,74 +10297,74 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.ccsds.moims.mo.mal.structures.UShort uShort14 = longList1.getAreaNumber();
         longList1.clear();
         opssat.simulator.main.ESASimulator eSASimulator16 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter16 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator16);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter16 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter17 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator16, pcAdapter16);
         boolean boolean18 = gPSSoftSimAdapter17.isUnitAvailable();
         boolean boolean19 = gPSSoftSimAdapter17.isUnitAvailable();
         esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[] gPSNMEAonlyAdapterArray20 = new esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[] { gPSSoftSimAdapter17 };
         opssat.simulator.main.ESASimulator eSASimulator21 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator21);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter22 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator21, pcAdapter21);
         boolean boolean23 = gPSSoftSimAdapter22.isUnitAvailable();
         boolean boolean24 = gPSSoftSimAdapter22.isUnitAvailable();
         esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[] gPSNMEAonlyAdapterArray25 = new esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[] { gPSSoftSimAdapter22 };
         opssat.simulator.main.ESASimulator eSASimulator26 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter26 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator26);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter26 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter27 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator26, pcAdapter26);
         boolean boolean28 = gPSSoftSimAdapter27.isUnitAvailable();
         boolean boolean29 = gPSSoftSimAdapter27.isUnitAvailable();
         esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[] gPSNMEAonlyAdapterArray30 = new esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[] { gPSSoftSimAdapter27 };
         opssat.simulator.main.ESASimulator eSASimulator31 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter31 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator31);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter31 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter32 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator31, pcAdapter31);
         boolean boolean33 = gPSSoftSimAdapter32.isUnitAvailable();
         boolean boolean34 = gPSSoftSimAdapter32.isUnitAvailable();
         esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[] gPSNMEAonlyAdapterArray35 = new esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[] { gPSSoftSimAdapter32 };
         opssat.simulator.main.ESASimulator eSASimulator36 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter36 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator36);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter36 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter37 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator36, pcAdapter36);
         boolean boolean38 = gPSSoftSimAdapter37.isUnitAvailable();
         boolean boolean39 = gPSSoftSimAdapter37.isUnitAvailable();
         esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[] gPSNMEAonlyAdapterArray40 = new esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[] { gPSSoftSimAdapter37 };
         opssat.simulator.main.ESASimulator eSASimulator41 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter41 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator41);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter41 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter42 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator41, pcAdapter41);
         boolean boolean43 = gPSSoftSimAdapter42.isUnitAvailable();
         boolean boolean44 = gPSSoftSimAdapter42.isUnitAvailable();
         esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[] gPSNMEAonlyAdapterArray45 = new esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[] { gPSSoftSimAdapter42 };
         esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[][] gPSNMEAonlyAdapterArray46 = new esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[][] { gPSNMEAonlyAdapterArray20, gPSNMEAonlyAdapterArray25, gPSNMEAonlyAdapterArray30, gPSNMEAonlyAdapterArray35, gPSNMEAonlyAdapterArray40, gPSNMEAonlyAdapterArray45 };
         opssat.simulator.main.ESASimulator eSASimulator47 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter47 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator47);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter47 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter48 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator47, pcAdapter47);
         boolean boolean49 = gPSSoftSimAdapter48.isUnitAvailable();
         boolean boolean50 = gPSSoftSimAdapter48.isUnitAvailable();
         esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[] gPSNMEAonlyAdapterArray51 = new esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[] { gPSSoftSimAdapter48 };
         opssat.simulator.main.ESASimulator eSASimulator52 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter52 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator52);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter52 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter53 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator52, pcAdapter52);
         boolean boolean54 = gPSSoftSimAdapter53.isUnitAvailable();
         boolean boolean55 = gPSSoftSimAdapter53.isUnitAvailable();
         esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[] gPSNMEAonlyAdapterArray56 = new esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[] { gPSSoftSimAdapter53 };
         opssat.simulator.main.ESASimulator eSASimulator57 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter57 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator57);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter57 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter58 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator57, pcAdapter57);
         boolean boolean59 = gPSSoftSimAdapter58.isUnitAvailable();
         boolean boolean60 = gPSSoftSimAdapter58.isUnitAvailable();
         esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[] gPSNMEAonlyAdapterArray61 = new esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[] { gPSSoftSimAdapter58 };
         opssat.simulator.main.ESASimulator eSASimulator62 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter62 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator62);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter62 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter63 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator62, pcAdapter62);
         boolean boolean64 = gPSSoftSimAdapter63.isUnitAvailable();
         boolean boolean65 = gPSSoftSimAdapter63.isUnitAvailable();
         esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[] gPSNMEAonlyAdapterArray66 = new esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[] { gPSSoftSimAdapter63 };
         opssat.simulator.main.ESASimulator eSASimulator67 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter67 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator67);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter67 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter68 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator67, pcAdapter67);
         boolean boolean69 = gPSSoftSimAdapter68.isUnitAvailable();
         boolean boolean70 = gPSSoftSimAdapter68.isUnitAvailable();
         esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[] gPSNMEAonlyAdapterArray71 = new esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[] { gPSSoftSimAdapter68 };
         opssat.simulator.main.ESASimulator eSASimulator72 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter72 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator72);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter72 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter73 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator72, pcAdapter72);
         boolean boolean74 = gPSSoftSimAdapter73.isUnitAvailable();
         boolean boolean75 = gPSSoftSimAdapter73.isUnitAvailable();
@@ -10428,7 +10428,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter72 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test228");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean2 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
@@ -10489,7 +10489,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean47 = doubleList10.add((java.lang.Double) 0.0d);
         java.util.stream.Stream<java.lang.Double> doubleStream48 = doubleList10.parallelStream();
         opssat.simulator.main.ESASimulator eSASimulator49 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator49);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter50 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator49, pcAdapter49);
         org.ccsds.moims.mo.mal.structures.Duration duration51 = cameraSoftSimAdapter50.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration52 = cameraSoftSimAdapter50.getMinimumPeriod();
@@ -10498,7 +10498,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = n
         java.lang.String str55 = doubleList10.toString();
         java.lang.Object obj56 = doubleList10.clone();
         opssat.simulator.main.ESASimulator eSASimulator57 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter57 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator57);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter57 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter58 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator57, pcAdapter57);
         org.ccsds.moims.mo.mal.structures.Duration duration59 = cameraSoftSimAdapter58.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList60 = cameraSoftSimAdapter58.getAvailableResolutions();
@@ -10583,7 +10583,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter57 = n
         doubleList22.trimToSize();
         int int44 = uRIList13.indexOf((java.lang.Object) doubleList22);
         opssat.simulator.main.ESASimulator eSASimulator45 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter45 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator45);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter45 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter46 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator45, pcAdapter45);
         boolean boolean47 = doubleList22.remove((java.lang.Object) autonomousADCSSoftSimAdapter46);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode48 = autonomousADCSSoftSimAdapter46.getActiveAttitudeMode();
@@ -10632,7 +10632,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter45 = n
             System.out.format("%n%s%n", "RegressionTest0.test231");
         org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 100);
         opssat.simulator.main.ESASimulator eSASimulator2 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter2 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator2);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter2 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter3 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator2, pcAdapter2);
         boolean boolean4 = softwareDefinedRadioSoftSimAdapter3.isUnitAvailable();
         boolean boolean5 = softwareDefinedRadioSoftSimAdapter3.isUnitAvailable();
@@ -10641,17 +10641,17 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter2 = ne
         boolean boolean9 = softwareDefinedRadioSoftSimAdapter3.enableSDR((java.lang.Boolean) true);
         boolean boolean11 = softwareDefinedRadioSoftSimAdapter3.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator12 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter12 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator12);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter12 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter13 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator12, pcAdapter12);
         boolean boolean14 = softwareDefinedRadioSoftSimAdapter13.isUnitAvailable();
         boolean boolean16 = softwareDefinedRadioSoftSimAdapter13.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator17 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter17 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator17);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter17 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter18 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator17, pcAdapter17);
         boolean boolean19 = softwareDefinedRadioSoftSimAdapter18.isUnitAvailable();
         boolean boolean20 = softwareDefinedRadioSoftSimAdapter18.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator21 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator21);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter22 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator21, pcAdapter21);
         esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray23 = new esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] { softwareDefinedRadioSoftSimAdapter3, softwareDefinedRadioSoftSimAdapter13, softwareDefinedRadioSoftSimAdapter18, softwareDefinedRadioSoftSimAdapter22 };
         esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray24 = stringList1.toArray(softwareDefinedRadioAdapterInterfaceArray23);
@@ -10678,7 +10678,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test232");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         double double3 = duration2.getValue();
@@ -10695,7 +10695,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test233");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean2 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
@@ -10719,7 +10719,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.ccsds.moims.mo.mal.structures.UShort uShort6 = fineTime4.getAreaNumber();
         java.lang.Integer int7 = fineTime4.getTypeShortForm();
         opssat.simulator.main.ESASimulator eSASimulator8 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter8 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator8);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter8 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter9 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator8, pcAdapter8);
         org.ccsds.moims.mo.mal.structures.Duration duration10 = cameraSoftSimAdapter9.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList11 = cameraSoftSimAdapter9.getAvailableResolutions();
@@ -10753,7 +10753,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter8 = ne
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = integerList1.getAreaNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort3 = uShort2.getAreaNumber();
         opssat.simulator.main.ESASimulator eSASimulator4 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator4);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter5 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator4, pcAdapter4);
         org.ccsds.moims.mo.mal.structures.Duration duration6 = cameraSoftSimAdapter5.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter5.getAvailableResolutions();
@@ -10824,7 +10824,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = ne
         java.lang.Integer int51 = octetList15.getTypeShortForm();
         boolean boolean52 = doubleList6.remove((java.lang.Object) octetList15);
         opssat.simulator.main.ESASimulator eSASimulator53 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter53 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator53);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter53 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter54 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator53, pcAdapter53);
         boolean boolean55 = softwareDefinedRadioSoftSimAdapter54.isUnitAvailable();
         boolean boolean57 = softwareDefinedRadioSoftSimAdapter54.enableSDR((java.lang.Boolean) true);
@@ -10940,7 +10940,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter53 = n
         boolean boolean85 = floatList12.removeAll((java.util.Collection<java.lang.Float>) floatList81);
         boolean boolean86 = longList0.containsAll((java.util.Collection<java.lang.Float>) floatList81);
         opssat.simulator.main.ESASimulator eSASimulator87 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter87 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator87);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter87 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter88 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator87, pcAdapter87);
         org.ccsds.moims.mo.mal.structures.Duration duration89 = cameraSoftSimAdapter88.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList90 = cameraSoftSimAdapter88.getAvailableResolutions();
@@ -11018,7 +11018,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter87 = n
         org.ccsds.moims.mo.mal.structures.UShort uShort5 = uRIList4.getAreaNumber();
         java.lang.Integer int6 = uRIList4.getTypeShortForm();
         opssat.simulator.main.ESASimulator eSASimulator7 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter7 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator7);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter7 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter8 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator7, pcAdapter7);
         org.ccsds.moims.mo.mal.structures.Duration duration9 = cameraSoftSimAdapter8.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList10 = cameraSoftSimAdapter8.getAvailableResolutions();
@@ -11048,7 +11048,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter7 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test239");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
@@ -11075,7 +11075,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test240");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean2 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
@@ -11110,7 +11110,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test241");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration3 = cameraSoftSimAdapter1.getMinimumPeriod();
@@ -11134,7 +11134,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         booleanList3.trimToSize();
         java.lang.String str8 = booleanList3.toString();
         opssat.simulator.main.ESASimulator eSASimulator9 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter9 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator9);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter9 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter10 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator9, pcAdapter9);
         boolean boolean11 = softwareDefinedRadioSoftSimAdapter10.isUnitAvailable();
         boolean boolean12 = softwareDefinedRadioSoftSimAdapter10.isUnitAvailable();
@@ -11189,7 +11189,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter9 = ne
         doubleList10.trimToSize();
         int int32 = uRIList1.indexOf((java.lang.Object) doubleList10);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator33);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator33, pcAdapter33);
         boolean boolean35 = doubleList10.remove((java.lang.Object) autonomousADCSSoftSimAdapter34);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode36 = null;
@@ -11220,7 +11220,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test244");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean2 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean4 = softwareDefinedRadioSoftSimAdapter1.enableSDR((java.lang.Boolean) false);
@@ -11238,7 +11238,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test245");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean2 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
@@ -11277,7 +11277,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         doubleList10.trimToSize();
         int int32 = uRIList1.indexOf((java.lang.Object) doubleList10);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator33);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator33, pcAdapter33);
         boolean boolean35 = doubleList10.remove((java.lang.Object) autonomousADCSSoftSimAdapter34);
         boolean boolean36 = autonomousADCSSoftSimAdapter34.isUnitAvailable();
@@ -11307,7 +11307,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test247");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         java.lang.String str2 = cameraSoftSimAdapter1.getExtraInfo();
         org.ccsds.moims.mo.mal.structures.Duration duration3 = cameraSoftSimAdapter1.getMinimumPeriod();
@@ -11322,7 +11322,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test248");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration3 = cameraSoftSimAdapter1.getMinimumPeriod();
@@ -11392,7 +11392,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean47 = floatList22.removeAll((java.util.Collection<java.lang.Float>) floatList46);
         org.ccsds.moims.mo.mal.structures.Element element48 = floatList46.createElement();
         opssat.simulator.main.ESASimulator eSASimulator49 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator49);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter50 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator49, pcAdapter49);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode51 = autonomousADCSSoftSimAdapter50.getActiveAttitudeMode();
         int int52 = floatList46.indexOf((java.lang.Object) autonomousADCSSoftSimAdapter50);
@@ -11441,7 +11441,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = n
         booleanList3.trimToSize();
         java.lang.String str8 = booleanList3.toString();
         opssat.simulator.main.ESASimulator eSASimulator9 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter9 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator9);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter9 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter10 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator9, pcAdapter9);
         boolean boolean11 = softwareDefinedRadioSoftSimAdapter10.isUnitAvailable();
         boolean boolean12 = softwareDefinedRadioSoftSimAdapter10.isUnitAvailable();
@@ -11493,7 +11493,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter9 = ne
         doubleList10.trimToSize();
         int int32 = uRIList1.indexOf((java.lang.Object) doubleList10);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator33);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator33, pcAdapter33);
         boolean boolean35 = doubleList10.remove((java.lang.Object) autonomousADCSSoftSimAdapter34);
         java.util.Iterator<java.lang.Double> doubleItor36 = doubleList10.iterator();
@@ -11533,7 +11533,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = n
         org.ccsds.moims.mo.mal.structures.UShort uShort3 = fineTime1.getAreaNumber();
         java.lang.Integer int4 = fineTime1.getTypeShortForm();
         opssat.simulator.main.ESASimulator eSASimulator5 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter5 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator5);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter5 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter6 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator5, pcAdapter5);
         org.ccsds.moims.mo.mal.structures.Duration duration7 = cameraSoftSimAdapter6.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList8 = cameraSoftSimAdapter6.getAvailableResolutions();
@@ -11561,7 +11561,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter5 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test253");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
@@ -11597,7 +11597,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = uRIList1.getAreaNumber();
         java.lang.Integer int3 = uRIList1.getTypeShortForm();
         opssat.simulator.main.ESASimulator eSASimulator4 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator4);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter5 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator4, pcAdapter4);
         org.ccsds.moims.mo.mal.structures.Duration duration6 = cameraSoftSimAdapter5.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter5.getAvailableResolutions();
@@ -11629,7 +11629,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = ne
         shortList3.trimToSize();
         shortList3.trimToSize();
         opssat.simulator.main.ESASimulator eSASimulator7 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter7 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator7);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter7 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter8 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator7, pcAdapter7);
         boolean boolean9 = softwareDefinedRadioSoftSimAdapter8.isUnitAvailable();
         boolean boolean10 = softwareDefinedRadioSoftSimAdapter8.isUnitAvailable();
@@ -11693,7 +11693,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter7 = ne
         boolean boolean47 = floatList22.removeAll((java.util.Collection<java.lang.Float>) floatList46);
         org.ccsds.moims.mo.mal.structures.Element element48 = floatList46.createElement();
         opssat.simulator.main.ESASimulator eSASimulator49 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator49);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter50 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator49, pcAdapter49);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode51 = autonomousADCSSoftSimAdapter50.getActiveAttitudeMode();
         int int52 = floatList46.indexOf((java.lang.Object) autonomousADCSSoftSimAdapter50);
@@ -11736,7 +11736,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = n
             System.out.format("%n%s%n", "RegressionTest0.test257");
         org.ccsds.moims.mo.mal.structures.UShortList uShortList1 = new org.ccsds.moims.mo.mal.structures.UShortList((int) 'a');
         opssat.simulator.main.ESASimulator eSASimulator2 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter2 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator2);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter2 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter3 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator2, pcAdapter2);
         org.ccsds.moims.mo.mal.structures.Duration duration4 = cameraSoftSimAdapter3.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList5 = cameraSoftSimAdapter3.getAvailableResolutions();
@@ -11799,7 +11799,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter2 = ne
         boolean boolean78 = uShortList1.removeAll((java.util.Collection<java.lang.Float>) floatList63);
         java.lang.String str79 = floatList63.toString();
         opssat.simulator.main.ESASimulator eSASimulator80 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter80 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator80);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter80 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter81 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator80, pcAdapter80);
         org.ccsds.moims.mo.mal.structures.Duration duration82 = cameraSoftSimAdapter81.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration83 = cameraSoftSimAdapter81.getMinimumPeriod();
@@ -11869,7 +11869,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter80 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test258");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean2 = gPSSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = gPSSoftSimAdapter1.isUnitAvailable();
@@ -11903,7 +11903,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         java.util.ArrayList<java.lang.Boolean> booleanList9 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList9, booleanArray8);
         opssat.simulator.main.ESASimulator eSASimulator11 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter11 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator11);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter11 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter12 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator11, pcAdapter11);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode13 = autonomousADCSSoftSimAdapter12.getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode14 = null;
@@ -11952,7 +11952,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter11 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test260");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
@@ -11996,7 +11996,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         doubleList10.trimToSize();
         int int32 = uRIList1.indexOf((java.lang.Object) doubleList10);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator33);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator33, pcAdapter33);
         boolean boolean35 = doubleList10.remove((java.lang.Object) autonomousADCSSoftSimAdapter34);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode36 = autonomousADCSSoftSimAdapter34.getActiveAttitudeMode();
@@ -12041,7 +12041,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = n
         octetList1.clear();
         boolean boolean9 = octetList1.isEmpty();
         opssat.simulator.main.ESASimulator eSASimulator10 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter10 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator10);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter10 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter11 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator10, pcAdapter10);
         org.ccsds.moims.mo.mal.structures.Duration duration12 = cameraSoftSimAdapter11.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration13 = cameraSoftSimAdapter11.getMinimumPeriod();
@@ -12100,7 +12100,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter10 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test263");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
@@ -12169,7 +12169,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         boolean boolean57 = longList47.retainAll((java.util.Collection<java.lang.Float>) floatList56);
         boolean boolean58 = doubleList38.containsAll((java.util.Collection<java.lang.Float>) floatList56);
         opssat.simulator.main.ESASimulator eSASimulator59 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter59 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator59);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter59 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter60 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator59, pcAdapter59);
         org.ccsds.moims.mo.mal.structures.Duration duration61 = cameraSoftSimAdapter60.getMinimumPeriod();
         java.lang.String str62 = cameraSoftSimAdapter60.getExtraInfo();
@@ -12238,20 +12238,20 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter59 = n
         org.ccsds.moims.mo.mal.structures.UShort uShort8 = uShortList6.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.Element element9 = uShortList6.createElement();
         opssat.simulator.main.ESASimulator eSASimulator10 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter10 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator10);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter10 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter11 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator10, pcAdapter10);
         opssat.simulator.main.ESASimulator eSASimulator12 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter12 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator12);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter12 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter13 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator12, pcAdapter12);
         opssat.simulator.main.ESASimulator eSASimulator14 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter14 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator14);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter14 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter15 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator14, pcAdapter14);
         opssat.simulator.main.ESASimulator eSASimulator16 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter16 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator16);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter16 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter17 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator16, pcAdapter16);
         boolean boolean18 = gPSSoftSimAdapter17.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator19 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter19 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator19);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter19 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter20 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator19, pcAdapter19);
         boolean boolean21 = gPSSoftSimAdapter20.isUnitAvailable();
         esa.mo.platform.impl.provider.gen.GPSAdapterInterface[] gPSAdapterInterfaceArray22 = new esa.mo.platform.impl.provider.gen.GPSAdapterInterface[] { gPSSoftSimAdapter11, gPSSoftSimAdapter13, gPSSoftSimAdapter15, gPSSoftSimAdapter17, gPSSoftSimAdapter20 };
@@ -12281,7 +12281,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter19 = n
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = booleanList1.getAreaNumber();
         java.lang.Object obj3 = booleanList1.clone();
         opssat.simulator.main.ESASimulator eSASimulator4 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator4);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter5 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator4, pcAdapter4);
         boolean boolean6 = gPSSoftSimAdapter5.isUnitAvailable();
         boolean boolean7 = gPSSoftSimAdapter5.isUnitAvailable();
@@ -12332,62 +12332,62 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = ne
         int int24 = stringList4.size();
         boolean boolean25 = uShort3.equals((java.lang.Object) stringList4);
         opssat.simulator.main.ESASimulator eSASimulator26 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter26 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator26);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter26 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter opticalDataReceiverSoftSimAdapter27 = new esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter(eSASimulator26, pcAdapter26);
         boolean boolean28 = opticalDataReceiverSoftSimAdapter27.isUnitAvailable();
         boolean boolean29 = opticalDataReceiverSoftSimAdapter27.isUnitAvailable();
         boolean boolean30 = opticalDataReceiverSoftSimAdapter27.isUnitAvailable();
         boolean boolean31 = opticalDataReceiverSoftSimAdapter27.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator32 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter32 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator32);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter32 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter opticalDataReceiverSoftSimAdapter33 = new esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter(eSASimulator32, pcAdapter32);
         boolean boolean34 = opticalDataReceiverSoftSimAdapter33.isUnitAvailable();
         esa.mo.platform.impl.provider.gen.OpticalDataReceiverAdapterInterface[] opticalDataReceiverAdapterInterfaceArray35 = new esa.mo.platform.impl.provider.gen.OpticalDataReceiverAdapterInterface[] { opticalDataReceiverSoftSimAdapter27, opticalDataReceiverSoftSimAdapter33 };
         opssat.simulator.main.ESASimulator eSASimulator36 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter36 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator36);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter36 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter opticalDataReceiverSoftSimAdapter37 = new esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter(eSASimulator36, pcAdapter36);
         boolean boolean38 = opticalDataReceiverSoftSimAdapter37.isUnitAvailable();
         boolean boolean39 = opticalDataReceiverSoftSimAdapter37.isUnitAvailable();
         boolean boolean40 = opticalDataReceiverSoftSimAdapter37.isUnitAvailable();
         boolean boolean41 = opticalDataReceiverSoftSimAdapter37.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator42 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter42 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator42);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter42 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter opticalDataReceiverSoftSimAdapter43 = new esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter(eSASimulator42, pcAdapter42);
         boolean boolean44 = opticalDataReceiverSoftSimAdapter43.isUnitAvailable();
         esa.mo.platform.impl.provider.gen.OpticalDataReceiverAdapterInterface[] opticalDataReceiverAdapterInterfaceArray45 = new esa.mo.platform.impl.provider.gen.OpticalDataReceiverAdapterInterface[] { opticalDataReceiverSoftSimAdapter37, opticalDataReceiverSoftSimAdapter43 };
         opssat.simulator.main.ESASimulator eSASimulator46 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter46 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator46);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter46 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter opticalDataReceiverSoftSimAdapter47 = new esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter(eSASimulator46, pcAdapter46);
         boolean boolean48 = opticalDataReceiverSoftSimAdapter47.isUnitAvailable();
         boolean boolean49 = opticalDataReceiverSoftSimAdapter47.isUnitAvailable();
         boolean boolean50 = opticalDataReceiverSoftSimAdapter47.isUnitAvailable();
         boolean boolean51 = opticalDataReceiverSoftSimAdapter47.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator52 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter52 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator52);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter52 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter opticalDataReceiverSoftSimAdapter53 = new esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter(eSASimulator52, pcAdapter52);
         boolean boolean54 = opticalDataReceiverSoftSimAdapter53.isUnitAvailable();
         esa.mo.platform.impl.provider.gen.OpticalDataReceiverAdapterInterface[] opticalDataReceiverAdapterInterfaceArray55 = new esa.mo.platform.impl.provider.gen.OpticalDataReceiverAdapterInterface[] { opticalDataReceiverSoftSimAdapter47, opticalDataReceiverSoftSimAdapter53 };
         opssat.simulator.main.ESASimulator eSASimulator56 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter56 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator56);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter56 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter opticalDataReceiverSoftSimAdapter57 = new esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter(eSASimulator56, pcAdapter56);
         boolean boolean58 = opticalDataReceiverSoftSimAdapter57.isUnitAvailable();
         boolean boolean59 = opticalDataReceiverSoftSimAdapter57.isUnitAvailable();
         boolean boolean60 = opticalDataReceiverSoftSimAdapter57.isUnitAvailable();
         boolean boolean61 = opticalDataReceiverSoftSimAdapter57.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator62 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter62 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator62);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter62 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter opticalDataReceiverSoftSimAdapter63 = new esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter(eSASimulator62, pcAdapter62);
         boolean boolean64 = opticalDataReceiverSoftSimAdapter63.isUnitAvailable();
         esa.mo.platform.impl.provider.gen.OpticalDataReceiverAdapterInterface[] opticalDataReceiverAdapterInterfaceArray65 = new esa.mo.platform.impl.provider.gen.OpticalDataReceiverAdapterInterface[] { opticalDataReceiverSoftSimAdapter57, opticalDataReceiverSoftSimAdapter63 };
         opssat.simulator.main.ESASimulator eSASimulator66 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter66 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator66);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter66 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter opticalDataReceiverSoftSimAdapter67 = new esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter(eSASimulator66, pcAdapter66);
         boolean boolean68 = opticalDataReceiverSoftSimAdapter67.isUnitAvailable();
         boolean boolean69 = opticalDataReceiverSoftSimAdapter67.isUnitAvailable();
         boolean boolean70 = opticalDataReceiverSoftSimAdapter67.isUnitAvailable();
         boolean boolean71 = opticalDataReceiverSoftSimAdapter67.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator72 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter72 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator72);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter72 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter opticalDataReceiverSoftSimAdapter73 = new esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter(eSASimulator72, pcAdapter72);
         boolean boolean74 = opticalDataReceiverSoftSimAdapter73.isUnitAvailable();
         esa.mo.platform.impl.provider.gen.OpticalDataReceiverAdapterInterface[] opticalDataReceiverAdapterInterfaceArray75 = new esa.mo.platform.impl.provider.gen.OpticalDataReceiverAdapterInterface[] { opticalDataReceiverSoftSimAdapter67, opticalDataReceiverSoftSimAdapter73 };
@@ -12449,7 +12449,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter72 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test268");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         java.lang.String str3 = cameraSoftSimAdapter1.getExtraInfo();
@@ -12472,7 +12472,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test269");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = null;
         autonomousADCSSoftSimAdapter1.setDesiredAttitude(attitudeMode2);
@@ -12494,7 +12494,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = ne
             System.out.format("%n%s%n", "RegressionTest0.test270");
         org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 100);
         opssat.simulator.main.ESASimulator eSASimulator2 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter2 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator2);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter2 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter3 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator2, pcAdapter2);
         boolean boolean4 = softwareDefinedRadioSoftSimAdapter3.isUnitAvailable();
         boolean boolean5 = softwareDefinedRadioSoftSimAdapter3.isUnitAvailable();
@@ -12503,17 +12503,17 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter2 = ne
         boolean boolean9 = softwareDefinedRadioSoftSimAdapter3.enableSDR((java.lang.Boolean) true);
         boolean boolean11 = softwareDefinedRadioSoftSimAdapter3.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator12 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter12 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator12);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter12 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter13 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator12, pcAdapter12);
         boolean boolean14 = softwareDefinedRadioSoftSimAdapter13.isUnitAvailable();
         boolean boolean16 = softwareDefinedRadioSoftSimAdapter13.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator17 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter17 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator17);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter17 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter18 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator17, pcAdapter17);
         boolean boolean19 = softwareDefinedRadioSoftSimAdapter18.isUnitAvailable();
         boolean boolean20 = softwareDefinedRadioSoftSimAdapter18.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator21 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator21);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter22 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator21, pcAdapter21);
         esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray23 = new esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] { softwareDefinedRadioSoftSimAdapter3, softwareDefinedRadioSoftSimAdapter13, softwareDefinedRadioSoftSimAdapter18, softwareDefinedRadioSoftSimAdapter22 };
         esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray24 = stringList1.toArray(softwareDefinedRadioAdapterInterfaceArray23);
@@ -12560,7 +12560,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = n
         stringList1.clear();
         org.ccsds.moims.mo.mal.structures.Element element3 = stringList1.createElement();
         opssat.simulator.main.ESASimulator eSASimulator4 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator4);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter5 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator4, pcAdapter4);
         boolean boolean6 = softwareDefinedRadioSoftSimAdapter5.isUnitAvailable();
         boolean boolean7 = softwareDefinedRadioSoftSimAdapter5.isUnitAvailable();
@@ -12571,7 +12571,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = ne
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration14 = null;
         boolean boolean15 = softwareDefinedRadioSoftSimAdapter5.setConfiguration(sDRConfiguration14);
         opssat.simulator.main.ESASimulator eSASimulator16 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter16 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator16);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter16 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter17 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator16, pcAdapter16);
         boolean boolean18 = softwareDefinedRadioSoftSimAdapter17.isUnitAvailable();
         boolean boolean19 = softwareDefinedRadioSoftSimAdapter17.isUnitAvailable();
@@ -12580,19 +12580,19 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter16 = n
         boolean boolean23 = softwareDefinedRadioSoftSimAdapter17.enableSDR((java.lang.Boolean) true);
         boolean boolean25 = softwareDefinedRadioSoftSimAdapter17.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator26 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter26 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator26);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter26 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter27 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator26, pcAdapter26);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration28 = null;
         boolean boolean29 = softwareDefinedRadioSoftSimAdapter27.setConfiguration(sDRConfiguration28);
         boolean boolean30 = softwareDefinedRadioSoftSimAdapter27.isUnitAvailable();
         boolean boolean32 = softwareDefinedRadioSoftSimAdapter27.enableSDR((java.lang.Boolean) false);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator33);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator33, pcAdapter33);
         boolean boolean35 = softwareDefinedRadioSoftSimAdapter34.isUnitAvailable();
         boolean boolean37 = softwareDefinedRadioSoftSimAdapter34.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator38 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter38 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator38);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter38 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter39 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator38, pcAdapter38);
         boolean boolean40 = softwareDefinedRadioSoftSimAdapter39.isUnitAvailable();
         boolean boolean41 = softwareDefinedRadioSoftSimAdapter39.isUnitAvailable();
@@ -12603,7 +12603,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter38 = n
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration48 = null;
         boolean boolean49 = softwareDefinedRadioSoftSimAdapter39.setConfiguration(sDRConfiguration48);
         opssat.simulator.main.ESASimulator eSASimulator50 = null;
-esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter50 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator50);
+esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter50 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter51 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator50, pcAdapter50);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration52 = null;
         boolean boolean53 = softwareDefinedRadioSoftSimAdapter51.setConfiguration(sDRConfiguration52);
@@ -12654,7 +12654,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter50 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test272");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-        esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+        esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
 
         // Camera
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0, pcAdapter0);
@@ -12683,7 +12683,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter50 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test273");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-        esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+        esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter adcsSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean1 = adcsSoftSimAdapter1.isUnitAvailable();
         org.junit.Assert.assertTrue("'" + boolean1 + "' != '" + true + "'", boolean1);
@@ -12703,7 +12703,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter50 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test274");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-        esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+        esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter sdrSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean1 = sdrSoftSimAdapter1.isUnitAvailable();
         org.junit.Assert.assertTrue("'" + boolean1 + "' != '" + true + "'", boolean1);
@@ -12723,7 +12723,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter50 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test275");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-        esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+        esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter optxSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean1 = optxSoftSimAdapter1.isUnitAvailable();
         org.junit.Assert.assertTrue("'" + boolean1 + "' != '" + true + "'", boolean1);
@@ -12743,7 +12743,7 @@ esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter50 = n
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test276");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
-        esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator0);
+        esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gpsSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator0, pcAdapter0);
         boolean boolean1 = gpsSoftSimAdapter1.isUnitAvailable();
         org.junit.Assert.assertTrue("'" + boolean1 + "' != '" + true + "'", boolean1);
