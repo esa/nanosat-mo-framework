@@ -18,7 +18,7 @@ public class GPSSoftSimAdapterTest {
     @Test
     public void testTIMEAFormat() throws IOException {
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter =
-                new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator);
+                new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter =
                 new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator, pcAdapter);
         //Expecting something in lines of:
@@ -35,7 +35,7 @@ public class GPSSoftSimAdapterTest {
     @Test
     public void testBESTXYZAHeaderFormat() throws IOException {
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter =
-                new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter(eSASimulator);
+                new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter =
                 new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator, pcAdapter);
         //Expecting the BESTXYZ header to be in the lines of:

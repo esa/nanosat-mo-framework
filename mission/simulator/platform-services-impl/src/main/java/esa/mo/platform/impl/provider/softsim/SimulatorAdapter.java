@@ -1,5 +1,5 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2021      European Space Agency
+ * Copyright (C) 2022      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
@@ -20,23 +20,7 @@
  */
 package esa.mo.platform.impl.provider.softsim;
 
-import org.ccsds.moims.mo.mal.structures.Time;
-import esa.mo.platform.impl.provider.gen.ClockAdapterInterface;
-import opssat.simulator.main.ESASimulator;
+public interface SimulatorAdapter {
 
-public class ClockSoftSimAdapter implements ClockAdapterInterface, SimulatorAdapter {
-
-    private final ESASimulator instrumentsSimulator;
-
-    public ClockSoftSimAdapter(ESASimulator instrumentsSimulator) {
-        this.instrumentsSimulator = instrumentsSimulator;
-    }
-
-    public Time getTime() {
-        return new Time(this.instrumentsSimulator.getSimulatorNode().getSimulatedTime());
-    }
-
-    public int getTimeFactor() {
-        return this.instrumentsSimulator.getSimulatorNode().getTimeFactor();
-    }
+    // With this interface we can easily differentiate between mission and simulator adapters
 }

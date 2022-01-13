@@ -30,7 +30,7 @@ import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceType;
  *
  * @author Cesar Coelho
  */
-public class OpticalDataReceiverSoftSimAdapter implements OpticalDataReceiverAdapterInterface
+public class OpticalDataReceiverSoftSimAdapter implements OpticalDataReceiverAdapterInterface, SimulatorAdapter
 {
 
   private final ESASimulator instrumentsSimulator;

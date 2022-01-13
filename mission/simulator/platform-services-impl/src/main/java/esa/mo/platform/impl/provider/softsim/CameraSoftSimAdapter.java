@@ -47,7 +47,7 @@ import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceType;
  *
  * @author Cesar Coelho
  */
-public class CameraSoftSimAdapter implements CameraAdapterInterface
+public class CameraSoftSimAdapter implements CameraAdapterInterface, SimulatorAdapter
 {
 
   private final static Duration MINIMUM_DURATION = new Duration(10); // 10 seconds for now...

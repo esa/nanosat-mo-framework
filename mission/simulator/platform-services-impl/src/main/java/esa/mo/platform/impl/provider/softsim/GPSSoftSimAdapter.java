@@ -33,7 +33,7 @@ import org.orekit.propagation.analytical.tle.TLE;
  *
  * @author Cesar Coelho
  */
-public class GPSSoftSimAdapter extends GPSNMEAonlyAdapter
+public class GPSSoftSimAdapter extends GPSNMEAonlyAdapter implements SimulatorAdapter
 {
 
   private final ESASimulator instrumentsSimulator;

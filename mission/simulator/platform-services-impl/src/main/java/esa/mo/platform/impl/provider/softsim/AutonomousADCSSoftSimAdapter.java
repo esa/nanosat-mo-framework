@@ -47,7 +47,7 @@ import org.ccsds.moims.mo.platform.structures.VectorF3D;
  *
  * @author Cesar Coelho
  */
-public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterface
+public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterface, SimulatorAdapter
 {
 
   private final ESASimulator instrumentsSimulator;
