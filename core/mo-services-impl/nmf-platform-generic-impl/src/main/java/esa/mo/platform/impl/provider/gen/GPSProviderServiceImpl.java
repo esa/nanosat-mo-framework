@@ -97,6 +97,7 @@ import org.ccsds.moims.mo.platform.gps.structures.*;
 import org.ccsds.moims.mo.platform.structures.VectorD3D;
 import org.ccsds.moims.mo.platform.structures.VectorF3D;
 import org.hipparchus.geometry.euclidean.threed.Vector3D;
+import org.hipparchus.util.FastMath;
 import org.orekit.bodies.GeodeticPoint;
 import org.orekit.bodies.OneAxisEllipsoid;
 import org.orekit.data.DataProvidersManager;
@@ -197,10 +198,10 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
         GPSHelper.GPS_SERVICE, this);
 
     if (Boolean.parseBoolean(System.getProperty(HelperMisc.PROP_GPS_POLLING_ACTIVE))) {
-    periodicCurrentPosition = new PeriodicCurrentPosition();
-    periodicCurrentPosition.init();
-    running = true;
-    initialiased = true;
+      periodicCurrentPosition = new PeriodicCurrentPosition();
+      periodicCurrentPosition.init();
+      running = true;
+      initialiased = true;
       periodicCurrentPosition.start();
     }
     LOGGER.info("GPS service READY");
@@ -902,8 +903,8 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
     PositionExtraDetails extraDetails = new PositionExtraDetails(new Time(targetDate.getTimeInMillis()),
             0, 0, 0.0f,0.0f, PositionSourceType.TLE);
 
-    return new Position((float) satLatLonAlt.getLatitude(), (float) satLatLonAlt.getLongitude(),
-            (float) satLatLonAlt.getAltitude(), extraDetails);
+    return new Position((float) satLatLonAlt.getLatitude(), (float) FastMath.toDegrees(satLatLonAlt.getLongitude()),
+            (float) FastMath.toDegrees(satLatLonAlt.getAltitude()), extraDetails);
   }
 
   private SpacecraftState getSpacecraftState(Calendar targetDate) {
