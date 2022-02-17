@@ -2151,6 +2151,45 @@
       </mal:capabilitySet>
       <com:features />
     </mal:service>
+    <mal:service
+      comment="The Artificial Intelligence service provides a generic mechanism to control a AI device including setting the models and control the inference of images."
+      name="ArtificialIntelligence" number="9" xsi:type="com:ExtendedServiceType">
+      <mal:capabilitySet comment="" number="1">
+        <mal:submitIP
+          comment="The setModel operation allows a consumer to set the Model to be used by the AI device."
+          name="setModel" number="1" supportInReplay="false">
+          <mal:messages>
+            <mal:submit comment="">
+              <mal:field canBeNull="false"
+                comment="The location field holds the path to the file of the model." name="location">
+                <mal:type area="MAL" list="false" name="File" />
+              </mal:field>
+            </mal:submit>
+          </mal:messages>
+        </mal:submitIP>
+      </mal:capabilitySet>
+      <mal:capabilitySet comment="" number="2">
+        <mal:requestIP
+          comment="The doInference operation allows a consumer to perform inference on the AI device."
+          name="doInference" number="2" supportInReplay="false">
+          <mal:messages>
+            <mal:request comment="">
+              <mal:field canBeNull="false"
+                comment="The inputTiles field holds the path to a folder with the tiles to be processed." name="inputTiles">
+                <mal:type area="MAL" list="false" name="File" />
+              </mal:field>
+            </mal:request>
+            <mal:response comment="">
+              <mal:field canBeNull="false"
+                comment="The outputTiles field holds the path to a folder with the infered tiles." name="outputTiles">
+                <mal:type area="MAL" list="false" name="File" />
+              </mal:field>
+            </mal:response>
+          </mal:messages>
+        </mal:requestIP>
+      </mal:capabilitySet>
+      <com:features />
+    </mal:service>
     <mal:dataTypes>
       <mal:composite
         comment="Holds a 3D float Vector."
