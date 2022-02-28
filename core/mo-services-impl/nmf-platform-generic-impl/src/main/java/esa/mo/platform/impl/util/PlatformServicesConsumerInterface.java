@@ -21,6 +21,7 @@
 package esa.mo.platform.impl.util;
 
 import java.io.IOException;
+import org.ccsds.moims.mo.platform.artificialintelligence.consumer.ArtificialIntelligenceStub;
 import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSStub;
 import org.ccsds.moims.mo.platform.camera.consumer.CameraStub;
 import org.ccsds.moims.mo.platform.clock.consumer.ClockStub;
@@ -35,8 +36,10 @@ import org.ccsds.moims.mo.platform.softwaredefinedradio.consumer.SoftwareDefined
  */
 public interface PlatformServicesConsumerInterface {
 
-    AutonomousADCSStub getAutonomousADCSService() throws IOException;
+    ArtificialIntelligenceStub getAIService() throws IOException;
 
+    AutonomousADCSStub getAutonomousADCSService() throws IOException;
+    
     CameraStub getCameraService() throws IOException;
 
     GPSStub getGPSService() throws IOException;
