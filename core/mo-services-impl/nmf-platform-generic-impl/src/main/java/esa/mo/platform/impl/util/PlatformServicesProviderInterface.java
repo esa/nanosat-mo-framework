@@ -23,6 +23,7 @@ package esa.mo.platform.impl.util;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.platform.artificialintelligence.provider.ArtificialIntelligenceInheritanceSkeleton;
 import org.ccsds.moims.mo.platform.autonomousadcs.provider.AutonomousADCSInheritanceSkeleton;
 import org.ccsds.moims.mo.platform.camera.provider.CameraInheritanceSkeleton;
 import org.ccsds.moims.mo.platform.gps.provider.GPSInheritanceSkeleton;
@@ -39,6 +40,8 @@ public interface PlatformServicesProviderInterface {
 
     default void startStatusTracking(ConnectionConsumer connection) {
     }
+
+    ArtificialIntelligenceInheritanceSkeleton getAIService();
 
     CameraInheritanceSkeleton getCameraService();
 
