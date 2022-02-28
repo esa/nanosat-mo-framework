@@ -44,23 +44,23 @@ import org.ccsds.moims.mo.platform.gps.structures.NearbyPositionDefinitionList;
  * @author Cesar Coelho
  */
 public final class GPSManager extends DefinitionsManager {
-    
+
     private Long uniqueObjIdDef; // Unique objId Definition (different for every Definition)
     private final HashMap<Long, Boolean> previousIsInsideStatus;
-    
-    public GPSManager(COMServicesProvider comServices){
+
+    public GPSManager(COMServicesProvider comServices) {
         super(comServices);
 
         this.previousIsInsideStatus = new HashMap<>();
-        
+
         if (super.getArchiveService() == null) {  // No Archive?
             this.uniqueObjIdDef = 0L; // The zeroth value will not be used (reserved for the wildcard)
-        }else{
-            
+        } else {
+
         }
 
     }
-    
+
     @Override
     public Boolean compareName(final Long objId, final Identifier name) {
         return this.get(objId).getName().equals(name);
@@ -83,16 +83,16 @@ public final class GPSManager extends DefinitionsManager {
         return previousIsInsideStatus.put(input, isInside);
     }
 
-    public NearbyPositionDefinitionList getAll(){
+    public NearbyPositionDefinitionList getAll() {
         return (NearbyPositionDefinitionList) this.getAllDefs();
     }
 
-    public Long add(final NearbyPositionDefinition definition, final ObjectId source, URI uri){
+    public Long add(final NearbyPositionDefinition definition, final ObjectId source, URI uri) {
         if (super.getArchiveService() == null) {
             uniqueObjIdDef++; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
             this.addDef(uniqueObjIdDef, definition);
             return uniqueObjIdDef;
-        }else{
+        } else {
             NearbyPositionDefinitionList defs = new NearbyPositionDefinitionList();
             defs.add(definition);
 
@@ -117,12 +117,12 @@ public final class GPSManager extends DefinitionsManager {
 
         return null;
     }
-      
-    public boolean delete(final Long objId){
+
+    public boolean delete(final Long objId) {
         return this.deleteDef(objId);
     }
 
-    protected Long storeAndGenerateNearbyPositionAlertId(final Boolean inside, 
+    protected Long storeAndGenerateNearbyPositionAlertId(final Boolean inside,
             final Long objId, final URI uri) {
         if (super.getArchiveService() != null) {
             BooleanList isEnteringList = new BooleanList();
@@ -147,7 +147,7 @@ public final class GPSManager extends DefinitionsManager {
 
             return null;
         }
-        
+
         return 0L;
     }
 

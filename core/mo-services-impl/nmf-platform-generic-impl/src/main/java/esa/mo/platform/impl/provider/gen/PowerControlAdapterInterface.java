@@ -29,14 +29,13 @@ import org.ccsds.moims.mo.platform.powercontrol.structures.Device;
 import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceList;
 import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceType;
 
-public interface PowerControlAdapterInterface
-{
+public interface PowerControlAdapterInterface {
 
-  Map<Identifier, Device> getDeviceMap();
+    Map<Identifier, Device> getDeviceMap();
 
-  void enableDevices(DeviceList devices) throws IOException;
+    void enableDevices(DeviceList devices) throws IOException;
 
-  boolean isDeviceEnabled(DeviceType deviceType);
+    boolean isDeviceEnabled(DeviceType deviceType);
 
-  void startStatusTracking(ConnectionConsumer connection);
+    void startStatusTracking(ConnectionConsumer connection);
 }

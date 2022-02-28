@@ -56,246 +56,226 @@ import org.ccsds.moims.mo.platform.softwaredefinedradio.consumer.SoftwareDefined
  *
  *
  */
-public class PlatformServicesConsumer implements PlatformServicesConsumerInterface
-{
+public class PlatformServicesConsumer implements PlatformServicesConsumerInterface {
 
-  private AutonomousADCSConsumerServiceImpl autonomousADCSService;
-  private CameraConsumerServiceImpl cameraService;
-  private GPSConsumerServiceImpl gpsService;
-  private OpticalDataReceiverConsumerServiceImpl odrService;
-  private SoftwareDefinedRadioConsumerServiceImpl sdrService;
-  private PowerControlConsumerServiceImpl powerControlService;
-  private ClockConsumerServiceImpl clockService;
+    private AutonomousADCSConsumerServiceImpl autonomousADCSService;
+    private CameraConsumerServiceImpl cameraService;
+    private GPSConsumerServiceImpl gpsService;
+    private OpticalDataReceiverConsumerServiceImpl odrService;
+    private SoftwareDefinedRadioConsumerServiceImpl sdrService;
+    private PowerControlConsumerServiceImpl powerControlService;
+    private ClockConsumerServiceImpl clockService;
 
-  public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices)
-  {
-    init(connectionConsumer, comServices, null, null);
-  }
-
-  public void init(ConnectionConsumer connectionConsumer,
-                   COMServicesConsumer comServices,
-                   Blob authenticationID,
-                   String localNamePrefix)
-  {
-    SingleConnectionDetails details;
-
-    try {
-      // Initialize the AutonomousADCS service
-      details = connectionConsumer.getServicesDetails().get(
-              AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE_NAME);
-      if (details != null) {
-        autonomousADCSService = new AutonomousADCSConsumerServiceImpl(details, comServices, authenticationID, localNamePrefix);
-      }
-
-      // Initialize the Camera service
-      details = connectionConsumer.getServicesDetails().get(CameraHelper.CAMERA_SERVICE_NAME);
-      if (details != null) {
-        cameraService = new CameraConsumerServiceImpl(details, comServices, authenticationID, localNamePrefix);
-      }
-
-      // Initialize the GPS service
-      details = connectionConsumer.getServicesDetails().get(GPSHelper.GPS_SERVICE_NAME);
-      if (details != null) {
-        gpsService = new GPSConsumerServiceImpl(details, comServices, authenticationID, localNamePrefix);
-      }
-
-      // Initialize the Optical Data Receiver service
-      details = connectionConsumer.getServicesDetails().get(
-              OpticalDataReceiverHelper.OPTICALDATARECEIVER_SERVICE_NAME);
-      if (details != null) {
-        odrService = new OpticalDataReceiverConsumerServiceImpl(details, comServices, authenticationID, localNamePrefix);
-      }
-
-      // Initialize the Software Defined Radio service
-      details = connectionConsumer.getServicesDetails().get(
-              SoftwareDefinedRadioHelper.SOFTWAREDEFINEDRADIO_SERVICE_NAME);
-      if (details != null) {
-        sdrService = new SoftwareDefinedRadioConsumerServiceImpl(details, comServices, authenticationID, localNamePrefix);
-      }
-
-      // Initialize the Power Control service
-      details = connectionConsumer.getServicesDetails().get(
-              PowerControlHelper.POWERCONTROL_SERVICE_NAME);
-      if (details != null) {
-        powerControlService = new PowerControlConsumerServiceImpl(details, comServices, authenticationID, localNamePrefix);
-      }
-
-      // Initialize the Clock service
-      details = connectionConsumer.getServicesDetails().get(
-          ClockHelper.CLOCK_SERVICE_NAME);
-      if (details != null) {
-        clockService = new ClockConsumerServiceImpl(details, comServices);
-      }
-    } catch (MALException | MALInteractionException | MalformedURLException ex) {
-      Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
-    }
-  }
-
-  @Override
-  public AutonomousADCSStub getAutonomousADCSService() throws IOException
-  {
-    if (this.autonomousADCSService == null) {
-      throw new IOException("The service consumer is not connected to the provider.");
+    public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices) {
+        init(connectionConsumer, comServices, null, null);
     }
 
-    return this.autonomousADCSService.getAutonomousADCSStub();
-  }
+    public void init(ConnectionConsumer connectionConsumer,
+            COMServicesConsumer comServices, Blob authenticationID, String localNamePrefix) {
+        SingleConnectionDetails details;
 
-  @Override
-  public CameraStub getCameraService() throws IOException
-  {
-    if (this.cameraService == null) {
-      throw new IOException("The service consumer is not connected to the provider.");
+        try {
+            // Initialize the AutonomousADCS service
+            details = connectionConsumer.getServicesDetails().get(
+                    AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE_NAME);
+            if (details != null) {
+                autonomousADCSService = new AutonomousADCSConsumerServiceImpl(details, comServices, authenticationID, localNamePrefix);
+            }
+
+            // Initialize the Camera service
+            details = connectionConsumer.getServicesDetails().get(CameraHelper.CAMERA_SERVICE_NAME);
+            if (details != null) {
+                cameraService = new CameraConsumerServiceImpl(details, comServices, authenticationID, localNamePrefix);
+            }
+
+            // Initialize the GPS service
+            details = connectionConsumer.getServicesDetails().get(GPSHelper.GPS_SERVICE_NAME);
+            if (details != null) {
+                gpsService = new GPSConsumerServiceImpl(details, comServices, authenticationID, localNamePrefix);
+            }
+
+            // Initialize the Optical Data Receiver service
+            details = connectionConsumer.getServicesDetails().get(
+                    OpticalDataReceiverHelper.OPTICALDATARECEIVER_SERVICE_NAME);
+            if (details != null) {
+                odrService = new OpticalDataReceiverConsumerServiceImpl(details, comServices, authenticationID, localNamePrefix);
+            }
+
+            // Initialize the Software Defined Radio service
+            details = connectionConsumer.getServicesDetails().get(
+                    SoftwareDefinedRadioHelper.SOFTWAREDEFINEDRADIO_SERVICE_NAME);
+            if (details != null) {
+                sdrService = new SoftwareDefinedRadioConsumerServiceImpl(details, comServices, authenticationID, localNamePrefix);
+            }
+
+            // Initialize the Power Control service
+            details = connectionConsumer.getServicesDetails().get(
+                    PowerControlHelper.POWERCONTROL_SERVICE_NAME);
+            if (details != null) {
+                powerControlService = new PowerControlConsumerServiceImpl(details, comServices, authenticationID, localNamePrefix);
+            }
+
+            // Initialize the Clock service
+            details = connectionConsumer.getServicesDetails().get(
+                    ClockHelper.CLOCK_SERVICE_NAME);
+            if (details != null) {
+                clockService = new ClockConsumerServiceImpl(details, comServices);
+            }
+        } catch (MALException | MALInteractionException | MalformedURLException ex) {
+            Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
-    return this.cameraService.getCameraStub();
-  }
+    @Override
+    public AutonomousADCSStub getAutonomousADCSService() throws IOException {
+        if (this.autonomousADCSService == null) {
+            throw new IOException("The service consumer is not connected to the provider.");
+        }
 
-  @Override
-  public GPSStub getGPSService() throws IOException
-  {
-    if (this.gpsService == null) {
-      throw new IOException("The service consumer is not connected to the provider.");
+        return this.autonomousADCSService.getAutonomousADCSStub();
     }
 
-    return this.gpsService.getGPSStub();
-  }
+    @Override
+    public CameraStub getCameraService() throws IOException {
+        if (this.cameraService == null) {
+            throw new IOException("The service consumer is not connected to the provider.");
+        }
 
-  @Override
-  public OpticalDataReceiverStub getOpticalDataReceiverService() throws IOException
-  {
-    if (this.odrService == null) {
-      throw new IOException("The service consumer is not connected to the provider.");
+        return this.cameraService.getCameraStub();
     }
 
-    return this.odrService.getOpticalDataReceiverStub();
-  }
+    @Override
+    public GPSStub getGPSService() throws IOException {
+        if (this.gpsService == null) {
+            throw new IOException("The service consumer is not connected to the provider.");
+        }
 
-  @Override
-  public SoftwareDefinedRadioStub getSoftwareDefinedRadioService() throws IOException
-  {
-    if (this.sdrService == null) {
-      throw new IOException("The service consumer is not connected to the provider.");
+        return this.gpsService.getGPSStub();
     }
 
-    return this.sdrService.getSoftwareDefinedRadioStub();
-  }
+    @Override
+    public OpticalDataReceiverStub getOpticalDataReceiverService() throws IOException {
+        if (this.odrService == null) {
+            throw new IOException("The service consumer is not connected to the provider.");
+        }
 
-  @Override
-  public PowerControlStub getPowerControlService() throws IOException
-  {
-    if (this.powerControlService == null) {
-      throw new IOException("The service consumer is not connected to the provider.");
+        return this.odrService.getOpticalDataReceiverStub();
     }
 
-    return this.powerControlService.getPowerControlStub();
-  }
+    @Override
+    public SoftwareDefinedRadioStub getSoftwareDefinedRadioService() throws IOException {
+        if (this.sdrService == null) {
+            throw new IOException("The service consumer is not connected to the provider.");
+        }
 
-  @Override
-  public ClockStub getClockService() throws IOException
-  {
-    if (this.clockService == null) {
-      throw new IOException("The service consumer is not connected to the provider.");
+        return this.sdrService.getSoftwareDefinedRadioStub();
     }
 
-    return this.clockService.getClockStub();
-  }
+    @Override
+    public PowerControlStub getPowerControlService() throws IOException {
+        if (this.powerControlService == null) {
+            throw new IOException("The service consumer is not connected to the provider.");
+        }
 
-  // Setters
-  public void setAutonomousADCSService(AutonomousADCSConsumerServiceImpl autonomousADCSService)
-  {
-    this.autonomousADCSService = autonomousADCSService;
-  }
-
-  public void setCameraService(CameraConsumerServiceImpl cameraService)
-  {
-    this.cameraService = cameraService;
-  }
-
-  public void setGPSService(GPSConsumerServiceImpl gpsService)
-  {
-    this.gpsService = gpsService;
-  }
-
-  public void setOpticalDataReceiverService(OpticalDataReceiverConsumerServiceImpl odrService)
-  {
-    this.odrService = odrService;
-  }
-
-  public void setSoftwareDefinedRadioService(SoftwareDefinedRadioConsumerServiceImpl sdrService)
-  {
-    this.sdrService = sdrService;
-  }
-
-  public void setPowerControlService(PowerControlConsumerServiceImpl powerControlService)
-  {
-    this.powerControlService = powerControlService;
-  }
-
-  public void setClockService(ClockConsumerServiceImpl clockService)
-  {
-    this.clockService = clockService;
-  }
-
-  /**
-   * Closes the service consumer connections
-   *
-   */
-  public void closeConnections()
-  {
-    if (this.autonomousADCSService != null) {
-      this.autonomousADCSService.close();
+        return this.powerControlService.getPowerControlStub();
     }
 
-    if (this.cameraService != null) {
-      this.cameraService.close();
+    @Override
+    public ClockStub getClockService() throws IOException {
+        if (this.clockService == null) {
+            throw new IOException("The service consumer is not connected to the provider.");
+        }
+
+        return this.clockService.getClockStub();
     }
 
-    if (this.gpsService != null) {
-      this.gpsService.close();
+    // Setters
+    public void setAutonomousADCSService(AutonomousADCSConsumerServiceImpl autonomousADCSService) {
+        this.autonomousADCSService = autonomousADCSService;
     }
 
-    if (this.odrService != null) {
-      this.odrService.close();
+    public void setCameraService(CameraConsumerServiceImpl cameraService) {
+        this.cameraService = cameraService;
     }
 
-    if (this.sdrService != null) {
-      this.sdrService.close();
+    public void setGPSService(GPSConsumerServiceImpl gpsService) {
+        this.gpsService = gpsService;
     }
 
-    if (this.powerControlService != null) {
-      this.powerControlService.close();
-    }
-  }
-
-  public void setAuthenticationId(Blob authenticationId) {
-    if (this.autonomousADCSService != null) {
-      this.autonomousADCSService.setAuthenticationId(authenticationId);
+    public void setOpticalDataReceiverService(OpticalDataReceiverConsumerServiceImpl odrService) {
+        this.odrService = odrService;
     }
 
-    if (this.cameraService != null) {
-      this.cameraService.setAuthenticationId(authenticationId);
+    public void setSoftwareDefinedRadioService(SoftwareDefinedRadioConsumerServiceImpl sdrService) {
+        this.sdrService = sdrService;
     }
 
-    if (this.gpsService != null) {
-      this.gpsService.setAuthenticationId(authenticationId);
+    public void setPowerControlService(PowerControlConsumerServiceImpl powerControlService) {
+        this.powerControlService = powerControlService;
     }
 
-    if (this.odrService != null) {
-      this.odrService.setAuthenticationId(authenticationId);
+    public void setClockService(ClockConsumerServiceImpl clockService) {
+        this.clockService = clockService;
     }
 
-    if (this.sdrService != null) {
-      this.sdrService.setAuthenticationId(authenticationId);
+    /**
+     * Closes the service consumer connections
+     *
+     */
+    public void closeConnections() {
+        if (this.autonomousADCSService != null) {
+            this.autonomousADCSService.close();
+        }
+
+        if (this.cameraService != null) {
+            this.cameraService.close();
+        }
+
+        if (this.gpsService != null) {
+            this.gpsService.close();
+        }
+
+        if (this.odrService != null) {
+            this.odrService.close();
+        }
+
+        if (this.sdrService != null) {
+            this.sdrService.close();
+        }
+
+        if (this.powerControlService != null) {
+            this.powerControlService.close();
+        }
     }
 
-    if (this.powerControlService != null) {
-      this.powerControlService.setAuthenticationId(authenticationId);
-    }
+    public void setAuthenticationId(Blob authenticationId) {
+        if (this.autonomousADCSService != null) {
+            this.autonomousADCSService.setAuthenticationId(authenticationId);
+        }
 
-    if (this.clockService != null) {
-      this.clockService.close();
+        if (this.cameraService != null) {
+            this.cameraService.setAuthenticationId(authenticationId);
+        }
+
+        if (this.gpsService != null) {
+            this.gpsService.setAuthenticationId(authenticationId);
+        }
+
+        if (this.odrService != null) {
+            this.odrService.setAuthenticationId(authenticationId);
+        }
+
+        if (this.sdrService != null) {
+            this.sdrService.setAuthenticationId(authenticationId);
+        }
+
+        if (this.powerControlService != null) {
+            this.powerControlService.setAuthenticationId(authenticationId);
+        }
+
+        if (this.clockService != null) {
+            this.clockService.close();
+        }
     }
-  }
 
 }

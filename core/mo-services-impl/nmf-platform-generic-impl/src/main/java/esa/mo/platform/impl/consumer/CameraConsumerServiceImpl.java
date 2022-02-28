@@ -60,15 +60,15 @@ public class CameraConsumerServiceImpl extends ConsumerServiceImpl {
         return new CameraStub(tmConsumer);
     }
 
-    public CameraConsumerServiceImpl(SingleConnectionDetails connectionDetails, 
+    public CameraConsumerServiceImpl(SingleConnectionDetails connectionDetails,
             COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
         this(connectionDetails, comServices, null, null);
     }
 
     public CameraConsumerServiceImpl(SingleConnectionDetails connectionDetails,
-                                     COMServicesConsumer comServices,
-                                     Blob authenticationId, String localNamePrefix) throws MALException, MalformedURLException,
-                                                                                              MALInteractionException {
+            COMServicesConsumer comServices, Blob authenticationId, 
+            String localNamePrefix) throws MALException, MalformedURLException,
+            MALInteractionException {
         this.connectionDetails = connectionDetails;
         this.comServices = comServices;
 
@@ -77,7 +77,8 @@ public class CameraConsumerServiceImpl extends ConsumerServiceImpl {
             try {
                 tmConsumer.close();
             } catch (MALException ex) {
-                Logger.getLogger(CameraConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(CameraConsumerServiceImpl.class.getName()).log(
+                        Level.SEVERE, null, ex);
             }
         }
 
