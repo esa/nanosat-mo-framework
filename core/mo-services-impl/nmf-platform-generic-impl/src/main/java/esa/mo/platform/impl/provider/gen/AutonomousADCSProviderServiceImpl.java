@@ -76,7 +76,8 @@ import org.ccsds.moims.mo.platform.autonomousadcs.structures.ReactionWheelParame
  */
 public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritanceSkeleton {
 
-    private final static Logger LOGGER = Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName());
+    private final static Logger LOGGER = Logger.getLogger(
+            AutonomousADCSProviderServiceImpl.class.getName());
     private final static Duration MINIMUM_MONITORING_PERIOD = new Duration(0.1); // 100 Milliseconds
     private int resultCacheValidityMs;
     private MALProvider autonomousADCSServiceProvider;
@@ -100,22 +101,22 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     private long lastActuatorsTmTime = 0;
 
     /**
-     * creates the MAL objects, the publisher used to create updates and starts the publishing thread
+     * creates the MAL objects, the publisher used to create updates and starts
+     * the publishing thread
      *
      * @param comServices COM services provider
-     * @param adapter     The adapter for the ADCS unit interaction
+     * @param adapter The adapter for the ADCS unit interaction
      * @throws MALException On initialisation error.
      */
-    public synchronized void init(COMServicesProvider comServices, AutonomousADCSAdapterInterface adapter)
-        throws MALException {
+    public synchronized void init(COMServicesProvider comServices,
+            AutonomousADCSAdapterInterface adapter) throws MALException {
         if (!initialiased) {
-
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
-            if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME, PlatformHelper.PLATFORM_AREA_VERSION) ==
-                null) {
+            if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME,
+                    PlatformHelper.PLATFORM_AREA_VERSION) == null) {
                 PlatformHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
@@ -123,16 +124,21 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
                 COMHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
-            if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME, PlatformHelper.PLATFORM_AREA_VERSION)
-                .getServiceByName(AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE_NAME) == null) {
+            if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME,
+                    PlatformHelper.PLATFORM_AREA_VERSION)
+                    .getServiceByName(AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE_NAME) == null) {
                 AutonomousADCSHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
         }
         resultCacheValidityMs = Integer.parseInt(System.getProperty(Const.PLATFORM_IADCS_CACHING_PERIOD, "1000"));
 
         publisher = createMonitorAttitudePublisher(ConfigurationProviderSingleton.getDomain(),
-            ConfigurationProviderSingleton.getNetwork(), SessionType.LIVE, ConfigurationProviderSingleton
-                .getSourceSessionName(), QoSLevel.BESTEFFORT, null, new UInteger(0));
+                ConfigurationProviderSingleton.getNetwork(),
+                SessionType.LIVE,
+                ConfigurationProviderSingleton.getSourceSessionName(),
+                QoSLevel.BESTEFFORT,
+                null,
+                new UInteger(0));
 
         // Shut down old service transport
         if (null != autonomousADCSServiceProvider) {
@@ -140,8 +146,9 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
         }
 
         this.adapter = adapter;
-        autonomousADCSServiceProvider = connection.startService(AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE_NAME
-            .toString(), AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE, true, this);
+        autonomousADCSServiceProvider = connection.startService(
+                AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE_NAME.toString(),
+                AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE, true, this);
 
         initialiased = true;
         LOGGER.info("AutonomousADCS service READY");
@@ -186,13 +193,13 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
 
         try {
             final AttitudeTelemetry attitudeTelemetry = getAttitudeTelemetry();
-            final AttitudeTelemetryList attitudeTelemetryList = (AttitudeTelemetryList) HelperMisc.element2elementList(
-                attitudeTelemetry);
+            final AttitudeTelemetryList attitudeTelemetryList
+                    = (AttitudeTelemetryList) HelperMisc.element2elementList(attitudeTelemetry);
             attitudeTelemetryList.add(attitudeTelemetry);
 
             final ActuatorsTelemetry actuatorsTelemetry = getActuatorsTelemetry();
-            final ActuatorsTelemetryList actuatorsTelemetryList = (ActuatorsTelemetryList) HelperMisc
-                .element2elementList(actuatorsTelemetry);
+            final ActuatorsTelemetryList actuatorsTelemetryList
+                    = (ActuatorsTelemetryList) HelperMisc.element2elementList(actuatorsTelemetry);
             actuatorsTelemetryList.add(actuatorsTelemetry);
 
             final AttitudeMode activeAttitudeMode = getActiveAttitudeMode();
@@ -202,7 +209,8 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
                 // Pick a dummy concrete type type just to fill it with a null value
                 attitudeModeList = new AttitudeModeBDotList();
             } else {
-                attitudeModeList = (AttitudeModeList) HelperMisc.element2elementList(activeAttitudeMode);
+                attitudeModeList = (AttitudeModeList) HelperMisc.element2elementList(
+                        activeAttitudeMode);
             }
             attitudeModeList.add(activeAttitudeMode);
 
@@ -213,29 +221,30 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
             final Time timestamp = HelperTime.getTimestampMillis();
             final UpdateHeaderList hdrlst = new UpdateHeaderList();
             hdrlst.add(new UpdateHeader(timestamp, connection.getConnectionDetails().getProviderURI(),
-                UpdateType.UPDATE, ekey));
+                    UpdateType.UPDATE, ekey));
 
-            publisher.publish(hdrlst, attitudeTelemetryList, actuatorsTelemetryList, durationList, attitudeModeList);
+            publisher.publish(hdrlst, attitudeTelemetryList, actuatorsTelemetryList, durationList,
+                    attitudeModeList);
         } catch (IOException | IllegalArgumentException | MALException | MALInteractionException ex) {
             LOGGER.log(Level.SEVERE, "Error when trying to publish data!", ex);
         }
     }
 
     @Override
-    public void enableMonitoring(Boolean enableGeneration, Duration monitoringInterval, MALInteraction interaction)
-        throws MALInteractionException, MALException {
+    public void enableMonitoring(Boolean enableGeneration, Duration monitoringInterval,
+            MALInteraction interaction) throws MALInteractionException, MALException {
         if (!enableGeneration) {
             stopGeneration();
             return;
         }
         if (!adapter.isUnitAvailable()) {
-            throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
-                null));
+            throw new MALInteractionException(new MALStandardError(
+                    PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
         }
         // Is the requested streaming rate less than the minimum period?
         if (monitoringInterval == null || monitoringInterval.getValue() < MINIMUM_MONITORING_PERIOD.getValue()) {
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER,
-                MINIMUM_MONITORING_PERIOD));
+                    MINIMUM_MONITORING_PERIOD));
         }
 
         monitoringPeriod = (int) (monitoringInterval.getValue() * 1000); // In milliseconds
@@ -245,30 +254,32 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     @Override
     public GetStatusResponse getStatus(MALInteraction interaction) throws MALInteractionException {
         if (!adapter.isUnitAvailable()) {
-            throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
-                null));
+            throw new MALInteractionException(new MALStandardError(
+                    PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
         }
         try {
             final AttitudeTelemetry attitudeTelemetry = getAttitudeTelemetry();
             final ActuatorsTelemetry actuatorsTelemetry = getActuatorsTelemetry();
             final AttitudeMode activeAttitudeMode = getActiveAttitudeMode();
-            return new GetStatusResponse(attitudeTelemetry, actuatorsTelemetry, getAttitudeControlRemainingDuration(),
-                generationEnabled, new Duration(monitoringPeriod / 1000.f), activeAttitudeMode);
+            return new GetStatusResponse(attitudeTelemetry, actuatorsTelemetry,
+                    getAttitudeControlRemainingDuration(),
+                    generationEnabled, new Duration(monitoringPeriod / 1000.f), activeAttitudeMode);
         } catch (IOException ex) {
             Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).log(Level.SEVERE,
-                "Error when producing getStatus response", ex);
-            throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
-                null));
+                    "Error when producing getStatus response", ex);
+            throw new MALInteractionException(new MALStandardError(
+                    PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
         }
 
     }
 
     private AttitudeTelemetry getAttitudeTelemetry() throws IOException {
         if (System.currentTimeMillis() - lastAttitudeTmTime < resultCacheValidityMs) {
-            if (lastAttitudeTm != null)
+            if (lastAttitudeTm != null) {
                 return lastAttitudeTm;
-            else
+            } else {
                 throw lastAttitudeTmException;
+            }
         }
         try {
             lastAttitudeTm = adapter.getAttitudeTelemetry();
@@ -285,10 +296,11 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
 
     private ActuatorsTelemetry getActuatorsTelemetry() throws IOException {
         if (System.currentTimeMillis() - lastActuatorsTmTime < resultCacheValidityMs) {
-            if (lastActuatorsTm != null)
+            if (lastActuatorsTm != null) {
                 return lastActuatorsTm;
-            else
+            } else {
                 throw lastActuatorsTmException;
+            }
         }
         try {
             lastActuatorsTm = adapter.getActuatorsTelemetry();
@@ -310,10 +322,10 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
 
     @Override
     public synchronized void setDesiredAttitude(final Duration duration, AttitudeMode desiredAttitude,
-        MALInteraction interaction) throws MALInteractionException, MALException {
+            MALInteraction interaction) throws MALInteractionException, MALException {
         if (!adapter.isUnitAvailable()) {
-            throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
-                null));
+            throw new MALInteractionException(new MALStandardError(
+                    PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
         }
 
         if (desiredAttitude == null) {
@@ -325,16 +337,16 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
             unsetAttitude();
         } else {
             if (adcsInUse) { // Is the ADCS unit in use?
-                throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_IN_USE_ERROR_NUMBER,
-                    getAttitudeControlRemainingDuration()));
+                throw new MALInteractionException(new MALStandardError(
+                        PlatformHelper.DEVICE_IN_USE_ERROR_NUMBER, getAttitudeControlRemainingDuration()));
             }
 
             // Validate the attitude definition...
             String validationResult = adapter.validateAttitudeDescriptor(desiredAttitude);
 
             if (validationResult != null) {
-                throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, HelperAttributes
-                    .javaType2Attribute(validationResult)));
+                throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER,
+                        HelperAttributes.javaType2Attribute(validationResult)));
             }
 
             try {
@@ -343,8 +355,8 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
             } catch (IOException ex) {
                 LOGGER.log(Level.SEVERE, "Error when setting desired attitude.", ex);
                 // Operation not supported by the implementation...
-                throw new MALInteractionException(new MALStandardError(MALHelper.UNSUPPORTED_OPERATION_ERROR_NUMBER,
-                    null));
+                throw new MALInteractionException(new MALStandardError(
+                        MALHelper.UNSUPPORTED_OPERATION_ERROR_NUMBER, null));
             }
             adcsInUse = true;
 
@@ -358,7 +370,8 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
             adapter.unset();
             adcsInUse = false;
         } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, "Cannot disengage attitude control.", ex);
+            LOGGER.log(Level.SEVERE,
+                    "Cannot disengage attitude control.", ex);
         }
     }
 
@@ -415,11 +428,11 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     }
 
     @Override
-    public void setReactionWheelSpeed(ReactionWheelIdentifier wheel, Float speed, MALInteraction interaction)
-        throws MALInteractionException, MALException {
+    public void setReactionWheelSpeed(ReactionWheelIdentifier wheel, Float speed,
+            MALInteraction interaction) throws MALInteractionException, MALException {
         if (!adapter.isUnitAvailable()) {
-            throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
-                null));
+            throw new MALInteractionException(new MALStandardError(
+                    PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
         }
 
         adapter.setReactionWheelSpeed(wheel, speed);
@@ -427,64 +440,66 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     }
 
     @Override
-    public void setAllReactionWheelSpeeds(Float speedX, Float speedY, Float speedZ, Float speedU, Float speedV,
-        Float speedW, MALInteraction interaction) throws MALInteractionException, MALException {
+    public void setAllReactionWheelSpeeds(Float speedX, Float speedY, Float speedZ, Float speedU,
+            Float speedV, Float speedW, MALInteraction interaction) throws MALInteractionException,
+            MALException {
         if (!adapter.isUnitAvailable()) {
-            throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
-                null));
+            throw new MALInteractionException(new MALStandardError(
+                    PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
         }
         adapter.setAllReactionWheelSpeeds(speedX, speedY, speedZ, speedU, speedV, speedW);
     }
 
     @Override
-    public void setAllReactionWheelParameters(ReactionWheelParameters parameters, MALInteraction interaction)
-        throws MALInteractionException, MALException {
+    public void setAllReactionWheelParameters(ReactionWheelParameters parameters,
+            MALInteraction interaction) throws MALInteractionException, MALException {
         adapter.setAllReactionWheelParameters(parameters);
     }
 
     @Override
     public void setAllMagnetorquersDipoleMoments(Float dipoleX, Float dipoleY, Float dipoleZ,
-        MALInteraction interaction) throws MALInteractionException, MALException {
+            MALInteraction interaction) throws MALInteractionException, MALException {
         if (!adapter.isUnitAvailable()) {
-            throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
-                null));
+            throw new MALInteractionException(new MALStandardError(
+                    PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
         }
         adapter.setAllMagnetorquersDipoleMoments(dipoleX, dipoleY, dipoleZ);
     }
 
     @Override
-    public ReactionWheelParameters getAllReactionWheelParameters(MALInteraction interaction)
-        throws MALInteractionException, MALException {
+    public ReactionWheelParameters getAllReactionWheelParameters(MALInteraction interaction) throws
+            MALInteractionException, MALException {
         if (!adapter.isUnitAvailable()) {
-            throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
-                null));
+            throw new MALInteractionException(new MALStandardError(
+                    PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
         }
         return adapter.getAllReactionWheelParameters();
     }
 
-    private static class PublishInteractionListener implements MALPublishInteractionListener {
+    private class PublishInteractionListener implements MALPublishInteractionListener {
 
         @Override
         public void publishDeregisterAckReceived(final MALMessageHeader header, final Map qosProperties)
-            throws MALException {
+                throws MALException {
             LOGGER.fine("PublishInteractionListener::publishDeregisterAckReceived");
         }
 
         @Override
         public void publishErrorReceived(final MALMessageHeader header, final MALErrorBody body,
-            final Map qosProperties) throws MALException {
+                final Map qosProperties)
+                throws MALException {
             LOGGER.warning("PublishInteractionListener::publishErrorReceived");
         }
 
         @Override
         public void publishRegisterAckReceived(final MALMessageHeader header, final Map qosProperties)
-            throws MALException {
+                throws MALException {
             LOGGER.fine("PublishInteractionListener::publishRegisterAckReceived");
         }
 
         @Override
         public void publishRegisterErrorReceived(final MALMessageHeader header, final MALErrorBody body,
-            final Map qosProperties) throws MALException {
+                final Map qosProperties) throws MALException {
             LOGGER.warning("PublishInteractionListener::publishRegisterErrorReceived");
         }
     }

@@ -70,16 +70,16 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
         init(connectionConsumer, comServices, null, null);
     }
 
-    public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices, Blob authenticationID,
-        String localNamePrefix) {
+    public void init(ConnectionConsumer connectionConsumer,
+            COMServicesConsumer comServices, Blob authenticationID, String localNamePrefix) {
         SingleConnectionDetails details;
 
         try {
             // Initialize the AutonomousADCS service
-            details = connectionConsumer.getServicesDetails().get(AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE_NAME);
+            details = connectionConsumer.getServicesDetails().get(
+                    AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE_NAME);
             if (details != null) {
-                autonomousADCSService = new AutonomousADCSConsumerServiceImpl(details, comServices, authenticationID,
-                    localNamePrefix);
+                autonomousADCSService = new AutonomousADCSConsumerServiceImpl(details, comServices, authenticationID, localNamePrefix);
             }
 
             // Initialize the Camera service
@@ -96,29 +96,28 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
 
             // Initialize the Optical Data Receiver service
             details = connectionConsumer.getServicesDetails().get(
-                OpticalDataReceiverHelper.OPTICALDATARECEIVER_SERVICE_NAME);
+                    OpticalDataReceiverHelper.OPTICALDATARECEIVER_SERVICE_NAME);
             if (details != null) {
-                odrService = new OpticalDataReceiverConsumerServiceImpl(details, comServices, authenticationID,
-                    localNamePrefix);
+                odrService = new OpticalDataReceiverConsumerServiceImpl(details, comServices, authenticationID, localNamePrefix);
             }
 
             // Initialize the Software Defined Radio service
             details = connectionConsumer.getServicesDetails().get(
-                SoftwareDefinedRadioHelper.SOFTWAREDEFINEDRADIO_SERVICE_NAME);
+                    SoftwareDefinedRadioHelper.SOFTWAREDEFINEDRADIO_SERVICE_NAME);
             if (details != null) {
-                sdrService = new SoftwareDefinedRadioConsumerServiceImpl(details, comServices, authenticationID,
-                    localNamePrefix);
+                sdrService = new SoftwareDefinedRadioConsumerServiceImpl(details, comServices, authenticationID, localNamePrefix);
             }
 
             // Initialize the Power Control service
-            details = connectionConsumer.getServicesDetails().get(PowerControlHelper.POWERCONTROL_SERVICE_NAME);
+            details = connectionConsumer.getServicesDetails().get(
+                    PowerControlHelper.POWERCONTROL_SERVICE_NAME);
             if (details != null) {
-                powerControlService = new PowerControlConsumerServiceImpl(details, comServices, authenticationID,
-                    localNamePrefix);
+                powerControlService = new PowerControlConsumerServiceImpl(details, comServices, authenticationID, localNamePrefix);
             }
 
             // Initialize the Clock service
-            details = connectionConsumer.getServicesDetails().get(ClockHelper.CLOCK_SERVICE_NAME);
+            details = connectionConsumer.getServicesDetails().get(
+                    ClockHelper.CLOCK_SERVICE_NAME);
             if (details != null) {
                 clockService = new ClockConsumerServiceImpl(details, comServices);
             }

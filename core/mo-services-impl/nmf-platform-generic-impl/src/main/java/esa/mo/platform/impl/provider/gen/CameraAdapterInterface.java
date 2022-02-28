@@ -58,12 +58,15 @@ public interface CameraAdapterInterface {
     Picture takeAutoExposedPicture(final CameraSettings settings) throws IOException, MALException;
 
     /**
-     * The getMinimumPeriod method shall return the duration of taking a picture. This value is
-     * intended to be used to limit the number of consecutive calls for the takePicture method and
-     * therefore the minimum period of the stream shall be the duration of taking a picture. This
-     * method should be a static method however Java 6 does not allow static methods in interfaces.
+     * The getMinimumPeriod method shall return the duration of taking a
+     * picture. This value is intended to be used to limit the number of
+     * consecutive calls for the takePicture method and therefore the minimum
+     * period of the stream shall be the duration of taking a picture. This
+     * method should be a static method however Java 6 does not allow static
+     * methods in interfaces.
      *
-     * @return The minimum period of the stream. Or the duration of taking a picture.
+     * @return The minimum period of the stream. Or the duration of taking a
+     * picture.
      */
     Duration getMinimumPeriod();
 

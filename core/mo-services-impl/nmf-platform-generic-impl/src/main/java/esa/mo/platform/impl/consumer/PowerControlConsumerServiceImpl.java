@@ -65,9 +65,9 @@ public class PowerControlConsumerServiceImpl extends ConsumerServiceImpl {
         this(connectionDetails, comServices, null, null);
     }
 
-    public PowerControlConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices,
-        Blob authenticationId, String localNamePrefix) throws MALException, MalformedURLException,
-        MALInteractionException {
+    public PowerControlConsumerServiceImpl(SingleConnectionDetails connectionDetails,
+            COMServicesConsumer comServices, Blob authenticationId, String localNamePrefix) 
+            throws MALException, MalformedURLException, MALInteractionException {
         this.connectionDetails = connectionDetails;
         this.comServices = comServices;
 
@@ -76,7 +76,8 @@ public class PowerControlConsumerServiceImpl extends ConsumerServiceImpl {
             try {
                 tmConsumer.close();
             } catch (MALException ex) {
-                Logger.getLogger(PowerControlConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(PowerControlConsumerServiceImpl.class.getName()).log(
+                        Level.SEVERE, null, ex);
             }
         }
 

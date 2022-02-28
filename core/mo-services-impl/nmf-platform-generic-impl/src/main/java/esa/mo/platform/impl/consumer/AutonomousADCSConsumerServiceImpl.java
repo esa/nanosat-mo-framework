@@ -60,14 +60,17 @@ public class AutonomousADCSConsumerServiceImpl extends ConsumerServiceImpl {
         return new AutonomousADCSStub(tmConsumer);
     }
 
-    public AutonomousADCSConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices)
-        throws MALException, MalformedURLException, MALInteractionException {
+    public AutonomousADCSConsumerServiceImpl(SingleConnectionDetails connectionDetails,
+            COMServicesConsumer comServices) throws MALException, MalformedURLException,
+            MALInteractionException {
         this(connectionDetails, comServices, null, null);
     }
 
-    public AutonomousADCSConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices,
-        Blob authenticationID, String localNamePrefix) throws MALException, MalformedURLException,
-        MALInteractionException {
+    public AutonomousADCSConsumerServiceImpl(SingleConnectionDetails connectionDetails,
+            COMServicesConsumer comServices,
+            Blob authenticationID,
+            String localNamePrefix) throws MALException, MalformedURLException,
+            MALInteractionException {
         this.connectionDetails = connectionDetails;
         this.comServices = comServices;
 
@@ -76,13 +79,17 @@ public class AutonomousADCSConsumerServiceImpl extends ConsumerServiceImpl {
             try {
                 tmConsumer.close();
             } catch (MALException ex) {
-                Logger.getLogger(AutonomousADCSConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(AutonomousADCSConsumerServiceImpl.class.getName()).log(
+                        Level.SEVERE, null, ex);
             }
         }
 
-        tmConsumer = connection.startService(this.connectionDetails.getProviderURI(), this.connectionDetails
-            .getBrokerURI(), this.connectionDetails.getDomain(), AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE,
-            authenticationID, localNamePrefix);
+        tmConsumer = connection.startService(
+                this.connectionDetails.getProviderURI(),
+                this.connectionDetails.getBrokerURI(),
+                this.connectionDetails.getDomain(),
+                AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE,
+                authenticationID, localNamePrefix);
 
         this.autonomousADCSService = new AutonomousADCSStub(tmConsumer);
     }

@@ -217,14 +217,8 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
                 }
             }
 
-            LOGGER.log(Level.FINER, "Generating GPS Nearby Position update for: {0} (Identifier: {1})", new Object[]{
-                                                                                                                     objId,
-                                                                                                                     new Identifier(
-                                                                                                                         manager
-                                                                                                                             .get(
-                                                                                                                                 objId)
-                                                                                                                             .getName()
-                                                                                                                             .toString())});
+            LOGGER.log(Level.FINER, "Generating GPS Nearby Position update for: {0} (Identifier: {1})", 
+                    new Object[]{objId, new Identifier(manager.get(objId).getName().toString())});
 
             final URI uri = connection.getConnectionDetails().getProviderURI();
             final Long pValObjId = manager.storeAndGenerateNearbyPositionAlertId(isInside, objId, uri);
