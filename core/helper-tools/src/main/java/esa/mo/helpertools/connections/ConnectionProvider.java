@@ -326,7 +326,7 @@ public class ConnectionProvider {
     /**
      * Clears the URI links file if its generation is enabled
      */
-    public static void resetURILinksFile() {
+    public static void resetURILinks() {
         globalProvidersDetailsPrimary.reset();
         globalProvidersDetailsSecondary.reset();
 

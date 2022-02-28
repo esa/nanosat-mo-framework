@@ -32,44 +32,44 @@ import org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList;
  *
  * @author Cesar Coelho
  */
-public interface CameraAdapterInterface
-{
+public interface CameraAdapterInterface {
 
-  /**
-   * Checks if the device is present and accessible.
-   *
-   * @return true if the device is present and available for operations.
-   */
-  boolean isUnitAvailable();
+    /**
+     * Checks if the device is present and accessible.
+     *
+     * @return true if the device is present and available for operations.
+     */
+    boolean isUnitAvailable();
 
-  /**
-   * @return The resolutions supported by the Camera Adapter
-   */
-  PixelResolutionList getAvailableResolutions();
+    /**
+     * @return The resolutions supported by the Camera Adapter
+     */
+    PixelResolutionList getAvailableResolutions();
 
-  /**
-   * @return The formats supported by the Camera Adapter
-   */
-  PictureFormatList getAvailableFormats();
+    /**
+     * @return The formats supported by the Camera Adapter
+     */
+    PictureFormatList getAvailableFormats();
 
-  Picture getPicturePreview() throws IOException;
+    Picture getPicturePreview() throws IOException;
 
-  Picture takePicture(final CameraSettings settings)
-      throws IOException;
+    Picture takePicture(final CameraSettings settings) throws IOException;
 
-  Picture takeAutoExposedPicture(final CameraSettings settings)
-      throws IOException, MALException;
+    Picture takeAutoExposedPicture(final CameraSettings settings) throws IOException, MALException;
 
-  /**
-   * The getMinimumPeriod method shall return the duration of taking a picture. This value is
-   * intended to be used to limit the number of consecutive calls for the takePicture method and
-   * therefore the minimum period of the stream shall be the duration of taking a picture. This
-   * method should be a static method however Java 6 does not allow static methods in interfaces.
-   *
-   * @return The minimum period of the stream. Or the duration of taking a picture.
-   */
-  Duration getMinimumPeriod();
+    /**
+     * The getMinimumPeriod method shall return the duration of taking a
+     * picture. This value is intended to be used to limit the number of
+     * consecutive calls for the takePicture method and therefore the minimum
+     * period of the stream shall be the duration of taking a picture. This
+     * method should be a static method however Java 6 does not allow static
+     * methods in interfaces.
+     *
+     * @return The minimum period of the stream. Or the duration of taking a
+     * picture.
+     */
+    Duration getMinimumPeriod();
 
-  String getExtraInfo();
+    String getExtraInfo();
 
 }

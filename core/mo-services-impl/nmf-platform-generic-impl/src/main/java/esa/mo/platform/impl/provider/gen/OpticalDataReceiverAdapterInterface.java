@@ -26,22 +26,22 @@ import org.ccsds.moims.mo.mal.structures.Duration;
  *
  * @author Cesar Coelho
  */
-public interface OpticalDataReceiverAdapterInterface
-{
+public interface OpticalDataReceiverAdapterInterface {
 
-  /**
-   * Checks if the device is present and accessible.
-   *
-   * @return true if the device is present and available for operations.
-   */
-  boolean isUnitAvailable();
+    /**
+     * Checks if the device is present and accessible.
+     *
+     * @return true if the device is present and available for operations.
+     */
+    boolean isUnitAvailable();
 
-  /**
-   * Synchronous method to records data by the optical receiver and return the recorded buffer.
-   *
-   * @param recordingLength The duration of the recording.
-   * @return Raw buffer of the data received from the optical receiver.
-   */
-  byte[] recordOpticalReceiverData(Duration recordingLength);
+    /**
+     * Synchronous method to records data by the optical receiver and return the
+     * recorded buffer.
+     *
+     * @param recordingLength The duration of the recording.
+     * @return Raw buffer of the data received from the optical receiver.
+     */
+    byte[] recordOpticalReceiverData(Duration recordingLength);
 
 }

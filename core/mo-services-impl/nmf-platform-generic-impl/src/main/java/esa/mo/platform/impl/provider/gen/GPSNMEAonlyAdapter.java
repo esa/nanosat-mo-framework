@@ -32,74 +32,70 @@ import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
  *
  * @author Cesar Coelho
  */
-public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface
-{
-  private static final Logger LOGGER = Logger.getLogger(GPSNMEAonlyAdapter.class.getName());
-  private final int resultCacheValidityMs;
+public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface {
 
-  private Position lastPosition = null;
-  private SatelliteInfoList lastSatInfo = null;
-  private long lastPositionTime = 0;
-  private long lastSatInfoTime = 0;
+    private static final Logger LOGGER = Logger.getLogger(GPSNMEAonlyAdapter.class.getName());
+    private final int resultCacheValidityMs;
 
+    private Position lastPosition = null;
+    private SatelliteInfoList lastSatInfo = null;
+    private long lastPositionTime = 0;
+    private long lastSatInfoTime = 0;
 
-  public GPSNMEAonlyAdapter()
-  {
-    resultCacheValidityMs = Integer.parseInt(System.getProperty(Const.PLATFORM_GNSS_CACHING_PERIOD, "1000"));
-  }
-
-  @Override
-  public synchronized Position getCurrentPosition()
-  {
-    if (System.currentTimeMillis() - lastPositionTime < resultCacheValidityMs)
-      return lastPosition;
-    String nmeaLog = "";
-    try {
-      lastPosition = null;
-      String fullNmeaResponse = this.getNMEASentence("LOG GPGGALONG\r\n");
-      nmeaLog = HelperGPS.sanitizeNMEALog(fullNmeaResponse.trim());
-      if (!nmeaLog.startsWith("$GPGGA")) {
-        LOGGER.log(Level.SEVERE, "Unexpected response format: {0}", nmeaLog);
-      } else {
-        lastPosition = HelperGPS.gpggalong2Position(nmeaLog);
-      }
-    } catch (IOException ex) {
-      LOGGER.log(Level.FINE,
-          "The current position could not be retrieved! The receiver is likely offline or not returning proper position.", ex);
+    public GPSNMEAonlyAdapter() {
+        resultCacheValidityMs = Integer.parseInt(System.getProperty(Const.PLATFORM_GNSS_CACHING_PERIOD, "1000"));
     }
-    lastPositionTime = System.currentTimeMillis();
-    return lastPosition;
-  }
 
-  @Override
-  public SatelliteInfoList getSatelliteInfoList()
-  {
-    if (System.currentTimeMillis() - lastSatInfoTime < resultCacheValidityMs)
-      return lastSatInfo;
-    try {
-      lastSatInfo = null;
-      String nmeaLog = HelperGPS.sanitizeNMEALog(this.getNMEASentence("LOG GPGSV\r\n").trim());
-      if (!nmeaLog.startsWith("$GPGSV")) {
-        LOGGER.log(Level.SEVERE, "Unexpected response format: {0}", nmeaLog);
-      } else {
-        return HelperGPS.gpgsv2SatelliteInfoList(nmeaLog);
-      }
-    } catch (IOException ex) {
-      LOGGER.log(Level.SEVERE, null, ex);
+    @Override
+    public synchronized Position getCurrentPosition() {
+        if (System.currentTimeMillis() - lastPositionTime < resultCacheValidityMs) {
+            return lastPosition;
+        }
+        String nmeaLog = "";
+        try {
+            lastPosition = null;
+            String fullNmeaResponse = this.getNMEASentence("LOG GPGGALONG\r\n");
+            nmeaLog = HelperGPS.sanitizeNMEALog(fullNmeaResponse.trim());
+            if (!nmeaLog.startsWith("$GPGGA")) {
+                LOGGER.log(Level.SEVERE, "Unexpected response format: {0}", nmeaLog);
+            } else {
+                lastPosition = HelperGPS.gpggalong2Position(nmeaLog);
+            }
+        } catch (IOException ex) {
+            LOGGER.log(Level.FINE, "The current position could not be retrieved! "
+                    + "The receiver is likely offline or not returning proper position.", ex);
+        }
+        lastPositionTime = System.currentTimeMillis();
+        return lastPosition;
     }
-    lastSatInfoTime = System.currentTimeMillis();
-    return lastSatInfo;
-  }
 
-  @Override
-  public String getBestXYZSentence() throws IOException
-  {
-    return HelperGPS.sanitizeNMEALog(this.getNMEASentence("LOG BESTXYZ\r\n"));
-  }
+    @Override
+    public SatelliteInfoList getSatelliteInfoList() {
+        if (System.currentTimeMillis() - lastSatInfoTime < resultCacheValidityMs) {
+            return lastSatInfo;
+        }
+        try {
+            lastSatInfo = null;
+            String nmeaLog = HelperGPS.sanitizeNMEALog(this.getNMEASentence("LOG GPGSV\r\n").trim());
+            if (!nmeaLog.startsWith("$GPGSV")) {
+                LOGGER.log(Level.SEVERE, "Unexpected response format: {0}", nmeaLog);
+            } else {
+                return HelperGPS.gpgsv2SatelliteInfoList(nmeaLog);
+            }
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+        }
+        lastSatInfoTime = System.currentTimeMillis();
+        return lastSatInfo;
+    }
 
-  @Override
-  public String getTIMEASentence() throws IOException
-  {
-    return HelperGPS.sanitizeNMEALog(this.getNMEASentence("LOG TIMEA\r\n"));
-  }
+    @Override
+    public String getBestXYZSentence() throws IOException {
+        return HelperGPS.sanitizeNMEALog(this.getNMEASentence("LOG BESTXYZ\r\n"));
+    }
+
+    @Override
+    public String getTIMEASentence() throws IOException {
+        return HelperGPS.sanitizeNMEALog(this.getNMEASentence("LOG TIMEA\r\n"));
+    }
 }
