@@ -51,6 +51,7 @@ import esa.mo.platform.impl.provider.gen.PowerControlProviderServiceImpl;
 import esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface;
 import esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioProviderServiceImpl;
 import opssat.simulator.main.ESASimulator;
+import org.ccsds.moims.mo.platform.artificialintelligence.provider.ArtificialIntelligenceInheritanceSkeleton;
 
 /**
  *
@@ -276,6 +277,11 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
     @Override
     public SoftwareDefinedRadioInheritanceSkeleton getSoftwareDefinedRadioService() {
         return this.sdrService;
+    }
+
+    @Override
+    public ArtificialIntelligenceInheritanceSkeleton getAIService() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 }
