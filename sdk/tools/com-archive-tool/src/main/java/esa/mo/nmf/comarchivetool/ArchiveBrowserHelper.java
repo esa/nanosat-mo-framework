@@ -141,6 +141,10 @@ public class ArchiveBrowserHelper {
     }
   }
 
+  public static LocalOrRemoteConsumer createConsumer(String providerURI, String databaseFile) {
+    return createConsumer(providerURI, databaseFile, null);
+  }
+
   /**
    * Creates a local or remote consumer.
    *
@@ -148,7 +152,7 @@ public class ArchiveBrowserHelper {
    * @param databaseFile If provided a local consumer wil be created
    * @return A wrapper class that contains one of the created consumers or null in case of an error.
    */
-  public static LocalOrRemoteConsumer createConsumer(String providerURI, String databaseFile) {
+  public static LocalOrRemoteConsumer createConsumer(String providerURI, String databaseFile, String providerName) {
     // spawn our local provider on top of the given database file if needed
     ArchiveConsumerServiceImpl localConsumer = null;
     NMFConsumer remoteConsumer = null;
@@ -163,7 +167,7 @@ public class ArchiveBrowserHelper {
     }
 
     if(localConsumer == null) {
-      remoteConsumer = createRemoteConsumer(providerURI);
+      remoteConsumer = createRemoteConsumer(providerURI, providerName);
     }
 
     if(remoteConsumer == null && localConsumer == null) {
@@ -199,7 +203,7 @@ public class ArchiveBrowserHelper {
    * @param providerURI URI of the remote provider
    * @return New instance of NMFConsumer or null in case of an error.
    */
-  private static NMFConsumer createRemoteConsumer(String providerURI) {
+  private static NMFConsumer createRemoteConsumer(String providerURI, String providerName) {
     NMFConsumer consumer = null;
     try {
       // URI provider in the command parameter is for the archive but we need the directory URI
@@ -221,7 +225,8 @@ public class ArchiveBrowserHelper {
 
             // allow use of localhost and 127.0.0.1 interchangeably regardless of what is saved
             // in the provider summary.
-            if(capability.getServiceAddresses().stream().anyMatch(address -> {
+            if(summary.getProviderName().getValue().equals(providerName) &&
+               capability.getServiceAddresses().stream().anyMatch(address -> {
               if(tempURI.contains("localhost")) {
                 return address.getServiceURI().equals(new URI(tempURI)) ||
                        address.getServiceURI().equals(new URI(tempURI.replace("localhost", "127.0.0.1")));
@@ -242,7 +247,16 @@ public class ArchiveBrowserHelper {
       }
 
       if(provider == null) {
-        LOGGER.log(Level.SEVERE, "Provider not found!");
+        System.out.println("\nProvider not found!");
+        if(!providerSummaryList.isEmpty()) {
+          System.out.println("Available providers at this uri: " + tempURI);
+          for(ProviderSummary summary : providerSummaryList) {
+            System.out.println(" - " + summary.getProviderName());
+          }
+        } else {
+          System.out.println("No providers available at this uri: " + tempURI);
+        }
+        System.out.println();
         return null;
       }
 

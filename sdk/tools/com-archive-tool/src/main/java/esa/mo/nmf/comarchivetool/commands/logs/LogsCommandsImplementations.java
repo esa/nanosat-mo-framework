@@ -129,7 +129,7 @@ public class LogsCommandsImplementations {
                                AppsLauncherHelper.APPSLAUNCHER_SERVICE_NUMBER,
                                SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION, new UShort(0));
 
-        LocalOrRemoteConsumer consumers = createConsumer(providerURI, databaseFile);
+        LocalOrRemoteConsumer consumers = createConsumer(providerURI, databaseFile, appName);
         ArchiveConsumerServiceImpl localConsumer = consumers.getLocalConsumer();
         NMFConsumer remoteConsumer = consumers.getRemoteConsumer();
 
