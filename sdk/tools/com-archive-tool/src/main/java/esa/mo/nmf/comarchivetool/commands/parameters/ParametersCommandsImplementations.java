@@ -68,8 +68,8 @@ public class ParametersCommandsImplementations {
      * @param providerURI The URI of the remote COM archive provider
      * @param domainId Restricts the dump to objects in a specific domain ID
      */
-    public static void listParameters(String databaseFile, String providerURI, String domainId) {
-        LocalOrRemoteConsumer consumers = createConsumer(providerURI, databaseFile);
+    public static void listParameters(String databaseFile, String providerURI, String appName, String domainId) {
+        LocalOrRemoteConsumer consumers = createConsumer(providerURI, databaseFile, appName);
         ArchiveConsumerServiceImpl localConsumer = consumers.getLocalConsumer();
         NMFConsumer remoteConsumer = consumers.getRemoteConsumer();
 
@@ -86,16 +86,19 @@ public class ParametersCommandsImplementations {
         queryArchive(ParameterHelper.PARAMETERIDENTITY_OBJECT_TYPE, archiveQueryList, adapter, adapter, remoteConsumer == null ? localConsumer : remoteConsumer.getCOMServices().getArchiveService());
 
         // Display list of NMF apps that have parameters
-        List<Identifier> parameters = adapter.getParameterIdentities();
+        Map<IdentifierList, List<Identifier>> parameters = adapter.getParameterIdentities();
         if (parameters.size() <= 0) {
-            System.out.println("No parameter found in the provided archive: " + (databaseFile == null ? providerURI : databaseFile));
+            System.out.println("\nNo parameter found in the provided archive: " + (databaseFile == null ? providerURI : databaseFile));
         } else {
-            System.out.println("Found the following parameters: ");
-            for (Identifier parameter : parameters) {
-                System.out.println("\t - " + parameter);
+            System.out.println("\nFound the following parameters: ");
+            for(Map.Entry<IdentifierList, List<Identifier>> entry : parameters.entrySet()) {
+                System.out.println("Domain: " + entry.getKey());
+                for (Identifier parameter : entry.getValue()) {
+                    System.out.println("  - " + parameter);
+                }
             }
+            System.out.println();
         }
-
         closeConsumer(consumers);
     }
 
@@ -111,8 +114,8 @@ public class ParametersCommandsImplementations {
      * @param domainId Restricts the dump to objects in a specific domain ID
      * @param file target file
      */
-    public static void getParameters(String databaseFile, String providerURI,
-                                     String startTime, String endTime, String domainId, String file,
+    public static void getParameters(String databaseFile, String providerURI, String domainId,
+                                     String startTime, String endTime, String file, String appName,
                                      List<String> parameterNames, boolean json) {
         // Query all objects from SoftwareManagement area and CommandExecutor service,
         // filtering for StandardOutput and StandardError events is done in the query adapter
@@ -121,7 +124,7 @@ public class ParametersCommandsImplementations {
                                                  MCHelper.MC_AREA_VERSION,
                                                  new UShort(0));
 
-        LocalOrRemoteConsumer consumers = createConsumer(providerURI, databaseFile);
+        LocalOrRemoteConsumer consumers = createConsumer(providerURI, databaseFile, appName);
         ArchiveConsumerServiceImpl localConsumer = consumers.getLocalConsumer();
         NMFConsumer remoteConsumer = consumers.getRemoteConsumer();
 
@@ -130,6 +133,7 @@ public class ParametersCommandsImplementations {
         FineTime startTimeF = startTime == null ? null : HelperTime.readableString2FineTime(startTime);
         FineTime endTimeF = endTime == null ? null : HelperTime.readableString2FineTime(endTime);
         IdentifierList domain = domainId == null ? null : HelperMisc.domainId2domain(domainId);
+
         ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L, null,
                                                      startTimeF, endTimeF, null, null);
         archiveQueryList.add(archiveQuery);
@@ -210,62 +214,58 @@ public class ParametersCommandsImplementations {
         }
 
         try {
-            if(json && !file.endsWith(".json")) {
-                file = file + ".json";
-            }
-
-            FileWriter writer = new FileWriter(file);
-
-            Comparator<TimestampedParameterValue> timestampedParameterValueComparator = new Comparator<TimestampedParameterValue>() {
-                @Override
-                public int compare(TimestampedParameterValue o1, TimestampedParameterValue o2) {
-                    return o1.getTimestamp().compareTo(o2.getTimestamp());
+            Map<IdentifierList, Map<Identifier, List<ArchiveToParametersAdapter.TimestampedParameterValue>>> allParameters = adapter.getParameterValues();
+            if(!allParameters.isEmpty()) {
+                if(json && !file.endsWith(".json")) {
+                    file = file + ".json";
                 }
-            };
 
-            Map<Identifier, List<TimestampedParameterValue>> parameters = new HashMap<>();
-            if(parameterNames != null && !parameterNames.isEmpty()) {
-                for(String name: parameterNames) {
-                    Long parameterId = parametersAdapter.getParameterDefinitionIdByIdentifer(new Identifier(name));
-                    List<TimestampedParameterValue> values = parametersValueMap.get(parameterId);
-                    if(values == null) {
-                        LOGGER.log(Level.WARNING, "No samples found for parameter" + name + ". It will be ignored.");
-                        continue;
+                FileWriter writer = new FileWriter(file);
+
+                Map<IdentifierList, Map<Identifier, List<ArchiveToParametersAdapter.TimestampedParameterValue>>> parameters = new HashMap<>();
+                if(parameterNames != null && !parameterNames.isEmpty()) {
+                    for(String name: parameterNames) {
+                        for(IdentifierList domainKey : allParameters.keySet()) {
+                            List<ArchiveToParametersAdapter.TimestampedParameterValue> values = allParameters.get(domainKey).get(new Identifier(name));
+                            if(values == null) {
+                                continue;
+                            }
+
+                            if(!parameters.containsKey(domainKey)) {
+                                parameters.put(domainKey, new HashMap<>());
+                            }
+                            parameters.get(domainKey).put(new Identifier(name), values);
+                        }
                     }
-                    Collections.sort(values, timestampedParameterValueComparator);
-                    parameters.put(new Identifier(name), values);
+                } else {
+                    parameters = allParameters;
                 }
-            } else {
-                // Swap the parameter IDs with parameter names
-                for(Map.Entry entry: parametersValueMap.entrySet())
-                {
-                    List<TimestampedParameterValue> valueList = (List<TimestampedParameterValue>) entry.getValue();
-                    Collections.sort(valueList, timestampedParameterValueComparator);
-                    parameters.put(parametersAdapter.getParameterIdentifierByDefinitionId((Long) entry.getKey()),
-                            valueList);
-                }
-            }
 
-            if(json) {
-                Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
-                gson.toJson(parameters, writer);
-            } else {
-                List<String> keys = parameters.keySet().stream().map(Identifier::getValue).sorted().collect(Collectors.toList());
-                for(String parameter : keys) {
-                    for(TimestampedParameterValue value : parameters.get(new Identifier(parameter))) {
-                        String line = parameter + "\t" + value.getTimestamp() + "\t" + value.getParameterValue() + "\n";
-                        writer.write(line);
+                if(json) {
+                    Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
+                    gson.toJson(parameters, writer);
+                } else {
+                    for(IdentifierList domainKey : parameters.keySet()) {
+                        writer.write("Domain: " + HelperMisc.domain2domainId(domainKey) + "\n");
+                        List<String> keys = parameters.get(domainKey).keySet().stream().map(Identifier::getValue).sorted().collect(Collectors.toList());
+                        for(String parameter : keys) {
+                            for(ArchiveToParametersAdapter.TimestampedParameterValue value : parameters.get(domainKey).get(new Identifier(parameter))) {
+                                String line = parameter + "\t" + value.getTimestamp() + "\t" + value.getParameterValue() + "\n";
+                                writer.write(line);
+                            }
+                        }
                     }
                 }
+                writer.close();
+                System.out.println("\nParameters successfully dumped to file: " + file + "\n");
             }
-            writer.close();
-            LOGGER.log(Level.INFO, "Parameters successfully dumped to file: " + file);
+            else {
+                System.out.println("\nNo parameters found\n");
+            }
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Error when writing to file", e);
         }
 
         closeConsumer(consumers);
     }
-
-
 }

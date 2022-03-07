@@ -26,10 +26,7 @@ import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALStandardError;
-import org.ccsds.moims.mo.mal.structures.ElementList;
-import org.ccsds.moims.mo.mal.structures.FineTime;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
@@ -69,39 +66,50 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
     private final ObjectType parameterValueType = ParameterHelper.PARAMETERVALUEINSTANCE_OBJECT_TYPE;
 
     /**
-     * Map from ParameterIdentity ID to it's name
+     * Available parameters names segregated based on the domain
      */
-    private final Map<Long, Identifier> identitiesMap = new HashMap<>();
+    private final Map<IdentifierList, List<Identifier>> parameterIdentities = new HashMap<>();
 
     /**
-     * Map from ParameterDefinition ID to it's related ParameterIdentity ID
+     * Map from ParameterIdentity ID to it's name segregated based on the domain
      */
-    private final Map<Long, Long> definitionsMap = new HashMap<>();
+    private final Map<IdentifierList, Map<Long, Identifier>> identitiesMap = new HashMap<>();
 
     /**
-     * Map from ParameterDefinition ID to a list of the parameter values
+     * Map from ParameterDefinition ID to it's related ParameterIdentity ID segregated based on the domain
      */
-    private final Map<Long, List<TimestampedParameterValue>> valuesMap = new HashMap<>();
+    private final Map<IdentifierList, Map<Long, Long>> definitionsMap = new HashMap<>();
 
     /**
-     * Map from Parameter ID to a list of the parameter values
+     * Map from ParameterDefinition ID to a list of the parameter values segregated based on the domain
      */
-    private final Map<Long, List<TimestampedParameterValue>> parameterValuesMap = new HashMap<>();
+    private final Map<IdentifierList, Map<Long, List<TimestampedParameterValue>>> valuesMap = new HashMap<>();
 
+    /**
+     * Map from parameter name to a list of it's values segregated based on the domain
+     */
+    private final Map<IdentifierList, Map<Identifier, List<TimestampedParameterValue>>> parameterValues = new HashMap<>();
 
     @Override
     public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType,
                                       IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies,
                                       Map qosProperties) {
-        processObjects(objType, objDetails, objBodies);
+        if(objDetails == null) {
+            setIsQueryOver(true);
+            return;
+        }
+        processObjects(objType, objDetails, objBodies, domain);
 
-        for(Map.Entry<Long, List<TimestampedParameterValue>> entry : valuesMap.entrySet()) {
-            Long parameterId = definitionsMap.get(entry.getKey());
+        for(IdentifierList domainKey : valuesMap.keySet())
+        {
+            if(!parameterValues.containsKey(domainKey)) {
+                parameterValues.put(domainKey, new HashMap<>());
+            }
 
-            if(parameterValuesMap.containsKey(parameterId)) {
-                parameterValuesMap.get(parameterId).addAll(entry.getValue());
-            } else {
-                parameterValuesMap.put(parameterId, entry.getValue());
+            Map<Long, List<TimestampedParameterValue>> parameters = valuesMap.get(domainKey);
+            for(Map.Entry<Long, List<TimestampedParameterValue>> entry : parameters.entrySet()) {
+                Identifier identity = identitiesMap.get(domainKey).get(definitionsMap.get(domainKey).get(entry.getKey()));
+                parameterValues.get(domainKey).put(identity, entry.getValue());
             }
         }
 
@@ -112,7 +120,7 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
     public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType,
                                     IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies,
                                     Map qosProperties) {
-        processObjects(objType, objDetails, objBodies);
+        processObjects(objType, objDetails, objBodies, domain);
     }
 
     /**
@@ -121,24 +129,42 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
      * @param detailsList Archive details of the objects
      * @param bodiesList Bodies of the objects
      */
-    private void processObjects(ObjectType type, ArchiveDetailsList detailsList, ElementList bodiesList) {
+    private void processObjects(ObjectType type, ArchiveDetailsList detailsList, ElementList bodiesList, IdentifierList domain) {
+
+        if(!parameterIdentities.containsKey(domain)) {
+            parameterIdentities.put(domain, new ArrayList<>());
+        }
+
+        if(!identitiesMap.containsKey(domain)) {
+            identitiesMap.put(domain, new HashMap<>());
+        }
+
+        if(!definitionsMap.containsKey(domain)) {
+            definitionsMap.put(domain, new HashMap<>());
+        }
+
+        if(!valuesMap.containsKey(domain)) {
+            valuesMap.put(domain, new HashMap<>());
+        }
+
         if(type == null || type.equals(parameterIdentityType)) {
             for(int i = 0; i < detailsList.size(); ++i) {
-                identitiesMap.put(detailsList.get(i).getInstId(), (Identifier) bodiesList.get(i));
+                identitiesMap.get(domain).put(detailsList.get(i).getInstId(), (Identifier) bodiesList.get(i));
+                parameterIdentities.get(domain).add((Identifier) bodiesList.get(i));
             }
         } else if(type.equals(parameterDefinitionType)) {
             for (ArchiveDetails archiveDetails : detailsList) {
-                definitionsMap.put(archiveDetails.getInstId(), archiveDetails.getDetails().getRelated());
+                definitionsMap.get(domain).put(archiveDetails.getInstId(), archiveDetails.getDetails().getRelated());
             }
         } else if(type.equals(parameterValueType)) {
             for(int i = 0; i < detailsList.size(); ++i) {
-                if(valuesMap.containsKey(detailsList.get(i).getDetails().getRelated())) {
-                    valuesMap.get(detailsList.get(i).getDetails().getRelated())
+                if(valuesMap.get(domain).containsKey(detailsList.get(i).getDetails().getRelated())) {
+                    valuesMap.get(domain).get(detailsList.get(i).getDetails().getRelated())
                              .add(new TimestampedParameterValue((ParameterValue) bodiesList.get(i), detailsList.get(i).getTimestamp()));
                 } else {
                     List<TimestampedParameterValue> values = new ArrayList<>();
                     values.add(new TimestampedParameterValue((ParameterValue) bodiesList.get(i), detailsList.get(i).getTimestamp()));
-                    valuesMap.put(detailsList.get(i).getDetails().getRelated(), values);
+                    valuesMap.get(domain).put(detailsList.get(i).getDetails().getRelated(), values);
                 }
             }
         }
@@ -174,12 +200,12 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
         this.isQueryOver = isQueryOver;
     }
 
-    public List<Identifier> getParameterIdentities() {
-        return (List<Identifier>) identitiesMap.values();
+    public Map<IdentifierList, List<Identifier>> getParameterIdentities() {
+        return parameterIdentities;
     }
 
-    public Map<Long, List<TimestampedParameterValue>> getParameterValuesMap() {
-        return parameterValuesMap;
+    public Map<IdentifierList, Map<Identifier, List<TimestampedParameterValue>>> getParameterValues() {
+        return parameterValues;
     }
 
     public Identifier getParameterIdentifierByDefinitionId(Long definitionId)
