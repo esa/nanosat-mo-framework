@@ -34,7 +34,6 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 /**
  * Archive adapter that retrieves available parameter names and their values.
@@ -208,20 +207,7 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
         return parameterValues;
     }
 
-    public Identifier getParameterIdentifierByDefinitionId(Long definitionId)
-    {
-        return identitiesMap.get(definitionsMap.get(definitionId));
-    }
-
-    public Long getParameterDefinitionIdByIdentifer(Identifier identifier)
-    {
-        for(Map.Entry entry: identitiesMap.entrySet())
-        {
-            if(Objects.equals(entry.getValue(), identifier))
-            {
-                return (Long) entry.getKey();
-            }
-        }
-        return null;
+    public Map<IdentifierList, Map<Long, Identifier>> getIdentitiesMap() {
+        return identitiesMap;
     }
 }

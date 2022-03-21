@@ -269,6 +269,7 @@ public class ArchiveBrowserHelper {
 
         String login = System.console().readLine("Login: ");
         char[] password = System.console().readPassword("Password: ");
+        System.out.println();
 
         LongList rolesIds = consumer.getCommonServices().getLoginService().getLoginStub().listRoles(new Identifier(login), String.valueOf(password));
 
@@ -290,7 +291,7 @@ public class ArchiveBrowserHelper {
 
         Long roleId = null;
         if(!adapter.getRolesIds().isEmpty()) {
-          System.out.println("Available roles: ");
+          System.out.println("\nAvailable roles: ");
           for(int i = 0; i < adapter.getRolesIds().size(); ++i) {
             System.out.println((i + 1) + " - " + adapter.getRolesNames().get(i));
           }
