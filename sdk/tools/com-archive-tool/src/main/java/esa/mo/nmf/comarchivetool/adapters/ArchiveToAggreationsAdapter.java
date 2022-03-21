@@ -29,20 +29,20 @@ public class ArchiveToAggreationsAdapter extends ArchiveAdapter implements Query
     private boolean isQueryOver = false;
 
     /**
-     * Map from Aggregation Definition ID to AggregationDefinition
+     * Map from Aggregation Definition Details ID to Aggregation values
      */
-    private final Map<Long, List<TimestampedAggregationValue>> aggregationValues = new HashMap<>();
+    private final Map<IdentifierList, Map<Long, List<TimestampedAggregationValue>>> aggregationValues = new HashMap<>();
 
     /**
      * Map from Aggregation Definition ID to AggregationDefinition
      */
-    private final Map<Long, AggregationDefinitionDetails> aggregationDefinitions = new HashMap<>();
+    private final Map<IdentifierList, Map<Long, AggregationDefinitionDetails>> aggregationDefinitions = new HashMap<>();
 
-    public Map<Long, List<TimestampedAggregationValue>> getAggregationValues() {
+    public Map<IdentifierList, Map<Long, List<TimestampedAggregationValue>>> getAggregationValues() {
         return aggregationValues;
     }
 
-    public Map<Long, AggregationDefinitionDetails> getAggregationDefinitions() {
+    public Map<IdentifierList, Map<Long, AggregationDefinitionDetails>> getAggregationDefinitions() {
         return aggregationDefinitions;
     }
 
@@ -59,14 +59,18 @@ public class ArchiveToAggreationsAdapter extends ArchiveAdapter implements Query
     public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType,
                                     IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies,
                                     Map qosProperties) {
-        processObjects(objType, objDetails, objBodies);
+        processObjects(objType, objDetails, objBodies, domain);
     }
 
     @Override
     public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType,
                                       IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies,
                                       Map qosProperties) {
-        processObjects(objType, objDetails, objBodies);
+        if(objDetails == null) {
+            setIsQueryOver(true);
+            return;
+        }
+        processObjects(objType, objDetails, objBodies, domain);
 
         setIsQueryOver(true);
     }
@@ -78,32 +82,36 @@ public class ArchiveToAggreationsAdapter extends ArchiveAdapter implements Query
      * @param detailsList Archive details of the objects
      * @param bodiesList  Bodies of the objects
      */
-    private void processObjects(ObjectType type, ArchiveDetailsList detailsList, ElementList bodiesList) {
+    private void processObjects(ObjectType type, ArchiveDetailsList detailsList, ElementList bodiesList, IdentifierList domain) {
         if (detailsList == null) {
             return;
         }
 
+        if(!aggregationValues.containsKey(domain)) {
+            aggregationValues.put(domain, new HashMap<>());
+        }
+
+        if(!aggregationDefinitions.containsKey(domain)) {
+            aggregationDefinitions.put(domain, new HashMap<>());
+        }
+
         if (AggregationHelper.AGGREGATIONVALUEINSTANCE_OBJECT_TYPE.equals(type)) {
-
-            //details .details.related ; timestamp ; bodieslist AggregationValueList
-
             for (int i = 0; i < detailsList.size(); ++i) {
-
-                AggregationValue agValue = (AggregationValue) bodiesList.get(i);
-                Long agDefinitionId = detailsList.get(i).getDetails().getRelated();
-                if (aggregationValues.containsKey(agDefinitionId)) {
-                    aggregationValues.get(agDefinitionId).add(new TimestampedAggregationValue(
-                            agValue, detailsList.get(i).getTimestamp()
+                AggregationValue value = (AggregationValue) bodiesList.get(i);
+                Long definitionId = detailsList.get(i).getDetails().getRelated();
+                if (aggregationValues.get(domain).containsKey(definitionId)) {
+                    aggregationValues.get(domain).get(definitionId).add(new TimestampedAggregationValue(
+                            value, detailsList.get(i).getTimestamp()
                     ));
                 } else {
                     List<TimestampedAggregationValue> list = new ArrayList<>();
-                    list.add(new TimestampedAggregationValue(agValue, detailsList.get(i).getTimestamp()));
-                    aggregationValues.put(agDefinitionId, list);
+                    list.add(new TimestampedAggregationValue(value, detailsList.get(i).getTimestamp()));
+                    aggregationValues.get(domain).put(definitionId, list);
                 }
             }
         } else if (AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE.equals(type)) {
             for (int i = 0; i < detailsList.size(); ++i) {
-                aggregationDefinitions.put(detailsList.get(i).getInstId(), (AggregationDefinitionDetails) bodiesList.get(i));
+                aggregationDefinitions.get(domain).put(detailsList.get(i).getInstId(), (AggregationDefinitionDetails) bodiesList.get(i));
             }
         }
     }

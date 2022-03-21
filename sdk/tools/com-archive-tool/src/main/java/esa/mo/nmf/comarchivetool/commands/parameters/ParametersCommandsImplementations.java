@@ -33,6 +33,8 @@ import esa.mo.nmf.comarchivetool.adapters.ArchiveToParametersAdapter;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQueryList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
+import org.ccsds.moims.mo.common.CommonHelper;
+import org.ccsds.moims.mo.common.directory.DirectoryHelper;
 import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
@@ -66,14 +68,20 @@ public class ParametersCommandsImplementations {
      *
      * @param databaseFile Local SQLite database file
      * @param providerURI The URI of the remote COM archive provider
+     * @param appName Name of the NMF app we want parameters for
      * @param domainId Restricts the dump to objects in a specific domain ID
      */
-    public static void listParameters(String databaseFile, String providerURI, String appName, String domainId) {
+    public static void listParameters(String databaseFile, String providerURI, String domainId, String appName) {
         LocalOrRemoteConsumer consumers = createConsumer(providerURI, databaseFile, appName);
         ArchiveConsumerServiceImpl localConsumer = consumers.getLocalConsumer();
         NMFConsumer remoteConsumer = consumers.getRemoteConsumer();
 
         IdentifierList domain = domainId == null ? null : HelperMisc.domainId2domain(domainId);
+
+        if(remoteConsumer != null && domainId == null &&
+           providerURI.contains("LWMCS_Core") && !appName.equals("App: LWMCS_Core")) {
+            domain = remoteConsumer.getConnectionConsumer().getServicesDetails().get(DirectoryHelper.DIRECTORY_SERVICE_NAME).getDomain();
+        }
 
         ArchiveQueryList archiveQueryList = new ArchiveQueryList();
         ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null,
@@ -82,8 +90,8 @@ public class ParametersCommandsImplementations {
         archiveQueryList.add(archiveQuery);
 
         ArchiveToParametersAdapter adapter = new ArchiveToParametersAdapter();
-        // execute query
-        queryArchive(ParameterHelper.PARAMETERIDENTITY_OBJECT_TYPE, archiveQueryList, adapter, adapter, remoteConsumer == null ? localConsumer : remoteConsumer.getCOMServices().getArchiveService());
+        queryArchive(ParameterHelper.PARAMETERIDENTITY_OBJECT_TYPE, archiveQueryList, adapter, adapter,
+                     remoteConsumer == null ? localConsumer : remoteConsumer.getCOMServices().getArchiveService());
 
         // Display list of NMF apps that have parameters
         Map<IdentifierList, List<Identifier>> parameters = adapter.getParameterIdentities();
@@ -107,23 +115,19 @@ public class ParametersCommandsImplementations {
      *
      * @param databaseFile Local SQLite database file
      * @param providerURI The URI of the remote COM archive provider
+     * @param domainId Restricts the dump to objects in a specific domain ID
      * @param startTime Restricts the dump to objects created after the given time
      * @param endTime Restricts the dump to objects created before the given time. If this option is
      *        provided without the -s option, returns the single object that has the closest time
      *        stamp to, but not greater than endTime.
-     * @param domainId Restricts the dump to objects in a specific domain ID
-     * @param file target file
+     * @param file Target file
+     * @param appName Name of the NMF app we want parameters for
+     * @param parameterNames List of parameters to get
+     * @param json If true output will be in json format
      */
     public static void getParameters(String databaseFile, String providerURI, String domainId,
                                      String startTime, String endTime, String file, String appName,
                                      List<String> parameterNames, boolean json) {
-        // Query all objects from SoftwareManagement area and CommandExecutor service,
-        // filtering for StandardOutput and StandardError events is done in the query adapter
-        ObjectType objectsTypes = new ObjectType(MCHelper.MC_AREA_NUMBER,
-                                                 ParameterHelper.PARAMETER_SERVICE_NUMBER,
-                                                 MCHelper.MC_AREA_VERSION,
-                                                 new UShort(0));
-
         LocalOrRemoteConsumer consumers = createConsumer(providerURI, databaseFile, appName);
         ArchiveConsumerServiceImpl localConsumer = consumers.getLocalConsumer();
         NMFConsumer remoteConsumer = consumers.getRemoteConsumer();
@@ -134,78 +138,76 @@ public class ParametersCommandsImplementations {
         FineTime endTimeF = endTime == null ? null : HelperTime.readableString2FineTime(endTime);
         IdentifierList domain = domainId == null ? null : HelperMisc.domainId2domain(domainId);
 
+        if(remoteConsumer != null && domainId == null &&
+           providerURI.contains("LWMCS_Core") && !appName.equals("App: LWMCS_Core")) {
+            domain = remoteConsumer.getConnectionConsumer().getServicesDetails().get(DirectoryHelper.DIRECTORY_SERVICE_NAME).getDomain();
+            System.out.println("\nSetting domain to: " + domain);
+        }
+
         ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L, null,
                                                      startTimeF, endTimeF, null, null);
         archiveQueryList.add(archiveQuery);
 
-        // execute query
         ArchiveToParametersAdapter parametersAdapter = new ArchiveToParametersAdapter();
-        queryArchive(objectsTypes, archiveQueryList, parametersAdapter, parametersAdapter,
-                remoteConsumer == null ? localConsumer : remoteConsumer.getCOMServices().getArchiveService());
+        ObjectType parameterObjectType = new ObjectType(MCHelper.MC_AREA_NUMBER,
+                                                        ParameterHelper.PARAMETER_SERVICE_NUMBER,
+                                                        MCHelper.MC_AREA_VERSION,
+                                                        new UShort(0));
+        queryArchive(parameterObjectType, archiveQueryList, parametersAdapter, parametersAdapter,
+                     remoteConsumer == null ? localConsumer : remoteConsumer.getCOMServices().getArchiveService());
+
+        ArchiveToAggreationsAdapter aggregationsAdapter = new ArchiveToAggreationsAdapter();
+        ObjectType aggregationObjectType = new ObjectType(MCHelper.MC_AREA_NUMBER,
+                                                          AggregationHelper.AGGREGATION_SERVICE_NUMBER,
+                                                          MCHelper.MC_AREA_VERSION,
+                                                          new UShort(0));
+        queryArchive(aggregationObjectType, archiveQueryList, aggregationsAdapter, aggregationsAdapter,
+                     remoteConsumer == null ? localConsumer : remoteConsumer.getCOMServices().getArchiveService());
 
 
-
-        ArchiveToAggreationsAdapter aggreationsAdapter = new ArchiveToAggreationsAdapter();
-
-        // execute query
-        ObjectType aggObjectTypes = new ObjectType(MCHelper.MC_AREA_NUMBER,
-                AggregationHelper.AGGREGATION_SERVICE_NUMBER,
-                MCHelper.MC_AREA_VERSION,
-                new UShort(0));
-
-        queryArchive(aggObjectTypes, archiveQueryList, aggreationsAdapter, aggreationsAdapter,
-                remoteConsumer == null ? localConsumer : remoteConsumer.getCOMServices().getArchiveService());
-
-
-        Map<Long, List<TimestampedParameterValue>> parametersValueMap = parametersAdapter.getParameterValuesMap();
+        Map<IdentifierList, Map<Identifier, List<TimestampedParameterValue>>> allParameters = parametersAdapter.getParameterValues();
 
         // Display list of aggregations
-        Map<Long, List<TimestampedAggregationValue>> aggregationValuesMap = aggreationsAdapter.getAggregationValues();
-        if(aggregationValuesMap != null)
-        {
+        Map<IdentifierList, Map<Long, List<TimestampedAggregationValue>>> aggregationValuesMap = aggregationsAdapter.getAggregationValues();
+        if(aggregationValuesMap != null) {
             //Make the parameter map
-            for(Map.Entry<Long, List<TimestampedAggregationValue>> entry: aggregationValuesMap.entrySet())
-            {
-                Long aggDefId = entry.getKey();
-                AggregationDefinitionDetails definition = aggreationsAdapter.getAggregationDefinitions().get(aggDefId);
+            for(IdentifierList domainKey : aggregationValuesMap.keySet()) {
+                for(Map.Entry<Long, List<TimestampedAggregationValue>> entry : aggregationValuesMap.get(domainKey).entrySet()) {
+                    Long definitionId = entry.getKey();
+                    AggregationDefinitionDetails definition = aggregationsAdapter.getAggregationDefinitions().get(domainKey).get(definitionId);
 
-                for(TimestampedAggregationValue agValue : entry.getValue())
-                {
-                    for(int i= 0; i < agValue.getAggregationValue().getParameterSetValues().size(); i++)
-                    {
-                        AggregationSetValue values = agValue.getAggregationValue().getParameterSetValues().get(i);
-                        AggregationParameterSet definitions = definition.getParameterSets().get(i);
+                    for(TimestampedAggregationValue aggregationValue : entry.getValue()) {
+                        for(int i= 0; i < aggregationValue.getAggregationValue().getParameterSetValues().size(); i++) {
+                            AggregationSetValue values = aggregationValue.getAggregationValue().getParameterSetValues().get(i);
+                            AggregationParameterSet definitions = definition.getParameterSets().get(i);
 
-                        int valueSetNumber = 0;
-                        double deltaTime = values.getDeltaTime() != null ? values.getDeltaTime().getValue() : 0;
-                        double intervalTime = values.getIntervalTime() != null ? values.getIntervalTime().getValue() : 0;
-                        Long valueSetTimestamp =
-                                agValue.getTimestamp().getValue() + (long)( deltaTime * MILLIS_IN_SECOND);
+                            int valueSetNumber = 0;
+                            double deltaTime = values.getDeltaTime() != null ? values.getDeltaTime().getValue() : 0;
+                            double intervalTime = values.getIntervalTime() != null ? values.getIntervalTime().getValue() : 0;
+                            long valueSetTimestamp = aggregationValue.getTimestamp().getValue() + (long)( deltaTime * MILLIS_IN_SECOND);
 
 
-                        for(int n = 0; n < values.getValues().size(); n++)
-                        {
-                            // Check if we are starting a new set of values compared to the given definition list
-                            if(n%definitions.getParameters().size() == 0)
-                            {
-                                valueSetNumber++;
-                            }
+                            for(int n = 0; n < values.getValues().size(); n++) {
+                                // Check if we are starting a new set of values compared to the given definition list
+                                if(n % definitions.getParameters().size() == 0) {
+                                    valueSetNumber++;
+                                }
 
-                            AggregationParameterValue value = values.getValues().get(n);
-                            Long parameterId = definitions.getParameters().get(n % definitions.getParameters().size());
+                                AggregationParameterValue value = values.getValues().get(n);
+                                Long parameterId = definitions.getParameters().get(n % definitions.getParameters().size());
 
-                            TimestampedParameterValue paramValue = new TimestampedParameterValue(value.getValue(),
-                                    new FineTime(valueSetTimestamp + (long)(valueSetNumber * intervalTime * MILLIS_IN_SECOND)));
+                                TimestampedParameterValue paramValue = new TimestampedParameterValue(value.getValue(),
+                                                                                                     new FineTime(valueSetTimestamp + (long)(valueSetNumber * intervalTime * MILLIS_IN_SECOND)));
 
-                            if(parametersValueMap.containsKey(parameterId))
-                            {
-                                parametersValueMap.get(parameterId).add(paramValue);
-                            }
-                            else
-                            {
-                                List list = new ArrayList();
-                                list.add(paramValue);
-                                parametersValueMap.put(parameterId, list);
+                                Identifier parameterName = parametersAdapter.getIdentitiesMap().get(domainKey).get(parameterId);
+                                if(allParameters.get(domainKey).containsKey(parameterName)) {
+                                    allParameters.get(domainKey).get(parameterName).add(paramValue);
+                                }
+                                else {
+                                    List<TimestampedParameterValue> list = new ArrayList<>();
+                                    list.add(paramValue);
+                                    allParameters.get(domainKey).put(parameterName, list);
+                                }
                             }
                         }
                     }
@@ -214,7 +216,6 @@ public class ParametersCommandsImplementations {
         }
 
         try {
-            Map<IdentifierList, Map<Identifier, List<ArchiveToParametersAdapter.TimestampedParameterValue>>> allParameters = adapter.getParameterValues();
             if(!allParameters.isEmpty()) {
                 if(json && !file.endsWith(".json")) {
                     file = file + ".json";
@@ -222,15 +223,15 @@ public class ParametersCommandsImplementations {
 
                 FileWriter writer = new FileWriter(file);
 
-                Map<IdentifierList, Map<Identifier, List<ArchiveToParametersAdapter.TimestampedParameterValue>>> parameters = new HashMap<>();
+                Map<IdentifierList, Map<Identifier, List<TimestampedParameterValue>>> parameters = new HashMap<>();
                 if(parameterNames != null && !parameterNames.isEmpty()) {
                     for(String name: parameterNames) {
                         for(IdentifierList domainKey : allParameters.keySet()) {
-                            List<ArchiveToParametersAdapter.TimestampedParameterValue> values = allParameters.get(domainKey).get(new Identifier(name));
+                            List<TimestampedParameterValue> values = allParameters.get(domainKey).get(new Identifier(name));
                             if(values == null) {
                                 continue;
                             }
-
+                            values.sort(Comparator.comparingLong(TimestampedParameterValue::getTimestamp));
                             if(!parameters.containsKey(domainKey)) {
                                 parameters.put(domainKey, new HashMap<>());
                             }
@@ -239,6 +240,11 @@ public class ParametersCommandsImplementations {
                     }
                 } else {
                     parameters = allParameters;
+                    for(IdentifierList domainKey : parameters.keySet()) {
+                        for(Map.Entry<Identifier, List<TimestampedParameterValue>> entry : parameters.get(domainKey).entrySet()) {
+                            entry.getValue().sort(Comparator.comparingLong(TimestampedParameterValue::getTimestamp));
+                        }
+                    }
                 }
 
                 if(json) {
@@ -249,7 +255,7 @@ public class ParametersCommandsImplementations {
                         writer.write("Domain: " + HelperMisc.domain2domainId(domainKey) + "\n");
                         List<String> keys = parameters.get(domainKey).keySet().stream().map(Identifier::getValue).sorted().collect(Collectors.toList());
                         for(String parameter : keys) {
-                            for(ArchiveToParametersAdapter.TimestampedParameterValue value : parameters.get(domainKey).get(new Identifier(parameter))) {
+                            for(TimestampedParameterValue value : parameters.get(domainKey).get(new Identifier(parameter))) {
                                 String line = parameter + "\t" + value.getTimestamp() + "\t" + value.getParameterValue() + "\n";
                                 writer.write(line);
                             }
