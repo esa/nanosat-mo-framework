@@ -903,7 +903,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
     PositionExtraDetails extraDetails = new PositionExtraDetails(new Time(targetDate.getTimeInMillis()),
             0, 0, 0.0f,0.0f, PositionSourceType.TLE);
 
-    return new Position((float) satLatLonAlt.getLatitude(), (float) FastMath.toDegrees(satLatLonAlt.getLongitude()),
+    return new Position((float) FastMath.toDegrees(satLatLonAlt.getLatitude()), (float) FastMath.toDegrees(satLatLonAlt.getLongitude()),
             (float) FastMath.toDegrees(satLatLonAlt.getAltitude()), extraDetails);
   }
 
