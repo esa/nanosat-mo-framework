@@ -61,11 +61,7 @@ public class ConnectionConsumer {
     private MALConsumerManager consumerMgr;
     private ServicesConnectionDetails servicesDetails = new ServicesConnectionDetails();
     private MALConsumer tmConsumer;
-    private static final Properties props = new Properties();
-
-    static {
-        props.putAll(System.getProperties());
-    }
+    private static final Properties props = System.getProperties();
 
     public ServicesConnectionDetails getServicesDetails() {
         return servicesDetails;
