@@ -904,7 +904,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
             0, 0, 0.0f,0.0f, PositionSourceType.TLE);
 
     return new Position((float) FastMath.toDegrees(satLatLonAlt.getLatitude()), (float) FastMath.toDegrees(satLatLonAlt.getLongitude()),
-            (float) FastMath.toDegrees(satLatLonAlt.getAltitude()), extraDetails);
+            (float) satLatLonAlt.getAltitude(), extraDetails);
   }
 
   private SpacecraftState getSpacecraftState(Calendar targetDate) {
