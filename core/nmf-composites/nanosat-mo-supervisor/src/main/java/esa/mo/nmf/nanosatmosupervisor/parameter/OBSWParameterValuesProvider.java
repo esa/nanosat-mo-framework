@@ -65,4 +65,14 @@ public abstract class OBSWParameterValuesProvider {
    * @return The value or null if the parameter name is unknown or a problem happened while fetching the value
    */
   public abstract Attribute getValue(Identifier identifier);
+
+  /**
+   * Sets a new value for the given parameter name.
+   * 
+   * @param rawValue The new value of the parameter
+   * @param identifier Name of the parameter
+   * @return True if parameter is set, false otherwise.
+   */
+  public abstract Boolean setValue(Attribute rawValue, Identifier identifier);
+
 }

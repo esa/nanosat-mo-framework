@@ -21,6 +21,9 @@
 package esa.mo.nmf.nanosatmosupervisor;
 
 import esa.mo.helpertools.connections.ConnectionConsumer;
+import esa.mo.helpertools.helpers.HelperAttributes;
+import esa.mo.helpertools.helpers.HelperTime;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -35,7 +38,10 @@ import org.ccsds.moims.mo.mal.MALStandardError;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValue;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
+import org.w3c.dom.Attr;
+
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
