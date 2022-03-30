@@ -483,36 +483,42 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
   {
     boolean result = true;
     for (ParameterRawValue newRawValue : newRawValues) {
-
-      Object value;
-      if (isReadOnly(newRawValue.getParamInstId())) {
-        result = false;
-        continue;
-      }
-      Field param = parameterMapping.get(newRawValue.getParamInstId());
-
-      if (param.getType() == double.class) {
-        value = HelperAttributes.attribute2double(newRawValue.getRawValue());
-      } else if (param.getType() == String.class) {
-        value = HelperAttributes.attribute2string(newRawValue.getRawValue());
-      } else {
-        value = HelperAttributes.attribute2JavaType(newRawValue.getRawValue());
-      }
-      try {
-        param.set(this, value);
-      } catch (IllegalArgumentException | IllegalAccessException ex) {
-        Logger.getLogger(MonitorAndControlNMFAdapter.class.getName()).log(Level.SEVERE,
-            null, ex);
-        result = false;
-      }
+      result = result && onSetValue(newRawValue);
     }
     return result;
+  }
+   
+  public Boolean onSetValue(ParameterRawValue newRawValue)
+  {
+    Object value;
+    if (isReadOnly(newRawValue.getParamInstId())) {
+      return false;
+    }
+    Field param = parameterMapping.get(newRawValue.getParamInstId());
+    if (param.getType() == double.class) {
+      value = HelperAttributes.attribute2double(newRawValue.getRawValue());
+    } else if (param.getType() == String.class) {
+      value = HelperAttributes.attribute2string(newRawValue.getRawValue());
+    } else {
+      value = HelperAttributes.attribute2JavaType(newRawValue.getRawValue());
+    }
+    try {
+      param.set(this, value);
+    } catch (IllegalArgumentException | IllegalAccessException ex) {
+      Logger.getLogger(MonitorAndControlNMFAdapter.class.getName()).log(Level.SEVERE,
+          null, ex);
+      return false;
+    }
+    return true;
   }
 
   @Override
   public boolean isReadOnly(Long parameterID)
   {
     Field field = parameterMapping.get(parameterID);
+    if (field == null){
+      return false;
+    }
     return field.getAnnotation(Parameter.class).readOnly() || (field.getModifiers() & Modifier.FINAL) == Modifier.FINAL;
   }
 
