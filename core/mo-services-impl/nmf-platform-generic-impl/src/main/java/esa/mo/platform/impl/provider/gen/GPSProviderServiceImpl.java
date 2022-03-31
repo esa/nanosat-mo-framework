@@ -323,6 +323,33 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
       throws MALInteractionException, MALException
   {
     boolean useTLEpropagation = false;
+    try{
+      useTLEpropagation = useTLEPropagation();
+    }
+    catch (MALException | MALInteractionException e){
+      throw new MALInteractionException(
+          new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+    }
+
+    interaction.sendAcknowledgement();
+
+    Position position = updateCurrentPosition(useTLEpropagation);
+    if (position == null) {
+      throw new MALInteractionException(
+          new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+    }
+    interaction.sendResponse(position);
+  }
+
+  /**
+   * Checks if TLE propagation should be used
+   * @return true if TLE propagation should be used, false otherwise
+   */
+
+  public boolean useTLEPropagation()
+    throws MALInteractionException, MALException
+  {
+    boolean useTLEpropagation = false;
     if (!adapter.isUnitAvailable()) {
       if(isTLEFallbackEnabled)
       {
@@ -331,26 +358,33 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
       else
       {
         throw new MALInteractionException(
-                new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+          new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null)); 
       }
     }
     else if(!isPositionFixed()){
-        useTLEpropagation = true;
+      useTLEpropagation = true;
     }
+    return useTLEpropagation;
+  }
 
-    interaction.sendAcknowledgement();
+  /**
+   * Updates the current position using TLE if useTLEpropagation is true,
+   * or the GPS adapter if useTLEpropagation is false
+   * @param useTLEpropagation
+   * @return the updated position, or null if the methods that get latest position fail
+   */
+  public Position updateCurrentPosition(boolean useTLEpropagation)
+  {
     Position position = useTLEpropagation ? getTLEPropagatedPosition() : adapter.getCurrentPosition();
     if (position == null) {
-      throw new MALInteractionException(
-          new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
+      return null;
     }
 
     synchronized (MUTEX) { // Store the latest Position
       currentPosition = position;
       timeOfCurrentPosition = System.currentTimeMillis();
     }
-
-    interaction.sendResponse(position);
+    return position;
   }
 
   @Override
@@ -523,88 +557,100 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
       MALInteractionException, MALException
   {
     boolean useTLEpropagation = false;
-    if (!adapter.isUnitAvailable()) {
-      if(isTLEFallbackEnabled)
-      {
-        useTLEpropagation = true;
-      }
-      else
-      {
-        throw new MALInteractionException(
-                new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
-      }
+    try{
+      useTLEpropagation = useTLEPropagation();
+    }catch (MALException | MALInteractionException e){
+      throw new MALInteractionException(
+          new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
     }
-    else if(!isPositionFixed()){
-      useTLEpropagation = true;
+    interaction.sendAcknowledgement();
+    try{ 
+      updateCurrentPositionAndVelocity(useTLEpropagation);
+    }catch(IOException | NumberFormatException e){
+      interaction
+        .sendError(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
     }
+    final VectorD3D position;
+    final VectorF3D positionDeviation;
+    final VectorD3D velocity;
+    final VectorF3D velocityDeviation;
 
-      interaction.sendAcknowledgement();
-      try {
-        final VectorD3D position;
-        final VectorF3D positionDeviation;
-        final VectorD3D velocity;
-        final VectorF3D velocityDeviation;
+    synchronized (MUTEX) {
+      position = currentCartesianPosition;
+      positionDeviation = currentCartesianPositionDeviation;
+      velocity = currentCartesianVelocity;
+      velocityDeviation = currentCartesianVelocityDeviation;
+    }
+    interaction.sendResponse(position, positionDeviation, velocity, velocityDeviation);
+  }
 
-        if(useTLEpropagation)
-        {
-          Calendar targetDate = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-          SpacecraftState state = getSpacecraftState(targetDate);
-          Vector3D pos = state.getPVCoordinates().getPosition();
-          position = new VectorD3D(pos.getX(), pos.getY(), pos.getZ());
+  /**
+   * Updates the current position/velocity
+   * @param useTLEpropagation
+   */
+  public void updateCurrentPositionAndVelocity(boolean useTLEpropagation)
+    throws IOException, NumberFormatException
+  {
+    try {
+      final VectorD3D position;
+      final VectorF3D positionDeviation;
+      final VectorD3D velocity;
+      final VectorF3D velocityDeviation;
 
-          positionDeviation = new VectorF3D(0f, 0f, 0f);
+      if(useTLEpropagation)
+      {
+        Calendar targetDate = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        SpacecraftState state = getSpacecraftState(targetDate);
+        Vector3D pos = state.getPVCoordinates().getPosition();
+        position = new VectorD3D(pos.getX(), pos.getY(), pos.getZ());
 
-          Vector3D velocity3D = state.getPVCoordinates().getVelocity();
-          velocity = new VectorD3D(velocity3D.getX(), velocity3D.getY(), velocity3D.getZ());
+        positionDeviation = new VectorF3D(0f, 0f, 0f);
 
-          velocityDeviation = new VectorF3D(0f, 0f, 0f);
-        }
-        else {
-          String bestxyz = adapter.getBestXYZSentence();
+        Vector3D velocity3D = state.getPVCoordinates().getVelocity();
+        velocity = new VectorD3D(velocity3D.getX(), velocity3D.getY(), velocity3D.getZ());
 
-          String[] fields = HelperGPS.getDataFieldsFromBestXYZ(bestxyz);
-
-          position = new VectorD3D(
-                  Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.PX]),
-                  Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.PY]),
-                  Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.PZ])
-          );
-
-          positionDeviation = new VectorF3D(
-                  Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.PX_DEVIATION]),
-                  Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.PY_DEVIATION]),
-                  Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.PZ_DEVIATION])
-          );
-
-          velocity = new VectorD3D(
-                  Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.VX]),
-                  Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.VY]),
-                  Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.VZ])
-          );
-
-          velocityDeviation = new VectorF3D(
-                  Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.VX_DEVIATION]),
-                  Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.VY_DEVIATION]),
-                  Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.VZ_DEVIATION])
-          );
-        }
-
-        synchronized (MUTEX) { // Store the latest Position
-          currentCartesianPosition = position;
-          currentCartesianPositionDeviation = positionDeviation;
-          currentCartesianVelocity = velocity;
-          currentCartesianVelocityDeviation = velocityDeviation;
-          timeOfCurrentPositionAndVelocity = System.currentTimeMillis();
-        }
-
-        interaction.sendResponse(position, positionDeviation, velocity, velocityDeviation);
-
-      } catch (IOException | NumberFormatException e) {
-        interaction
-                .sendError(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
-        e.printStackTrace();
+        velocityDeviation = new VectorF3D(0f, 0f, 0f);
       }
+      else {
+        String bestxyz = adapter.getBestXYZSentence();
 
+        String[] fields = HelperGPS.getDataFieldsFromBestXYZ(bestxyz);
+
+        position = new VectorD3D(
+                Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.PX]),
+                Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.PY]),
+                Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.PZ])
+        );
+
+        positionDeviation = new VectorF3D(
+                Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.PX_DEVIATION]),
+                Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.PY_DEVIATION]),
+                Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.PZ_DEVIATION])
+        );
+
+        velocity = new VectorD3D(
+                Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.VX]),
+                Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.VY]),
+                Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.VZ])
+        );
+
+        velocityDeviation = new VectorF3D(
+                Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.VX_DEVIATION]),
+                Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.VY_DEVIATION]),
+                Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.VZ_DEVIATION])
+        );
+      }
+      synchronized (MUTEX) { // Store the latest Position
+        currentCartesianPosition = position;
+        currentCartesianPositionDeviation = positionDeviation;
+        currentCartesianVelocity = velocity;
+        currentCartesianVelocityDeviation = velocityDeviation;
+        timeOfCurrentPositionAndVelocity = System.currentTimeMillis();
+      }
+    } catch (IOException | NumberFormatException e) {
+      e.printStackTrace();
+      throw e;
+    }
   }
 
   @Override
@@ -783,23 +829,14 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
     {
       timer.scheduleTask(new Thread(() -> {
         if (active) {
-          final Position pos;
-          if (adapter.isUnitAvailable()) { // Is the unit available?
-            pos = adapter.getCurrentPosition(); // Current Position
-          }
-          else if(!adapter.isUnitAvailable() && isTLEFallbackEnabled)
-          {
-            pos = getTLEPropagatedPosition(); // Use TLE propagated Position
-          }
-          else
-          {
-            return;
-          }
-
-          synchronized (MUTEX) {
-            currentPosition = pos;
-            timeOfCurrentPosition = System.currentTimeMillis();
-          }
+          boolean useTLEpropagation = false;
+          try {
+            useTLEpropagation = useTLEPropagation();
+          }catch(MALException | MALInteractionException e){}
+          final Position pos = updateCurrentPosition(useTLEpropagation);
+          try{ 
+            updateCurrentPositionAndVelocity(useTLEpropagation);
+          }catch(IOException | NumberFormatException e){}
 
           // Compare with all the available definitions and raise
           // NearbyPositionAlerts in case something has changed
