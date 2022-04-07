@@ -21,7 +21,6 @@
 package esa.mo.platform.impl.util;
 
 import esa.mo.com.impl.util.COMServicesProvider;
-import esa.mo.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.platform.artificialintelligence.provider.ArtificialIntelligenceInheritanceSkeleton;
 import org.ccsds.moims.mo.platform.autonomousadcs.provider.AutonomousADCSInheritanceSkeleton;
@@ -31,26 +30,60 @@ import org.ccsds.moims.mo.platform.opticaldatareceiver.provider.OpticalDataRecei
 import org.ccsds.moims.mo.platform.softwaredefinedradio.provider.SoftwareDefinedRadioInheritanceSkeleton;
 
 /**
- * The Platform services provider interface
+ * The Platform services provider interface. Allows the retrieval of the default
+ * set of services that are part of the Platform services.
  */
 public interface PlatformServicesProviderInterface {
 
+    /**
+     * The init method initializes the Platform services.
+     *
+     * @param comServices The COM services
+     * @throws MALException if there is an error during the initialization.
+     */
     default void init(COMServicesProvider comServices) throws MALException {
     }
 
-    default void startStatusTracking(ConnectionConsumer connection) {
-    }
-
+    /**
+     * Returns the Artificial Intelligence service.
+     *
+     * @return The Artificial Intelligence service.
+     */
     ArtificialIntelligenceInheritanceSkeleton getAIService();
 
+    /**
+     * Returns the Camera service.
+     *
+     * @return The Camera service.
+     */
     CameraInheritanceSkeleton getCameraService();
 
+    /**
+     * Returns the GPS service.
+     *
+     * @return The GPS service.
+     */
     GPSInheritanceSkeleton getGPSService();
 
+    /**
+     * Returns the Autonomous ADCS service.
+     *
+     * @return The Autonomous ADCS service.
+     */
     AutonomousADCSInheritanceSkeleton getAutonomousADCSService();
 
+    /**
+     * Returns the Optical Data Receiver service.
+     *
+     * @return The Optical Data Receiver service.
+     */
     OpticalDataReceiverInheritanceSkeleton getOpticalDataReceiverService();
 
+    /**
+     * Returns the Software Defined Radio service.
+     *
+     * @return The Software Defined Radio service.
+     */
     SoftwareDefinedRadioInheritanceSkeleton getSoftwareDefinedRadioService();
 
 }
