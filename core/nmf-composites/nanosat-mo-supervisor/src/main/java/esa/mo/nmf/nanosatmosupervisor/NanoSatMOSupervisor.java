@@ -196,7 +196,6 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
                 "Error creating request with parameter to fetch in the supervisor", e);
       }
     }
-    this.startStatusTracking();
   }
 
   @Override
@@ -280,7 +279,5 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
   }
 
   public abstract void initPlatformServices(COMServicesProvider comServices);
-
-  protected abstract void startStatusTracking();
 
 }
