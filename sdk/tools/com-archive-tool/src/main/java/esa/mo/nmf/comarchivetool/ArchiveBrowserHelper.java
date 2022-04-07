@@ -158,6 +158,9 @@ public class ArchiveBrowserHelper {
     NMFConsumer remoteConsumer = null;
     if (providerURI == null) {
       try {
+        if(providerName != null) {
+          System.out.println("\n--provider option is ignored in local mode.\n");
+        }
         localConsumer = createLocalConsumer(databaseFile);
       } catch (MalformedURLException | MALException e) {
         LOGGER.log(Level.SEVERE,
@@ -212,38 +215,28 @@ public class ArchiveBrowserHelper {
                     providerURI.replace("Archive", "Directory") : providerURI;
       ProviderSummaryList providerSummaryList = NMFConsumer.retrieveProvidersFromDirectory(new URI(tempURI));
       ProviderSummary provider = null;
-      for(ProviderSummary summary : providerSummaryList) {
-          for(ServiceCapability capability : summary.getProviderDetails().getServiceCapabilities()) {
-
-            // ignore malspp uris
-            for(int i = 0; i < capability.getServiceAddresses().size(); ++i) {
-              if(capability.getServiceAddresses().get(i).getServiceURI().toString().startsWith("malspp")) {
-                capability.getServiceAddresses().remove(i);
-                --i;
-              }
-            }
-
-            // allow use of localhost and 127.0.0.1 interchangeably regardless of what is saved
-            // in the provider summary.
-            if(summary.getProviderName().getValue().equals(providerName) &&
-               capability.getServiceAddresses().stream().anyMatch(address -> {
-              if(tempURI.contains("localhost")) {
-                return address.getServiceURI().equals(new URI(tempURI)) ||
-                       address.getServiceURI().equals(new URI(tempURI.replace("localhost", "127.0.0.1")));
-              } else if(tempURI.contains("127.0.0.1")) {
-                return address.getServiceURI().equals(new URI(tempURI)) ||
-                       address.getServiceURI().equals(new URI(tempURI.replace("127.0.0.1", "localhost")));
-              } else {
-                return address.getServiceURI().equals(new URI(tempURI));
-              }
-            })) {
-              provider = summary;
-              break;
-            }
+      if(providerSummaryList.size() == 1) {
+        if(providerName != null) {
+          System.out.println("There's only one provider in directory. Ignoring --provider option.");
+        }
+        provider = providerSummaryList.get(0);
+      } else {
+        if(providerName == null) {
+          System.out.println("\nThere's more than one provider in directory. In this case the --provider option is required");
+          System.out.println("Available providers at this uri: " + tempURI);
+          for(ProviderSummary summary : providerSummaryList) {
+            System.out.println(" - " + summary.getProviderName());
           }
-          if(provider != null) {
+          System.out.println();
+          return null;
+        }
+
+        for(ProviderSummary summary : providerSummaryList) {
+          if(summary.getProviderName().getValue().equals(providerName)) {
+            provider = summary;
             break;
           }
+        }
       }
 
       if(provider == null) {

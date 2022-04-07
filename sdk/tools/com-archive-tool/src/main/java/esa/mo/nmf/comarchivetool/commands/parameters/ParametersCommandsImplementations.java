@@ -78,11 +78,6 @@ public class ParametersCommandsImplementations {
 
         IdentifierList domain = domainId == null ? null : HelperMisc.domainId2domain(domainId);
 
-        if(remoteConsumer != null && domainId == null &&
-           providerURI.contains("LWMCS_Core") && !appName.equals("App: LWMCS_Core")) {
-            domain = remoteConsumer.getConnectionConsumer().getServicesDetails().get(DirectoryHelper.DIRECTORY_SERVICE_NAME).getDomain();
-        }
-
         ArchiveQueryList archiveQueryList = new ArchiveQueryList();
         ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null,
                                                      0L, null, null,
@@ -137,12 +132,6 @@ public class ParametersCommandsImplementations {
         FineTime startTimeF = startTime == null ? null : HelperTime.readableString2FineTime(startTime);
         FineTime endTimeF = endTime == null ? null : HelperTime.readableString2FineTime(endTime);
         IdentifierList domain = domainId == null ? null : HelperMisc.domainId2domain(domainId);
-
-        if(remoteConsumer != null && domainId == null &&
-           providerURI.contains("LWMCS_Core") && !appName.equals("App: LWMCS_Core")) {
-            domain = remoteConsumer.getConnectionConsumer().getServicesDetails().get(DirectoryHelper.DIRECTORY_SERVICE_NAME).getDomain();
-            System.out.println("\nSetting domain to: " + domain);
-        }
 
         ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L, null,
                                                      startTimeF, endTimeF, null, null);

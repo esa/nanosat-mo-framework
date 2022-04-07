@@ -51,7 +51,7 @@ public class ParametersCommandsDefinitions {
         @ArgGroup(multiplicity = "1")
         ArchiveBrowserHelper.LocalOrRemote localOrRemote;
 
-        @Parameters(arity = "1", paramLabel = "<appName>", index = "0",
+        @Option(names = {"-p", "--provider"}, paramLabel = "<appName>",
                 description = "Name of the NMF app we want the parameters for")
         String appName;
 
@@ -82,11 +82,11 @@ public class ParametersCommandsDefinitions {
                     description = "Target file for the parameters samples")
         String parametersFile;
 
-        @Parameters(arity = "1", paramLabel = "<appName>", index = "1",
-                    description = "Name of the NMF app we want the parameters for")
+        @Option(names = {"-p", "--provider"}, paramLabel = "<appName>",
+                description = "Name of the NMF app we want the parameters for")
         String appName;
 
-        @Parameters(arity = "0..*", paramLabel = "<parameterNames>", index = "2",
+        @Parameters(arity = "0..*", paramLabel = "<parameterNames>", index = "1",
                     description = "Names of the parameters to retrieve\n"
                                   + " - examples: param1 or param1 param2")
         List<String> parameterNames;
