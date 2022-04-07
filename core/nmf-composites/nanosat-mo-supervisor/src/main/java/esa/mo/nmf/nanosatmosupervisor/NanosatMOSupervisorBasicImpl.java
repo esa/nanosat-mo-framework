@@ -28,20 +28,23 @@ import esa.mo.nmf.NMFException;
 import esa.mo.nmf.nmfpackage.NMFPackagePMBackend;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.platform.impl.util.PlatformServicesProviderInterface;
+import esa.mo.platform.impl.util.PlatformServicesProviderSoftSim;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 
 /**
- * This is a specific implementation of the NMF supervisor which is currently being used by
- * the SDK and the OPS-SAT mission. Using the property "nmf.platform.impl" one can select
- * the class of the platform services implementation which shall be used by the supervisor. If no
- * such property is provided, it will use the simulated platform services by default.
+ * This is a specific implementation of the NMF supervisor which is currently
+ * being used by the SDK and the OPS-SAT mission. Using the property
+ * "nmf.platform.impl" one can select the class of the platform services
+ * implementation which shall be used by the supervisor. If no such property is
+ * provided, it will use the simulated platform services by default.
  *
  * @author yannick
  */
 public class NanosatMOSupervisorBasicImpl extends NanoSatMOSupervisor {
+
     private static final Logger LOGGER = Logger.getLogger(NanosatMOSupervisorBasicImpl.class.getName());
     private PlatformServicesProviderInterface platformServicesProvider;
     private ConnectionConsumer connectionConsumer;
@@ -49,17 +52,16 @@ public class NanosatMOSupervisorBasicImpl extends NanoSatMOSupervisor {
     @Override
     public void initPlatformServices(COMServicesProvider comServices) {
         try {
-            String platformProviderClass = System.getProperty("nmf.platform.impl",
-                "esa.mo.platform.impl.util.PlatformServicesProviderSoftSim");
+            String platformProviderClass = System.getProperty("nmf.platform.impl", "esa.mo.platform.impl.util.PlatformServicesProviderSoftSim");
             try {
-                platformServicesProvider = (PlatformServicesProviderInterface) Class.forName(platformProviderClass)
-                    .newInstance();
+                platformServicesProvider
+                        = (PlatformServicesProviderInterface) Class.forName(platformProviderClass).newInstance();
                 platformServicesProvider.init(comServices);
-            } catch (NullPointerException |
-                     ClassNotFoundException |
-                     InstantiationException |
-                     IllegalAccessException ex) {
-                LOGGER.log(Level.SEVERE, "Something went wrong when initializing the platform services.", ex);
+            } catch (NullPointerException | ClassNotFoundException | InstantiationException
+                    | IllegalAccessException ex) {
+                LOGGER.log(Level.SEVERE,
+                        "Something went wrong when initializing the platform services.",
+                        ex);
                 System.exit(-1);
             }
         } catch (MALException ex) {
@@ -75,14 +77,16 @@ public class NanosatMOSupervisorBasicImpl extends NanoSatMOSupervisor {
         }
     }
 
-    @Override
     protected void startStatusTracking() {
-        platformServicesProvider.startStatusTracking(connectionConsumer);
+        if (platformServicesProvider instanceof PlatformServicesProviderSoftSim) {
+            ((PlatformServicesProviderSoftSim) platformServicesProvider).startStatusTracking(connectionConsumer);
+        }
     }
 
     @Override
     public void init(MonitorAndControlNMFAdapter mcAdapter) {
         init(mcAdapter, new PlatformServicesConsumer(), new NMFPackagePMBackend("packages"));
+        this.startStatusTracking();
     }
 
     /**

@@ -248,10 +248,9 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
         clockService.init(clockAdapter);
     }
 
-    @Override
-    public void startStatusTracking(ConnectionConsumer connection) {
-        pcAdapter.startStatusTracking(connection);
-    }
+  public void startStatusTracking(ConnectionConsumer connection) {
+    pcAdapter.startStatusTracking(connection);
+  }
 
     @Override
     public AutonomousADCSProviderServiceImpl getAutonomousADCSService() {

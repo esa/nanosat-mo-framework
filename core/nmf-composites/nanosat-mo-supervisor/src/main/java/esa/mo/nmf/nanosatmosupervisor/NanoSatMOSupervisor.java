@@ -249,9 +249,88 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
 
         System.exit(0);
     }
+  }
+
+  @Override
+  public void init(MissionPlanningNMFAdapter mpAdapter) {
+    // Not implemented. MP services are accessible only from connector.
+  }
+
+  @Override
+  public void setCloseAppListener(final CloseAppListener closeAppAdapter) {
+    this.closeAppAdapter = closeAppAdapter;
+  }
+
+  /**
+   * It closes the App gracefully.
+   *
+   * @param source The source of the triggering. Can be null
+   */
+  @Override
+  public final void closeGracefully(final ObjectId source) {
+    try {
+      AppShutdownGuard.start();
+      long timestamp = System.currentTimeMillis();
+
+      // Acknowledge the reception of the request to close (Closing...)
+      Long eventId = this.getCOMServices().getEventService().generateAndStoreEvent(
+          AppsLauncherHelper.STOPPING_OBJECT_TYPE,
+          ConfigurationProviderSingleton.getDomain(),
+          null,
+          null,
+          source,
+          null);
+
+      final URI uri
+          = this.getCOMServices().getEventService().getConnectionProvider().getConnectionDetails().getProviderURI();
+
+      try {
+        this.getCOMServices().getEventService().publishEvent(uri, eventId,
+            AppsLauncherHelper.STOPPING_OBJECT_TYPE, null, source, null);
+      } catch (IOException ex) {
+        LOGGER.log(Level.SEVERE, null, ex);
+      }
+
+      // Close the app...
+      // Make a call on the app layer to close nicely...
+      if (this.closeAppAdapter != null) {
+        LOGGER.log(Level.INFO,
+            "Triggering the closeAppAdapter of the app business logic...");
+        this.closeAppAdapter.onClose(); // Time to sleep, boy!
+      }
+
+      Long eventId2 = this.getCOMServices().getEventService().generateAndStoreEvent(
+          AppsLauncherHelper.STOPPED_OBJECT_TYPE,
+          ConfigurationProviderSingleton.getDomain(),
+          null,
+          null,
+          source,
+          null);
+
+      try {
+        this.getCOMServices().getEventService().publishEvent(uri, eventId2,
+            AppsLauncherHelper.STOPPED_OBJECT_TYPE, null, source, null);
+      } catch (IOException ex) {
+        LOGGER.log(Level.SEVERE, null, ex);
+      }
+
+      // Should close them safely as well...
+//        provider.getMCServices().closeServices();
+//        provider.getCOMServices().closeServices();
+      this.getCOMServices().closeAll();
+
+      // Exit the Java application
+      LOGGER.log(Level.INFO,
+          "Success! The currently running Java Virtual Machine will now terminate. "
+          + "(NanoSat MO Supervisor closed in: " + (System.currentTimeMillis() - timestamp) + " ms)\n");
+
+    } catch (NMFException ex) {
+      LOGGER.log(Level.SEVERE, null, ex);
+    }
+
+    System.exit(0);
+  }
 
     public abstract void initPlatformServices(COMServicesProvider comServices);
-
-    protected abstract void startStatusTracking();
 
 }
