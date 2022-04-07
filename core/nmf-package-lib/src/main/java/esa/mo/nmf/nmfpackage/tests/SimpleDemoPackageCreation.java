@@ -22,11 +22,14 @@ package esa.mo.nmf.nmfpackage.tests;
 
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.nmf.nmfpackage.NMFPackageCreator;
+import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDescriptor;
 import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDetails;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.zip.ZipFile;
 import org.ccsds.moims.mo.mal.structures.Time;
 
 /**
@@ -56,7 +59,7 @@ public class SimpleDemoPackageCreation {
         // Step 1: Fill in app details...
         // App Name, Description, Category
         // Step 2: Is it a NMF app?
-        // If No:s
+        // If Not:
         // Select the binary files to be installed
         // Additional libraries?
         final Time time = new Time(System.currentTimeMillis());
@@ -85,7 +88,15 @@ public class SimpleDemoPackageCreation {
         // Package 3
         NMFPackageDetails details3 = new NMFPackageDetails("TestPackage", "3.0",
                 timestamp, "noclass", "", "96m");
-        NMFPackageCreator.nmfPackageCreator(details3, files, newLocations);
+        String location = NMFPackageCreator.nmfPackageCreator(details3, files, newLocations);
+        
+        try {
+            // Test if the created file can be parsed
+            ZipFile writtenFile = new ZipFile(location);
+            NMFPackageDescriptor theDescriptor = NMFPackageDescriptor.parseZipFile(writtenFile);
+        } catch (IOException ex) {
+            Logger.getLogger(SimpleDemoPackageCreation.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         // If Yes:
         // Select the jar file (without dependencies)
