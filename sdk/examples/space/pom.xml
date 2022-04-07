@@ -80,6 +80,7 @@
     <module>periodic-alert</module>
     <module>picture-processor</module>
     <module>publish-clock</module>
+    <module>python-script</module>
     <module>serialized-object</module>
     <module>waveform</module>
     <module>mp-space-demo</module>
