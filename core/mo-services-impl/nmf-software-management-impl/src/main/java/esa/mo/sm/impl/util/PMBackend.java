@@ -24,8 +24,8 @@ import java.io.IOException;
 import org.ccsds.moims.mo.mal.structures.StringList;
 
 /**
- * An interface to be implemented in order to allow the Package Management service
- * to manage packages.
+ * An interface to be implemented in order to allow the Package Management
+ * service to manage packages.
  *
  * @author Cesar Coelho
  */
@@ -38,9 +38,9 @@ public interface PMBackend {
     void uninstall(final String packageName, final boolean keepUserData);
 
     void upgrade(final String packageName);
-    
+
     boolean isPackageInstalled(final String packageName);
-    
+
     boolean checkPackageIntegrity(final String packageName) throws UnsupportedOperationException;
 
     String getPublicKey(String value);
