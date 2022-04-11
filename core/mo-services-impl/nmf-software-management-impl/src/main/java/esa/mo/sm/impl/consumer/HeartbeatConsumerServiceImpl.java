@@ -37,7 +37,6 @@ import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
-import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorHelper;
 import org.ccsds.moims.mo.softwaremanagement.heartbeat.HeartbeatHelper;
 import org.ccsds.moims.mo.softwaremanagement.heartbeat.consumer.HeartbeatAdapter;
 import org.ccsds.moims.mo.softwaremanagement.heartbeat.consumer.HeartbeatStub;
@@ -70,13 +69,14 @@ public class HeartbeatConsumerServiceImpl extends ConsumerServiceImpl {
         return new HeartbeatStub(tmConsumer);
     }
 
-    public HeartbeatConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
+    public HeartbeatConsumerServiceImpl(SingleConnectionDetails connectionDetails, 
+            COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
         this(connectionDetails, comServices, null, null);
     }
 
-    public HeartbeatConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices,
-                                        Blob authenticationId,
-                                        String localNamePrefix) throws MALException, MalformedURLException, MALInteractionException {
+    public HeartbeatConsumerServiceImpl(SingleConnectionDetails connectionDetails, 
+            COMServicesConsumer comServices, Blob authenticationId,
+            String localNamePrefix) throws MALException, MalformedURLException, MALInteractionException {
 
         if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
             MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -86,13 +86,14 @@ public class HeartbeatConsumerServiceImpl extends ConsumerServiceImpl {
             COMHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
-        if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME, SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
+        if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME, 
+                SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
             SoftwareManagementHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
         if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
-                                         SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION)
-                    .getServiceByName(HeartbeatHelper.HEARTBEAT_SERVICE_NAME) == null) {
+                SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION)
+                .getServiceByName(HeartbeatHelper.HEARTBEAT_SERVICE_NAME) == null) {
             HeartbeatHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
@@ -104,7 +105,8 @@ public class HeartbeatConsumerServiceImpl extends ConsumerServiceImpl {
             try {
                 tmConsumer.close();
             } catch (MALException ex) {
-                Logger.getLogger(HeartbeatConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(HeartbeatConsumerServiceImpl.class.getName()).log(
+                        Level.SEVERE, null, ex);
             }
         }
 
@@ -132,7 +134,8 @@ public class HeartbeatConsumerServiceImpl extends ConsumerServiceImpl {
             try {
                 heartbeatService.beatRegister(heartbeatSubscription, adapter);
             } catch (MALInteractionException | MALException ex) {
-                Logger.getLogger(HeartbeatConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(HeartbeatConsumerServiceImpl.class.getName()).log(
+                        Level.SEVERE, null, ex);
             }
         }
     }
@@ -151,7 +154,8 @@ public class HeartbeatConsumerServiceImpl extends ConsumerServiceImpl {
                 ids.add(heartbeatSubscription.getSubscriptionId());
                 heartbeatService.beatDeregister(ids);
             } catch (MALInteractionException | MALException ex) {
-                Logger.getLogger(HeartbeatConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(HeartbeatConsumerServiceImpl.class.getName()).log(
+                        Level.SEVERE, null, ex);
             }
         }
     }

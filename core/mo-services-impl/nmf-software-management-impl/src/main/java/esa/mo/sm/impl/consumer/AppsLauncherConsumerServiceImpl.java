@@ -70,9 +70,8 @@ public class AppsLauncherConsumerServiceImpl extends ConsumerServiceImpl {
     }
 
     public AppsLauncherConsumerServiceImpl(final SingleConnectionDetails connectionDetails,
-                                           final COMServicesConsumer comServices,
-                                           final Blob authenticationId,
-                                           final String localNamePrefix) throws MALException, MalformedURLException, MALInteractionException {
+            final COMServicesConsumer comServices, final Blob authenticationId,
+            final String localNamePrefix) throws MALException, MalformedURLException, MALInteractionException {
 
         if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
             MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -83,13 +82,13 @@ public class AppsLauncherConsumerServiceImpl extends ConsumerServiceImpl {
         }
 
         if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
-                                         SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
+                SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
             SoftwareManagementHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
         if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
-                                         SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION)
-                    .getServiceByName(AppsLauncherHelper.APPSLAUNCHER_SERVICE_NAME) == null) {
+                SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION)
+                .getServiceByName(AppsLauncherHelper.APPSLAUNCHER_SERVICE_NAME) == null) {
             AppsLauncherHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
@@ -101,7 +100,8 @@ public class AppsLauncherConsumerServiceImpl extends ConsumerServiceImpl {
             try {
                 tmConsumer.close();
             } catch (MALException ex) {
-                Logger.getLogger(AppsLauncherConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(AppsLauncherConsumerServiceImpl.class.getName()).log(
+                        Level.SEVERE, null, ex);
             }
         }
 
