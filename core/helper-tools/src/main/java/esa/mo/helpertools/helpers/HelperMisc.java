@@ -296,7 +296,8 @@ public class HelperMisc {
       } else {
         Logger.getLogger(HelperMisc.class.getName()).log(Level.WARNING,
             "The file transport.properties does not exist on the path: {0}\n"
-                    + "Is the application working directory configured properly?", transport_file_path);
+                    + "The App will fallback to the default TCP/IP Transport!", transport_file_path);
+        sysProps.putAll(getTransportDefaults());
       }
 
     }
@@ -321,8 +322,50 @@ public class HelperMisc {
                 Logger.getLogger(HelperMisc.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+      }
 
-        System.setProperties(sysProps);
+      System.setProperties(sysProps);
+      System.setProperty("PropertiesLoadedFlag", "true");
+
+    } catch (MalformedURLException ex) {
+      Logger.getLogger(HelperMisc.class.getName()).log(Level.SEVERE, null, ex);
+    }
+
+  }
+
+  /**
+   * Loads in the properties of a file.
+   *
+   * @param propertiesFileName The name of the property file to load.
+   * @throws java.lang.IllegalArgumentException If propertiesFileName == null
+   */
+  public static void loadThisPropertiesFile(final String propertiesFileName)
+      throws IllegalArgumentException {
+    if (propertiesFileName == null) {
+      throw new IllegalArgumentException("propertiesFileName must not be null.");
+    }
+    final java.util.Properties sysProps = System.getProperties();
+
+    File file = new File(propertiesFileName);
+    if (file.exists()) {
+      try {
+        sysProps.putAll(HelperMisc.loadProperties(file.toURI().toURL(), PROVIDER_PROPERTIES_FILE));
+      } catch (MalformedURLException ex) {
+        Logger.getLogger(HelperMisc.class.getName()).log(Level.SEVERE, null, ex);
+      }
+    }
+
+    System.setProperties(sysProps);
+  }
+  
+  private static Properties getTransportDefaults(){
+      Properties props = new Properties();
+      props.setProperty("org.ccsds.moims.mo.mal.transport.default.protocol", "maltcp://");
+      props.setProperty("org.ccsds.moims.mo.mal.transport.protocol.maltcp", "esa.mo.mal.transport.tcpip.TCPIPTransportFactoryImpl");
+      props.setProperty("org.ccsds.moims.mo.mal.encoding.protocol.maltcp", "esa.mo.mal.encoder.binary.fixed.FixedBinaryStreamFactory");
+      props.setProperty("org.ccsds.moims.mo.mal.transport.tcpip.autohost", "true");
+      return props;
+  }
 
     }
 
