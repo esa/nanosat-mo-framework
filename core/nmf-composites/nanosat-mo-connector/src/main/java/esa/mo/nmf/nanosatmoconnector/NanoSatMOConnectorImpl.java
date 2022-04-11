@@ -48,7 +48,6 @@ import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMService;
@@ -206,7 +205,8 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                 // Register for CloseApp Events...
                 try {
                     // Convert provider to connectionDetails...
-                    final SingleConnectionDetails connectionDetails = AppsLauncherManager.getSingleConnectionDetailsFromProviderSummaryList(supervisorEventServiceConnectionDetails);
+                    final SingleConnectionDetails connectionDetails = AppsLauncherManager
+                            .getSingleConnectionDetailsFromProviderSummaryList(supervisorEventServiceConnectionDetails);
                     serviceCOMEvent = new EventConsumerServiceImpl(connectionDetails);
                 } catch (IOException | MALException | MALInteractionException ex) {
                     LOGGER.log(Level.SEVERE,
@@ -489,7 +489,8 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                 // Register for CloseApp Events...
                 try {
                     // Convert provider to connectionDetails...
-                    final SingleConnectionDetails connectionDetails = AppsLauncherManager.getSingleConnectionDetailsFromProviderSummaryList(supervisorEventServiceConnectionDetails);
+                    final SingleConnectionDetails connectionDetails = AppsLauncherManager
+                            .getSingleConnectionDetailsFromProviderSummaryList(supervisorEventServiceConnectionDetails);
                     serviceCOMEvent = new EventConsumerServiceImpl(connectionDetails);
                 } catch (IOException | MALException | MALInteractionException ex) {
                     LOGGER.log(Level.SEVERE,
