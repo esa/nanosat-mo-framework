@@ -31,17 +31,12 @@ import java.util.zip.ZipFile;
 import org.ccsds.moims.mo.mal.structures.StringList;
 
 /**
+ * The Package Management backend to handle the NMF Packages.
  *
  * @author Cesar Coelho
  */
 public class NMFPackagePMBackend implements PMBackend {
 
-    @Deprecated
-    private static final String FOLDER_LOCATION_PROPERTY = "esa.mo.nmf.package.FolderLocation";
-
-    @Deprecated
-    private static final String PACKAGES_FOLDER = "packages";  // dir name
-    
     private final File packagesFolder;  // Location of the folder
 
     /**
@@ -52,22 +47,6 @@ public class NMFPackagePMBackend implements PMBackend {
      */
     public NMFPackagePMBackend(String folder) {
         packagesFolder = new File(folder);
-    }
-
-    /**
-     *
-     * @deprecated The folder with the packages must be passed as argument
-     * instead of having the internal hidden properties for it! Please use:
-     * NMFPackagePMBackend(String folder)
-     */
-    @Deprecated
-    public NMFPackagePMBackend() {
-        // If there is a property for that, then use it!! 
-        if (System.getProperty(FOLDER_LOCATION_PROPERTY) != null) {
-            packagesFolder = new File(System.getProperty(FOLDER_LOCATION_PROPERTY));
-        }else{
-            packagesFolder = new File(PACKAGES_FOLDER);
-        }
     }
 
     @Override
@@ -170,7 +149,6 @@ public class NMFPackagePMBackend implements PMBackend {
 
     @Override
     public boolean checkPackageIntegrity(final String packageName) throws UnsupportedOperationException {
-
         // To do: Check the package integrity!
         return true;
     }
