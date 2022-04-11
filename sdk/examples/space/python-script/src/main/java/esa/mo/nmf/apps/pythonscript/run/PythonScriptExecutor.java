@@ -42,9 +42,9 @@ public class PythonScriptExecutor {
 
     private static final Logger LOG = Logger.getLogger(PythonScriptExecutor.class.getName());
     private static final String ENV_PROCESS_DURATION = "ENV_PROCESS_DURATION";
-    private static final String LOG_PATH = "logs";
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss_SSSS")
-            .withZone(ZoneId.systemDefault());
+    private static final String LOG_PATH = "output_logs";
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter
+            .ofPattern("yyyyMMdd_HHmmss_SSSS").withZone(ZoneId.systemDefault());
 
     private final DefaultExecutor executor = new DefaultExecutor();
     private final long minDurationSeconds;
@@ -118,7 +118,7 @@ public class PythonScriptExecutor {
     }
 
     private static String generateLogFilename() {
-        return String.format("log_%s.jpg", DATE_FORMATTER.format(Instant.now()));
+        return String.format("%s.log", DATE_FORMATTER.format(Instant.now()));
     }
 
 }
