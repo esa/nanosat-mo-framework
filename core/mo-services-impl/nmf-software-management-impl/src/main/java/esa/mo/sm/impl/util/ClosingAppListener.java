@@ -84,12 +84,11 @@ public class ClosingAppListener extends EventReceivedListener {
         return this.appClosed;
     }
 
-    public void waitForAppClosing(long timeout) throws InterruptedException
-    {
-        synchronized (semaphore)
-        {
-            if (!appClosed)
-              semaphore.wait(timeout);
+    public void waitForAppClosing(long timeout) throws InterruptedException {
+        synchronized (semaphore) {
+            if (!appClosed) {
+                semaphore.wait(timeout);
+            }
         }
     }
 }

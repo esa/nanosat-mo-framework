@@ -33,7 +33,6 @@ import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
-import org.ccsds.moims.mo.softwaremanagement.heartbeat.HeartbeatHelper;
 import org.ccsds.moims.mo.softwaremanagement.packagemanagement.PackageManagementHelper;
 import org.ccsds.moims.mo.softwaremanagement.packagemanagement.body.CheckPackageIntegrityResponse;
 import org.ccsds.moims.mo.softwaremanagement.packagemanagement.provider.InstallInteraction;
@@ -86,14 +85,14 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
                 COMHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
-            if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME, 
+            if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
                     SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
                 SoftwareManagementHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
             if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
-                                             SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION)
-                        .getServiceByName(PackageManagementHelper.PACKAGEMANAGEMENT_SERVICE_NAME) == null) {
+                    SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION)
+                    .getServiceByName(PackageManagementHelper.PACKAGEMANAGEMENT_SERVICE_NAME) == null) {
                 PackageManagementHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
@@ -277,7 +276,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
                 if (!backend.isPackageInstalled(names.get(i).getValue())) {
                     invIndexList.add(new UInteger(i));
                     Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(
-                        Level.SEVERE, "The package is not installed!");
+                            Level.SEVERE, "The package is not installed!");
                     continue;
                 }
 
@@ -288,7 +287,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
                 if (!integrity) {
                     invIndexList.add(new UInteger(i));
                     Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(
-                        Level.SEVERE, "The integrity of the package is bad!");
+                            Level.SEVERE, "The integrity of the package is bad!");
                 }
             }
         } catch (IOException ex) {
