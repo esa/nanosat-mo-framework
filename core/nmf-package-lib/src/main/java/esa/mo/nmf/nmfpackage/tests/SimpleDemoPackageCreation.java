@@ -33,6 +33,7 @@ import java.util.zip.ZipFile;
 import org.ccsds.moims.mo.mal.structures.Time;
 
 /**
+ * A simple demo code to test the generation of NMF Packages.
  *
  * @author Cesar Coelho
  */
@@ -56,12 +57,6 @@ public class SimpleDemoPackageCreation {
         files.add(myAppFilename);
         newLocations.add("apps" + File.separator + dummyFolder + File.separator + myAppFilename);
 
-        // Step 1: Fill in app details...
-        // App Name, Description, Category
-        // Step 2: Is it a NMF app?
-        // If Not:
-        // Select the binary files to be installed
-        // Additional libraries?
         final Time time = new Time(System.currentTimeMillis());
         final String timestamp = HelperTime.time2readableString(time);
 
@@ -89,20 +84,15 @@ public class SimpleDemoPackageCreation {
         NMFPackageDetails details3 = new NMFPackageDetails("TestPackage", "3.0",
                 timestamp, "noclass", "", "96m");
         String location = NMFPackageCreator.nmfPackageCreator(details3, files, newLocations);
-        
+
         try {
             // Test if the created file can be parsed
             ZipFile writtenFile = new ZipFile(location);
             NMFPackageDescriptor theDescriptor = NMFPackageDescriptor.parseZipFile(writtenFile);
         } catch (IOException ex) {
-            Logger.getLogger(SimpleDemoPackageCreation.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SimpleDemoPackageCreation.class.getName()).log(
+                    Level.SEVERE, "The file could not be processed!", ex);
         }
-
-        // If Yes:
-        // Select the jar file (without dependencies)
-        // Select the provider.properties file
-        // 
-        // Additional libraries?
     }
 
 }

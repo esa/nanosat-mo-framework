@@ -225,12 +225,10 @@ public class NMFPackageManager {
             throw new IOException("The parsed descriptor is null.");
         }
 
-        // Verify integrity of the file: Are all the declared files matching their CRCs?
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                 "Removing the files...");
 
         removeFiles(descriptor);
-
         String appName = descriptor.getDetails().getPackageName();
 
         // This directory should be passed in the method signature:
@@ -286,7 +284,6 @@ public class NMFPackageManager {
         ZipFile zipFile = new ZipFile(packageLocation);
         ZipEntry newReceipt = zipFile.getEntry(HelperNMFPackage.RECEIPT_FILENAME);
 
-        // Verify integrity of the file: Are all the declared files matching their CRCs?
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                 "Reading the receipt file that includes the list of files to be upgraded...");
 
@@ -380,7 +377,7 @@ public class NMFPackageManager {
 
         // chmod the installation directory with recursive
         LinuxUsersGroups.chmod(false, true, "750", installationDir.getAbsolutePath());
-        
+
         // ---------------------------------------
         // Store a copy of the newReceipt to know that it has been installed!
         //create the file otherwise we get FileNotFoundException
@@ -594,25 +591,6 @@ public class NMFPackageManager {
             final String path = generateFilePathForSystem(packageFile.getPath());
             file = new File(folder.getCanonicalPath() + File.separator + path);
             NMFPackageManager.removeFile(file);
-
-            /*
-            if (!file.exists()) {
-                Logger.getLogger(NMFPackageManager.class.getName()).log(Level.WARNING,
-                        "The file no longer exists: " + file.getCanonicalPath());
-            } else {
-                // The file exists...
-
-                // Check the CRC
-                long crc = HelperNMFPackage.calculateCRCFromFile(file.getCanonicalPath());
-
-                if (packageFile.getCRC() != crc) {
-                    Logger.getLogger(NMFPackageManager.class.getName()).log(Level.WARNING,
-                            "The CRC does not match for file: " + file.getCanonicalPath());
-                }
-
-                NMFPackageManager.removeFile(file);
-            }
-             */
         }
     }
 
