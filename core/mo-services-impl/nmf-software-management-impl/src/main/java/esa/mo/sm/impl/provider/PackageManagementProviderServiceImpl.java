@@ -84,13 +84,13 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             }
 
             if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
-                SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
+                    SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
                 SoftwareManagementHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
             if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
-                SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION).getServiceByName(
-                    PackageManagementHelper.PACKAGEMANAGEMENT_SERVICE_NAME) == null) {
+                    SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION)
+                    .getServiceByName(PackageManagementHelper.PACKAGEMANAGEMENT_SERVICE_NAME) == null) {
                 PackageManagementHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
@@ -275,8 +275,8 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
                 if (!backend.isPackageInstalled(names.get(i).getValue())) {
                     invIndexList.add(new UInteger(i));
-                    Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.SEVERE,
-                        "The package is not installed!");
+                    Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(
+                            Level.SEVERE, "The package is not installed!");
                     continue;
                 }
 
@@ -286,8 +286,8 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
                 if (!integrity) {
                     invIndexList.add(new UInteger(i));
-                    Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.SEVERE,
-                        "The integrity of the package is bad!");
+                    Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(
+                            Level.SEVERE, "The integrity of the package is bad!");
                 }
             }
         } catch (IOException ex) {

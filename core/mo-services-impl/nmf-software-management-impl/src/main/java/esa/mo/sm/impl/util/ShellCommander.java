@@ -18,7 +18,6 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-
 package esa.mo.sm.impl.util;
 
 import java.io.BufferedReader;
@@ -59,7 +58,8 @@ public class ShellCommander {
 
             return output.getMessage();
         } catch (InterruptedException ex) {
-            Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE, 
+                    "The thread was interrupted!", ex);
         }
 
         return "";
@@ -79,8 +79,8 @@ public class ShellCommander {
 
             return output.getMessage() + error.getMessage();
         } catch (InterruptedException ex) {
-            Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE, "The command could not be executed!",
-                ex);
+            Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE,
+                    "The command could not be executed!", ex);
         }
 
         return "";
@@ -96,14 +96,14 @@ public class ShellCommander {
                 proc = Runtime.getRuntime().exec(new String[]{"cmd", "/c", cmd}, null, dirPath);
             } else {
                 Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE,
-                    "The command could not executed due to an Unknown OS!");
+                        "The command could not executed due to an Unknown OS!");
                 return null;
             }
 
             return proc;
         } catch (IOException ex) {
-            Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE, "The command could not be executed!",
-                ex);
+            Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE,
+                    "The command could not be executed!", ex);
         }
 
         return null;
@@ -137,7 +137,8 @@ public class ShellCommander {
                 }
                 message = buffer.toString();
             } catch (IOException ioe) {
-                Logger.getLogger(ShellCommander.class.getName()).log(Level.INFO, "Error: ", ioe);
+                Logger.getLogger(ShellCommander.class.getName()).log(Level.INFO,
+                        "Error: ", ioe);
             }
         }
     }

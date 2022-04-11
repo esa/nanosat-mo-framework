@@ -57,7 +57,8 @@ import org.ccsds.moims.mo.softwaremanagement.heartbeat.provider.HeartbeatInherit
  */
 public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
 
-    private static final Logger LOGGER = Logger.getLogger(HeartbeatProviderServiceImpl.class.getName());
+    private static final Logger LOGGER
+            = Logger.getLogger(HeartbeatProviderServiceImpl.class.getName());
     private MALProvider heartbeatServiceProvider;
     private BeatPublisher publisher;
     private boolean initialiased = false;
@@ -69,7 +70,8 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
     protected long period = 10000; // 10 seconds
 
     /**
-     * Creates the MAL objects, the publisher used to create updates and starts the publishing thread
+     * Creates the MAL objects, the publisher used to create updates and starts
+     * the publishing thread
      *
      * @throws MALException On initialisation error.
      */
@@ -80,28 +82,33 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
             }
 
             if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
-                SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
+                    SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
                 SoftwareManagementHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
             if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
-                SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION).getServiceByName(
-                    HeartbeatHelper.HEARTBEAT_SERVICE_NAME) == null) {
+                    SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION)
+                    .getServiceByName(HeartbeatHelper.HEARTBEAT_SERVICE_NAME) == null) {
                 HeartbeatHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
         }
 
-        publisher = createBeatPublisher(ConfigurationProviderSingleton.getDomain(), ConfigurationProviderSingleton
-            .getNetwork(), SessionType.LIVE, ConfigurationProviderSingleton.getSourceSessionName(), QoSLevel.BESTEFFORT,
-            null, new UInteger(0));
+        publisher = createBeatPublisher(ConfigurationProviderSingleton.getDomain(),
+                ConfigurationProviderSingleton.getNetwork(),
+                SessionType.LIVE,
+                ConfigurationProviderSingleton.getSourceSessionName(),
+                QoSLevel.BESTEFFORT,
+                null,
+                new UInteger(0));
 
         // Shut down old service transport
         if (null != heartbeatServiceProvider) {
             connection.closeAll();
         }
 
-        heartbeatServiceProvider = connection.startService(HeartbeatHelper.HEARTBEAT_SERVICE_NAME.toString(),
-            HeartbeatHelper.HEARTBEAT_SERVICE, true, this);
+        heartbeatServiceProvider = connection.startService(
+                HeartbeatHelper.HEARTBEAT_SERVICE_NAME.toString(),
+                HeartbeatHelper.HEARTBEAT_SERVICE, true, this);
 
         running = true;
         initialiased = true;
@@ -131,7 +138,8 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
             connection.closeAll();
             running = false;
         } catch (MALException ex) {
-            LOGGER.log(Level.WARNING, "Exception during close down of the provider {0}", ex);
+            LOGGER.log(Level.WARNING,
+                    "Exception during close down of the provider {0}", ex);
         }
     }
 
@@ -147,8 +155,14 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
             }
 
             final UpdateHeaderList hdrlst = new UpdateHeaderList(1);
-            hdrlst.add(new UpdateHeader(HelperTime.getTimestampMillis(), connection.getConnectionDetails()
-                .getProviderURI(), UpdateType.UPDATE, new EntityKey(null, null, null, null)));
+            hdrlst.add(
+                    new UpdateHeader(
+                            HelperTime.getTimestampMillis(),
+                            connection.getConnectionDetails().getProviderURI(),
+                            UpdateType.UPDATE,
+                            new EntityKey(null, null, null, null)
+                    )
+            );
 
             publisher.publish(hdrlst);
         } catch (IllegalArgumentException | MALException | MALInteractionException ex) {
@@ -159,32 +173,32 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
     @Override
     public Duration getPeriod(MALInteraction interaction) throws MALInteractionException, MALException {
         // Convert to seconds and return the value
-        return new Duration(period / 1000.0);
+        return new Duration(period / 1000);
     }
 
     public static final class PublishInteractionListener implements MALPublishInteractionListener {
 
         @Override
-        public void publishDeregisterAckReceived(final MALMessageHeader header, final Map qosProperties)
-            throws MALException {
+        public void publishDeregisterAckReceived(final MALMessageHeader header,
+                final Map qosProperties) throws MALException {
             LOGGER.fine("PublishInteractionListener::publishDeregisterAckReceived");
         }
 
         @Override
-        public void publishErrorReceived(final MALMessageHeader header, final MALErrorBody body,
-            final Map qosProperties) throws MALException {
+        public void publishErrorReceived(final MALMessageHeader header,
+                final MALErrorBody body, final Map qosProperties) throws MALException {
             LOGGER.warning("PublishInteractionListener::publishErrorReceived");
         }
 
         @Override
-        public void publishRegisterAckReceived(final MALMessageHeader header, final Map qosProperties)
-            throws MALException {
+        public void publishRegisterAckReceived(final MALMessageHeader header,
+                final Map qosProperties) throws MALException {
             LOGGER.log(Level.INFO, "Registration Ack: {0}", header.toString());
         }
 
         @Override
-        public void publishRegisterErrorReceived(final MALMessageHeader header, final MALErrorBody body,
-            final Map qosProperties) throws MALException {
+        public void publishRegisterErrorReceived(final MALMessageHeader header,
+                final MALErrorBody body, final Map qosProperties) throws MALException {
             LOGGER.warning("PublishInteractionListener::publishRegisterErrorReceived");
         }
     }

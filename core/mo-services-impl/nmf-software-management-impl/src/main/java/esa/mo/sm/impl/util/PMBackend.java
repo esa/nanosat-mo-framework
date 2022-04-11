@@ -24,8 +24,8 @@ import java.io.IOException;
 import org.ccsds.moims.mo.mal.structures.StringList;
 
 /**
- * An interface to be implemented in order to allow the Package Management service
- * to manage packages.
+ * An interface to be implemented in order to allow the Package Management
+ * service to manage packages.
  *
  * @author Cesar Coelho
  */
