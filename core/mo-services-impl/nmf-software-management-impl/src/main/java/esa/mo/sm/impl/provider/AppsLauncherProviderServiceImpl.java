@@ -68,13 +68,11 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.provider.StopAppIntera
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetails;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetailsList;
 import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorHelper;
-import org.ccsds.moims.mo.softwaremanagement.packagemanagement.PackageManagementHelper;
 
 /**
  * Apps Launcher service Provider.
  */
-public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkeleton implements
-    ReconfigurableService {
+public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkeleton implements ReconfigurableService {
 
   public final static String PROVIDER_PREFIX_NAME = "App: ";
   private static final Logger LOGGER = Logger.getLogger(
@@ -154,8 +152,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     running = true;
     initialiased = true;
 
-    LOGGER.log(Level.INFO,
-        "Apps Launcher service: READY");
+    LOGGER.log(Level.INFO, "Apps Launcher service READY");
   }
 
   public ConnectionProvider getConnectionProvider() {
@@ -533,8 +530,9 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     }
 
     if (!unkIndexList.isEmpty()) {
-      throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER,
-          unkIndexList));
+      throw new MALInteractionException(
+              new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList)
+      );
     }
 
     for (Long id : ids) { // Is the app running?
@@ -638,31 +636,27 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     @Override
     public void publishDeregisterAckReceived(final MALMessageHeader header, final Map qosProperties)
         throws MALException {
-      LOGGER.fine(
-          "PublishInteractionListener::publishDeregisterAckReceived");
+      LOGGER.fine("PublishInteractionListener::publishDeregisterAckReceived");
     }
 
     @Override
     public void publishErrorReceived(final MALMessageHeader header, final MALErrorBody body,
         final Map qosProperties)
         throws MALException {
-      LOGGER.warning(
-          "PublishInteractionListener::publishErrorReceived");
+      LOGGER.warning("PublishInteractionListener::publishErrorReceived");
     }
 
     @Override
     public void publishRegisterAckReceived(final MALMessageHeader header, final Map qosProperties)
         throws MALException {
-      LOGGER.fine(
-          "PublishInteractionListener::publishRegisterAckReceived");
+      LOGGER.fine("PublishInteractionListener::publishRegisterAckReceived");
 //            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.INFO, "Registration Ack: {0}", header.toString());
     }
 
     @Override
     public void publishRegisterErrorReceived(final MALMessageHeader header, final MALErrorBody body,
         final Map qosProperties) throws MALException {
-      LOGGER.warning(
-          "PublishInteractionListener::publishRegisterErrorReceived");
+      LOGGER.warning("PublishInteractionListener::publishRegisterErrorReceived");
     }
   }
 
@@ -679,8 +673,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     }
 
     @Override
-    public void processStopped(Long objId, int exitCode)
-    {
+    public void processStopped(Long objId, int exitCode) {
       manager.setRunning(objId, false, null);
     }
   }
