@@ -69,10 +69,10 @@ public class DatabaseBackend {
     private PreparedStatements preparedStatements;
 
     public DatabaseBackend() {
-        String url = System.getProperty("esa.nmf.archive.persistence.jdbc.url");
+        String urlP = System.getProperty("esa.nmf.archive.persistence.jdbc.url");
 
-        if (null != url && !"".equals(url)) {
-            this.url = url;
+        if (null != urlP && !"".equals(urlP)) {
+            this.url = urlP;
         } else {
             File dbFile = new File(DATABASE_LOCATION_NAME);
             boolean writableFs = true;
@@ -99,10 +99,8 @@ public class DatabaseBackend {
 
         String driver = System.getProperty("esa.nmf.archive.persistence.jdbc.driver");
         this.jdbcDriver = (null != driver && !"".equals(driver)) ? driver : DRIVER_CLASS_NAME;
-
-        String user = System.getProperty("esa.nmf.archive.persistence.jdbc.user");
-        this.user = (null != user && !"".equals(user)) ? user : null;
-
+        String userP = System.getProperty("esa.nmf.archive.persistence.jdbc.user");
+        this.user = (null != userP && !"".equals(userP)) ? userP : null;
         String pass = System.getProperty("esa.nmf.archive.persistence.jdbc.password");
         this.password = (null != pass && !"".equals(pass)) ? pass : null;
     }
