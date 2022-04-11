@@ -72,7 +72,7 @@ public class ShellCommander {
 
             return output.getMessage();
         } catch (InterruptedException ex) {
-            Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE,
+            Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE, 
                     "The thread was interrupted!", ex);
         }
 
