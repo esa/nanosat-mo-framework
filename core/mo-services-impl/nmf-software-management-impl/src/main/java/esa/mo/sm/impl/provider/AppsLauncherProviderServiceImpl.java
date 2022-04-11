@@ -74,57 +74,110 @@ import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorHelp
  */
 public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkeleton implements ReconfigurableService {
 
-    public final static String PROVIDER_PREFIX_NAME = "App: ";
-    private static final Logger LOGGER = Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName());
-    // Maximum length of a stderr/stdout chunk to be persisted - allows downlinking it via SPP without issues
-    private static final int MAX_SEGMENT_SIZE = UShort.MAX_VALUE - 256;
-    private MALProvider appsLauncherServiceProvider;
-    private MonitorExecutionPublisher publisher;
-    private boolean initialiased = false;
-    private boolean running = false;
-    private boolean isRegistered = false;
-    private final Object lock = new Object();
-    private AppsLauncherManager manager;
-    private final ConnectionProvider connection = new ConnectionProvider();
-    private COMServicesProvider comServices;
-    private DirectoryProviderServiceImpl directoryService;
-    private ConfigurationChangeListener configurationAdapter;
-    private int stdLimit; // Limit of stdout/stderr to allow in the archive.
-    // Set of app ids for which the warning about verbose logging was sent
-    private final Set<Long> verboseLoggingWarningSent = new HashSet<>();
-    /**
-     * Object used to track archive usage by STD output of each app
-     */
-    private Quota stdQuota = new Quota();
+  public final static String PROVIDER_PREFIX_NAME = "App: ";
+  private static final Logger LOGGER = Logger.getLogger(
+      AppsLauncherProviderServiceImpl.class.getName());
+  // Maximum length of a stderr/stdout chunk to be persisted - allows downlinking it via SPP without issues
+  private static final int MAX_SEGMENT_SIZE = UShort.MAX_VALUE - 256;
+  private MALProvider appsLauncherServiceProvider;
+  private MonitorExecutionPublisher publisher;
+  private boolean initialiased = false;
+  private boolean running = false;
+  private boolean isRegistered = false;
+  private final Object lock = new Object();
+  private AppsLauncherManager manager;
+  private final ConnectionProvider connection = new ConnectionProvider();
+  private COMServicesProvider comServices;
+  private DirectoryProviderServiceImpl directoryService;
+  private ConfigurationChangeListener configurationAdapter;
+  private int stdLimit; // Limit of stdout/stderr to allow in the archive.
+  // Set of app ids for which the warning about verbose logging was sent
+  private final Set<Long> verboseLoggingWarningSent = new HashSet<>();
+  /**
+   * Object used to track archive usage by STD output of each app
+   */
+  private Quota stdQuota = new Quota();
 
-    /**
-     * Initializes the Event service provider
-     *
-     * @param comServices
-     * @param directoryService
-     * @throws MALException On initialization error.
-     */
-    public synchronized void init(final COMServicesProvider comServices,
-        final DirectoryProviderServiceImpl directoryService) throws MALException {
-        if (!initialiased) {
-            if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
-                MALHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
+  /**
+   * Initializes the Event service provider
+   *
+   * @param comServices
+   * @param directoryService
+   * @throws MALException On initialization error.
+   */
+  public synchronized void init(final COMServicesProvider comServices,
+      final DirectoryProviderServiceImpl directoryService) throws MALException {
+    if (!initialiased) {
+      if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
+        MALHelper.init(MALContextFactory.getElementFactoryRegistry());
+      }
 
-            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null) {
-                COMHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
+      if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null) {
+        COMHelper.init(MALContextFactory.getElementFactoryRegistry());
+      }
 
-            if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
-                SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
-                SoftwareManagementHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
+      if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
+          SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
+        SoftwareManagementHelper.init(MALContextFactory.getElementFactoryRegistry());
+      }
 
-            if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
-                SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION).getServiceByName(
-                    AppsLauncherHelper.APPSLAUNCHER_SERVICE_NAME) == null) {
-                AppsLauncherHelper.init(MALContextFactory.getElementFactoryRegistry());
-            }
+      if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
+                                       SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION)
+                  .getServiceByName(AppsLauncherHelper.APPSLAUNCHER_SERVICE_NAME) == null) {
+        AppsLauncherHelper.init(MALContextFactory.getElementFactoryRegistry());
+      }
+    }
+    int kbyte = Integer.parseInt(System.getProperty(Const.APPSLAUNCHER_STD_LIMIT_PROPERTY,
+                                                    Const.APPSLAUNCHER_STD_LIMIT_DEFAULT));
+    stdLimit = kbyte * 1024; // init limit with value of property
+    publisher = createMonitorExecutionPublisher(ConfigurationProviderSingleton.getDomain(),
+        ConfigurationProviderSingleton.getNetwork(),
+        SessionType.LIVE,
+        ConfigurationProviderSingleton.getSourceSessionName(),
+        QoSLevel.BESTEFFORT,
+        null,
+        new UInteger(0));
+
+    // Shut down old service transport
+    if (null != appsLauncherServiceProvider) {
+      connection.closeAll();
+    }
+
+    this.comServices = comServices;
+    this.directoryService = directoryService;
+    manager = new AppsLauncherManager(comServices);
+    appsLauncherServiceProvider = connection.startService(
+        AppsLauncherHelper.APPSLAUNCHER_SERVICE_NAME.toString(),
+        AppsLauncherHelper.APPSLAUNCHER_SERVICE, this);
+    running = true;
+    initialiased = true;
+
+    LOGGER.log(Level.INFO, "Apps Launcher service READY");
+  }
+
+  public ConnectionProvider getConnectionProvider() {
+    return this.connection;
+  }
+
+  /**
+   * Set the common quota object used by ArchiveSync service and AppsLauncherService. The quota gets
+   * freed by ArchiveSync after synchronizing STDOUT/STDERR entries.
+   *
+   * @param q The same Quota object passed to ArchiveSyncProviderServiceImpl.
+   */
+  public void setStdQuotaPerApp(Quota q) {
+    this.stdQuota = q;
+  }
+
+  private void publishExecutionMonitoring(final Long appObjId, final String outputText,
+      ObjectType objType) {
+    try {
+      synchronized (lock) {
+        if (!isRegistered) {
+          final EntityKeyList lst = new EntityKeyList();
+          lst.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
+          publisher.register(lst, new PublishInteractionListener());
+          isRegistered = true;
         }
         int kbyte = Integer.parseInt(System.getProperty(Const.APPSLAUNCHER_STD_LIMIT_PROPERTY,
             Const.APPSLAUNCHER_STD_LIMIT_DEFAULT));
@@ -266,10 +319,11 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             }
         }
 
-        // Errors
-        if (!invIndexList.isEmpty()) {
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
-        }
+    if (!unkIndexList.isEmpty()) {
+      throw new MALInteractionException(
+              new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList)
+      );
+    }
 
         if (!unkIndexList.isEmpty()) {
             throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
@@ -510,96 +564,30 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             }
         }
 
-        if (!unkIndexList.isEmpty()) {
-            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
-        }
-
-        for (Long id : ids) { // Is the app running?
-            runningApps.add(manager.isAppRunning(id));
-        }
-
-        outList.setBodyElement0(ids);
-        outList.setBodyElement1(runningApps);
-
-        return outList;
+    @Override
+    public void publishDeregisterAckReceived(final MALMessageHeader header, final Map qosProperties)
+        throws MALException {
+      LOGGER.fine("PublishInteractionListener::publishDeregisterAckReceived");
     }
 
     @Override
-    public void setOnConfigurationChangeListener(final ConfigurationChangeListener configurationAdapter) {
-        this.configurationAdapter = configurationAdapter;
+    public void publishErrorReceived(final MALMessageHeader header, final MALErrorBody body,
+        final Map qosProperties)
+        throws MALException {
+      LOGGER.warning("PublishInteractionListener::publishErrorReceived");
     }
 
     @Override
-    public Boolean reloadConfiguration(ConfigurationObjectDetails configurationObjectDetails) {
-        // Validate the configuration...
-        if (configurationObjectDetails == null) {
-            return false;
-        }
-
-        if (configurationObjectDetails.getConfigObjects() == null) {
-            return false;
-        }
-
-        // Is the size 1?
-        if (configurationObjectDetails.getConfigObjects().size() != 1) {  // 1 because we just have Apps as configuration objects in this service
-            return false;
-        }
-
-        ConfigurationObjectSet confSet = configurationObjectDetails.getConfigObjects().get(0);
-
-        // Confirm the objType
-        if (!confSet.getObjType().equals(AppsLauncherHelper.APP_OBJECT_TYPE)) {
-            return false;
-        }
-
-        // Confirm the domain
-        if (!confSet.getDomain().equals(ConfigurationProviderSingleton.getDomain())) {
-            return false;
-        }
-
-        // If the list is empty, reconfigure the service with nothing...
-        if (confSet.getObjInstIds().isEmpty()) {
-            manager.reconfigureDefinitions(new LongList(), new AppDetailsList());   // Reconfigures the Manager
-            return true;
-        }
-
-        // ok, we're good to go...
-        // Load the App Details from this configuration...
-        AppDetailsList pDefs = (AppDetailsList) HelperArchive.getObjectBodyListFromArchive(manager.getArchiveService(),
-            AppsLauncherHelper.APP_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), confSet.getObjInstIds());
-
-        if (manager.reconfigureDefinitions(confSet.getObjInstIds(), pDefs)) {
-            for (Long id : confSet.getObjInstIds()) { // Set all running state to false
-                manager.setRunning(id, false, null);
-            }
-        } else {
-            LOGGER.log(Level.WARNING, "Failed to reconfigure definitions. Ids: {0} pDefs: {1}", new Object[]{confSet
-                .getObjInstIds(), pDefs});
-        }
-        return true;
+    public void publishRegisterAckReceived(final MALMessageHeader header, final Map qosProperties)
+        throws MALException {
+      LOGGER.fine("PublishInteractionListener::publishRegisterAckReceived");
+//            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.INFO, "Registration Ack: {0}", header.toString());
     }
 
     @Override
-    public ConfigurationObjectDetails getCurrentConfiguration() {
-        // Get all the current objIds in the serviceImpl
-        // Create a Configuration Object with all the objs of the provider
-        final HashMap<Long, Element> defObjs = manager.getCurrentDefinitionsConfiguration();
-
-        final ConfigurationObjectSet objsSet = new ConfigurationObjectSet();
-        objsSet.setDomain(ConfigurationProviderSingleton.getDomain());
-        LongList currentObjIds = new LongList();
-        currentObjIds.addAll(defObjs.keySet());
-        objsSet.setObjInstIds(currentObjIds);
-        objsSet.setObjType(AppsLauncherHelper.APP_OBJECT_TYPE);
-
-        final ConfigurationObjectSetList list = new ConfigurationObjectSetList();
-        list.add(objsSet);
-
-        // Needs the Common API here!
-        final ConfigurationObjectDetails set = new ConfigurationObjectDetails();
-        set.setConfigObjects(list);
-
-        return set;
+    public void publishRegisterErrorReceived(final MALMessageHeader header, final MALErrorBody body,
+        final Map qosProperties) throws MALException {
+      LOGGER.warning("PublishInteractionListener::publishRegisterErrorReceived");
     }
 
     @Override
@@ -635,22 +623,9 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         }
     }
 
-    private class CallbacksImpl implements ProcessExecutionHandler.Callbacks {
-
-        @Override
-        public void flushStdout(Long objId, String data) {
-            publishExecutionMonitoring(objId, data, CommandExecutorHelper.STANDARDOUTPUT_OBJECT_TYPE);
-        }
-
-        @Override
-        public void flushStderr(Long objId, String data) {
-            publishExecutionMonitoring(objId, data, CommandExecutorHelper.STANDARDERROR_OBJECT_TYPE);
-        }
-
-        @Override
-        public void processStopped(Long objId, int exitCode) {
-            manager.setRunning(objId, false, null);
-        }
+    @Override
+    public void processStopped(Long objId, int exitCode) {
+      manager.setRunning(objId, false, null);
     }
 
 }
