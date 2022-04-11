@@ -275,7 +275,8 @@ public class HelperMisc {
       } else {
         Logger.getLogger(HelperMisc.class.getName()).log(Level.WARNING,
             "The file transport.properties does not exist on the path: {0}\n"
-                    + "Is the application working directory configured properly?", transport_file_path);
+                    + "The App will fallback to the default TCP/IP Transport!", transport_file_path);
+        sysProps.putAll(getTransportDefaults());
       }
 
       if (useSharedBroker) {
@@ -324,7 +325,15 @@ public class HelperMisc {
     }
 
     System.setProperties(sysProps);
-
+  }
+  
+  private static Properties getTransportDefaults(){
+      Properties props = new Properties();
+      props.setProperty("org.ccsds.moims.mo.mal.transport.default.protocol", "maltcp://");
+      props.setProperty("org.ccsds.moims.mo.mal.transport.protocol.maltcp", "esa.mo.mal.transport.tcpip.TCPIPTransportFactoryImpl");
+      props.setProperty("org.ccsds.moims.mo.mal.encoding.protocol.maltcp", "esa.mo.mal.encoder.binary.fixed.FixedBinaryStreamFactory");
+      props.setProperty("org.ccsds.moims.mo.mal.transport.tcpip.autohost", "true");
+      return props;
   }
 
   /**
