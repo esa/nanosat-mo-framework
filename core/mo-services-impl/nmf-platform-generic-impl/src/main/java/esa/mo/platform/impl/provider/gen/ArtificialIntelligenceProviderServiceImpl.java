@@ -33,7 +33,6 @@ import org.ccsds.moims.mo.platform.PlatformHelper;
 import org.ccsds.moims.mo.platform.artificialintelligence.ArtificialIntelligenceHelper;
 import org.ccsds.moims.mo.platform.artificialintelligence.provider.ArtificialIntelligenceInheritanceSkeleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
-import org.ccsds.moims.mo.mal.structures.File;
 
 public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelligenceInheritanceSkeleton {
 
@@ -102,13 +101,12 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
     }
 
     @Override
-    public void setModel(File location, MALInteraction interaction) throws MALInteractionException, MALException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Long setModel(String modelPath, String weightsPath, MALInteraction interaction) throws MALInteractionException, MALException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public File doInference(File inputTiles, MALInteraction interaction) throws MALInteractionException, MALException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public String doInference(Long modelId, String inputTilesPath, MALInteraction interaction) throws MALInteractionException, MALException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
 }
