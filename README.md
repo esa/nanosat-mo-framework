@@ -21,20 +21,26 @@ The research was carried by Graz University of Technology in partnership with th
 ## Release
 The latest NMF SDK release tag can be downloaded in [Releases]. However, the currently recommended distribution channel is directly from Git repository.
 
-## Getting Started
-
-### Building
+## Building
 
 Prerequisites:
 
 - Java SDK 1.8 or higher
 - Apache Maven
 
-Clone this repository, set the environment variable NMF\_HOME with the path to this repository's root directory and run `mvn install` in the root directory.
+Instructions:
+
+1. Clone this repository
+
+2. Set the environment variable NMF\_HOME with the path to this repository's root directory
+
+3. Run in the root directory: `mvn install`
 
 Note that the errors about missing module descriptors during Javadoc generation are to be expected and non breaking.
 
-In order to produce independently runnable Java executables (JAR artifacts with dependencies - equivalent of statically linked executables), use `mvn install -P assembly-with-dependencies`.
+In order to produce independently runnable Java executables (JAR artifacts with dependencies - equivalent of statically linked executables), use `mvn install -P assembly-with-dependencies`
+
+## Getting Started
 
 ### SDK and examples
 
