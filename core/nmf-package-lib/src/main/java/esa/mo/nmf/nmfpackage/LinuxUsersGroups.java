@@ -20,8 +20,10 @@
  */
 package esa.mo.nmf.nmfpackage;
 
-import esa.mo.sm.impl.util.ShellCommander;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,8 +34,6 @@ import java.util.logging.Logger;
  * @author Cesar Coelho
  */
 public class LinuxUsersGroups {
-
-    private static final String NOT_FOUND = "command not found";
 
     private static final String PERMISSION_DENIED = "Permission denied";
 
@@ -58,43 +58,21 @@ public class LinuxUsersGroups {
      */
     public static void useradd(String username, String password,
             boolean withGroup, String extraGroups) throws IOException {
-        ShellCommander shell = new ShellCommander();
-
-        // First, we need to check if the "useradd" exist
-        String cmd1 = "useradd -h";
-        String out1 = shell.runCommandAndGetOutputMessageAndError(cmd1);
-
-        if (out1.contains(NOT_FOUND)) {
-            String msg = MSG_NOT_FOUND + "\n >> " + cmd1 + "\n" + out1;
-            throw new IOException(msg);
-        }
-
         // Second, we need to check if we have permissions to run the commands
-        StringBuilder useradd = new StringBuilder();
-        useradd.append("sudo ");
-        useradd.append("useradd ").append(username)
-                .append(" --create-home")
-                .append(" --shell ").append(DEFAULT_SHELL)
-                .append(withGroup ? " --user-group" : "")
-                .append(" --groups ").append(extraGroups);
         //String cmd = "useradd $user_nmf_admin -m -s /bin/bash --user-group";
         //String cmd = "useradd $user_nmf_admin --create-home --shell /bin/bash --user-group";
-
-        String cmd3 = useradd.toString();
-        String out3 = shell.runCommandAndGetOutputMessageAndError(cmd3);
-
-        if (out3.contains(PERMISSION_DENIED)) {
-            String msg = "Permission denied! For command:\n >> " + cmd3 + "\n" + out3;
-            throw new IOException(msg);
-        }
+        String group = withGroup ? "--user-group" : "";
+        String[] cmd = {"sudo", "useradd", username, "--create-home",
+            "--shell", DEFAULT_SHELL, group, "--groups", extraGroups};
+        String out = runCommand(cmd);
+        checkIfPermissionDenied(cmd, out);
 
         // Does the user account have a respective password?
         if (password != null) {
             LinuxUsersGroups.chpasswd(username, password);
         }
 
-        // Change permissions on the home directories
-        LinuxUsersGroups.printCommandAndOutput(cmd3, out3);
+        LinuxUsersGroups.printCommandAndOutput(cmd, out);
     }
 
     /**
@@ -105,33 +83,10 @@ public class LinuxUsersGroups {
      * @throws IOException if the group could not be created.
      */
     public static void addgroup(String groupName, boolean isSystemGroup) throws IOException {
-        ShellCommander shell = new ShellCommander();
-
-        // First, we need to check if the "useradd" exist
-        String cmd1 = "sudo addgroup -h";
-        String out1 = shell.runCommandAndGetOutputMessageAndError(cmd1);
-
-        if (out1.contains(NOT_FOUND)) {
-            String msg = MSG_NOT_FOUND + "\n >> " + cmd1 + "\n" + out1;
-            throw new IOException(msg);
-        }
-
-        StringBuilder addgroup = new StringBuilder();
-        addgroup.append("sudo ");
-        addgroup.append("addgroup ")
-                .append("-S ")
-                .append(groupName);
-
-        String cmd2 = addgroup.toString();
-        String out2 = shell.runCommandAndGetOutputMessageAndError(cmd2);
-
-        if (out2.contains(PERMISSION_DENIED)) {
-            String msg = "Permission denied! For command:\n >> " + cmd2 + "\n" + out2;
-            throw new IOException(msg);
-        }
-
-        // Print the command output:
-        LinuxUsersGroups.printCommandAndOutput(cmd2, out2);
+        String[] cmd = {"sudo", "addgroup", "-S", groupName};
+        String out = runCommand(cmd);
+        checkIfPermissionDenied(cmd, out);
+        LinuxUsersGroups.printCommandAndOutput(cmd, out);
     }
 
     /**
@@ -148,113 +103,59 @@ public class LinuxUsersGroups {
      */
     public static void adduser(String username, String password,
             boolean withGroup) throws IOException {
-        ShellCommander shell = new ShellCommander();
-
-        // First, we need to check if the "useradd" exist
-        String cmd1 = "sudo adduser -h";
-        String out1 = shell.runCommandAndGetOutputMessageAndError(cmd1);
-
-        if (out1.contains(NOT_FOUND)) {
-            String msg = MSG_NOT_FOUND + "\n >> " + cmd1 + "\n" + out1;
-            throw new IOException(msg);
-        }
+        // First, we need to check if the "useradd" is from BusyBox or not
+        String[] cmd1 = {"sudo", "adduser", "-h"};
+        String out1 = runCommand(cmd1);
 
         // Different Linux Systems have different syntaxes for the same command
         // So we need to check if we are using the adduser from "BusyBox" or not
         boolean isBusyBox = out1.contains("BusyBox");
 
         // Second, we need to check if we have permissions to run the commands
-        StringBuilder useradd = new StringBuilder();
-        useradd.append("sudo ");
+        String[] cmd2;
 
         if (isBusyBox) {
             if (withGroup) {
                 LinuxUsersGroups.addgroup(username, true);
             }
-            useradd.append("adduser ")
-                    .append("-s ").append(DEFAULT_SHELL)
-                    .append(withGroup ? " -G " : "")
-                    .append(withGroup ? username : "")
-                    .append(" -S ")
-                    .append(username);
+
+            cmd2 = new String[]{"sudo", "adduser", "-s", DEFAULT_SHELL,
+                withGroup ? " -G " : "", withGroup ? username : "",
+                "-S", username};
         } else {
-            useradd.append("adduser --system ")
-                    .append("--shell ").append(DEFAULT_SHELL)
-                    .append(withGroup ? " --group " : " ")
-                    .append(username);
+            cmd2 = new String[]{"sudo", "adduser", "--system",
+                "--shell", DEFAULT_SHELL, withGroup ? "--group" : "",
+                username};
         }
         //String cmd = "useradd $user_nmf_admin -m -s /bin/bash --user-group";
         //String cmd = "useradd $user_nmf_admin --create-home --shell /bin/bash --user-group";
-
-        String cmd3 = useradd.toString();
-        String out3 = shell.runCommandAndGetOutputMessageAndError(cmd3);
-
-        if (out3.contains(PERMISSION_DENIED)) {
-            String msg = "Permission denied! For command:\n >> " + cmd3 + "\n" + out3;
-            throw new IOException(msg);
-        }
+        String out2 = runCommand(cmd2);
+        checkIfPermissionDenied(cmd2, out2);
 
         // Does the user account have a respective password?
         if (password != null) {
             LinuxUsersGroups.chpasswd(username, password);
         }
 
-        // Change permissions on the home directories
-        LinuxUsersGroups.printCommandAndOutput(cmd3, out3);
+        LinuxUsersGroups.printCommandAndOutput(cmd2, out2);
     }
 
     public static void addUserToGroup(String username, String extraGroup) throws IOException {
-        ShellCommander shell = new ShellCommander();
-
-        // First, we need to check if the "useradd" exist
-        String cmd1 = "sudo adduser -h";
-        String out1 = shell.runCommandAndGetOutputMessageAndError(cmd1);
-
-        if (out1.contains(NOT_FOUND)) {
-            String msg = MSG_NOT_FOUND + "\n >> " + cmd1 + "\n" + out1;
-            throw new IOException(msg);
-        }
-
-        StringBuilder useradd = new StringBuilder();
-        useradd.append("sudo ");
-        useradd.append("adduser ")
-                .append(username)
-                .append(" ")
-                .append(extraGroup);
-
-        String cmd3 = useradd.toString();
-        String out3 = shell.runCommandAndGetOutputMessageAndError(cmd3);
-
-        if (out3.contains(PERMISSION_DENIED)) {
-            String msg = "Permission denied! For command:\n >> " + cmd3 + "\n" + out3;
-            throw new IOException(msg);
-        }
+        String[] cmd = {"sudo", "adduser", username, extraGroup};
+        String out = runCommand(cmd);
+        checkIfPermissionDenied(cmd, out);
+        LinuxUsersGroups.printCommandAndOutput(cmd, out);
     }
 
     public static void chpasswd(String username, String password) throws IOException {
-        ShellCommander shell = new ShellCommander();
-        String cmd2 = "chpasswd -h";
-        String out2 = shell.runCommandAndGetOutputMessageAndError(cmd2);
+        String[] cmd1 = {"chpasswd", "-h"};
+        String out1 = runCommand(cmd1);
 
-        if (out2.contains(NOT_FOUND)) {
-            String msg = MSG_NOT_FOUND + "\n >> " + cmd2 + "\n" + out2;
-            throw new IOException(msg);
-        }
-
-        StringBuilder chpasswd = new StringBuilder();
-        chpasswd.append("echo ")
-                .append(username).append(":").append(password)
-                .append(" | ")
-                .append("chpasswd");
         // echo $user_nmf_admin:$user_nmf_admin_password | chpasswd
-
-        String cmd4 = chpasswd.toString();
-        String out4 = shell.runCommandAndGetOutputMessageAndError(cmd4);
-
-        if (out4.contains(PERMISSION_DENIED)) {
-            String msg = "Permission denied! For command:\n >> " + cmd4 + "\n" + out4;
-            throw new IOException(msg);
-        }
+        String userWithPass = username + ":" + password;
+        String[] cmd2 = {"echo", userWithPass, "|", "chpasswd"};
+        String out2 = runCommand(cmd2);
+        checkIfPermissionDenied(cmd2, out2);
     }
 
     /**
@@ -265,26 +166,11 @@ public class LinuxUsersGroups {
      * @throws IOException if the user could not be deleted.
      */
     public static void userdel(String username, boolean removeHome) throws IOException {
-        StringBuilder cmd = new StringBuilder();
-        cmd.append("sudo ");
-        cmd.append("userdel --force ");
-        cmd.append(removeHome ? "--remove " : "");
-        cmd.append(username);
-
-        ShellCommander shell = new ShellCommander();
-        String out = shell.runCommandAndGetOutputMessageAndError(cmd.toString());
-
-        if (out.contains(NOT_FOUND)) {
-            String msg = MSG_NOT_FOUND + "\n >> " + cmd + "\n" + out;
-            throw new IOException(msg);
-        }
-
-        if (out.contains(PERMISSION_DENIED)) {
-            String msg = "Permission denied! For command:\n >> " + cmd + "\n" + out;
-            throw new IOException(msg);
-        }
-
-        LinuxUsersGroups.printCommandAndOutput(cmd.toString(), out);
+        String strRemove = removeHome ? "--remove" : "";
+        String[] cmd = {"sudo", "userdel", "--force", strRemove, username};
+        String out = runCommand(cmd);
+        checkIfPermissionDenied(cmd, out);
+        LinuxUsersGroups.printCommandAndOutput(cmd, out);
     }
 
     /**
@@ -295,26 +181,11 @@ public class LinuxUsersGroups {
      * @throws IOException if the user could not be deleted.
      */
     public static void deluser(String username, boolean removeHome) throws IOException {
-        StringBuilder cmd = new StringBuilder();
-        cmd.append("sudo ");
-        cmd.append("deluser ");
-        cmd.append(removeHome ? "--remove-home " : "");
-        cmd.append(username);
-
-        ShellCommander shell = new ShellCommander();
-        String out = shell.runCommandAndGetOutputMessageAndError(cmd.toString());
-
-        if (out.contains(NOT_FOUND)) {
-            String msg = MSG_NOT_FOUND + "\n >> " + cmd + "\n" + out;
-            throw new IOException(msg);
-        }
-
-        if (out.contains(PERMISSION_DENIED)) {
-            String msg = "Permission denied! For command:\n >> " + cmd + "\n" + out;
-            throw new IOException(msg);
-        }
-
-        LinuxUsersGroups.printCommandAndOutput(cmd.toString(), out);
+        String strRemove = removeHome ? "--remove-home" : "";
+        String[] cmd = {"sudo", "deluser", strRemove, username};
+        String out = runCommand(cmd);
+        checkIfPermissionDenied(cmd, out);
+        LinuxUsersGroups.printCommandAndOutput(cmd, out);
     }
 
     /**
@@ -328,81 +199,87 @@ public class LinuxUsersGroups {
      * @throws IOException if the permissions could not be changed.
      */
     public static void chmod(boolean sudo, boolean recursive, String mode, String path) throws IOException {
-        StringBuilder cmd = new StringBuilder();
-        cmd.append(sudo ? "sudo " : "");
-        cmd.append("chmod ");
-        cmd.append(recursive ? "--recursive " : "");
-        cmd.append(mode);
-        cmd.append(" ");
-        cmd.append(path);
+        String strRecursive = recursive ? "--recursive" : "";
+        //String[] cmd = {sudo ? "sudo" : "", "chmod", strRecursive, mode, path};
+        String[] cmd = sudo
+                ? new String[]{"sudo", "chmod", strRecursive, mode, path}
+                : new String[]{"chmod", strRecursive, mode, path};
 
-        ShellCommander shell = new ShellCommander();
-        String out = shell.runCommandAndGetOutputMessageAndError(cmd.toString());
-
-        if (out.contains(NOT_FOUND)) {
-            String msg = MSG_NOT_FOUND + "\n >> " + cmd + "\n" + out;
-            throw new IOException(msg);
-        }
-
-        if (out.contains(PERMISSION_DENIED)) {
-            String msg = "Permission denied! For command:\n >> " + cmd + "\n" + out;
-            throw new IOException(msg);
-        }
-
-        LinuxUsersGroups.printCommandAndOutput(cmd.toString(), out);
+        String out = runCommand(cmd);
+        checkIfPermissionDenied(cmd, out);
+        LinuxUsersGroups.printCommandAndOutput(cmd, out);
     }
 
     public static void chgrp(boolean recursive, String newGroup, String path) throws IOException {
-        StringBuilder cmd = new StringBuilder();
-        cmd.append("sudo ");
-        cmd.append("chgrp ");
-        cmd.append(recursive ? "--recursive " : "");
-        cmd.append(newGroup);
-        cmd.append(" ");
-        cmd.append(path);
-
-        ShellCommander shell = new ShellCommander();
-        String out = shell.runCommandAndGetOutputMessageAndError(cmd.toString());
-
-        if (out.contains(NOT_FOUND)) {
-            String msg = MSG_NOT_FOUND + "\n >> " + cmd + "\n" + out;
-            throw new IOException(msg);
-        }
-
-        if (out.contains(PERMISSION_DENIED)) {
-            String msg = "Permission denied! For command:\n >> " + cmd + "\n" + out;
-            throw new IOException(msg);
-        }
-
-        LinuxUsersGroups.printCommandAndOutput(cmd.toString(), out);
+        String[] cmd = {"sudo", "chgrp", recursive ? "--recursive" : "", newGroup, path};
+        String out = runCommand(cmd);
+        checkIfPermissionDenied(cmd, out);
+        LinuxUsersGroups.printCommandAndOutput(cmd, out);
     }
 
     public static String findHomeDir(String username) throws IOException {
-        StringBuilder cmd = new StringBuilder();
-        cmd.append("cat /etc/passwd | grep '");
-        cmd.append(username);
-        cmd.append(":' | cut -d ':' -f6");
+        // Get the list of users and respective folders
+        String[] cmd = {"cat", "/etc/passwd"};
+        String out = runCommand(cmd);
+        checkIfPermissionDenied(cmd, out);
+        String[] lines = out.split("\\R");
 
-        ShellCommander shell = new ShellCommander();
-        String out = shell.runCommandAndGetOutputMessageAndError(cmd.toString());
-
-        if (out.contains(NOT_FOUND)) {
-            String msg = MSG_NOT_FOUND + "\n >> " + cmd + "\n" + out;
-            throw new IOException(msg);
+        for (String line : lines) {
+            if (line.contains(username)) {
+                return line.split(":")[5];
+            }
         }
 
-        if (out.contains(PERMISSION_DENIED)) {
-            String msg = "Permission denied! For command:\n >> " + cmd + "\n" + out;
-            throw new IOException(msg);
-        }
-
-        LinuxUsersGroups.printCommandAndOutput(cmd.toString(), out);
-        return out;
+        throw new IOException("The HomeDir was not found for user: " + username);
     }
 
-    public static void printCommandAndOutput(String cmd, String out) {
+    public static void printCommandAndOutput(String[] cmd, String out) {
         Logger.getLogger(LinuxUsersGroups.class.getName()).log(Level.INFO,
-                "Executed command: " + cmd + "\n" + out);
+                "Executed command: " + String.join(" ", cmd) + "\n" + out);
+    }
+
+    private static void checkIfPermissionDenied(String[] cmd, String out) throws IOException {
+        if (out.contains(PERMISSION_DENIED)) {
+            String msg = "Permission denied! For command:\n >> "
+                    + String.join(" ", cmd) + "\n" + out;
+            throw new IOException(msg);
+        }
+    }
+
+    private static String runCommand(String[] cmd) throws IOException {
+        try {
+            Process p = Runtime.getRuntime().exec(cmd, null, null);
+            boolean terminated = p.waitFor(10, TimeUnit.SECONDS);
+
+            if (!terminated) {
+                Logger.getLogger(LinuxUsersGroups.class.getName()).log(
+                        Level.SEVERE,
+                        "Timeout reached: The process is stuck... "
+                        + "therefore the process was killed!");
+
+                p.destroyForcibly();
+            }
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            StringBuilder buffer = new StringBuilder();
+            String line;
+            while ((line = br.readLine()) != null) {
+                buffer.append(line);
+                buffer.append("\n");
+            }
+
+            int exitValue = p.exitValue();
+            String out = buffer.toString();
+
+            if (exitValue == 127) { // Command not found!
+                throw new IOException(MSG_NOT_FOUND
+                        + "\n >> " + String.join(" ", cmd) + "\n" + out);
+            }
+
+            return out;
+        } catch (InterruptedException ex) {
+            throw new IOException(ex);
+        }
     }
 
 }
