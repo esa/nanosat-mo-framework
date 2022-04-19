@@ -40,10 +40,24 @@ public class ShellCommander {
     public ShellCommander() {
     }
 
+    /**
+     * Runs a command on the OS shell. Note that the input is not being
+     * sanitized and therefore, this method should not have any user inputs!
+     *
+     * @param cmd The command to run
+     * @return The Process
+     */
     public Process runCommand(String cmd) {
         return this.runCommand(cmd, null);
     }
 
+    /**
+     * Runs a command on the OS shell. Note that the input is not being
+     * sanitized and therefore, this method should not have any user inputs!
+     *
+     * @param cmd The command to run
+     * @return The output
+     */
     public String runCommandAndGetOutputMessage(String cmd) {
         try {
             Process proc = this.runCommand(cmd, null);
@@ -58,13 +72,20 @@ public class ShellCommander {
 
             return output.getMessage();
         } catch (InterruptedException ex) {
-            Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE, 
+            Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE,
                     "The thread was interrupted!", ex);
         }
 
         return "";
     }
 
+    /**
+     * Runs a command on the OS shell. Note that the input is not being
+     * sanitized and therefore, this method should not have any user inputs!
+     *
+     * @param cmd The command to run
+     * @return The output from the command
+     */
     public String runCommandAndGetOutputMessageAndError(String cmd) {
         try {
             Process proc = this.runCommand(cmd, null);
@@ -86,6 +107,14 @@ public class ShellCommander {
         return "";
     }
 
+    /**
+     * Runs a command on the OS shell. Note that the input is not being
+     * sanitized and therefore, this method should not have any user inputs!
+     *
+     * @param cmd The command to run
+     * @param dirPath The working directory of the process
+     * @return
+     */
     public Process runCommand(String cmd, File dirPath) {
         try {
             Process proc;
