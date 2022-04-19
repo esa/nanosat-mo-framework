@@ -20,10 +20,25 @@
  */
 package esa.mo.platform.impl.provider.gen;
 
-import org.ccsds.moims.mo.mal.structures.Time;
+import java.io.IOException;
 
 public interface ArtificialIntelligenceAdapterInterface {
 
-    public Time setModel();
+    /**
+     * Sets a model to the Artificial Intelligence device.
+     *
+     * @param modelPath The file path to the model.
+     * @param weightsPath The file path to the weights of the model.
+     * @throws IOException If the model was not set.
+     */
+    public void setModel(String modelPath, String weightsPath) throws IOException;
+
+    /**
+     * Executes the inference on the Artificial Intelligence device.
+     *
+     * @param path The file path to a folder with a set of files to be
+     * processed.
+     */
+    public void executeInference(String path);
 
 }
