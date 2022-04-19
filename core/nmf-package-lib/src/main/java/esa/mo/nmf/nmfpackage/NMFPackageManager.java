@@ -63,6 +63,14 @@ public class NMFPackageManager {
 
     private static final String SEPARATOR = "--------------\n";
 
+    /**
+     * Installs an NMF Package on the specified NMF root folder.
+     *
+     * @param packageLocation The NMF Package location
+     * @param nmfDir The NMF root directory
+     * @throws FileNotFoundException if the file was not found
+     * @throws IOException if there was a problem with the NMF Package
+     */
     public static void install(final String packageLocation,
             final File nmfDir) throws FileNotFoundException, IOException {
         System.out.printf(SEPARATOR);
@@ -178,13 +186,15 @@ public class NMFPackageManager {
         String transportContent = HelperNMFPackage.generateTransportProperties();
         NMFPackageManager.writeFile(transportPath, transportContent);
 
-        // Change Group owner of the installationDir
-        if (username != null) {
-            LinuxUsersGroups.chgrp(true, username, installationDir.getAbsolutePath());
-        }
+        if ((new OSValidator()).isUnix()) {
+            // Change Group owner of the installationDir
+            if (username != null) {
+                LinuxUsersGroups.chgrp(true, username, installationDir.getAbsolutePath());
+            }
 
-        // chmod the installation directory with recursive
-        LinuxUsersGroups.chmod(false, true, "750", installationDir.getAbsolutePath());
+            // chmod the installation directory with recursive
+            LinuxUsersGroups.chmod(false, true, "750", installationDir.getAbsolutePath());
+        }
 
         // ---------------------------------------
         // Store a copy of the newReceipt to know that it has been installed!
@@ -216,6 +226,13 @@ public class NMFPackageManager {
         System.out.printf(SEPARATOR);
     }
 
+    /**
+     * Uninstalls an NMF Package using the respective package descriptor.
+     *
+     * @param descriptor The desccriptor
+     * @param keepUserData A flag that sets if the user data is kept
+     * @throws IOException if there was a problem during the uninstallation
+     */
     public static void uninstall(final NMFPackageDescriptor descriptor,
             final boolean keepUserData) throws IOException {
         System.out.printf(SEPARATOR);
@@ -249,11 +266,13 @@ public class NMFPackageManager {
         }
         // ---------------------------------------
 
-        // We need to delete the respective user here!!
-        //LinuxUsersGroups.userdel(generateUsername(appName), true);
-        if (!keepUserData) {
-            String username = generateUsername(appName);
-            LinuxUsersGroups.deluser(username, true);
+        if ((new OSValidator()).isUnix()) {
+            // We need to delete the respective user here!!
+            //LinuxUsersGroups.userdel(generateUsername(appName), true);
+            if (!keepUserData) {
+                String username = generateUsername(appName);
+                LinuxUsersGroups.deluser(username, true);
+            }
         }
 
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
@@ -278,6 +297,13 @@ public class NMFPackageManager {
         NMFPackageManager.removeFile(new File(startPath));
     }
 
+    /**
+     * Upgrades an NMF Package with a newer version.
+     *
+     * @param packageLocation The NMF Package location
+     * @param nmfDir The NMF root directory
+     * @throws IOException if the package could not be upgraded
+     */
     public static void upgrade(final String packageLocation, final File nmfDir) throws IOException {
         System.out.printf(SEPARATOR);
         // Get the Package to be uninstalled
@@ -370,13 +396,15 @@ public class NMFPackageManager {
         String transportContent = HelperNMFPackage.generateTransportProperties();
         NMFPackageManager.writeFile(transportPath, transportContent);
 
-        // Change Group owner of the installationDir
-        if (username != null) {
-            LinuxUsersGroups.chgrp(true, username, installationDir.getAbsolutePath());
-        }
+        if ((new OSValidator()).isUnix()) {
+            // Change Group owner of the installationDir
+            if (username != null) {
+                LinuxUsersGroups.chgrp(true, username, installationDir.getAbsolutePath());
+            }
 
-        // chmod the installation directory with recursive
-        LinuxUsersGroups.chmod(false, true, "750", installationDir.getAbsolutePath());
+            // chmod the installation directory with recursive
+            LinuxUsersGroups.chmod(false, true, "750", installationDir.getAbsolutePath());
+        }
 
         // ---------------------------------------
         // Store a copy of the newReceipt to know that it has been installed!
@@ -404,7 +432,8 @@ public class NMFPackageManager {
     }
 
     /**
-     * Based on the name, goes to the receipts folder and checks.
+     * Checks if a certain NMF package is installed. Based on the name, goes to
+     * the receipts folder and checks.
      *
      * @param packageLocation The package location.
      * @return If it is installed or not.
