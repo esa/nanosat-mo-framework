@@ -184,7 +184,8 @@ public class CameraAcquisitorSystemCameraTargetHandler
     );
     LOGGER.log(Level.INFO, "Starting Timer for Photograph, Number of Seconds: {0}", seconds);
 
-    return new UInteger(0);
+    return null;
+    //return new UInteger(0);
   }
 
   /**

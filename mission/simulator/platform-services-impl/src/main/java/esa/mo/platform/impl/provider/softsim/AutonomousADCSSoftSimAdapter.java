@@ -109,7 +109,7 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
 
       float[] latitudeLongitude = new float[2];
       latitudeLongitude[0] = targetTrackingAtt.getLatitude();
-      latitudeLongitude[0] = targetTrackingAtt.getLongitude();
+      latitudeLongitude[1] = targetTrackingAtt.getLongitude();
 
       instrumentsSimulator.getpFineADCS().opModeSetFixWGS84TargetTracking(MODE_START,
           BEGIN_END_TIMES, latitudeLongitude);
