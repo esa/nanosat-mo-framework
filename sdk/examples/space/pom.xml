@@ -72,6 +72,7 @@
     <module>camera</module>
     <module>camera-acquisitor-system</module>
     <module>echo</module>
+    <module>edge-ai</module>
     <module>gps</module>
     <module>hello-world-full</module>
     <module>hello-world-simple</module>
