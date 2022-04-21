@@ -22,26 +22,13 @@ package esa.mo.nmf.apps;
 
 import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
 import esa.mo.nmf.spacemoadapter.SpaceMOApdapterImpl;
+import org.ccsds.moims.mo.mal.structures.URI;
 
 /**
- * App connects to a GPS space app and logs the GPS parameter values that it receives.
+ * App connects to a GPS space app and logs the GPS parameter values that it
+ * receives.
  */
 public class DemoSpace2Space {
-
-    public DemoSpace2Space()
-    {
-        Space2SpaceAdapter adapter = new Space2SpaceAdapter();
-        NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
-        connector.init(adapter);
-
-        // Initialize application's NMF consumer (consuming the supervisor)
-        SpaceMOApdapterImpl spaceAppSMA =
-                SpaceMOApdapterImpl.forNMFApp(connector.readCentralDirectoryServiceURI(), "gps");
-
-        adapter.setConnector(connector);
-        adapter.setSpaceAppSMA(spaceAppSMA);
-        adapter.fetchGPSParameters();
-    }
 
     /**
      * Main command line entry point.
@@ -52,4 +39,19 @@ public class DemoSpace2Space {
     public static void main(final String[] args) throws Exception {
         DemoSpace2Space demo = new DemoSpace2Space();
     }
+
+    public DemoSpace2Space() {
+        Space2SpaceAdapter adapter = new Space2SpaceAdapter();
+        NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
+        connector.init(adapter);
+
+        // Initialize application's NMF consumer (consuming the supervisor)
+        URI uri = connector.readCentralDirectoryServiceURI();
+        SpaceMOApdapterImpl spaceAppSMA = SpaceMOApdapterImpl.forNMFApp(uri, "gps");
+
+        adapter.setConnector(connector);
+        adapter.setSpaceAppSMA(spaceAppSMA);
+        adapter.fetchGPSParameters();
+    }
+
 }

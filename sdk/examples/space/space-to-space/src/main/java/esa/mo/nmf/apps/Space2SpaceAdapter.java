@@ -46,21 +46,19 @@ public class Space2SpaceAdapter extends MonitorAndControlNMFAdapter {
 
     private List<String> parametersNames = new ArrayList<>();
 
-    public void setConnector(NanoSatMOConnectorImpl connector)
-    {
+    public void setConnector(NanoSatMOConnectorImpl connector) {
         this.connector = connector;
 
         // Define application behavior when closed
         this.connector.setCloseAppListener(new CloseAppListener() {
             @Override
             public Boolean onClose() {
-                return Space2SpaceAdapter.this.onClose();
+                return closeApp();
             }
         });
     }
 
-    public void setSpaceAppSMA(SpaceMOApdapterImpl spaceAppSMA)
-    {
+    public void setSpaceAppSMA(SpaceMOApdapterImpl spaceAppSMA) {
         this.spaceAppSMA = spaceAppSMA;
     }
 
@@ -98,9 +96,7 @@ public class Space2SpaceAdapter extends MonitorAndControlNMFAdapter {
         LOGGER.log(Level.INFO, "Started fetching parameters");
     }
 
-
-    public Boolean onClose()
-    {
+    public Boolean closeApp() {
         boolean success = true;
         // Stop fetching data in supervisor
         try {
