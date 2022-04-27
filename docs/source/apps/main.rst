@@ -46,8 +46,8 @@ defined parameters one would obtain the GPS consumer as follows :
 
 .. code-block:: java
    :linenos:
-SpaceMOApdapterImpl gpsSMA =
-                SpaceMOApdapterImpl.forNMFApp(connector.readCentralDirectoryServiceURI(), "gps");
+   
+   SpaceMOApdapterImpl gpsSMA = SpaceMOApdapterImpl.forNMFApp(connector.readCentralDirectoryServiceURI(), "gps");
 .. contents::
 
 Full examples of these can be found under space app examples.
