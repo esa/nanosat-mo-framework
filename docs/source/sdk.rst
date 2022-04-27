@@ -52,7 +52,7 @@ How to do all of that is described further in the next section.
 
 Running the CubeSat Simulator
 ---------------
-You can run a CubeSat simulator to try out your app in a playground environment which mimics the a CubeSat system.
+You can run a CubeSat simulator to try out your app in a playground environment which mimics the CubeSat system.
 
 In order to do this, Please do the following:
 
