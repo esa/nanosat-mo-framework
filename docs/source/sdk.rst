@@ -3,7 +3,7 @@ SDK
 ===
 The NMF includes a Software Development Kit (or SDK).
 
-The SDK provides support and tools to develop and test your space apps and ground applications. The SDK generator is located is the **sdk/** folder of the repository. 
+The SDK provides support and tools to develop and test your space apps and ground applications. The SDK generator is located in the **sdk/** folder of the repository. 
 To generate the SDK you must build the code by running ``mvn install`` in the **sdk/** directory.
 
 This will build all examples and put them into a zip release and a folder which you can find under **sdk/sdk-package/target/**.
