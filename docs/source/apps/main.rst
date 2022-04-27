@@ -48,7 +48,6 @@ defined parameters one would obtain the GPS consumer as follows :
    :linenos:
    
    SpaceMOApdapterImpl gpsSMA = SpaceMOApdapterImpl.forNMFApp(connector.readCentralDirectoryServiceURI(), "gps");
-.. contents::
 
 Full examples of these can be found under space app examples.
 Space-to-space-supervisor app connects to the supervisor, listens and logs some of the parameter values from it.
