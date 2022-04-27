@@ -110,7 +110,11 @@ public class DatabaseBackend {
         }
 
         try {
-            PreparedStatement create = serverConnection.prepareStatement("CREATE TABLE IF NOT EXISTS COMObjectEntity (objectTypeId INTEGER NOT NULL, objId BIGINT NOT NULL, domainId INTEGER NOT NULL, network INTEGER, objBody BLOB, providerURI INTEGER, relatedLink BIGINT, sourceLinkDomainId INTEGER, sourceLinkObjId BIGINT, sourceLinkObjectTypeId INTEGER, timestampArchiveDetails BIGINT, PRIMARY KEY (objectTypeId, objId, domainId))");
+            String blobType = "BLOB";
+            if(this.url.contains("postgresql")) {
+                blobType = "bytea";
+            }
+            PreparedStatement create = serverConnection.prepareStatement("CREATE TABLE IF NOT EXISTS COMObjectEntity (objectTypeId INTEGER NOT NULL, objId BIGINT NOT NULL, domainId INTEGER NOT NULL, network INTEGER, objBody " + blobType + ", providerURI INTEGER, relatedLink BIGINT, sourceLinkDomainId INTEGER, sourceLinkObjId BIGINT, sourceLinkObjectTypeId INTEGER, timestampArchiveDetails BIGINT, PRIMARY KEY (objectTypeId, objId, domainId))");
             create.execute();
             create = serverConnection.prepareStatement("CREATE TABLE IF NOT EXISTS LastArchiveSync (id BIGINT NOT NULL, provider_uri TEXT NOT NULL, domain TEXT NOT NULL, last_sync BIGINT NOT NULL)");
             create.execute();

@@ -28,6 +28,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -39,6 +40,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.archive.structures.PaginationFilter;
 import org.ccsds.moims.mo.com.archive.structures.QueryFilter;
@@ -169,7 +172,85 @@ public class TransactionsProcessor {
         return (getCOMObject(objTypeId, domain, objId) != null);
     }
 
-    public LongList getAllCOMObjects(final Integer objTypeId, final Integer domainId) {
+    public List<COMObjectEntity> getCOMObjects(final Integer objTypeId, final Integer domainId, final LongList ids) {
+        this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
+
+        Future<List<COMObjectEntity>> future = dbTransactionsExecutor.submit(new Callable() {
+            @Override
+            public List<COMObjectEntity> call() {
+                try {
+                    dbBackend.getAvailability().acquire();
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                List<COMObjectEntity> perObjs = new ArrayList<>();
+                Connection c = dbBackend.getConnection();
+
+                try {
+                    String idsString = ids.stream().map(Object::toString).collect(Collectors.joining(", "));
+//                    String fieldsList = "objectTypeId, domainId, objId, timestampArchiveDetails, providerURI, network, sourceLinkObjectTypeId, sourceLinkDomainId, sourceLinkObjId, relatedLink, objBody";
+                    String stm = "SELECT objectTypeId, domainId, objId, timestampArchiveDetails, providerURI, network, sourceLinkObjectTypeId, sourceLinkDomainId, sourceLinkObjId, relatedLink, objBody FROM COMObjectEntity WHERE ((objectTypeId = ?) AND (domainId = ?) AND (objId in ("+ idsString +")))";
+                    PreparedStatement getCOMObject = c.prepareStatement(stm);
+//                    getCOMObject.setString(1, fieldsList);
+                    getCOMObject.setInt(1, objTypeId);
+                    getCOMObject.setInt(2, domainId);
+//                    getCOMObject.setString(3, idsString);
+
+                    ResultSet rs = getCOMObject.executeQuery();
+
+                    while (rs.next()) {
+                        perObjs.add(new COMObjectEntity(
+                                            (Integer) rs.getObject(1),
+                                            (Integer) rs.getObject(2),
+                                            convert2Long(rs.getObject(3)),
+                                            convert2Long(rs.getObject(4)),
+                                            (Integer) rs.getObject(5),
+                                            (Integer) rs.getObject(6),
+                                            new SourceLinkContainer((Integer) rs.getObject(7), (Integer) rs.getObject(8), convert2Long(rs.getObject(9))),
+                                            convert2Long(rs.getObject(10)),
+                                            (byte[]) rs.getObject(11))
+                                   );
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                dbBackend.getAvailability().release();
+                return perObjs;
+            }
+        });
+
+        try {
+            return future.get();
+        } catch (InterruptedException | ExecutionException ex) {
+            Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return null;
+    }
+
+    public List<COMObjectEntity> getAllCOMObjects(final Integer objTypeId, final Integer domainId) {
+        this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
+
+        IntegerList types = new IntegerList();
+        types.add(objTypeId);
+        IntegerList domains = new IntegerList();
+        domains.add(domainId);
+        ArchiveQuery archiveQuery = new ArchiveQuery(null, null, null, 0L, null, null, null, null, null);
+        QueryCallable query = new QueryCallable(types, archiveQuery, domains, null, null, null, null);
+        Future<List<COMObjectEntity>> future = dbTransactionsExecutor.submit(query);
+
+        try {
+            return future.get();
+        } catch (InterruptedException | ExecutionException ex) {
+            Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return null;
+    }
+
+    public LongList getAllCOMObjectsIds(final Integer objTypeId, final Integer domainId) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
 
         Future<LongList> future = dbTransactionsExecutor.submit(new Callable() {
@@ -205,9 +286,7 @@ public class TransactionsProcessor {
 
         try {
             return future.get();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ExecutionException ex) {
+        } catch (InterruptedException | ExecutionException ex) {
             Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -297,7 +376,9 @@ public class TransactionsProcessor {
                     dbBackend.getAvailability().release();
                 }
 
-                generalExecutor.submit(publishEvents);
+                if(publishEvents != null) {
+                  generalExecutor.submit(publishEvents);
+                }
             }
         });
     }
@@ -348,7 +429,9 @@ public class TransactionsProcessor {
                 }
 
                 dbBackend.getAvailability().release();
+              if(publishEvents != null) {
                 generalExecutor.submit(publishEvents);
+              }
                 vacuum();
             }
         });
@@ -419,7 +502,9 @@ public class TransactionsProcessor {
 
                 dbBackend.getAvailability().release();
 
+              if(publishEvents != null) {
                 generalExecutor.submit(publishEvents);
+              }
             }
         });
     }
@@ -476,22 +561,22 @@ public class TransactionsProcessor {
       final boolean providerURIContainsWildcard = (archiveQuery.getProvider() == null);
       final boolean networkContainsWildcard = (archiveQuery.getNetwork() == null);
 
-            final boolean sourceContainsWildcard = (archiveQuery.getSource() == null);
-            boolean sourceObjIdContainsWildcard = true;
+      final boolean sourceContainsWildcard = (archiveQuery.getSource() == null);
+      boolean sourceObjIdContainsWildcard = true;
 
-            dbBackend.createIndexesIfFirstTime();
+      dbBackend.createIndexesIfFirstTime();
 
-            if (!sourceContainsWildcard) {
-                sourceObjIdContainsWildcard
-                        = (archiveQuery.getSource().getKey().getInstId() == null || archiveQuery.getSource().getKey().getInstId() == 0);
-            }
+      if (!sourceContainsWildcard) {
+          sourceObjIdContainsWildcard
+                  = (archiveQuery.getSource().getKey().getInstId() == null || archiveQuery.getSource().getKey().getInstId() == 0);
+      }
 
       // Generate the query string
-      String fieldsList = "objectTypeId, objId, domainId, network, OBJ, providerURI, "
-          + "relatedLink, sourceLinkDomainId, sourceLinkObjId, sourceLinkObjectTypeId, timestampArchiveDetails";
+      String fieldsList = "objectTypeId, domainId, objId, timestampArchiveDetails, providerURI, " +
+                          "network, sourceLinkObjectTypeId, sourceLinkDomainId, sourceLinkObjId, relatedLink, objBody";
       String queryString = queryType.getQueryPrefix() + " " + (queryType == QueryType.SELECT ? fieldsList : "") + " FROM COMObjectEntity ";
 
-            queryString += "WHERE ";
+      queryString += "WHERE ";
 
       queryString += generateQueryStringFromLists("domainId", domainIds);
       queryString += generateQueryStringFromLists("objectTypeId", objTypeIds);
@@ -552,6 +637,11 @@ public class TransactionsProcessor {
             try {
                 Connection c = dbBackend.getConnection();
                 PreparedStatement query = c.prepareStatement(queryString);
+                if (queryType.equals(QueryType.DELETE)) {
+                    int result =  query.executeUpdate();
+                    dbBackend.getAvailability().release();
+                    return result;
+                }
                 ResultSet rs = query.executeQuery();
 
                 while (rs.next()) {

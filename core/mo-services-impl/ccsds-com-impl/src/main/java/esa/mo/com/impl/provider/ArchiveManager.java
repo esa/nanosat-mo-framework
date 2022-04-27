@@ -437,10 +437,6 @@ public class ArchiveManager {
         return objIds;
     }
 
-    public void quickRemoveEntries(final List<COMObjectEntity> objs) {
-        this.dbProcessor.quickRemove(objs);
-    }
-
     public ArrayList<ArchivePersistenceObject> query(final ObjectType objType,
             final ArchiveQuery archiveQuery, final QueryFilter filter) {
         final ArrayList<COMObjectEntity> perObjs = this.queryCOMObjectEntity(objType, archiveQuery, filter);
