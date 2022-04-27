@@ -64,6 +64,7 @@ public abstract class MCManager {
     // Maps all existing Identity objects names that exists in the archive to their ID
     // Identity objects type for which names are stored depends on the implementation class (ParameterIdentity, ActionIdentity...)
     private HashMap<Identifier, Long> storedNamesToIdMap;
+    private HashMap<Long, Identifier> objIdToNameMap;
 
     private final EventProviderServiceImpl eventService;
     private final ArchiveProviderServiceImpl archiveService;
@@ -72,10 +73,11 @@ public abstract class MCManager {
     private final GroupServiceImpl groupService = new GroupServiceImpl();
 
     protected MCManager(COMServicesProvider comServices) {
-
         this.identitiesToNamesMap = new HashMap<>();
         this.namesToPairsMap = new HashMap<>();
         this.objIdToDefMap = new HashMap<>();
+        this.objIdToNameMap = new HashMap<>();
+
         this.storedNamesToIdMap = null;
 
         if (comServices != null) {
@@ -160,6 +162,19 @@ public abstract class MCManager {
         return this.namesToPairsMap.get(name);
     }
 
+    public synchronized Identifier getNameFromObjId(Long objId) {
+        Identifier out = objIdToNameMap.get(objId);
+
+        if (out == null) { // Refresh if could not be found
+            for (Identifier name : namesToPairsMap.keySet()) {
+                objIdToNameMap.put(namesToPairsMap.get(name).getObjDefInstanceId(), name);
+            }
+            return objIdToNameMap.get(objId);
+        }
+
+        return out;
+    }
+
     /**
      * Gets the details of the definition with the given id.
      *
@@ -167,9 +182,6 @@ public abstract class MCManager {
      * @return the definition-details. Or Null if not found.
      */
     public synchronized Element getDefinition(Long identityId) {
-        // This must be fast!
-
-        // Needs further optimization...
         final Identifier name = this.identitiesToNamesMap.get(identityId);
 
         if (name == null) {
@@ -425,8 +437,7 @@ public abstract class MCManager {
     protected synchronized Long retrieveIdentityIdByNameFromArchive(IdentifierList domain,
             Identifier name, ObjectType identitysObjectType) {
         // We never queried the archive -> do it once
-        if(storedNamesToIdMap == null)
-        {
+        if (storedNamesToIdMap == null) {
             final ArchiveProviderServiceImpl archive = getArchiveService();
             if (archive == null) { // If there's no archive...
                 return null;
