@@ -381,7 +381,7 @@ public final class ActionManager extends MCManager {
     protected void forward(final Long actionInstId, final ActionInstanceDetails actionDetails,
             final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
         //TODO: after issue I expect to get the identity-id here -> issue #179
-        final Identifier name = getName(actionDetails.getDefInstId());
+        final Identifier name = this.getNameFromObjId(actionDetails.getDefInstId());
 
         actionsExecutor.execute(() -> {
             try {
@@ -423,9 +423,8 @@ public final class ActionManager extends MCManager {
 
     protected void execute(final Long actionInstId, final ActionInstanceDetails actionDetails,
             final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
-
         actionInstances.put(actionInstId, actionDetails);
-        final Identifier name = this.getName(actionDetails.getDefInstId());
+        final Identifier name = this.getNameFromObjId(actionDetails.getDefInstId());
 
         actionsExecutor.execute(() -> {
             final ActionDefinitionDetails actionDefinition = getActionDefinitionFromDefId(actionDetails.getDefInstId());
