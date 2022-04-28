@@ -25,8 +25,10 @@ The latest NMF SDK release tag can be downloaded in [Releases]. However, the cur
 
 Prerequisites:
 
-- Java SDK 1.8 or higher
-- Apache Maven
+1. Java SDK 1.8 (will work with higher JDKs but 1.8 is the recommended)
+    > In Linux: `sudo apt-get install openjdk-8-jdk`
+2. Apache Maven
+    > In Linux: `sudo apt-get install maven`
 
 Instructions:
 
