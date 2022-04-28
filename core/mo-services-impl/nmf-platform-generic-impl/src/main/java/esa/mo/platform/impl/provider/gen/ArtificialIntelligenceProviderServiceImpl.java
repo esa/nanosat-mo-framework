@@ -101,7 +101,7 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
     }
 
     @Override
-    public Long setModel(String modelPath, String weightsPath, MALInteraction interaction) throws MALInteractionException, MALException {
+    public Long setModel(String modelPath, MALInteraction interaction) throws MALInteractionException, MALException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
