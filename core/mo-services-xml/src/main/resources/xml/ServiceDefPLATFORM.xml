@@ -2161,11 +2161,7 @@
           <mal:messages>
             <mal:request comment="">
               <mal:field canBeNull="false"
-                comment="The modelPath field holds the path to the file of the model." name="modelPath">
-                <mal:type area="MAL" list="false" name="String" />
-              </mal:field>
-              <mal:field canBeNull="false"
-                comment="The weightsPath field holds the path to the file of the model weights." name="weightsPath">
+                comment="The modelPath field holds the absolute path to the file of the model." name="modelPath">
                 <mal:type area="MAL" list="false" name="String" />
               </mal:field>
             </mal:request>
@@ -2189,13 +2185,13 @@
                 <mal:type area="MAL" list="false" name="Long" />
               </mal:field>
               <mal:field canBeNull="false"
-                comment="The inputTiles field holds the path to a folder with the tiles to be processed." name="inputTilesPath">
+                comment="The inputTiles field holds the absolute path to a folder with the tiles to be processed." name="inputTilesPath">
                 <mal:type area="MAL" list="false" name="String" />
               </mal:field>
             </mal:request>
             <mal:response comment="">
               <mal:field canBeNull="false"
-                comment="The outputTiles field holds the path to a folder with the infered tiles." name="outputTilesPath">
+                comment="The outputTiles field holds the absolute path to a folder with the infered tiles." name="outputTilesPath">
                 <mal:type area="MAL" list="false" name="String" />
               </mal:field>
             </mal:response>
