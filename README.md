@@ -25,18 +25,28 @@ The latest NMF SDK release tag can be downloaded in [Releases]. However, the cur
 
 Prerequisites:
 
-1. Java SDK 1.8 (will work with higher JDKs but 1.8 is the recommended)
-    > In Linux: `sudo apt-get install openjdk-8-jdk`
+1. Java SDK 1.8 (will work with higher SDKs but 1.8 is the recommended)
+```bash
+sudo apt-get install openjdk-8-jdk
+```
 2. Apache Maven
-    > In Linux: `sudo apt-get install maven`
+```bash
+sudo apt-get install maven
+```
 
 Instructions:
 
 1. Clone this repository
 
 2. Set the environment variable NMF\_HOME with the path to this repository's root directory
+```bash
+export NMF_HOME=path_to_repository
+```
 
-3. Run in the root directory: `mvn install`
+3. Run in the root directory:
+```bash
+mvn install
+```
 
 Note that the errors about missing module descriptors during Javadoc generation are to be expected and non breaking.
 
