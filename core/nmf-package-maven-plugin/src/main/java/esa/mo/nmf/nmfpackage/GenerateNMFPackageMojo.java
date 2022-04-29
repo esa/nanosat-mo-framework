@@ -68,7 +68,7 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
     @Parameter(property = "generate-nmf-package.nmfVersion", defaultValue = "${esa.nmf.version-qualifier}")
     private String nmfVersion;
 
-    @Parameter(property = "generate-nmf-package.maxHeap")
+    @Parameter(property = "generate-nmf-package.maxHeap", defaultValue = "128m")
     private String maxHeap;
 
     /**
