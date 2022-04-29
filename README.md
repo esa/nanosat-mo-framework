@@ -74,7 +74,9 @@ Or directly in the respective source code repository.
 
 ## License
 
-The NanoSat MO Framework is **licensed** under the **[European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4]**.
+The NanoSat MO Framework is **licensed** under:
+
+**[European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4]**.
 
 [![][ESAImage]][website]
 
