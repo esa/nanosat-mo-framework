@@ -96,7 +96,7 @@ public class ReceiptVersion3 {
         if (line.startsWith(line)) {
             maxHeap = line.substring(MAXHEAP.length());
         } else {
-            throw new IOException("Could not read the package mainJar!");
+            throw new IOException("Could not read the package maxHeap!");
         }
 
         final NMFPackageDetails details = new NMFPackageDetails(name,
