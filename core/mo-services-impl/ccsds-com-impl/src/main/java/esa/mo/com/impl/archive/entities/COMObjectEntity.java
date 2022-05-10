@@ -29,7 +29,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.persistence.*;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALElementFactory;
 import org.ccsds.moims.mo.mal.MALException;
@@ -41,55 +40,19 @@ import org.ccsds.moims.mo.mal.structures.FineTime;
  *
  * @author Cesar Coelho
  */
-@Entity
-@IdClass(COMObjectEntityPK.class)
-@Table(name = "COMObjectEntity",
-        indexes = {
-            @Index(name = "index_related2", columnList = "relatedLink", unique = false),
-//            @Index(name = "index_network2", columnList = "network", unique = false),
-            @Index(name = "index_timestampArchiveDetails2", columnList = "timestampArchiveDetails", unique = false)
-//            @Index(name = "index_providerURI2", columnList = "providerURI", unique = false)
-        })
 public class COMObjectEntity implements Serializable {
 
-    // ---------------------    
-    @Id
-    @Column(name = "objectTypeId")
     private Integer objectTypeId;
-
-    @Id
-    @Column(name = "domainId")
     private Integer domainId;
-
-    @Id
-    @Column(name = "objId")
     private Long objId;
-    // ---------------------    
-
-    @Column(name = "relatedLink")
     private Long relatedLink;
-
-    @Column(name = "network")
     private Integer network;
-
-    @Column(name = "timestampArchiveDetails")
     private Long timestampArchiveDetails;
-
-    @Column(name = "providerURI")
     private Integer providerURI;
-
-    private byte[] obj;
-
-    // ---------------------    
-    @Column(name = "sourceLinkObjectTypeId")
+    private byte[] objBody;
     private Integer sourceLinkObjectTypeId;
-
-    @Column(name = "sourceLinkDomainId")
     private Integer sourceLinkDomainId;
-
-    @Column(name = "sourceLinkObjId")
     private Long sourceLinkObjId;
-    // ---------------------    
 
     /**
      * This method only exists because Eclipse Link needs the constructor
@@ -121,7 +84,7 @@ public class COMObjectEntity implements Serializable {
         this.sourceLinkDomainId = (sourceLink == null || sourceLink.getDomainId() == null) ? null : sourceLink.getDomainId();
         this.sourceLinkObjId = (sourceLink == null) ? null : sourceLink.getObjId();
 
-        this.obj = null;
+        this.objBody = null;
         final Element ele = (Element) HelperAttributes.javaType2Attribute(object);
 
         if (ele != null) {
@@ -130,7 +93,7 @@ public class COMObjectEntity implements Serializable {
                 final BinaryEncoder be = new BinaryEncoder(bodyBaos);
                 be.encodeLong(ele.getShortForm());
                 be.encodeNullableElement(ele);
-                this.obj = bodyBaos.toByteArray();
+                this.objBody = bodyBaos.toByteArray();
                 be.close();
             } catch (MALException ex) {
                 Logger.getLogger(COMObjectEntity.class.getName()).log(Level.SEVERE,
@@ -163,7 +126,7 @@ public class COMObjectEntity implements Serializable {
         this.sourceLinkDomainId = sourceLink.getDomainId();
         this.sourceLinkObjId = sourceLink.getObjId();
 
-        this.obj = object;
+        this.objBody = object;
     }
 
     public static COMObjectEntityPK generatePK(final Integer objectTypeId, final Integer domain, final Long objId) {
@@ -212,15 +175,15 @@ public class COMObjectEntity implements Serializable {
     }
 
     public byte[] getObjectEncoded() {
-        return this.obj;
+        return this.objBody;
     }
 
     public Object getObject() {
         Element elem = null;
 
-        if (this.obj != null) {
+        if (this.objBody != null) {
             try {
-                final BinaryDecoder binDec = new BinaryDecoder(this.obj);
+                final BinaryDecoder binDec = new BinaryDecoder(this.objBody);
                 final MALElementFactory eleFact = MALContextFactory.getElementFactoryRegistry().lookupElementFactory(binDec.decodeLong());
                 elem = binDec.decodeNullableElement((Element) eleFact.createElement());
             } catch (MALException ex) {

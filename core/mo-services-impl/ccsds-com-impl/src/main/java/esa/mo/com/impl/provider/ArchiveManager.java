@@ -34,7 +34,11 @@ import esa.mo.com.impl.archive.db.SourceLinkContainer;
 import esa.mo.com.impl.archive.entities.COMObjectEntity;
 import esa.mo.com.impl.archive.fast.FastObjectType;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -154,10 +158,17 @@ public class ArchiveManager {
 
     void close() {
         // Forces the code to wait until all the stores are flushed
-        this.dbProcessor.stopInteractions(() -> {
-            dbBackend.createEntityManager();
-            dbBackend.closeEntityManager();
-            return null;
+        this.dbProcessor.stopInteractions(new Callable() {
+            @Override
+            public Integer call() {
+                try {
+                    dbBackend.getAvailability().acquire();
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                dbBackend.getAvailability().release();
+                return null;
+            }
         });
 
         this.eventService = null; // Remove the pointer to avoid publishing more stuff
@@ -172,21 +183,32 @@ public class ArchiveManager {
     public synchronized void resetTable() {
         Logger.getLogger(ArchiveManager.class.getName()).info("Reset table triggered!");
 
-        this.dbProcessor.resetMainTable(() -> {
-            dbBackend.createEntityManager();
-            dbBackend.getEM().getTransaction().begin();
-            dbBackend.getEM().createQuery("DELETE FROM COMObjectEntity").executeUpdate();
-            dbBackend.getEM().getTransaction().commit();
+        this.dbProcessor.resetMainTable(new Callable() {
+            @Override
+            public Integer call() {
+                try {
+                    dbBackend.getAvailability().acquire();
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
-            fastObjId.resetFastIDs();
-            fastDomain.resetFastDomain();
-            fastNetwork.resetFastNetwork();
-            fastProviderURI.resetFastProviderURI();
+                try {
+                    Connection c = dbBackend.getConnection();
+                    String stm = "DELETE FROM COMObjectEntity";
+                    PreparedStatement delete = c.prepareStatement(stm);
+                    delete.execute();
+                } catch (SQLException ex) {
+                    Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
-            dbBackend.getEM().close();
-            dbBackend.restartEMF();
+                fastObjId.resetFastIDs();
+                fastDomain.resetTable();
+                fastNetwork.resetTable();
+                fastProviderURI.resetTable();
+                dbBackend.getAvailability().release();
 
-            return null;
+                return null;
+            }
         });
     }
 
@@ -319,7 +341,7 @@ public class ArchiveManager {
     public LongList insertEntries(final ObjectType objType, final IdentifierList domain,
             final ArchiveDetailsList lArchiveDetails, final ElementList objects, final MALInteraction interaction, boolean generateEvents) {
         final LongList objIds = new LongList(lArchiveDetails.size());
-        final ArrayList<COMObjectEntity> perObjsEntities = new ArrayList<COMObjectEntity>(lArchiveDetails.size());
+        final ArrayList<COMObjectEntity> perObjsEntities = new ArrayList<>(lArchiveDetails.size());
         final int domainId = this.fastDomain.getDomainId(domain);
         final int objTypeId = this.fastObjectType.getObjectTypeId(objType);
 
@@ -413,10 +435,6 @@ public class ArchiveManager {
         this.dbProcessor.remove(objTypeId, domainId, objIds, publishEvents);
         this.fastObjId.delete(objTypeId, domainId);
         return objIds;
-    }
-
-    public void quickRemoveEntries(final List<COMObjectEntity> objs) {
-        this.dbProcessor.quickRemove(objs);
     }
 
     public ArrayList<ArchivePersistenceObject> query(final ObjectType objType,
