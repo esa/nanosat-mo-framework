@@ -2161,7 +2161,7 @@
           <mal:messages>
             <mal:request comment="">
               <mal:field canBeNull="false"
-                comment="The modelPath field holds the absolute path to the file of the model." name="modelPath">
+                comment="The modelPath field holds the absolute path to the file of the model. If there is also an associated weights file, then its path and filename shall be the same as the model with the only difference being the file extension (from .xml to .bin)." name="modelPath">
                 <mal:type area="MAL" list="false" name="String" />
               </mal:field>
             </mal:request>
