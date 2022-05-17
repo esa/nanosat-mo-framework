@@ -41,6 +41,10 @@ import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
 import esa.mo.nmf.NMFInterface;
 import esa.mo.nmf.NMFProvider;
+import java.io.IOException;
+import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.platform.artificialintelligence.consumer.ArtificialIntelligenceStub;
 
 /**
  * The adapter for the NMF App
@@ -77,7 +81,6 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
     @Override
     public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
             Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
-
         if (ACTION_START_AI.equals(name.getValue())) {
             triggerAIInference(actionInstanceObjId, attributeValues);
             return null; // Success!
@@ -141,6 +144,17 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
 
         processMap.put(actionInstanceObjId, exec);
          */
+        
+        try {
+            String modelPath = "";
+            String inputTilesPath = "";
+            
+            ArtificialIntelligenceStub aiService = connector.getPlatformServices().getAIService();
+            Long id = aiService.setModel(modelPath);
+            aiService.doInference(id, inputTilesPath);
+        } catch (MALInteractionException | MALException | IOException | NMFException ex) {
+            LOG.log(Level.SEVERE, "AI was not performed...", ex);
+        }
     }
 
     private void destroyProcess(AttributeValueList attributeValues) {
