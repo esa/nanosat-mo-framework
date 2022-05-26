@@ -43,7 +43,7 @@ Instructions:
 export NMF_HOME=path_to_repository
 ```
 
-3. Run in the root directory:
+3. Compile the NMF using:
 ```bash
 mvn install
 ```
