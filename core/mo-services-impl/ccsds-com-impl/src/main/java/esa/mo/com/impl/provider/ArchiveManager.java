@@ -134,23 +134,21 @@ public class ArchiveManager {
     }
 
     public synchronized void init() {
-        this.dbBackend.startBackendDatabase(this.dbProcessor);
+        final ArchiveManager manager = this;
 
-        Future<?> f = this.dbProcessor.submitExternalTransactionExecutorTask(() -> {
-            LOGGER.log(Level.FINE,
-                    "Initializing Fast classes!");
-            fastDomain.init();
-            fastObjectType.init();
-            fastNetwork.init();
-            fastProviderURI.init();
-            LOGGER.log(Level.FINE,
-                    "The Fast classes are initialized!");
+        this.dbProcessor.submitExternalTransactionExecutorTask(() -> {
+            synchronized (manager) {
+                this.dbBackend.startBackendDatabase(this.dbProcessor);
+                Logger.getLogger(ArchiveManager.class.getName()).log(Level.FINE,
+                        "Initializing Fast classes!");
+                fastDomain.init();
+                fastObjectType.init();
+                fastNetwork.init();
+                fastProviderURI.init();
+                Logger.getLogger(ArchiveManager.class.getName()).log(Level.FINE,
+                        "The Fast classes are initialized!");
+            }
         });
-        try {
-            f.get();
-        } catch (InterruptedException | ExecutionException e) {
-            LOGGER.log(Level.SEVERE, "Failed to init the archive", e);
-        }
     }
 
     /**
