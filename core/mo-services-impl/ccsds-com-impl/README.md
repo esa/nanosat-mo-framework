@@ -11,7 +11,7 @@ The Archive service implementation data is managed using a relational database m
 
 ============
 
-The Archive service interface includes a set of operations to retrieve, query, count, store, update, and delete. This interface is connected to a database transactions processor responsible for holding a queue of transactions to be performed with the actual database in a sequentially ordered manner. The selected implementation of JPA was EclipseLink and it uses the SQLite JDBC Driver implementation for accessing and creating SQLite database files.
+The Archive service interface includes a set of operations to retrieve, query, count, store, update, and delete. This interface is connected to a database transactions processor responsible for holding a queue of transactions to be performed with the actual database in a sequentially ordered manner. The selected implementation uses the SQLite JDBC Driver implementation for accessing and creating SQLite database files.
 
 There are optimizations on the MO Archive service interface layer. For example, the generation of the object instance identifier is actually faster than if a value is assigned directly because the service interface layer does not have to check in the database if it exists.
 

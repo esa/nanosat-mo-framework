@@ -36,7 +36,9 @@ import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.FineTime;
 
 /**
- * The entity class that holds COM objects in the database.
+ * The entity class that holds COM objects. Used to be a persistence entity
+ * however eclipse-link was removed. Now, this class is used to hold COM
+ * Objects.
  *
  * @author Cesar Coelho
  */
@@ -53,13 +55,6 @@ public class COMObjectEntity implements Serializable {
     private Integer sourceLinkObjectTypeId;
     private Integer sourceLinkDomainId;
     private Long sourceLinkObjId;
-
-    /**
-     * This method only exists because Eclipse Link needs the constructor
-     * without parameters
-     */
-    protected COMObjectEntity() {
-    }
 
     public COMObjectEntity(
             Integer objectTypeId,
@@ -206,8 +201,8 @@ public class COMObjectEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "COM Object: this.objectTypeId=" + this.objectTypeId
-                + ", this.domainId=" + this.domainId + ", this.objId=" + this.objId;
+        return "----\nFor COM Object:\nobjectTypeId=" + this.objectTypeId
+                + "\ndomainId=" + this.domainId + "\nobjId=" + this.objId;
     }
 
 }

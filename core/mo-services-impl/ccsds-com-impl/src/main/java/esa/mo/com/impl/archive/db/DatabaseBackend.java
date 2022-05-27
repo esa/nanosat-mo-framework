@@ -21,7 +21,6 @@
 package esa.mo.com.impl.archive.db;
 
 import esa.mo.com.impl.provider.ArchiveManager;
-import esa.mo.helpertools.misc.Const;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -40,7 +39,7 @@ public class DatabaseBackend {
 
     private static final String DROP_TABLE_PROPERTY
             = "esa.mo.com.impl.provider.ArchiveManager.droptable";
-    private static final String PERSISTENCE_UNIT_NAME = "ArchivePersistenceUnit";
+
     private static final boolean OPTIMIZED_STARTUP = false;
 
     private static final String DRIVER_CLASS_NAME = "org.sqlite.JDBC"; // SQLite JDBC Driver
@@ -116,8 +115,6 @@ public class DatabaseBackend {
             }
             PreparedStatement create = serverConnection.prepareStatement("CREATE TABLE IF NOT EXISTS COMObjectEntity (objectTypeId INTEGER NOT NULL, objId BIGINT NOT NULL, domainId INTEGER NOT NULL, network INTEGER, objBody " + blobType + ", providerURI INTEGER, relatedLink BIGINT, sourceLinkDomainId INTEGER, sourceLinkObjId BIGINT, sourceLinkObjectTypeId INTEGER, timestampArchiveDetails BIGINT, PRIMARY KEY (objectTypeId, objId, domainId))");
             create.execute();
-            create = serverConnection.prepareStatement("CREATE TABLE IF NOT EXISTS LastArchiveSync (id BIGINT NOT NULL, provider_uri TEXT NOT NULL, domain TEXT NOT NULL, last_sync BIGINT NOT NULL)");
-            create.execute();
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseBackend.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -173,23 +170,6 @@ public class DatabaseBackend {
     }
 
     private void startDatabaseDriver(String url2, String user, String password) {
-        //        System.setProperty("derby.drda.startNetworkServer", "true");
-        // Loads a new instance of the database driver
-        /*try {
-      Logger.getLogger(DatabaseBackend.class.getName())
-          .log(Level.INFO, "Creating a new instance of the database driver: " + jdbcDriver);
-      Class.forName(jdbcDriver).newInstance();
-    } catch (ClassNotFoundException
-        | InstantiationException
-        | IllegalAccessException
-        | NoSuchMethodException
-        | InvocationTargetException ex) {
-      Logger.getLogger(DatabaseBackend.class.getName())
-          .log(Level.SEVERE, "Unexpected exception ! ", ex);
-    }*/
-
-        // Create unique URL that identifies the driver to use for the connection
-        //        String url2 = this.url + ";decryptDatabase=true"; // new
         try {
             // Connect to the database
             Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO,
