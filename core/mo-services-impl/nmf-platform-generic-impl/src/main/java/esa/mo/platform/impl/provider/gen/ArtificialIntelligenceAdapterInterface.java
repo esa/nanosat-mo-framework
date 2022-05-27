@@ -36,9 +36,10 @@ public interface ArtificialIntelligenceAdapterInterface {
     /**
      * Executes the inference on the Artificial Intelligence device.
      *
-     * @param path The file path to a folder with a set of files to be
+     * @param inputPath The path to a folder with a set of files to be
      * processed.
+     * @param outputPath The path to a folder to store the processed files.
      */
-    public void executeInference(String path);
+    public void executeInference(String inputPath, String outputPath);
 
 }
