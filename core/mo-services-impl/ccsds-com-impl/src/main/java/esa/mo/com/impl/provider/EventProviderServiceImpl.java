@@ -403,20 +403,20 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
         ObjectDetailsList objectDetailsList = new ObjectDetailsList(sourceList.size());
 
         for (int i = 0; i < sourceList.size(); i++) {
-            if (relateds != null) {
-                objectDetailsList.add(new ObjectDetails(relateds.get(i), sourceList.get(i)));
-            } else {
-                objectDetailsList.add(new ObjectDetails(null, sourceList.get(i)));
-            }
+            Long related = (relateds != null) ? relateds.get(i) : null;
+            objectDetailsList.add(new ObjectDetails(related, sourceList.get(i)));
         }
 
         ElementList events = null;
-        Identifier network = null;
-        URI uri = null;
+        Identifier network;
+        URI uri;
 
         if (interaction != null) {
             network = interaction.getMessageHeader().getNetworkZone();
             uri = interaction.getMessageHeader().getURIFrom();
+        }else{
+            network = ConfigurationProviderSingleton.getNetwork();
+            uri = connection.getConnectionDetails().getProviderURI();
         }
 
         if (this.archiveService == null) {
@@ -430,19 +430,8 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
             archiveDetails.setDetails(objectDetailsList.get(i));
             archiveDetails.setInstId(0L); // no need to worry about objIds
             archiveDetails.setTimestamp(HelperTime.getTimestamp());
-
-            if (network != null) {
-                archiveDetails.setNetwork(network);
-            } else {
-                archiveDetails.setNetwork(ConfigurationProviderSingleton.getNetwork());
-            }
-
-            if (uri != null) {
-                archiveDetails.setProvider(uri);
-            } else {
-                archiveDetails.setProvider(connection.getConnectionDetails().getProviderURI());
-            }
-
+            archiveDetails.setNetwork(network);
+            archiveDetails.setProvider(uri);
             archiveDetailsList.add(archiveDetails);
         }
 

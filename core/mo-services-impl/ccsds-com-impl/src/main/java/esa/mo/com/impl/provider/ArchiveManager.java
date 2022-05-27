@@ -26,7 +26,6 @@ import esa.mo.com.impl.archive.fast.FastDomain;
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.helpers.HelperAttributes;
-import esa.mo.helpertools.misc.AppShutdownGuard;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.com.impl.archive.db.DatabaseBackend;
 import esa.mo.com.impl.archive.fast.FastNetwork;
@@ -36,13 +35,9 @@ import esa.mo.com.impl.archive.entities.COMObjectEntity;
 import esa.mo.com.impl.archive.fast.FastObjectType;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -82,7 +77,8 @@ import org.ccsds.moims.mo.mal.structures.URI;
  * @author Cesar Coelho
  */
 public class ArchiveManager {
-    public static Logger LOGGER = Logger.getLogger(ArchiveManager.class.getName());
+    
+    public static final Logger LOGGER = Logger.getLogger(ArchiveManager.class.getName());
 
     private final DatabaseBackend dbBackend;
     private final TransactionsProcessor dbProcessor;
@@ -115,8 +111,7 @@ public class ArchiveManager {
                 ArchiveHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
             catch (MALException ex) {
-                LOGGER
-                        .log(Level.SEVERE, "Unexpectedly ArchiveHelper already initialized!?", ex);
+                LOGGER.log(Level.SEVERE, "Unexpectedly ArchiveHelper already initialized!?", ex);
             }
         }
 
@@ -136,7 +131,7 @@ public class ArchiveManager {
     public synchronized void init() {
         final ArchiveManager manager = this;
 
-        this.dbProcessor.submitExternalTransactionExecutorTask(() -> {
+        this.dbProcessor.submitExternalTaskDBTransactions(() -> {
             synchronized (manager) {
                 this.dbBackend.startBackendDatabase(this.dbProcessor);
                 Logger.getLogger(ArchiveManager.class.getName()).log(Level.FINE,
