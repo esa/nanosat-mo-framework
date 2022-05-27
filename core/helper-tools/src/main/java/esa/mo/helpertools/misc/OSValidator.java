@@ -18,9 +18,10 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.sm.impl.util;
+package esa.mo.helpertools.misc;
 
 /**
+ * The OSValidator allows easy determination of the current OS.
  *
  * @author Cesar Coelho
  */

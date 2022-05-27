@@ -31,7 +31,7 @@ import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.misc.Const;
-import esa.mo.sm.impl.util.OSValidator;
+import esa.mo.helpertools.misc.OSValidator;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;

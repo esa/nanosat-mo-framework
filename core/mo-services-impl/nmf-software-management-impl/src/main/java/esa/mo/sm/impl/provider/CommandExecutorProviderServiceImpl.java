@@ -26,7 +26,7 @@ import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
-import esa.mo.sm.impl.util.OSValidator;
+import esa.mo.helpertools.misc.OSValidator;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;

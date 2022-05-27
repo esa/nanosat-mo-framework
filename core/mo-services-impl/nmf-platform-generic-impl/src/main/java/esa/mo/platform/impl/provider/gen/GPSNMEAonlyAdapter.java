@@ -21,6 +21,7 @@
 package esa.mo.platform.impl.provider.gen;
 
 import esa.mo.helpertools.misc.Const;
+import esa.mo.platform.impl.provider.gen.GPSAdapterInterface;
 import esa.mo.platform.impl.util.HelperGPS;
 import java.io.IOException;
 import java.util.logging.Level;

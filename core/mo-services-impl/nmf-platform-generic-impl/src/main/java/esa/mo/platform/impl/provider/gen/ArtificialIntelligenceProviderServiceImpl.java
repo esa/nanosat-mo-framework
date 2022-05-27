@@ -33,6 +33,8 @@ import org.ccsds.moims.mo.platform.PlatformHelper;
 import org.ccsds.moims.mo.platform.artificialintelligence.ArtificialIntelligenceHelper;
 import org.ccsds.moims.mo.platform.artificialintelligence.provider.ArtificialIntelligenceInheritanceSkeleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelligenceInheritanceSkeleton {
 
@@ -41,6 +43,8 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
     private boolean initialiased = false;
     private final ConnectionProvider connection = new ConnectionProvider();
     private ArtificialIntelligenceAdapterInterface adapter;
+    private final static Long TIMESTAMP = System.currentTimeMillis();
+    private final ArrayList<String> modelPaths = new ArrayList();
 
     /**
      * creates the MAL objects, the publisher used to create updates and starts
@@ -102,11 +106,51 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
 
     @Override
     public Long setModel(String modelPath, MALInteraction interaction) throws MALInteractionException, MALException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (modelPath == null) {
+            throw new MALException("The modelPath is null!");
+        }
+
+        for (String path : modelPaths) {
+            if (path.equals(modelPath)) {
+                throw new MALException("The model already exists!");
+            }
+        }
+
+        modelPaths.add(modelPath);
+        return TIMESTAMP + modelPaths.indexOf(modelPath);
     }
 
     @Override
-    public String doInference(Long modelId, String inputTilesPath, MALInteraction interaction) throws MALInteractionException, MALException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String doInference(Long modelId, String inputTilesPath,
+            MALInteraction interaction) throws MALInteractionException, MALException {
+        if (modelId == null) {
+            throw new MALException("The modelId is null!");
+        }
+
+        if (inputTilesPath == null) {
+            throw new MALException("The inputTilesPath is null!");
+        }
+
+        String modelPath = modelPaths.get((int) (modelId - TIMESTAMP));
+
+        if (!modelPath.endsWith(".xml")) {
+            throw new MALException("The model does not end with the file extension: .xml");
+        }
+
+        String weightsPath = modelPath.substring(0, modelPath.length() - 4) + ".bin";
+        Logger.getLogger(ArtificialIntelligenceProviderServiceImpl.class.getName()).log(
+                Level.INFO, "The weights file path is:\n >> " + weightsPath);
+        
+        try {
+            adapter.setModel(modelPath, weightsPath);
+            String outputTilesPath = "";
+            adapter.executeInference(inputTilesPath, outputTilesPath);
+            return outputTilesPath;
+        } catch (IOException ex) {
+            Logger.getLogger(ArtificialIntelligenceProviderServiceImpl.class.getName()).log(
+                    Level.SEVERE, "The inference could not be performed!", ex);
+        }
+
+        throw new MALException("The inference could not be performed!");
     }
 }

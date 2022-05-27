@@ -36,6 +36,9 @@ import org.ccsds.moims.mo.platform.opticaldatareceiver.provider.OpticalDataRecei
 import org.ccsds.moims.mo.platform.softwaredefinedradio.provider.SoftwareDefinedRadioInheritanceSkeleton;
 
 import esa.mo.com.impl.util.COMServicesProvider;
+import esa.mo.platform.impl.provider.adapters.ArtificialIntelligenceIntelMovidiusAdapter;
+import esa.mo.platform.impl.provider.gen.ArtificialIntelligenceAdapterInterface;
+import esa.mo.platform.impl.provider.gen.ArtificialIntelligenceProviderServiceImpl;
 import esa.mo.platform.impl.provider.gen.AutonomousADCSAdapterInterface;
 import esa.mo.platform.impl.provider.gen.AutonomousADCSProviderServiceImpl;
 import esa.mo.platform.impl.provider.gen.CameraAdapterInterface;
@@ -63,6 +66,7 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
   private final ESASimulator instrumentsSimulator = new ESASimulator("127.0.0.1");
 
   // Services
+  private final ArtificialIntelligenceProviderServiceImpl aiService = new ArtificialIntelligenceProviderServiceImpl();
   private final AutonomousADCSProviderServiceImpl autonomousADCSService = new AutonomousADCSProviderServiceImpl();
   private final CameraProviderServiceImpl cameraService = new CameraProviderServiceImpl();
   private final GPSProviderServiceImpl gpsService = new GPSProviderServiceImpl();
@@ -75,6 +79,7 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
   public void init(COMServicesProvider comServices) throws MALException {
     // Check if hybrid setup is used
     CameraAdapterInterface camAdapter;
+    ArtificialIntelligenceIntelMovidiusAdapter aiAdapter;
     AutonomousADCSAdapterInterface adcsAdapter;
     GPSAdapterInterface gpsAdapter;
     OpticalDataReceiverAdapterInterface optRxAdapter;
@@ -203,9 +208,11 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
               "Failed to instantiate the clock adapter. Falling back to default ClockSoftSimAdapter", e);
           clockAdapter = new ClockSoftSimAdapter(instrumentsSimulator);
         }
+        aiAdapter = null;
       } else {
         pcAdapter = new PowerControlSoftSimAdapter();
         camAdapter = new CameraSoftSimAdapter(instrumentsSimulator, pcAdapter);
+        aiAdapter = new ArtificialIntelligenceIntelMovidiusAdapter();
         adcsAdapter = new AutonomousADCSSoftSimAdapter(instrumentsSimulator, pcAdapter);
         gpsAdapter = new GPSSoftSimAdapter(instrumentsSimulator, pcAdapter);
         optRxAdapter = new OpticalDataReceiverSoftSimAdapter(instrumentsSimulator, pcAdapter);
@@ -218,6 +225,14 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
           "Platform config file not found. Using simulated environment.");
       pcAdapter = new PowerControlSoftSimAdapter();
       camAdapter = new CameraSoftSimAdapter(instrumentsSimulator, pcAdapter);
+        try {
+            aiAdapter = new ArtificialIntelligenceIntelMovidiusAdapter();
+        } catch (IOException ex) {
+            Logger.getLogger(PlatformServicesProviderSoftSim.class.getName()).log(
+                    Level.SEVERE, "The AI adapter could not be started!", ex);
+            
+            aiAdapter = null;
+        }
       adcsAdapter = new AutonomousADCSSoftSimAdapter(instrumentsSimulator, pcAdapter);
       gpsAdapter = new GPSSoftSimAdapter(instrumentsSimulator, pcAdapter);
       optRxAdapter = new OpticalDataReceiverSoftSimAdapter(instrumentsSimulator, pcAdapter);
@@ -226,6 +241,9 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
     }
 
     autonomousADCSService.init(comServices, adcsAdapter);
+    if(aiAdapter != null) {
+        aiService.init(aiAdapter);
+    }
     cameraService.init(comServices, camAdapter);
     gpsService.init(comServices, gpsAdapter);
     opticalDataReceiverService.init(optRxAdapter);
