@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.sm.impl.util;
+package esa.mo.helpertools.misc;
 
 import java.io.BufferedReader;
 import java.io.File;

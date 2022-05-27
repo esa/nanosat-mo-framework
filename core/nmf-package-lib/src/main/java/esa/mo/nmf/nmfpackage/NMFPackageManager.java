@@ -24,7 +24,7 @@ import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDescriptor;
 import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDetails;
 import esa.mo.nmf.nmfpackage.descriptor.NMFPackageFile;
-import esa.mo.sm.impl.util.OSValidator;
+import esa.mo.helpertools.misc.OSValidator;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

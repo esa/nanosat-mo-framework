@@ -36,6 +36,9 @@ import org.ccsds.moims.mo.platform.opticaldatareceiver.provider.OpticalDataRecei
 import org.ccsds.moims.mo.platform.softwaredefinedradio.provider.SoftwareDefinedRadioInheritanceSkeleton;
 
 import esa.mo.com.impl.util.COMServicesProvider;
+import esa.mo.platform.impl.provider.adapters.ArtificialIntelligenceIntelMovidiusAdapter;
+import esa.mo.platform.impl.provider.gen.ArtificialIntelligenceAdapterInterface;
+import esa.mo.platform.impl.provider.gen.ArtificialIntelligenceProviderServiceImpl;
 import esa.mo.platform.impl.provider.gen.AutonomousADCSAdapterInterface;
 import esa.mo.platform.impl.provider.gen.AutonomousADCSProviderServiceImpl;
 import esa.mo.platform.impl.provider.gen.CameraAdapterInterface;
@@ -59,18 +62,45 @@ import org.ccsds.moims.mo.platform.artificialintelligence.provider.ArtificialInt
  */
 public class PlatformServicesProviderSoftSim implements PlatformServicesProviderInterface {
 
-    // Simulator
-    private final ESASimulator instrumentsSimulator = new ESASimulator("127.0.0.1");
+  // Simulator
+  private final ESASimulator instrumentsSimulator = new ESASimulator("127.0.0.1");
 
-    // Services
-    private final AutonomousADCSProviderServiceImpl autonomousADCSService = new AutonomousADCSProviderServiceImpl();
-    private final CameraProviderServiceImpl cameraService = new CameraProviderServiceImpl();
-    private final GPSProviderServiceImpl gpsService = new GPSProviderServiceImpl();
-    private final OpticalDataReceiverProviderServiceImpl opticalDataReceiverService = new OpticalDataReceiverProviderServiceImpl();
-    private final SoftwareDefinedRadioProviderServiceImpl sdrService = new SoftwareDefinedRadioProviderServiceImpl();
-    private final PowerControlProviderServiceImpl powerService = new PowerControlProviderServiceImpl();
-    private PowerControlAdapterInterface pcAdapter;
-    private final ClockProviderServiceImpl clockService = new ClockProviderServiceImpl();
+  // Services
+  private final ArtificialIntelligenceProviderServiceImpl aiService = new ArtificialIntelligenceProviderServiceImpl();
+  private final AutonomousADCSProviderServiceImpl autonomousADCSService = new AutonomousADCSProviderServiceImpl();
+  private final CameraProviderServiceImpl cameraService = new CameraProviderServiceImpl();
+  private final GPSProviderServiceImpl gpsService = new GPSProviderServiceImpl();
+  private final OpticalDataReceiverProviderServiceImpl opticalDataReceiverService = new OpticalDataReceiverProviderServiceImpl();
+  private final SoftwareDefinedRadioProviderServiceImpl sdrService = new SoftwareDefinedRadioProviderServiceImpl();
+  private final PowerControlProviderServiceImpl powerService = new PowerControlProviderServiceImpl();
+  private PowerControlAdapterInterface pcAdapter;
+  private final ClockProviderServiceImpl clockService = new ClockProviderServiceImpl();
+
+  public void init(COMServicesProvider comServices) throws MALException {
+    // Check if hybrid setup is used
+    CameraAdapterInterface camAdapter;
+    ArtificialIntelligenceIntelMovidiusAdapter aiAdapter;
+    AutonomousADCSAdapterInterface adcsAdapter;
+    GPSAdapterInterface gpsAdapter;
+    OpticalDataReceiverAdapterInterface optRxAdapter;
+    SoftwareDefinedRadioAdapterInterface sdrAdapter;
+    ClockAdapterInterface clockAdapter;
+
+    Properties platformProperties = new Properties();
+    try {
+        platformProperties.load(new FileInputStream("platformsim.properties"));
+      if (platformProperties.getProperty("platform.mode").equals("hybrid")) {
+        String pcAdapterName = platformProperties.getProperty("pc.adapter");
+        String camAdapterName = platformProperties.getProperty("camera.adapter");
+        String adcsAdapterName = platformProperties.getProperty("adcs.adapter");
+        String gpsAdapterName = platformProperties.getProperty("gps.adapter");
+        String optRxAdapterName = platformProperties.getProperty("optrx.adapter");
+        String sdrAdapterName = platformProperties.getProperty("sdr.adapter");
+        String clockAdapterName = platformProperties.getProperty("clock.adapter");
+
+        // PowerControl adapter
+        try {
+          pcAdapter = (PowerControlAdapterInterface) Class.forName(pcAdapterName).newInstance();
 
     public void init(COMServicesProvider comServices) throws MALException {
         // Check if hybrid setup is used
@@ -238,15 +268,49 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
             sdrAdapter = new SoftwareDefinedRadioSoftSimAdapter(instrumentsSimulator, pcAdapter);
             clockAdapter = new ClockSoftSimAdapter(instrumentsSimulator);
         }
-
-        autonomousADCSService.init(comServices, adcsAdapter);
-        cameraService.init(comServices, camAdapter);
-        gpsService.init(comServices, gpsAdapter);
-        opticalDataReceiverService.init(optRxAdapter);
-        sdrService.init(sdrAdapter);
-        powerService.init(pcAdapter);
-        clockService.init(clockAdapter);
+        aiAdapter = null;
+      } else {
+        pcAdapter = new PowerControlSoftSimAdapter();
+        camAdapter = new CameraSoftSimAdapter(instrumentsSimulator, pcAdapter);
+        aiAdapter = new ArtificialIntelligenceIntelMovidiusAdapter();
+        adcsAdapter = new AutonomousADCSSoftSimAdapter(instrumentsSimulator, pcAdapter);
+        gpsAdapter = new GPSSoftSimAdapter(instrumentsSimulator, pcAdapter);
+        optRxAdapter = new OpticalDataReceiverSoftSimAdapter(instrumentsSimulator, pcAdapter);
+        sdrAdapter = new SoftwareDefinedRadioSoftSimAdapter(instrumentsSimulator, pcAdapter);
+        clockAdapter = new ClockSoftSimAdapter(instrumentsSimulator);
+      }
+    } catch (IOException e) {
+      // Assume simulated environment by default
+      Logger.getLogger(PlatformServicesProviderSoftSim.class.getName()).log(Level.WARNING,
+          "Platform config file not found. Using simulated environment.");
+      pcAdapter = new PowerControlSoftSimAdapter();
+      camAdapter = new CameraSoftSimAdapter(instrumentsSimulator, pcAdapter);
+        try {
+            aiAdapter = new ArtificialIntelligenceIntelMovidiusAdapter();
+        } catch (IOException ex) {
+            Logger.getLogger(PlatformServicesProviderSoftSim.class.getName()).log(
+                    Level.SEVERE, "The AI adapter could not be started!", ex);
+            
+            aiAdapter = null;
+        }
+      adcsAdapter = new AutonomousADCSSoftSimAdapter(instrumentsSimulator, pcAdapter);
+      gpsAdapter = new GPSSoftSimAdapter(instrumentsSimulator, pcAdapter);
+      optRxAdapter = new OpticalDataReceiverSoftSimAdapter(instrumentsSimulator, pcAdapter);
+      sdrAdapter = new SoftwareDefinedRadioSoftSimAdapter(instrumentsSimulator, pcAdapter);
+      clockAdapter = new ClockSoftSimAdapter(instrumentsSimulator);
     }
+
+    autonomousADCSService.init(comServices, adcsAdapter);
+    if(aiAdapter != null) {
+        aiService.init(aiAdapter);
+    }
+    cameraService.init(comServices, camAdapter);
+    gpsService.init(comServices, gpsAdapter);
+    opticalDataReceiverService.init(optRxAdapter);
+    sdrService.init(sdrAdapter);
+    powerService.init(pcAdapter);
+    clockService.init(clockAdapter);
+  }
 
   public void startStatusTracking(ConnectionConsumer connection) {
     pcAdapter.startStatusTracking(connection);
