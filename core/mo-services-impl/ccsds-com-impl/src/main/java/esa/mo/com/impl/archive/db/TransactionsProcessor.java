@@ -54,8 +54,9 @@ import esa.mo.com.impl.provider.ArchiveManager;
  * consolidated and executed in one single transaction.
  */
 public class TransactionsProcessor {
-    public static final Logger LOGGER = Logger.getLogger(TransactionsProcessor.class.getName());
-    final DatabaseBackend dbBackend;
+
+    public static Logger LOGGER = Logger.getLogger(TransactionsProcessor.class.getName());
+    public final DatabaseBackend dbBackend;
 
     // This executor is responsible for the interactions with the db
     // Guarantees sequential order
@@ -76,16 +77,14 @@ public class TransactionsProcessor {
         this.sequencialStoring = new AtomicBoolean(false);
     }
 
-    public Future<?> submitExternalGeneralExecutorTask(final Runnable task) {
+    public void submitExternalTaskGeneral(final Runnable task) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
-
-        return generalExecutor.submit(task);
+        generalExecutor.execute(task);
     }
 
-    public Future<?> submitExternalTransactionExecutorTask(final Runnable task) {
+    public void submitExternalTaskDBTransactions(final Runnable task) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
-
-        return dbTransactionsExecutor.submit(task);
+        dbTransactionsExecutor.execute(task);
     }
 
     public <T> Future<T> submitExternalTransactionExecutorTask(final Callable<T> task) {
@@ -195,7 +194,7 @@ public class TransactionsProcessor {
         } catch (InterruptedException ex) {
             Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, "Something went wrong...", ex);
         }
-
+        
         dbTransactionsExecutor.execute(new RunnableInsert(this, publishEvents));
     }
 

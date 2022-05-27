@@ -38,8 +38,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -79,6 +77,7 @@ import org.ccsds.moims.mo.mal.structures.URI;
  * @author Cesar Coelho
  */
 public class ArchiveManager {
+    
     public static final Logger LOGGER = Logger.getLogger(ArchiveManager.class.getName());
 
     private final DatabaseBackend dbBackend;
@@ -110,7 +109,8 @@ public class ArchiveManager {
                 ArchiveHelper.ARCHIVE_SERVICE_NAME) == null) {
             try {
                 ArchiveHelper.init(MALContextFactory.getElementFactoryRegistry());
-            } catch (MALException ex) {
+            }
+            catch (MALException ex) {
                 LOGGER.log(Level.SEVERE, "Unexpectedly ArchiveHelper already initialized!?", ex);
             }
         }
@@ -131,7 +131,7 @@ public class ArchiveManager {
     public synchronized void init() {
         final ArchiveManager manager = this;
 
-        this.dbProcessor.submitExternalTransactionExecutorTask(() -> {
+        this.dbProcessor.submitExternalTaskDBTransactions(() -> {
             synchronized (manager) {
                 this.dbBackend.startBackendDatabase(this.dbProcessor);
                 Logger.getLogger(ArchiveManager.class.getName()).log(Level.FINE,
