@@ -77,7 +77,6 @@ import org.ccsds.moims.mo.mal.structures.URI;
  * @author Cesar Coelho
  */
 public class ArchiveManager {
-
     public static final Logger LOGGER = Logger.getLogger(ArchiveManager.class.getName());
 
     private final DatabaseBackend dbBackend;

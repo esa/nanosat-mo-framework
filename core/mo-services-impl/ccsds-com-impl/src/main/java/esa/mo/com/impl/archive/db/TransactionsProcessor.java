@@ -185,7 +185,7 @@ public class TransactionsProcessor {
             Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE,
                     "Something went wrong...", ex);
         }
-
+        
         dbTransactionsExecutor.execute(new RunnableInsert(this, publishEvents));
     }
 
