@@ -40,7 +40,7 @@ public class GroundMOAdapterImpl extends CommonMOAdapterImpl
   public GroundMOAdapterImpl(final ConnectionConsumer connection)
   {
     super(connection);
-    super.init();
+    // No need for super.init(); here and in other consturctors because CommonMOAdapterImpl constructor already calls it
   }
   
   /**
@@ -53,7 +53,6 @@ public class GroundMOAdapterImpl extends CommonMOAdapterImpl
   public GroundMOAdapterImpl(final ConnectionConsumer connection, final Blob authenticationId, final String localNamePrefix)
   {
     super(connection, authenticationId, localNamePrefix);
-    super.init();
   }
 
   /**
@@ -65,7 +64,6 @@ public class GroundMOAdapterImpl extends CommonMOAdapterImpl
   public GroundMOAdapterImpl(final ProviderSummary providerDetails)
   {
     super(providerDetails);
-    super.init();
   }
   
   /**
@@ -79,6 +77,5 @@ public class GroundMOAdapterImpl extends CommonMOAdapterImpl
   public GroundMOAdapterImpl(final ProviderSummary providerDetails, final Blob authenticationId, final String localNamePrefix)
   {
     super(providerDetails, authenticationId, localNamePrefix);
-    super.init();
   }
 }
