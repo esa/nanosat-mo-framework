@@ -7,7 +7,7 @@ The Activity Tracking service does not include any operations because it relies 
 
 The Event service includes a single operation on its service interface that is used to emit COM Events of other services. In this implementation there are a set of methods to generate, store and publish COM Events that can be used by other services.
 
-The Archive service implementation data is managed using a relational database management system that is based on Structured Query Language (SQL). Additionally, it uses the Java Persistence API (JPA) specification for the description of the relational data's management.
+The Archive service implementation data is managed using a relational database management system that is based on Structured Query Language (SQL).
 
 ============
 

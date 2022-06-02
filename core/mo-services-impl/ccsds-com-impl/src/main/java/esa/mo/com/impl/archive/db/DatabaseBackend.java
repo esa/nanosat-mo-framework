@@ -24,8 +24,8 @@ import esa.mo.com.impl.provider.ArchiveManager;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,11 +36,7 @@ import java.util.logging.Logger;
  * @author Cesar Coelho
  */
 public class DatabaseBackend {
-
-    private static final String DROP_TABLE_PROPERTY
-            = "esa.mo.com.impl.provider.ArchiveManager.droptable";
-
-    private static final boolean OPTIMIZED_STARTUP = false;
+    public static final Logger LOGGER = Logger.getLogger(ArchiveManager.class.getName());
 
     private static final String DRIVER_CLASS_NAME = "org.sqlite.JDBC"; // SQLite JDBC Driver
 
@@ -62,6 +58,11 @@ public class DatabaseBackend {
     private Connection serverConnection;
 
     private boolean indexCreated = false;
+
+    public boolean isPostgres = false;
+
+    // Prepared statements storage for currently active connection
+    private PreparedStatements preparedStatements;
 
     public DatabaseBackend() {
         String url = System.getProperty("esa.nmf.archive.persistence.jdbc.url");
@@ -90,6 +91,10 @@ public class DatabaseBackend {
         return serverConnection;
     }
 
+    public PreparedStatements getPreparedStatements() {
+        return preparedStatements;
+    }
+
     /**
      * Starts the database backend by starting the Database Driver, check if a
      * migration to the new tables is needed, and creates the main COM Objects
@@ -112,40 +117,40 @@ public class DatabaseBackend {
             String blobType = "BLOB";
             if(this.url.contains("postgresql")) {
                 blobType = "bytea";
+                isPostgres = true;
             }
-            PreparedStatement create = serverConnection.prepareStatement("CREATE TABLE IF NOT EXISTS COMObjectEntity (objectTypeId INTEGER NOT NULL, objId BIGINT NOT NULL, domainId INTEGER NOT NULL, network INTEGER, objBody " + blobType + ", providerURI INTEGER, relatedLink BIGINT, sourceLinkDomainId INTEGER, sourceLinkObjId BIGINT, sourceLinkObjectTypeId INTEGER, timestampArchiveDetails BIGINT, PRIMARY KEY (objectTypeId, objId, domainId))");
-            create.execute();
+            Statement query = serverConnection.createStatement();
+            query.execute("CREATE TABLE IF NOT EXISTS COMObjectEntity (objectTypeId INTEGER NOT NULL, objId BIGINT NOT NULL, domainId INTEGER NOT NULL, network INTEGER, objBody " + blobType + ", providerURI INTEGER, relatedLink BIGINT, sourceLinkDomainId INTEGER, sourceLinkObjId BIGINT, sourceLinkObjectTypeId INTEGER, timestampArchiveDetails BIGINT, PRIMARY KEY (objectTypeId, objId, domainId))");;
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseBackend.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        preparedStatements = new PreparedStatements(serverConnection);
+        try {
+            preparedStatements.init();
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, "Could not prepare the SQL statements. Application will exit!", ex);
+            System.exit(0);
         }
 
     }
 
     private void checkIfMigrationNeeded() throws SQLException {
-        Connection c = serverConnection;
-        PreparedStatement mig;
-        mig = c.prepareStatement("ALTER TABLE COMObjectEntity RENAME COLUMN OBJ TO objBody");
+        Statement mig = serverConnection.createStatement();
+        // The first query will throw exception to the outside
+        mig.execute("ALTER TABLE COMObjectEntity RENAME COLUMN OBJ TO objBody");
 
         Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.INFO,
                 "Migrating the database to new Table schemas...");
         try {
-            mig.execute();
-            mig = c.prepareStatement("ALTER TABLE DomainHolderEntity RENAME COLUMN domainString TO value");
-            mig.execute();
-            mig = c.prepareStatement("ALTER TABLE DomainHolderEntity RENAME TO FastDomain");
-            mig.execute();
-            mig = c.prepareStatement("ALTER TABLE NetworkHolderEntity RENAME COLUMN networkString TO value");
-            mig.execute();
-            mig = c.prepareStatement("ALTER TABLE NetworkHolderEntity RENAME TO FastNetwork");
-            mig.execute();
-            mig = c.prepareStatement("ALTER TABLE ObjectTypeHolderEntity RENAME COLUMN objectType TO value");
-            mig.execute();
-            mig = c.prepareStatement("ALTER TABLE ObjectTypeHolderEntity RENAME TO FastObjectType");
-            mig.execute();
-            mig = c.prepareStatement("ALTER TABLE ProviderURIHolderEntity RENAME COLUMN providerURIString TO value");
-            mig.execute();
-            mig = c.prepareStatement("ALTER TABLE ProviderURIHolderEntity RENAME TO FastProviderURI");
-            mig.execute();
+            mig.execute("ALTER TABLE DomainHolderEntity RENAME COLUMN domainString TO value");
+            mig.execute("ALTER TABLE DomainHolderEntity RENAME TO FastDomain");
+            mig.execute("ALTER TABLE NetworkHolderEntity RENAME COLUMN networkString TO value");
+            mig.execute("ALTER TABLE NetworkHolderEntity RENAME TO FastNetwork");
+            mig.execute("ALTER TABLE ObjectTypeHolderEntity RENAME COLUMN objectType TO value");
+            mig.execute("ALTER TABLE ObjectTypeHolderEntity RENAME TO FastObjectType");
+            mig.execute("ALTER TABLE ProviderURIHolderEntity RENAME COLUMN providerURIString TO value");
+            mig.execute("ALTER TABLE ProviderURIHolderEntity RENAME TO FastProviderURI");
         } catch (SQLException ex1) {
             Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex1);
         }
@@ -157,12 +162,10 @@ public class DatabaseBackend {
         if (indexCreated) {
             return;
         }
-
         try {
-            PreparedStatement index_related = serverConnection.prepareStatement("CREATE INDEX IF NOT EXISTS index_related2 ON COMObjectEntity (relatedLink)");
-            index_related.execute();
-            PreparedStatement index_timestamp = serverConnection.prepareStatement("CREATE INDEX IF NOT EXISTS index_timestampArchiveDetails2 ON COMObjectEntity (timestampArchiveDetails)");
-            index_timestamp.execute();
+            Statement statement = serverConnection.createStatement();
+            statement.execute("CREATE INDEX IF NOT EXISTS index_related2 ON COMObjectEntity (relatedLink)");
+            statement.execute("CREATE INDEX IF NOT EXISTS index_timestampArchiveDetails2 ON COMObjectEntity (timestampArchiveDetails)");
             indexCreated = true;
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseBackend.class.getName()).log(Level.SEVERE, null, ex);
@@ -172,7 +175,7 @@ public class DatabaseBackend {
     private void startDatabaseDriver(String url2, String user, String password) {
         try {
             // Connect to the database
-            Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO,
+            LOGGER.log(Level.INFO,
                     "Attempting to establish a connection to the database:\n >> " + url2);
 
             if (jdbcDriver.equals(DRIVER_CLASS_NAME)) {
@@ -182,27 +185,27 @@ public class DatabaseBackend {
             }
         } catch (SQLException ex) {
             if (jdbcDriver.equals(DRIVER_CLASS_NAME)) {
-                Logger.getLogger(ArchiveManager.class.getName())
+                LOGGER
                         .log(Level.WARNING, "Unexpected exception ! ", ex);
-                Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO,
+                LOGGER.log(Level.INFO,
                         "There was an SQLException, maybe the "
                         + DATABASE_LOCATION_NAME
                         + " folder/file does not exist. Attempting to create it...");
                 try {
                     // Connect to the database but also create the database if it does not exist
                     serverConnection = DriverManager.getConnection(url2 + ";create=true");
-                    Logger.getLogger(ArchiveManager.class.getName()).log(
+                    LOGGER.log(
                             Level.INFO, "Successfully created!");
                 } catch (SQLException ex2) {
-                    Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO,
+                    LOGGER.log(Level.SEVERE,
                             "Other connection already exists! Error: " + ex2.getMessage(), ex2);
-                    Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO,
+                    LOGGER.log(Level.SEVERE,
                             "Most likely there is another instance of the same application already running. "
                             + "Two instances of the same application are not allowed. The application will exit.");
                     System.exit(0);
                 }
             } else {
-                Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE,
+                LOGGER.log(Level.SEVERE,
                         "Unexpected exception ! " + ex.getMessage(), ex);
                 System.exit(0);
             }

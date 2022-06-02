@@ -25,9 +25,9 @@ import esa.mo.com.impl.archive.db.TransactionsProcessor;
 import esa.mo.com.impl.provider.ArchiveManager;
 import esa.mo.com.impl.util.HelperCOM;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
@@ -39,7 +39,7 @@ import org.ccsds.moims.mo.mal.structures.IntegerList;
  * Holds the set of object types that the database contains in its dedicated table
  * and avoids constant checking on it which makes things go much faster.
  */
-public class FastObjectType extends Fast<Long> {
+public class FastObjectType extends FastIndex<Long> {
 
     private final static String TABLE_NAME = "FastObjectType";
 
@@ -59,10 +59,10 @@ public class FastObjectType extends Fast<Long> {
         int max = 0;
         try {
             Connection c = dbBackend.getConnection();
-            PreparedStatement create = c.prepareStatement("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (id INTEGER NOT NULL, value BIGINT, PRIMARY KEY (id))");
-            create.execute();
-            PreparedStatement select = c.prepareStatement(QUERY_SELECT);
-            ResultSet rs = select.executeQuery();
+            Statement query = c.createStatement();
+            query.execute("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (id INTEGER NOT NULL, value BIGINT, PRIMARY KEY (id))");
+            insertStmt = c.prepareStatement(QUERY_INSERT);
+            ResultSet rs = query.executeQuery(QUERY_SELECT);
 
             while (rs.next()) {
                 Integer id = rs.getInt(1);

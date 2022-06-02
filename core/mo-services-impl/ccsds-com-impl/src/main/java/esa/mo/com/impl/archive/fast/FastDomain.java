@@ -27,6 +27,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
@@ -38,7 +39,7 @@ import org.ccsds.moims.mo.mal.structures.IntegerList;
  * Holds the set of domains that the database contains in its dedicated table
  * and avoids constant checking on it which makes things go much faster.
  */
-public class FastDomain extends Fast<IdentifierList> {
+public class FastDomain extends FastIndex<IdentifierList> {
 
     private final static String TABLE_NAME = "FastDomain";
 
@@ -50,20 +51,20 @@ public class FastDomain extends Fast<IdentifierList> {
     public synchronized void init() {
         // Retrieve all the ids and domains from the Database
         try {
-          dbBackend.getAvailability().acquire();
+            dbBackend.getAvailability().acquire();
         } catch (InterruptedException ex) {
-          Logger.getLogger(FastDomain.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FastDomain.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         int max = 0;
-        
+
         Connection c = dbBackend.getConnection();
-        
+
         try {
-            PreparedStatement create = c.prepareStatement(CREATE_TABLE);
-            create.execute();
-            PreparedStatement select = c.prepareStatement(QUERY_SELECT);
-            ResultSet rs = select.executeQuery();
+            Statement query = c.createStatement();
+            query.execute(CREATE_TABLE);
+            insertStmt = c.prepareStatement(QUERY_INSERT);
+            ResultSet rs = query.executeQuery(QUERY_SELECT);
 
             while (rs.next()) {
                 Integer id = rs.getInt(1);
@@ -87,21 +88,19 @@ public class FastDomain extends Fast<IdentifierList> {
         this.fastIDreverse.put(domainId, domain);
 
         try {
-          dbBackend.getAvailability().acquire();
+            dbBackend.getAvailability().acquire();
         } catch (InterruptedException ex) {
-          Logger.getLogger(FastDomain.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FastDomain.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         try {
-            Connection c = dbBackend.getConnection();
-            PreparedStatement insert = c.prepareStatement(QUERY_INSERT);
-            insert.setObject(1, domainId);
-            insert.setObject(2, HelperMisc.domain2domainId(domain));
-            insert.execute();
+            insertStmt.setObject(1, domainId);
+            insertStmt.setObject(2, HelperMisc.domain2domainId(domain));
+            insertStmt.execute();
         } catch (SQLException ex) {
             Logger.getLogger(FastDomain.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         dbBackend.getAvailability().release();
         return domainId;
     }

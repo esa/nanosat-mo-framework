@@ -26,6 +26,7 @@ import esa.mo.com.impl.archive.fast.FastDomain;
 import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.helpers.HelperAttributes;
+import esa.mo.helpertools.misc.AppShutdownGuard;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.com.impl.archive.db.DatabaseBackend;
 import esa.mo.com.impl.archive.fast.FastNetwork;
@@ -39,6 +40,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -78,6 +82,7 @@ import org.ccsds.moims.mo.mal.structures.URI;
  * @author Cesar Coelho
  */
 public class ArchiveManager {
+    public static Logger LOGGER = Logger.getLogger(ArchiveManager.class.getName());
 
     private final DatabaseBackend dbBackend;
     private final TransactionsProcessor dbProcessor;
@@ -110,7 +115,7 @@ public class ArchiveManager {
                 ArchiveHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
             catch (MALException ex) {
-                Logger.getLogger(ArchiveManager.class.getName())
+                LOGGER
                         .log(Level.SEVERE, "Unexpectedly ArchiveHelper already initialized!?", ex);
             }
         }
@@ -131,20 +136,21 @@ public class ArchiveManager {
     public synchronized void init() {
         this.dbBackend.startBackendDatabase(this.dbProcessor);
 
-        final ArchiveManager manager = this;
-
-        this.dbProcessor.submitExternalTask2(() -> {
-            synchronized (manager) {
-                Logger.getLogger(ArchiveManager.class.getName()).log(Level.FINE,
-                        "Initializing Fast classes!");
-                fastDomain.init();
-                fastObjectType.init();
-                fastNetwork.init();
-                fastProviderURI.init();
-                Logger.getLogger(ArchiveManager.class.getName()).log(Level.FINE,
-                        "The Fast classes are initialized!");
-            }
+        Future<?> f = this.dbProcessor.submitExternalTransactionExecutorTask(() -> {
+            LOGGER.log(Level.FINE,
+                    "Initializing Fast classes!");
+            fastDomain.init();
+            fastObjectType.init();
+            fastNetwork.init();
+            fastProviderURI.init();
+            LOGGER.log(Level.FINE,
+                    "The Fast classes are initialized!");
         });
+        try {
+            f.get();
+        } catch (InterruptedException | ExecutionException e) {
+            LOGGER.log(Level.SEVERE, "Failed to init the archive", e);
+        }
     }
 
     /**
@@ -158,9 +164,9 @@ public class ArchiveManager {
 
     void close() {
         // Forces the code to wait until all the stores are flushed
-        this.dbProcessor.stopInteractions(new Callable() {
+        this.dbProcessor.stopInteractions(new Callable<Void>() {
             @Override
-            public Integer call() {
+            public Void call() {
                 try {
                     dbBackend.getAvailability().acquire();
                 } catch (InterruptedException ex) {
@@ -175,40 +181,37 @@ public class ArchiveManager {
     }
 
     /**
+     * Wipes the entire archive clean. Used mainly by the tests.
+     *
      * Needs to be synchronized with the insertEntries method because the fast
      * objects are being called simultaneously. The Testbeds don't pass without
      * the synchronization.
      *
      */
-    public synchronized void resetTable() {
-        Logger.getLogger(ArchiveManager.class.getName()).info("Reset table triggered!");
+    public synchronized void wipe() {
+        LOGGER.info("Reset table triggered!");
 
-        this.dbProcessor.resetMainTable(new Callable() {
-            @Override
-            public Integer call() {
-                try {
-                    dbBackend.getAvailability().acquire();
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-                try {
-                    Connection c = dbBackend.getConnection();
-                    String stm = "DELETE FROM COMObjectEntity";
-                    PreparedStatement delete = c.prepareStatement(stm);
-                    delete.execute();
-                } catch (SQLException ex) {
-                    Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-                fastObjId.resetFastIDs();
-                fastDomain.resetTable();
-                fastNetwork.resetTable();
-                fastProviderURI.resetTable();
-                dbBackend.getAvailability().release();
-
-                return null;
+        this.dbProcessor.resetMainTable(() -> {
+            try {
+                dbBackend.getAvailability().acquire();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
             }
+
+            try {
+                Connection c = dbBackend.getConnection();
+                c.createStatement().execute("DELETE FROM COMObjectEntity");
+            } catch (SQLException ex) {
+                Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            fastObjId.resetFastIDs();
+            fastDomain.resetTable();
+            fastNetwork.resetTable();
+            fastProviderURI.resetTable();
+            dbBackend.getAvailability().release();
+
+            return null;
         });
     }
 
@@ -262,7 +265,7 @@ public class ArchiveManager {
             providerURI = this.fastProviderURI.getProviderURI(comEntity.getProviderURI());
             objType = this.fastObjectType.getObjectType(comEntity.getObjectTypeId());
         } catch (Exception ex) {
-            Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
 
         SourceLinkContainer sourceLink = comEntity.getSourceLink();
@@ -275,7 +278,7 @@ public class ArchiveManager {
                 ObjectKey ok = new ObjectKey(this.fastDomain.getDomain(sourceLink.getDomainId()), sourceLink.getObjId());
                 objectId = new ObjectId(this.fastObjectType.getObjectType(sourceLink.getObjectTypeId()), ok);
             } catch (Exception ex) {
-                Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
+                LOGGER.log(Level.SEVERE, null, ex);
             }
         }
 
@@ -450,7 +453,7 @@ public class ArchiveManager {
                 domain = this.fastDomain.getDomain(perObj.getDomainId());
                 outs.add(this.convert2ArchivePersistenceObject(perObj, domain, perObj.getObjectId()));
             } catch (Exception ex) {
-                Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
+                LOGGER.log(Level.SEVERE, null, ex);
             }
         }
 
@@ -631,7 +634,7 @@ public class ArchiveManager {
         }
 
         /* Just use it for debugging
-        Logger.getLogger(ArchiveManager.class.getName()).log(Level.FINE, "\nobjType: " + objType.toString()
+        LOGGER.log(Level.FINE, "\nobjType: " + objType.toString()
                 + "\nDomain: " + ConfigurationProviderSingleton.getDomain().toString() + "\nSourceList: " + sourceList.toString());
          */
         // requirement: 3.4.2.4
@@ -639,7 +642,7 @@ public class ArchiveManager {
                 ConfigurationProviderSingleton.getDomain(), null, sourceList, interaction);
 
         /* Just use it for debugging
-        Logger.getLogger(ArchiveManager.class.getName()).log(Level.FINE, "The eventObjIds are: " + eventObjIds.toString());
+        LOGGER.log(Level.FINE, "The eventObjIds are: " + eventObjIds.toString());
          */
         URI sourceURI = new URI("");
 
@@ -652,7 +655,7 @@ public class ArchiveManager {
         try {
             eventService.publishEvents(sourceURI, eventObjIds, objType, null, sourceList, null);
         } catch (IOException ex) {
-            Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
     }
 

@@ -129,10 +129,10 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
     }
 
     /**
-     * Reset operation
+     * Wipes the entire archive clean. Used mainly by the tests.
      */
-    public void reset() {
-        manager.resetTable();
+    public void wipe() {
+        manager.wipe();
     }
 
     /**
