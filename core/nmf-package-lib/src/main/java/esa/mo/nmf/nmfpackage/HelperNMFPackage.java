@@ -119,9 +119,6 @@ public class HelperNMFPackage {
         str.append("# NanoSat MO Framework dynamic configurations\n");
         str.append("esa.mo.nanosatmoframework.provider.dynamicchanges=true\n");
         str.append("\n");
-        str.append("# Archive flag to drop the table\n");
-        str.append("esa.mo.com.impl.provider.ArchiveManager.droptable=false\n");
-        str.append("\n");
         str.append("# Cleanup space archive from synchronised objects\n");
         str.append("esa.mo.nanosatmoframework.archivesync.purgearchive=true\n");
 

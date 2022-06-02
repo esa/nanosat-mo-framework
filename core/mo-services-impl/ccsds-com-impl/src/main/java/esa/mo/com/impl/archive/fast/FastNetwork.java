@@ -27,7 +27,7 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
  * Holds the set of networks that the database contains in its dedicated table
  * and avoids constant checking on it which makes things go much faster.
  */
-public class FastNetwork extends Fast<String> {
+public class FastNetwork extends FastIndex<String> {
 
     private final static String TABLE_NAME = "FastNetwork";
 

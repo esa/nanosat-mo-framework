@@ -35,8 +35,6 @@ import java.util.logging.Logger;
  * database when it is necessary.
  */
 public class FastObjId {
-
-    private final static String QUERY_FIND_MAX = "SELECT MAX(objId) FROM COMObjectEntity WHERE ((objectTypeId = ?) AND (domainId = ?))";
     private final DatabaseBackend dbBackend;
     private HashMap<Key, Long> fastID;
 
@@ -107,8 +105,7 @@ public class FastObjId {
         }
 
         try {
-            Connection c = dbBackend.getConnection();
-            PreparedStatement select = c.prepareStatement(QUERY_FIND_MAX);
+            PreparedStatement select = dbBackend.getPreparedStatements().getSelectMaxObjId();
             select.setObject(1, objectTypeId);
             select.setObject(2, domain);
             ResultSet rs = select.executeQuery();

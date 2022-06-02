@@ -94,6 +94,7 @@ public class TestMPServices {
         connector = new NanoSatMOConnectorImpl();
         adapter.setNMF(connector);
         connector.init(adapter);
+        connector.getCOMServices().getArchiveService().wipe();
 
         PlanInformationManagementProviderServiceImpl pimServiceProvider = connector.getMPServices()
             .getPlanInformationManagementService();

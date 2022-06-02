@@ -27,7 +27,7 @@ import org.ccsds.moims.mo.mal.structures.URI;
  * Holds the set of providerURIs that the database contains in its dedicated
  * table and avoids constant checking on it which makes things go much faster.
  */
-public class FastProviderURI extends Fast<String> {
+public class FastProviderURI extends FastIndex<String> {
 
     private final static String TABLE_NAME = "FastProviderURI";
 

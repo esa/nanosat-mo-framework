@@ -31,22 +31,24 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Holds the set of domains that the database contains in its dedicated table
+ * Contains the set of different key fields that the database contains in its dedicated table
  * and avoids constant checking on it which makes things go much faster.
  */
-public abstract class Fast<T> {
-
+public abstract class FastIndex<T> {
+    public static Logger LOGGER = Logger.getLogger(FastIndex.class.getName());
     protected final String QUERY_DELETE;
     protected final String QUERY_SELECT;
     protected final String QUERY_INSERT;
     protected final String CREATE_TABLE;
+
+    protected PreparedStatement insertStmt;
 
     protected final DatabaseBackend dbBackend;
     protected AtomicInteger uniqueId = new AtomicInteger(0);
     protected HashMap<T, Integer> fastID;
     protected HashMap<Integer, T> fastIDreverse;
 
-    public Fast(final DatabaseBackend dbBackend, String table) {
+    public FastIndex(final DatabaseBackend dbBackend, String table) {
         this.fastID = new HashMap<>();
         this.fastIDreverse = new HashMap<>();
         this.dbBackend = dbBackend;
@@ -62,16 +64,15 @@ public abstract class Fast<T> {
         try {
             dbBackend.getAvailability().acquire();
         } catch (InterruptedException ex) {
-            Logger.getLogger(FastProviderURI.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
 
         int max = 0;
         try {
             Connection c = dbBackend.getConnection();
-            PreparedStatement create = c.prepareStatement(CREATE_TABLE);
-            create.execute();
-            PreparedStatement select = c.prepareStatement(QUERY_SELECT);
-            ResultSet rs = select.executeQuery();
+            c.createStatement().execute(CREATE_TABLE);
+            insertStmt = c.prepareStatement(QUERY_INSERT);
+            ResultSet rs = c.createStatement().executeQuery(QUERY_SELECT);
 
             while (rs.next()) {
                 Integer id = rs.getInt(1);
@@ -82,7 +83,7 @@ public abstract class Fast<T> {
                 max = (id > max) ? id : max;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(FastProviderURI.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
 
         uniqueId = new AtomicInteger(max);
@@ -104,10 +105,9 @@ public abstract class Fast<T> {
 
         try {
             Connection c = dbBackend.getConnection();
-            PreparedStatement delete = c.prepareStatement(QUERY_DELETE);
-            delete.execute();
+            c.createStatement().execute(QUERY_DELETE);
         } catch (SQLException ex) {
-            Logger.getLogger(FastDomain.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
     }
 
@@ -139,17 +139,15 @@ public abstract class Fast<T> {
         try {
             dbBackend.getAvailability().acquire();
         } catch (InterruptedException ex) {
-            Logger.getLogger(FastDomain.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
 
         try {
-            Connection c = dbBackend.getConnection();
-            PreparedStatement insert = c.prepareStatement(QUERY_INSERT);
-            insert.setObject(1, key);
-            insert.setObject(2, value);
-            insert.execute();
+            insertStmt.setObject(1, key);
+            insertStmt.setObject(2, value);
+            insertStmt.execute();
         } catch (SQLException ex) {
-            Logger.getLogger(FastDomain.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
 
         dbBackend.getAvailability().release();
