@@ -122,12 +122,6 @@ public class HelperNMFPackage {
         str.append("# Archive flag to drop the table\n");
         str.append("esa.mo.com.impl.provider.ArchiveManager.droptable=false\n");
         str.append("\n");
-        str.append("# Store STDERR and STDOUT of apps in the COM Archive\n");
-        str.append("esa.mo.nanosatmoframework.appslauncher.stdstore=true\n");
-        str.append("\n");
-        str.append("# Limit of the STDERR+STDOUT data per app, in kBytes\n");
-        str.append("esa.mo.nanosatmoframework.appslauncher.stdlimit=2048\n");
-        str.append("\n");
         str.append("# Cleanup space archive from synchronised objects\n");
         str.append("esa.mo.nanosatmoframework.archivesync.purgearchive=true\n");
 
