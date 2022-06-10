@@ -621,8 +621,8 @@ public class SimulatorNode extends TaskNode
       try {
         Stream<Path> walker = Files.walk(Paths.get(path));
         List<String> files = walker
-            .map(p -> p.getFileName().toString()).filter(s -> s.endsWith(".png")
-            || s.endsWith(".jpg") || s.endsWith("bmp") || s.endsWith(".raw"))
+            .map(p -> p.getFileName().toString()).filter(s -> s.toLowerCase().endsWith(".png")
+            || s.toLowerCase().endsWith(".jpg") || s.toLowerCase().endsWith("bmp") || s.toLowerCase().endsWith(".raw"))
             .collect(Collectors.toList());
         walker.close();
         Random r = new Random();
