@@ -54,7 +54,6 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
 
   private final CameraAcquisitorSystemCameraTargetHandler cameraTargetHandler;
   private final CameraAcquisitorSystemCameraHandler cameraHandler;
-
   private final CameraAcquisitorSystemGPSHandler gpsHandler;
 
   void recoverLastState()
@@ -70,13 +69,13 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
   // ----------------------------------- Parameters -----------------------------------------------
 
   @Parameter(description = "The red channel gain", generationEnabled = false)
-  private float gainRed = 1.0f;
+  private float gainRed = 8.0f;
 
   @Parameter(description = "The green channel gain", generationEnabled = false)
-  private float gainGreen = 1.0f;
+  private float gainGreen = 8.0f;
 
   @Parameter(description = "The blue channel gain", generationEnabled = false)
-  private float gainBlue = 1.0f;
+  private float gainBlue = 8.0f;
 
   @Parameter(
       description = "The camera's exposure Type (CUSTOM = 0, AUTOMATIC = 1)",
@@ -86,7 +85,7 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
   @Parameter(
       description = "The camera's exposure time (only used if exposureType is CUSTOM)",
       generationEnabled = false)
-  private float exposureTime = 1.0f;
+  private float exposureTime = 0.003f;
 
   @Parameter(description =
       "The maximum time (in Milliseconds) the Satellite will take to rotated if it's in the worst possible orientation",
@@ -206,20 +205,20 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
   }
 
   @Action(
-      description = "queues a new photograph target at the Specified Timestemp",
+      description = "queues a new photograph target at the Specified Timestamp",
       stepCount = CameraAcquisitorSystemCameraTargetHandler.PHOTOGRAPH_LOCATION_STAGES,
       name = CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION)
   public UInteger photographLocation(
       Long actionInstanceObjId,
       boolean reportProgress,
       MALInteraction interaction,
-      @ActionParameter(name = "targetLongitude", rawUnit = "degree") Double targetLongitude,
       @ActionParameter(name = "targetLatitude", rawUnit = "degree") Double targetLatitude,
-      @ActionParameter(name = "timeStemp") String timeStemp)
+      @ActionParameter(name = "targetLongitude", rawUnit = "degree") Double targetLongitude,
+      @ActionParameter(name = "timeStamp") String timeStamp)
   {
-    Logger.getLogger(CameraAcquisitorSystemMCAdapter.class.getName()).log(Level.SEVERE,
-        "" + targetLongitude + " " + targetLatitude + " " + timeStemp);
-    return this.cameraTargetHandler.photographLocation(targetLongitude, targetLatitude, timeStemp,
+    LOGGER.log(Level.SEVERE,
+        "" + targetLatitude + " " + targetLongitude + " " + timeStamp);
+    return this.cameraTargetHandler.photographLocation(targetLatitude, targetLongitude, timeStamp,
         actionInstanceObjId, reportProgress, interaction);
   }
 

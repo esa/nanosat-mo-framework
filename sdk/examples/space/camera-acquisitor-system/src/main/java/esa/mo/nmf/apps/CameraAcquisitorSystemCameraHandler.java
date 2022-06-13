@@ -43,6 +43,7 @@ import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
 import org.ccsds.moims.mo.platform.camera.structures.PixelResolution;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
 import org.ccsds.moims.mo.platform.gps.structures.TwoLineElementSet;
+import org.hipparchus.util.FastMath;
 import org.orekit.bodies.GeodeticPoint;
 
 /**
@@ -164,7 +165,7 @@ public class CameraAcquisitorSystemCameraHandler
             STAGE_RECIVED + this.stageOffset,
             this.totalStage, this.actionInstanceObjId);
       } catch (NMFException ex) {
-        Logger.getLogger(CameraAcquisitorSystemCameraHandler.class.getName()).log(Level.SEVERE, null,
+        LOGGER.log(Level.SEVERE, null,
             ex);
       }
       //
@@ -183,10 +184,10 @@ public class CameraAcquisitorSystemCameraHandler
       try {
         GeodeticPoint position = this.casMCAdapter.getGpsHandler().getCurrentPosition();
 
-        posString = String.valueOf(position.getLatitude()) + "_" + String.valueOf(
-            position.getLongitude());
+        posString = String.valueOf(FastMath.toDegrees(position.getLatitude())) + "_" + String.valueOf(
+          FastMath.toDegrees(position.getLongitude()));
       } catch (Exception ex) {
-        LOGGER.log(Level.SEVERE, "getCurrentPosition Failed!/n{0}", ex);
+        LOGGER.log(Level.SEVERE, "getCurrentPosition Failed!/n {0}", ex);
       }
 
       // create filename
