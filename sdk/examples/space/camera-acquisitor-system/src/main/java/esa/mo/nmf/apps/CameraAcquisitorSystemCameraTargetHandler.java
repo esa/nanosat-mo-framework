@@ -83,21 +83,21 @@ public class CameraAcquisitorSystemCameraTargetHandler
       boolean reportProgress, MALInteraction interaction)
   {
     // get parameters
-    Double longitude = HelperAttributes.attribute2double(attributeValues.get(0).getValue());
-    Double latitude = HelperAttributes.attribute2double(attributeValues.get(1).getValue());
-    String timeStemp =
+    Double latitude = HelperAttributes.attribute2double(attributeValues.get(0).getValue());
+    Double longitude = HelperAttributes.attribute2double(attributeValues.get(1).getValue());
+    String timeStamp =
         HelperAttributes.attribute2JavaType(attributeValues.get(2).getValue()).toString();
     //
     return photographLocation(
-        longitude, latitude, timeStemp, actionInstanceObjId, reportProgress, interaction);
+        latitude, longitude, timeStamp, actionInstanceObjId, reportProgress, interaction);
   }
 
 
-  UInteger photographLocation(double longitude, double latitude, String timeStemp,
+  UInteger photographLocation(double latitude, double longitude, String timeStamp,
       Long actionInstanceObjId,
       boolean reportProgress, MALInteraction interaction)
   {
-    AbsoluteDate targetDate = new AbsoluteDate(timeStemp, TimeScalesFactory.getUTC());
+    AbsoluteDate targetDate = new AbsoluteDate(timeStamp, TimeScalesFactory.getUTC());
 
     double seconds = targetDate.durationFrom(CameraAcquisitorSystemMCAdapter.getNow());
 
@@ -113,7 +113,7 @@ public class CameraAcquisitorSystemCameraTargetHandler
               PHOTOGRAPH_LOCATION_STAGES,
               actionInstanceObjId);
         } catch (NMFException ex) {
-          Logger.getLogger(CameraAcquisitorSystemCameraTargetHandler.class.getName()).log(
+          LOGGER.log(
               Level.SEVERE,
               null, ex);
         }
@@ -123,8 +123,8 @@ public class CameraAcquisitorSystemCameraTargetHandler
 
         // set desired attitude using target latitude and longitude
         AttitudeMode desiredAttitude = new AttitudeModeTargetTracking(
-            (float) longitude,
-            (float) latitude);
+            (float) latitude,
+            (float) longitude);
 
         try {
           casMCAdapter.getConnector().getPlatformServices().getAutonomousADCSService()
@@ -139,7 +139,7 @@ public class CameraAcquisitorSystemCameraTargetHandler
               actionInstanceObjId);
           LOGGER.log(Level.INFO, "Attitude Correction Running");
         } catch (NMFException | IOException | MALInteractionException | MALException ex) {
-          Logger.getLogger(CameraAcquisitorSystemCameraTargetHandler.class.getName()).log(
+          LOGGER.log(
               Level.SEVERE,
               null, ex);
         }
@@ -153,7 +153,7 @@ public class CameraAcquisitorSystemCameraTargetHandler
           TimeUnit.SECONDS.sleep(seconds);
           TimeUnit.MILLISECONDS.sleep(milliSeconds);
         } catch (InterruptedException ex) {
-          Logger.getLogger(CameraAcquisitorSystemCameraTargetHandler.class.getName()).log(
+          LOGGER.log(
               Level.SEVERE,
               ex.getMessage());
         }
@@ -171,7 +171,7 @@ public class CameraAcquisitorSystemCameraTargetHandler
               STAGE_WAIT_FOR_OPTIMAL_PASS, PHOTOGRAPH_LOCATION_STAGES, "");
 
         } catch (NMFException | IOException | MALInteractionException | MALException ex) {
-          Logger.getLogger(CameraAcquisitorSystemCameraTargetHandler.class.getName()).log(
+          LOGGER.log(
               Level.SEVERE,
               ex.getMessage());
         }
@@ -184,8 +184,7 @@ public class CameraAcquisitorSystemCameraTargetHandler
     );
     LOGGER.log(Level.INFO, "Starting Timer for Photograph, Number of Seconds: {0}", seconds);
 
-    return null;
-    //return new UInteger(0);
+    return null; //Null (action successful) is returned before the action is performed
   }
 
   /**
@@ -213,7 +212,7 @@ public class CameraAcquisitorSystemCameraTargetHandler
     // query all necessary information from archive service
     try {
       if (casMCAdapter.getConnector().getCOMServices().getArchiveService() != null) {
-        Logger.getLogger(CameraAcquisitorSystemCameraTargetHandler.class.getName()).log(
+        LOGGER.log(
             Level.INFO,
             "Archive Service found.");
 
@@ -225,13 +224,13 @@ public class CameraAcquisitorSystemCameraTargetHandler
                     new UShort(0), new UShort(0), new UOctet((short) 0), new UShort(0)),
                 archiveQueryList, null, archiveAdapter);
       } else {
-        Logger.getLogger(CameraAcquisitorSystemCameraTargetHandler.class.getName()).log(
+        LOGGER.log(
             Level.INFO,
             "NO Archive Service found!");
 
       }
     } catch (NMFException | MALException | MALInteractionException ex) {
-      Logger.getLogger(CameraAcquisitorSystemCameraTargetHandler.class.getName()).log(Level.SEVERE,
+      LOGGER.log(Level.SEVERE,
           null, ex);
     }
   }
@@ -258,23 +257,23 @@ public class CameraAcquisitorSystemCameraTargetHandler
           if (objBody instanceof ActionInstanceDetails) {
             ActionInstanceDetails instance = ((ActionInstanceDetails) objBody);
             if (instance.getArgumentValues().size() == 3) {
-              String timeStemp = instance.getArgumentValues().get(2).getValue().toString();
+              String timeStamp = instance.getArgumentValues().get(2).getValue().toString();
               try {
-                AbsoluteDate targetDate = new AbsoluteDate(timeStemp, TimeScalesFactory.getUTC());
+                AbsoluteDate targetDate = new AbsoluteDate(timeStamp, TimeScalesFactory.getUTC());
 
                 if (targetDate.compareTo(CameraAcquisitorSystemMCAdapter.getNow()) > 0) {
                   photographLocation(instance.getArgumentValues(), objDetails.get(
                       i).getInstId(), true,
                       null);
-                  Logger.getLogger(CameraAcquisitorSystemCameraTargetHandler.class.getName()).log(
-                      Level.INFO, "recovered action: {0} longitude:{1} latitude:{2}", new Object[]{
-                        timeStemp,
+                      LOGGER.log(
+                      Level.INFO, "recovered action: {0} latitude:{1} longitude:{2}", new Object[]{
+                        timeStamp,
                         instance.getArgumentValues().get(0).getValue().toString(),
                         instance.getArgumentValues().get(
-                            2).getValue().toString()});
+                            1).getValue().toString()});
                 }
               } catch (Exception e) {
-                Logger.getLogger(CameraAcquisitorSystemCameraTargetHandler.class.getName()).log(
+                LOGGER.log(
                     Level.WARNING,
                     "recover action failed: {0}", e.getMessage());
               }
