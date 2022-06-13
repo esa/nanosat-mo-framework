@@ -77,7 +77,7 @@ public class CameraAcquisitorSystemGPSHandler extends GPSAdapter
       return new GeodeticPoint(latitude, longitude, altitude);
 
     } catch (NMFException | IOException | MALInteractionException | MALException ex) {
-      Logger.getLogger(CameraAcquisitorSystemGPSHandler.class.getName()).log(Level.SEVERE, null, ex);
+      LOGGER.log(Level.SEVERE, null, ex);
     }
     return null;
   }

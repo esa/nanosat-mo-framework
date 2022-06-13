@@ -54,7 +54,6 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
 
   private final CameraAcquisitorSystemCameraTargetHandler cameraTargetHandler;
   private final CameraAcquisitorSystemCameraHandler cameraHandler;
-
   private final CameraAcquisitorSystemGPSHandler gpsHandler;
 
   void recoverLastState()
@@ -206,20 +205,20 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
   }
 
   @Action(
-      description = "queues a new photograph target at the Specified Timestemp",
+      description = "queues a new photograph target at the Specified Timestamp",
       stepCount = CameraAcquisitorSystemCameraTargetHandler.PHOTOGRAPH_LOCATION_STAGES,
       name = CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION)
   public UInteger photographLocation(
       Long actionInstanceObjId,
       boolean reportProgress,
       MALInteraction interaction,
-      @ActionParameter(name = "targetLongitude", rawUnit = "degree") Double targetLongitude,
       @ActionParameter(name = "targetLatitude", rawUnit = "degree") Double targetLatitude,
-      @ActionParameter(name = "timeStemp") String timeStemp)
+      @ActionParameter(name = "targetLongitude", rawUnit = "degree") Double targetLongitude,
+      @ActionParameter(name = "timeStamp") String timeStamp)
   {
-    Logger.getLogger(CameraAcquisitorSystemMCAdapter.class.getName()).log(Level.SEVERE,
-        "" + targetLongitude + " " + targetLatitude + " " + timeStemp);
-    return this.cameraTargetHandler.photographLocation(targetLongitude, targetLatitude, timeStemp,
+    LOGGER.log(Level.SEVERE,
+        "" + targetLatitude + " " + targetLongitude + " " + timeStamp);
+    return this.cameraTargetHandler.photographLocation(targetLatitude, targetLongitude, timeStamp,
         actionInstanceObjId, reportProgress, interaction);
   }
 
