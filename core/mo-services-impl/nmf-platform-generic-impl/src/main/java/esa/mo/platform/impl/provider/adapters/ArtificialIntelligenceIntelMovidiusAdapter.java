@@ -49,7 +49,7 @@ public class ArtificialIntelligenceIntelMovidiusAdapter implements ArtificialInt
         String out = shellCommander.runCommandAndGetOutputMessage(cmdPython);
         String[] splits = out.split("Python ");
 
-        if (splits.length == 0) {
+        if (splits.length <= 1) {
             throw new IOException("The Python version could not be determined!"
                     + " The command returned: " + out);
         }
@@ -112,9 +112,15 @@ public class ArtificialIntelligenceIntelMovidiusAdapter implements ArtificialInt
         if (path.isFile()) {
             return toBeMatched.equals(path.getName()) ? path : null;
         }
+        
+        File[] list = path.listFiles();
+        
+        if(list == null) {
+            return null;
+        }
 
         // It is a directory... crawl through it
-        for (File entry : path.listFiles()) {
+        for (File entry : list) {
             File file = findPathToFile(entry, toBeMatched);
             if (file != null) {
                 return file;
