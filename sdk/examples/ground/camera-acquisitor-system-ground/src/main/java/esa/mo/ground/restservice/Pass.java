@@ -82,6 +82,7 @@ public class Pass implements EventHandler<BooleanDetector>
   @Override
   public Action eventOccurred(SpacecraftState s, BooleanDetector detector, boolean increasing)
   {
+    
     if (increasing) {
       if (!startIsSet) {
         this.passStart = s.getDate();
@@ -89,8 +90,8 @@ public class Pass implements EventHandler<BooleanDetector>
       }
     } else {
       this.passEnd = s.getDate();
-      double elepsedTime = this.passEnd.durationFrom(this.passStart);
-      this.optimalTime = this.passStart.shiftedBy(elepsedTime / 2);
+      double elapsedTime = this.passEnd.durationFrom(this.passStart);
+      this.optimalTime = this.passStart.shiftedBy(elapsedTime / 2);
       this.resultTime = this.optimalTime.toString();
       if (this.optimalTime.durationFrom(CameraAcquisitorSystemMCAdapter.getNow()) <= worstCaseRotationTimeSeconds && this.optimalTime.compareTo(
           this.notBeforeDate) > 0) {

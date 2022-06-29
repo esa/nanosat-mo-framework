@@ -104,12 +104,12 @@ public class CameraAcquisitorGround
 {
 
   private static final Logger LOGGER = Logger.getLogger(CameraAcquisitorGround.class.getName());
-  private static final String PROVIDER_CAMERA_APP = "App: camera-acquisitor-system";
+  private static final String PROVIDER_CAMERA_APP = "App: exp495";
 
   private GroundMOAdapterImpl gma;
   private final OrbitHandler orbitHandler;
 
-  // some usefull time constants
+  // some useful time constants
   private final long MINUTE_IN_SECONDS = 60;
   private final long HOUR_IN_SECONDS = MINUTE_IN_SECONDS * 60;
   private final long DAY_IN_SECONDS = HOUR_IN_SECONDS * 24;
@@ -126,7 +126,7 @@ public class CameraAcquisitorGround
   private final long DEFAULT_STEPSIZE = MINUTE_IN_SECONDS / 2;
   private final double DEFAULT_MAX_ANGLE = 45.0;
 
-  // Tree set to keep track of sheduled photographs and make checking for collisions easyer
+  // Tree set to keep track of scheduled photographs and make checking for collisions easier
   private final TreeSet<AbsoluteDate> schedule = new TreeSet<>();
 
   // Hashmap containing the currently running actions and their status (current stage)
@@ -135,7 +135,7 @@ public class CameraAcquisitorGround
   // cached values
   private PositionAndTime[] cachedTrack = new PositionAndTime[0];
   private AtomicLong counter = new AtomicLong(0);
-  private final int NUM_TRIES = 5; // number of timeslots that will maximaly be calculated.
+  private final int NUM_TRIES = 5; // number of timeslots that will maximally be calculated.
 
   private TLE cachedTLE;
   private Instant lastTLEUpdate;
@@ -143,7 +143,7 @@ public class CameraAcquisitorGround
   @PostConstruct
   private void start()
   {
-    System.out.println("----------------------------- STARTUP --------------------------------");
+    LOGGER.log(Level.INFO, "---STARTUP---");
   }
 
   /**
@@ -157,7 +157,7 @@ public class CameraAcquisitorGround
     private static final String EXPOSURE_TYPE = "exposureType";
     private static final String CUSTOM_EXPOSURE_TIME = "exposureTime";
     private static final String WORST_CASE_ROTATION_TIME_MS = "worstCaseRotationTimeMS";
-    private static final String ATTITUDE_SAFTY_MARGIN_MS = "attitudeSaftyMarginMS";
+    private static final String ATTITUDE_SAFETY_MARGIN_MS = "attitudeSafetyMarginMS";
     private static final String PICTURE_WIDTH = "pictureWidth";
     private static final String PICTURE_HEIGHT = "pictureHeight";
     private static final String PICTURE_TYPE = "pictureType";
@@ -174,7 +174,7 @@ public class CameraAcquisitorGround
     // true if the stage was successful, false if not
     public boolean success;
 
-    // error message (if seccess is true, this should be empty)
+    // error message (if success is true, this should be empty)
     public String error;
 
     /**
@@ -204,77 +204,85 @@ public class CameraAcquisitorGround
   public CameraAcquisitorGround(ApplicationArguments args)
   {
     if (args.getSourceArgs().length == 0) {
-      System.err.println("No directoryURI given! exiting now");
+      LOGGER.log(Level.SEVERE, "No directoryURI given! exiting now");
       System.exit(1);
     }
-    System.out.println("------------------------- parsing arguments --------------------------");
+    LOGGER.log(Level.INFO, "Parsing arguements...");
 
     URI directoryURI = new URI(args.getSourceArgs()[0]);
-    System.out.println("directoryURI = " + directoryURI);
+    LOGGER.log(Level.INFO, "directoryURI = " + directoryURI);
 
-    System.out.println("--------------------------- initialisation ----------------------------");
+    LOGGER.log(Level.INFO, "Initialization...");
     this.lastTLEUpdate = Instant.MIN;
 
     //setup orekit
-    System.out.println("Setup Orekit");
+    LOGGER.log(Level.INFO, "Setup Orekit");
     DataProvidersManager manager = DataProvidersManager.getInstance();
     manager.addProvider(OrekitResources.getOrekitData());
 
-    System.out.println("Setup Providers");
+    LOGGER.log(Level.INFO, "Setup providers");
     ProviderSummaryList providers;
-    try {
-      System.out.println("retrive providers");
-      providers =
-          GroundMOAdapterImpl.retrieveProvidersFromDirectory(
-              directoryURI);
-      System.out.println("retrive providers fin");
-      for (ProviderSummary provider : providers) {
-        System.out.println("name : " + provider.getProviderName().getValue());
-        if (provider.getProviderName().getValue().equals(PROVIDER_CAMERA_APP)) {
-          gma = new GroundMOAdapterImpl(provider);
-          break;
+    //maybe this initialization can occur inside the methods in case you want to check
+    //availability again and retrieve providers after init
+    LOGGER.log(Level.INFO, "Retrieving providers...");
+    while(gma == null) {
+      try {
+      //System.out.println("Retrieving providers...");
+        providers =
+        GroundMOAdapterImpl.retrieveProvidersFromDirectory(
+                directoryURI);
+                LOGGER.log(Level.INFO, 
+                "Finished retrieving providers");
+        for (ProviderSummary provider : providers) {
+          LOGGER.log(Level.INFO,
+                "Name: {0} ", provider.getProviderName().getValue());
+          
+          if (provider.getProviderName().getValue().equals(PROVIDER_CAMERA_APP)) {
+            gma = new GroundMOAdapterImpl(provider);
+              break;
+          }else{
+            LOGGER.log(Level.WARNING,
+                    "Camera Acqisitor App not found! Retrying...");
+          }
         }
+      } catch (MALException | MalformedURLException | MALInteractionException ex) {
+        LOGGER.log(Level.SEVERE, null, ex);
       }
-
-      if(gma != null) {
+    }
+    if (gma != null) {
+      try{
         Subscription subscription = HelperCOM.generateSubscriptionCOMEvent(
-                "ActivityTrackingListener",
-                ActivityTrackingHelper.EXECUTION_OBJECT_TYPE);
+          "ActivityTrackingListener",
+          ActivityTrackingHelper.EXECUTION_OBJECT_TYPE);
         gma.getCOMServices().getEventService().addEventReceivedListener(subscription,
-                new EventReceivedListenerAdapter());
-
+          new EventReceivedListenerAdapter());
         setInitialParameters();
 
         // get previous requests
         ArchiveQueryList archiveQueryList = new ArchiveQueryList();
         ArchiveQuery archiveQuery = new ArchiveQuery();
-
         archiveQuery.setDomain(null);
         archiveQuery.setNetwork(null);
         archiveQuery.setProvider(null);
-        archiveQuery.setRelated(0L);
+        archiveQuery.setRelated(new Long(0));
         archiveQuery.setSource(null);
         archiveQuery.setStartTime(null);
         archiveQuery.setEndTime(null);
         archiveQuery.setSortFieldName(null);
-
         archiveQueryList.add(archiveQuery);
 
         GetAllArchiveAdapter archiveAdapter = new GetAllArchiveAdapter();
-
         gma.getCOMServices().getArchiveService().getArchiveStub().query(true, new ObjectType(
-                        new UShort(0), new UShort(0), new UOctet((short) 0), new UShort(0)),
-                archiveQueryList, null, archiveAdapter);
+                          new UShort(0), new UShort(0), new UOctet((short) 0), new UShort(0)),
+                          archiveQueryList, null, archiveAdapter);
 
-        System.out.println("------------------------------------------------------------------------");
+                          LOGGER.log(Level.INFO,"Finished getting archive entries!");
+      }catch (MALException | MALInteractionException ex) {
+        LOGGER.log(Level.SEVERE, null, ex);
       }
-      else {
-        LOGGER.log(Level.SEVERE, "Failed to connect to the provider. No such provider found - " + PROVIDER_CAMERA_APP);
-      }
-    } catch (MALException | MalformedURLException | MALInteractionException ex) {
-      Logger.getLogger(CameraAcquisitorGround.class.getName()).log(Level.SEVERE, null, ex);
+    }else {
+      //LOGGER.log(Level.SEVERE, "Failed to connect to the provider. No such provider found - " + PROVIDER_CAMERA_APP);
     }
-
     orbitHandler = new OrbitHandler(getTLE());
   }
 
@@ -294,21 +302,21 @@ public class CameraAcquisitorGround
   /**
    * Schedules a photograph of the given target location at a given time.
    *
-   * @param longitude longitude of the target location.
    * @param latitude  latitude of the target location.
-   * @param timeStemp time at which the photograph should be taken.
+   * @param longitude longitude of the target location.
+   * @param timeStamp time at which the photograph should be taken.
    * @return the actionID that was assigned to space application action.
    */
   @PostMapping("/schedulePhotographPosition")
   public Long schedulePhotographPosition(
-      @RequestParam(value = "longitude") double longitude,
       @RequestParam(value = "latitude") double latitude,
-      @RequestParam(value = "timeStemp") String timeStemp)
+      @RequestParam(value = "longitude") double longitude,
+      @RequestParam(value = "timeStamp") String timeStamp)
   {
 
-    AbsoluteDate scheduleDate = new AbsoluteDate(timeStemp, TimeScalesFactory.getUTC());
+    AbsoluteDate scheduleDate = new AbsoluteDate(timeStamp, TimeScalesFactory.getUTC());
 
-    // check if timeslot is awailable
+    // check if timeslot is available
     if (checkTimeSlot(scheduleDate)) {
       try {
         // add new action to schedule
@@ -328,7 +336,7 @@ public class CameraAcquisitorGround
         AttributeValueList arguments = new AttributeValueList();
         arguments.add(new AttributeValue((Attribute) HelperAttributes.javaType2Attribute(latitude)));
         arguments.add(new AttributeValue((Attribute) HelperAttributes.javaType2Attribute(longitude)));
-        arguments.add(new AttributeValue((Attribute) HelperAttributes.javaType2Attribute(timeStemp)));
+        arguments.add(new AttributeValue((Attribute) HelperAttributes.javaType2Attribute(timeStamp)));
 
         Long actionID = gma.launchAction(objIds.get(0).getObjDefInstanceId(), arguments);
         if (actionID == null) {
@@ -344,7 +352,7 @@ public class CameraAcquisitorGround
         LOGGER.log(Level.SEVERE, e.getMessage());
       }
     }
-    LOGGER.log(Level.INFO, "Timeslot not awailable!");
+    LOGGER.log(Level.INFO, "Timeslot not available!");
     return null;
   }
 
@@ -353,16 +361,16 @@ public class CameraAcquisitorGround
    * Takes current schedule into account. Returns at most NUM_TRIES time slots. Returns less if
    * MAX_SIM_RANGE is exceeded before NUM_TRIES slots have been found.
    *
-   * @param longitude longitude of the target
    * @param latitude  latitude of the target
+   * @param longitude longitude of the target
    * @param maxAngle  maximum angle between target and satellite.
    * @param timeMode  the time at which the photograph should be taken (ANY, DAY, NIGHT)
    * @return list of possible time slots
    */
   @GetMapping("/photographTime")
   public LinkedList<String> getTimeOfPhotograph(
-      @RequestParam(value = "longitude") double longitude,
       @RequestParam(value = "latitude") double latitude,
+      @RequestParam(value = "longitude") double longitude,
       @RequestParam(value = "maxAngle", defaultValue = "" + DEFAULT_MAX_ANGLE) double maxAngle,
       @RequestParam(value = "timeMode", defaultValue = "ANY") OrbitHandler.TimeModeEnum timeMode)
   {
@@ -376,14 +384,14 @@ public class CameraAcquisitorGround
     while (simTime.compareTo(simEnd) < 0 && results.size() <= NUM_TRIES) {
 
       Pass pass = orbitHandler.getPassTime(
-          longitude, latitude,
+          latitude, longitude,
           maxAngle, timeMode,
           simTime,
           DEFAULT_WORST_CASE_ROTATION_TIME_SEC,
           MAX_SIM_RANGE);
       simTime = pass.getOptimalTime();
 
-      // if timeslot awailable add to possible results
+      // if timeslot available add to possible results
       // simTime is null, if start time > end time, in that case abort.
       if (simTime != null && checkTimeSlot(simTime)) {
         results.add(pass.getResultTime());
@@ -459,7 +467,7 @@ public class CameraAcquisitorGround
       cachedTLE = new TLE(line1, line2);
       return cachedTLE;
     } catch (IOException ex) {
-      Logger.getLogger(CameraAcquisitorGround.class.getName()).log(Level.SEVERE, "loadTLE {0}",
+      LOGGER.log(Level.SEVERE, "loadTLE {0}",
           ex.getMessage());
     }
       return null;
@@ -488,7 +496,7 @@ public class CameraAcquisitorGround
    */
   private void setInitialParameters()
   {
-    gma.setParameter(Parameter.ATTITUDE_SAFTY_MARGIN_MS, 1000000L);
+    gma.setParameter(Parameter.ATTITUDE_SAFETY_MARGIN_MS, 1000000L);
     gma.setParameter(Parameter.CUSTOM_EXPOSURE_TIME, 1.0f);
     gma.setParameter(Parameter.EXPOSURE_TYPE, (byte) 0);//CUSTOM = 0, AUTOMATIC = 1
     gma.setParameter(Parameter.WORST_CASE_ROTATION_TIME_MS, DEFAULT_WORST_CASE_ROTATION_TIME_MS);
@@ -509,33 +517,31 @@ public class CameraAcquisitorGround
     } else if (type == ActivityExecution.TYPE_SHORT_FORM) {
       System.out.println("ActivityExecution");
       ActivityExecution event = (ActivityExecution) body;
-      int newState = (int) event.getExecutionStage().getValue();
-      int stageCount = (int) event.getExecutionStage().getValue();
+      int executionStage = (int) event.getExecutionStage().getValue();
+      int stageCount = (int) event.getStageCount().getValue();
       boolean success = event.getSuccess();
 
       // update status of action
       if (activeActions.containsKey(actionID)) {
         synchronized (activeActions) {
-          System.out.println("fill array");
-          // minus 2 because stage count starts at 1 and an extra stage (for message recived) is added by the Framework
-          activeActions.get(actionID)[stageCount - 2] = new ActionReport(stageCount - 1, success,
-              "");
-          // if some other stage is seccesfull, the command has also been transmitted to the sattelite!
-          if (stageCount - 2 > 0 && success) {
+          // minus 2 because stage count starts at 1 and an extra stage (for message received) is added by the Framework
+          if(executionStage > 1 && executionStage < 6)
+            activeActions.get(actionID)[executionStage - 1] = new ActionReport(executionStage, success, "");
+          // if some other stage is successful, the command has also been transmitted to the satellite!
+          if (executionStage - 1 > 0 && executionStage != 7 && success) {
             activeActions.get(actionID)[0] = new ActionReport(1, true, "");
           }
         }
-        LOGGER.log(Level.INFO, "action state: {0}", Arrays.toString(activeActions.get(actionID)));
-
+        LOGGER.log(Level.INFO, "Action State: {0}", Arrays.toString(activeActions.get(actionID)));
       }
-
       if (success) {
-        LOGGER.log(Level.INFO, "Action Update: ID={0}, State={1}",
-            new Object[]{actionID, newState});
+        LOGGER.log(Level.INFO, "Action Update: ID={0}, Execution Stage={1}",
+            new Object[]{actionID, executionStage});
       } else {
-        LOGGER.log(Level.WARNING, "Action Unseccessfull: ID={0}, State={1}",
-            new Object[]{actionID, newState});
+        LOGGER.log(Level.WARNING, "Action Unsuccessful: ID={0}, Execution Stage={1}",
+            new Object[]{actionID, executionStage});
       }
+      
     } else if (type == AlertEventDetails.TYPE_SHORT_FORM) {
       System.out.println("AlertEventDetails");
       AlertEventDetails event = (AlertEventDetails) body;
@@ -598,7 +604,7 @@ public class CameraAcquisitorGround
               idList.add(
                   new Identifier(
                       CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION));
-
+              
               ObjectInstancePairList objIds =
                   gma.getMCServices().getActionService().getActionStub().listDefinition(idList);
               if (objIds.size() > 0
@@ -606,7 +612,8 @@ public class CameraAcquisitorGround
                   && instance.getArgumentValues().size() == 3) {
 
                 String timestamp = instance.getArgumentValues().get(2).getValue().toString();
-                System.out.println("recovered action: " + timestamp);
+                LOGGER.log(Level.INFO,
+                        "recovered action: " + timestamp + "\tID: " + objDetails.get(i).getInstId());
 
                 activeActions.put(objDetails.get(i).getInstId(),
                     new ActionReport[CameraAcquisitorSystemCameraTargetHandler.PHOTOGRAPH_LOCATION_STAGES]);
@@ -616,11 +623,17 @@ public class CameraAcquisitorGround
                 schedule.add(scheduleDate);
               }
             } catch (MALInteractionException | MALException ex) {
-              Logger.getLogger(CameraAcquisitorGround.class.getName()).log(Level.SEVERE,
+              LOGGER.log(Level.SEVERE,
                   ex.getMessage());
             }
-          } else {
-            updateEvent(objDetails.get(i).getInstId(), objDetails.get(i).getTypeShortForm(), objBody);
+          }else if (objBody instanceof ActivityAcceptance){
+            ActivityAcceptance instance = ((ActivityAcceptance) objBody);
+            updateEvent(objDetails.get(i).getDetails().getSource().getKey().getInstId(), 
+                instance.getTypeShortForm(), objBody);
+          }else if (objBody instanceof ActivityExecution){
+            ActivityExecution instance = ((ActivityExecution) objBody);
+            updateEvent(objDetails.get(i).getDetails().getSource().getKey().getInstId(), 
+                instance.getTypeShortForm(), objBody);
           }
           i++;
         }
