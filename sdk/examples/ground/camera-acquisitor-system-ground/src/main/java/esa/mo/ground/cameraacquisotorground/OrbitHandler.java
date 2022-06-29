@@ -75,8 +75,7 @@ public class OrbitHandler
    */
   public OrbitHandler(TLE tle)
   {
-
-    earthFrame = FramesFactory.getITRF(IERSConventions.IERS_2010, true);//FramesFactory.getEME2000();
+    earthFrame = FramesFactory.getITRF(IERSConventions.IERS_2010, true);
     earth = new OneAxisEllipsoid(
         Constants.WGS84_EARTH_EQUATORIAL_RADIUS,
         Constants.WGS84_EARTH_FLATTENING, earthFrame);
@@ -113,7 +112,7 @@ public class OrbitHandler
    * @return
    */
   public PositionAndTime[] getGroundTrack(AbsoluteDate startDate, AbsoluteDate endDate,
-      double timeStepSeconds)
+      long timeStepSeconds)
   {
     LinkedList<PositionAndTime> positionSeries = new LinkedList<>();
 
@@ -123,10 +122,9 @@ public class OrbitHandler
         currentDate = currentDate.shiftedBy(timeStepSeconds)) {
 
       SpacecraftState currentState = this.propagator.propagate(startDate, currentDate);
-
-      GeodeticPoint curreLocation = earth.transform(
+      GeodeticPoint currentLocation = earth.transform(
           currentState.getPVCoordinates(earthFrame).getPosition(), earthFrame, currentDate);
-      positionSeries.add(new PositionAndTime(currentDate, curreLocation));
+      positionSeries.add(new PositionAndTime(currentDate, currentLocation));
     }
     return positionSeries.toArray(new PositionAndTime[0]);
   }
@@ -143,8 +141,8 @@ public class OrbitHandler
   /**
    * returns the next time a pass happens with the given parameters
    *
-   * @param longitude                    target longitude
    * @param latitude                     target latitude
+   * @param longitude                    target longitude
    * @param maxAngle                     maximum angle between satellite and target
    * @param timeMode                     time at which the pass should be
    * @param notBeforeDate                the earliest time the pass can be
@@ -152,15 +150,18 @@ public class OrbitHandler
    * @param simulationRange
    * @return the earliest pass that fits the given parameters
    */
-  public Pass getPassTime(double longitude, double latitude, double maxAngle,
+  public Pass getPassTime(double latitude, double longitude, double maxAngle,
       TimeModeEnum timeMode, AbsoluteDate notBeforeDate, long worstCaseRotationTimeSeconds,
       long simulationRange)
   {
 
-    GeodeticPoint targetLocation = new GeodeticPoint(latitude, longitude, 0);
+    GeodeticPoint targetLocation = new GeodeticPoint(FastMath.toRadians(latitude), FastMath.toRadians(longitude), 0);
     TopocentricFrame groundFrame = new TopocentricFrame(earth, targetLocation, "cameraTarget");
 
     // ------------------ create Detectors ------------------
+    /**
+     to Radians??????
+     */
     EventDetector overpassDetector = new ElevationDetector(groundFrame)
         .withConstantElevation(FastMath.toRadians(90.0 - maxAngle));
 
@@ -168,7 +169,7 @@ public class OrbitHandler
     if (timeMode != TimeModeEnum.ANY) {
       PVCoordinatesProvider sun = CelestialBodyFactory.getSun(); //create detector for nighttime
 
-      EventDetector timeModeDetector = new GroundAtNightDetector(groundFrame, sun, latitude,
+      EventDetector timeModeDetector = new GroundAtNightDetector(groundFrame, sun, FastMath.toRadians(-18.0),
           new EarthITU453AtmosphereRefraction(0));
 
       //invert nightTime detector if photograph should be taken at daytime

@@ -49,7 +49,7 @@ public class PositionAndTime
     this.location = location;
     latitude = location.getLatitude();
     longitude = location.getLongitude();
-    altitude = location.getLongitude();
+    altitude = location.getAltitude();
   }
 
   public AbsoluteDate getOrekitDate()
