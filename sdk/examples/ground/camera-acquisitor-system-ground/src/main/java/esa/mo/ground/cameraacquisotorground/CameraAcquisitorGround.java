@@ -455,7 +455,7 @@ public class CameraAcquisitorGround
   private TLE loadTLE()
   {
     try {
-      URL url = new URL("https://celestrak.com/satcat/tle.php?CATNR=44878"); //opsat TLE
+      URL url = new URL("https://celestrak.com/NORAD/elements/gp.php?CATNR=44878"); //opsat TLE
       BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
 
       String line0 = in.readLine();// only needed to remove first line
