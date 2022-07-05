@@ -349,7 +349,7 @@ public class CameraAcquisitorGround
         return actionID;
 
       } catch (NMFException | MALException | MALInteractionException e) {
-        LOGGER.log(Level.SEVERE, e.getMessage());
+        LOGGER.log(Level.SEVERE, e.getMessage(), e);
       }
     }
     LOGGER.log(Level.INFO, "Timeslot not available!");
