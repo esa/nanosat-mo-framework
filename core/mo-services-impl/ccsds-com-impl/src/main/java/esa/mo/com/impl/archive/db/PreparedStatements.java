@@ -17,7 +17,7 @@ public class PreparedStatements {
     private static String SELECT_COM_OBJECTS = "SELECT objectTypeId, domainId, objId, "
             + "timestampArchiveDetails, providerURI, network, sourceLinkObjectTypeId, "
             + "sourceLinkDomainId, sourceLinkObjId, relatedLink, objBody " + "FROM COMObjectEntity "
-            + "WHERE ((objectTypeId = ?) AND (domainId = ?) AND (objId in (?)))";
+            + "WHERE ((objectTypeId = ?) AND (domainId = ?) AND (objId in (%s)))";
     private static String INSERT_COM_OBJECTS = "INSERT INTO COMObjectEntity "
             + "(objectTypeId, objId, domainId, network, objBody, providerURI, relatedLink, "
             + "sourceLinkDomainId, sourceLinkObjId, sourceLinkObjectTypeId, timestampArchiveDetails) "
@@ -32,15 +32,19 @@ public class PreparedStatements {
     private static String SELECT_MAX_OBJ_ID = "SELECT MAX(objId) FROM COMObjectEntity WHERE ((objectTypeId = ?) AND (domainId = ?))";
 
     private PreparedStatement selectAllCOMObjectIds;
-    private PreparedStatement selectCOMObjects;
     private PreparedStatement insertCOMObjects;
     private PreparedStatement deleteCOMObjects;
     private PreparedStatement updateCOMObjects;
     private PreparedStatement selectMaxObjId;
 
-    public void init() throws SQLException {
+    public void init(boolean isPostgres) throws SQLException {
+        if(isPostgres) {
+            SELECT_COM_OBJECTS = "SELECT objectTypeId, domainId, objId, "
+                                 + "timestampArchiveDetails, providerURI, network, sourceLinkObjectTypeId, "
+                                 + "sourceLinkDomainId, sourceLinkObjId, relatedLink, objBody " + "FROM COMObjectEntity "
+                                 + "WHERE ((objectTypeId = ?) AND (domainId = ?) AND (objId = ANY(?)))";
+        }
         selectAllCOMObjectIds = c.prepareStatement(SELECT_ALL_COM_OBJECT_IDS);
-        selectCOMObjects = c.prepareStatement(SELECT_COM_OBJECTS);
         insertCOMObjects = c.prepareStatement(INSERT_COM_OBJECTS);
         deleteCOMObjects = c.prepareStatement(DELETE_COM_OBJECTS);
         updateCOMObjects = c.prepareStatement(UPDATE_COM_OBJECTS);
@@ -51,8 +55,8 @@ public class PreparedStatements {
         return this.selectAllCOMObjectIds;
     }
 
-    public PreparedStatement getSelectCOMObjects() {
-        return this.selectCOMObjects;
+    public String getSelectCOMObjectsQueryString() {
+        return SELECT_COM_OBJECTS;
     }
 
     public PreparedStatement getInsertCOMObjects() {
