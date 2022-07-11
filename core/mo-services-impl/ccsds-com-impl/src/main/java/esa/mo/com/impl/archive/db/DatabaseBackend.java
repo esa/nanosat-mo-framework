@@ -127,7 +127,7 @@ public class DatabaseBackend {
         
         preparedStatements = new PreparedStatements(serverConnection);
         try {
-            preparedStatements.init();
+            preparedStatements.init(isPostgres);
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, "Could not prepare the SQL statements. Application will exit!", ex);
             System.exit(0);
