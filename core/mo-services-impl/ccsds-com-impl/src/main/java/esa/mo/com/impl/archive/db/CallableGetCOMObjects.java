@@ -17,6 +17,11 @@ import esa.mo.com.impl.archive.entities.COMObjectEntity;
 
 final class CallableGetCOMObjects implements Callable<List<COMObjectEntity>> {
 
+    // for sqlite. %s will be replaced with proper ids.
+    private final static String SELECT_COM_OBJECTS = "SELECT objectTypeId, domainId, objId, "
+            + "timestampArchiveDetails, providerURI, network, sourceLinkObjectTypeId, "
+            + "sourceLinkDomainId, sourceLinkObjId, relatedLink, objBody " + "FROM COMObjectEntity "
+            + "WHERE ((objectTypeId = %s) AND (domainId = %s) AND (objId in (%s)))";
     private final TransactionsProcessor transactionsProcessor;
     private final LongList ids;
     private final Integer domainId;
@@ -43,27 +48,19 @@ final class CallableGetCOMObjects implements Callable<List<COMObjectEntity>> {
 
         try {
             ResultSet rs;
-            String query = this.transactionsProcessor.dbBackend.getPreparedStatements()
-                                                               .getSelectCOMObjectsQueryString();
             if (this.transactionsProcessor.dbBackend.isPostgres) {
                 // Array-bind is supported in Postgres
-                PreparedStatement stmt = c.prepareStatement(query);
+                PreparedStatement stmt = this.transactionsProcessor.dbBackend.getPreparedStatements()
+                                                                             .getSelectCOMObjects();
                 Array idsArray = c.createArrayOf("BIGINT", ids.toArray());
                 stmt.setInt(1, objTypeId);
                 stmt.setInt(2, domainId);
                 stmt.setArray(3, idsArray);
                 rs = stmt.executeQuery();
             } else {
-                String parameters = ids.stream().map(id -> "?").collect(Collectors.joining(", "));
-                query = String.format(query, parameters);
-                PreparedStatement stmt = c.prepareStatement(query);
-                stmt.setInt(1, objTypeId);
-                stmt.setInt(2, domainId);
-                for(int i = 0; i < ids.size(); ++i) {
-                    stmt.setLong(3 + i, ids.get(i));
-                }
-
-                rs = stmt.executeQuery();
+                String parameters = ids.stream().map(Object::toString).collect(Collectors.joining(", "));
+                String query = String.format(SELECT_COM_OBJECTS, objTypeId.toString(), domainId.toString(), parameters);
+                rs = c.createStatement().executeQuery(query);
             }
 
             while (rs.next()) {
