@@ -40,7 +40,7 @@ public class GroundMOAdapterImpl extends CommonMOAdapterImpl
   public GroundMOAdapterImpl(final ConnectionConsumer connection)
   {
     super(connection);
-    // No need for super.init(); here and in other consturctors because CommonMOAdapterImpl constructor already calls it
+    // No need for super.init(); here and in other constructors because CommonMOAdapterImpl constructor already calls it
   }
   
   /**

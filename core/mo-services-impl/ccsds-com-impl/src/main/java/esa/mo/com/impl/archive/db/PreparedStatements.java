@@ -12,26 +12,29 @@ public class PreparedStatements {
         c = serverConnection;
     }
 
-    private static String SELECT_ALL_COM_OBJECT_IDS = "SELECT objId " + "FROM COMObjectEntity "
+    private final static String SELECT_ALL_COM_OBJECT_IDS = "SELECT objId " + "FROM COMObjectEntity "
             + "WHERE ((objectTypeId = ?) AND (domainId = ?))";
-    private static String SELECT_COM_OBJECTS = "SELECT objectTypeId, domainId, objId, "
+    private final static String SELECT_COM_OBJECTS = "SELECT objectTypeId, domainId, objId, "
             + "timestampArchiveDetails, providerURI, network, sourceLinkObjectTypeId, "
             + "sourceLinkDomainId, sourceLinkObjId, relatedLink, objBody " + "FROM COMObjectEntity "
-            + "WHERE ((objectTypeId = ?) AND (domainId = ?) AND (objId in (%s)))";
-    private static String INSERT_COM_OBJECTS = "INSERT INTO COMObjectEntity "
+            + "WHERE ((objectTypeId = ?) AND (domainId = ?) AND (objId = ANY(?)))";
+    private final static String INSERT_COM_OBJECTS = "INSERT INTO COMObjectEntity "
             + "(objectTypeId, objId, domainId, network, objBody, providerURI, relatedLink, "
             + "sourceLinkDomainId, sourceLinkObjId, sourceLinkObjectTypeId, timestampArchiveDetails) "
             + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    private static String DELETE_COM_OBJECTS = "DELETE FROM COMObjectEntity "
+    private final static String DELETE_COM_OBJECTS = "DELETE FROM COMObjectEntity "
             + "WHERE (((objectTypeId = ?) AND (domainId = ?) AND (objId = ?)))";
-    private static String UPDATE_COM_OBJECTS = "UPDATE COMObjectEntity "
+    private final static String UPDATE_COM_OBJECTS = "UPDATE COMObjectEntity "
             + "SET objectTypeId = ?, objId = ?, domainId = ?, network = ?, objBody = ?, "
             + "providerURI = ?, relatedLink = ?, sourceLinkDomainId = ?, "
             + "sourceLinkObjId = ?, sourceLinkObjectTypeId = ?, timestampArchiveDetails = ? "
             + "WHERE (((objectTypeId = ?) AND (domainId = ?) AND (objId = ?)));";
-    private static String SELECT_MAX_OBJ_ID = "SELECT MAX(objId) FROM COMObjectEntity WHERE ((objectTypeId = ?) AND (domainId = ?))";
+    private final static String SELECT_MAX_OBJ_ID = "SELECT MAX(objId) FROM COMObjectEntity WHERE ((objectTypeId = ?) AND (domainId = ?))";
 
     private PreparedStatement selectAllCOMObjectIds;
+    // select com objects prepared statement is available only for postgres because sqlite
+    // doesn't support binding arrays to query parameters
+    private PreparedStatement selectCOMObjects;
     private PreparedStatement insertCOMObjects;
     private PreparedStatement deleteCOMObjects;
     private PreparedStatement updateCOMObjects;
@@ -39,10 +42,7 @@ public class PreparedStatements {
 
     public void init(boolean isPostgres) throws SQLException {
         if(isPostgres) {
-            SELECT_COM_OBJECTS = "SELECT objectTypeId, domainId, objId, "
-                                 + "timestampArchiveDetails, providerURI, network, sourceLinkObjectTypeId, "
-                                 + "sourceLinkDomainId, sourceLinkObjId, relatedLink, objBody " + "FROM COMObjectEntity "
-                                 + "WHERE ((objectTypeId = ?) AND (domainId = ?) AND (objId = ANY(?)))";
+            selectCOMObjects = c.prepareStatement(SELECT_COM_OBJECTS);
         }
         selectAllCOMObjectIds = c.prepareStatement(SELECT_ALL_COM_OBJECT_IDS);
         insertCOMObjects = c.prepareStatement(INSERT_COM_OBJECTS);
@@ -55,8 +55,8 @@ public class PreparedStatements {
         return this.selectAllCOMObjectIds;
     }
 
-    public String getSelectCOMObjectsQueryString() {
-        return SELECT_COM_OBJECTS;
+    public PreparedStatement getSelectCOMObjects() {
+        return selectCOMObjects;
     }
 
     public PreparedStatement getInsertCOMObjects() {
