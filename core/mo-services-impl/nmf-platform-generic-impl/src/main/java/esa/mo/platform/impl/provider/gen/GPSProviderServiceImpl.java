@@ -197,7 +197,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
     gpsServiceProvider = connection.startService(GPSHelper.GPS_SERVICE_NAME.toString(),
         GPSHelper.GPS_SERVICE, this);
 
-    if (Boolean.parseBoolean(System.getProperty(HelperMisc.PROP_GPS_POLLING_ACTIVE))) {
+    if (Boolean.parseBoolean(System.getProperty(HelperMisc.PROP_GPS_POLLING_ACTIVE, "true"))) {
       periodicCurrentPosition = new PeriodicCurrentPosition();
       periodicCurrentPosition.init();
       running = true;
