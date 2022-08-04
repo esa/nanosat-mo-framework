@@ -484,9 +484,11 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         } catch (IOException ex) {
           LOGGER.log(Level.WARNING, "Exception while obtaining connection details", ex);
           appConnections.add(null);
+          // Ensure the indices of the lists are in-line
+          appDirectoryServiceNames.add(null);
         }
       } else {
-        // Ensure the indexes of the lists are in-line
+        // Ensure the indices of the lists are in-line
         appConnections.add(null);
         appDirectoryServiceNames.add(null);
       }
