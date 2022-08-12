@@ -85,7 +85,7 @@ public class RegressionTest0 {
     public void test0009() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test0009");
-        esa.mo.helpertools.connections.ConnectionProvider.resetURILinksFile();
+        esa.mo.helpertools.connections.ConnectionProvider.resetURILinks();
     }
 
     @Test

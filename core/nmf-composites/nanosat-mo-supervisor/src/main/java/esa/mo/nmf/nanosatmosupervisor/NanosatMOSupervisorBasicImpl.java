@@ -22,6 +22,7 @@ package esa.mo.nmf.nanosatmosupervisor;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.helpertools.connections.ConnectionConsumer;
+import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
 import esa.mo.nmf.nmfpackage.NMFPackagePMBackend;
@@ -68,9 +69,9 @@ public class NanosatMOSupervisorBasicImpl extends NanoSatMOSupervisor {
     // Now connect the platform services consumer loopback to it
     connectionConsumer = new ConnectionConsumer();
     try {
-      connectionConsumer.loadURIs();
+      connectionConsumer.setServicesDetails(ConnectionProvider.getGlobalProvidersDetailsPrimary());
       super.getPlatformServices().init(connectionConsumer, null);
-    } catch (MalformedURLException | NMFException | FileNotFoundException ex) {
+    } catch (NMFException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
     }
   }

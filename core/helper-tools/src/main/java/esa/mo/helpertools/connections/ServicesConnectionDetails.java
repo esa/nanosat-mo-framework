@@ -55,6 +55,14 @@ public class ServicesConnectionDetails {
         return services.get(id.toString());
     }
 
+    public void add(String key, SingleConnectionDetails value) {
+        services.put(key, value);
+    }
+
+    public void reset() {
+        services.clear();
+    }
+
     /**
      * Loads the URIs from the default properties file
      *

@@ -88,7 +88,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
       PMBackend packageManagementBackend) {
     super.startTime = System.currentTimeMillis();
     HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
-    ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
+    ConnectionProvider.resetURILinks();
 
     // Enforce the App Name property to be Const.NANOSAT_MO_SUPERVISOR_NAME
     System.setProperty(HelperMisc.PROP_MO_APP_NAME, Const.NANOSAT_MO_SUPERVISOR_NAME);

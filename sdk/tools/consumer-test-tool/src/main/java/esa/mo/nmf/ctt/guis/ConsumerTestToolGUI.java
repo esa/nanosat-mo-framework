@@ -85,7 +85,7 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame
     this.setTitle(name);
 
     try {
-      connection.loadURIs();
+      connection.getServicesDetails().loadURIFromFiles();
     } catch (MalformedURLException ex) {
       JOptionPane.showMessageDialog(null, "The URIs could not be loaded from the file!", "Error",
           JOptionPane.PLAIN_MESSAGE);

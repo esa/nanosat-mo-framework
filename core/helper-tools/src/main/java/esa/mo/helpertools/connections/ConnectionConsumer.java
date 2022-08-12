@@ -287,15 +287,19 @@ public class ConnectionConsumer {
     }
 
     /**
-     * Loads the URIs from the default properties file
+     * Loads the URIs from the default properties file (or locally exposed providers)
      *
      * @return The connection details object generated from the file
      * @throws java.net.MalformedURLException when the MALconsumer is not
      * initialized correctly
-     * @throws java.io.FileNotFoundException if the file with URIs has not been found
      */
-    public ServicesConnectionDetails loadURIs() throws MalformedURLException, FileNotFoundException {
-        return servicesDetails.loadURIFromFiles();
+    public ServicesConnectionDetails loadURIs() throws MalformedURLException {
+        try {
+            servicesDetails.loadURIFromFiles();
+        } catch(FileNotFoundException ex) {
+            servicesDetails = ConnectionProvider.getGlobalProvidersDetailsPrimary();
+        }
+        return servicesDetails;
     }
 
     /**

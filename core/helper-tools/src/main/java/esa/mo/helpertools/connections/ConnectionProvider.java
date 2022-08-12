@@ -53,6 +53,9 @@ public class ConnectionProvider {
     private MALProvider secondaryMALServiceProvider = null;
     private final SingleConnectionDetails primaryConnectionDetails = new SingleConnectionDetails();
     private SingleConnectionDetails secondaryConnectionDetails = null;
+    private static ServicesConnectionDetails globalProvidersDetailsPrimary = new ServicesConnectionDetails();
+    private static ServicesConnectionDetails globalProvidersDetailsSecondary = new ServicesConnectionDetails();
+    
 
     /**
      * Getter for the primaryConnectionDetails object.
@@ -195,9 +198,12 @@ public class ConnectionProvider {
                     serviceKey
                 });
 
-        this.writeURIsOnFile(primaryConnectionDetails,
-                serviceName,
-                HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME);
+        if (shouldInitUriFiles()) {
+            this.writeURIsOnFile(primaryConnectionDetails,
+                    serviceName,
+                    HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME);
+        }
+        globalProvidersDetailsPrimary.add(serviceName, primaryConnectionDetails);
 
         primaryMALServiceProvider = serviceProvider;
 
@@ -237,9 +243,12 @@ public class ConnectionProvider {
                         serviceKey
                     });
 
-            this.writeURIsOnFile(secondaryConnectionDetails,
-                    serviceName,
-                    HelperMisc.PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME);
+            if (shouldInitUriFiles()) {
+                this.writeURIsOnFile(secondaryConnectionDetails,
+                        serviceName,
+                        HelperMisc.PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME);
+            }
+            globalProvidersDetailsSecondary.add(serviceName, secondaryConnectionDetails);
 
             secondaryMALServiceProvider = serviceProvider2;
         }
@@ -298,25 +307,57 @@ public class ConnectionProvider {
                     "Exception during close down of the provider {0}", ex);
         }
     }
-
     /**
-     * Clears the URI links file of the provider
+     * Indicates whether the URI Files should be initialised.
+     * Defaults to false.
+     *
+     * @return true if URI Files should be initialised
      */
-    public static void resetURILinksFile() {
-        try (BufferedWriter wrt = new BufferedWriter(new FileWriter(HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME, false))) {
-        } catch (IOException ex) {
-            Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING,
-                    "Unable to reset URI information from properties file {0}", ex);
-        }
+    public static boolean shouldInitUriFiles() {
+        return Boolean.valueOf(System.getProperty(HelperMisc.PROP_INIT_URI_FILES, "false"));
+    }
+    /**
+     * Clears the URI links file if its generation is enabled
+     */
+    public static void resetURILinks() {
+        globalProvidersDetailsPrimary.reset();
+        globalProvidersDetailsSecondary.reset();
 
-        if (System.getProperty(HelperMisc.SECONDARY_PROTOCOL) != null) {
-            try (BufferedWriter wrt2 = new BufferedWriter(new FileWriter(HelperMisc.PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME, false))) {
+        if (shouldInitUriFiles()) {
+            try (BufferedWriter wrt = new BufferedWriter(new FileWriter(HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME, false))) {
             } catch (IOException ex) {
                 Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING,
                         "Unable to reset URI information from properties file {0}", ex);
             }
-        }
 
+            if (System.getProperty(HelperMisc.SECONDARY_PROTOCOL) != null) {
+                try (BufferedWriter wrt2 = new BufferedWriter(new FileWriter(HelperMisc.PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME, false))) {
+                } catch (IOException ex) {
+                    Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING,
+                            "Unable to reset URI information from properties file {0}", ex);
+                }
+            }
+        }
+    }
+
+    /**
+     * Get primary connection interface details of all providers in the application.
+     * 
+     * @return Primary connection details of all providers in the application.
+     */
+    public static ServicesConnectionDetails getGlobalProvidersDetailsPrimary()
+    {
+        return globalProvidersDetailsPrimary;
+    }
+
+    /**
+     * Get secondary connection interface details of all providers in the application.
+     * 
+     * @return Secondary connection details of all providers in the application.
+     */
+    public static ServicesConnectionDetails getGlobalProvidersDetailsSecondary()
+    {
+        return globalProvidersDetailsSecondary;
     }
 
     /**

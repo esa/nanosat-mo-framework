@@ -88,7 +88,7 @@ public abstract class GroundMOProxy
 
   public GroundMOProxy()
   {
-    ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
+    ConnectionProvider.resetURILinks();
     HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
 
     // Initialize the Helpers for the APIs

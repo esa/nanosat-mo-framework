@@ -86,6 +86,8 @@ public class HelperMisc {
   public static final String PROPERTY_APID_QUALIFIER = "org.ccsds.moims.mo.malspp.apidQualifier";
   public static final String PROPERTY_APID = "org.ccsds.moims.mo.malspp.apid";
 
+  public static final String PROP_INIT_URI_FILES = "helpertools.initurifiles";
+
   public static final Identifier SESSION_NAME = new Identifier("LIVE");
 
   /**

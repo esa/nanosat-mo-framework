@@ -58,7 +58,7 @@ public class MPGroundDemo {
         ConnectionConsumer connection = new ConnectionConsumer();
 
         try {
-            connection.loadURIs();
+            connection.getServicesDetails().loadURIFromFiles();
         } catch (MalformedURLException | FileNotFoundException ex) {
             LOGGER.log(Level.SEVERE, "The URIs could not be loaded from a file.", ex);
         }

@@ -99,7 +99,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
     public void init(final MonitorAndControlNMFAdapter mcAdapter) {
         super.startTime = System.currentTimeMillis();
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
-        ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
+        ConnectionProvider.resetURILinks();
 
         // Create provider name to be registerd on the Directory service...
         String appName = "Unknown";
@@ -309,7 +309,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
     public void init(final MissionPlanningNMFAdapter mpAdapter) {
         super.startTime = System.currentTimeMillis();
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
-        ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
+        ConnectionProvider.resetURILinks();
 
         // Create provider name to be registerd on the Directory service...
         String appName = "Unknown";
@@ -382,7 +382,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
     public void init(final MonitorAndControlNMFAdapter mcAdapter, final MissionPlanningNMFAdapter mpAdapter) {
         super.startTime = System.currentTimeMillis();
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
-        ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
+        ConnectionProvider.resetURILinks();
 
         // Create provider name to be registerd on the Directory service...
         String appName = "Unknown";

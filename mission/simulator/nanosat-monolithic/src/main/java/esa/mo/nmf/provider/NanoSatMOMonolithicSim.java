@@ -63,7 +63,7 @@ public class NanoSatMOMonolithicSim extends NanoSatMOMonolithic
   @Override
   public void initPlatformServices(COMServicesProvider comServices)
   {
-    // We need to do a bybass here because it a Monolithic implementation
+    // We need to do a bypass here because it's a Monolithic implementation
     // of the Software Simulator. Basically, we initialize the Platform
     // service providers and then we initialize the consumers' connections
     // to them.
@@ -80,7 +80,7 @@ public class NanoSatMOMonolithicSim extends NanoSatMOMonolithic
     try {
       connectionConsumer.loadURIs();
       super.getPlatformServices().init(connectionConsumer, null);
-    } catch (MalformedURLException | NMFException | FileNotFoundException ex) {
+    } catch (MalformedURLException | NMFException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
     }
   }

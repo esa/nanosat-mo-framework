@@ -26,7 +26,7 @@ public class TestConnectionProvider {
           "I am a provider properties file and my content is meaningless because I get deleted anyways."
               .getBytes());
       fos.close();
-      ConnectionProvider.resetURILinksFile();
+      ConnectionProvider.resetURILinks();
       assertEquals(0, f.length());
     } catch (FileNotFoundException e) {
       e.printStackTrace();

@@ -509,28 +509,8 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton
 
   public PublishDetails loadURIs(final String providerName)
   {
-    return this.autoLoadURIsFile(providerName);
-  }
-
-  private PublishDetails autoLoadURIsFile(final String providerName)
-  {
-    ServicesConnectionDetails primaryConnectionDetails = new ServicesConnectionDetails();
-    ServicesConnectionDetails secondaryAddresses = new ServicesConnectionDetails();
-
-    try {
-      primaryConnectionDetails = primaryConnectionDetails.loadURIFromFiles();
-    } catch (MalformedURLException | FileNotFoundException ex) {
-      LOGGER.log(Level.SEVERE, null, ex);
-    }
-
-    try {
-      secondaryAddresses = (System.getProperty(HelperMisc.SECONDARY_PROTOCOL) != null)
-          ? secondaryAddresses.loadURIFromFiles(
-              HelperMisc.PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME)
-          : null;
-    } catch (MalformedURLException | FileNotFoundException ex) {
-      LOGGER.log(Level.SEVERE, null, ex);
-    }
+    ServicesConnectionDetails primaryConnectionDetails = ConnectionProvider.getGlobalProvidersDetailsPrimary();
+    ServicesConnectionDetails secondaryAddresses = ConnectionProvider.getGlobalProvidersDetailsSecondary();
 
     // Services' connections
     HashMap<String, SingleConnectionDetails> connsMap = primaryConnectionDetails.getServices();
@@ -609,7 +589,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton
   public FileList getServiceXML(Long l, MALInteraction mali) throws MALInteractionException,
       MALException
   {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    throw new UnsupportedOperationException("Not supported yet.");
   }
 
 }
