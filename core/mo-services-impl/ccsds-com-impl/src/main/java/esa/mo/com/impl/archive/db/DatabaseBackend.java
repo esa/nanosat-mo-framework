@@ -22,6 +22,8 @@ package esa.mo.com.impl.archive.db;
 
 import esa.mo.com.impl.provider.ArchiveManager;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -43,6 +45,8 @@ public class DatabaseBackend {
     private static final String DATABASE_NAME = "sqlite"; // SQLite
 
     private static final String DATABASE_LOCATION_NAME = "comArchive.db";
+
+    private static final String MEMORY_DB_OPTION = ":memory:";
 
     // true for fairness, because we want FIFO
     private final Semaphore availability = new Semaphore(0, true);
@@ -70,7 +74,27 @@ public class DatabaseBackend {
         if (null != url && !"".equals(url)) {
             this.url = url;
         } else {
-            this.url = "jdbc:" + DATABASE_NAME + ":" + DATABASE_LOCATION_NAME;
+            File dbFile = new File(DATABASE_LOCATION_NAME);
+            boolean writableFs = true;
+            // Check if we are operating on Read-Only FS
+            if (dbFile.exists()) {
+                if (!dbFile.canWrite()) {
+                    writableFs = false;
+                }
+            } else {
+                try {
+                    dbFile.createNewFile();
+                } catch (IOException e) {
+                    writableFs = false;
+                }
+            }
+            if (writableFs) {
+                LOGGER.info("DB file writable - defaulting to non-volatile COM Archive");
+                this.url = "jdbc:" + DATABASE_NAME + ":" + DATABASE_LOCATION_NAME;
+            } else {
+                LOGGER.info("DB file not writable - defaulting to in-memory COM Archive");
+                this.url = "jdbc:" + DATABASE_NAME + ":" + MEMORY_DB_OPTION;
+            }
         }
 
         String driver = System.getProperty("esa.nmf.archive.persistence.jdbc.driver");
