@@ -213,9 +213,9 @@ public class CommonMOAdapterImpl extends NMFConsumer implements SimpleCommanding
 
       // Continues here...
       ParameterRawValueList raws = new ParameterRawValueList();
-      ParameterRawValue raw = new ParameterRawValue(objIds.get(0).getObjIdentityInstanceId(),
-          rawValue);
-      raws.add(raw);
+      Long objIdInsID = objIds.get(0).getObjIdentityInstanceId();
+      rawValue = (content == null) ? null : rawValue;
+      raws.add(new ParameterRawValue(objIdInsID, rawValue));
 
       // Ok, now, let's finally set the Value!
       parameterService.setValue(raws);
