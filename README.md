@@ -1,6 +1,6 @@
 # NanoSat MO Framework
 
-The [NanoSat MO Framework] is a software framework for nanosatellites based on CCSDS Mission Operations services.
+The [NanoSat MO Framework] is a software framework for small satellites based on CCSDS Mission Operations services.
 
 It introduces the concept of apps in space that can be started and stopped from ground. Apps can retrieve data from the platform through a set of well-defined MO services. Many possibilities for extensions are available due to its modular and flexible design approach which is not limited to the space segment but extends down to ground by providing all the building blocks for a complete and free end-to-end solution.
 
@@ -21,34 +21,35 @@ The research was carried by Graz University of Technology in partnership with th
 ## Release
 The latest NMF SDK release tag can be downloaded in [Releases]. However, the currently recommended distribution channel is directly from Git repository.
 
-## Building
+## Building Prerequisites
 
-Prerequisites:
-
-1. Java SDK 1.8 (will work with higher SDKs but 1.8 is the recommended)
+1. Install Java SDK 1.8 (will work with higher SDKs but 1.8 is the recommended)
 ```bash
 sudo apt-get install openjdk-8-jdk
 ```
-2. Apache Maven
+2. Install Apache Maven
 ```bash
 sudo apt-get install maven
 ```
 
-Instructions:
+## Building Instructions
 
-1. Clone this repository
+3. Clone this repository
+```bash
+git clone https://github.com/esa/nanosat-mo-framework.git
+```
 
-2. Set the environment variable NMF\_HOME with the path to this repository's root directory
+4. Set the environment variable NMF\_HOME with the path to this repository's root directory
 ```bash
 export NMF_HOME=path_to_repository
 ```
 
-3. Compile the NMF using:
+5. Build the cloned NanoSat MO Framework project:
 ```bash
-mvn install
+mvn clean install
 ```
 
-Note that the errors about missing module descriptors during Javadoc generation are to be expected and non breaking.
+Note that the errors about missing module descriptors during Javadoc generation are to be expected and non-breaking.
 
 In order to produce independently runnable Java executables (JAR artifacts with dependencies - equivalent of statically linked executables), use `mvn install -P assembly-with-dependencies`
 
