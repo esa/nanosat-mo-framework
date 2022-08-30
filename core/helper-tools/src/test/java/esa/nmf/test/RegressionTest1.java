@@ -1,6 +1,10 @@
 package esa.nmf.test;
 
+import java.util.Properties;
+
 import org.junit.FixMethodOrder;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
@@ -8,6 +12,17 @@ import org.junit.runners.MethodSorters;
 public class RegressionTest1 {
 
     public static boolean debug = false;
+
+    Properties props;
+    @Before
+    public void saveProps() {
+        props = (Properties)System.getProperties().clone();
+    }
+
+    @After
+    public void restoreProps() {
+        System.setProperties(props);
+    }
 
     @Test
     public void test0501() throws Throwable {

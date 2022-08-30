@@ -1,11 +1,13 @@
 package esa.nmf.test;
 
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -26,7 +28,18 @@ public class RegressionTest0 {
         Logger.getLogger(TestHelperMisc.class.getName()).log(Level.SEVERE, null, ex);
       }
     }
-    
+
+    Properties props;
+    @Before
+    public void saveProps() {
+        props = (Properties)System.getProperties().clone();
+    }
+
+    @After
+    public void restoreProps() {
+        System.setProperties(props);
+    }
+
     @Test
     public void test0001() throws Throwable {
         if (debug)
@@ -62,7 +75,7 @@ public class RegressionTest0 {
     public void test0005() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test0005");
-        esa.mo.helpertools.connections.ConnectionSharedBroker.resetURILinksFile();
+        esa.mo.helpertools.connections.ConnectionSharedBroker.resetURILinks();
     }
 
     @Test

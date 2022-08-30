@@ -41,6 +41,7 @@ import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mal.structures.URIList;
 import org.ccsds.moims.mo.mal.structures.UShortList;
 import org.ccsds.moims.mo.mal.structures.Union;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -50,9 +51,19 @@ public class TestHelperMisc {
 
   private static final Logger LOGGER = Logger.getLogger(TestHelperMisc.class.getName());
 
+  Properties props;
+  @Before
+  public void saveProps() {
+    props = (Properties)System.getProperties().clone();
+  }
+
+  @After
+  public void restoreProps() {
+    System.setProperties(props);
+  }
+
   @Before
   public void setup() {
-    System.getProperties().clear();
     try {
       MALHelper.init(MALContextFactory.getElementFactoryRegistry());
     } catch (MALException ex) {
