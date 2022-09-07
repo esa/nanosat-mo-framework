@@ -36,6 +36,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+
 import org.ccsds.moims.mo.com.COMObject;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.structures.Element;
@@ -54,7 +57,7 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
     protected DefaultTableModel tableData;
     protected List<ArchivePersistenceObject> comObjects;
     protected Semaphore semaphore = new Semaphore(1);
-    private final ArchiveConsumerServiceImpl archiveService;
+    protected final ArchiveConsumerServiceImpl archiveService;
 
     /**
      * Creates new form ObjectsDisplay
@@ -83,10 +86,12 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
             }
         });
 
+        TableRowSorter<TableModel> sorter = new TableRowSorter<>(table.getModel());
+        table.setRowSorter(sorter);
     }
 
     public int getSelectedRow() {
-        return table.getSelectedRow();
+        return table.getRowSorter().convertRowIndexToModel(table.getSelectedRow());
     }
 
     public void refreshTableWithIds(ObjectInstancePairList pairs, IdentifierList domain, ObjectType objType) {
