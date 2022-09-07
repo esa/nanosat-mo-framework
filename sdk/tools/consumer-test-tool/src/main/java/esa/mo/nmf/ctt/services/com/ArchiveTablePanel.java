@@ -32,11 +32,15 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.structures.Element;
 
@@ -69,7 +73,7 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
         archiveTableData = new javax.swing.table.DefaultTableModel(
                 new Object[][]{}, archiveTableCol) {
             Class[] types = new Class[]{
-                java.lang.String.class, java.lang.String.class, java.lang.String.class,
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class,
                 java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
@@ -101,6 +105,8 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
             }
         });
 
+        TableRowSorter<TableModel> sorter = new TableRowSorter<>(archiveTable.getModel());
+        archiveTable.setRowSorter(sorter);
         this.addEntries(archiveObjectOutput);
     }
 

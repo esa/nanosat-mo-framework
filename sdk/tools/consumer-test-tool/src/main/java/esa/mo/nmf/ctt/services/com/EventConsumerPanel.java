@@ -39,6 +39,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.structures.ObjectDetails;
 import org.ccsds.moims.mo.com.structures.ObjectType;
@@ -107,6 +110,8 @@ public class EventConsumerPanel extends javax.swing.JPanel {
                 }
             }
         });
+        TableRowSorter<TableModel> sorter = new TableRowSorter<>(eventTable.getModel());
+        eventTable.setRowSorter(sorter);
     }
 
     public void init(){
