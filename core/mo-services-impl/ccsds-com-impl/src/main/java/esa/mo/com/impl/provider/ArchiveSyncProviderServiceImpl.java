@@ -114,6 +114,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
     public ArchiveSyncProviderServiceImpl(SingleConnectionDetails connectionToArchiveService, Blob authenticationId,
                                           String localNamePrefix)
     {
+        this.latestSync = new FineTime(0);
         try
         {
             this.archive =
