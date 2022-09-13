@@ -1,6 +1,10 @@
 ===========================
 MP Services App development
 ===========================
+
+.. contents:: Table of contents
+    :local:
+
 MPSpaceDemo is a good starting point. Follow to MPSpaceDemoAdapter.
 
 Overview

@@ -1,15 +1,17 @@
-======================
+=================================
 Deploying your NMF app in the SDK
-======================
+=================================
+
+.. contents:: Table of contents
+    :local:
+
 Now that you finished implementing your NMF app, you want to make sure it works properly.
 Apart from unit tests over some methods, one way to test is to just run your app and connect to it through the CTT.
 The recommended way of running an app is through the NMF supervisor. 
 The easiest way to achieve that, is to deploy your app in the SDK. For this we have to look at several files.
 
-.. contents:: Deployment steps
-
 Update the SDK Package POM
----------------
+--------------------------
 The first file we have to change is the ``pom.xml`` in the folder ``sdk/sdk-package``. First, add your app to the dependencies.
 
 .. code-block:: xml
@@ -35,7 +37,7 @@ This is done in an execution of the ``Maven Antrun Plugin``. Add a copy task wit
 That is all you need to do here! Easy, right?
 
 Update the Build.xml
----------
+--------------------
 The next step is to update the ``sdk/sdk-package/antpkg/build.xml``. This is an Ant script which is called by the same plugin that copies the properties files.
 In principle, it works like a Makefile in C. We have a top level target which is execution through the Maven Antrun Plugin and this target depends on several subtargets.
 Our task in this file is to create such a subtarget for our app and add this target to the dependency list of *build*.
@@ -63,7 +65,7 @@ The subtarget should look like this:
    </target>
 
 Note that the target name can be anything which is not already in use. We just use this name later to add the dependency.
-The ``id`` property's value has to have the prefix "start_", so it can be recognised by the supervisor.
+The ``id`` property's value has to have the prefix "start\_", so it can be recognised by the supervisor.
 The property ``mainClass`` contains the fully qualified name for the class in our app containing the ``main`` methods.
 
 The last thing left to do is to add the subtarget to the dependencies:
@@ -76,7 +78,7 @@ The last thing left to do is to add the subtarget to the dependencies:
      <!--This empty target is used as the top level target. Add your app targets to the depends attribute! -->
    </target>
 
-Now the last thing left to do is :doc:`build`!
+Now the last thing left to do is build!
 
 Deploy!
 ---------

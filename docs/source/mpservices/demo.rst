@@ -1,6 +1,10 @@
 ================
 MP Services Demo
 ================
+
+.. contents:: Table of contents
+    :local:
+
 The MP services demo uses three applications, that can be started from different shells:
 
 - MPSpaceDemo

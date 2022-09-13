@@ -1,6 +1,10 @@
 ===============================
 Taking a look at the main class
 ===============================
+
+.. contents:: Table of contents
+    :local:
+
 In this chapter we will take a look at the behavior of the main class of our Sobel app. As said before, the main purpose of the main class (:java:type:`~esa.mo.nmf.apps.SobelApp`.java) is to setup the communication with the NMF and its services and to make sure everything is running.
 As said in the previous part, be sure to copy the snapNMF class. All that left to do is replace ``SnapNMF`` by ``SobelApp`` and ``MCSnapNMFAdapter`` by ``SobelMCAdapter`` :
 
@@ -29,7 +33,6 @@ As said in the previous part, be sure to copy the snapNMF class. All that left t
         }
     }
 
-.. contents:: Table of contents
 
 Communication with the NMF
 --------------------------
@@ -39,7 +42,7 @@ Together with the ``connector``, we need an ``adapter`` which handles the respon
 That's why we supply the ``connector`` to the ``adapter`` by calling ``adapter.setNMF(connector)`` and vice versa by calling ``connector.init(adapter)`` on startup.
 
 Communication with the supervisor or another app
------------------------------------------------
+------------------------------------------------
 Your space app can also consume services directly from the supervisor or another space app using either
 forNMFSupervisor or forNMFApp methods from the SpaceMOApdapterImpl. For example to receive the GPS
 defined parameters one would obtain the GPS consumer as follows :

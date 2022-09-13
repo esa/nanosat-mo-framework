@@ -3,6 +3,7 @@ Importing the NMF into Eclipse IDE
 ===================================
 
 .. contents:: Table of contents
+    :local:
 
 Getting started
 ---------------
