@@ -1,14 +1,16 @@
 ===
 SDK
 ===
+
+.. contents:: Table of Contents
+    :local:
+
 The NMF includes a Software Development Kit (or SDK).
 
 The SDK provides support and tools to develop and test your space apps and ground applications. The SDK generator is located in the **sdk/** folder of the repository. 
 To generate the SDK you must build the code by running ``mvn install`` in the **sdk/** directory.
 
 This will build all examples and put them into a zip release and a folder which you can find under **sdk/sdk-package/target/**.
-
-.. contents:: Table of Contents
 
 Space app examples
 ------------------
@@ -51,7 +53,7 @@ The Consumer Test Tool (CTT) is your best friend when manually verifying your ap
 How to do all of that is described further in the next section.
 
 Running the CubeSat Simulator
----------------
+-----------------------------
 You can run a CubeSat simulator to try out your app in a playground environment which mimics the CubeSat system.
 
 In order to do this, Please do the following:

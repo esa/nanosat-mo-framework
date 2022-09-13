@@ -1,6 +1,10 @@
 ============================================
 Packaging your app for deployment on OPS-SAT
 ============================================
+
+.. contents:: Table of contents
+    :local:
+
 Packaging your app for testing on the ground is slightly different from testing your app on a satellite or a flat-sat.
 In this tutorial you will learn how to package your app for deployment on OPS-SAT or get it ready for flat-sat tests.
 

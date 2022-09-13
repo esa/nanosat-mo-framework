@@ -3,6 +3,7 @@ CubeSat Simulator
 =================
 
 .. toctree::
+   :hidden:
    :caption: Table of contents
 
    configure

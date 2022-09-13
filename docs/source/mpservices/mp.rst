@@ -7,6 +7,7 @@ This documentation is intended for App developers who want to provide MP service
 
 .. toctree::
    :maxdepth: 1
+   :hidden:
    :caption: Contents
 
    demo

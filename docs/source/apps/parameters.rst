@@ -1,10 +1,12 @@
 ==========
 Parameters
 ==========
-Parameters can be used to capture or influence the current state of the spacecraft or your app.
-In the case of our example app, the parameters will be the gains for the RGB colour channels and the exposure time of the camera.
 
 .. contents:: Table of contents
+    :local:
+
+Parameters can be used to capture or influence the current state of the spacecraft or your app.
+In the case of our example app, the parameters will be the gains for the RGB colour channels and the exposure time of the camera.
 
 Defining parameters
 -------------------

@@ -1,10 +1,11 @@
 =========================
 Configuring the simulator
 =========================
-Configuring the simulator is pretty easy and can greatly improve your experience.
 
 .. contents:: Table of contents
+    :local:
 
+Configuring the simulator is pretty easy and can greatly improve your experience.
 General configuration options
 -----------------------------
 - Start the processing of internal models

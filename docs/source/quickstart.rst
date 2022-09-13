@@ -1,8 +1,10 @@
 NMF Quickstart
 ================================================
-After finishing this page you will have all the libraries needed to build the NMF and apps.
 
 .. contents:: Table of contents
+    :local:
+
+After finishing this page you will have all the libraries needed to build the NMF and apps.
 
 Getting the NMF
 ---------------

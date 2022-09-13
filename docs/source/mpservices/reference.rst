@@ -1,6 +1,10 @@
 =====================
 MP Services Reference
 =====================
+
+.. contents:: Table of contents
+    :local:
+
 This section describes how to access MP services documentation.
 
 MOWebViewer

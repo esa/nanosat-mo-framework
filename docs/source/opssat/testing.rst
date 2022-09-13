@@ -1,6 +1,10 @@
 ===============================================
 Testing your app in an OPS-SAT-like environment
 ===============================================
+
+.. contents:: Table of contents
+    :local:
+
 Testing your app with the NMF SDK is the fastest way to confirm if all functional features work.
 However, there might be some problems with respect to the behaviour on a real satellite with a space link between your ground software (CTT during development) and your app.
 To find these problems early on, it is recommended to test your app in a semi-authentic test setup.

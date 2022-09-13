@@ -1,6 +1,10 @@
 ===================================
 Taking a look at the SobelMCAdapter
 ===================================
+
+.. contents:: Table of contents
+    :local:
+
 .. java:package:: esa.mo.mc.impl.interfaces
 
 The :java:type:`~esa.mo.nmf.apps.SobelMCAdapter` is an extension of the :java:type:`~esa.mo.nmf.MonitorAndControlNMFAdapter`.
