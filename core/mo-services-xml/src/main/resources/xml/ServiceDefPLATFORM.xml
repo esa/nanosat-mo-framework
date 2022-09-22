@@ -277,6 +277,43 @@
           </mal:messages>
         </mal:requestIP>
       </mal:capabilitySet>
+      <mal:capabilitySet comment="" number="5">
+        <mal:invokeIP
+          comment="The preprocessPicture operation allows a consumer to preprocess a picture."
+          name="preprocessPicture" number="7" supportInReplay="false">
+          <mal:messages>
+            <mal:invoke comment="">
+              <mal:field canBeNull="true"
+                         comment="The inputPicture field shall hold the picture."
+                         name="inputPicture">
+                <mal:type area="Platform" list="false" name="Picture" service="Camera" />
+              </mal:field>
+              <mal:field canBeNull="true"
+                         comment="Picture acquisition settings." name="settings">
+                <mal:type area="Platform" list="false" name="CameraSettings" service="Camera" />
+              </mal:field>
+            </mal:invoke>
+            <mal:acknowledgement comment="" />
+            <mal:response comment="">
+              <mal:field canBeNull="true"
+                         comment="The outputPicture field shall hold the preprocessed picture."
+                         name="outputPicture">
+                <mal:type area="Platform" list="false" name="Picture" service="Camera" />
+              </mal:field>
+            </mal:response>
+          </mal:messages>
+          <mal:errors>
+            <mal:errorRef
+              comment="The requested Picture or the CameraSettings are invalid.">
+              <mal:type area="COM" list="false" name="INVALID" />
+              <mal:extraInformation
+                comment="The extra information shall hold the invalid field name.">
+                <mal:type area="Platform" list="true" name="String" service="MAL" />
+              </mal:extraInformation>
+            </mal:errorRef>
+          </mal:errors>
+        </mal:invokeIP>
+      </mal:capabilitySet>
       <mal:dataTypes>
         <mal:composite
           comment="The Picture structure holds the details of the picture."
@@ -360,6 +397,10 @@
           <mal:field canBeNull="false"
                      comment="Red channel gain." name="gainBlue">
             <mal:type area="MAL" list="false" name="Float" />
+          </mal:field>
+          <mal:field canBeNull="true"
+                     comment="Extra optional configurations. Shall be empty if no extra configurations are provided." name="extra">
+            <mal:type area="MAL" list="true" name="NamedValue" />
           </mal:field>
         </mal:composite>
       </mal:dataTypes>

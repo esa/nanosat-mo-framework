@@ -70,16 +70,34 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
     private static final String ACTION_TAKE_PICTURE_RAW = "TakeSnap.RAW";
     private static final String ACTION_TAKE_PICTURE_JPG = "TakeSnap.JPG";
 
-    private final AtomicInteger snapsTaken = new AtomicInteger(0);
-    private final int width = 2048;
-    private final int height = 1944;
-    private final int TOTAL_STAGES = 3;
-    private final float DEFAULT_GAIN_R = 10;
-    private final float DEFAULT_GAIN_G = 8;
-    private final float DEFAULT_GAIN_B = 10;
+    PixelResolution resolution = new PixelResolution(new UInteger(width), new UInteger(height));
 
-    public void setNMF(NMFInterface connector) {
-        this.connector = connector;
+    if (ACTION_TAKE_PICTURE_RAW.equals(name.getValue())) {
+      try {
+        DataReceivedAdapter adapter = new DataReceivedAdapter(actionInstanceObjId);
+        connector.getPlatformServices().getCameraService().takePicture(
+            new CameraSettings(resolution, PictureFormat.RAW, new Duration(0.200), 
+                DEFAULT_GAIN_R, DEFAULT_GAIN_G, DEFAULT_GAIN_B, null),
+            adapter
+        );
+        return null; // Success!
+      } catch (MALInteractionException | MALException | IOException | NMFException ex) {
+        Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
+      }
+    }
+
+    if (ACTION_TAKE_PICTURE_JPG.equals(name.getValue())) {
+      try {
+        DataReceivedAdapter adapter = new DataReceivedAdapter(actionInstanceObjId);
+        connector.getPlatformServices().getCameraService().takePicture(
+            new CameraSettings(resolution, PictureFormat.JPG, new Duration(0.200), 
+                DEFAULT_GAIN_R, DEFAULT_GAIN_G, DEFAULT_GAIN_B, null),
+            adapter
+        );
+        return null; // Success!
+      } catch (MALInteractionException | MALException | IOException | NMFException ex) {
+        Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
+      }
     }
 
     @Override

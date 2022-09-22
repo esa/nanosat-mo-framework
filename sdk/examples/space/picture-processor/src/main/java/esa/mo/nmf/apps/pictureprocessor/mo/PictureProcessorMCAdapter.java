@@ -179,7 +179,6 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
         try {
             connector.getPlatformServices().getCameraService().takePicture(defaultCameraSettings(), adapter);
             processMap.put(actionInstanceObjId, adapter);
-
         } catch (MALInteractionException | MALException | IOException | NMFException ex) {
             LOG.log(Level.SEVERE, null, ex);
         }
@@ -214,7 +213,8 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
         final PixelResolution resolution = new PixelResolution(new UInteger(2048), new UInteger(1944));
         final Duration exposureTime = new Duration(0.200);
 
-        return new CameraSettings(resolution, PictureFormat.JPG, exposureTime, gainR, gainG, gainB);
+        return new CameraSettings(resolution, PictureFormat.JPG, 
+                exposureTime, gainR, gainG, gainB, null);
     }
 
     private static <T> T getAs(AttributeValue attributeValue) {

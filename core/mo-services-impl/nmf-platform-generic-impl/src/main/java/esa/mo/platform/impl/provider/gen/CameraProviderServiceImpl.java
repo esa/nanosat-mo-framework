@@ -57,6 +57,7 @@ import org.ccsds.moims.mo.platform.camera.CameraHelper;
 import org.ccsds.moims.mo.platform.camera.body.GetPropertiesResponse;
 import org.ccsds.moims.mo.platform.camera.provider.CameraInheritanceSkeleton;
 import org.ccsds.moims.mo.platform.camera.provider.PicturesStreamPublisher;
+import org.ccsds.moims.mo.platform.camera.provider.PreprocessPictureInteraction;
 import org.ccsds.moims.mo.platform.camera.provider.TakeAutoExposedPictureInteraction;
 import org.ccsds.moims.mo.platform.camera.provider.TakePictureInteraction;
 import org.ccsds.moims.mo.platform.camera.structures.CameraSettings;
@@ -357,6 +358,12 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
         String extraInfo = adapter.getExtraInfo();
 
         return new GetPropertiesResponse(availableResolutions, availableFormats, extraInfo);
+    }
+
+    @Override
+    public void preprocessPicture(Picture inputPicture, CameraSettings settings, 
+            PreprocessPictureInteraction interaction) throws MALInteractionException, MALException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public static final class PublishInteractionListener implements MALPublishInteractionListener {

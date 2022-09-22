@@ -237,41 +237,54 @@ public class CameraAcquisitorSystemCameraHandler {
             }
         }
     }
+  }
 
-    /**
-     * Takes a photograph (instantly)
-     *
-     * @param actionInstanceObjId the Instance ID of the action that triggers the Photograph
-     * @param stageOffset         number of states that where already executed before taking a
-     *                            photograph
-     * @param totalStages         total number of Stages (including all stages needed for a
-     *                            photograph)
-     * @param fileName            a text that is added at the end of the filename (before the file
-     *                            ending)
-     * @throws NMFException
-     * @throws IOException
-     * @throws MALInteractionException
-     * @throws MALException
-     */
-    public void takePhotograph(long actionInstanceObjId, int stageOffset, int totalStages, String fileName)
-        throws NMFException, IOException, MALInteractionException, MALException {
-        PixelResolution resolution = new PixelResolution(new UInteger(casMCAdapter.getPictureWidth()), new UInteger(
-            casMCAdapter.getPictureHeight()));
+  /**
+   * Takes a photograph (instantly)
+   *
+   * @param actionInstanceObjId the Instance ID of the action that triggers the Photograph
+   * @param stageOffset         number of states that where already executed before taking a
+   *                            photograph
+   * @param totalStages         total number of Stages (including all stages needed for a
+   *                            photograph)
+   * @param fileName            a text that is added at the end of the filename (before the file
+   *                            ending)
+   * @throws NMFException
+   * @throws IOException
+   * @throws MALInteractionException
+   * @throws MALException
+   */
+  public void takePhotograph(long actionInstanceObjId, int stageOffset, int totalStages,
+      String fileName) throws
+      NMFException,
+      IOException,
+      MALInteractionException,
+      MALException
+  {
+    PixelResolution resolution = new PixelResolution(
+        new UInteger(casMCAdapter.getPictureWidth()),
+        new UInteger(casMCAdapter.getPictureHeight()));
 
-        CameraAdapter adapter = new CameraDataHandler(actionInstanceObjId, stageOffset, totalStages, fileName,
-            this.casMCAdapter);
+    CameraAdapter adapter = new CameraDataHandler(actionInstanceObjId, stageOffset, totalStages,
+        fileName,
+        this.casMCAdapter);
 
-        CameraSettings settings = new CameraSettings(resolution, casMCAdapter.getPictureType(), new Duration(
-            casMCAdapter.getExposureTime()), casMCAdapter.getGainRed(), casMCAdapter.getGainGreen(), casMCAdapter
-                .getGainBlue());
+    CameraSettings settings = new CameraSettings(
+        resolution,
+        casMCAdapter.getPictureType(),
+        new Duration(casMCAdapter.getExposureTime()),
+        casMCAdapter.getGainRed(),
+        casMCAdapter.getGainGreen(),
+        casMCAdapter.getGainBlue(),
+        null);
 
-        if (casMCAdapter.getExposureType() == CameraAcquisitorSystemMCAdapter.ExposureTypeModeEnum.AUTOMATIC) {
-            LOGGER.log(Level.INFO, "Taking Photograph with automatic exposure");
-            this.casMCAdapter.getConnector().getPlatformServices().getCameraService().takeAutoExposedPicture(settings,
-                adapter);
-        } else {
-            LOGGER.log(Level.INFO, "Taking Photograph with manual exposure");
-            this.casMCAdapter.getConnector().getPlatformServices().getCameraService().takePicture(settings, adapter);
-        }
+    if (casMCAdapter.getExposureType() == CameraAcquisitorSystemMCAdapter.ExposureTypeModeEnum.AUTOMATIC) {
+      LOGGER.log(Level.INFO, "Taking Photograph with automatic exposure");
+      this.casMCAdapter.getConnector().getPlatformServices().getCameraService()
+          .takeAutoExposedPicture(settings, adapter);
+    } else {
+      LOGGER.log(Level.INFO, "Taking Photograph with manual exposure");
+      this.casMCAdapter.getConnector().getPlatformServices().getCameraService()
+          .takePicture(settings, adapter);
     }
 }
