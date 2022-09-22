@@ -308,7 +308,8 @@ public class CameraAcquisitorSystemCameraHandler
         new Duration(casMCAdapter.getExposureTime()),
         casMCAdapter.getGainRed(),
         casMCAdapter.getGainGreen(),
-        casMCAdapter.getGainBlue());
+        casMCAdapter.getGainBlue(),
+        null);
 
     if (casMCAdapter.getExposureType() == CameraAcquisitorSystemMCAdapter.ExposureTypeModeEnum.AUTOMATIC) {
       LOGGER.log(Level.INFO, "Taking Photograph with automatic exposure");
