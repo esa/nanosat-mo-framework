@@ -172,10 +172,11 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter
 
     if (ACTION_TAKE_PICTURE_RAW.equals(name.getValue())) {
       try {
+        DataReceivedAdapter adapter = new DataReceivedAdapter(actionInstanceObjId);
         connector.getPlatformServices().getCameraService().takePicture(
-            new CameraSettings(resolution, PictureFormat.RAW, new Duration(0.200), DEFAULT_GAIN_R,
-                DEFAULT_GAIN_G, DEFAULT_GAIN_B),
-            new DataReceivedAdapter(actionInstanceObjId)
+            new CameraSettings(resolution, PictureFormat.RAW, new Duration(0.200), 
+                DEFAULT_GAIN_R, DEFAULT_GAIN_G, DEFAULT_GAIN_B, null),
+            adapter
         );
         return null; // Success!
       } catch (MALInteractionException | MALException | IOException | NMFException ex) {
@@ -185,10 +186,11 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter
 
     if (ACTION_TAKE_PICTURE_JPG.equals(name.getValue())) {
       try {
+        DataReceivedAdapter adapter = new DataReceivedAdapter(actionInstanceObjId);
         connector.getPlatformServices().getCameraService().takePicture(
-            new CameraSettings(resolution, PictureFormat.JPG, new Duration(0.200), DEFAULT_GAIN_R,
-                DEFAULT_GAIN_G, DEFAULT_GAIN_B),
-            new DataReceivedAdapter(actionInstanceObjId)
+            new CameraSettings(resolution, PictureFormat.JPG, new Duration(0.200), 
+                DEFAULT_GAIN_R, DEFAULT_GAIN_G, DEFAULT_GAIN_B, null),
+            adapter
         );
         return null; // Success!
       } catch (MALInteractionException | MALException | IOException | NMFException ex) {

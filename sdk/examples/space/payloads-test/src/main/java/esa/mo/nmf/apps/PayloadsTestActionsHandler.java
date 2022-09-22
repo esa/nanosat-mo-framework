@@ -32,7 +32,6 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Duration;
-import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode;
 import org.ccsds.moims.mo.platform.camera.structures.CameraSettings;
@@ -155,7 +154,8 @@ public class PayloadsTestActionsHandler
               new Duration(payloadsTestMCAdapter.cameraExposureTime),
               payloadsTestMCAdapter.cameraGainR,
               payloadsTestMCAdapter.cameraGainG,
-              payloadsTestMCAdapter.cameraGainB),
+              payloadsTestMCAdapter.cameraGainB,
+              null),
           new PayloadsTestCameraDataHandler(actionInstanceObjId, payloadsTestMCAdapter));
       return null; // Success!
     } catch (MALInteractionException | MALException | IOException | NMFException ex) {
@@ -178,7 +178,8 @@ public class PayloadsTestActionsHandler
               new Duration(payloadsTestMCAdapter.cameraExposureTime),
               payloadsTestMCAdapter.cameraGainR,
               payloadsTestMCAdapter.cameraGainG,
-              payloadsTestMCAdapter.cameraGainB),
+              payloadsTestMCAdapter.cameraGainB,
+              null),
           new PayloadsTestCameraDataHandler(actionInstanceObjId, payloadsTestMCAdapter));
       return null; // Success!
     } catch (MALInteractionException | MALException | IOException | NMFException ex) {
