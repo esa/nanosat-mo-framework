@@ -21,6 +21,7 @@
 package esa.mo.nmf.nmfpackage;
 
 import esa.mo.helpertools.helpers.HelperTime;
+import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDetails;
 import java.io.File;
 import java.io.IOException;
@@ -28,10 +29,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.plugins.annotations.ResolutionScope;
+import org.apache.maven.project.MavenProject;
 import org.ccsds.moims.mo.mal.structures.Time;
 
 /**
@@ -39,10 +44,16 @@ import org.ccsds.moims.mo.mal.structures.Time;
  *
  * @author Cesar Coelho
  */
-@Mojo(name = "generate-nmf-package")
+@Mojo(name = "generate-nmf-package", defaultPhase = LifecyclePhase.PROCESS_RESOURCES,
+        requiresDependencyCollection = ResolutionScope.COMPILE_PLUS_RUNTIME,
+        requiresDependencyResolution = ResolutionScope.COMPILE_PLUS_RUNTIME)
 public class GenerateNMFPackageMojo extends AbstractMojo {
 
-    private final static String SEPARATOR = File.separator;
+    /**
+     * The App name of the NMF Package
+     */
+    @Parameter(defaultValue = "${project}")
+    private MavenProject project;
 
     /**
      * The App name of the NMF Package
@@ -92,6 +103,7 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
     @Parameter(property = "generate-nmf-package.privilege", defaultValue = "normal")
     private Privilege privilege;
 
+    private final static String TARGET_FOLDER = "target";
     final ArrayList<String> inputFiles = new ArrayList<>();
     final ArrayList<String> locations = new ArrayList<>();
     String appPath = "no-path";
@@ -99,11 +111,11 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
     @Override
     public void execute() throws MojoExecutionException {
         getLog().info("Generating NMF Package...");
-        appPath = "apps" + SEPARATOR + name + SEPARATOR;
+        appPath = "apps" + File.separator + name + File.separator;
         String mainJar = "";
 
         try {
-            File target = new File("target");
+            File target = new File(TARGET_FOLDER);
             File myAppFilename = HelperNMFPackage.findAppJarInFolder(target);
             mainJar = myAppFilename.getName();
             inputFiles.add(myAppFilename.getAbsolutePath());
@@ -134,13 +146,15 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
         getLog().info(">> maxHeap = " + maxHeap);
 
         if (mainClass == null) {
-            throw new MojoExecutionException("The mainClass property needs to be defined!\n"
-                    + "Please use the <mainClass> tag inside the <configuration> tag!\n");
+            throw new MojoExecutionException("The mainClass property needs to "
+                    + "be defined!\nPlease use the <mainClass> tag inside the "
+                    + "<configuration> tag!\n");
         }
 
         if ("${esa.nmf.version-qualifier}".equals(nmfVersion)) {
-            throw new MojoExecutionException("The nmfVersion property needs to be defined!\n"
-                    + "Please use the <nmfVersion> tag inside the <configuration> tag!\n");
+            throw new MojoExecutionException("The nmfVersion property needs to "
+                    + "be defined!\nPlease use the <nmfVersion> tag inside the "
+                    + "<configuration> tag!\n");
         }
 
         final Time time = new Time(System.currentTimeMillis());
@@ -150,6 +164,51 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
         NMFPackageDetails details = new NMFPackageDetails(name, version,
                 timestamp, mainClass, mainJar, maxHeap);
         NMFPackageCreator.nmfPackageCreator(details, inputFiles, locations, "target");
+
+        // Now let's take care of the project dependencies
+        // They must also be packaged as NMF Packages that will be shared libraries
+        getLog().info("------\nGenerating shared libraries...\n");
+
+        for (Object unresolvedArtifact : this.project.getArtifacts()) {
+            Artifact artifact = (Artifact) unresolvedArtifact;
+            String artifactId = artifact.getGroupId();
+
+            boolean isKnown = artifactId.contains("int.esa.nmf");
+            boolean fromConnector = false;
+            List<String> trail = artifact.getDependencyTrail();
+            if (trail != null && trail.size() > 2) {
+                fromConnector = trail.get(1).contains("nanosat-mo-connector");
+            }
+
+            if (isKnown || fromConnector) {
+                StringBuilder str = new StringBuilder();
+                str.append(artifact.getGroupId()).append(":");
+                str.append(artifact.getArtifactId()).append(":");
+                str.append(artifact.getVersion());
+                getLog().info("  >> Ignoring artifactId: " + str.toString());
+            } else {
+                getLog().info("---\nFor dependency:");
+                getLog().info("  >> GroupId = " + artifact.getGroupId());
+                getLog().info("  >> ArtifactId = " + artifact.getArtifactId());
+                getLog().info("  >> Version = " + artifact.getVersion());
+                packageJarDependency(artifact);
+            }
+        }
+    }
+
+    private void packageJarDependency(Artifact artifact) {
+        File file = artifact.getFile();
+        String destinationPath = TARGET_FOLDER + File.separator
+                + artifact.getArtifactId() + "-"
+                + artifact.getVersion() + "." + Const.NMF_PACKAGE_SUFFIX;
+
+        ArrayList<String> files = new ArrayList<>();
+        files.add(file.toPath().toString());
+
+        ArrayList<String> newLocations = new ArrayList<>();
+        newLocations.add("jar-others" + File.separator + file.getName());
+
+        NMFPackageCreator.zipFiles(destinationPath, files, newLocations);
     }
 
     private void addFileOrDirectory(String path, String nest) {

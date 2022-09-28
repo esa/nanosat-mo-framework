@@ -20,6 +20,8 @@
  */
 package esa.mo.nmf.nmfpackage.descriptor;
 
+import java.util.HashMap;
+
 /**
  *
  * @author Cesar Coelho
@@ -32,6 +34,7 @@ public class NMFPackageDetails {
     private final String mainclass;
     private final String mainJar;
     private final String maxHeap;
+    private final HashMap properties;
 
     public NMFPackageDetails(final String packageName, final String version,
             final String timestamp, final String mainclass,
@@ -42,8 +45,19 @@ public class NMFPackageDetails {
         this.mainclass = mainclass;
         this.mainJar = mainJar;
         this.maxHeap = maxHeap;
+        this.properties = null;
     }
 
+    public NMFPackageDetails(final HashMap properties) {
+        this.packageName = null;
+        this.version = null;
+        this.timestamp = null;
+        this.mainclass = null;
+        this.mainJar = null;
+        this.maxHeap = null;
+        this.properties = properties;
+    }
+    
     public String getPackageName() {
         return packageName;
     }
