@@ -37,7 +37,6 @@ import org.ccsds.moims.mo.platform.softwaredefinedradio.provider.SoftwareDefined
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.platform.impl.provider.adapters.ArtificialIntelligenceIntelMovidiusAdapter;
-import esa.mo.platform.impl.provider.gen.ArtificialIntelligenceAdapterInterface;
 import esa.mo.platform.impl.provider.gen.ArtificialIntelligenceProviderServiceImpl;
 import esa.mo.platform.impl.provider.gen.AutonomousADCSAdapterInterface;
 import esa.mo.platform.impl.provider.gen.AutonomousADCSProviderServiceImpl;

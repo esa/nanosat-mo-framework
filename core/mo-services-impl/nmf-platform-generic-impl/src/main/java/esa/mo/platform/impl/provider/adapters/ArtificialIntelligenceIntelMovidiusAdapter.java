@@ -25,11 +25,11 @@ package esa.mo.platform.impl.provider.adapters;
 
 import esa.mo.helpertools.misc.OSValidator;
 import esa.mo.helpertools.misc.ShellCommander;
-import esa.mo.platform.impl.provider.gen.ArtificialIntelligenceAdapterInterface;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import esa.mo.platform.impl.provider.gen.AIAdapterInterface;
 
 /**
  * The Artificial Intelligence adapter for the Intel Movidius Neural Compute
@@ -37,7 +37,7 @@ import java.util.logging.Logger;
  *
  * @author Cesar Coelho
  */
-public class ArtificialIntelligenceIntelMovidiusAdapter implements ArtificialIntelligenceAdapterInterface {
+public class ArtificialIntelligenceIntelMovidiusAdapter implements AIAdapterInterface {
 
     private static final Logger LOGGER = Logger.getLogger(ArtificialIntelligenceIntelMovidiusAdapter.class.getName());
     private final File setupVarsPath;
@@ -156,6 +156,11 @@ public class ArtificialIntelligenceIntelMovidiusAdapter implements ArtificialInt
         str.append("\n\n");
         str.append(pythonFile);
         return str.toString();
+    }
+
+    @Override
+    public void doComputerVision(String jsonPath) throws IOException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
