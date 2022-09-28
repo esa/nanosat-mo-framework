@@ -42,7 +42,7 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
     private MALProvider aiServiceProvider;
     private boolean initialiased = false;
     private final ConnectionProvider connection = new ConnectionProvider();
-    private ArtificialIntelligenceAdapterInterface adapter;
+    private AIAdapterInterface adapter;
     private final static Long TIMESTAMP = System.currentTimeMillis();
     private final ArrayList<String> modelPaths = new ArrayList();
 
@@ -53,7 +53,7 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
      * @param adapter The Artificial Intelligence adapter
      * @throws MALException On initialisation error.
      */
-    public synchronized void init(ArtificialIntelligenceAdapterInterface adapter) throws MALException {
+    public synchronized void init(AIAdapterInterface adapter) throws MALException {
         if (!initialiased) {
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());

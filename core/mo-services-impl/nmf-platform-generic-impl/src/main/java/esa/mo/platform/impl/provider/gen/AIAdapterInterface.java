@@ -22,7 +22,7 @@ package esa.mo.platform.impl.provider.gen;
 
 import java.io.IOException;
 
-public interface ArtificialIntelligenceAdapterInterface {
+public interface AIAdapterInterface {
 
     /**
      * Sets a model to the Artificial Intelligence device.
@@ -41,5 +41,13 @@ public interface ArtificialIntelligenceAdapterInterface {
      * @param outputPath The path to a folder to store the processed files.
      */
     public void executeInference(String inputPath, String outputPath);
+
+    /**
+     * Executes the computer vision process for the provided json file.
+     *
+     * @param jsonFile The json file that contains the information for executing
+     * the computer vision process on the device.
+     */
+    public void doComputerVision(String jsonPath) throws IOException;
 
 }
