@@ -47,7 +47,7 @@ public class NMFPackageCreator {
 
     private static final int BUFFER = 2048;
 
-    private static void zipFiles(String outputPath, ArrayList<String> from,
+    public static void zipFiles(String outputPath, ArrayList<String> from,
             ArrayList<String> newLocations) {
         try {
             BufferedInputStream origin;
@@ -58,8 +58,8 @@ public class NMFPackageCreator {
             for (int i = 0; i < from.size(); i++) {
                 String file = from.get(i);
                 String newPath = newLocations.get(i);
-                System.out.println(i + ".Adding file: " + file + "\n"
-                        + i + ".On path: " + newPath);
+                System.out.println("    (" + i + ") Selecting file: " + file
+                        + "\n    (" + i + ") To NMF Package path: " + newPath);
                 origin = new BufferedInputStream(new FileInputStream(file), BUFFER);
 
                 ZipEntry entry = new ZipEntry(newPath);
@@ -73,8 +73,8 @@ public class NMFPackageCreator {
             }
             out.close();
         } catch (Exception ex) {
-            Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.SEVERE,
-                    "The Files could not be zipped!", ex);
+            Logger.getLogger(NMFPackageCreator.class.getName()).log(
+                    Level.SEVERE, "The Files could not be zipped!", ex);
         }
     }
 
@@ -93,8 +93,9 @@ public class NMFPackageCreator {
 
         for (int i = 0; i < newLocations.size(); i++) {
             try {
-                descriptor.addFile(new NMFPackageFile(newLocations.get(i),
-                        HelperNMFPackage.calculateCRCFromFile(files.get(i))));
+                long crc = HelperNMFPackage.calculateCRCFromFile(files.get(i));
+                NMFPackageFile nmfPackageFile = new NMFPackageFile(newLocations.get(i), crc);
+                descriptor.addFile(nmfPackageFile);
             } catch (IOException ex) {
                 Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.SEVERE,
                         "There was a problem during the CRC calculation.", ex);
@@ -155,8 +156,8 @@ public class NMFPackageCreator {
         // -------------------------------------------------------------------
         // -------------------------------------------------------------------
         // Compress:
-        Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.INFO,
-                "Creating compressed NMF Package...");
+        Logger.getLogger(NMFPackageCreator.class.getName()).log(
+                Level.INFO, "Creating compressed NMF Package...");
 
         String name = details.getPackageName() + "-"
                 + details.getVersion() + "." + Const.NMF_PACKAGE_SUFFIX;
