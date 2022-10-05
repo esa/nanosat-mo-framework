@@ -25,22 +25,17 @@ import java.io.IOException;
 public interface AIAdapterInterface {
 
     /**
-     * Sets a model to the Artificial Intelligence device.
+     * Executes the inference on the Artificial Intelligence device.
      *
      * @param modelPath The file path to the model.
      * @param weightsPath The file path to the weights of the model.
-     * @throws IOException If the model was not set.
-     */
-    public void setModel(String modelPath, String weightsPath) throws IOException;
-
-    /**
-     * Executes the inference on the Artificial Intelligence device.
-     *
      * @param inputPath The path to a folder with a set of files to be
      * processed.
      * @param outputPath The path to a folder to store the processed files.
+     * @throws IOException If the inference was not successful.
      */
-    public void executeInference(String inputPath, String outputPath);
+    public void executeInference(String modelPath, String weightsPath,
+            String inputPath, String outputPath) throws IOException;
 
     /**
      * Executes the computer vision process for the provided json file.
