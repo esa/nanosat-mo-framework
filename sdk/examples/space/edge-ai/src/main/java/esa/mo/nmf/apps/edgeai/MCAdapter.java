@@ -169,7 +169,7 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
                 throw new IOException("The path is not a directory: " + demoTiles.getAbsolutePath());
             }
             
-            String inputTilesPath = demoTiles.getAbsolutePath() + File.separator + "tile_1.png";
+            String inputTilesPath = demoTiles.getAbsolutePath();
             
             ArtificialIntelligenceStub aiService = connector.getPlatformServices().getAIService();
             Long id = aiService.setModel(modelPath);
