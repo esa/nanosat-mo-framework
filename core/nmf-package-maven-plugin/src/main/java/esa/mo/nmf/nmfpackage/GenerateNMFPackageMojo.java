@@ -70,7 +70,7 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
     /**
      * The App main class
      */
-    @Parameter(property = "generate-nmf-package.mainClass")
+    @Parameter(property = "generate-nmf-package.mainClass", defaultValue = "${assembly.mainClass}")
     private String mainClass;
 
     /**
@@ -146,11 +146,17 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
         getLog().info(">> maxHeap = " + maxHeap);
 
         if (mainClass == null) {
-            throw new MojoExecutionException("The mainClass property needs to "
-                    + "be defined!\nPlease use the <mainClass> tag inside the "
-                    + "<configuration> tag!\n");
+            throw new MojoExecutionException("The mainClass tag is not defined!"
+                    + " Please include in the <configuration> tag:\n"
+                    + "-> \t\t<configuration>\n"
+                    + "-> \t\t\t<mainClass>${assembly.mainClass}</mainClass>\n"
+                    + "-> \t\t</configuration>\n\n\n"
+                    + "-> Or add to the <properties> tag the mainclass. Example:\n"
+                    + "-> \t\t<properties>\n"
+                    + "-> \t\t\t<assembly.mainClass>esa.mo.nmf.apps.myapp.ExampleApp</assembly.mainClass>\n"
+                    + "-> \t\t</properties>\n\n\n");
         }
-
+        
         if ("${esa.nmf.version-qualifier}".equals(nmfVersion)) {
             throw new MojoExecutionException("The nmfVersion property needs to "
                     + "be defined!\nPlease use the <nmfVersion> tag inside the "
