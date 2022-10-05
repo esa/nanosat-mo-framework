@@ -57,9 +57,9 @@
 
     <developers>
         <developer>
-          <id>CesarCoelho</id>
-          <name>César Coelho</name>
-          <url>https://github.com/CesarCoelho</url>
+            <id>CesarCoelho</id>
+            <name>César Coelho</name>
+            <url>https://github.com/CesarCoelho</url>
         </developer>
     </developers>
 
@@ -75,8 +75,6 @@
     </dependencies>
 
     <build>
-        <resources>
-        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -93,10 +91,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
@@ -117,6 +111,10 @@
                                 </goals>
                                 <configuration>
                                     <mainClass>${assembly.mainClass}</mainClass>
+                                    <libs>
+                                        <lib>${basedir}/ai-model</lib>
+                                        <lib>${basedir}/demo-tiles</lib>
+                                    </libs>
                                 </configuration>
                             </execution>
                         </executions>

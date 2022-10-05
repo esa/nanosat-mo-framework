@@ -29,7 +29,9 @@ public class EdgeAIApp {
 
     public EdgeAIApp() {
         NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
-        connector.init(new MCAdapter(connector));
+        MCAdapter adapter = new MCAdapter(connector);
+        connector.init(adapter);
+        //adapter.triggerAIInference(null, null);
     }
 
     /**
