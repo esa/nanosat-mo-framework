@@ -41,6 +41,7 @@ import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
 import esa.mo.nmf.NMFInterface;
 import esa.mo.nmf.NMFProvider;
+import java.io.File;
 import java.io.IOException;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -125,7 +126,7 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
         actionNames.add(new Identifier(ACTION_CANCEL_AI));
     }
 
-    private void triggerAIInference(Long actionInstanceObjId, AttributeValueList attributeValues) {
+    public void triggerAIInference(Long actionInstanceObjId, AttributeValueList attributeValues) {
         /*
         int minProcessingDurationSeconds = getAs(attributeValues.get(0));
         int maxProcessingDurationSeconds = getAs(attributeValues.get(1));
@@ -146,8 +147,29 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
          */
         
         try {
-            String modelPath = "";
-            String inputTilesPath = "";
+            File aiModel = new File("ai-model");
+            
+            if(!aiModel.exists()) {
+                throw new IOException("The folder does not exist: " + aiModel.getAbsolutePath());
+            }
+            
+            if(!aiModel.isDirectory()) {
+                throw new IOException("The path is not a directory: " + aiModel.getAbsolutePath());
+            }
+            
+            String modelPath = aiModel.getAbsolutePath() + File.separator + "dummy_model.xml";
+            
+            File demoTiles = new File("demo-tiles");
+            
+            if(!demoTiles.exists()) {
+                throw new IOException("The folder does not exist: " + demoTiles.getAbsolutePath());
+            }
+            
+            if(!demoTiles.isDirectory()) {
+                throw new IOException("The path is not a directory: " + demoTiles.getAbsolutePath());
+            }
+            
+            String inputTilesPath = demoTiles.getAbsolutePath() + File.separator + "tile_1.png";
             
             ArtificialIntelligenceStub aiService = connector.getPlatformServices().getAIService();
             Long id = aiService.setModel(modelPath);
