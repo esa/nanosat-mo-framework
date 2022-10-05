@@ -36,7 +36,7 @@ import org.ccsds.moims.mo.platform.opticaldatareceiver.provider.OpticalDataRecei
 import org.ccsds.moims.mo.platform.softwaredefinedradio.provider.SoftwareDefinedRadioInheritanceSkeleton;
 
 import esa.mo.com.impl.util.COMServicesProvider;
-import esa.mo.platform.impl.provider.adapters.ArtificialIntelligenceIntelMovidiusAdapter;
+import esa.mo.platform.impl.provider.adapters.AIMovidiusAdapter;
 import esa.mo.platform.impl.provider.gen.ArtificialIntelligenceProviderServiceImpl;
 import esa.mo.platform.impl.provider.gen.AutonomousADCSAdapterInterface;
 import esa.mo.platform.impl.provider.gen.AutonomousADCSProviderServiceImpl;
@@ -78,7 +78,7 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
   public void init(COMServicesProvider comServices) throws MALException {
     // Check if hybrid setup is used
     CameraAdapterInterface camAdapter;
-    ArtificialIntelligenceIntelMovidiusAdapter aiAdapter;
+    AIMovidiusAdapter aiAdapter;
     AutonomousADCSAdapterInterface adcsAdapter;
     GPSAdapterInterface gpsAdapter;
     OpticalDataReceiverAdapterInterface optRxAdapter;
@@ -271,7 +271,7 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
       } else {
         pcAdapter = new PowerControlSoftSimAdapter();
         camAdapter = new CameraSoftSimAdapter(instrumentsSimulator, pcAdapter);
-        aiAdapter = new ArtificialIntelligenceIntelMovidiusAdapter();
+        aiAdapter = new AIMovidiusAdapter();
         adcsAdapter = new AutonomousADCSSoftSimAdapter(instrumentsSimulator, pcAdapter);
         gpsAdapter = new GPSSoftSimAdapter(instrumentsSimulator, pcAdapter);
         optRxAdapter = new OpticalDataReceiverSoftSimAdapter(instrumentsSimulator, pcAdapter);
@@ -285,7 +285,7 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
       pcAdapter = new PowerControlSoftSimAdapter();
       camAdapter = new CameraSoftSimAdapter(instrumentsSimulator, pcAdapter);
         try {
-            aiAdapter = new ArtificialIntelligenceIntelMovidiusAdapter();
+            aiAdapter = new AIMovidiusAdapter();
         } catch (IOException ex) {
             Logger.getLogger(PlatformServicesProviderSoftSim.class.getName()).log(
                     Level.SEVERE, "The AI adapter could not be started!", ex);
