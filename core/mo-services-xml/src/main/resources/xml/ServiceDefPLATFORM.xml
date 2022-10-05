@@ -2237,6 +2237,11 @@
               </mal:field>
             </mal:response>
           </mal:messages>
+          <mal:errors>
+            <mal:errorRef comment="The provided inputTilesPath does not exist.">
+              <mal:type area="COM" list="false" name="INVALID" />
+            </mal:errorRef>
+          </mal:errors>
         </mal:requestIP>
       </mal:capabilitySet>
       <com:features />

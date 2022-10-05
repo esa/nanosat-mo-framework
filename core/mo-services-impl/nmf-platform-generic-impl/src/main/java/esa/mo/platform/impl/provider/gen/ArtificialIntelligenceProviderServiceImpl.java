@@ -33,8 +33,10 @@ import org.ccsds.moims.mo.platform.PlatformHelper;
 import org.ccsds.moims.mo.platform.artificialintelligence.ArtificialIntelligenceHelper;
 import org.ccsds.moims.mo.platform.artificialintelligence.provider.ArtificialIntelligenceInheritanceSkeleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import org.ccsds.moims.mo.mal.MALStandardError;
 
 public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelligenceInheritanceSkeleton {
 
@@ -107,12 +109,18 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
     @Override
     public Long setModel(String modelPath, MALInteraction interaction) throws MALInteractionException, MALException {
         if (modelPath == null) {
-            throw new MALException("The modelPath is null!");
+            throw new MALException("The modelPath cannot be null!");
         }
 
-        for (String path : modelPaths) {
+        if (!modelPath.endsWith(".xml")) {
+            throw new MALException("The model does not end with the file extension: .xml");
+        }
+
+        for (int i = 0; i < modelPaths.size(); i++) {
+            String path = modelPaths.get(i);
             if (path.equals(modelPath)) {
-                throw new MALException("The model already exists!");
+                //Already exists... return the id:
+                return TIMESTAMP + (long) i;
             }
         }
 
@@ -131,6 +139,16 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
             throw new MALException("The inputTilesPath is null!");
         }
 
+        // inputTilesPath needs to be an existing folder!!
+        File inputTiles = new File(inputTilesPath);
+
+        if (!inputTiles.exists()) {
+            String msg = "The inputTilesPath does not exist in path: " + inputTilesPath;
+            throw new MALInteractionException(
+                    new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, msg)
+            );
+        }
+
         String modelPath = modelPaths.get((int) (modelId - TIMESTAMP));
 
         if (!modelPath.endsWith(".xml")) {
@@ -140,11 +158,10 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
         String weightsPath = modelPath.substring(0, modelPath.length() - 4) + ".bin";
         Logger.getLogger(ArtificialIntelligenceProviderServiceImpl.class.getName()).log(
                 Level.INFO, "The weights file path is:\n >> " + weightsPath);
-        
+
         try {
-            adapter.setModel(modelPath, weightsPath);
             String outputTilesPath = "";
-            adapter.executeInference(inputTilesPath, outputTilesPath);
+            adapter.executeInference(modelPath, weightsPath, inputTilesPath, outputTilesPath);
             return outputTilesPath;
         } catch (IOException ex) {
             Logger.getLogger(ArtificialIntelligenceProviderServiceImpl.class.getName()).log(

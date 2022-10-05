@@ -33,16 +33,20 @@ import esa.mo.platform.impl.provider.gen.AIAdapterInterface;
 
 /**
  * The Artificial Intelligence adapter for the Intel Movidius Neural Compute
- * Stick via a python script.
+ * Stick via a python script. Note that this code was not developed for the
+ * Intel Movidius Neural Compute Stick 2 and therefore this version will not
+ * work.
  *
  * @author Cesar Coelho
  */
-public class ArtificialIntelligenceIntelMovidiusAdapter implements AIAdapterInterface {
+public class AIMovidiusAdapter implements AIAdapterInterface {
 
-    private static final Logger LOGGER = Logger.getLogger(ArtificialIntelligenceIntelMovidiusAdapter.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(AIMovidiusAdapter.class.getName());
+    private static final String PYTHON_FILENAME = "aiInference.py";
+    private OSValidator os = new OSValidator();
     private final File setupVarsPath;
 
-    public ArtificialIntelligenceIntelMovidiusAdapter() throws IOException {
+    public AIMovidiusAdapter() throws IOException {
         // Check if Python3 is installed!
         ShellCommander shellCommander = new ShellCommander();
         String cmdPython = "python3 --version";
@@ -61,8 +65,6 @@ public class ArtificialIntelligenceIntelMovidiusAdapter implements AIAdapterInte
             throw new IOException("The installed python3 version is < 3.6.0!"
                     + "\n>>>> Please update your Python version!");
         }
-
-        OSValidator os = new OSValidator();
 
         // Is it Linux or Windows?
         if (os.isUnix()) {
@@ -86,7 +88,7 @@ public class ArtificialIntelligenceIntelMovidiusAdapter implements AIAdapterInte
 
             setupVarsPath = this.crawlOptions(options, "setupvars.bat");
 
-            // Please install version: 2020.3
+            // Please install version: 2020.2
             return;
         }
 
@@ -112,10 +114,10 @@ public class ArtificialIntelligenceIntelMovidiusAdapter implements AIAdapterInte
         if (path.isFile()) {
             return toBeMatched.equals(path.getName()) ? path : null;
         }
-        
+
         File[] list = path.listFiles();
-        
-        if(list == null) {
+
+        if (list == null) {
             return null;
         }
 
@@ -130,18 +132,7 @@ public class ArtificialIntelligenceIntelMovidiusAdapter implements AIAdapterInte
         return null;
     }
 
-    @Override
-    public void setModel(String modelPath, String weightsPath) throws IOException {
-
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void executeInference(String inputPath, String outputPath) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public String generateScriptSH(String pathIntelVar, String pythonFile) {
+    private String generateScriptSH(String pathIntelVar, String pythonFile) {
         StringBuilder str = new StringBuilder();
         str.append("#!/bin/bash \n\n");
         str.append("source ").append(pathIntelVar);
@@ -150,7 +141,7 @@ public class ArtificialIntelligenceIntelMovidiusAdapter implements AIAdapterInte
         return str.toString();
     }
 
-    public String generateScriptBAT(String pathIntelVar, String pythonFile) {
+    private String generateScriptBAT(String pathIntelVar, String pythonFile) {
         StringBuilder str = new StringBuilder();
         str.append(pathIntelVar);
         str.append("\n\n");
@@ -159,8 +150,29 @@ public class ArtificialIntelligenceIntelMovidiusAdapter implements AIAdapterInte
     }
 
     @Override
-    public void doComputerVision(String jsonPath) throws IOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void executeInference(String modelPath, String weightsPath,
+            String inputPath, String outputPath) throws IOException {
+        String pathIntelVar = setupVarsPath.getAbsolutePath();
+        String script = null;
+
+        if (os.isUnix()) {
+            script = this.generateScriptSH(pathIntelVar, PYTHON_FILENAME);
+        }
+        if (os.isWindows()) {
+            script = this.generateScriptBAT(pathIntelVar, PYTHON_FILENAME);
+        }
+
+        if (script == null) {
+            throw new IOException("Unsupported OS!");
+        }
+        
+        ShellCommander shellCommander = new ShellCommander();
+        String out = shellCommander.runCommandAndGetOutputMessage(script);
     }
 
+    @Override
+    public void doComputerVision(String jsonPath) throws IOException {
+        throw new UnsupportedOperationException("The operation needs to be "
+                + "extended for AI specific applications that do Computer Vision!");
+    }
 }
