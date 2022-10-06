@@ -56,5 +56,5 @@ public class ReceiptMaster {
             throw new IOException("Unknown version: " + version);
         }
     }
-
+    
 }

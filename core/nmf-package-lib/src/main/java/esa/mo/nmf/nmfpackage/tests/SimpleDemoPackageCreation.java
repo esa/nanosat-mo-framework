@@ -21,14 +21,18 @@
 package esa.mo.nmf.nmfpackage.tests;
 
 import esa.mo.helpertools.helpers.HelperTime;
+import esa.mo.nmf.nmfpackage.HelperNMFPackage;
 import esa.mo.nmf.nmfpackage.NMFPackageCreator;
 import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDescriptor;
 import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDetails;
+import esa.mo.nmf.nmfpackage.descriptor.NMFPackageMetadata;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import org.ccsds.moims.mo.mal.structures.Time;
 
@@ -89,6 +93,18 @@ public class SimpleDemoPackageCreation {
             // Test if the created file can be parsed
             ZipFile writtenFile = new ZipFile(location);
             NMFPackageDescriptor theDescriptor = NMFPackageDescriptor.parseZipFile(writtenFile);
+            theDescriptor = null;
+
+
+            ZipEntry entry = writtenFile.getEntry(NMFPackageMetadata.FILENAME);
+
+            // Try to open the the receipt file inside the Zip file
+            // and parse it into a NMFPackageDescriptor object
+            try (InputStream stream = writtenFile.getInputStream(entry)) {
+                NMFPackageMetadata metadata = NMFPackageMetadata.load(stream);
+                metadata = null;
+            }
+            
         } catch (IOException ex) {
             Logger.getLogger(SimpleDemoPackageCreation.class.getName()).log(
                     Level.SEVERE, "The file could not be processed!", ex);
