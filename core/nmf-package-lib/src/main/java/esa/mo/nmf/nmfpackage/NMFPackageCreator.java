@@ -24,6 +24,7 @@ import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDetails;
 import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDescriptor;
 import esa.mo.nmf.nmfpackage.descriptor.NMFPackageFile;
+import esa.mo.nmf.nmfpackage.descriptor.NMFPackageMetadata;
 import esa.mo.nmf.nmfpackage.receipt.ReceiptMaster;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -40,6 +41,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 /**
+ * The NMF Package Creator class.
  *
  * @author Cesar Coelho
  */
@@ -87,15 +89,18 @@ public class NMFPackageCreator {
             ArrayList<String> filesInput, ArrayList<String> newLocationsInput,
             String destinationFolder) {
         NMFPackageDescriptor descriptor = new NMFPackageDescriptor(details);
-        final ArrayList<String> files = new ArrayList<>(filesInput);
+        NMFPackageMetadata metadata = new NMFPackageMetadata(details.getProperties());
 
+        final ArrayList<String> files = new ArrayList<>(filesInput);
         final ArrayList<String> newLocations = new ArrayList<>(newLocationsInput);
 
         for (int i = 0; i < newLocations.size(); i++) {
             try {
+                String path = newLocations.get(i);
                 long crc = HelperNMFPackage.calculateCRCFromFile(files.get(i));
-                NMFPackageFile nmfPackageFile = new NMFPackageFile(newLocations.get(i), crc);
-                descriptor.addFile(nmfPackageFile);
+                descriptor.addFile(new NMFPackageFile(path, crc));
+                metadata.addProperty(NMFPackageMetadata.FILE_PATH + "_" + i, path);
+                metadata.addProperty(NMFPackageMetadata.FILE_CRC + "_" + i, String.valueOf(crc));
             } catch (IOException ex) {
                 Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.SEVERE,
                         "There was a problem during the CRC calculation.", ex);
@@ -104,10 +109,10 @@ public class NMFPackageCreator {
 
         // -------------------------------------------------------------------
         // Generate nmfPackage.receipt
-        Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.INFO,
-                "Generating receipt file...");
+        Logger.getLogger(NMFPackageCreator.class.getName()).log(
+                Level.INFO, "Generating receipt file...");
 
-        try { // Write down all the new paths
+        try { // Write the receipt file
             FileOutputStream sigfos = new FileOutputStream(HelperNMFPackage.RECEIPT_FILENAME);
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(sigfos));
             ReceiptMaster.writeLatestReceipt(descriptor, bw);
@@ -122,6 +127,25 @@ public class NMFPackageCreator {
         newLocations.add(HelperNMFPackage.RECEIPT_FILENAME);
         // -------------------------------------------------------------------
 
+        // -------------------------------------------------------------------
+        // Generate metadata.properties
+        Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.INFO,
+                "Generating metadata.properties file...");
+
+        try { // Write the metadata file
+            FileOutputStream sigfos = new FileOutputStream(NMFPackageMetadata.FILENAME);
+            metadata.store(sigfos);
+            sigfos.close();
+        } catch (IOException ex) {
+            Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        // Add the receipt file to the list of Files to be zipped
+        File metadataFile = new File(NMFPackageMetadata.FILENAME);
+        files.add(metadataFile.getPath());
+        newLocations.add(NMFPackageMetadata.FILENAME);
+        // -------------------------------------------------------------------
+        
         // -------------------------------------------------------------------
         // Generate digital signature
         /*
@@ -182,6 +206,7 @@ public class NMFPackageCreator {
          */
         // Delete temporary files:
         receipt.delete();
+        metadataFile.delete();
         //digitalSignature.delete();
 
         return destinationPath;

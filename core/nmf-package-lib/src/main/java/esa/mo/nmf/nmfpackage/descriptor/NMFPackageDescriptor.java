@@ -23,6 +23,8 @@ package esa.mo.nmf.nmfpackage.descriptor;
 import esa.mo.nmf.nmfpackage.HelperNMFPackage;
 import esa.mo.nmf.nmfpackage.receipt.ReceiptMaster;
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -64,28 +66,48 @@ public class NMFPackageDescriptor {
      * @return The descriptor of the NMF Package.
      */
     public static NMFPackageDescriptor parseInputStream(final InputStream stream) throws IOException {
-        NMFPackageDescriptor newDescriptor = null;
-        InputStreamReader isr = new InputStreamReader(stream, StandardCharsets.UTF_8);
-        BufferedReader br = new BufferedReader(isr);
+        // Copy the stream to a Byte Array
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int len;
+        while ((len = stream.read(buffer)) > -1) {
+            baos.write(buffer, 0, len);
+        }
+        baos.flush();
+        InputStream is1 = new ByteArrayInputStream(baos.toByteArray());
 
-        String line = br.readLine(); // Reads the first line!
+        NMFPackageMetadata metadata = NMFPackageMetadata.load(is1);
+        is1.close();
+        String metadataVersion = metadata.getMetadataVersion();
 
-        if (line != null) {
-            // Extract the version from the first line
-            if (line.startsWith(line)) {
-                int length = HelperNMFPackage.NMF_PACKAGE_DESCRIPTOR_VERSION.length();
-                String version = line.substring(length).trim();
-                newDescriptor = ReceiptMaster.parseReceipt(version, br);
+        // Old system based of package receipts
+        if (metadataVersion == null) {
+            NMFPackageDescriptor newDescriptor = null;
+            InputStream is2 = new ByteArrayInputStream(baos.toByteArray());
+            InputStreamReader isr = new InputStreamReader(is2, StandardCharsets.UTF_8);
+            BufferedReader br = new BufferedReader(isr);
+
+            String line = br.readLine(); // Reads the first line!
+
+            if (line != null) {
+                // Extract the version from the first line
+                if (line.startsWith(line)) {
+                    int length = HelperNMFPackage.NMF_PACKAGE_DESCRIPTOR_VERSION.length();
+                    String version = line.substring(length).trim();
+                    newDescriptor = ReceiptMaster.parseReceipt(version, br);
+                } else {
+                    throw new IOException("Could not read the NMF Package Descriptor version!");
+                }
             } else {
-                throw new IOException("Could not read the NMF Package Descriptor version!");
+                throw new IOException("The receipt file is empty!");
             }
-        } else {
-            throw new IOException("The receipt file is empty!");
+
+            br.close();
+
+            return newDescriptor;
         }
 
-        br.close();
-
-        return newDescriptor;
+        return metadata.toPackageDescriptor();
     }
 
     /**
