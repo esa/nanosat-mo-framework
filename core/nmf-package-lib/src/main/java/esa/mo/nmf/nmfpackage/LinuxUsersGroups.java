@@ -22,6 +22,7 @@ package esa.mo.nmf.nmfpackage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -260,26 +261,37 @@ public class LinuxUsersGroups {
                 p.destroyForcibly();
             }
 
-            BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            StringBuilder buffer = new StringBuilder();
-            String line;
-            while ((line = br.readLine()) != null) {
-                buffer.append(line);
-                buffer.append("\n");
-            }
-
+            String out = extractString(p.getInputStream());
             int exitValue = p.exitValue();
-            String out = buffer.toString();
 
             if (exitValue == 127) { // Command not found!
                 throw new IOException(MSG_NOT_FOUND
                         + "\n >> " + String.join(" ", cmd) + "\n" + out);
             }
 
+            if (exitValue != 0) { // Error!
+                String error = extractString(p.getErrorStream());
+                throw new IOException("There was an error:\n >> "
+                        + String.join(" ", cmd) + "\n" + out + "\nError:\n" + error);
+            }
+
             return out;
         } catch (InterruptedException ex) {
             throw new IOException(ex);
         }
+    }
+
+    private static String extractString(InputStream in) throws IOException {
+        InputStreamReader isr = new InputStreamReader(in);
+        BufferedReader br = new BufferedReader(isr);
+        StringBuilder buffer = new StringBuilder();
+        String line;
+        while ((line = br.readLine()) != null) {
+            buffer.append(line);
+            buffer.append("\n");
+        }
+
+        return buffer.toString();
     }
 
 }
