@@ -189,7 +189,7 @@ public class NMFPackageManager {
     /**
      * Uninstalls an NMF Package using the respective package descriptor.
      *
-     * @param descriptor The desccriptor
+     * @param descriptor The descriptor
      * @param keepUserData A flag that sets if the user data is kept
      * @throws IOException if there was a problem during the uninstallation
      */
