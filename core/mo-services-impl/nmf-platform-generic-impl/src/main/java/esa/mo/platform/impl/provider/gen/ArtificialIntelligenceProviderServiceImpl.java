@@ -35,7 +35,9 @@ import org.ccsds.moims.mo.platform.artificialintelligence.provider.ArtificialInt
 import esa.mo.helpertools.connections.ConnectionProvider;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import org.ccsds.moims.mo.mal.MALStandardError;
 
 public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelligenceInheritanceSkeleton {
@@ -155,13 +157,24 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
             throw new MALException("The model does not end with the file extension: .xml");
         }
 
-        String weightsPath = modelPath.substring(0, modelPath.length() - 4) + ".bin";
-        Logger.getLogger(ArtificialIntelligenceProviderServiceImpl.class.getName()).log(
-                Level.INFO, "The weights file path is:\n >> " + weightsPath);
+        int endIndex = modelPath.length() - 4;
+        String weightsPath = modelPath.substring(0, endIndex) + ".bin";
 
         try {
-            String outputTilesPath = "";
+            String time = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date());
+            String outputTilesPath = inputTiles.getParent() + File.separator + "output_tiles_" + time;
+
+            Logger.getLogger(ArtificialIntelligenceProviderServiceImpl.class.getName()).log(
+                    Level.INFO, "The AI service will do inference with the parameters:"
+                    + "\n   >>       model: " + modelPath
+                    + "\n   >>     weights: " + weightsPath
+                    + "\n   >>  inputTiles: " + inputTilesPath
+                    + "\n   >> outputTiles: " + outputTilesPath);
+
             adapter.executeInference(modelPath, weightsPath, inputTilesPath, outputTilesPath);
+
+            Logger.getLogger(ArtificialIntelligenceProviderServiceImpl.class.getName()).log(
+                    Level.INFO, "The inference has been completed successfully!");
             return outputTilesPath;
         } catch (IOException ex) {
             Logger.getLogger(ArtificialIntelligenceProviderServiceImpl.class.getName()).log(
