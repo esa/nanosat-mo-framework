@@ -364,7 +364,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                 continue;
             }
 
-            // requirement: 3.3.9.2.f the new rawValues type and its definitions rawType must be the same
+            // requirement: 3.3.9.2.f the new rawValues type and definitions rawType must be the same
             if (newValue.getRawValue() != null
                     && !newValue.getRawValue().getTypeShortForm().equals(new Integer(pDef.getRawType()))) {
                 invIndexList.add(new UInteger(index));
