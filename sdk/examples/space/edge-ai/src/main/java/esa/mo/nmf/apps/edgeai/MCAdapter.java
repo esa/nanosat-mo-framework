@@ -72,9 +72,29 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
         ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
         IdentifierList actionNames = new IdentifierList();
 
-        registerActionAIStart(actionDefs, actionNames);
-        registerActionAICancel(actionDefs, actionNames);
-        // ----
+        ArgumentDefinitionDetailsList arguments1 = new ArgumentDefinitionDetailsList();
+        actionDefs.add(new ActionDefinitionDetails(
+                "Starts the AI inference using the AI service",
+                new UOctet((short) 0),
+                new UShort(TOTAL_STAGES),
+                arguments1));
+        actionNames.add(new Identifier(ACTION_START_AI));
+        
+        ArgumentDefinitionDetailsList arguments2 = new ArgumentDefinitionDetailsList();
+        {
+            Byte rawType = Attribute._LONG_TYPE_SHORT_FORM;
+            arguments2.add(new ArgumentDefinitionDetails(
+                    new Identifier("process id"),
+                    "process id",
+                    rawType, "", null, null, null));
+        }
+
+        actionDefs.add(new ActionDefinitionDetails(
+                "Cancel the AI processing",
+                new UOctet((short) 0),
+                new UShort(1),
+                arguments2));
+        actionNames.add(new Identifier(ACTION_CANCEL_AI));
 
         registration.registerActions(actionNames, actionDefs);
     }
@@ -82,6 +102,8 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
     @Override
     public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
             Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
+        LOG.log(Level.INFO, "Action arrived, with name: " + name.getValue());
+        
         if (ACTION_START_AI.equals(name.getValue())) {
             triggerAIInference(actionInstanceObjId, attributeValues);
             return null; // Success!
@@ -96,34 +118,6 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
     public void onProcessCompleted(Long id, int exitCode) {
         LOG.info("Process with Request Id: " + id + " exited with code: " + exitCode);
         publishParameter(id.toString(), exitCode);
-    }
-
-    private void registerActionAIStart(ActionDefinitionDetailsList actionDefs, IdentifierList actionNames) {
-        ArgumentDefinitionDetailsList arguments = new ArgumentDefinitionDetailsList();
-        actionDefs.add(new ActionDefinitionDetails(
-                "Starts the AI inference using the AI service",
-                new UOctet((short) 0),
-                new UShort(TOTAL_STAGES),
-                arguments));
-        actionNames.add(new Identifier(ACTION_START_AI));
-    }
-
-    private void registerActionAICancel(ActionDefinitionDetailsList actionDefs, IdentifierList actionNames) {
-        ArgumentDefinitionDetailsList arguments = new ArgumentDefinitionDetailsList();
-        {
-            Byte rawType = Attribute._LONG_TYPE_SHORT_FORM;
-            arguments.add(new ArgumentDefinitionDetails(
-                    new Identifier("process id"),
-                    "process id",
-                    rawType, "", null, null, null));
-        }
-
-        actionDefs.add(new ActionDefinitionDetails(
-                "Cancel the AI processing",
-                new UOctet((short) 0),
-                new UShort(1),
-                arguments));
-        actionNames.add(new Identifier(ACTION_CANCEL_AI));
     }
 
     public void triggerAIInference(Long actionInstanceObjId, AttributeValueList attributeValues) {
@@ -145,6 +139,8 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
 
         processMap.put(actionInstanceObjId, exec);
          */
+
+        LOG.log(Level.INFO, "Triggering AI inference...");
         
         try {
             File aiModel = new File("ai-model");
@@ -173,7 +169,10 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
             
             ArtificialIntelligenceStub aiService = connector.getPlatformServices().getAIService();
             Long id = aiService.setModel(modelPath);
+            LOG.log(Level.SEVERE, "The model was set with id: " + id);
+            
             aiService.doInference(id, inputTilesPath);
+            LOG.log(Level.SEVERE, "The AI inference was successful!");
         } catch (MALInteractionException | MALException | IOException | NMFException ex) {
             LOG.log(Level.SEVERE, "AI was not performed...", ex);
         }
