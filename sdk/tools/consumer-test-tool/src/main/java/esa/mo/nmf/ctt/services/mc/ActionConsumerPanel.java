@@ -241,7 +241,11 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         }
 
         try {
-            gma.launchAction(actionTable.getSelectedDefinitionObjId(), argumentValueList, new ActionAdapter() {
+            Long definitionObjId = actionTable.getSelectedDefinitionObjId();
+            Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.INFO, 
+                    "Triggering action with id: " + definitionObjId);
+            
+            gma.launchAction(definitionObjId, argumentValueList, new ActionAdapter() {
                 @Override
                 public void submitActionAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
                     super.submitActionAckReceived(msgHeader, qosProperties);
@@ -251,10 +255,12 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
                 @Override
                 public void submitActionErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
                     super.submitActionErrorReceived(msgHeader, error, qosProperties);
-                    JOptionPane.showMessageDialog(null, "The action submittal has failed.", "Error", JOptionPane.PLAIN_MESSAGE);
+                    JOptionPane.showMessageDialog(
+                            null, 
+                            "The submitted action failed: " + error.toString(), 
+                            "Error", JOptionPane.PLAIN_MESSAGE);
                 }
             });
-
         } catch (NMFException ex) {
             JOptionPane.showMessageDialog(null, "There was an error with the submitted action.", "Error", JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
