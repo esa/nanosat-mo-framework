@@ -100,7 +100,9 @@ public class HelperNMFPackage {
         str.append("export NMF_LIB\n");
         str.append("\n");
 
-        str.append("exec $JAVA_CMD $JAVA_OPTS \\\n");
+        // The command "exec" spawns the execution in a different process
+        // str.append("exec ");
+        str.append("$JAVA_CMD $JAVA_OPTS \\\n");
         str.append("  -classpath \"$NMF_LIB/*:$MAIN_JAR_NAME\" \\\n");
         str.append("  \"$MAIN_CLASS_NAME\" \\\n");
         str.append("  \"$@\"\n");
