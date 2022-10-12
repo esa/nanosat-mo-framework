@@ -136,6 +136,11 @@
       <artifactId>picture-processor</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>int.esa.nmf.mission.constellation</groupId>
+      <artifactId>constellation-manager</artifactId>
+      <version>${project.version}</version>
+    </dependency>
 
     <!-- Needed as the transitive dependency is not resolved properly -->
     <dependency>
@@ -364,6 +369,9 @@
                 <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/mp-demo">
                   <fileset dir="${basedir}/src/main/resources/space-common"/>
                   <fileset dir="${basedir}/src/main/resources/space-app-root"/>
+                  <fileset dir="${basedir}/src/main/resources/ground-consumer-root"/>
+                </copy>
+                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/constellation-manager">
                   <fileset dir="${basedir}/src/main/resources/ground-consumer-root"/>
                 </copy>
               </target>

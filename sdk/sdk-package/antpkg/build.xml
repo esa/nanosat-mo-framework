@@ -4,7 +4,7 @@
   <target name="build" depends="emit-ctt, emit-com-archive-tool, emit-simulator-gui, emit-space-supervisor, emit-space-app-all-mc-services,
   emit-space-app-publish-clock, emit-space-app-camera, emit-space-app-benchmark, emit-space-app-payloads-test,
   emit-space-app-waveform, emit-space-app-camera-acquisitor-system, emit-space-app-picture-processor,
-  emit-space-app-mp-demo, emit-ground-app-mp-demo">
+  emit-space-app-mp-demo, emit-ground-app-mp-demo, emit-constellation-manager">
     <!--This empty target is used as the top level target. Add your app targets to the depends attribute! -->
   </target>
   <target name="emit-ctt">
@@ -255,6 +255,24 @@
       <property name="nmf_home" value="%cd%\..\nmf"/>
       <property name="nmf_lib" value="`cd ../nmf/lib > /dev/null; pwd`"/>
       <property name="binDir" value="mp-ground-demo"/>
+    </ant>
+  </target>
+
+  <target name="emit-constellation-manager">
+    <ant antfile="antpkg/build_shell_script.xml">
+      <property name="mainClass" value="esa.mo.ground.constellation.ConstellationManager"/>
+      <property name="id" value="constellation-manager"/>
+      <property name="nmf_home" value="`cd .. > /dev/null; pwd`"/>
+      <property name="nmf_lib" value="`cd ../lib > /dev/null; pwd`"/>
+      <property name="binDir" value="nmf/constellation-manager"/>
+      <property name="max_heap" value="256m"/>
+    </ant>
+    <ant antfile="antpkg/build_batch_script.xml">
+      <property name="mainClass" value="esa.mo.ground.constellation.ConstellationManager"/>
+      <property name="id" value="constellation-manager"/>
+      <property name="nmf_home" value="%cd%\.."/>
+      <property name="nmf_lib" value="`cd ../lib > /dev/null; pwd`"/>
+      <property name="binDir" value="nmf/constellation-manager"/>
     </ant>
   </target>
 </project>
