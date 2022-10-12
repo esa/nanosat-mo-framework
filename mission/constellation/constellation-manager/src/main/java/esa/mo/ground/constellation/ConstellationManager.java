@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.ground.simpleground;
+package esa.mo.ground.constellation;
 
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import esa.mo.nmf.commonmoadapter.SimpleDataReceivedListener;
@@ -34,20 +34,20 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Ground consumer: Demo Simple Ground
+ * Ground consumer: Constellation Manager
  * Takes in the directoryURI and app name to which to connect, and logs the received parameters data.
  */
 public class ConstellationManager
 {
 
   private static final String APP_PREFIX = "App: ";
-  private final Logger LOGGER = Logger.getLogger(SimpleGround.class.getName());
+  private final Logger LOGGER = Logger.getLogger(ConstellationManager.class.getName());
 
-  public ConstellationManager(String directoryURI, String providerName)
+  public ConstellationManager(URI directoryURI, String providerName)
   {
     try {
-      ProviderSummaryList providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(
-              new URI(directoryURI));
+
+      ProviderSummaryList providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(directoryURI);
 
       GroundMOAdapterImpl gma = null;
       if (!providers.isEmpty()) {
@@ -78,13 +78,9 @@ public class ConstellationManager
    */
   public static void main(final String[] args) throws Exception
   {
-    if (args.length != 2) {
-      System.err.println("Please give supervisor directory URI as a first argument and a provider name," +
-              " which to connect as the second argument!");
-      System.err.println("e.g. maltcp://123.123.123.123:1024/nanosat-mo-supervisor-Directory publish-clock");
-      System.exit(1);
-    }
-    ConstellationManager demo = new ConstellationManager(args[0], args[1]);
+    URI uri = new URI("maltcp://172.17.0.2:1024/nanosat-mo-supervisor-Directory");
+    String app = "benchmark";
+    ConstellationManager demo = new ConstellationManager(uri, app);
   }
 
   class DataReceivedAdapter extends SimpleDataReceivedListener
