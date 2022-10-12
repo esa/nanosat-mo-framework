@@ -23,14 +23,18 @@ package esa.mo.nmf.comarchivetool.commands.archive;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
+import esa.mo.com.impl.util.ArchiveCOMObjectsOutput;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.nmf.NMFConsumer;
 import esa.mo.nmf.comarchivetool.CentralDirectoryHelper;
+import esa.mo.nmf.comarchivetool.adapters.ArchiveToBackupAdapter;
 import esa.mo.nmf.comarchivetool.adapters.ArchiveToJsonAdapter;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveQueryList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
+import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -40,6 +44,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -54,6 +59,60 @@ import static esa.mo.nmf.comarchivetool.ArchiveBrowserHelper.*;
 public class ArchiveCommandsImplementations {
 
     private static final Logger LOGGER = Logger.getLogger(ArchiveCommandsImplementations.class.getName());
+
+    /**
+     * Backups provider data to a sqlite database file
+     *
+     * @param databaseFile Local SQLite database file
+     * @param providerURI The URI of the remote COM archive provider
+     * @param domainId Restricts the dump to objects in a specific domain ID
+     * @param filename target filename
+     */
+    public static void backupProvider(String databaseFile, String providerURI, String domainId, String providerName, String filename) {
+        LocalOrRemoteConsumer consumers = createConsumer(providerURI, databaseFile, providerName);
+        ArchiveConsumerServiceImpl localConsumer = consumers.getLocalConsumer();
+        NMFConsumer remoteConsumer = consumers.getRemoteConsumer();
+
+        ObjectType objectsTypes = new ObjectType(new UShort(0), new UShort(0),
+                                                 new UOctet((short) 0), new UShort(0));
+        ArchiveQueryList archiveQueryList = new ArchiveQueryList();
+        IdentifierList domain = domainId == null ? null : HelperMisc.domainId2domain(domainId);
+        ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L, null,
+                                                     null, null, null, null);
+        archiveQueryList.add(archiveQuery);
+
+        ArchiveToBackupAdapter adapter = new ArchiveToBackupAdapter(filename, domainId);
+        queryArchive(objectsTypes, archiveQueryList, adapter, adapter, remoteConsumer == null ? localConsumer : remoteConsumer.getCOMServices().getArchiveService());
+
+        boolean success = adapter.saveDataToNewDatabase();
+
+        if (success) {
+            ArchiveConsumerServiceImpl archive;
+            if (remoteConsumer == null) {
+                archive = localConsumer;
+            } else {
+                archive = remoteConsumer.getCOMServices().getArchiveService();
+            }
+
+            System.out.println("\nDeleting objects from provider archive started.");
+            LongList ids = new LongList();
+            ids.add(0L);
+            try {
+                List<ArchiveCOMObjectsOutput> toDelete = adapter.getObjectsToProcess();
+                for(ArchiveCOMObjectsOutput objects : toDelete) {
+                    archive.getArchiveStub().delete(objects.getObjectType(), objects.getDomain(), ids);
+                }
+            } catch (MALInteractionException | MALException e) {
+                LOGGER.log(Level.SEVERE, "Error during delete!", e);
+            }
+            System.out.println("Deleting objects from provider finished.\n");
+        } else {
+            System.out.println("\nThere were errors when saving data. Not deleting objects from provider archive.\n");
+        }
+
+        closeConsumer(consumers);
+        adapter.closeArchiveProvider();
+    }
 
     /**
      * Dumps to a JSON file the raw SQLite tables content of a COM archive.

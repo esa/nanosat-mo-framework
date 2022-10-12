@@ -53,6 +53,32 @@ public class ArchiveCommandsDefinitions {
             ArchiveCommandsImplementations.dumpRawArchiveTables(databaseFile, jsonFile);
         }
     }
+    @Command(name = "backup_provider",
+            description = "Backups the data for a specific provider")
+    public static class BackupProvider implements Runnable {
+        @Option(names = {"-h", "--help"}, usageHelp = true, description = "display a help message")
+        boolean helpRequested;
+
+        @ArgGroup(multiplicity = "1")
+        ArchiveBrowserHelper.LocalOrRemote localOrRemote;
+
+        @Option(names = {"-o", "--output"}, paramLabel = "<filename>", description = "target file name")
+        String filename;
+
+        @Parameters(arity = "1", index = "0", paramLabel = "<domainId>",
+                description = "Restricts the dump to objects in a specific domain\n"
+                              + "  - format: key1.key2.[...].keyN.\n"
+                              + "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
+        String domain;
+
+        @Option(names = {"-p", "--provider"}, paramLabel = "<appName>",
+                description = "Name of the NMF app we want to backup")
+        String appName;
+        @Override
+        public void run() {
+            ArchiveCommandsImplementations.backupProvider(localOrRemote.databaseFile, localOrRemote.providerURI, domain, appName, filename);
+        }
+    }
 
     @Command(name = "dump",
             description = "Dumps to a JSON file the formatted content of a local or remote COM archive")

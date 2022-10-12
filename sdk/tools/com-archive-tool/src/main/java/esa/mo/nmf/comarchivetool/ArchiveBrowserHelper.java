@@ -154,6 +154,7 @@ public class ArchiveBrowserHelper {
    */
   public static LocalOrRemoteConsumer createConsumer(String providerURI, String databaseFile, String providerName) {
     // spawn our local provider on top of the given database file if needed
+    HelperMisc.loadPropertiesFile();
     ArchiveConsumerServiceImpl localConsumer = null;
     NMFConsumer remoteConsumer = null;
     if (providerURI == null) {
@@ -333,7 +334,7 @@ public class ArchiveBrowserHelper {
    * @return the ArchiveProviderServiceImpl
    */
   public static ArchiveProviderServiceImpl spawnLocalArchiveProvider(String databaseFile) {
-    HelperMisc.loadPropertiesFile();
+//    HelperMisc.loadPropertiesFile();
     System.setProperty(HelperMisc.PROP_MO_APP_NAME, COMArchiveTool.APP_NAME);
     System.setProperty("esa.nmf.archive.persistence.jdbc.url", "jdbc:sqlite:" + databaseFile);
 
@@ -343,7 +344,7 @@ public class ArchiveBrowserHelper {
       LOGGER.log(Level.INFO, String.format("ArchiveProvider initialized at %s with file %s",
           archiveProvider.getConnection().getConnectionDetails().getProviderURI(), databaseFile));
     } catch (MALException e) {
-      LOGGER.log(Level.SEVERE, "Error initializing archiveProdiver", e);
+      LOGGER.log(Level.SEVERE, "Error initializing archiveProvider", e);
     }
 
     // give it time to initialize
