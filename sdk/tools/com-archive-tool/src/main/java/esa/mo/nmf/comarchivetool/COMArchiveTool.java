@@ -37,6 +37,7 @@ import picocli.CommandLine.Option;
 @Command(name = "COMArchiveTool",
          subcommands = {LogsCommandsDefinitions.Logs.class,
                         ParametersCommandsDefinitions.Parameter.class,
+                        ArchiveCommandsDefinitions.BackupProvider.class,
                         ArchiveCommandsDefinitions.DumpRawArchive.class,
                         ArchiveCommandsDefinitions.DumpFormattedArchive.class,
                         ArchiveCommandsDefinitions.ListArchiveProviders.class},
