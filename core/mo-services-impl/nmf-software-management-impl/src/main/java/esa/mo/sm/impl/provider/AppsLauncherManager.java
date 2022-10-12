@@ -497,7 +497,7 @@ public class AppsLauncherManager extends DefinitionsManager {
         final ProcessBuilder pb = new ProcessBuilder(appLauncherCommand);
         pb.environment().clear();
         pb.environment().putAll(env);
-
+        
         pb.directory(appFolder);
         LOGGER.log(Level.INFO,
                 "Initializing ''{0}'' app in dir: {1}, using launcher command: {2}",
