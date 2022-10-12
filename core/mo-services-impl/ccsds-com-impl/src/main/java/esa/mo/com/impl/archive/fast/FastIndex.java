@@ -31,11 +31,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Contains the set of different key fields that the database contains in its dedicated table
- * and avoids constant checking on it which makes things go much faster.
+ * Contains the set of different key fields that the database contains in its
+ * dedicated table and avoids constant checking on it which makes things go much
+ * faster.
  */
 public abstract class FastIndex<T> {
-    public static Logger LOGGER = Logger.getLogger(FastIndex.class.getName());
+
+    protected static final Logger LOGGER = Logger.getLogger(FastIndex.class.getName());
     protected final String QUERY_DELETE;
     protected final String QUERY_SELECT;
     protected final String QUERY_INSERT;

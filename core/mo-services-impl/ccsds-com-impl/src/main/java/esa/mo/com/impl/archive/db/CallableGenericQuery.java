@@ -1,3 +1,23 @@
+/* ----------------------------------------------------------------------------
+ * Copyright (C) 2022      European Space Agency
+ *                         European Space Operations Centre
+ *                         Darmstadt
+ *                         Germany
+ * ----------------------------------------------------------------------------
+ * System                : ESA NanoSat MO Framework
+ * ----------------------------------------------------------------------------
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+ * You may not use this file except in compliance with the License.
+ *
+ * Except as expressly set forth in this License, the Software is provided to
+ * You on an "as is" basis and without warranties of any kind, including without
+ * limitation merchantability, fitness for a particular purpose, absence of
+ * defects or errors, accuracy or non-infringement of intellectual property rights.
+ * 
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ * ----------------------------------------------------------------------------
+ */
 package esa.mo.com.impl.archive.db;
 
 import java.util.concurrent.Callable;
@@ -9,7 +29,8 @@ import org.ccsds.moims.mo.com.archive.structures.PaginationFilter;
 import org.ccsds.moims.mo.com.archive.structures.QueryFilter;
 import org.ccsds.moims.mo.mal.structures.IntegerList;
 
-abstract class CallableGenericQuery<T> implements Callable<T> {
+public abstract class CallableGenericQuery<T> implements Callable<T> {
+
     public static Logger LOGGER = Logger.getLogger(CallableDeleteQuery.class.getName());
 
     protected final TransactionsProcessor transactionsProcessor;
@@ -35,6 +56,7 @@ abstract class CallableGenericQuery<T> implements Callable<T> {
     }
 
     protected abstract T innerCall(String queryString);
+
     protected abstract String assembleQueryPrefix(String fieldsList);
 
     @Override
@@ -115,24 +137,24 @@ abstract class CallableGenericQuery<T> implements Callable<T> {
     }
 
     public static String generateQueryStringFromLists(final String field, final IntegerList list) {
-      if (list.isEmpty()) {
-        return "";
-      }
-    
-      if (list.size() == 1) {
-        return field + "=" + list.get(0) + " AND ";
-      }
-    
-      StringBuilder stringForWildcards = new StringBuilder("(");
-    
-      for (Integer id : list) {
-        stringForWildcards.append(field).append("=").append(id).append(" OR ");
-      }
-    
-      // Remove the " OR " par of it!
-      stringForWildcards = new StringBuilder(stringForWildcards.substring(0, stringForWildcards.length() - 4));
-    
-      return stringForWildcards + ") AND ";
+        if (list.isEmpty()) {
+            return "";
+        }
+
+        if (list.size() == 1) {
+            return field + "=" + list.get(0) + " AND ";
+        }
+
+        StringBuilder stringForWildcards = new StringBuilder("(");
+
+        for (Integer id : list) {
+            stringForWildcards.append(field).append("=").append(id).append(" OR ");
+        }
+
+        // Remove the " OR " par of it!
+        stringForWildcards = new StringBuilder(stringForWildcards.substring(0, stringForWildcards.length() - 4));
+
+        return stringForWildcards + ") AND ";
     }
 
 }
