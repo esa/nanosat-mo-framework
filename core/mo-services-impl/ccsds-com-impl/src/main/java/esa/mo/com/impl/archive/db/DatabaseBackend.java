@@ -1,5 +1,5 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2021      European Space Agency
+ * Copyright (C) 2022      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
@@ -13,15 +13,14 @@
  * You on an "as is" basis and without warranties of any kind, including without
  * limitation merchantability, fitness for a particular purpose, absence of
  * defects or errors, accuracy or non-infringement of intellectual property rights.
- *
+ * 
  * See the License for the specific language governing permissions and
- * limitations under the License.
+ * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
 package esa.mo.com.impl.archive.db;
 
 import esa.mo.com.impl.provider.ArchiveManager;
-
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
