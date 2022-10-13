@@ -45,13 +45,7 @@ import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.structures.Blob;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.UIntegerList;
-import org.ccsds.moims.mo.mal.structures.UOctet;
-import org.ccsds.moims.mo.mal.structures.URI;
-import org.ccsds.moims.mo.mal.structures.UShort;
+import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mc.MCHelper;
 import org.ccsds.moims.mo.mp.MPHelper;
 import org.ccsds.moims.mo.platform.PlatformHelper;
@@ -347,8 +341,8 @@ public class NMFConsumer {
         }
 
         filter.setServiceKey(new ServiceKey(new UShort((short) 0), new UShort((short) 0), new UOctet((short) 0)));
-        filter.setRequiredCapabilities(new UIntegerList());
-        filter.setServiceProviderName(new Identifier("*"));
+        filter.setRequiredCapabilitySets(new UShortList());
+        filter.setServiceProviderId(new Identifier("*"));
 
         ProviderSummaryList summaryList;
         // Do the lookup

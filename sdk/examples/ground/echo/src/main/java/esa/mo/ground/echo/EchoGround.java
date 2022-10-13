@@ -56,7 +56,7 @@ public class EchoGround
 
       if (!providers.isEmpty()) {
         for(ProviderSummary provider : providers){
-          if(provider.getProviderName().toString().equals(ECHO_SPACE_PROVIDER)){
+          if(provider.getProviderId().toString().equals(ECHO_SPACE_PROVIDER)){
             gma = new GroundMOAdapterImpl(provider);
             gma.addDataReceivedListener(new CompleteDataReceivedAdapter());
             break;

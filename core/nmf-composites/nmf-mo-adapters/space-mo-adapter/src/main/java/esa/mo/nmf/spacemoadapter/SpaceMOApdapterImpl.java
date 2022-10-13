@@ -34,13 +34,7 @@ import org.ccsds.moims.mo.common.directory.structures.ServiceFilter;
 import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.structures.Blob;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.UIntegerList;
-import org.ccsds.moims.mo.mal.structures.UOctet;
-import org.ccsds.moims.mo.mal.structures.URI;
-import org.ccsds.moims.mo.mal.structures.UShort;
+import org.ccsds.moims.mo.mal.structures.*;
 
 /**
  * The implementation of the Space MO Adapter.
@@ -134,7 +128,7 @@ public class SpaceMOApdapterImpl extends CommonMOAdapterImpl {
     domain.add(new Identifier("*"));
     ServiceKey sk = new ServiceKey(new UShort(0), new UShort(0), new UOctet((short) 0));
     ServiceFilter sf2 = new ServiceFilter(new Identifier(providerName), domain,
-        new Identifier("*"), null, new Identifier("*"), sk, new UIntegerList());
+        new Identifier("*"), null, new Identifier("*"), sk, new UShortList());
 
     // Query directory service with filter
     try {

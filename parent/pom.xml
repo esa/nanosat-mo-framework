@@ -83,6 +83,17 @@
       </dependency>
       <dependency>
         <groupId>int.esa.ccsds.mo</groupId>
+        <artifactId>API_COMMON</artifactId>
+        <version>${esa.api.common.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>int.esa.ccsds.mo</groupId>
+            <artifactId>API_COM</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>int.esa.ccsds.mo</groupId>
         <artifactId>API_MC</artifactId>
         <version>${esa.api.mc.version}</version>
       </dependency>
@@ -163,22 +174,6 @@
         <groupId>int.esa.nmf.core.moservices.api</groupId>
         <artifactId>com-nmf</artifactId>
         <version>${esa.nmf.version-qualifier}</version>
-      </dependency>
-      <!-- API_COMMON released as a part of the ESA MO packages,
-      but not yet referenced from the ESA MO POM -->
-      <dependency>
-        <groupId>int.esa.ccsds.mo</groupId>
-        <artifactId>API_COMMON</artifactId>
-        <version>1.0-RC1</version>
-        <!-- Workaround for dependency conflict introduced
-        by API_COMMON-RC1 including API_COM-1.2, conflicting API_COM-1.7.
-        TODO: Update to RC2 so API_COM versions match -->
-        <exclusions>
-          <exclusion>
-            <groupId>int.esa.ccsds.mo</groupId>
-            <artifactId>API_COM</artifactId>
-          </exclusion>
-        </exclusions>
       </dependency>
       <!-- MO service APIs specific to NMF -->
       <dependency>

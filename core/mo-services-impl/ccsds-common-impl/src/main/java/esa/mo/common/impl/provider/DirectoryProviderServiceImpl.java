@@ -253,8 +253,8 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton
       ProviderSummary providerOutput = new ProviderSummary();
 
       //Check service provider name
-      if (!filter.getServiceProviderName().toString().equals("*")) { // If not a wildcard...
-        if (!provider.getProviderName().toString().equals(filter.getServiceProviderName().toString())) {
+      if (!filter.getServiceProviderId().toString().equals("*")) { // If not a wildcard...
+        if (!provider.getProviderId().toString().equals(filter.getServiceProviderId().toString())) {
           continue;
         }
       }
@@ -300,35 +300,35 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton
             = provider.getProviderDetails().getServiceCapabilities().get(j);
 
         // Check service key - area field
-        if (filter.getServiceKey().getArea().getValue() != 0) {
-          if (!serviceCapability.getServiceKey().getArea().equals(filter.getServiceKey().getArea())) {
+        if (filter.getServiceKey().getKeyArea().getValue() != 0) {
+          if (!serviceCapability.getServiceKey().getKeyArea().equals(filter.getServiceKey().getKeyArea())) {
             continue;
           }
         }
 
         // Check service key - service field
-        if (filter.getServiceKey().getService().getValue() != 0) {
-          if (!serviceCapability.getServiceKey().getService().equals(
-              filter.getServiceKey().getService())) {
+        if (filter.getServiceKey().getKeyService().getValue() != 0) {
+          if (!serviceCapability.getServiceKey().getKeyService().equals(
+              filter.getServiceKey().getKeyService())) {
             continue;
           }
         }
 
         // Check service key - version field
-        if (filter.getServiceKey().getVersion().getValue() != 0) {
-          if (!serviceCapability.getServiceKey().getVersion().equals(
-              filter.getServiceKey().getVersion())) {
+        if (filter.getServiceKey().getKeyAreaVersion().getValue() != 0) {
+          if (!serviceCapability.getServiceKey().getKeyAreaVersion().equals(
+              filter.getServiceKey().getKeyAreaVersion())) {
             continue;
           }
         }
 
         // Check service capabilities
-        if (!filter.getRequiredCapabilities().isEmpty()) { // Not empty...
+        if (!filter.getRequiredCapabilitySets().isEmpty()) { // Not empty...
           boolean capExists = false;
 
-          for (UInteger cap : filter.getRequiredCapabilities()) {
+          for (UShort cap : filter.getRequiredCapabilitySets()) {
             // cycle all the ones available in the provider
-            for (UInteger proCap : filter.getRequiredCapabilities()) {
+            for (UShort proCap : filter.getRequiredCapabilitySets()) {
               if (cap.equals(proCap)) {
                 capExists = true;
                 break;
@@ -343,7 +343,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton
 
         ServiceCapability newServiceCapability = new ServiceCapability(
             serviceCapability.getServiceKey(),
-            serviceCapability.getSupportedCapabilities(),
+            serviceCapability.getSupportedCapabilitySets(),
             serviceCapability.getServiceProperties(),
             new AddressDetailsList()
         );
@@ -369,7 +369,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton
       // It passed all the tests!
       final ObjectKey objKey = new ObjectKey(provider.getDomain(), keys.get(i));
       providerOutput.setProviderKey(objKey);
-      providerOutput.setProviderName(provider.getProviderName());
+      providerOutput.setProviderId(provider.getProviderId());
 
       outProvDetails.setServiceCapabilities(outCap);
       providerOutput.setProviderDetails(outProvDetails);
@@ -386,7 +386,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton
   public PublishProviderResponse publishProvider(final PublishDetails newProviderDetails,
       final MALInteraction interaction) throws MALInteractionException, MALException
   {
-    Identifier serviceProviderName = newProviderDetails.getProviderName();
+    Identifier serviceProviderName = newProviderDetails.getProviderId();
     IdentifierList objBodies = new IdentifierList();
     objBodies.add(serviceProviderName);
 
@@ -399,7 +399,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton
       for (Long key : list.keySet()) {
         PublishDetails provider = this.providersAvailable.get(key);
 
-        if (serviceProviderName.getValue().equals(provider.getProviderName().getValue())) {
+        if (serviceProviderName.getValue().equals(provider.getProviderId().getValue())) {
           // It is repeated!!
           LOGGER.warning(
               "There was already a provider with the same name in the Directory service. "
@@ -527,7 +527,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton
       ServiceKey key = DirectoryProviderServiceImpl.generateServiceKey(conn.getServiceKey());
       ServiceCapability capability = new ServiceCapability();
       capability.setServiceKey(key);
-      capability.setSupportedCapabilities(null); // "If NULL then all capabilities supported."
+      capability.setSupportedCapabilitySets(null); // "If NULL then all capabilities supported."
       capability.setServiceProperties(new NamedValueList());
       capability.setServiceAddresses(serviceAddresses);
       capabilities.add(capability);
@@ -552,7 +552,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton
           // Then create a new capability object
           capability = new ServiceCapability();
           capability.setServiceKey(key2);
-          capability.setSupportedCapabilities(null); // "If NULL then all capabilities supported."
+          capability.setSupportedCapabilitySets(null); // "If NULL then all capabilities supported."
           capability.setServiceProperties(new NamedValueList());
           capability.setServiceAddresses(serviceAddresses);
 
@@ -567,7 +567,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton
     serviceDetails.setProviderAddresses(new AddressDetailsList());
 
     PublishDetails newProviderDetails = new PublishDetails();
-    newProviderDetails.setProviderName(new Identifier(providerName));
+    newProviderDetails.setProviderId(new Identifier(providerName));
     newProviderDetails.setDomain(ConfigurationProviderSingleton.getDomain());
     newProviderDetails.setSessionType(ConfigurationProviderSingleton.getSession());
 //        newProviderDetails.setSourceSessionName(ConfigurationProviderSingleton.getSourceSessionName());

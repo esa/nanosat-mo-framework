@@ -36,12 +36,7 @@ import org.ccsds.moims.mo.common.directory.structures.ServiceFilter;
 import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.UIntegerList;
-import org.ccsds.moims.mo.mal.structures.UOctet;
-import org.ccsds.moims.mo.mal.structures.URI;
-import org.ccsds.moims.mo.mal.structures.UShort;
+import org.ccsds.moims.mo.mal.structures.*;
 import esa.mo.common.impl.consumer.DirectoryConsumerServiceImpl;
 
 /**
@@ -67,7 +62,7 @@ public class CentralDirectoryHelper {
     domain.add(new Identifier("*"));
     ServiceKey sk = new ServiceKey(new UShort(0), new UShort(0), new UOctet((short) 0));
     ServiceFilter sf2 = new ServiceFilter(new Identifier(providerName), domain, new Identifier("*"),
-        null, new Identifier("*"), sk, new UIntegerList());
+        null, new Identifier("*"), sk, new UShortList());
 
     // Query directory service with filter
     try (DirectoryConsumerServiceImpl centralDirectory = new DirectoryConsumerServiceImpl(centralDirectoryServiceURI)) {
@@ -106,14 +101,14 @@ public class CentralDirectoryHelper {
     ServiceKey sk = new ServiceKey(COMHelper.COM_AREA_NUMBER, ArchiveHelper.ARCHIVE_SERVICE_NUMBER,
         new UOctet((short) 0));
     ServiceFilter sf2 = new ServiceFilter(new Identifier("*"), domain, new Identifier("*"), null,
-        new Identifier("*"), sk, new UIntegerList());
+        new Identifier("*"), sk, new UShortList());
 
     // Query directory service with filter
     try (DirectoryConsumerServiceImpl centralDirectory = new DirectoryConsumerServiceImpl(centralDirectoryServiceURI)) {
       ProviderSummaryList providersSummaries =
           centralDirectory.getDirectoryStub().lookupProvider(sf2);
       for (ProviderSummary providerSummary : providersSummaries) {
-        final StringBuilder provider = new StringBuilder(providerSummary.getProviderName().getValue());
+        final StringBuilder provider = new StringBuilder(providerSummary.getProviderId().getValue());
 
         ProviderDetails providerDetails = providerSummary.getProviderDetails();
 

@@ -22,6 +22,8 @@ package esa.mo.nmf.ctt.services.common;
 
 import esa.mo.common.impl.consumer.ConfigurationConsumerServiceImpl;
 import esa.mo.helpertools.connections.ConfigurationConsumer;
+
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -31,7 +33,7 @@ import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.common.configuration.ConfigurationHelper;
 import org.ccsds.moims.mo.common.configuration.consumer.ConfigurationAdapter;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationType;
-import org.ccsds.moims.mo.common.configuration.structures.ServiceProviderKey;
+import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -40,6 +42,7 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
+import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.MCHelper;
 import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
 
@@ -53,15 +56,16 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
     private ConfigurationTablePanel configurationTable;
     private ConfigurationConsumer configuration = new ConfigurationConsumer();
     private File file;
+    private ProviderSummary providerSummary;
 
     /**
      * Creates new formAddModifyParameter ConsumerPanelArchive
      *
      * @param serviceMCConfiguration
      */
-    public ConfigurationConsumerPanel(ConfigurationConsumerServiceImpl serviceMCConfiguration) {
+    public ConfigurationConsumerPanel(ConfigurationConsumerServiceImpl serviceMCConfiguration, ProviderSummary providerSummary) {
         initComponents();
-
+        this.providerSummary = providerSummary;
         this.serviceMCConfiguration = serviceMCConfiguration;
         configurationTable = new ConfigurationTablePanel(serviceMCConfiguration.getCOMServices().getArchiveService());
         jScrollPane2.setViewportView(configurationTable);
@@ -208,8 +212,16 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
 
         ObjectId objIdDef = (ObjectId) configurationTable.getSelectedCOMObject().getObject();
 
+        boolean[] result = new boolean[1];
         try {
-            this.serviceMCConfiguration.getConfigurationStub().activate(objIdDef);
+            ConfigurationAdapter adapter = new ConfigurationAdapter() {
+                @Override
+                public void activateResponseReceived(MALMessageHeader msgHeader, Boolean activationResult, ObjectIdList previousConfig, Map qosProperties) {
+                    super.activateResponseReceived(msgHeader, activationResult, previousConfig, qosProperties);
+                    result[0] = activationResult;
+                }
+            };
+            this.serviceMCConfiguration.getConfigurationStub().activate(providerSummary.getProviderKey(), objIdDef, adapter);
         } catch (MALInteractionException ex) {
             Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALException ex) {
@@ -217,7 +229,11 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
             Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        JOptionPane.showMessageDialog(null, "The configuration was successfully activated.", "Success", JOptionPane.PLAIN_MESSAGE);
+        if (result[0]) {
+            JOptionPane.showMessageDialog(null, "The configuration was successfully activated.", "Success", JOptionPane.PLAIN_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "The configuration activation failed.", "Failure", JOptionPane.PLAIN_MESSAGE);
+        }
 
     }//GEN-LAST:event_activateButtonActionPerformed
 
@@ -242,7 +258,7 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
         oil.add(objIdDef);
 
         try {
-            this.serviceMCConfiguration.getConfigurationStub().remove(oil);
+            this.serviceMCConfiguration.getConfigurationStub().remove(providerSummary.getProviderKey(), oil);
             configurationTable.removeSelectedEntry();
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -256,17 +272,13 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
         idList.add(new Identifier("*")); // Wildcard
 
         ServiceKey key = new ServiceKey(); // Wildcards
-        key.setArea(new UShort(0));
-        key.setService(new UShort(0));
-        key.setVersion(new UOctet((byte) 0));
-
-        ServiceProviderKey prov = new ServiceProviderKey();
-        prov.setDomain(idList);
-        prov.setServiceKey(key);
+        key.setKeyArea(new UShort(0));
+        key.setKeyService(new UShort(0));
+        key.setKeyAreaVersion(new UOctet((byte) 0));
 
         ObjectIdList output;
         try {
-            output = this.serviceMCConfiguration.getConfigurationStub().list(prov, ConfigurationType.SERVICE);
+            output = this.serviceMCConfiguration.getConfigurationStub().list(ConfigurationType.SERVICE, idList, key);
 //            configurationTable.refreshTableWithIds(output, serviceMCConfiguration.getConnectionDetails().getDomain(), ActionHelper.ACTIONDEFINITION_OBJECT_TYPE);
         } catch (MALInteractionException | MALException ex) {
             JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.", "Error", JOptionPane.PLAIN_MESSAGE);
@@ -291,7 +303,7 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
         oil.add(objIdDef);
 
         try {
-            this.serviceMCConfiguration.getConfigurationStub().remove(oil);
+            this.serviceMCConfiguration.getConfigurationStub().remove(providerSummary.getProviderKey(), oil);
             configurationTable.removeAllEntries();
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -314,18 +326,13 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
     private void storeCurrentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_storeCurrentButtonActionPerformed
 
         ServiceKey key = new ServiceKey(); // Wildcards
-        key.setArea(new UShort(MCHelper._MC_AREA_NUMBER));
-        key.setService(new UShort(ParameterHelper._PARAMETER_SERVICE_NUMBER));
-        key.setVersion(new UOctet(MCHelper._MC_AREA_VERSION));
-
-        ServiceProviderKey prov = new ServiceProviderKey();
-        prov.setDomain(this.serviceMCConfiguration.getConnectionDetails().getDomain());
-        prov.setServiceKey(key);
+        key.setKeyArea(new UShort(MCHelper._MC_AREA_NUMBER));
+        key.setKeyService(new UShort(ParameterHelper._PARAMETER_SERVICE_NUMBER));
+        key.setKeyAreaVersion(new UOctet(MCHelper._MC_AREA_VERSION));
 
         class ConfigAdapter extends ConfigurationAdapter {
-
             @Override
-            public void getCurrentResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, org.ccsds.moims.mo.com.structures.ObjectId objInstId, java.util.Map qosProperties) {
+            public void storeCurrentResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, org.ccsds.moims.mo.com.structures.ObjectId objInstId, java.util.Map qosProperties) {
                 String str = "Object instance identifiers on the provider: \n";
                 str += objInstId.toString();
                 JOptionPane.showMessageDialog(null, str, "Returned ObjectId from the Provider", JOptionPane.PLAIN_MESSAGE);
@@ -333,7 +340,7 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
         }
 
         try {
-            this.serviceMCConfiguration.getConfigurationStub().storeCurrent(prov, ConfigurationType.SERVICE, true, new ConfigAdapter());
+            this.serviceMCConfiguration.getConfigurationStub().storeCurrent(providerSummary.getProviderKey(), key, true, new ConfigAdapter());
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
