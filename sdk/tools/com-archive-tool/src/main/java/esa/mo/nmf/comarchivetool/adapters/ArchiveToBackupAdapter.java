@@ -74,7 +74,7 @@ public class ArchiveToBackupAdapter extends ArchiveAdapter implements QueryStatu
         this.filename = filename + ".db";
       }
     } else {
-      DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy__HH-mm-ss");
+      DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd__HH-mm-ss");
       LocalDateTime now = LocalDateTime.now();
       this.filename = domain + "__" + dtf.format(now) + ".db";
     }
