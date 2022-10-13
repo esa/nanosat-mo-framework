@@ -53,7 +53,7 @@ public class ArchiveCommandsDefinitions {
             ArchiveCommandsImplementations.dumpRawArchiveTables(databaseFile, jsonFile);
         }
     }
-    @Command(name = "backup_provider",
+    @Command(name = "backup_and_clean",
             description = "Backups the data for a specific provider")
     public static class BackupProvider implements Runnable {
         @Option(names = {"-h", "--help"}, usageHelp = true, description = "display a help message")
