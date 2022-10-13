@@ -108,7 +108,7 @@ public class Push2Facebook
     GroundMOAdapterImpl gma = null;
     if (!providers.isEmpty()) {
       for (ProviderSummary provider : providers) {
-        if (provider.getProviderName().toString().equals(APP_PREFIX + providerName)) {
+        if (provider.getProviderId().toString().equals(APP_PREFIX + providerName)) {
           gma = new GroundMOAdapterImpl(provider);
           gma.addDataReceivedListener(new DataReceivedAdapter());
           break;

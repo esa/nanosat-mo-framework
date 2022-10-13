@@ -52,15 +52,7 @@ import org.ccsds.moims.mo.common.directory.structures.ServiceFilter;
 import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.structures.FineTime;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.mal.structures.Subscription;
-import org.ccsds.moims.mo.mal.structures.UIntegerList;
-import org.ccsds.moims.mo.mal.structures.UOctet;
-import org.ccsds.moims.mo.mal.structures.URI;
-import org.ccsds.moims.mo.mal.structures.UShort;
+import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mal.transport.MALTransmitErrorException;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
@@ -155,14 +147,14 @@ public abstract class GroundMOProxy
     filter.setSessionType(null);
     filter.setSessionName(new Identifier("*"));
     filter.setServiceKey(key);
-    filter.setRequiredCapabilities(new UIntegerList());
-    filter.setServiceProviderName(new Identifier("*"));
+    filter.setRequiredCapabilitySets(new UShortList());
+    filter.setServiceProviderId(new Identifier("*"));
     ProviderSummaryList list = localDirectoryService.lookupProvider(filter, null);
     // Post-filter the list
     Iterator itr = list.iterator();
     while (itr.hasNext()) {
       ProviderSummary ps = (ProviderSummary) itr.next();
-      if (!ps.getProviderName().getValue().startsWith(Const.NANOSAT_MO_SUPERVISOR_NAME)) {
+      if (!ps.getProviderId().getValue().startsWith(Const.NANOSAT_MO_SUPERVISOR_NAME)) {
         itr.remove();
       }
     }

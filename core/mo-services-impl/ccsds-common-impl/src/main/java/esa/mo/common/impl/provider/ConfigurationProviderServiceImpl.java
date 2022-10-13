@@ -41,17 +41,15 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.event.consumer.EventAdapter;
-import org.ccsds.moims.mo.com.structures.ObjectDetailsList;
-import org.ccsds.moims.mo.com.structures.ObjectId;
-import org.ccsds.moims.mo.com.structures.ObjectIdList;
-import org.ccsds.moims.mo.com.structures.ObjectType;
+import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.common.CommonHelper;
 import org.ccsds.moims.mo.common.configuration.ConfigurationHelper;
+import org.ccsds.moims.mo.common.configuration.provider.ActivateInteraction;
 import org.ccsds.moims.mo.common.configuration.provider.ConfigurationInheritanceSkeleton;
 import org.ccsds.moims.mo.common.configuration.provider.StoreCurrentInteraction;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails;
 import org.ccsds.moims.mo.common.configuration.structures.ConfigurationType;
-import org.ccsds.moims.mo.common.configuration.structures.ServiceProviderKey;
+import org.ccsds.moims.mo.common.structures.ServiceKey;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
@@ -83,7 +81,6 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
     private COMServicesProvider comServices;
     private final HashMap<ObjectId, ConfigurationObjectDetails> serviceConfigurations = new HashMap<ObjectId, ConfigurationObjectDetails>();
     private final HashMap<ObjectId, ConfigurationObjectDetails> providerConfigurations = new HashMap<ObjectId, ConfigurationObjectDetails>();
-    private final HashMap<ObjectId, ConfigurationObjectDetails> compositeConfigurations = new HashMap<ObjectId, ConfigurationObjectDetails>();
 
     /**
      * creates the MAL objects, the publisher used to create updates and starts
@@ -146,12 +143,13 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
     }
 
     @Override
-    public void activate(ObjectId configObjId, MALInteraction interaction) throws MALInteractionException, MALException {
+    public void activate(ObjectKey serviceProvider, ObjectId configObjId, ActivateInteraction activateInteraction) throws MALInteractionException, MALException {
+        activateInteraction.sendAcknowledgement();
         ObjectIdList objBodies = new ObjectIdList();
         objBodies.add(configObjId);
 
         Long related = null;
-        ObjectId source = this.comServices.getActivityTrackingService().storeCOMOperationActivity(interaction, null);
+        ObjectId source = this.comServices.getActivityTrackingService().storeCOMOperationActivity(activateInteraction.getInteraction(), null);
 
         // Store Event in the Archive
         Long objId = this.comServices.getEventService().generateAndStoreEvent(
@@ -160,32 +158,30 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
                 objBodies,
                 related,
                 source,
-                interaction);
+                activateInteraction.getInteraction());
 
         try {
             // Send Activation event
-            this.comServices.getEventService().publishEvent(interaction, objId,
+            this.comServices.getEventService().publishEvent(activateInteraction.getInteraction(), objId,
                     ConfigurationHelper.CONFIGURATIONSWITCH_OBJECT_TYPE, related, source, objBodies);
         } catch (IOException ex) {
             Logger.getLogger(ConfigurationProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
+        activateInteraction.sendResponse(true, objBodies);
     }
 
     @Override
-    public ObjectId getCurrent(ServiceProviderKey service, ConfigurationType type, 
-            MALInteraction interaction) throws MALInteractionException, MALException {
+   public ObjectIdList getCurrent(ObjectKey serviceProvider, ServiceKey serviceKey, MALInteraction malInteraction) throws MALInteractionException, MALException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void add(ObjectId configObj, ObjectIdList configObjIds, 
-            MALInteraction interaction) throws MALInteractionException, MALException {
+    public void add(ObjectKey serviceProvider, ObjectIdList configObjsIds, MALInteraction malInteraction) throws MALInteractionException, MALException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void storeCurrent(ServiceProviderKey service, ConfigurationType type, Boolean autoAdd, 
-            StoreCurrentInteraction interaction) throws MALInteractionException, MALException {
+    public void storeCurrent(ObjectKey serviceProvider, ServiceKey serviceKey, Boolean autoAdd, StoreCurrentInteraction interaction) throws MALInteractionException, MALException {
         interaction.sendAcknowledgement();
 
         if (this.comServices.getEventService() == null) {  // If there is no event service then we can't really do anything...
@@ -243,7 +239,7 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
     }
 
     @Override
-    public org.ccsds.moims.mo.mal.structures.File exportXML(ObjectId confObjId, Boolean getComplete, 
+    public org.ccsds.moims.mo.mal.structures.File exportXML(ObjectId confObjId, Boolean returnComplete,
             MALInteraction interaction) throws MALInteractionException, MALException {
 
         // Configuration COM object
@@ -316,7 +312,7 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
     }
 
     @Override
-    public ObjectIdList list(ServiceProviderKey service, ConfigurationType type, MALInteraction interaction) throws MALInteractionException, MALException {
+    public ObjectIdList list(ConfigurationType type, IdentifierList domain, ServiceKey serviceKey, MALInteraction malInteraction) throws MALInteractionException, MALException {
 
         // Select the right type of Configuration
         HashMap<ObjectId, ConfigurationObjectDetails> configurations = null;
@@ -327,10 +323,6 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
 
         if (type == ConfigurationType.PROVIDER) {
             configurations = providerConfigurations;
-        }
-
-        if (type == ConfigurationType.COMPOSITE) {
-            configurations = compositeConfigurations;
         }
 
         ObjectIdList out = new ObjectIdList();
@@ -356,7 +348,7 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
     }
 
     @Override
-    public void remove(ObjectIdList oil, MALInteraction mali) throws MALInteractionException, MALException {
+    public void remove(ObjectKey serviceProvider, ObjectIdList configObjsIds, MALInteraction malInteraction) throws MALInteractionException, MALException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

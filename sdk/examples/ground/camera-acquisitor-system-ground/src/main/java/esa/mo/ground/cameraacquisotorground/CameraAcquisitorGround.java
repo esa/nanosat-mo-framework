@@ -235,9 +235,9 @@ public class CameraAcquisitorGround
                 "Finished retrieving providers");
         for (ProviderSummary provider : providers) {
           LOGGER.log(Level.INFO,
-                "Name: {0} ", provider.getProviderName().getValue());
+                "Name: {0} ", provider.getProviderId().getValue());
           
-          if (provider.getProviderName().getValue().equals(PROVIDER_CAMERA_APP)) {
+          if (provider.getProviderId().getValue().equals(PROVIDER_CAMERA_APP)) {
             gma = new GroundMOAdapterImpl(provider);
               break;
           }else{

@@ -75,7 +75,7 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
             pub.setDomain(provider.getProviderKey().getDomain());
             pub.setNetwork(new Identifier("not_available"));
             pub.setProviderDetails(provider.getProviderDetails());
-            pub.setProviderName(provider.getProviderName());
+            pub.setProviderId(provider.getProviderId());
             pub.setServiceXML(null);
             pub.setSessionType(SessionType.LIVE);
             pub.setSourceSessionName(null);
@@ -137,9 +137,9 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
                     for (ServiceCapability capability : capabilities) {
                         ServiceKey key = capability.getServiceKey();
 
-                        if (COMHelper._COM_AREA_NUMBER == key.getArea().getValue()
-                                && ArchiveHelper._ARCHIVE_SERVICE_NUMBER == key.getService().getValue()
-                                && COMHelper._COM_AREA_VERSION == key.getVersion().getValue()) {
+                        if (COMHelper._COM_AREA_NUMBER == key.getKeyArea().getValue()
+                                && ArchiveHelper._ARCHIVE_SERVICE_NUMBER == key.getKeyService().getValue()
+                                && COMHelper._COM_AREA_VERSION == key.getKeyAreaVersion().getValue()) {
                             AddressDetails details = capability.getServiceAddresses().get(0);
                             details.setServiceURI(to);
                         }
@@ -168,9 +168,9 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
                     for (ServiceCapability capability : capabilities) {
                         ServiceKey key = capability.getServiceKey();
 
-                        if (MCHelper._MC_AREA_NUMBER == key.getArea().getValue()
-                                && ActionHelper._ACTION_SERVICE_NUMBER == key.getService().getValue()
-                                && MCHelper._MC_AREA_VERSION == key.getVersion().getValue()) {
+                        if (MCHelper._MC_AREA_NUMBER == key.getKeyArea().getValue()
+                                && ActionHelper._ACTION_SERVICE_NUMBER == key.getKeyService().getValue()
+                                && MCHelper._MC_AREA_VERSION == key.getKeyAreaVersion().getValue()) {
                             AddressDetails details = capability.getServiceAddresses().get(0);
                             details.setServiceURI(to);
                         }
