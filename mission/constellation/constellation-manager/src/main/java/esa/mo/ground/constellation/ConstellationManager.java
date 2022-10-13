@@ -26,16 +26,22 @@ import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.structures.URI;
+
+import com.amihaiemil.docker.Docker;
+import com.amihaiemil.docker.UnixDocker;
+
+import java.io.File;
+import java.io.IOException;
 
 import java.io.Serializable;
-import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * Ground consumer: Constellation Manager
  * Takes in the directoryURI and app name to which to connect, and logs the received parameters data.
+ * 
+ * @author N Wiegand
  */
 public class ConstellationManager
 {
@@ -43,13 +49,60 @@ public class ConstellationManager
   private static final String APP_PREFIX = "App: ";
   private final Logger LOGGER = Logger.getLogger(ConstellationManager.class.getName());
 
-  public ConstellationManager(URI directoryURI, String providerName)
+  // use the default path to Docker's unix socket
+  private final Docker dockerSocket = new UnixDocker(
+    new File("/var/run/docker.sock")     
+  );
+
+  private NanoSatSimulator nanoSatSimulator = null;
+
+  /**
+   * Constructor
+   */
+  public ConstellationManager()
+  {
+  }
+
+  /**
+   * Initializes the constellation. Creates and runs the Docker containers.
+   * 
+   * Very WIP!
+   * 
+   * @param name Name of the constellation. Container naming scheme: <name>-node-<1...n>
+   */
+  private void InitConstellation(String name) 
+  {
+   
+    try {
+
+      if (this.nanoSatSimulator == null) {
+        this.nanoSatSimulator = new NanoSatSimulator(name + "-node-01", dockerSocket);
+      }
+
+      this.nanoSatSimulator.run();
+
+      LOGGER.log(Level.INFO, "Initialized Container." + this.nanoSatSimulator.getIPAddress());
+    }
+    catch (IOException ex) {
+      LOGGER.log(Level.SEVERE, "Failed to run container.", ex);
+    }
+  }
+
+  /**
+   * Connects to the providers of the constellation.
+   * 
+   * Very WIP!
+   * 
+   * @param providerName
+   */
+  private void ConnectToProvider(String providerName) 
   {
     try {
 
-      LOGGER.log(Level.INFO, "Connecting to " + providerName);
+      LOGGER.log(Level.INFO, "Connecting to " + this.nanoSatSimulator.getDirectoryServiceURIString());
 
-      ProviderSummaryList providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(directoryURI);
+      ProviderSummaryList providers = GroundMOAdapterImpl
+        .retrieveProvidersFromDirectory(this.nanoSatSimulator.getDirectoryServiceURI());
 
       GroundMOAdapterImpl gma = null;
       if (!providers.isEmpty()) {
@@ -68,11 +121,11 @@ public class ConstellationManager
       } else {
         LOGGER.log(Level.INFO, "Successfully connected to " + providerName);
       }
-    } catch (MalformedURLException | MALException | MALInteractionException ex) {
+    } catch ( MALException | MALInteractionException | IOException ex) {
       LOGGER.log(Level.SEVERE, "Failed to connect to the provider.", ex);
     }
-
   }
+
 
   /**
    * Main command line entry point.
@@ -82,9 +135,16 @@ public class ConstellationManager
    */
   public static void main(final String[] args) throws Exception
   {
-    URI uri = new URI("maltcp://172.17.0.2:1024/nanosat-mo-supervisor-Directory");
     String app = "benchmark";
-    ConstellationManager demo = new ConstellationManager(uri, app);
+
+    ConstellationManager demo = new ConstellationManager();
+
+    demo.InitConstellation("testconstellation");
+    // pause to start benchmark app via CTT
+    // TODO: start app
+    System.in.read();
+    demo.ConnectToProvider(app);
+    
   }
 
   class DataReceivedAdapter extends SimpleDataReceivedListener
