@@ -47,6 +47,8 @@ public class ConstellationManager
   {
     try {
 
+      LOGGER.log(Level.INFO, "Connecting to " + providerName);
+
       ProviderSummaryList providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(directoryURI);
 
       GroundMOAdapterImpl gma = null;
@@ -63,6 +65,8 @@ public class ConstellationManager
       if(gma == null)
       {
         LOGGER.log(Level.SEVERE, "Failed to connect to the provider. No such provider found - " + providerName);
+      } else {
+        LOGGER.log(Level.INFO, "Successfully connected to " + providerName);
       }
     } catch (MalformedURLException | MALException | MALInteractionException ex) {
       LOGGER.log(Level.SEVERE, "Failed to connect to the provider.", ex);

@@ -64,8 +64,17 @@
 
   <dependencies>
     <dependency>
+      <groupId>int.esa.ccsds.mo</groupId>
+      <artifactId>API_MAL</artifactId>
+    </dependency>
+    <dependency>
       <groupId>int.esa.nmf.core</groupId>
       <artifactId>ground-mo-adapter</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>int.esa.nmf.core</groupId>
+      <artifactId>mal-elements-window</artifactId>
+      <version>${esa.nmf.version-qualifier}</version>
     </dependency>
   </dependencies>
 
