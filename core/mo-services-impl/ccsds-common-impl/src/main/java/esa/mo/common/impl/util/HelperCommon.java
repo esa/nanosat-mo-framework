@@ -83,7 +83,7 @@ public class HelperCommon {
             details.setProviderURI(addressDetails.getServiceURI());
             details.setDomain(provider.getProviderKey().getDomain());
 
-            final MALArea malArea = MALContextFactory.lookupArea(key.getArea(), key.getVersion());
+            final MALArea malArea = MALContextFactory.lookupArea(key.getKeyArea(), key.getKeyAreaVersion());
 
             if (malArea == null) {
                 Logger.getLogger(HelperCommon.class.getName()).log(Level.WARNING,
@@ -93,7 +93,7 @@ public class HelperCommon {
                 continue;
             }
 
-            final MALService malService = malArea.getServiceByNumber(key.getService());
+            final MALService malService = malArea.getServiceByNumber(key.getKeyService());
 
             if (malService == null) {
                 Logger.getLogger(HelperCommon.class.getName()).log(Level.WARNING,
@@ -123,7 +123,7 @@ public class HelperCommon {
     public static ProviderSummary selectBestIPCTransport(final ProviderSummary provider) {
         final ProviderSummary newSummary = new ProviderSummary();
         newSummary.setProviderKey(provider.getProviderKey());
-        newSummary.setProviderName(provider.getProviderName());
+        newSummary.setProviderId(provider.getProviderId());
 
         final ProviderDetails details = new ProviderDetails();
         newSummary.setProviderDetails(details);
@@ -137,7 +137,7 @@ public class HelperCommon {
             ServiceCapability cap = new ServiceCapability();
             cap.setServiceKey(oldCapabilities.get(i).getServiceKey());
             cap.setServiceProperties(oldCapabilities.get(i).getServiceProperties());
-            cap.setSupportedCapabilities(oldCapabilities.get(i).getSupportedCapabilities());
+            cap.setSupportedCapabilitySets(oldCapabilities.get(i).getSupportedCapabilitySets());
 
             try {
                 final int bestIndex = getBestIPCServiceAddressIndex(addresses);

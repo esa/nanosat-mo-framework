@@ -70,6 +70,7 @@ public class ProviderTabPanel extends javax.swing.JPanel {
 
     private static final Logger LOGGER = Logger.getLogger(ProviderTabPanel.class.getName());
     protected final GroundMOAdapterImpl services;
+    private final ProviderSummary providerSummary;
 
     /**
      * Creates a new tab for a Provider and populates it.
@@ -78,6 +79,7 @@ public class ProviderTabPanel extends javax.swing.JPanel {
      */
     public ProviderTabPanel(final ProviderSummary provider, Blob authenticationId, String localNamePrefix) {
         services = new GroundMOAdapterImpl(provider, authenticationId, localNamePrefix);
+        providerSummary = provider;
         initComponents();
     }
 
@@ -98,7 +100,7 @@ public class ProviderTabPanel extends javax.swing.JPanel {
             // Common
             if (services.getCommonServices() != null) {
                 if (services.getCommonServices().getConfigurationService() != null) {
-                    ConfigurationConsumerPanel panel = new ConfigurationConsumerPanel(services.getCommonServices().getConfigurationService());
+                    ConfigurationConsumerPanel panel = new ConfigurationConsumerPanel(services.getCommonServices().getConfigurationService(), providerSummary);
                     int count = serviceTabs.getTabCount();
                     serviceTabs.insertTab("Configuration service", null, panel, "Configuration Tab", count);
                 }

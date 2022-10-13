@@ -54,7 +54,7 @@ public class DemoSetAndCommand
 
       if (!providers.isEmpty()) {
         for (ProviderSummary provider : providers) {
-          if(provider.getProviderName().toString().equals(PROVIDER_HELLO_WORLD))
+          if(provider.getProviderId().toString().equals(PROVIDER_HELLO_WORLD))
           {
             gma = new GroundMOAdapterImpl(provider);
             break;

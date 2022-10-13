@@ -461,7 +461,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
       ServiceKey serviceKey = new ServiceKey(eventCOM.getArea().getNumber(),
           eventCOM.getNumber(), eventCOM.getArea().getVersion());
       ServiceFilter sf = new ServiceFilter(serviceProviderName, domain, new Identifier("*"),
-          null, new Identifier("*"), serviceKey, new UIntegerList());
+          null, new Identifier("*"), serviceKey, new UShortList());
       if (app.getCategory().getValue().equalsIgnoreCase("NMF_App")) {
         // Do a lookup on the Central Drectory service for the app that we want
         ProviderSummaryList providersList = this.directoryService.lookupProvider(sf,
@@ -477,7 +477,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
           // Add to the list of Directory service Obj Ids
           if (!providersList.isEmpty()) {
-            appDirectoryServiceNames.add(providersList.get(0).getProviderName());
+            appDirectoryServiceNames.add(providersList.get(0).getProviderId());
           } else {
             appDirectoryServiceNames.add(null);
           }

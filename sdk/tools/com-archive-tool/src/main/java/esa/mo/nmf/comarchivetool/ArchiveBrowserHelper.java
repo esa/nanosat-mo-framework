@@ -225,14 +225,14 @@ public class ArchiveBrowserHelper {
           System.out.println("\nThere's more than one provider in directory. In this case the --provider option is required");
           System.out.println("Available providers at this uri: " + tempURI);
           for(ProviderSummary summary : providerSummaryList) {
-            System.out.println(" - " + summary.getProviderName());
+            System.out.println(" - " + summary.getProviderId());
           }
           System.out.println();
           return null;
         }
 
         for(ProviderSummary summary : providerSummaryList) {
-          if(summary.getProviderName().getValue().equals(providerName)) {
+          if(summary.getProviderId().getValue().equals(providerName)) {
             provider = summary;
             break;
           }
@@ -244,7 +244,7 @@ public class ArchiveBrowserHelper {
         if(!providerSummaryList.isEmpty()) {
           System.out.println("Available providers at this uri: " + tempURI);
           for(ProviderSummary summary : providerSummaryList) {
-            System.out.println(" - " + summary.getProviderName());
+            System.out.println(" - " + summary.getProviderId());
           }
         } else {
           System.out.println("No providers available at this uri: " + tempURI);
@@ -258,7 +258,7 @@ public class ArchiveBrowserHelper {
 
       if(consumer.getCommonServices().getLoginService() != null &&
          consumer.getCommonServices().getLoginService().getLoginStub() != null) {
-        System.out.println("\nLogin required for " + provider.getProviderName());
+        System.out.println("\nLogin required for " + provider.getProviderId());
 
         String login = System.console().readLine("Login: ");
         char[] password = System.console().readPassword("Password: ");
