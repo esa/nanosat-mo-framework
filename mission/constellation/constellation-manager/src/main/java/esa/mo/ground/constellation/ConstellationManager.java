@@ -17,6 +17,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
  * ----------------------------------------------------------------------------
+ * 
+ * Author: N Wiegand (https://github.com/Klabau)
  */
 package esa.mo.ground.constellation;
 
@@ -27,21 +29,15 @@ import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 
-import com.amihaiemil.docker.Docker;
-import com.amihaiemil.docker.UnixDocker;
-
-import java.io.File;
 import java.io.IOException;
-
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * Ground consumer: Constellation Manager
- * Takes in the directoryURI and app name to which to connect, and logs the received parameters data.
+ * An orchestration tool for a constellation of NanoSatellites.
  * 
- * @author N Wiegand
  */
 public class ConstellationManager
 {
@@ -49,15 +45,11 @@ public class ConstellationManager
   private static final String APP_PREFIX = "App: ";
   private final Logger LOGGER = Logger.getLogger(ConstellationManager.class.getName());
 
-  // use the default path to Docker's unix socket
-  private final Docker dockerSocket = new UnixDocker(
-    new File("/var/run/docker.sock")     
-  );
-
   private NanoSatSimulator nanoSatSimulator = null;
 
   /**
-   * Constructor
+   * Initialiser Constructor. 
+   * This Class manages a constellation of NanoSatellites.
    */
   public ConstellationManager()
   {
@@ -76,12 +68,12 @@ public class ConstellationManager
     try {
 
       if (this.nanoSatSimulator == null) {
-        this.nanoSatSimulator = new NanoSatSimulator(name + "-node-01", dockerSocket);
+        this.nanoSatSimulator = new NanoSatSimulator(name + "-node-01");
       }
 
       this.nanoSatSimulator.run();
 
-      LOGGER.log(Level.INFO, "Initialized Container." + this.nanoSatSimulator.getIPAddress());
+      LOGGER.log(Level.INFO, "Initialized Container " + this.nanoSatSimulator.getName());
     }
     catch (IOException ex) {
       LOGGER.log(Level.SEVERE, "Failed to run container.", ex);
@@ -122,7 +114,7 @@ public class ConstellationManager
         LOGGER.log(Level.INFO, "Successfully connected to " + providerName);
       }
     } catch ( MALException | MALInteractionException | IOException ex) {
-      LOGGER.log(Level.SEVERE, "Failed to connect to the provider.", ex);
+      LOGGER.log(Level.SEVERE, "Failed to connect to the provider. ", ex);
     }
   }
 
@@ -135,6 +127,7 @@ public class ConstellationManager
    */
   public static void main(final String[] args) throws Exception
   {
+
     String app = "benchmark";
 
     ConstellationManager demo = new ConstellationManager();
@@ -143,10 +136,11 @@ public class ConstellationManager
     // pause to start benchmark app via CTT
     // TODO: start app
     System.in.read();
-    demo.ConnectToProvider(app);
     
+    demo.ConnectToProvider(app);    
   }
 
+  
   class DataReceivedAdapter extends SimpleDataReceivedListener
   {
 

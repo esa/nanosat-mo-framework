@@ -17,60 +17,49 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
  * ----------------------------------------------------------------------------
+ * 
+ * Author: N Wiegand (https://github.com/Klabau)
  */
 package esa.mo.ground.constellation;
 
 import org.ccsds.moims.mo.mal.structures.URI;
 
-import com.amihaiemil.docker.Container;
-import com.amihaiemil.docker.Containers;
-import com.amihaiemil.docker.Docker;
-
 import java.io.IOException;
-
-import javax.json.Json;
-import javax.json.JsonObject;
 
 /**
  * NanoSat Segment Simulator Object
  * This object simulates the NanoSat Segment of the NMF. It is responsible for 
  * managing the Docker Container in which the NanoSat Segment is executed.
  * 
- * @author N Wiegand
  */
 public class NanoSatSimulator 
-{
-    
+{    
+    private final String image = "nmf-rpi/nmf-supervisor"; // TODO: get image name from config
+
     private String name;
 
-    private JsonObject config;
-    private Containers containers;
-    private Container nanoSatSim;
-
     /**
-     * Constructor
-     * @param dockerClient
+     * Initialiser Constructor. 
+     * This Class manages the Docker Container which provides the NanoSat 
+     * Segment for the simulated constellation.
+     * 
+     * @param name Container name
+     * @param dockerClient Docker Unix Socket 
      */
-    public NanoSatSimulator(String name, Docker dockerSocket)
+    public NanoSatSimulator(String name)
     {
         this.name = name;
-        this.containers = dockerSocket.containers();
-
-        this.config = Json.createObjectBuilder()
-            .add("Image", "nmf-rpi/nmf-supervisor")   // TODO: get image name from config
-            .add("Hostname", name)
-            .build();  
 
     }
 
     /**
-     * Create a Docker Container that will host the NanoSat Segment and start it
+     * Create a Docker Container that will host the NanoSat Segment and start it.
+     * 
+     * @throws IOException
      */
     public void run() throws IOException
     {
-        this.nanoSatSim = this.containers.create(name, config);
-  
-        this.start();
+        DockerApi.run(this.name, this.image);
     }
 
     /**
@@ -79,7 +68,7 @@ public class NanoSatSimulator
      */
     public void start() throws IOException
     {  
-        this.nanoSatSim.start();
+        DockerApi.start(this.name);
     }
 
     /**
@@ -121,11 +110,6 @@ public class NanoSatSimulator
      */
     public String getIPAddress() throws IOException
     {
-
-        final JsonObject inspection = this.nanoSatSim.inspect();
-        return inspection
-            .getJsonObject("NetworkSettings")
-            .getString("IPAddress");
-
+        return DockerApi.getContainerIPAddress(this.name);
     }
 }
