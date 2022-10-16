@@ -50,16 +50,15 @@ public class ConstellationManager {
    *
    * Very WIP!
    *
-   * @param name Name of the constellation. Container naming scheme: <name>-node-<1...n>
+   * @param name Name of the constellation. Container naming scheme:
+   *             <name>-node-<1...n>
    * @param size Constellation size
    */
-  private void InitConstellation(String name, int size) {
+  private void initConstellation(String name, int size) {
     try {
       if (this.constellation.size() == 0) {
         for (int i = 1; i <= size; i++) {
-          this.constellation.add(
-              new NanoSatSimulator(name + "-node-" + i, LOGGER)
-            );
+          this.constellation.add(new NanoSatSimulator(name + "-node-" + i));
           this.constellation.get(i - 1).run();
         }
       } else {
@@ -78,7 +77,7 @@ public class ConstellationManager {
    * Very WIP!
    *
    */
-  private void ConnectToProviders() {
+  private void connectToProviders() {
     constellation.forEach(
       nanoSat -> {
         try {
@@ -95,6 +94,19 @@ public class ConstellationManager {
   }
 
   /**
+   * Install a NMF package on all the nodes of the constellation.
+   * 
+   * @param packageName Name of the NMF package
+   */
+  private void installPackageOnAllNodes(String packageName) {
+    constellation.forEach(
+      nanoSat -> {
+        nanoSat.installPackage(packageName);
+      }
+    );
+  }
+
+  /**
    * Main command line entry point.
    *
    * @param args the command line arguments
@@ -102,15 +114,16 @@ public class ConstellationManager {
    */
   public static void main(final String[] args) throws Exception {
     String app = "benchmark";
-    int size = 3;
+    String packageName = "benchmark-2.1.0-SNAPSHOT.nmfpack";
+    int size = 2;
 
     ConstellationManager demo = new ConstellationManager();
 
-    demo.InitConstellation("demo", size);
-    // pause to start benchmark app via CTT
-    // TODO: start app
+    demo.initConstellation("demo", size);
+
     System.in.read();
 
-    demo.ConnectToProviders();
+    demo.connectToProviders();
+    demo.installPackageOnAllNodes(packageName);
   }
 }

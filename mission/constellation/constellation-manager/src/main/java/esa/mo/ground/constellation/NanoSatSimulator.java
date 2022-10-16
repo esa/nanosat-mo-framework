@@ -22,6 +22,7 @@
  */
 package esa.mo.ground.constellation;
 
+import esa.mo.ground.constellation.services.sm.PackageManagerGround;
 import esa.mo.mc.impl.provider.ParameterInstance;
 import esa.mo.nmf.commonmoadapter.CompleteDataReceivedListener;
 import esa.mo.nmf.commonmoadapter.SimpleDataReceivedListener;
@@ -43,11 +44,11 @@ import org.ccsds.moims.mo.mal.structures.URI;
  */
 public class NanoSatSimulator {
   private final String image = "nmf-rpi/nmf-supervisor"; // TODO: get image name from config
-  private Logger LOGGER;
 
   private String name;
   private ProviderSummaryList providers;
   private GroundMOAdapterImpl groundAdapter;
+  private PackageManagerGround packageManager = null;
 
   /**
    * Initialiser Constructor.
@@ -57,9 +58,8 @@ public class NanoSatSimulator {
    * @param name Container name
    * @param dockerClient Docker Unix Socket
    */
-  public NanoSatSimulator(String name, Logger LOGGER) {
+  public NanoSatSimulator(String name) {
     this.name = name;
-    this.LOGGER = LOGGER;
   }
 
   /**
@@ -96,11 +96,39 @@ public class NanoSatSimulator {
           new CompleteDataReceivedAdapter(this.getName())
         );
       } else {
-        LOGGER.log(Level.SEVERE, "The returned list of providers is empty!");
+        Logger
+          .getLogger(ConstellationManager.class.getName())
+          .log(Level.SEVERE, "The returned list of providers is empty!");
       }
     } catch (MALException | MALInteractionException | IOException ex) {
-      LOGGER.log(Level.SEVERE, null, ex);
+      Logger
+        .getLogger(ConstellationManager.class.getName())
+        .log(Level.SEVERE, null, ex);
     }
+  }
+
+  /**
+   * Get all NMF packages that are avaibalbe on the NanoSat Segment
+   * 
+   * TODO: define return type
+   */
+  public void getAllPackages() {
+    if (this.packageManager == null) {
+      this.packageManager = new PackageManagerGround();
+    }
+    PackageManagerGround.getAllPackages(this.groundAdapter);
+  }
+
+  /**
+   * Install the given NMF package on the NanoSat Segment
+   * 
+   * @param packageName NMF package name
+   */
+  public void installPackage(String packageName) {
+    if (this.packageManager == null) {
+      this.packageManager = new PackageManagerGround();
+    }
+    PackageManagerGround.installPackage(this.groundAdapter, packageName);
   }
 
   /**
@@ -148,11 +176,13 @@ public class NanoSatSimulator {
 
     @Override
     public void onDataReceived(String parameterName, Serializable data) {
-      LOGGER.log(
-        Level.INFO,
-        "\nNode: {0}\nParameter name: {1}\nParameter Value: {2}",
-        new Object[] { this.name, parameterName, data.toString() }
-      );
+      Logger
+        .getLogger(ConstellationManager.class.getName())
+        .log(
+          Level.INFO,
+          "\nNode: {0}\nParameter name: {1}\nParameter Value: {2}",
+          new Object[] { this.name, parameterName, data.toString() }
+        );
     }
   }
 
@@ -166,15 +196,17 @@ public class NanoSatSimulator {
 
     @Override
     public void onDataReceived(ParameterInstance parameterInstance) {
-      LOGGER.log(
-        Level.INFO,
-        "\nNode: {0}\nParameter name: {1}\nParameter Value: {2}",
-        new Object[] {
-          this.name,
-          parameterInstance.getName(),
-          parameterInstance.getParameterValue().toString(),
-        }
-      );
+      Logger
+        .getLogger(ConstellationManager.class.getName())
+        .log(
+          Level.INFO,
+          "\nNode: {0}\nParameter name: {1}\nParameter Value: {2}",
+          new Object[] {
+            this.name,
+            parameterInstance.getName(),
+            parameterInstance.getParameterValue().toString(),
+          }
+        );
     }
   }
 }
