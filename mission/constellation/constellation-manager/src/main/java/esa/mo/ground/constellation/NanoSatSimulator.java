@@ -37,7 +37,7 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.URI;
 
 /**
- * NanoSat Segment Simulator Object
+ * NanoSat Segment Simulator Object.
  * This object simulates the NanoSat Segment of the NMF. It is responsible for
  * managing the Docker Container in which the NanoSat Segment is executed.
  *
@@ -56,7 +56,6 @@ public class NanoSatSimulator {
    * Segment for the simulated constellation.
    *
    * @param name Container name
-   * @param dockerClient Docker Unix Socket
    */
   public NanoSatSimulator(String name) {
     this.name = name;

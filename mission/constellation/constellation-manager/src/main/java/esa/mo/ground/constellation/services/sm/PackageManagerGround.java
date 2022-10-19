@@ -37,6 +37,10 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.softwaremanagement.packagemanagement.consumer.PackageManagementAdapter;
 
+/**
+ * This class implements the functionality of the 
+ * NMF Package Management Service for the Constellation Manager.
+ */
 public class PackageManagerGround {
   private static PackageManagementConsumerServiceImpl serviceSMPackageManagement;
 
@@ -52,7 +56,8 @@ public class PackageManagerGround {
     idList.add(new Identifier("*"));
 
     try {
-      serviceSMPackageManagement.getPackageManagementStub()
+      serviceSMPackageManagement
+        .getPackageManagementStub()
         .asyncFindPackage(
           idList,
           new PackageManagementAdapter() {
@@ -104,14 +109,18 @@ public class PackageManagerGround {
    *
    * @param packageName NMF package name
    */
-  public static void installPackage(GroundMOAdapterImpl services, String packageName) {
+  public static void installPackage(
+    GroundMOAdapterImpl services,
+    String packageName
+  ) {
     serviceSMPackageManagement =
       services.getSMServices().getPackageManagementService();
     IdentifierList ids = new IdentifierList();
     ids.add(new Identifier(packageName));
 
     try {
-      serviceSMPackageManagement.getPackageManagementStub()
+      serviceSMPackageManagement
+        .getPackageManagementStub()
         .install(
           ids,
           new PackageManagementAdapter() {

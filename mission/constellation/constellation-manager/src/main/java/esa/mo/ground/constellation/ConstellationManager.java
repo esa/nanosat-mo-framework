@@ -22,6 +22,7 @@
  */
 package esa.mo.ground.constellation;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -40,7 +41,7 @@ public class ConstellationManager {
   private ArrayList<NanoSatSimulator> constellation = new ArrayList<NanoSatSimulator>();
 
   /**
-   * Initialiser Constructor.
+   * Initializer Constructor.
    * This Class manages a constellation of NanoSatellites.
    */
   public ConstellationManager() {}
@@ -54,7 +55,7 @@ public class ConstellationManager {
    *             <name>-node-<1...n>
    * @param size Constellation size
    */
-  private void initConstellation(String name, int size) {
+  public void initConstellation(String name, int size) {
     try {
       if (this.constellation.size() == 0) {
         for (int i = 1; i <= size; i++) {
@@ -68,6 +69,9 @@ public class ConstellationManager {
       LOGGER.log(Level.INFO, "Successfully initialized constellation. ");
     } catch (IOException ex) {
       LOGGER.log(Level.SEVERE, "Failed to initialize the constellation: ", ex);
+      if (ex.toString().contains("permission denied")) {
+        JOptionPane.showMessageDialog(null, "Failed to initialize the constellation: Permission denied to use Docker?", "Error", JOptionPane.INFORMATION_MESSAGE);
+      }
     }
   }
 
@@ -77,7 +81,7 @@ public class ConstellationManager {
    * Very WIP!
    *
    */
-  private void connectToProviders() {
+  public void connectToProviders() {
     constellation.forEach(
       nanoSat -> {
         try {
@@ -98,7 +102,7 @@ public class ConstellationManager {
    * 
    * @param packageName Name of the NMF package
    */
-  private void installPackageOnAllNodes(String packageName) {
+  public void installPackageOnAllNodes(String packageName) {
     constellation.forEach(
       nanoSat -> {
         nanoSat.installPackage(packageName);
@@ -106,24 +110,4 @@ public class ConstellationManager {
     );
   }
 
-  /**
-   * Main command line entry point.
-   *
-   * @param args the command line arguments
-   * @throws java.lang.Exception If there is an error
-   */
-  public static void main(final String[] args) throws Exception {
-    String app = "benchmark";
-    String packageName = "benchmark-2.1.0-SNAPSHOT.nmfpack";
-    int size = 2;
-
-    ConstellationManager demo = new ConstellationManager();
-
-    demo.initConstellation("demo", size);
-
-    System.in.read();
-
-    demo.connectToProviders();
-    demo.installPackageOnAllNodes(packageName);
-  }
 }
