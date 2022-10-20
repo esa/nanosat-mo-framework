@@ -765,4 +765,8 @@ public class ArchiveManager {
     public DatabaseBackend getDbBackend() {
         return dbBackend;
     }
+
+    public TransactionsProcessor getTransactionsProcessor() {
+        return dbProcessor;
+    }
 }
