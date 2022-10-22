@@ -22,6 +22,8 @@
  */
 package esa.mo.ground.constellation;
 
+import esa.mo.ground.constellation.gui.ConstellationManagerGui;
+
 import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,16 +37,25 @@ import java.util.logging.Logger;
  */
 public class ConstellationManager {
   private final Logger LOGGER = Logger.getLogger(
-    ConstellationManager.class.getName()
-  );
+      ConstellationManager.class.getName());
 
-  private ArrayList<NanoSatSimulator> constellation = new ArrayList<NanoSatSimulator>();
+  private final ArrayList<NanoSat> constellation = new ArrayList<NanoSat>();
+  private final ConstellationManagerGui ncmGui;
 
   /**
    * Initializer Constructor.
    * This Class manages a constellation of NanoSatellites.
    */
-  public ConstellationManager() {}
+  public ConstellationManager() {
+
+    try {
+      // Set cross-platform Java L&F (also called "Metal")
+      UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+    } catch (Exception ex) {
+    }
+
+    this.ncmGui = new ConstellationManagerGui(this);
+  }
 
   /**
    * Initializes the constellation. Creates and runs the Docker containers.
@@ -55,46 +66,50 @@ public class ConstellationManager {
    *             <name>-node-<1...n>
    * @param size Constellation size
    */
-  public void initConstellation(String name, int size) {
+  public void addNodesToConstellation(String name, int size) {
     try {
-      if (this.constellation.size() == 0) {
-        for (int i = 1; i <= size; i++) {
-          this.constellation.add(new NanoSatSimulator(name + "-node-" + i));
-          this.constellation.get(i - 1).run();
-        }
-      } else {
-        LOGGER.log(Level.INFO, "Constellation has already been initialized. ");
+      for (int i = 1; i <= size; i++) {
+        this.constellation.add(new NanoSatSimulator(name + "-node-" + i));
+        this.constellation.get(this.constellation.size() - 1).run();
       }
 
-      LOGGER.log(Level.INFO, "Successfully initialized constellation. ");
+      LOGGER.log(Level.INFO, "Successfully added nodes to constellation. ");
     } catch (IOException ex) {
-      LOGGER.log(Level.SEVERE, "Failed to initialize the constellation: ", ex);
+      LOGGER.log(Level.SEVERE, "Failed to add nodes to constellation: ", ex);
       if (ex.toString().contains("permission denied")) {
-        JOptionPane.showMessageDialog(null, "Failed to initialize the constellation: Permission denied to use Docker?", "Error", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null,
+            "Failed to initialize the constellation: Do you have permission to use Docker?",
+            "Error", JOptionPane.INFORMATION_MESSAGE);
       }
     }
+    this.ncmGui.refreshNanoSatSegmentList();
+  }
+
+  /**
+   * Connect to NanoSat segment nodes of an existing constellation.
+   *
+   * @param file connection string CSV for NanoSat segments
+   */
+  public void connectToConstellation(String file) {
+    // TODO: implement logic
   }
 
   /**
    * Connects to the providers of the constellation.
    *
-   * Very WIP!
-   *
    */
   public void connectToProviders() {
     constellation.forEach(
-      nanoSat -> {
-        try {
-          LOGGER.log(
-            Level.INFO,
-            "Connecting to " + nanoSat.getDirectoryServiceURIString()
-          );
-          nanoSat.connectToProviders();
-        } catch (IOException ex) {
-          LOGGER.log(Level.SEVERE, "Failed to connect to provider: ", ex);
-        }
-      }
-    );
+        nanoSat -> {
+          try {
+            LOGGER.log(
+                Level.INFO,
+                "Connecting to " + nanoSat.getDirectoryServiceURIString());
+            nanoSat.connectToProviders();
+          } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, "Failed to connect to provider: ", ex);
+          }
+        });
   }
 
   /**
@@ -104,10 +119,30 @@ public class ConstellationManager {
    */
   public void installPackageOnAllNodes(String packageName) {
     constellation.forEach(
-      nanoSat -> {
-        nanoSat.installPackage(packageName);
-      }
-    );
+        nanoSat -> {
+          nanoSat.installPackage(packageName);
+        });
+  }
+
+  /**
+   * Gets the Constellation
+   * 
+   * @return constellation
+   */
+  public ArrayList<NanoSat> getConstellation() {
+    return this.constellation;
+  }
+
+  /**
+   * Main command line entry point.
+   *
+   * @param args the command line arguments
+   * @throws Exception If there is an error
+   */
+  public static void main(final String[] args) {
+
+    ConstellationManager ncm = new ConstellationManager();
+
   }
 
 }

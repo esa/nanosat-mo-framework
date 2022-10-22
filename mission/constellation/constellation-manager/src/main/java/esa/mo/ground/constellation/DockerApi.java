@@ -31,7 +31,7 @@ public class DockerApi {
   /**
    * Run a Docker Container.
    *
-   * @param name Container name
+   * @param name  Container name
    * @param image Docker image name
    * @throws IOException
    */
@@ -71,9 +71,8 @@ public class DockerApi {
    */
   public static String getContainerIPAddress(String name) throws IOException {
     String cmd = String.format(
-      "inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' %s",
-      name
-    );
+        "inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' %s",
+        name);
     return executeDockerCommand(cmd).trim();
   }
 
@@ -87,7 +86,7 @@ public class DockerApi {
    * @throws IOException
    */
   private static String executeDockerCommand(String command)
-    throws IOException {
+      throws IOException {
     String[] cmd = { "/bin/bash", "-c", "docker " + command };
     String cmdOutput = "";
     String line = null;
@@ -96,12 +95,10 @@ public class DockerApi {
     Process proc = runtime.exec(cmd);
 
     BufferedReader stdInput = new BufferedReader(
-      new InputStreamReader(proc.getInputStream())
-    );
+        new InputStreamReader(proc.getInputStream()));
 
     BufferedReader stdError = new BufferedReader(
-      new InputStreamReader(proc.getErrorStream())
-    );
+        new InputStreamReader(proc.getErrorStream()));
 
     // catch cmd output
     while ((line = stdInput.readLine()) != null) {

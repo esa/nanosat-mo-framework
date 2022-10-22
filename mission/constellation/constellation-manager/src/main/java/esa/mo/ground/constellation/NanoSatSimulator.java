@@ -22,19 +22,7 @@
  */
 package esa.mo.ground.constellation;
 
-import esa.mo.ground.constellation.services.sm.PackageManagerGround;
-import esa.mo.mc.impl.provider.ParameterInstance;
-import esa.mo.nmf.commonmoadapter.CompleteDataReceivedListener;
-import esa.mo.nmf.commonmoadapter.SimpleDataReceivedListener;
-import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import java.io.IOException;
-import java.io.Serializable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
-import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.structures.URI;
 
 /**
  * NanoSat Segment Simulator Object.
@@ -42,18 +30,13 @@ import org.ccsds.moims.mo.mal.structures.URI;
  * managing the Docker Container in which the NanoSat Segment is executed.
  *
  */
-public class NanoSatSimulator {
+public class NanoSatSimulator extends NanoSat {
   private final String image = "nmf-rpi/nmf-supervisor"; // TODO: get image name from config
 
-  private String name;
-  private ProviderSummaryList providers;
-  private GroundMOAdapterImpl groundAdapter;
-  private PackageManagerGround packageManager = null;
-
   /**
-   * Initialiser Constructor.
-   * This Class manages the Docker Container which provides the NanoSat
-   * Segment for the simulated constellation.
+   * Initializer Constructor.
+   * This class manages the Docker Container which provides the NanoSat
+   * segment for the simulated constellation.
    *
    * @param name Container name
    */
@@ -66,12 +49,14 @@ public class NanoSatSimulator {
    *
    * @throws IOException
    */
+  @Override
   public void run() throws IOException {
     DockerApi.run(this.name, this.image);
   }
 
   /**
-   * Start the Docker Container that will host the NanoSat Segment
+   * Start the Docker Container that hosts the NanoSat Segment.
+   * 
    * @throws IOException
    */
   public void start() throws IOException {
@@ -79,86 +64,12 @@ public class NanoSatSimulator {
   }
 
   /**
-   * Connect to the service providers on the NanoSat Segment
-   */
-  public void connectToProviders() {
-    try {
-      this.providers =
-        GroundMOAdapterImpl.retrieveProvidersFromDirectory(
-          this.getDirectoryServiceURI()
-        );
-
-      if (!providers.isEmpty()) {
-        // Connect to provider on index 0
-        groundAdapter = new GroundMOAdapterImpl(providers.get(0));
-        groundAdapter.addDataReceivedListener(
-          new CompleteDataReceivedAdapter(this.getName())
-        );
-      } else {
-        Logger
-          .getLogger(ConstellationManager.class.getName())
-          .log(Level.SEVERE, "The returned list of providers is empty!");
-      }
-    } catch (MALException | MALInteractionException | IOException ex) {
-      Logger
-        .getLogger(ConstellationManager.class.getName())
-        .log(Level.SEVERE, null, ex);
-    }
-  }
-
-  /**
-   * Get all NMF packages that are avaibalbe on the NanoSat Segment
+   * Stop the Docker Container that hosts the NanoSat Segment.
    * 
-   * TODO: define return type
-   */
-  public void getAllPackages() {
-    if (this.packageManager == null) {
-      this.packageManager = new PackageManagerGround();
-    }
-    PackageManagerGround.getAllPackages(this.groundAdapter);
-  }
-
-  /**
-   * Install the given NMF package on the NanoSat Segment
-   * 
-   * @param packageName NMF package name
-   */
-  public void installPackage(String packageName) {
-    if (this.packageManager == null) {
-      this.packageManager = new PackageManagerGround();
-    }
-    PackageManagerGround.installPackage(this.groundAdapter, packageName);
-  }
-
-  /**
-   *
-   * @return Supervisor Directory Service URI
    * @throws IOException
    */
-  public URI getDirectoryServiceURI() throws IOException {
-    return new URI(this.getDirectoryServiceURIString());
-  }
-
-  /**
-   *
-   * @return Supervisor Directory Service URI String
-   * @throws IOException
-   */
-  public String getDirectoryServiceURIString() throws IOException {
-    // TODO: make this a bit prettier
-    return (
-      "maltcp://" +
-      this.getIPAddress() +
-      ":1024/nanosat-mo-supervisor-Directory"
-    );
-  }
-
-  /**
-   *
-   * @return Container Name
-   */
-  public String getName() {
-    return name;
+  public void stop() throws IOException {
+    DockerApi.stop(this.name);
   }
 
   /**
@@ -166,46 +77,20 @@ public class NanoSatSimulator {
    * @return Container IP Address
    * @throws IOException
    */
+  @Override
   public String getIPAddress() throws IOException {
-    return DockerApi.getContainerIPAddress(this.name);
+    if (this.ipAddress == null) {
+      this.ipAddress = DockerApi.getContainerIPAddress(this.name);
+    }
+    return this.ipAddress;
   }
 
-  private class SimpleDataReceivedAdapter extends SimpleDataReceivedListener {
-    private String name;
-
-    @Override
-    public void onDataReceived(String parameterName, Serializable data) {
-      Logger
-        .getLogger(ConstellationManager.class.getName())
-        .log(
-          Level.INFO,
-          "\nNode: {0}\nParameter name: {1}\nParameter Value: {2}",
-          new Object[] { this.name, parameterName, data.toString() }
-        );
-    }
-  }
-
-  private class CompleteDataReceivedAdapter
-    extends CompleteDataReceivedListener {
-    private String name;
-
-    private CompleteDataReceivedAdapter(String name) {
-      this.name = name;
-    }
-
-    @Override
-    public void onDataReceived(ParameterInstance parameterInstance) {
-      Logger
-        .getLogger(ConstellationManager.class.getName())
-        .log(
-          Level.INFO,
-          "\nNode: {0}\nParameter name: {1}\nParameter Value: {2}",
-          new Object[] {
-            this.name,
-            parameterInstance.getName(),
-            parameterInstance.getParameterValue().toString(),
-          }
-        );
-    }
+  /**
+   *
+   * @param ipAddress
+   */
+  @Override
+  public void setIPAddress(String ipAddress) {
+    // do nothing - don't change container IP Address
   }
 }

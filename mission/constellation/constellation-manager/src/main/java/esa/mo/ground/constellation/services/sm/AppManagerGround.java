@@ -38,30 +38,35 @@ import esa.mo.sm.impl.consumer.AppsLauncherConsumerServiceImpl;
 public class AppManagerGround {
     private static AppsLauncherConsumerServiceImpl serviceSMAppsLauncher;
 
+    /**
+     * Launches an App on a NanoSat Segment
+     * 
+     * Very WIP!
+     * 
+     * @param services
+     * @param appName
+     */
     public static void launchApp(GroundMOAdapterImpl services, String appName) {
-        serviceSMAppsLauncher = 
-            services.getSMServices().getAppsLauncherService();
+        serviceSMAppsLauncher = services.getSMServices().getAppsLauncherService();
 
         IdentifierList ids = new IdentifierList();
         ids.add(new Identifier(appName));
-      
+
         // LongList ids = new LongList();
-        // Long objId = appsTable.getSelectedCOMObject().getArchiveDetails().getInstId();
+        // Long objId =
+        // appsTable.getSelectedCOMObject().getArchiveDetails().getInstId();
         // ids.add(objId);
-     
+
         // unsubscribeFromPreviousEvents(objId);
-      
+
         // try {
-        //     subscribeToEvents(objId);
-        //     serviceSMAppsLauncher.getAppsLauncherStub().runApp(ids);
+        // subscribeToEvents(objId);
+        // serviceSMAppsLauncher.getAppsLauncherStub().runApp(ids);
         // } catch (MALInteractionException | MALException ex) {
-        //     Logger
-        //      .getLogger(ConstellationManager.class.getName())
-        //      .log(Level.SEVERE, null, ex);
+        // Logger
+        // .getLogger(ConstellationManager.class.getName())
+        // .log(Level.SEVERE, null, ex);
         // }
-      
+
     }
 }
-
-    
-
