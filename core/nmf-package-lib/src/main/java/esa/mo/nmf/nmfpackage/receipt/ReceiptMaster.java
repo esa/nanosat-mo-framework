@@ -21,7 +21,6 @@
 package esa.mo.nmf.nmfpackage.receipt;
 
 import esa.mo.nmf.nmfpackage.utils.HelperNMFPackage;
-import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDescriptor;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;

@@ -18,13 +18,12 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.nmfpackage.descriptor;
+package esa.mo.nmf.nmfpackage.receipt;
 
 import esa.mo.nmf.nmfpackage.NMFPackageFile;
 import esa.mo.nmf.nmfpackage.metadata.DetailsApp;
 import esa.mo.nmf.nmfpackage.metadata.Metadata;
 import esa.mo.nmf.nmfpackage.utils.HelperNMFPackage;
-import esa.mo.nmf.nmfpackage.receipt.ReceiptMaster;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;

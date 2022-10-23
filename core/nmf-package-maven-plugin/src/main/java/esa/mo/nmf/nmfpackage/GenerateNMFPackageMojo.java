@@ -209,9 +209,7 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
 
         Metadata metadata = new Metadata(details.getProperties());
         metadata.addProperty(Metadata.PACKAGE_TYPE, Metadata.TYPE_APP);
-        NMFPackageCreator.nmfPackageCreator(metadata, inputFiles, locations, "target");
-
-        
+        NMFPackageCreator.create(metadata, inputFiles, locations, TARGET_FOLDER);
     }
 
     private String packageJarDependency(Artifact artifact) {
@@ -228,7 +226,7 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
         metadata.addProperty(Metadata.PACKAGE_TYPE, Metadata.TYPE_DEPENDENCY);
         ArrayList<String> newLocations = new ArrayList<>();
         newLocations.add("jars-shared-dependencies" + File.separator + file.getName());
-        NMFPackageCreator.nmfPackageCreator(metadata, files, newLocations, "target");
+        NMFPackageCreator.create(metadata, files, newLocations, TARGET_FOLDER);
         return file.getName();
     }
 
