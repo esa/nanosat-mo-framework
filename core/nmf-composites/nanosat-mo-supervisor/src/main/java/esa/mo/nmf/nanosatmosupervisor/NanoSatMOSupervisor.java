@@ -55,6 +55,7 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterCreationRequestList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
+import org.ccsds.moims.mo.softwaremanagement.appslauncher.body.ListAppResponse;
 
 /**
  * The implementation of the NanoSat MO Supervisor that can be extended by particular
@@ -63,84 +64,99 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
  * @author Cesar Coelho
  */
 public abstract class NanoSatMOSupervisor extends NMFProvider {
-    private static final Logger LOGGER = Logger.getLogger(NanoSatMOSupervisor.class.getName());
-    private static final String PDU_CHANNEL_PARAMETER = "PDU1952";
-    private static final Duration PDU_CHANNEL_REPORTING_PERIOD = new Duration(10);
-    private final PackageManagementProviderServiceImpl packageManagementService = new PackageManagementProviderServiceImpl();
-    private final AppsLauncherProviderServiceImpl appsLauncherService = new AppsLauncherProviderServiceImpl();
-    private final CommandExecutorProviderServiceImpl commandExecutorService = new CommandExecutorProviderServiceImpl();
+  private static final Logger LOGGER = Logger.getLogger(NanoSatMOSupervisor.class.getName());
+  private static final String PDU_CHANNEL_PARAMETER = "PDU1952";
+  private static final Duration PDU_CHANNEL_REPORTING_PERIOD = new Duration(10);
+  private final PackageManagementProviderServiceImpl packageManagementService
+      = new PackageManagementProviderServiceImpl();
+  private final AppsLauncherProviderServiceImpl appsLauncherService
+      = new AppsLauncherProviderServiceImpl();
+  private final CommandExecutorProviderServiceImpl commandExecutorService
+      = new CommandExecutorProviderServiceImpl();
 
-    /**
-     * Initializes the NanoSat MO Supervisor. The MonitorAndControlAdapter adapter class can be
-     * extended for remote monitoring and control with the CCSDS Monitor and Control services. One can
-     * also extend the SimpleMonitorAndControlAdapter class which contains a simpler interface.
-     *
-     * @param mcAdapter                The adapter to connect the actions and parameters to the
-     *                                 corresponding methods and variables of a specific entity.
-     * @param platformServices         The Platform services consumer stubs
-     * @param packageManagementBackend The Package Management services backend.
-     */
-    public void init(MonitorAndControlNMFAdapter mcAdapter, PlatformServicesConsumer platformServices,
-        PMBackend packageManagementBackend) {
-        super.startTime = System.currentTimeMillis();
-        HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
-        ConnectionProvider.resetURILinks();
+  /**
+   * Initializes the NanoSat MO Supervisor. The MonitorAndControlAdapter adapter class can be
+   * extended for remote monitoring and control with the CCSDS Monitor and Control services. One can
+   * also extend the SimpleMonitorAndControlAdapter class which contains a simpler interface.
+   *
+   * @param mcAdapter                The adapter to connect the actions and parameters to the
+   *                                 corresponding methods and variables of a specific entity.
+   * @param platformServices         The Platform services consumer stubs
+   * @param packageManagementBackend The Package Management services backend.
+   */
+  public void init(MonitorAndControlNMFAdapter mcAdapter,
+      PlatformServicesConsumer platformServices,
+      PMBackend packageManagementBackend) {
+    super.startTime = System.currentTimeMillis();
+    HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
+    ConnectionProvider.resetURILinks();
 
-        // Enforce the App Name property to be Const.NANOSAT_MO_SUPERVISOR_NAME
-        System.setProperty(HelperMisc.PROP_MO_APP_NAME, Const.NANOSAT_MO_SUPERVISOR_NAME);
+    // Enforce the App Name property to be Const.NANOSAT_MO_SUPERVISOR_NAME
+    System.setProperty(HelperMisc.PROP_MO_APP_NAME, Const.NANOSAT_MO_SUPERVISOR_NAME);
 
-        // Provider name to be used on the Directory service...
-        this.providerName = System.getProperty(HelperMisc.PROP_MO_APP_NAME);
+    // Provider name to be used on the Directory service...
+    this.providerName = System.getProperty(HelperMisc.PROP_MO_APP_NAME);
 
-        this.platformServices = platformServices;
+    this.platformServices = platformServices;
 
-        try {
-            Quota stdQuota = new Quota();
-            this.comServices.init();
-            this.heartbeatService.init();
-            this.directoryService.init(comServices);
-            this.appsLauncherService.init(comServices, directoryService);
-            this.commandExecutorService.init(comServices);
-            this.packageManagementService.init(comServices, packageManagementBackend);
-            this.comServices.initArchiveSync();
-            super.reconfigurableServices.add(this.appsLauncherService);
-            this.appsLauncherService.setStdQuotaPerApp(stdQuota);
-            this.comServices.getArchiveSyncService().setStdQuota(stdQuota);
-            this.startMCServices(mcAdapter);
-            this.initPlatformServices(comServices);
-        } catch (MALException ex) {
-            LOGGER.log(Level.SEVERE, "The services could not be initialized. " +
-                "Perhaps there's something wrong with the Transport Layer.", ex);
-            return;
-        }
+    try {
+      Quota stdQuota = new Quota();
+      this.comServices.init();
+      this.heartbeatService.init();
+      this.directoryService.init(comServices);
+      this.appsLauncherService.init(comServices, directoryService);
+      this.commandExecutorService.init(comServices);
+      this.packageManagementService.init(comServices, packageManagementBackend);
+      this.comServices.initArchiveSync();
+      super.reconfigurableServices.add(this.appsLauncherService);
+      this.appsLauncherService.setStdQuotaPerApp(stdQuota);
+      this.comServices.getArchiveSyncService().setStdQuota(stdQuota);
+      this.startMCServices(mcAdapter);
+      this.initPlatformServices(comServices);
+    } catch (MALException ex) {
+      LOGGER.log(Level.SEVERE,
+          "The services could not be initialized. "
+          + "Perhaps there's something wrong with the Transport Layer.", ex);
+      return;
+    }
+    
+    Runtime.getRuntime().addShutdownHook(new Thread() {
+          @Override
+          public void run() {
+               //Your 'pos' shutdown code goes here...
+                Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(
+                        Level.INFO, "Shutting down Supervisor...");
 
-        // Are the dynamic changes enabled?
-        if ("true".equals(System.getProperty(Const.DYNAMIC_CHANGES_PROPERTY))) {
-            LOGGER.log(Level.INFO, "Loading previous configurations...");
+                // Retrieve all apps and then filter for the ones that are running...
+                try {
+                    IdentifierList allApps = new IdentifierList();
+                    allApps.add(new Identifier("*"));
+                    ListAppResponse response = appsLauncherService.listApp(allApps, new Identifier("*"), null);
+                    LongList runningApps = new LongList();
 
-            // Activate the previous configuration
-            final ObjectId confId = new ObjectId(ConfigurationHelper.PROVIDERCONFIGURATION_OBJECT_TYPE, new ObjectKey(
-                ConfigurationProviderSingleton.getDomain(), DEFAULT_PROVIDER_CONFIGURATION_OBJID));
+                    for(int i = 0; i < response.getBodyElement0().size(); i++) {
+                        Long appId = response.getBodyElement0().get(i);
+                        if(response.getBodyElement1().get(i)){
+                          runningApps.add(appId);
+                        }
+                    }
 
-            super.providerConfiguration = new PersistProviderConfiguration(this, confId, comServices
-                .getArchiveService());
-
-            try {
-                super.providerConfiguration.loadPreviousConfigurations();
-            } catch (IOException ex) {
-                LOGGER.log(Level.SEVERE, null, ex);
-            }
-        }
-
-        if (mcAdapter != null) {
-            MCRegistration registration = new MCRegistration(comServices, mcServices.getParameterService(), mcServices
-                .getAggregationService(), mcServices.getAlertService(), mcServices.getActionService());
-            mcAdapter.initialRegistrations(registration);
-        }
-
-        // Populate the Directory service with the entries from the URIs File
-        LOGGER.log(Level.INFO, "Populating Directory service...");
-        this.directoryService.loadURIs(Const.NANOSAT_MO_SUPERVISOR_NAME);
+                    Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(
+                            Level.SEVERE, "Stopping " + runningApps.size() + " App(s)!");
+                    
+                    appsLauncherService.stopApp(runningApps, null);
+                } catch (MALInteractionException ex) {
+                    Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(
+                            Level.SEVERE, "(1) Something went wrong...", ex);
+                } catch (MALException ex) {
+                    Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(
+                            Level.SEVERE, "(2) Something went wrong...", ex);
+                }
+                
+                Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(
+                        Level.INFO, "Done!");
+          }
+      });
 
         final String primaryURI = this.directoryService.getConnection().getPrimaryConnectionDetails().getProviderURI()
             .toString();
