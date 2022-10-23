@@ -21,36 +21,29 @@
 package esa.mo.nmf.nanosatmosupervisor;
 
 import esa.mo.helpertools.connections.ConnectionConsumer;
-import esa.mo.helpertools.helpers.HelperAttributes;
-import esa.mo.helpertools.helpers.HelperTime;
-
+import esa.mo.helpertools.misc.OSValidator;
+import esa.mo.helpertools.misc.ShellCommander;
+import esa.mo.nmf.annotations.Action;
+import esa.mo.nmf.annotations.ActionParameter;
+import esa.mo.nmf.annotations.Parameter;
+import esa.mo.nmf.nanosatmosupervisor.parameter.OBSWParameterManager;
+import esa.mo.nmf.MCRegistration;
+import esa.mo.nmf.MonitorAndControlNMFAdapter;
+import esa.mo.nmf.NMFException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import jakarta.xml.bind.JAXBException;
 import javax.xml.stream.XMLStreamException;
+import jakarta.xml.bind.JAXBException;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MALStandardError;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValue;
-import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
-import org.w3c.dom.Attr;
-
-import esa.mo.nmf.MCRegistration;
-import esa.mo.nmf.MonitorAndControlNMFAdapter;
-import esa.mo.nmf.NMFException;
-import esa.mo.nmf.annotations.Action;
-import esa.mo.nmf.annotations.ActionParameter;
-import esa.mo.nmf.annotations.Parameter;
-import esa.mo.nmf.nanosatmosupervisor.parameter.OBSWParameterManager;
-import esa.mo.helpertools.misc.OSValidator;
-import esa.mo.helpertools.misc.ShellCommander;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -59,6 +52,7 @@ import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSAdapter
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeSunPointing;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetry;
 import org.ccsds.moims.mo.platform.autonomousadcs.structures.Quaternion;
+import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
 
 /**
  *
