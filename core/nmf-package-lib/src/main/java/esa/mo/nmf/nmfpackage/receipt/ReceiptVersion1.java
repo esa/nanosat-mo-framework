@@ -71,7 +71,7 @@ public class ReceiptVersion1 {
         }
 
         final DetailsApp details = new DetailsApp(name,
-                version, timestamp, "", "", "96m");
+                version, timestamp, "", "", "96m", null);
 
         final NMFPackageDescriptor descriptor = new NMFPackageDescriptor(details);
         String path;
