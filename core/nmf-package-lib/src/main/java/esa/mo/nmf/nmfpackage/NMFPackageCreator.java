@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft â€“ v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -22,18 +22,13 @@ package esa.mo.nmf.nmfpackage;
 
 import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDetails;
-import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDescriptor;
-import esa.mo.nmf.nmfpackage.descriptor.NMFPackageFile;
-import esa.mo.nmf.nmfpackage.descriptor.NMFPackageMetadata;
-import esa.mo.nmf.nmfpackage.receipt.ReceiptMaster;
+import esa.mo.nmf.nmfpackage.metadata.Metadata;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -80,42 +75,52 @@ public class NMFPackageCreator {
         }
     }
 
-    public static String nmfPackageCreator(NMFPackageDetails details, ArrayList<String> filesInput,
-        ArrayList<String> newLocationsInput) {
+    @Deprecated
+    public static String nmfPackageCreator(NMFPackageDetails details,
+            ArrayList<String> filesInput, ArrayList<String> newLocationsInput) {
         return NMFPackageCreator.nmfPackageCreator(details, filesInput, newLocationsInput, null);
     }
 
-    public static String nmfPackageCreator(NMFPackageDetails details, ArrayList<String> filesInput,
-        ArrayList<String> newLocationsInput, String destinationFolder) {
-        NMFPackageDescriptor descriptor = new NMFPackageDescriptor(details);
-        NMFPackageMetadata metadata = new NMFPackageMetadata(details.getProperties());
+    @Deprecated
+    public static String nmfPackageCreator(NMFPackageDetails details,
+            ArrayList<String> filesInput, ArrayList<String> newLocationsInput,
+            String destinationFolder) {
+        Metadata metadata = new Metadata(details.getProperties());
+        return NMFPackageCreator.nmfPackageCreator(metadata, filesInput, newLocationsInput, destinationFolder);
+    }
 
+    public static String nmfPackageCreator(Metadata metadata,
+            ArrayList<String> filesInput, ArrayList<String> newLocationsInput,
+            String destinationFolder) {
         final ArrayList<String> files = new ArrayList<>(filesInput);
         final ArrayList<String> newLocations = new ArrayList<>(newLocationsInput);
+        int size = newLocations.size();
 
-        for (int i = 0; i < newLocations.size(); i++) {
+        for (int i = 0; i < size; i++) {
             try {
                 String path = newLocations.get(i);
                 long crc = HelperNMFPackage.calculateCRCFromFile(files.get(i));
-                descriptor.addFile(new NMFPackageFile(path, crc));
-                metadata.addProperty(NMFPackageMetadata.FILE_PATH + "_" + i, path);
-                metadata.addProperty(NMFPackageMetadata.FILE_CRC + "_" + i, String.valueOf(crc));
+                //descriptor.addFile(new NMFPackageFile(path, crc));
+                metadata.addProperty(Metadata.FILE_PATH + "." + i, path);
+                metadata.addProperty(Metadata.FILE_CRC + "." + i, String.valueOf(crc));
             } catch (IOException ex) {
                 Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.SEVERE,
                     "There was a problem during the CRC calculation.", ex);
             }
         }
+        
+        metadata.addProperty(Metadata.FILE_COUNT, String.valueOf(size));
 
         // -------------------------------------------------------------------
         // Generate nmfPackage.receipt
+        /*
         Logger.getLogger(NMFPackageCreator.class.getName()).log(
                 Level.INFO, "Generating receipt file...");
 
-        try { // Write the receipt file
-            FileOutputStream sigfos = new FileOutputStream(HelperNMFPackage.RECEIPT_FILENAME);
+        // Write the receipt file
+        try (FileOutputStream sigfos = new FileOutputStream(HelperNMFPackage.RECEIPT_FILENAME)) {
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(sigfos));
             ReceiptMaster.writeLatestReceipt(descriptor, bw);
-            sigfos.close();
         } catch (IOException ex) {
             Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -124,27 +129,27 @@ public class NMFPackageCreator {
         File receipt = new File(HelperNMFPackage.RECEIPT_FILENAME);
         files.add(receipt.getPath());
         newLocations.add(HelperNMFPackage.RECEIPT_FILENAME);
+         */
         // -------------------------------------------------------------------
-
         // -------------------------------------------------------------------
         // Generate metadata.properties
-        Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.INFO,
-                "Generating metadata.properties file...");
+        Logger.getLogger(NMFPackageCreator.class.getName()).log(
+                Level.INFO, "Generating metadata file...");
 
-        try { // Write the metadata file
-            FileOutputStream sigfos = new FileOutputStream(NMFPackageMetadata.FILENAME);
-            metadata.store(sigfos);
-            sigfos.close();
+        File metadataFile = new File(Metadata.FILENAME);
+        
+        try {
+            metadata.store(metadataFile); // Store the metadata file
         } catch (IOException ex) {
-            Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NMFPackageCreator.class.getName()).log(
+                    Level.SEVERE, "The file could not be stored!", ex);
         }
 
         // Add the receipt file to the list of Files to be zipped
-        File metadataFile = new File(NMFPackageMetadata.FILENAME);
         files.add(metadataFile.getPath());
-        newLocations.add(NMFPackageMetadata.FILENAME);
+        newLocations.add(Metadata.FILENAME);
         // -------------------------------------------------------------------
-        
+
         // -------------------------------------------------------------------
         // Generate digital signature
         /*
@@ -182,8 +187,8 @@ public class NMFPackageCreator {
         Logger.getLogger(NMFPackageCreator.class.getName()).log(
                 Level.INFO, "Creating compressed NMF Package...");
 
-        String name = details.getPackageName() + "-"
-                + details.getVersion() + "." + Const.NMF_PACKAGE_SUFFIX;
+        String name = metadata.getPackageName() + "-"
+                + metadata.getPackageVersion() + "." + Const.NMF_PACKAGE_SUFFIX;
         String destinationPath = (destinationFolder == null) ? name
                 : destinationFolder + File.separator + name;
         NMFPackageCreator.zipFiles(destinationPath, files, newLocations);
@@ -204,7 +209,7 @@ public class NMFPackageCreator {
         }
          */
         // Delete temporary files:
-        receipt.delete();
+        //receipt.delete();
         metadataFile.delete();
         //digitalSignature.delete();
 

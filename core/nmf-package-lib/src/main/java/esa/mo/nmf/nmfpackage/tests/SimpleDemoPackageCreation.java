@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft â€“ v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -21,18 +21,14 @@
 package esa.mo.nmf.nmfpackage.tests;
 
 import esa.mo.helpertools.helpers.HelperTime;
-import esa.mo.nmf.nmfpackage.HelperNMFPackage;
 import esa.mo.nmf.nmfpackage.NMFPackageCreator;
-import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDescriptor;
 import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDetails;
-import esa.mo.nmf.nmfpackage.descriptor.NMFPackageMetadata;
+import esa.mo.nmf.nmfpackage.metadata.Metadata;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import org.ccsds.moims.mo.mal.structures.Time;
 
@@ -92,19 +88,11 @@ public class SimpleDemoPackageCreation {
         try {
             // Test if the created file can be parsed
             ZipFile writtenFile = new ZipFile(location);
-            NMFPackageDescriptor theDescriptor = NMFPackageDescriptor.parseZipFile(writtenFile);
-            theDescriptor = null;
 
-
-            ZipEntry entry = writtenFile.getEntry(NMFPackageMetadata.FILENAME);
-
-            // Try to open the the receipt file inside the Zip file
-            // and parse it into a NMFPackageDescriptor object
-            try (InputStream stream = writtenFile.getInputStream(entry)) {
-                NMFPackageMetadata metadata = NMFPackageMetadata.load(stream);
-                metadata = null;
-            }
-            
+            // Try to open the the metadata file inside the Zip file
+            // and parse it into a Metadata object
+            Metadata metadata = Metadata.parseZipFile(writtenFile);
+            metadata = null;
         } catch (IOException ex) {
             Logger.getLogger(SimpleDemoPackageCreation.class.getName()).log(
                     Level.SEVERE, "The file could not be processed!", ex);

@@ -1,4 +1,4 @@
 /**
- * Package containing the NMF Package classes for the descriptor of the package.
+ * Package containing the NMF Package classes for the metadata of the package.
  */
-package esa.mo.nmf.nmfpackage.descriptor;
+package esa.mo.nmf.nmfpackage.metadata;

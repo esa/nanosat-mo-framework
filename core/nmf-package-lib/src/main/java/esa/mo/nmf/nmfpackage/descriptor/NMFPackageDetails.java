@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.nmfpackage.descriptor;
 
+import esa.mo.nmf.nmfpackage.metadata.Metadata;
 import java.util.Properties;
 
 /**
@@ -63,37 +64,37 @@ public class NMFPackageDetails {
             return properties;
         } else {
             Properties props = new Properties();
-            props.put(NMFPackageMetadata.PACKAGE_NAME, packageName);
-            props.put(NMFPackageMetadata.PACKAGE_VERSION, version);
-            props.put(NMFPackageMetadata.PACKAGE_TIMESTAMP, timestamp);
-            props.put(NMFPackageMetadata.APP_MAINCLASS, mainclass);
-            props.put(NMFPackageMetadata.APP_MAIN_JAR, mainJar);
-            props.put(NMFPackageMetadata.APP_MAX_HEAP, maxHeap);
+            props.put(Metadata.PACKAGE_NAME, packageName);
+            props.put(Metadata.PACKAGE_VERSION, version);
+            props.put(Metadata.PACKAGE_TIMESTAMP, timestamp);
+            props.put(Metadata.APP_MAINCLASS, mainclass);
+            props.put(Metadata.APP_MAIN_JAR, mainJar);
+            props.put(Metadata.APP_MAX_HEAP, maxHeap);
             return props;
         }
     }
 
     public String getPackageName() {
-        return (properties == null) ? packageName : properties.getProperty(NMFPackageMetadata.PACKAGE_NAME);
+        return (properties == null) ? packageName : properties.getProperty(Metadata.PACKAGE_NAME);
     }
 
     public String getVersion() {
-        return (properties == null) ? version : properties.getProperty(NMFPackageMetadata.PACKAGE_VERSION);
+        return (properties == null) ? version : properties.getProperty(Metadata.PACKAGE_VERSION);
     }
 
     public String getTimestamp() {
-        return (properties == null) ? timestamp : properties.getProperty(NMFPackageMetadata.PACKAGE_TIMESTAMP);
+        return (properties == null) ? timestamp : properties.getProperty(Metadata.PACKAGE_TIMESTAMP);
     }
 
     public String getMainclass() {
-        return (properties == null) ? mainclass : properties.getProperty(NMFPackageMetadata.APP_MAINCLASS);
+        return (properties == null) ? mainclass : properties.getProperty(Metadata.APP_MAINCLASS);
     }
 
     public String getMainJar() {
-        return (properties == null) ? mainJar : properties.getProperty(NMFPackageMetadata.APP_MAIN_JAR);
+        return (properties == null) ? mainJar : properties.getProperty(Metadata.APP_MAIN_JAR);
     }
 
     public String getMaxHeap() {
-        return (properties == null) ? maxHeap : properties.getProperty(NMFPackageMetadata.APP_MAX_HEAP);
+        return (properties == null) ? maxHeap : properties.getProperty(Metadata.APP_MAX_HEAP);
     }
 }

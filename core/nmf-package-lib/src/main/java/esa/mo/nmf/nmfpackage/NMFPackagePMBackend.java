@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft â€“ v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -21,7 +21,7 @@
 package esa.mo.nmf.nmfpackage;
 
 import esa.mo.helpertools.misc.Const;
-import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDescriptor;
+import esa.mo.nmf.nmfpackage.metadata.Metadata;
 import java.io.File;
 import esa.mo.sm.impl.util.PMBackend;
 import java.io.IOException;
@@ -92,8 +92,8 @@ public class NMFPackagePMBackend implements PMBackend {
         try {
             NMFPackageManager.install(packageLocation, destination);
         } catch (IOException ex) {
-            Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.SEVERE, "The package '" + packageName +
-                "' could not be installed!", ex);
+            Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.SEVERE,
+                    "The package '" + packageName + "' could not be installed!", ex);
         }
     }
 
@@ -102,20 +102,20 @@ public class NMFPackagePMBackend implements PMBackend {
         String folderLocation = this.getFolderLocation(packageName);
         Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.INFO,
                 "Uninstalling the package from: {0}", folderLocation);
-        
+
         try {
             // Get the Package and descriptor to be uninstalled
             ZipFile zipFile = new ZipFile(folderLocation);
-            
+
             // Verify integrity of the file: Are all the declared files matching their CRCs?
             Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
-                    "Reading the receipt file that includes the list of files to be uninstalled...");
+                    "Reading the metadata file that includes the list of files to be uninstalled...");
 
-            NMFPackageDescriptor descriptor = NMFPackageDescriptor.parseZipFile(zipFile);
-            NMFPackageManager.uninstall(descriptor, keepUserData);
+            Metadata metadata = Metadata.parseZipFile(zipFile);
+            NMFPackageManager.uninstall(metadata, keepUserData);
         } catch (IOException ex) {
-            Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.SEVERE, "The package '" + packageName +
-                "' could not be uninstalled!", ex);
+            Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.SEVERE,
+                    "The package '" + packageName + "' could not be uninstalled!", ex);
         }
     }
 
@@ -131,7 +131,8 @@ public class NMFPackagePMBackend implements PMBackend {
         try {
             NMFPackageManager.upgrade(packageLocation, destination);
         } catch (IOException ex) {
-            Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NMFPackagePMBackend.class.getName()).log(
+                    Level.SEVERE, "The package could not be upgraded!", ex);
         }
     }
 
