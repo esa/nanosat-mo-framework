@@ -23,6 +23,7 @@ package esa.mo.nmf.nmfpackage;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDetails;
+import esa.mo.nmf.nmfpackage.metadata.Metadata;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -172,7 +173,10 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
         // Package
         NMFPackageDetails details = new NMFPackageDetails(name, version,
                 timestamp, mainClass, mainJar, maxHeap);
-        NMFPackageCreator.nmfPackageCreator(details, inputFiles, locations, "target");
+        
+        Metadata metadata = new Metadata(details.getProperties());
+        metadata.addProperty(Metadata.PACKAGE_TYPE, Metadata.TYPE_APP);
+        NMFPackageCreator.nmfPackageCreator(metadata, inputFiles, locations, "target");
 
         // Now let's take care of the project dependencies
         // They must also be packaged as NMF Packages that will be shared libraries

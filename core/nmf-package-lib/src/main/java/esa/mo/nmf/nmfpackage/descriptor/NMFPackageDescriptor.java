@@ -20,16 +20,16 @@
  */
 package esa.mo.nmf.nmfpackage.descriptor;
 
+import esa.mo.nmf.nmfpackage.metadata.Metadata;
 import esa.mo.nmf.nmfpackage.HelperNMFPackage;
 import esa.mo.nmf.nmfpackage.receipt.ReceiptMaster;
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Properties;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -37,10 +37,12 @@ import java.util.zip.ZipFile;
  *
  * @author Cesar Coelho
  */
+@Deprecated
 public class NMFPackageDescriptor {
 
     private final NMFPackageDetails details;
     private final ArrayList<NMFPackageFile> files;
+    private String descriptorVersion;
 
     public NMFPackageDescriptor(NMFPackageDetails details) {
         this.details = details;
@@ -66,48 +68,28 @@ public class NMFPackageDescriptor {
      * @return The descriptor of the NMF Package.
      */
     public static NMFPackageDescriptor parseInputStream(final InputStream stream) throws IOException {
-        // Copy the stream to a Byte Array
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024];
-        int len;
-        while ((len = stream.read(buffer)) > -1) {
-            baos.write(buffer, 0, len);
-        }
-        baos.flush();
-        InputStream is1 = new ByteArrayInputStream(baos.toByteArray());
+        NMFPackageDescriptor newDescriptor = null;
+        InputStreamReader isr = new InputStreamReader(stream, StandardCharsets.UTF_8);
+        BufferedReader br = new BufferedReader(isr);
 
-        NMFPackageMetadata metadata = NMFPackageMetadata.load(is1);
-        is1.close();
-        String metadataVersion = metadata.getMetadataVersion();
+        String line = br.readLine(); // Reads the first line!
 
-        // Old system based of package receipts
-        if (metadataVersion == null) {
-            NMFPackageDescriptor newDescriptor = null;
-            InputStream is2 = new ByteArrayInputStream(baos.toByteArray());
-            InputStreamReader isr = new InputStreamReader(is2, StandardCharsets.UTF_8);
-            BufferedReader br = new BufferedReader(isr);
-
-            String line = br.readLine(); // Reads the first line!
-
-            if (line != null) {
-                // Extract the version from the first line
-                if (line.startsWith(line)) {
-                    int length = HelperNMFPackage.NMF_PACKAGE_DESCRIPTOR_VERSION.length();
-                    String version = line.substring(length).trim();
-                    newDescriptor = ReceiptMaster.parseReceipt(version, br);
-                } else {
-                    throw new IOException("Could not read the NMF Package Descriptor version!");
-                }
+        if (line != null) {
+            // Extract the version from the first line
+            if (line.startsWith(line)) {
+                int length = HelperNMFPackage.NMF_PACKAGE_DESCRIPTOR_VERSION.length();
+                String version = line.substring(length).trim();
+                newDescriptor = ReceiptMaster.parseReceipt(version, br);
             } else {
-                throw new IOException("The receipt file is empty!");
+                throw new IOException("Could not read the NMF Package Descriptor version!");
             }
-
-            br.close();
-
-            return newDescriptor;
+        } else {
+            throw new IOException("The receipt file is empty!");
         }
 
-        return metadata.toPackageDescriptor();
+        br.close();
+
+        return newDescriptor;
     }
 
     /**
@@ -124,6 +106,23 @@ public class NMFPackageDescriptor {
         // and parse it into a NMFPackageDescriptor object
         try (InputStream stream = zipFile.getInputStream(receipt)) {
             return NMFPackageDescriptor.parseInputStream(stream);
+            //Reader reader = new InputStreamReader(stream);
+            //return ReceiptMaster.parseReceipt("3", new BufferedReader(reader));
         }
+    }
+
+    public Metadata toMetadata() {
+        Properties props = details.getProperties();
+        props.put(Metadata.PACKAGE_METADATA_VERSION, descriptorVersion);
+        props.put(Metadata.PACKAGE_TYPE, Metadata.TYPE_APP);
+        return new Metadata(props, files);
+    }
+
+    public void setMetadataVersion(String descriptorVersion) {
+        this.descriptorVersion = descriptorVersion;
+    }
+
+    public String getMetadataVersion() {
+        return this.descriptorVersion;
     }
 }

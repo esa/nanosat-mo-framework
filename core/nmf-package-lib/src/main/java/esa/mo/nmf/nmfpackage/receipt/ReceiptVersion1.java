@@ -31,6 +31,7 @@ import java.io.IOException;
  *
  * @author Cesar Coelho
  */
+@Deprecated
 public class ReceiptVersion1 {
 
     private static final String PACKAGE_NAME = "PackageName=";
@@ -69,7 +70,7 @@ public class ReceiptVersion1 {
             throw new IOException("Could not read the package timestamp!");
         }
 
-        final NMFPackageDetails details = new NMFPackageDetails(name, 
+        final NMFPackageDetails details = new NMFPackageDetails(name,
                 version, timestamp, "", "", "96m");
 
         final NMFPackageDescriptor descriptor = new NMFPackageDescriptor(details);
@@ -98,7 +99,7 @@ public class ReceiptVersion1 {
         return descriptor;
     }
 
-    public static void writeReceipt(final BufferedWriter bw, 
+    public static void writeReceipt(final BufferedWriter bw,
             final NMFPackageDescriptor descriptor) throws IOException {
         bw.write(PACKAGE_NAME + descriptor.getDetails().getPackageName());
         bw.newLine();
