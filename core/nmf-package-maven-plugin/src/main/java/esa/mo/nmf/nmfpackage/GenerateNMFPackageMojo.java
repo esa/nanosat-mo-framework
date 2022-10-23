@@ -168,20 +168,10 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
                     + "<configuration> tag!\n");
         }
 
-        final Time time = new Time(System.currentTimeMillis());
-        final String timestamp = HelperTime.time2readableString(time);
-
-        // Package
-        DetailsApp details = new DetailsApp(name, version,
-                timestamp, mainClass, mainJar, maxHeap);
-
-        Metadata metadata = new Metadata(details.getProperties());
-        metadata.addProperty(Metadata.PACKAGE_TYPE, Metadata.TYPE_APP);
-        NMFPackageCreator.nmfPackageCreator(metadata, inputFiles, locations, "target");
-
         // Now let's take care of the project dependencies
         // They must also be packaged as NMF Packages that will be shared libraries
         getLog().info("------\nGenerating shared libraries...\n");
+        ArrayList<String> dependencies = new ArrayList<>();
 
         for (Object unresolvedArtifact : this.project.getArtifacts()) {
             Artifact artifact = (Artifact) unresolvedArtifact;
@@ -205,12 +195,26 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
                 getLog().info("  >> GroupId = " + artifact.getGroupId());
                 getLog().info("  >> ArtifactId = " + artifact.getArtifactId());
                 getLog().info("  >> Version = " + artifact.getVersion());
-                packageJarDependency(artifact);
+                dependencies.add(packageJarDependency(artifact));
             }
         }
+        
+        getLog().info("------\nGenerating project NMF Package...\n");
+        final Time time = new Time(System.currentTimeMillis());
+        final String timestamp = HelperTime.time2readableString(time);
+
+        // Package
+        DetailsApp details = new DetailsApp(name, version,
+                timestamp, mainClass, mainJar, maxHeap, dependencies);
+
+        Metadata metadata = new Metadata(details.getProperties());
+        metadata.addProperty(Metadata.PACKAGE_TYPE, Metadata.TYPE_APP);
+        NMFPackageCreator.nmfPackageCreator(metadata, inputFiles, locations, "target");
+
+        
     }
 
-    private void packageJarDependency(Artifact artifact) {
+    private String packageJarDependency(Artifact artifact) {
         File file = artifact.getFile();
         ArrayList<String> files = new ArrayList<>();
         files.add(file.toPath().toString());
@@ -223,8 +227,9 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
         Metadata metadata = new Metadata(details.getProperties());
         metadata.addProperty(Metadata.PACKAGE_TYPE, Metadata.TYPE_DEPENDENCY);
         ArrayList<String> newLocations = new ArrayList<>();
-        newLocations.add("jar-shared-dependencies" + File.separator + file.getName());
+        newLocations.add("jars-shared-dependencies" + File.separator + file.getName());
         NMFPackageCreator.nmfPackageCreator(metadata, files, newLocations, "target");
+        return file.getName();
     }
 
     private void addFileOrDirectory(String path, String nest) {

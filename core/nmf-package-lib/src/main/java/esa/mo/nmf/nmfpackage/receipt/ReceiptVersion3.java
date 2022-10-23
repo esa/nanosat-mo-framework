@@ -101,7 +101,7 @@ public class ReceiptVersion3 {
         }
 
         final DetailsApp details = new DetailsApp(name,
-                version, timestamp, mainclass, mainJar, maxHeap);
+                version, timestamp, mainclass, mainJar, maxHeap, null);
         final NMFPackageDescriptor descriptor = new NMFPackageDescriptor(details);
         String path;
         long crc;
