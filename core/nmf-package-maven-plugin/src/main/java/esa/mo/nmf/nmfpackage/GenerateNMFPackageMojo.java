@@ -22,8 +22,8 @@ package esa.mo.nmf.nmfpackage;
 
 import esa.mo.nmf.nmfpackage.utils.HelperNMFPackage;
 import esa.mo.helpertools.helpers.HelperTime;
-import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.nmfpackage.metadata.DetailsApp;
+import esa.mo.nmf.nmfpackage.metadata.DetailsDependency;
 import esa.mo.nmf.nmfpackage.metadata.Metadata;
 import java.io.File;
 import java.io.IOException;
@@ -161,7 +161,7 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
                     + "-> \t\t\t<assembly.mainClass>esa.mo.nmf.apps.myapp.ExampleApp</assembly.mainClass>\n"
                     + "-> \t\t</properties>\n\n\n");
         }
-        
+
         if ("${esa.nmf.version-qualifier}".equals(nmfVersion)) {
             throw new MojoExecutionException("The nmfVersion property needs to "
                     + "be defined!\nPlease use the <nmfVersion> tag inside the "
@@ -174,7 +174,7 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
         // Package
         DetailsApp details = new DetailsApp(name, version,
                 timestamp, mainClass, mainJar, maxHeap);
-        
+
         Metadata metadata = new Metadata(details.getProperties());
         metadata.addProperty(Metadata.PACKAGE_TYPE, Metadata.TYPE_APP);
         NMFPackageCreator.nmfPackageCreator(metadata, inputFiles, locations, "target");
@@ -212,17 +212,19 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
 
     private void packageJarDependency(Artifact artifact) {
         File file = artifact.getFile();
-        String destinationPath = TARGET_FOLDER + File.separator
-                + artifact.getArtifactId() + "-"
-                + artifact.getVersion() + "." + Const.NMF_PACKAGE_SUFFIX;
-
         ArrayList<String> files = new ArrayList<>();
         files.add(file.toPath().toString());
 
+        Time time = new Time(System.currentTimeMillis());
+        String timestamp = HelperTime.time2readableString(time);
+        DetailsDependency details = new DetailsDependency(
+                artifact.getArtifactId(), artifact.getVersion(), timestamp);
+ 
+        Metadata metadata = new Metadata(details.getProperties());
+        metadata.addProperty(Metadata.PACKAGE_TYPE, Metadata.TYPE_DEPENDENCY);
         ArrayList<String> newLocations = new ArrayList<>();
         newLocations.add("jar-shared-dependencies" + File.separator + file.getName());
-
-        NMFPackageCreator.zipFiles(destinationPath, files, newLocations);
+        NMFPackageCreator.nmfPackageCreator(metadata, files, newLocations, "target");
     }
 
     private void addFileOrDirectory(String path, String nest) {
