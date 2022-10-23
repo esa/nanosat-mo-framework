@@ -87,12 +87,11 @@ public class NMFPackageCreator {
             ArrayList<String> filesInput, ArrayList<String> newLocationsInput,
             String destinationFolder) {
         Metadata metadata = new Metadata(details.getProperties());
-        return NMFPackageCreator.nmfPackageCreator(metadata, filesInput, newLocationsInput, destinationFolder);
+        return NMFPackageCreator.create(metadata, filesInput, newLocationsInput, destinationFolder);
     }
 
-    public static String nmfPackageCreator(Metadata metadata,
-            ArrayList<String> filesInput, ArrayList<String> newLocationsInput,
-            String destinationFolder) {
+    public static String create(Metadata metadata, ArrayList<String> filesInput, 
+            ArrayList<String> newLocationsInput, String destinationFolder) {
         final ArrayList<String> files = new ArrayList<>(filesInput);
         final ArrayList<String> newLocations = new ArrayList<>(newLocationsInput);
         int size = newLocations.size();
