@@ -20,8 +20,9 @@
  */
 package esa.mo.nmf.nmfpackage;
 
+import esa.mo.nmf.nmfpackage.utils.HelperNMFPackage;
 import esa.mo.helpertools.misc.Const;
-import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDetails;
+import esa.mo.nmf.nmfpackage.metadata.DetailsApp;
 import esa.mo.nmf.nmfpackage.metadata.Metadata;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -76,13 +77,13 @@ public class NMFPackageCreator {
     }
 
     @Deprecated
-    public static String nmfPackageCreator(NMFPackageDetails details,
+    public static String nmfPackageCreator(DetailsApp details,
             ArrayList<String> filesInput, ArrayList<String> newLocationsInput) {
         return NMFPackageCreator.nmfPackageCreator(details, filesInput, newLocationsInput, null);
     }
 
     @Deprecated
-    public static String nmfPackageCreator(NMFPackageDetails details,
+    public static String nmfPackageCreator(DetailsApp details,
             ArrayList<String> filesInput, ArrayList<String> newLocationsInput,
             String destinationFolder) {
         Metadata metadata = new Metadata(details.getProperties());
@@ -111,27 +112,6 @@ public class NMFPackageCreator {
         
         metadata.addProperty(Metadata.FILE_COUNT, String.valueOf(size));
 
-        // -------------------------------------------------------------------
-        // Generate nmfPackage.receipt
-        /*
-        Logger.getLogger(NMFPackageCreator.class.getName()).log(
-                Level.INFO, "Generating receipt file...");
-
-        // Write the receipt file
-        try (FileOutputStream sigfos = new FileOutputStream(HelperNMFPackage.RECEIPT_FILENAME)) {
-            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(sigfos));
-            ReceiptMaster.writeLatestReceipt(descriptor, bw);
-        } catch (IOException ex) {
-            Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        // Add the receipt file to the list of Files to be zipped
-        File receipt = new File(HelperNMFPackage.RECEIPT_FILENAME);
-        files.add(receipt.getPath());
-        newLocations.add(HelperNMFPackage.RECEIPT_FILENAME);
-         */
-        // -------------------------------------------------------------------
-        // -------------------------------------------------------------------
         // Generate metadata.properties
         Logger.getLogger(NMFPackageCreator.class.getName()).log(
                 Level.INFO, "Generating metadata file...");

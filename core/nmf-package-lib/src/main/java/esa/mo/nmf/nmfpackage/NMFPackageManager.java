@@ -20,9 +20,10 @@
  */
 package esa.mo.nmf.nmfpackage;
 
+import esa.mo.nmf.nmfpackage.utils.LinuxUsersGroups;
+import esa.mo.nmf.nmfpackage.utils.HelperNMFPackage;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.misc.OSValidator;
-import esa.mo.nmf.nmfpackage.descriptor.NMFPackageFile;
 import esa.mo.nmf.nmfpackage.metadata.Metadata;
 import java.io.File;
 import java.io.FileInputStream;
@@ -99,10 +100,8 @@ public class NMFPackageManager {
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                 "Copying the files to the new locations...");
 
-        installFiles(pack, nmfDir);
+        extractFiles(pack, nmfDir);
         String packageName = metadata.getPackageName();
-        Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
-                "Metadata:\n" + metadata.print());
 
         if (metadata.isAppPackage()) {
             // We can do additional checks... for example: 
@@ -154,34 +153,13 @@ public class NMFPackageManager {
             }
         }
 
-        // ---------------------------------------
         // Store a copy of the newReceipt to know that it has been installed!
         File receiptsFolder = getReceiptsFolder();
         String receiptFilename = packageName + RECEIPT_ENDING;
         String receiptPath = receiptsFolder.getCanonicalPath() + File.separator + receiptFilename;
         File receiptFile = new File(receiptPath);
-
         metadata.store(receiptFile);
 
-        /*
-
-        //create the file otherwise we get FileNotFoundException
-        new File(receiptFile.getParent()).mkdirs();
-
-        ZipEntry receipt = zipFile.getEntry(HelperNMFPackage.RECEIPT_FILENAME);
-        final FileOutputStream fos = new FileOutputStream(receiptFile);
-        final InputStream zis = zipFile.getInputStream(receipt);
-        byte[] buffer = new byte[1024];
-        int len;
-
-        while ((len = zis.read(buffer)) > 0) {
-            fos.write(buffer, 0, len);
-        }
-
-        fos.close();
-        zis.close();
-         */
-        // ---------------------------------------
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                 "Package successfully installed from: {0}", packageLocation);
 
@@ -204,9 +182,7 @@ public class NMFPackageManager {
         removeFiles(packageMetadata);
         String packageName = packageMetadata.getPackageName();
 
-        boolean isApp = true;
-
-        if (isApp) {
+        if (packageMetadata.isAppPackage()) {
             // This directory should be passed in the method signature:
             File nmfDir = getInstallationFolder();
             File installationDir = new File(nmfDir.getAbsolutePath()
@@ -265,7 +241,7 @@ public class NMFPackageManager {
         File oldReceiptFile = new File(receiptsFolder.getCanonicalPath() + File.separator + receiptFilename);
 
         // Get the text out of that file and parse it into a NMFPackageDescriptor object
-        final InputStream stream2 = new FileInputStream(oldReceiptFile);
+        InputStream stream2 = new FileInputStream(oldReceiptFile);
         Metadata oldPackMetadata = Metadata.load(stream2);
         stream2.close();
 
@@ -277,8 +253,8 @@ public class NMFPackageManager {
                 + " (timestamp: " + newPackMetadata.getPackageTimestamp() + ")"
         );
 
-        Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
-                "Removing the previous files...");
+        Logger.getLogger(NMFPackageManager.class.getName()).log(
+                Level.INFO, "Removing the previous files...");
 
         removeFiles(oldPackMetadata);
 
@@ -303,7 +279,7 @@ public class NMFPackageManager {
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                 "Copying the new files to the locations...");
 
-        installFiles(newPack, nmfDir);
+        extractFiles(newPack, nmfDir);
 
         if (isApp) {
             String username = null;
@@ -319,37 +295,20 @@ public class NMFPackageManager {
             createAuxiliaryFiles(installationDir, username);
 
             if ((new OSValidator()).isUnix()) {
+                String path = installationDir.getAbsolutePath();
                 // Change Group owner of the installationDir
                 if (username != null) {
-                    LinuxUsersGroups.chgrp(true, username, installationDir.getAbsolutePath());
+                    LinuxUsersGroups.chgrp(true, username, path);
                 }
 
                 // chmod the installation directory with recursive
-                LinuxUsersGroups.chmod(false, true, "750", installationDir.getAbsolutePath());
+                LinuxUsersGroups.chmod(false, true, "750", path);
             }
         }
 
-        // ---------------------------------------
         // Store a copy of the newReceipt to know that it has been installed!
         newPackMetadata.store(oldReceiptFile);
 
-        /*
-        //create the file otherwise we get FileNotFoundException
-        new File(oldReceiptFile.getParent()).mkdirs();
-        
-        final FileOutputStream fos = new FileOutputStream(oldReceiptFile); // Output location
-        final InputStream zis = zipFile.getInputStream(newReceipt);
-        byte[] buffer = new byte[1024];
-        int len;
-
-        while ((len = zis.read(buffer)) > 0) {
-            fos.write(buffer, 0, len);
-        }
-
-        fos.close();
-        zis.close();
-         */
-        // ---------------------------------------
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                 "Package successfully upgraded from location: " + packageLocation);
 
@@ -532,7 +491,7 @@ public class NMFPackageManager {
         return out.replace('\\', File.separatorChar);
     }
 
-    private static void installFiles(NMFPackage pack, File to) throws IOException {
+    private static void extractFiles(NMFPackage pack, File to) throws IOException {
         Metadata metadata = pack.getMetadata();
         ZipFile zipFile = pack.getZipFile();
 
@@ -546,7 +505,7 @@ public class NMFPackageManager {
             NMFPackageFile file = files.get(i);
             ZipEntry entry = pack.getZipFileEntry(file.getPath());
 
-            final String path = generateFilePathForSystem(entry.getName());
+            String path = generateFilePathForSystem(entry.getName());
             newFile = new File(to.getCanonicalPath() + File.separator + path);
             File parent = new File(newFile.getParent());
 
@@ -556,10 +515,9 @@ public class NMFPackageManager {
 
             System.out.println("   >> Copying file to: " + newFile.getCanonicalPath());
 
-            final FileOutputStream fos = new FileOutputStream(newFile);
-
+            FileOutputStream fos = new FileOutputStream(newFile);
+            InputStream zis = zipFile.getInputStream(entry);
             int len;
-            final InputStream zis = zipFile.getInputStream(entry);
 
             while ((len = zis.read(buffer)) > 0) {
                 fos.write(buffer, 0, len);
@@ -567,7 +525,7 @@ public class NMFPackageManager {
 
             fos.close();
 
-            final long crc = HelperNMFPackage.calculateCRCFromFile(newFile.getCanonicalPath());
+            long crc = HelperNMFPackage.calculateCRCFromFile(newFile.getCanonicalPath());
 
             // We will also need to double check the CRCs again against the real files!
             // Just to double-check.. better safe than sorry!
@@ -584,8 +542,7 @@ public class NMFPackageManager {
         // Do the files actually match the descriptor?
         for (int i = 0; i < metadata.getFiles().size(); i++) {
             NMFPackageFile packageFile = metadata.getFiles().get(i);
-
-            final String path = generateFilePathForSystem(packageFile.getPath());
+            String path = generateFilePathForSystem(packageFile.getPath());
             file = new File(folder.getCanonicalPath() + File.separator + path);
             NMFPackageManager.removeFile(file);
         }

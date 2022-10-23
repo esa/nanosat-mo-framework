@@ -20,8 +20,10 @@
  */
 package esa.mo.nmf.nmfpackage.descriptor;
 
+import esa.mo.nmf.nmfpackage.NMFPackageFile;
+import esa.mo.nmf.nmfpackage.metadata.DetailsApp;
 import esa.mo.nmf.nmfpackage.metadata.Metadata;
-import esa.mo.nmf.nmfpackage.HelperNMFPackage;
+import esa.mo.nmf.nmfpackage.utils.HelperNMFPackage;
 import esa.mo.nmf.nmfpackage.receipt.ReceiptMaster;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -40,16 +42,16 @@ import java.util.zip.ZipFile;
 @Deprecated
 public class NMFPackageDescriptor {
 
-    private final NMFPackageDetails details;
+    private final DetailsApp details;
     private final ArrayList<NMFPackageFile> files;
     private String descriptorVersion;
 
-    public NMFPackageDescriptor(NMFPackageDetails details) {
+    public NMFPackageDescriptor(DetailsApp details) {
         this.details = details;
         this.files = new ArrayList<>();
     }
 
-    public NMFPackageDetails getDetails() {
+    public DetailsApp getDetails() {
         return details;
     }
 
