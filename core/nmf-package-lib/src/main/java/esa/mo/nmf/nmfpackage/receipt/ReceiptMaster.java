@@ -30,6 +30,7 @@ import java.io.IOException;
  *
  * @author Cesar Coelho
  */
+@Deprecated
 public class ReceiptMaster {
 
     public static void writeLatestReceipt(NMFPackageDescriptor descriptor,
@@ -43,15 +44,21 @@ public class ReceiptMaster {
     public static NMFPackageDescriptor parseReceipt(final String version,
             final BufferedReader br) throws IOException {
         if ("1".equals(version)) {
-            return ReceiptVersion1.readReceipt(br);
+            NMFPackageDescriptor descriptor = ReceiptVersion1.readReceipt(br);
+            descriptor.setMetadataVersion("1");
+            return descriptor;
         }
 
         if ("2".equals(version)) {
-            return ReceiptVersion2.readReceipt(br);
+            NMFPackageDescriptor descriptor = ReceiptVersion2.readReceipt(br);
+            descriptor.setMetadataVersion("2");
+            return descriptor;
         }
 
         if ("3".equals(version)) {
-            return ReceiptVersion3.readReceipt(br);
+            NMFPackageDescriptor descriptor = ReceiptVersion3.readReceipt(br);
+            descriptor.setMetadataVersion("3");
+            return descriptor;
         } else {
             throw new IOException("Unknown version: " + version);
         }

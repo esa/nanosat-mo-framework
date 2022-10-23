@@ -6,7 +6,7 @@
  * ----------------------------------------------------------------------------
  * System                : ESA NanoSat MO Framework
  * ----------------------------------------------------------------------------
- * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft â€“ v2.4
  * You may not use this file except in compliance with the License.
  *
  * Except as expressly set forth in this License, the Software is provided to
@@ -21,10 +21,9 @@
 package esa.mo.nmf.nmfpackage;
 
 import esa.mo.helpertools.helpers.HelperMisc;
-import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDescriptor;
-import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDetails;
-import esa.mo.nmf.nmfpackage.descriptor.NMFPackageFile;
 import esa.mo.helpertools.misc.OSValidator;
+import esa.mo.nmf.nmfpackage.descriptor.NMFPackageFile;
+import esa.mo.nmf.nmfpackage.metadata.Metadata;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -32,6 +31,7 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
@@ -76,17 +76,16 @@ public class NMFPackageManager {
     public static void install(final String packageLocation,
             final File nmfDir) throws FileNotFoundException, IOException {
         System.out.printf(SEPARATOR);
-
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
-                "Reading the receipt file that includes the list of files to be installed...");
+                "Reading the package file to be installed...");
 
         // Get the File to be installed
-        ZipFile zipFile = new ZipFile(packageLocation);
-        final NMFPackageDescriptor descriptor = NMFPackageDescriptor.parseZipFile(zipFile);
+        NMFPackage pack = new NMFPackage(packageLocation);
+        Metadata metadata = pack.getMetadata();
+        int metadataVersion = metadata.getMetadataVersion();
 
-        // Safety check... should never happen...
-        if (descriptor == null) {
-            throw new IOException("The parsed descriptor is null.");
+        if (metadataVersion < 3) {
+            throw new IOException("The package version is deprecated! Version: " + metadataVersion);
         }
 
         // Verify integrity of the file: Are all the declared files matching their CRCs?
@@ -94,19 +93,18 @@ public class NMFPackageManager {
                 "Verifying the integrity of the files to be installed...");
 
         // Do the files actually match the descriptor?
-        verifyPackageIntegrity(zipFile, descriptor);
+        pack.verifyPackageIntegrity();
 
         // Copy the files according to the NMF statement file
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                 "Copying the files to the new locations...");
 
-        installFiles(zipFile, nmfDir);
-        NMFPackageDetails details = descriptor.getDetails();
-        String packageName = details.getPackageName();
+        installFiles(pack, nmfDir);
+        String packageName = metadata.getPackageName();
+        Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
+                "Metadata:\n" + metadata.print());
 
-        boolean isApp = true;
-
-        if (isApp) {
+        if (metadata.isAppPackage()) {
             // We can do additional checks... for example: 
             //      1. Are we trying to install more than one App?
             //      2. Does the app name on the package matches the folder name?
@@ -140,7 +138,7 @@ public class NMFPackageManager {
                     username = null;
                 }
 
-                generateStartSHScript(descriptor, installationDir, nmfDir);
+                generateStartSHScript(metadata, installationDir, nmfDir);
             }
 
             createAuxiliaryFiles(installationDir, username);
@@ -163,6 +161,10 @@ public class NMFPackageManager {
         String receiptPath = receiptsFolder.getCanonicalPath() + File.separator + receiptFilename;
         File receiptFile = new File(receiptPath);
 
+        metadata.store(receiptFile);
+
+        /*
+
         //create the file otherwise we get FileNotFoundException
         new File(receiptFile.getParent()).mkdirs();
 
@@ -178,8 +180,8 @@ public class NMFPackageManager {
 
         fos.close();
         zis.close();
+         */
         // ---------------------------------------
-
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                 "Package successfully installed from: {0}", packageLocation);
 
@@ -193,20 +195,14 @@ public class NMFPackageManager {
      * @param keepUserData A flag that sets if the user data is kept
      * @throws IOException if there was a problem during the uninstallation
      */
-    public static void uninstall(final NMFPackageDescriptor descriptor,
+    public static void uninstall(final Metadata packageMetadata,
             final boolean keepUserData) throws IOException {
         System.out.printf(SEPARATOR);
-
-        // Safety check... should never happen...
-        if (descriptor == null) {
-            throw new IOException("The parsed descriptor is null.");
-        }
-
         Logger.getLogger(NMFPackageManager.class.getName()).log(
                 Level.INFO, "Removing the files...");
 
-        removeFiles(descriptor);
-        String packageName = descriptor.getDetails().getPackageName();
+        removeFiles(packageMetadata);
+        String packageName = packageMetadata.getPackageName();
 
         boolean isApp = true;
 
@@ -252,44 +248,42 @@ public class NMFPackageManager {
      */
     public static void upgrade(final String packageLocation, final File nmfDir) throws IOException {
         System.out.printf(SEPARATOR);
-        // Get the Package to be uninstalled
-        ZipFile zipFile = new ZipFile(packageLocation);
-        ZipEntry newReceipt = zipFile.getEntry(HelperNMFPackage.RECEIPT_FILENAME);
-
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                 "Reading the receipt file that includes the list of files to be upgraded...");
 
-        // Get the descriptor inside the zip file
-        final NMFPackageDescriptor newDescriptor = NMFPackageDescriptor.parseZipFile(zipFile);
+        // Get the Package to be uninstalled
+        NMFPackage newPack = new NMFPackage(packageLocation);
+        Metadata newPackMetadata = newPack.getMetadata();
+        int metadataVersion = newPackMetadata.getMetadataVersion();
 
-        // Safety check... should never happen...
-        if (newDescriptor == null) {
-            throw new IOException("The parsed descriptor is null.");
+        if(metadataVersion < 3) {
+            throw new IOException("The package version is deprecated! Version: " + metadataVersion);
         }
 
         File receiptsFolder = getReceiptsFolder();
-        String receiptFilename = newDescriptor.getDetails().getPackageName() + RECEIPT_ENDING;
+        String receiptFilename = newPackMetadata.getPackageName() + RECEIPT_ENDING;
         File oldReceiptFile = new File(receiptsFolder.getCanonicalPath() + File.separator + receiptFilename);
 
         // Get the text out of that file and parse it into a NMFPackageDescriptor object
         final InputStream stream2 = new FileInputStream(oldReceiptFile);
-        final NMFPackageDescriptor oldDescriptor = NMFPackageDescriptor.parseInputStream(stream2);
+        Metadata oldPackMetadata = Metadata.load(stream2);
         stream2.close();
 
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                 "Upgrading..."
-                + "\n  >> From version: " + oldDescriptor.getDetails().getVersion()
-                + "\n  >>   To version: " + newDescriptor.getDetails().getVersion()
+                + "\n  >> From version: " + oldPackMetadata.getPackageVersion()
+                + " (timestamp: " + oldPackMetadata.getPackageTimestamp() + ")"
+                + "\n  >>   To version: " + newPackMetadata.getPackageVersion()
+                + " (timestamp: " + newPackMetadata.getPackageTimestamp() + ")"
         );
 
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                 "Removing the previous files...");
 
-        removeFiles(oldDescriptor);
+        removeFiles(oldPackMetadata);
 
-        String packageName = oldDescriptor.getDetails().getPackageName();
-
-        boolean isApp = true;
+        String packageName = oldPackMetadata.getPackageName();
+        boolean isApp = oldPackMetadata.isAppPackage();
 
         if (isApp) {
             // This directory should be passed in the method signature:
@@ -309,7 +303,7 @@ public class NMFPackageManager {
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                 "Copying the new files to the locations...");
 
-        installFiles(zipFile, nmfDir);
+        installFiles(newPack, nmfDir);
 
         if (isApp) {
             String username = null;
@@ -319,7 +313,7 @@ public class NMFPackageManager {
 
             if ((new OSValidator()).isUnix()) {
                 username = generateUsername(packageName);
-                generateStartSHScript(newDescriptor, installationDir, nmfDir);
+                generateStartSHScript(newPackMetadata, installationDir, nmfDir);
             }
 
             createAuxiliaryFiles(installationDir, username);
@@ -337,10 +331,12 @@ public class NMFPackageManager {
 
         // ---------------------------------------
         // Store a copy of the newReceipt to know that it has been installed!
+        newPackMetadata.store(oldReceiptFile);
+
+        /*
         //create the file otherwise we get FileNotFoundException
         new File(oldReceiptFile.getParent()).mkdirs();
-        // -----------------
-
+        
         final FileOutputStream fos = new FileOutputStream(oldReceiptFile); // Output location
         final InputStream zis = zipFile.getInputStream(newReceipt);
         byte[] buffer = new byte[1024];
@@ -352,29 +348,12 @@ public class NMFPackageManager {
 
         fos.close();
         zis.close();
+         */
         // ---------------------------------------
-
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                 "Package successfully upgraded from location: " + packageLocation);
 
         System.out.printf(SEPARATOR);
-    }
-
-    private static void verifyPackageIntegrity(ZipFile zipFile,
-            NMFPackageDescriptor descriptor) throws IOException {
-        for (int i = 0; i < descriptor.getFiles().size(); i++) {
-            NMFPackageFile file = descriptor.getFiles().get(i);
-            ZipEntry entry = zipFile.getEntry(file.getPath());
-
-            if (entry == null) {
-                throw new IOException("The descriptor is incorrect. "
-                        + "One of the files does not exist: " + file.getPath());
-            }
-
-            if (file.getCRC() != entry.getCrc()) {
-                throw new IOException("The CRC does not match!");
-            }
-        }
     }
 
     private static void removeAuxiliaryFiles(File installationDir, String appName) throws IOException {
@@ -387,7 +366,7 @@ public class NMFPackageManager {
 
         // Remove the provider.properties
         // Remove the transport.properties
-        // Remove the start_benchmark.sh
+        // Remove the start_myAppName.sh
         NMFPackageManager.removeFile(new File(providerPath));
         NMFPackageManager.removeFile(new File(transportPath));
         NMFPackageManager.removeFile(new File(startPath));
@@ -407,10 +386,10 @@ public class NMFPackageManager {
         NMFPackageManager.writeFile(transportPath, transportContent);
     }
 
-    private static void generateStartSHScript(NMFPackageDescriptor newDescriptor,
+    private static void generateStartSHScript(Metadata appDetails,
             File installationDir, File nmfDir) throws IOException {
-        String packageName = newDescriptor.getDetails().getPackageName();
-        String jarName = newDescriptor.getDetails().getMainJar();
+        String packageName = appDetails.getPackageName();
+        String jarName = appDetails.getAppMainJar();
 
         if (jarName.equals("")) {
             File jar = HelperNMFPackage.findAppJarInFolder(installationDir);
@@ -420,8 +399,8 @@ public class NMFPackageManager {
         // The Java version for now will be forced to 8, however in
         // the future the package should recommend a version
         String javaCMD = HelperNMFPackage.findJREPath(nmfDir, 8, 8, 8);
-        String mainClass = newDescriptor.getDetails().getMainclass();
-        String maxHeap = newDescriptor.getDetails().getMaxHeap();
+        String mainClass = appDetails.getAppMainclass();
+        String maxHeap = appDetails.getAppMaxHeap();
         String content = HelperNMFPackage.generateLinuxStartAppScript(
                 javaCMD, mainClass, jarName, maxHeap);
 
@@ -431,6 +410,18 @@ public class NMFPackageManager {
         NMFPackageManager.writeFile(path, content);
         File startApp = new File(path);
         startApp.setExecutable(true, true);
+    }
+
+    private static void writeFile(String path, String content) {
+        System.out.println("   >> Creating file on: " + path);
+
+        try (FileWriter writer = new FileWriter(path)) {
+            writer.write(content);
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            // Handle the exception
+        }
     }
 
     /**
@@ -443,36 +434,22 @@ public class NMFPackageManager {
     public static boolean isPackageInstalled(final String packageLocation) {
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.FINE,
                 "Verifying if the package is installed...");
+
         // Find the newReceipt and get it out of the package
-        ZipFile zipFile;
-        try {
-            zipFile = new ZipFile(packageLocation);
-        } catch (IOException ex) {
-            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.WARNING,
-                    "The package could not be opened from file: " + packageLocation, ex);
-            return false;
-        }
-
-        ZipEntry receipt = zipFile.getEntry(HelperNMFPackage.RECEIPT_FILENAME);
-        NMFPackageDescriptor descriptorFromPackage;
-        long crcDescriptorFromPackage;
+        NMFPackage pack;
+        Metadata metadata;
 
         try {
-            InputStream zis = zipFile.getInputStream(receipt);
-            descriptorFromPackage = NMFPackageDescriptor.parseInputStream(zis);
-            zis.close();
-            zis = zipFile.getInputStream(receipt);
-            crcDescriptorFromPackage = HelperNMFPackage.calculateCRCFromInputStream(zis);
-            zis.close();
+            pack = new NMFPackage(packageLocation);
+            metadata = pack.getMetadata();
         } catch (IOException ex) {
             Logger.getLogger(NMFPackageManager.class.getName()).log(Level.SEVERE,
-                    "There was a problem while determining the CRCs!", ex);
+                    "There was a problem while reading the NMF Package!", ex);
             return false;
         }
 
         File temp = getReceiptsFolder();
-        NMFPackageDetails details = descriptorFromPackage.getDetails();
-        String packageName = details.getPackageName();
+        String packageName = metadata.getPackageName();
         String receiptFilename = packageName + RECEIPT_ENDING;
         File receiptFile;
         try {
@@ -492,45 +469,30 @@ public class NMFPackageManager {
         }
 
         // Check the version of the installed newReceipt
-        NMFPackageDescriptor descriptorFromExistingReceipt;
-        long crcDescriptorFromExistingReceipt;
-
+        Metadata installedMetadata;
         try {
-            FileInputStream fis = new FileInputStream(receiptFile);
-            descriptorFromExistingReceipt = NMFPackageDescriptor.parseInputStream(fis);
-            fis.close();
-            fis = new FileInputStream(receiptFile);
-            crcDescriptorFromExistingReceipt = HelperNMFPackage.calculateCRCFromInputStream(fis);
-            fis.close();
+            installedMetadata = Metadata.load(new FileInputStream(receiptFile));
         } catch (IOException ex) {
-            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        }
-
-        if (descriptorFromExistingReceipt == null) {
             Logger.getLogger(NMFPackageManager.class.getName()).log(Level.SEVERE,
-                    "This is unexpected!");
+                    "The file could not be loaded!", ex);
             return false;
         }
 
-        // Compare the versions
-        String version = descriptorFromExistingReceipt.getDetails().getVersion();
-        if (!details.getVersion().equals(version)) {
-            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.FINE,
-                    "The version does not match!");
-            return false;
-        }
-
-        // We need to double check if the crc match!
-        if (crcDescriptorFromPackage != crcDescriptorFromExistingReceipt) {
+        if (installedMetadata == null) {
             Logger.getLogger(NMFPackageManager.class.getName()).log(Level.SEVERE,
-                    "The CRC of the receipts do not match!"
-                    + "Maybe the NMF Package is tainted!");
+                    "This is unexpected! The installedMetadata should not be null");
+            return false;
+        }
+
+        // We need to check if the metadatas are the same!
+        if (!metadata.sameAs(installedMetadata)) {
+            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.SEVERE,
+                    "The NMF Package is not the same as the installed one!");
             return false;
         }
 
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.FINE,
-                "The package " + details.getPackageName() + " installation folder was found!");
+                "The package " + metadata.getPackageName() + " installation folder was found!");
 
         return true;
     }
@@ -570,16 +532,19 @@ public class NMFPackageManager {
         return out.replace('\\', File.separatorChar);
     }
 
-    private static void installFiles(final ZipFile zipFile, File to) throws IOException {
-        NMFPackageDescriptor descriptor = NMFPackageDescriptor.parseZipFile(zipFile);
+    private static void installFiles(NMFPackage pack, File to) throws IOException {
+        Metadata metadata = pack.getMetadata();
+        ZipFile zipFile = pack.getZipFile();
 
         File newFile;
         byte[] buffer = new byte[1024];
 
         // Iterate through the files, unpack them into the right folders
-        for (int i = 0; i < descriptor.getFiles().size(); i++) {
-            NMFPackageFile file = descriptor.getFiles().get(i);
-            ZipEntry entry = zipFile.getEntry(file.getPath());
+        ArrayList<NMFPackageFile> files = metadata.getFiles();
+
+        for (int i = 0; i < files.size(); i++) {
+            NMFPackageFile file = files.get(i);
+            ZipEntry entry = pack.getZipFileEntry(file.getPath());
 
             final String path = generateFilePathForSystem(entry.getName());
             newFile = new File(to.getCanonicalPath() + File.separator + path);
@@ -612,13 +577,13 @@ public class NMFPackageManager {
         }
     }
 
-    private static void removeFiles(final NMFPackageDescriptor descriptor) throws IOException {
+    private static void removeFiles(Metadata metadata) throws IOException {
         File folder = getInstallationFolder();
         File file;
 
         // Do the files actually match the descriptor?
-        for (int i = 0; i < descriptor.getFiles().size(); i++) {
-            NMFPackageFile packageFile = descriptor.getFiles().get(i);
+        for (int i = 0; i < metadata.getFiles().size(); i++) {
+            NMFPackageFile packageFile = metadata.getFiles().get(i);
 
             final String path = generateFilePathForSystem(packageFile.getPath());
             file = new File(folder.getCanonicalPath() + File.separator + path);
@@ -654,18 +619,6 @@ public class NMFPackageManager {
          */
 
         throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    private static void writeFile(String path, String content) {
-        System.out.println("   >> Creating file on: " + path);
-
-        try (FileWriter writer = new FileWriter(path)) {
-            writer.write(content);
-            writer.flush();
-            writer.close();
-        } catch (IOException e) {
-            // Handle the exception
-        }
     }
 
     private static String generateUsername(String appName) {

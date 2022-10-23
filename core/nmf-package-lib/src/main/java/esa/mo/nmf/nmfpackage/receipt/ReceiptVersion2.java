@@ -31,6 +31,7 @@ import java.io.IOException;
  *
  * @author Cesar Coelho
  */
+@Deprecated
 public class ReceiptVersion2 {
 
     private static final String PACKAGE_NAME = "PackageName=";

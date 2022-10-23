@@ -343,13 +343,11 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
                     unkIndexList.add(new UInteger(i));
                 }
 
-                if (backend.isPackageInstalled(names.get(i).getValue())) {
-                    invIndexList.add(new UInteger(i));
-                }
-
-                // Throw error if already installed!
                 // Before installing, we need to check the package integrity!
                 boolean integrity = backend.checkPackageIntegrity(availablePackages.get(i));
+                if (!integrity) {
+                    invIndexList.add(new UInteger(i));
+                }
 
                 // The installation cannot go forward here if the integrity is false!
             }
