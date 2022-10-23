@@ -20,7 +20,7 @@
  */
 package esa.mo.nmf.nmfpackage;
 
-import esa.mo.nmf.nmfpackage.descriptor.NMFPackageFile;
+import esa.mo.nmf.nmfpackage.utils.HelperNMFPackage;
 import esa.mo.nmf.nmfpackage.metadata.Metadata;
 import java.io.IOException;
 import java.io.InputStream;

@@ -21,8 +21,8 @@
 package esa.mo.nmf.nmfpackage.receipt;
 
 import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDescriptor;
-import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDetails;
-import esa.mo.nmf.nmfpackage.descriptor.NMFPackageFile;
+import esa.mo.nmf.nmfpackage.metadata.DetailsApp;
+import esa.mo.nmf.nmfpackage.NMFPackageFile;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -80,7 +80,7 @@ public class ReceiptVersion2 {
             throw new IOException("Could not read the package mainclass!");
         }
 
-        final NMFPackageDetails details = new NMFPackageDetails(name, 
+        final DetailsApp details = new DetailsApp(name, 
                 version, timestamp, mainclass, "", "96m");
 
         final NMFPackageDescriptor descriptor = new NMFPackageDescriptor(details);

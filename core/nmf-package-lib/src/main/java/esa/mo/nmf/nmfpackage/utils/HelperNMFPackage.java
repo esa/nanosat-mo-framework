@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.nmfpackage;
+package esa.mo.nmf.nmfpackage.utils;
 
 import esa.mo.helpertools.helpers.HelperMisc;
 import java.io.BufferedInputStream;

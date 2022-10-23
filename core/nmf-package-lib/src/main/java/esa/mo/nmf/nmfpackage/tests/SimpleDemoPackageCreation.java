@@ -22,7 +22,7 @@ package esa.mo.nmf.nmfpackage.tests;
 
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.nmf.nmfpackage.NMFPackageCreator;
-import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDetails;
+import esa.mo.nmf.nmfpackage.metadata.DetailsApp;
 import esa.mo.nmf.nmfpackage.metadata.Metadata;
 import java.io.File;
 import java.io.IOException;
@@ -64,7 +64,7 @@ public class SimpleDemoPackageCreation {
             "\n------------- Package 1 Generation -------------\n");
 
         // Package 1
-        NMFPackageDetails details = new NMFPackageDetails("TestPackage", "1.0",
+        DetailsApp details = new DetailsApp("TestPackage", "1.0",
                 timestamp, "noclass", "", "96m");
 
         NMFPackageCreator.nmfPackageCreator(details, files, newLocations);
@@ -73,7 +73,7 @@ public class SimpleDemoPackageCreation {
             "\n------------- Package 2 Generation -------------\n");
 
         // Package 2
-        NMFPackageDetails details2 = new NMFPackageDetails("TestPackage", "2.0",
+        DetailsApp details2 = new DetailsApp("TestPackage", "2.0",
                 timestamp, "noclass", "", "96m");
         NMFPackageCreator.nmfPackageCreator(details2, files, newLocations);
 
@@ -81,7 +81,7 @@ public class SimpleDemoPackageCreation {
             "\n------------- Package 3 Generation -------------\n");
 
         // Package 3
-        NMFPackageDetails details3 = new NMFPackageDetails("TestPackage", "3.0",
+        DetailsApp details3 = new DetailsApp("TestPackage", "3.0",
                 timestamp, "noclass", "", "96m");
         String location = NMFPackageCreator.nmfPackageCreator(details3, files, newLocations);
 
