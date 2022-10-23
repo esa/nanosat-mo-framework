@@ -21,8 +21,8 @@
 package esa.mo.nmf.nmfpackage.receipt;
 
 import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDescriptor;
-import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDetails;
-import esa.mo.nmf.nmfpackage.descriptor.NMFPackageFile;
+import esa.mo.nmf.nmfpackage.metadata.DetailsApp;
+import esa.mo.nmf.nmfpackage.NMFPackageFile;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -100,7 +100,7 @@ public class ReceiptVersion3 {
             throw new IOException("Could not read the package maxHeap!");
         }
 
-        final NMFPackageDetails details = new NMFPackageDetails(name,
+        final DetailsApp details = new DetailsApp(name,
                 version, timestamp, mainclass, mainJar, maxHeap);
         final NMFPackageDescriptor descriptor = new NMFPackageDescriptor(details);
         String path;

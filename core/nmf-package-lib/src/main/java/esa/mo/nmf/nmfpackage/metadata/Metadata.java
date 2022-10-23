@@ -22,8 +22,7 @@ package esa.mo.nmf.nmfpackage.metadata;
 
 import esa.mo.nmf.nmfpackage.NMFPackageManager;
 import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDescriptor;
-import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDetails;
-import esa.mo.nmf.nmfpackage.descriptor.NMFPackageFile;
+import esa.mo.nmf.nmfpackage.NMFPackageFile;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -228,23 +227,6 @@ public class Metadata {
         Properties props = new Properties();
         props.load(inStream);
         return new Metadata(props);
-    }
-
-    @Deprecated
-    public NMFPackageDescriptor toPackageDescriptor() {
-        NMFPackageDetails details = new NMFPackageDetails(properties);
-        NMFPackageDescriptor descriptor = new NMFPackageDescriptor(details);
-        int size = Integer.parseInt(properties.getProperty(FILE_COUNT, "0"));
-
-        for (int i = 0; i < size; i++) {
-            String suffix = "_" + i;
-            String path = properties.getProperty(FILE_PATH + suffix, "");
-            long crc = Long.parseLong(properties.getProperty(FILE_CRC + suffix, "0"));
-            NMFPackageFile file = new NMFPackageFile(path, crc);
-            descriptor.addFile(file);
-        }
-
-        return descriptor;
     }
 
     @SuppressWarnings("serial")

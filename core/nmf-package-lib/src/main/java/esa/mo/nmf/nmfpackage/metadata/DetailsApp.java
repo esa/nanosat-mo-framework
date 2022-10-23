@@ -18,16 +18,15 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.nmfpackage.descriptor;
+package esa.mo.nmf.nmfpackage.metadata;
 
-import esa.mo.nmf.nmfpackage.metadata.Metadata;
 import java.util.Properties;
 
 /**
  *
  * @author Cesar Coelho
  */
-public class NMFPackageDetails {
+public class DetailsApp {
 
     private final String packageName;
     private final String version;
@@ -37,7 +36,7 @@ public class NMFPackageDetails {
     private final String maxHeap;
     private final Properties properties;
 
-    public NMFPackageDetails(final String packageName, final String version,
+    public DetailsApp(final String packageName, final String version,
             final String timestamp, final String mainclass,
             final String mainJar, final String maxHeap) {
         this.packageName = packageName;
@@ -49,7 +48,7 @@ public class NMFPackageDetails {
         this.properties = null;
     }
 
-    public NMFPackageDetails(final Properties properties) {
+    public DetailsApp(final Properties properties) {
         this.packageName = null;
         this.version = null;
         this.timestamp = null;

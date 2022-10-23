@@ -20,9 +20,10 @@
  */
 package esa.mo.nmf.nmfpackage;
 
+import esa.mo.nmf.nmfpackage.utils.HelperNMFPackage;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.helpertools.misc.Const;
-import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDetails;
+import esa.mo.nmf.nmfpackage.metadata.DetailsApp;
 import esa.mo.nmf.nmfpackage.metadata.Metadata;
 import java.io.File;
 import java.io.IOException;
@@ -171,7 +172,7 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
         final String timestamp = HelperTime.time2readableString(time);
 
         // Package
-        NMFPackageDetails details = new NMFPackageDetails(name, version,
+        DetailsApp details = new DetailsApp(name, version,
                 timestamp, mainClass, mainJar, maxHeap);
         
         Metadata metadata = new Metadata(details.getProperties());
@@ -219,7 +220,7 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
         files.add(file.toPath().toString());
 
         ArrayList<String> newLocations = new ArrayList<>();
-        newLocations.add("jar-others" + File.separator + file.getName());
+        newLocations.add("jar-shared-dependencies" + File.separator + file.getName());
 
         NMFPackageCreator.zipFiles(destinationPath, files, newLocations);
     }
