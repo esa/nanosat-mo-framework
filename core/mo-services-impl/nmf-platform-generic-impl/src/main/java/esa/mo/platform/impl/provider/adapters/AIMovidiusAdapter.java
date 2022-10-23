@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import esa.mo.platform.impl.provider.gen.AIAdapterInterface;
+import esa.mo.platform.impl.provider.gen.ArtificialIntelligenceProviderServiceImpl;
 
 /**
  * The Artificial Intelligence adapter for the Intel Movidius Neural Compute
@@ -168,6 +169,9 @@ public class AIMovidiusAdapter implements AIAdapterInterface {
         
         ShellCommander shellCommander = new ShellCommander();
         String out = shellCommander.runCommandAndGetOutputMessage(script);
+
+        Logger.getLogger(AIMovidiusAdapter.class.getName()).log(Level.INFO, 
+                "Executed: " + out);
     }
 
     @Override
