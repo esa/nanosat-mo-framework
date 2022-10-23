@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.nmfpackage.metadata;
 
+import java.util.ArrayList;
 import java.util.Properties;
 
 /**
@@ -34,17 +35,19 @@ public class DetailsApp {
     private final String mainclass;
     private final String mainJar;
     private final String maxHeap;
+    private final ArrayList<String> dependencies;
     private final Properties properties;
 
     public DetailsApp(final String packageName, final String version,
-            final String timestamp, final String mainclass,
-            final String mainJar, final String maxHeap) {
+            final String timestamp, final String mainclass, final String mainJar,
+            final String maxHeap, final ArrayList<String> dependencies) {
         this.packageName = packageName;
         this.version = version;
         this.timestamp = timestamp;
         this.mainclass = mainclass;
         this.mainJar = mainJar;
         this.maxHeap = maxHeap;
+        this.dependencies = dependencies;
         this.properties = null;
     }
 
@@ -55,6 +58,7 @@ public class DetailsApp {
         this.mainclass = null;
         this.mainJar = null;
         this.maxHeap = null;
+        this.dependencies = null;
         this.properties = properties;
     }
 
@@ -69,8 +73,25 @@ public class DetailsApp {
             props.put(Metadata.APP_MAINCLASS, mainclass);
             props.put(Metadata.APP_MAIN_JAR, mainJar);
             props.put(Metadata.APP_MAX_HEAP, maxHeap);
+
+            if (dependencies != null) {
+                props.put(Metadata.APP_DEPENDENCIES, generateDependencies());
+            }
+
             return props;
         }
+    }
+
+    private String generateDependencies() {
+        StringBuilder str = new StringBuilder();
+
+        if (dependencies != null) {
+            for (String dependency : dependencies) {
+                str.append(dependency).append(";");
+            }
+        }
+
+        return str.toString();
     }
 
     public String getPackageName() {

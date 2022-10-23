@@ -45,7 +45,7 @@ public class NMFPackageCreator {
 
     private static final int BUFFER = 2048;
 
-    public static void zipFiles(String outputPath, ArrayList<String> from,
+    private static void zipFiles(String outputPath, ArrayList<String> from,
             ArrayList<String> newLocations) {
         try {
             BufferedInputStream origin;

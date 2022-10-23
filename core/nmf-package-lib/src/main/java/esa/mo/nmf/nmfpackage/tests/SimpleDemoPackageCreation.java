@@ -65,7 +65,7 @@ public class SimpleDemoPackageCreation {
 
         // Package 1
         DetailsApp details = new DetailsApp("TestPackage", "1.0",
-                timestamp, "noclass", "", "96m");
+                timestamp, "noclass", "", "96m", null);
 
         NMFPackageCreator.nmfPackageCreator(details, files, newLocations);
 
@@ -74,7 +74,7 @@ public class SimpleDemoPackageCreation {
 
         // Package 2
         DetailsApp details2 = new DetailsApp("TestPackage", "2.0",
-                timestamp, "noclass", "", "96m");
+                timestamp, "noclass", "", "96m", null);
         NMFPackageCreator.nmfPackageCreator(details2, files, newLocations);
 
         Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.INFO,
@@ -82,7 +82,7 @@ public class SimpleDemoPackageCreation {
 
         // Package 3
         DetailsApp details3 = new DetailsApp("TestPackage", "3.0",
-                timestamp, "noclass", "", "96m");
+                timestamp, "noclass", "", "96m", null);
         String location = NMFPackageCreator.nmfPackageCreator(details3, files, newLocations);
 
         try {
