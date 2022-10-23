@@ -234,8 +234,7 @@ public class AppsLauncherManager extends DefinitionsManager {
             Long related) throws MALException, MALInteractionException {
         AppDetailsList defs = new AppDetailsList();
         defs.add(definition);
-        final ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(related,
-                source, uri);
+        ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(related, source, uri);
         archDetails.get(0).setInstId(objId);
 
         return super.getArchiveService().store(
@@ -267,7 +266,7 @@ public class AppsLauncherManager extends DefinitionsManager {
             throws MALException, MALInteractionException {
         AppDetailsList defs = new AppDetailsList();
         defs.add(definition);
-        final IdentifierList domain = ConfigurationProviderSingleton.getDomain();
+        IdentifierList domain = ConfigurationProviderSingleton.getDomain();
 
         ArchiveDetails archiveDetails = HelperArchive.getArchiveDetailsFromArchive(super.
                 getArchiveService(),
@@ -319,7 +318,7 @@ public class AppsLauncherManager extends DefinitionsManager {
         // Compare with the defs list!
         // Are there any differences?
         for (AppDetails singleApp : apps) {
-            final Long id = super.list(singleApp.getName());
+            Long id = super.list(singleApp.getName());
             AppDetails previousAppDetails = this.get(id);
 
             // It didn't exist...
@@ -353,8 +352,9 @@ public class AppsLauncherManager extends DefinitionsManager {
         }
 
         // Also needs to check if we removed a folder!
-        final LongList ids = this.listAll();
-        final AppDetailsList localApps = this.getAll();
+        LongList ids = this.listAll();
+        AppDetailsList localApps = this.getAll();
+        
         for (int i = 0; i < ids.size(); i++) { // Roll all the apps inside the apps folder
             AppDetails localApp = localApps.get(i);
             boolean appStillIntact = false;
@@ -541,13 +541,12 @@ public class AppsLauncherManager extends DefinitionsManager {
         AppDetails app = (AppDetails) this.getDef(appInstId); // get it from the list of available apps
 
         // Go to the folder where the app is installed
-        final File appFolder
-                = new File(appsFolderPath + File.separator + app.getName().getValue());
+        File appFolder = new File(appsFolderPath + File.separator + app.getName().getValue());
         Map<String, String> env = assembleAppLauncherEnvironment("");
-        final String[] appLauncherCommand = assembleAppStopCommand(appFolder.getAbsolutePath(),
+        String[] appLauncherCommand = assembleAppStopCommand(appFolder.getAbsolutePath(),
                 app.getName().getValue(), app.getRunAs(), EnvironmentUtils.toStrings(env));
 
-        final ProcessBuilder pb = new ProcessBuilder(appLauncherCommand);
+        ProcessBuilder pb = new ProcessBuilder(appLauncherCommand);
         pb.environment().clear();
         pb.directory(appFolder);
         LOGGER.log(Level.INFO,
@@ -601,16 +600,17 @@ public class AppsLauncherManager extends DefinitionsManager {
         Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO,
                 "Sending event to app: {0} (Name: ''{1}'')", 
                 new Object[]{appInstId, appDirectoryServiceName});
-        this.setRunning(appInstId, false, interaction.getInteraction());
+        MALInteraction malInt = (interaction != null) ? interaction.getInteraction() : null;
+        this.setRunning(appInstId, false, malInt);
         ObjectId eventSource = super.getCOMServices().getActivityTrackingService()
-                .storeCOMOperationActivity(interaction.getInteraction(), null);
+                .storeCOMOperationActivity(malInt, null);
 
         // Generate, store and publish the events to stop the App...
-        final Long objId = super.getCOMServices().getEventService()
+        Long objId = super.getCOMServices().getEventService()
                 .generateAndStoreEvent(objType, ConfigurationProviderSingleton.getDomain(), 
-                        appDirectoryServiceName, appInstId, eventSource, interaction.getInteraction());
+                        appDirectoryServiceName, appInstId, eventSource, malInt);
 
-        final URI uri = interaction.getInteraction().getMessageHeader().getURIFrom();
+        URI uri = (malInt != null) ? malInt.getMessageHeader().getURIFrom() : new URI("");
 
         if (appDirectoryServiceName != null) {
             try {
@@ -670,11 +670,10 @@ public class AppsLauncherManager extends DefinitionsManager {
                 }
                 if (stopExists) {
                     Map<String, String> env = assembleAppLauncherEnvironment("");
-                    final File appFolder
-                            = new File(appsFolderPath + File.separator + curr.getName().getValue());
-                    final String[] appLauncherCommand = assembleAppStopCommand(appFolder.getAbsolutePath(),
+                    File appFolder = new File(appsFolderPath + File.separator + curr.getName().getValue());
+                    String[] appLauncherCommand = assembleAppStopCommand(appFolder.getAbsolutePath(),
                             curr.getName().getValue(), curr.getRunAs(), EnvironmentUtils.toStrings(env));
-                    final ProcessBuilder pb = new ProcessBuilder(appLauncherCommand);
+                    ProcessBuilder pb = new ProcessBuilder(appLauncherCommand);
                     pb.environment().clear();
                     pb.directory(appFolder);
 
@@ -739,7 +738,7 @@ public class AppsLauncherManager extends DefinitionsManager {
             throw new IOException("We have more than 1 service...");
         }
 
-        final AddressDetailsList addresses = capabilities.get(0).getServiceAddresses();
+        AddressDetailsList addresses = capabilities.get(0).getServiceAddresses();
 
         int bestIndex = HelperCommon.getBestIPCServiceAddressIndex(addresses);
         SingleConnectionDetails connectionDetails = new SingleConnectionDetails();
@@ -775,19 +774,19 @@ public class AppsLauncherManager extends DefinitionsManager {
         app.setName(new Identifier(appName)); // Use the name of the folder
 
         try (FileInputStream inputStream = new FileInputStream(propertiesFile)) {
-            final Properties props = new Properties();
+            Properties props = new Properties();
             props.load(inputStream);
             app.setExtraInfo(HelperMisc.PROVIDER_PROPERTIES_FILE);
 
-            final String category = (props.getProperty(HelperMisc.APP_CATEGORY) != null) ? 
+            String category = (props.getProperty(HelperMisc.APP_CATEGORY) != null) ? 
                     props.getProperty(HelperMisc.APP_CATEGORY) : "-";
-            final String version = (props.getProperty(HelperMisc.APP_VERSION) != null) ?
+            String version = (props.getProperty(HelperMisc.APP_VERSION) != null) ?
                     props.getProperty(HelperMisc.APP_VERSION) : "-";
-            final String copyright = (props.getProperty(HelperMisc.APP_COPYRIGHT) != null) ? 
+            String copyright = (props.getProperty(HelperMisc.APP_COPYRIGHT) != null) ? 
                     props.getProperty(HelperMisc.APP_COPYRIGHT) : "-";
-            final String description = (props.getProperty(HelperMisc.APP_DESCRIPTION) != null) ?
+            String description = (props.getProperty(HelperMisc.APP_DESCRIPTION) != null) ?
                     props.getProperty(HelperMisc.APP_DESCRIPTION) : "-";
-            final String user = (props.getProperty(HelperMisc.APP_USER) != null) ? 
+            String user = (props.getProperty(HelperMisc.APP_USER) != null) ? 
                     props.getProperty(HelperMisc.APP_USER)
                     : null; // Since the user change is only implemented on linux this dependency is fine
 

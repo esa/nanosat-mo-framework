@@ -431,9 +431,15 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
                     MALHelper.INTERNAL_ERROR_NUMBER, intIndexList));
         }
 
-        interaction.sendAcknowledgement();
+        if(interaction != null) {
+            interaction.sendAcknowledgement();
+        }
+        
         manager.stopApps(appInstIds, appDirectoryServiceNames, appConnections, interaction);
-        interaction.sendResponse();
+        
+        if(interaction != null) {
+            interaction.sendResponse();
+        }
     }
 
     private void prepareStopApp(final LongList appInstIds, final StopAppInteraction interaction, UIntegerList unkIndexList,
@@ -467,8 +473,8 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
                     null, new Identifier("*"), serviceKey, new UIntegerList());
             if (app.getCategory().getValue().equalsIgnoreCase("NMF_App")) {
                 // Do a lookup on the Central Drectory service for the app that we want
-                ProviderSummaryList providersList = this.directoryService.lookupProvider(sf,
-                        interaction.getInteraction());
+                MALInteraction malInt = (interaction != null) ? interaction.getInteraction() : null;
+                ProviderSummaryList providersList = this.directoryService.lookupProvider(sf, malInt);
                 LOGGER.log(Level.FINER, "providersList object: {0}", providersList);
 
                 try {

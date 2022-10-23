@@ -55,6 +55,7 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterCreationRequestList;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
 import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
+import org.ccsds.moims.mo.softwaremanagement.appslauncher.body.ListAppResponse;
 
 /**
  * The implementation of the NanoSat MO Supervisor that can be extended by particular
@@ -118,6 +119,44 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
           + "Perhaps there's something wrong with the Transport Layer.", ex);
       return;
     }
+    
+    Runtime.getRuntime().addShutdownHook(new Thread() {
+          @Override
+          public void run() {
+               //Your 'pos' shutdown code goes here...
+                Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(
+                        Level.INFO, "Shutting down Supervisor...");
+
+                // Retrieve all apps and then filter for the ones that are running...
+                try {
+                    IdentifierList allApps = new IdentifierList();
+                    allApps.add(new Identifier("*"));
+                    ListAppResponse response = appsLauncherService.listApp(allApps, new Identifier("*"), null);
+                    LongList runningApps = new LongList();
+
+                    for(int i = 0; i < response.getBodyElement0().size(); i++) {
+                        Long appId = response.getBodyElement0().get(i);
+                        if(response.getBodyElement1().get(i)){
+                          runningApps.add(appId);
+                        }
+                    }
+
+                    Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(
+                            Level.SEVERE, "Stopping " + runningApps.size() + " App(s)!");
+                    
+                    appsLauncherService.stopApp(runningApps, null);
+                } catch (MALInteractionException ex) {
+                    Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(
+                            Level.SEVERE, "(1) Something went wrong...", ex);
+                } catch (MALException ex) {
+                    Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(
+                            Level.SEVERE, "(2) Something went wrong...", ex);
+                }
+                
+                Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(
+                        Level.INFO, "Done!");
+          }
+      });
 
     // Are the dynamic changes enabled?
     if ("true".equals(System.getProperty(Const.DYNAMIC_CHANGES_PROPERTY))) {
