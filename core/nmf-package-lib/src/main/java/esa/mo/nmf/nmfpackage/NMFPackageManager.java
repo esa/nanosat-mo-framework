@@ -83,10 +83,10 @@ public class NMFPackageManager {
         // Get the File to be installed
         NMFPackage pack = new NMFPackage(packageLocation);
         Metadata metadata = pack.getMetadata();
-        int metadataVersion = metadata.getMetadataVersion();
 
-        if (metadataVersion < 3) {
-            throw new IOException("The package version is deprecated! Version: " + metadataVersion);
+        if (metadata.getMetadataVersion() < 3) {
+            throw new IOException("The package version is deprecated! "
+                    + "Version: " + metadata.getMetadataVersion());
         }
 
         // Verify integrity of the file: Are all the declared files matching their CRCs?
@@ -100,6 +100,7 @@ public class NMFPackageManager {
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                 "Copying the files to the new locations...");
 
+        installDependencies(metadata, packageLocation, nmfDir);
         extractFiles(pack, nmfDir);
         String packageName = metadata.getPackageName();
 
@@ -230,10 +231,10 @@ public class NMFPackageManager {
         // Get the Package to be uninstalled
         NMFPackage newPack = new NMFPackage(packageLocation);
         Metadata newPackMetadata = newPack.getMetadata();
-        int metadataVersion = newPackMetadata.getMetadataVersion();
 
-        if(metadataVersion < 3) {
-            throw new IOException("The package version is deprecated! Version: " + metadataVersion);
+        if (newPackMetadata.getMetadataVersion() < 3) {
+            throw new IOException("The package version is deprecated! "
+                    + "Version: " + newPackMetadata.getMetadataVersion());
         }
 
         File receiptsFolder = getReceiptsFolder();
@@ -279,6 +280,7 @@ public class NMFPackageManager {
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                 "Copying the new files to the locations...");
 
+        installDependencies(newPackMetadata, packageLocation, nmfDir);
         extractFiles(newPack, nmfDir);
 
         if (isApp) {
@@ -489,6 +491,23 @@ public class NMFPackageManager {
 
         String out = path.replace('/', File.separatorChar);
         return out.replace('\\', File.separatorChar);
+    }
+
+    private static void installDependencies(Metadata metadata, String packageLocation,
+            File installationDir) throws IOException {
+        String dependencies = metadata.getAppDependencies();
+        String parent = (new File(packageLocation)).getParent();
+
+        if (dependencies != null && !dependencies.isEmpty()) {
+            Logger.getLogger(NMFPackageManager.class.getName()).log(
+                    Level.INFO, "Dependencies are:  " + dependencies);
+
+            for (String file : dependencies.split(";")) {
+                file = file.replace(".jar", ".nmfpack");
+                String path = parent + File.separator + file;
+                extractFiles(new NMFPackage(path), installationDir);
+            }
+        }
     }
 
     private static void extractFiles(NMFPackage pack, File to) throws IOException {

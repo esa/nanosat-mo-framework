@@ -21,7 +21,7 @@
 package esa.mo.nmf.nmfpackage.metadata;
 
 import esa.mo.nmf.nmfpackage.NMFPackageManager;
-import esa.mo.nmf.nmfpackage.descriptor.NMFPackageDescriptor;
+import esa.mo.nmf.nmfpackage.receipt.NMFPackageDescriptor;
 import esa.mo.nmf.nmfpackage.NMFPackageFile;
 import java.io.File;
 import java.io.FileNotFoundException;
