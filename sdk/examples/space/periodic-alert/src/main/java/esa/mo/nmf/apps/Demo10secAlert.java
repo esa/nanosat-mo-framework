@@ -69,7 +69,7 @@ public class Demo10secAlert {
         Demo10secAlert demo = new Demo10secAlert();
     }
 
-    class Adapter extends MonitorAndControlNMFAdapter {
+    static class Adapter extends MonitorAndControlNMFAdapter {
 
         @Override
         public void initialRegistrations(MCRegistration registrationObject) {

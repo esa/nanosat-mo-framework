@@ -31,6 +31,7 @@ import org.ccsds.moims.mo.mal.structures.Subscription;
 
 public class MOFactory {
 
+    private static Random RANDOM = new Random();
     /**
      * Creates a Subscription with Entity Key (*, 0, 0, 0)
      */
@@ -42,7 +43,7 @@ public class MOFactory {
      * Creates a Subscription with Entity Key (identity, 0, 0, 0)
      */
     public static Subscription createSubscription(Identifier identity) {
-        Identifier subscriptionId = new Identifier("SubId" + new Random().nextInt());
+        Identifier subscriptionId = new Identifier("SubId" + RANDOM.nextInt());
 
         IdentifierList subDomain = null;
         Boolean allAreas = false;

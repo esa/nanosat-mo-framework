@@ -202,8 +202,8 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter
   public class DataReceivedAdapter extends CameraAdapter
   {
 
-    private final int STAGE_ACK = 1;
-    private final int STAGE_RSP = 2;
+    private static final int STAGE_ACK = 1;
+    private static final int STAGE_RSP = 2;
     private final Long actionInstanceObjId;
 
     DataReceivedAdapter(Long actionInstanceObjId)

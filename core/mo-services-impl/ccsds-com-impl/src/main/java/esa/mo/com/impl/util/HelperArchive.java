@@ -56,7 +56,7 @@ import org.ccsds.moims.mo.mal.structures.URI;
  * A Helper class for the COM Archive.
  */
 public class HelperArchive {
-    public static Logger LOGGER = Logger.getLogger(HelperArchive.class.getName());
+    public static final Logger LOGGER = Logger.getLogger(HelperArchive.class.getName());
 
     private enum ToBeReturned {
         OBJECT_BODY, ARCHIVE_DETAILS, COM_OBJECT

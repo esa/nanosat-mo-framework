@@ -269,7 +269,7 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
     return null;
   }
 
-  private class GPSConsumerAdapter extends GPSAdapter {
+  private static class GPSConsumerAdapter extends GPSAdapter {
 
     @Override
     public void getNMEASentenceResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error,

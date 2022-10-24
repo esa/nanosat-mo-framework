@@ -115,7 +115,7 @@ public class ArchiveToJsonAdapter extends ArchiveAdapter implements QueryStatusP
       Object malObject = archiveObjectOutput.getObjectBodies() == null ? null
           : archiveObjectOutput.getObjectBodies().get(i);
       CleanCOMArchiveObject comObject = new CleanCOMArchiveObject(comType,
-          archiveObjectOutput.getArchiveDetailsList().get(i), malObject);
+                                                                  archiveObjectOutput.getArchiveDetailsList().get(i), malObject);
       archiveObjects.get(domainKey).get(comTypeKey).add(comObject);
     }
   }
@@ -196,7 +196,7 @@ public class ArchiveToJsonAdapter extends ArchiveAdapter implements QueryStatusP
    *
    * @author Tanguy Soto
    */
-  private class CleanCOMArchiveObject {
+  private static class CleanCOMArchiveObject {
     /**
      * ArchiveDetails content
      */

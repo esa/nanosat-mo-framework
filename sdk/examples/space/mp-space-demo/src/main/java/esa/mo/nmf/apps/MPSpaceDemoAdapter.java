@@ -144,7 +144,7 @@ public class MPSpaceDemoAdapter extends MissionPlanningNMFAdapter {
         }
     }
 
-    class UpdateRequestVersionCallback extends MPServiceOperationCallback {
+    static class UpdateRequestVersionCallback extends MPServiceOperationCallback {
         @Override
         public void validate(RequestVersionDetails requestVersion) {
             // Request Version validation here
@@ -158,7 +158,7 @@ public class MPSpaceDemoAdapter extends MissionPlanningNMFAdapter {
         }
     }
 
-    class CancelRequestVersionCallback extends MPServiceOperationCallback {
+    static class CancelRequestVersionCallback extends MPServiceOperationCallback {
         @Override
         public void onCallback(List<MPServiceOperationArguments> arguments) throws MALException, MALInteractionException {
             LOGGER.info("Received CANCEL_REQUEST operation");

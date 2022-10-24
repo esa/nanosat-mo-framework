@@ -218,7 +218,7 @@ public class GroupServiceImpl extends ConversionInheritanceSkeleton {
      * helper class, that allows to store many IdObjectType-objects (stores an
      * id and its object-type) in one list
      */
-    protected class IdObjectTypeList extends java.util.ArrayList<IdObjectType> {
+    protected static class IdObjectTypeList extends java.util.ArrayList<IdObjectType> {
 
         public IdObjectTypeList() {
         }
@@ -234,7 +234,7 @@ public class GroupServiceImpl extends ConversionInheritanceSkeleton {
      * helper class, that allows to store definition or identity-ids and its
      * object-type in one object
      */
-    protected class IdObjectType {
+    protected static class IdObjectType {
 
         public IdObjectType(Long id, ObjectType objectType) {
             this.id = id;

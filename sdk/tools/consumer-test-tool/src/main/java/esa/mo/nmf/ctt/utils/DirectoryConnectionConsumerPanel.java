@@ -63,7 +63,7 @@ import org.ccsds.moims.mo.mal.structures.URI;
  */
 public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel
 {
-
+  private static Random RANDOM = new Random();
   private ConnectionConsumer connectionConsumer;
   private javax.swing.JTabbedPane tabs;
   private ProviderSummaryList summaryList;
@@ -370,7 +370,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel
           {
             if(loginService.getServiceAddresses().get(0).getServiceURI().getValue().toLowerCase().contains("lwmcs"))
             {
-                localNamePrefix = "LWMCS_Consumer_"  + new Random().nextInt();
+                localNamePrefix = "LWMCS_Consumer_"  + RANDOM.nextInt();
                 ProviderSummary lwmcs = summaryList.stream()
                                                    .filter(providerSummary -> providerSummary.getProviderId()
                                                                                              .getValue()

@@ -109,7 +109,7 @@ public class ShellCommander {
         return null;
     }
 
-    private class StreamWrapper extends Thread {
+    private static class StreamWrapper extends Thread {
 
         private InputStream is = null;
         private String type = null;

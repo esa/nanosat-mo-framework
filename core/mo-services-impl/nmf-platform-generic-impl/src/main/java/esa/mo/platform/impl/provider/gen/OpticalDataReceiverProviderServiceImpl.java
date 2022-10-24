@@ -50,7 +50,7 @@ public class OpticalDataReceiverProviderServiceImpl extends OpticalDataReceiverI
   private boolean initialiased = false;
   private final ConnectionProvider connection = new ConnectionProvider();
   private OpticalDataReceiverAdapterInterface adapter;
-  public static double MAX_RECORDING_DURATION = 10.0; // 10 seconds
+  public static final double MAX_RECORDING_DURATION = 10.0; // 10 seconds
 
   /**
    * Initializes the Optical Receiver Provider service

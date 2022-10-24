@@ -180,7 +180,7 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton
   public Duration getPeriod(MALInteraction interaction) throws MALInteractionException, MALException
   {
     // Convert to seconds and return the value
-    return new Duration(period / 1000);
+    return new Duration(period / 1000.0);
   }
 
   public static final class PublishInteractionListener implements MALPublishInteractionListener

@@ -492,7 +492,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     return adapter.getAllReactionWheelParameters();
   }
 
-  private class PublishInteractionListener implements MALPublishInteractionListener
+  private static class PublishInteractionListener implements MALPublishInteractionListener
   {
 
     @Override

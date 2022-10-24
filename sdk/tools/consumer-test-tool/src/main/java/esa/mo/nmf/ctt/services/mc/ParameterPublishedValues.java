@@ -123,7 +123,7 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
                 try {
                     final int objId = updateHeader.getKey().getSecondSubKey().intValue();
 
-                    final int index = (int) ((5 * numberOfColumns) * Math.floor(objId / (5)) + objId % numberOfColumns);
+                    final int index = (int) ((5 * numberOfColumns) * Math.floor(objId / (5.0)) + objId % numberOfColumns);
 
                     if ((0 <= index) && (index < labels.length)) {
                         String nameId = "(" + objId + ") " + updateHeader.getKey().getFirstSubKey().getValue();

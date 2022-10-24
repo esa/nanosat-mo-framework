@@ -35,7 +35,7 @@ import java.util.logging.Logger;
  * and avoids constant checking on it which makes things go much faster.
  */
 public abstract class FastIndex<T> {
-    public static Logger LOGGER = Logger.getLogger(FastIndex.class.getName());
+    public static final Logger LOGGER = Logger.getLogger(FastIndex.class.getName());
     protected final String QUERY_DELETE;
     protected final String QUERY_SELECT;
     protected final String QUERY_INSERT;

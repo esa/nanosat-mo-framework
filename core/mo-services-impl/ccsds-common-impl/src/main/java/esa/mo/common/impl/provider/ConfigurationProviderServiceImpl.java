@@ -277,7 +277,7 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
             org.ccsds.moims.mo.mal.structures.File xmlFile = new org.ccsds.moims.mo.mal.structures.File();
 //            xmlFile.setContent((Blob) HelperAttributes.javaType2Attribute(Files.readAllBytes(file.toPath())));
             xmlFile.setName(new Identifier("bbgbgbdg"));
-
+            fos.close();
             return xmlFile;
 
         } catch (IOException ex) {
@@ -303,7 +303,7 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
             ConfigurationObjectDetails decodedElement2 = (ConfigurationObjectDetails) xmlEIS.readElement(new ConfigurationObjectDetails(), null);
 */
 //            ConfigurationObjectDetails decodedElement = (ConfigurationObjectDetails) xmlEIS.readElement(new ConfigurationObjectDetails(), null);
-
+            fis.close();
         } catch (IOException ex) {
             Logger.getLogger(ConfigurationProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -352,7 +352,7 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public class EventConsumerConfigurationCallbackAdapter extends EventAdapter {
+    public static class EventConsumerConfigurationCallbackAdapter extends EventAdapter {
 
         private final Long originalObjId;
         private final int timeout = 15; // (seconds) Default timeout for the waiting of a response from the service

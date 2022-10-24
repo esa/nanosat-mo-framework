@@ -54,7 +54,7 @@ import esa.mo.com.impl.provider.ArchiveManager;
  * consolidated and executed in one single transaction.
  */
 public class TransactionsProcessor {
-    public static Logger LOGGER = Logger.getLogger(TransactionsProcessor.class.getName());
+    public static final Logger LOGGER = Logger.getLogger(TransactionsProcessor.class.getName());
     final DatabaseBackend dbBackend;
 
     // This executor is responsible for the interactions with the db

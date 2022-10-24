@@ -180,8 +180,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
     try {
       ObjectInstancePairList objInstPairList = mcServices.getParameterService().addParameter(reqList, null);
       // check that the parameter was added successfully
-      if (objInstPairList.size() < 0
-              || objInstPairList.get(0).getObjIdentityInstanceId() == null) {
+      if (objInstPairList.isEmpty() || objInstPairList.get(0).getObjIdentityInstanceId() == null) {
         LOGGER.log(Level.SEVERE,
                 "Error creating request with parameter to fetch in the supervisor");
       }

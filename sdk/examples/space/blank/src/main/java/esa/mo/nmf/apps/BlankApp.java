@@ -52,7 +52,7 @@ public class BlankApp {
         BlankApp demo = new BlankApp();
     }
 
-    public class MCAdapter extends MonitorAndControlNMFAdapter {
+    public static class MCAdapter extends MonitorAndControlNMFAdapter {
 
         @Override
         public void initialRegistrations(MCRegistration registrationObject) {
