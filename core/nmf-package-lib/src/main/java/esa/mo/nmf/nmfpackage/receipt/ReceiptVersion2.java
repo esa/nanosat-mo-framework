@@ -20,7 +20,6 @@
  */
 package esa.mo.nmf.nmfpackage.receipt;
 
-import esa.mo.nmf.nmfpackage.metadata.DetailsApp;
 import esa.mo.nmf.nmfpackage.NMFPackageFile;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

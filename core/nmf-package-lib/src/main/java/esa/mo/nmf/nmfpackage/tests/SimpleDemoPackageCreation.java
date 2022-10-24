@@ -22,7 +22,7 @@ package esa.mo.nmf.nmfpackage.tests;
 
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.nmf.nmfpackage.NMFPackageCreator;
-import esa.mo.nmf.nmfpackage.metadata.DetailsApp;
+import esa.mo.nmf.nmfpackage.receipt.DetailsApp;
 import esa.mo.nmf.nmfpackage.metadata.Metadata;
 import java.io.File;
 import java.io.IOException;

@@ -21,10 +21,13 @@
 package esa.mo.nmf.nmfpackage.utils;
 
 import esa.mo.helpertools.helpers.HelperMisc;
+import esa.mo.helpertools.misc.OSValidator;
+import esa.mo.nmf.nmfpackage.metadata.MetadataApp;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -75,7 +78,7 @@ public class HelperNMFPackage {
     }
 
     public static String generateLinuxStartAppScript(String javaCommand,
-            String mainclass, String jarFilename, String maxHeap) throws IOException {
+            String jarFilename, MetadataApp meta) throws IOException {
         StringBuilder str = new StringBuilder();
         str.append("#!/bin/sh\n");
         str.append(getBanner());
@@ -85,8 +88,13 @@ public class HelperNMFPackage {
         str.append("# Constants set at installation time:\n");
         str.append("JAVA_CMD=").append(javaCommand).append("\n");
         str.append("MAIN_JAR_NAME=").append(jarFilename).append("\n");
-        str.append("MAIN_CLASS_NAME=").append(mainclass).append("\n");
-        str.append("MAX_HEAP=").append(maxHeap).append("\n");
+        str.append("MAIN_CLASS_NAME=").append(meta.getAppMainclass()).append("\n");
+
+        if (meta.hasDependencies()) {
+            str.append("JAR_DEPENDENCIES=").append(meta.getAppDependencies()).append("\n");
+        }
+
+        str.append("MAX_HEAP=").append(meta.getAppMaxHeap()).append("\n");
         // The NMF_LIB must be also hard-coded! The following code must be changed:
         str.append("NMF_LIB=").append("`cd ../../libs > /dev/null; pwd`").append("\n");
         str.append("\n");
@@ -108,6 +116,11 @@ public class HelperNMFPackage {
         str.append("  \"$@\"\n");
 
         return str.toString();
+    }
+
+    public static String generateWindowsStartAppScript(String javaCommand,
+            String jarFilename, MetadataApp meta) throws IOException {
+        return "To be done...";
     }
 
     public static String generateProviderProperties(String runAs) throws IOException {
@@ -316,4 +329,56 @@ public class HelperNMFPackage {
 
         return bestJRE;
     }
+
+    public static void generateStartScript(MetadataApp appDetails, 
+            File appDir, File nmfDir) throws IOException {
+        String name = appDetails.getPackageName();
+        String jarName = appDetails.getAppMainJar();
+
+        if (jarName.equals("")) {
+            File jar = HelperNMFPackage.findAppJarInFolder(appDir);
+            jarName = jar.getName();
+        }
+
+        // The Java version for now will be forced to 8, however in
+        // the future the package should recommend a version
+        String javaCMD = HelperNMFPackage.findJREPath(nmfDir, 8, 8, 8);
+
+        OSValidator os = new OSValidator();
+
+        if (os.isUnix() || os.isMac()) {
+            String content = HelperNMFPackage.generateLinuxStartAppScript(
+                    javaCMD, jarName, appDetails);
+
+            String path = appDir.getAbsolutePath()
+                    + File.separator + "start_" + name + ".sh";
+
+            HelperNMFPackage.writeFile(path, content);
+            File startApp = new File(path);
+            startApp.setExecutable(true, true);
+        }
+
+        if (os.isWindows()) {
+            String content = HelperNMFPackage.generateWindowsStartAppScript(
+                    javaCMD, jarName, appDetails);
+
+            String path = appDir.getAbsolutePath()
+                    + File.separator + "start_" + name + ".bat";
+
+            HelperNMFPackage.writeFile(path, content);
+        }
+    }
+
+    public static void writeFile(String path, String content) {
+        System.out.println("   >> Creating file on: " + path);
+
+        try (FileWriter writer = new FileWriter(path)) {
+            writer.write(content);
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            // Handle the exception
+        }
+    }
+
 }

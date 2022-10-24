@@ -22,7 +22,7 @@ package esa.mo.nmf.nmfpackage;
 
 import esa.mo.nmf.nmfpackage.utils.HelperNMFPackage;
 import esa.mo.helpertools.misc.Const;
-import esa.mo.nmf.nmfpackage.metadata.DetailsApp;
+import esa.mo.nmf.nmfpackage.receipt.DetailsApp;
 import esa.mo.nmf.nmfpackage.metadata.Metadata;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

@@ -22,9 +22,9 @@ package esa.mo.nmf.nmfpackage;
 
 import esa.mo.nmf.nmfpackage.utils.HelperNMFPackage;
 import esa.mo.helpertools.helpers.HelperTime;
-import esa.mo.nmf.nmfpackage.metadata.DetailsApp;
-import esa.mo.nmf.nmfpackage.metadata.DetailsDependency;
 import esa.mo.nmf.nmfpackage.metadata.Metadata;
+import esa.mo.nmf.nmfpackage.metadata.MetadataApp;
+import esa.mo.nmf.nmfpackage.metadata.MetadataDependency;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -204,11 +204,8 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
         final String timestamp = HelperTime.time2readableString(time);
 
         // Package
-        DetailsApp details = new DetailsApp(name, version,
+        MetadataApp metadata = new MetadataApp(name, version,
                 timestamp, mainClass, mainJar, maxHeap, dependencies);
-
-        Metadata metadata = new Metadata(details.getProperties());
-        metadata.addProperty(Metadata.PACKAGE_TYPE, Metadata.TYPE_APP);
         NMFPackageCreator.create(metadata, inputFiles, locations, TARGET_FOLDER);
     }
 
@@ -219,11 +216,8 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
 
         Time time = new Time(System.currentTimeMillis());
         String timestamp = HelperTime.time2readableString(time);
-        DetailsDependency details = new DetailsDependency(
+        MetadataDependency metadata = new MetadataDependency(
                 artifact.getArtifactId(), artifact.getVersion(), timestamp);
- 
-        Metadata metadata = new Metadata(details.getProperties());
-        metadata.addProperty(Metadata.PACKAGE_TYPE, Metadata.TYPE_DEPENDENCY);
         ArrayList<String> newLocations = new ArrayList<>();
         newLocations.add("jars-shared-dependencies" + File.separator + file.getName());
         NMFPackageCreator.create(metadata, files, newLocations, TARGET_FOLDER);

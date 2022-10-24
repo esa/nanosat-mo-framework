@@ -18,8 +18,10 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.nmfpackage.metadata;
+package esa.mo.nmf.nmfpackage.receipt;
 
+import esa.mo.nmf.nmfpackage.metadata.Metadata;
+import esa.mo.nmf.nmfpackage.metadata.MetadataApp;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -27,6 +29,7 @@ import java.util.Properties;
  *
  * @author Cesar Coelho
  */
+@Deprecated
 public class DetailsApp {
 
     private final String packageName;
@@ -51,6 +54,7 @@ public class DetailsApp {
         this.properties = null;
     }
 
+    /*
     public DetailsApp(final Properties properties) {
         this.packageName = null;
         this.version = null;
@@ -61,6 +65,7 @@ public class DetailsApp {
         this.dependencies = null;
         this.properties = properties;
     }
+    */
 
     public Properties getProperties() {
         if (properties != null) {
@@ -70,12 +75,12 @@ public class DetailsApp {
             props.put(Metadata.PACKAGE_NAME, packageName);
             props.put(Metadata.PACKAGE_VERSION, version);
             props.put(Metadata.PACKAGE_TIMESTAMP, timestamp);
-            props.put(Metadata.APP_MAINCLASS, mainclass);
-            props.put(Metadata.APP_MAIN_JAR, mainJar);
-            props.put(Metadata.APP_MAX_HEAP, maxHeap);
+            props.put(MetadataApp.APP_MAINCLASS, mainclass);
+            props.put(MetadataApp.APP_MAIN_JAR, mainJar);
+            props.put(MetadataApp.APP_MAX_HEAP, maxHeap);
 
             if (dependencies != null) {
-                props.put(Metadata.APP_DEPENDENCIES, generateDependencies());
+                props.put(MetadataApp.APP_DEPENDENCIES, generateDependencies());
             }
 
             return props;
@@ -107,14 +112,14 @@ public class DetailsApp {
     }
 
     public String getMainclass() {
-        return (properties == null) ? mainclass : properties.getProperty(Metadata.APP_MAINCLASS);
+        return (properties == null) ? mainclass : properties.getProperty(MetadataApp.APP_MAINCLASS);
     }
 
     public String getMainJar() {
-        return (properties == null) ? mainJar : properties.getProperty(Metadata.APP_MAIN_JAR);
+        return (properties == null) ? mainJar : properties.getProperty(MetadataApp.APP_MAIN_JAR);
     }
 
     public String getMaxHeap() {
-        return (properties == null) ? maxHeap : properties.getProperty(Metadata.APP_MAX_HEAP);
+        return (properties == null) ? maxHeap : properties.getProperty(MetadataApp.APP_MAX_HEAP);
     }
 }
