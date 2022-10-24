@@ -30,21 +30,23 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import esa.mo.platform.impl.provider.gen.AIAdapterInterface;
-import esa.mo.platform.impl.provider.gen.ArtificialIntelligenceProviderServiceImpl;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.concurrent.TimeUnit;
 
 /**
  * The Artificial Intelligence adapter for the Intel Movidius Neural Compute
- * Stick via a python script. Note that this code was not developed for the
- * Intel Movidius Neural Compute Stick 2 and therefore this version will not
- * work.
+ * Stick via a python file. Note that this code was not developed for the Intel
+ * Movidius Neural Compute Stick 2 and therefore will only work with the first
+ * Intel Movidius Neural Compute Stick.
  *
  * @author Cesar Coelho
  */
 public class AIMovidiusAdapter implements AIAdapterInterface {
 
     private static final Logger LOGGER = Logger.getLogger(AIMovidiusAdapter.class.getName());
-    private static final String PYTHON_FILENAME = "aiInference.py";
-    private OSValidator os = new OSValidator();
+    private static final String PYTHON_FILENAME = "drivers" + File.separator + "aiInference.py";
+    private final OSValidator os = new OSValidator();
     private final File setupVarsPath;
 
     public AIMovidiusAdapter() throws IOException {
@@ -133,20 +135,26 @@ public class AIMovidiusAdapter implements AIAdapterInterface {
         return null;
     }
 
-    private String generateScriptSH(String pathIntelVar, String pythonFile) {
+    private String generateScriptSH(String pathIntelVar, String pythonCommand) {
         StringBuilder str = new StringBuilder();
-        str.append("#!/bin/bash \n\n");
         str.append("source ").append(pathIntelVar);
-        str.append("\n\n");
-        str.append("python3 ").append(pythonFile);
+        str.append(" ; ").append(pythonCommand);
         return str.toString();
     }
 
     private String generateScriptBAT(String pathIntelVar, String pythonFile) {
         StringBuilder str = new StringBuilder();
-        str.append(pathIntelVar);
-        str.append("\n\n");
-        str.append(pythonFile);
+        str.append(pathIntelVar).append(" & ").append(pythonFile);
+        return str.toString();
+    }
+
+    private String buildPythonCommand(String modelXml, String modelBin, String inputTiles, String outputTiles) {
+        StringBuilder str = new StringBuilder();
+        str.append("python3 ").append(PYTHON_FILENAME);
+        str.append(" --model_xml ").append(modelXml);
+        str.append(" --model_bin ").append(modelBin);
+        str.append(" --input_tiles ").append(inputTiles);
+        str.append(" --output_tiles ").append(outputTiles);
         return str.toString();
     }
 
@@ -154,24 +162,71 @@ public class AIMovidiusAdapter implements AIAdapterInterface {
     public void executeInference(String modelPath, String weightsPath,
             String inputPath, String outputPath) throws IOException {
         String pathIntelVar = setupVarsPath.getAbsolutePath();
-        String script = null;
+        String pythonCmd = buildPythonCommand(modelPath, weightsPath, inputPath, outputPath);
+        String cmd = null;
 
         if (os.isUnix()) {
-            script = this.generateScriptSH(pathIntelVar, PYTHON_FILENAME);
+            cmd = this.generateScriptSH(pathIntelVar, pythonCmd);
         }
         if (os.isWindows()) {
-            script = this.generateScriptBAT(pathIntelVar, PYTHON_FILENAME);
+            cmd = this.generateScriptBAT(pathIntelVar, pythonCmd);
         }
 
-        if (script == null) {
+        if (cmd == null) {
             throw new IOException("Unsupported OS!");
         }
-        
-        ShellCommander shellCommander = new ShellCommander();
-        String out = shellCommander.runCommandAndGetOutputMessage(script);
 
-        Logger.getLogger(AIMovidiusAdapter.class.getName()).log(Level.INFO, 
-                "Executed: " + out);
+        long timestampCommand = System.currentTimeMillis();
+        Logger.getLogger(AIMovidiusAdapter.class.getName()).log(
+                Level.INFO, "Running command:\n   >> " + cmd);
+
+        ShellCommander shellCommander = new ShellCommander();
+        Process p = shellCommander.runCommand(cmd);
+
+        long timeout = 2; // in minutes
+        Logger.getLogger(AIMovidiusAdapter.class.getName()).log(
+                Level.INFO,
+                "The process is running and it is expected to take some minutes!"
+                + "\nThe process will timeout after " + timeout + " minutes in "
+                + "case it is still not finished. Please wait...");
+
+        try {
+            boolean terminated = p.waitFor(timeout, TimeUnit.MINUTES);
+
+            if (!terminated) {
+                Logger.getLogger(AIMovidiusAdapter.class.getName()).log(Level.SEVERE,
+                        "Timeout reached: The process is stuck..."
+                        + "The adapter will kill the process!");
+
+                p.destroyForcibly();
+            }
+        } catch (InterruptedException ex) {
+            Logger.getLogger(AIMovidiusAdapter.class.getName()).log(Level.SEVERE,
+                    "The thread was interrupted while waiting....", ex);
+        }
+
+        // Get the textual message from the process
+        BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+        StringBuilder buffer = new StringBuilder();
+        String line;
+        while ((line = br.readLine()) != null) {
+            buffer.append(line);
+            buffer.append("\n");
+        }
+
+        String message = buffer.toString();
+        int exitValue = p.exitValue();
+        timestampCommand = System.currentTimeMillis() - timestampCommand;
+
+        Logger.getLogger(AIMovidiusAdapter.class.getName()).log(Level.INFO,
+                "The execution of the command took " + timestampCommand + " miliseconds!\n"
+                + "The exit value is: " + exitValue + "\nThe output is:\n" + message);
+
+        if (exitValue != 0) {
+            Logger.getLogger(AIMovidiusAdapter.class.getName()).log(
+                    Level.SEVERE, "The execution failed!");
+            throw new IOException("The execution failed!");
+        }
     }
 
     @Override
