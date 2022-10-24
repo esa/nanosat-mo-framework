@@ -91,7 +91,7 @@ public class PublishedPlansPanel extends PublishedUpdatesPanel {
         archiveQuery.setDomain(null);
         archiveQuery.setNetwork(null);
         archiveQuery.setProvider(null);
-        archiveQuery.setRelated(new Long(0));
+        archiveQuery.setRelated(0L);
         archiveQuery.setSource(null);
         archiveQuery.setStartTime(startTime);
         archiveQuery.setEndTime(null);

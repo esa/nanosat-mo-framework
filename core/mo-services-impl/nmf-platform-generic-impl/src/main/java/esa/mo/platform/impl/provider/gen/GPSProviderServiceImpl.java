@@ -312,7 +312,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
     }
 
     response.setBodyElement0(pos);
-    double elapsedTime = (System.currentTimeMillis() - startTime) / 1000; // convert from milli to
+    double elapsedTime = (System.currentTimeMillis() - startTime) / 1000.0; // convert from milli to
     // sec
     response.setBodyElement1(new Duration(elapsedTime));
     return response;
@@ -546,7 +546,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
       throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, null));
     }
 
-    double elapsedTime = (System.currentTimeMillis() - startTime) / 1000; // convert from milli to sec
+    double elapsedTime = (System.currentTimeMillis() - startTime) / 1000.0; // convert from milli to sec
 
     return new GetLastKnownPositionAndVelocityResponse(position, positionDeviation, velocity,
         velocityDeviation, new Duration(elapsedTime));
@@ -832,11 +832,11 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
           boolean useTLEpropagation = false;
           try {
             useTLEpropagation = useTLEPropagation();
-          }catch(MALException | MALInteractionException e){}
+          }catch(MALException | MALInteractionException ignored){}
           final Position pos = updateCurrentPosition(useTLEpropagation);
           try{ 
             updateCurrentPositionAndVelocity(useTLEpropagation);
-          }catch(IOException | NumberFormatException e){}
+          }catch(IOException | NumberFormatException ignored){}
 
           // Compare with all the available definitions and raise
           // NearbyPositionAlerts in case something has changed

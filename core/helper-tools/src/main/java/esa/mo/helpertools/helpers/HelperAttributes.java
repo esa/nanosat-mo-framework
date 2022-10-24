@@ -61,9 +61,9 @@ import org.ccsds.moims.mo.mal.structures.Union;
  */
 public class HelperAttributes {
 
-  public static Byte SERIAL_OBJECT_RAW_TYPE = (byte) 127; // Selected value to represent a
+  public static final Byte SERIAL_OBJECT_RAW_TYPE = (byte) 127; // Selected value to represent a
                                                           // Serialized object
-  public static String SERIAL_OBJECT_STRING = "SerializedObject"; // Selected the String to
+  public static final String SERIAL_OBJECT_STRING = "SerializedObject"; // Selected the String to
                                                                   // represent a Serialized object
 
   /**

@@ -102,7 +102,7 @@ public class AlertTest2 {
         eventConsumer.addEventReceivedListener(eventSub, new EventConsumerAdapter());
     }
 
-    public class EventConsumerAdapter extends EventReceivedListener {
+    public static class EventConsumerAdapter extends EventReceivedListener {
 
         @Override
         public void onDataReceived(EventCOMObject eventCOMObject) {

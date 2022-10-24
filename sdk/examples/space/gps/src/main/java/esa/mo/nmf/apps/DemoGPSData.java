@@ -73,7 +73,7 @@ public class DemoGPSData {
 
     public DemoGPSData() {
         this.connector = new NanoSatMOConnectorImpl();
-        this.connector.init(new mcAdapter());
+        this.connector.init(new McAdapter());
     }
 
     /**
@@ -107,7 +107,7 @@ public class DemoGPSData {
         }
     }
 
-    public class mcAdapter extends MonitorAndControlNMFAdapter {
+    public class McAdapter extends MonitorAndControlNMFAdapter {
 
         @Override
         public void initialRegistrations(MCRegistration registrationObject) {

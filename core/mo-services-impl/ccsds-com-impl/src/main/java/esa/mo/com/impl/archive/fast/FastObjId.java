@@ -133,7 +133,7 @@ public class FastObjId {
         }
     }
 
-    private class Key {
+    private static class Key {
 
         private final Integer objectTypeId;
         private final Integer domainId;

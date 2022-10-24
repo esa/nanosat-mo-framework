@@ -11,7 +11,7 @@ import org.ccsds.moims.mo.com.archive.structures.QueryFilter;
 import org.ccsds.moims.mo.mal.structures.IntegerList;
 
 public class CallableDeleteQuery extends CallableGenericQuery<Integer> {
-    public static Logger LOGGER = Logger.getLogger(CallableDeleteQuery.class.getName());
+    public static final Logger LOGGER = Logger.getLogger(CallableDeleteQuery.class.getName());
 
     public CallableDeleteQuery(TransactionsProcessor transactionsProcessor, IntegerList objTypeIds,
             ArchiveQuery archiveQuery, IntegerList domainIds, Integer providerURIId, Integer networkId,

@@ -56,7 +56,7 @@ public class DemoSerialObject {
         DemoSerialObject demo = new DemoSerialObject();
     }
 
-    public class MCAdapter extends SimpleMonitorAndControlAdapter {
+    public static class MCAdapter extends SimpleMonitorAndControlAdapter {
 
         @Override
         public void initialRegistrations(MCRegistration registrationObject) {

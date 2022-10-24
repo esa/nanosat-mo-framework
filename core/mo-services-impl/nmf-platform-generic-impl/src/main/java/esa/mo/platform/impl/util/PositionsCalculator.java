@@ -29,8 +29,8 @@ import org.ccsds.moims.mo.platform.gps.structures.Position;
  */
 public class PositionsCalculator {
 
-    public static double R = 6371; // Equatorial Radius
-    public static double f = 0.00335281066474748071984552861852; // Flattening
+    public static final double R = 6371; // Equatorial Radius
+    public static final double f = 0.00335281066474748071984552861852; // Flattening
 
     public static class ECEFVector {
 

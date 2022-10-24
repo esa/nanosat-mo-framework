@@ -807,7 +807,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
                 final double samplingInterval = statLink.getSamplingInterval().getValue();
 
                 // hardcode invalid sample rates of 1000.0s and 50.1s - we need to finish this quickly!
-                if (linkId == 0 || linkId == null || samplingInterval < 0 || samplingInterval == 1000.0 || samplingInterval == 50.1) { // requirement: 3.6.15.2.b. 3.6.15.2.d
+                if (linkId == null  || linkId == 0 || samplingInterval < 0 || samplingInterval == 1000.0 || samplingInterval == 50.1) { // requirement: 3.6.15.2.b. 3.6.15.2.d
                     invIndexList.add(new UInteger(index));
                     continue;
                 }

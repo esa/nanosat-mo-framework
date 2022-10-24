@@ -253,6 +253,9 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
 
         interaction.sendAcknowledgement();  // "ok, it was received.."
 
+        if (lArchiveQueryList == null) {
+            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));  // requirement: 3.4.4.2.4 and 3.4.4.2.5
+        }
         // Is the list empty?
         if (lArchiveQueryList.isEmpty()) {
             interaction.sendResponse(null, null, null, null);  // requirement: 3.4.4.2.29
@@ -265,9 +268,6 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         }
         if (lObjectType == null) {
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));  // requirement: 3.4.4.2.2 and 3.4.4.2.3
-        }
-        if (lArchiveQueryList == null) {
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));  // requirement: 3.4.4.2.4 and 3.4.4.2.5
         }
 
         if (queryFilterList != null) { // requirement: 3.4.4.2.8
@@ -298,9 +298,8 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             if (queryFilterList != null) { // requirement: 3.4.4.2.8
                 if (tmpQueryFilter instanceof CompositeFilterSet) {
                     try {
-                        if (tmpQueryFilter != null) { // requirement: 3.4.4.2.7
-                            perObjs = ArchiveManager.filterQuery(perObjs, (CompositeFilterSet) tmpQueryFilter);  // requirement: 3.4.4.2.10
-                        }
+                        // requirement: 3.4.4.2.7
+                        perObjs = ArchiveManager.filterQuery(perObjs, (CompositeFilterSet) tmpQueryFilter);  // requirement: 3.4.4.2.10
                     } catch (SecurityException | IllegalArgumentException ex) {
                         invIndexList.add(new UInteger(index));
                     }
@@ -431,6 +430,10 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         LongList outLong = new LongList();
         interaction.sendAcknowledgement();  // "ok, it was received.."
 
+        if (lArchiveQueryList == null) {
+            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null)); // requirement: 3.4.5.2.1
+        }
+
         // Is the list empty?
         if (lArchiveQueryList.isEmpty()) {
             interaction.sendResponse(null);  // requirement: 3.4.4.2.29
@@ -438,10 +441,6 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         }
 
         if (lObjectType == null) {
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null)); // requirement: 3.4.5.2.1
-        }
-
-        if (lArchiveQueryList == null) {
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null)); // requirement: 3.4.5.2.1
         }
 
@@ -471,9 +470,8 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             if (queryFilterList != null) {
                 if (tmpQueryFilter instanceof CompositeFilterSet) {
                     try {
-                        if (tmpQueryFilter != null) { // requirement: 3.4.4.2.7
-                            perObjs = ArchiveManager.filterQuery(perObjs, (CompositeFilterSet) tmpQueryFilter);  // requirement: 3.4.4.2.10
-                        }
+                        // requirement: 3.4.4.2.7
+                        perObjs = ArchiveManager.filterQuery(perObjs, (CompositeFilterSet) tmpQueryFilter);  // requirement: 3.4.4.2.10
                     } catch (SecurityException | IllegalArgumentException ex) {
                         invIndexList.add(new UInteger(index));
                     }

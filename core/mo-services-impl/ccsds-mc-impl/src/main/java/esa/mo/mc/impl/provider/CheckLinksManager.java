@@ -23,6 +23,8 @@ import esa.mo.com.impl.util.COMServicesProvider;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.ccsds.moims.mo.com.structures.ObjectDetails;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mc.check.structures.CheckLinkDetails;
@@ -111,12 +113,12 @@ class CheckLinksManager extends MCManager {
     }
 
     public Long getCheckLinkId(Long checkLinkDefId) {
-        for (Long key : checkLinkIds.keySet()) {
-            if(checkLinkIds.get(key) == null && checkLinkDefId == null){
-                return key;
+        for(Map.Entry<Long, Long> entry : checkLinkIds.entrySet()) {
+            if(entry.getValue() == null && checkLinkDefId == null){
+                return entry.getKey();
             }
-            if (checkLinkIds.get(key) != null && checkLinkDefId != null  && checkLinkIds.get(key).equals(checkLinkDefId)) {
-                return key;
+            if (entry.getValue() != null && entry.getValue().equals(checkLinkDefId)) {
+                return entry.getKey();
             }
         }
         return null;

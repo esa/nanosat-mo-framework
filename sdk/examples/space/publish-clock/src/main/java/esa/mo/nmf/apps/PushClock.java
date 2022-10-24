@@ -105,7 +105,7 @@ public class PushClock {
         PushClock demo = new PushClock();
     }
 
-    public class MCAdapter extends MonitorAndControlNMFAdapter {
+    public static class MCAdapter extends MonitorAndControlNMFAdapter {
 
         @Override
         public void initialRegistrations(MCRegistration registrationObject) {

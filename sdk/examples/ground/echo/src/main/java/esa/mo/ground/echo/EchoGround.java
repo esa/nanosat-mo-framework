@@ -106,7 +106,7 @@ public class EchoGround
     return;
   }
 
-  private class SimpleDataReceivedAdapter extends SimpleDataReceivedListener
+  private static class SimpleDataReceivedAdapter extends SimpleDataReceivedListener
   {
 
     @Override
@@ -122,7 +122,7 @@ public class EchoGround
     }
   }
 
-  private class CompleteDataReceivedAdapter extends CompleteDataReceivedListener
+  private static class CompleteDataReceivedAdapter extends CompleteDataReceivedListener
   {
 
     @Override

@@ -249,6 +249,6 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
 
   double getAttitudeSaftyMarginSeconds()
   {
-    return this.attitudeSaftyMarginMS / 1000;
+    return this.attitudeSaftyMarginMS / 1000.0;
   }
 }

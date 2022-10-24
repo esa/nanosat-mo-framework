@@ -28,6 +28,7 @@ import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperAttributes;
 import esa.mo.mc.impl.interfaces.ExternalStatisticFunctionsInterface;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
@@ -145,10 +146,9 @@ public final class StatisticManager {
 
     public LongList getStatisticLinksForFunction(Long statFuncId) {
         LongList foundList = new LongList();
-        final Set<Long> statLinkIds = statLinks.keySet();
-        for (Long statLinkId : statLinkIds) {
-            if (statLinks.get(statLinkId).getStatFuncInstId().equals(statFuncId)) {
-                foundList.add(statLinkId);
+        for (Map.Entry<Long, StatisticCreationRequest> entry : statLinks.entrySet()) {
+            if (entry.getValue().getStatFuncInstId().equals(statFuncId)) {
+                foundList.add(entry.getKey());
             }
         }
         return foundList;
@@ -567,7 +567,7 @@ public final class StatisticManager {
         return parameterManager.existsIdentity(instId);
     }
 
-    public class DataSets {
+    public static class DataSets {
 
         private final HashMap<Long, AttributeValueList> dataSets = new HashMap<>();
         private final HashMap<Long, TimeList> timeSets = new HashMap<>();

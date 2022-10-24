@@ -149,7 +149,7 @@ public class CameraAcquisitorGround
   /**
    * class containing all parameters needed for the space application
    */
-  private class Parameter
+  private static class Parameter
   {
     private static final String GAIN_RED = "gainRed";
     private static final String GAIN_GREEN = "gainGreen";
@@ -166,7 +166,7 @@ public class CameraAcquisitorGround
   /**
    * Inner class for storing action progress (like current stage etc.)
    */
-  private class ActionReport
+  private static class ActionReport
   {
     // number of the stage
     public int stage;
@@ -249,39 +249,35 @@ public class CameraAcquisitorGround
         LOGGER.log(Level.SEVERE, null, ex);
       }
     }
-    if (gma != null) {
-      try{
-        Subscription subscription = HelperCOM.generateSubscriptionCOMEvent(
-          "ActivityTrackingListener",
-          ActivityTrackingHelper.EXECUTION_OBJECT_TYPE);
-        gma.getCOMServices().getEventService().addEventReceivedListener(subscription,
-          new EventReceivedListenerAdapter());
-        setInitialParameters();
+    try{
+      Subscription subscription = HelperCOM.generateSubscriptionCOMEvent(
+        "ActivityTrackingListener",
+        ActivityTrackingHelper.EXECUTION_OBJECT_TYPE);
+      gma.getCOMServices().getEventService().addEventReceivedListener(subscription,
+        new EventReceivedListenerAdapter());
+      setInitialParameters();
 
-        // get previous requests
-        ArchiveQueryList archiveQueryList = new ArchiveQueryList();
-        ArchiveQuery archiveQuery = new ArchiveQuery();
-        archiveQuery.setDomain(null);
-        archiveQuery.setNetwork(null);
-        archiveQuery.setProvider(null);
-        archiveQuery.setRelated(new Long(0));
-        archiveQuery.setSource(null);
-        archiveQuery.setStartTime(null);
-        archiveQuery.setEndTime(null);
-        archiveQuery.setSortFieldName(null);
-        archiveQueryList.add(archiveQuery);
+      // get previous requests
+      ArchiveQueryList archiveQueryList = new ArchiveQueryList();
+      ArchiveQuery archiveQuery = new ArchiveQuery();
+      archiveQuery.setDomain(null);
+      archiveQuery.setNetwork(null);
+      archiveQuery.setProvider(null);
+      archiveQuery.setRelated(0L);
+      archiveQuery.setSource(null);
+      archiveQuery.setStartTime(null);
+      archiveQuery.setEndTime(null);
+      archiveQuery.setSortFieldName(null);
+      archiveQueryList.add(archiveQuery);
 
-        GetAllArchiveAdapter archiveAdapter = new GetAllArchiveAdapter();
-        gma.getCOMServices().getArchiveService().getArchiveStub().query(true, new ObjectType(
-                          new UShort(0), new UShort(0), new UOctet((short) 0), new UShort(0)),
-                          archiveQueryList, null, archiveAdapter);
+      GetAllArchiveAdapter archiveAdapter = new GetAllArchiveAdapter();
+      gma.getCOMServices().getArchiveService().getArchiveStub().query(true, new ObjectType(
+                        new UShort(0), new UShort(0), new UOctet((short) 0), new UShort(0)),
+                        archiveQueryList, null, archiveAdapter);
 
-                          LOGGER.log(Level.INFO,"Finished getting archive entries!");
-      }catch (MALException | MALInteractionException ex) {
-        LOGGER.log(Level.SEVERE, null, ex);
-      }
-    }else {
-      //LOGGER.log(Level.SEVERE, "Failed to connect to the provider. No such provider found - " + PROVIDER_CAMERA_APP);
+                        LOGGER.log(Level.INFO,"Finished getting archive entries!");
+    }catch (MALException | MALInteractionException ex) {
+      LOGGER.log(Level.SEVERE, null, ex);
     }
     orbitHandler = new OrbitHandler(getTLE());
   }

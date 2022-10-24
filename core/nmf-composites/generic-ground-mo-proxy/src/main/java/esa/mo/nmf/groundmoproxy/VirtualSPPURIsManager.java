@@ -28,6 +28,8 @@ import java.util.logging.Logger;
 
 public class VirtualSPPURIsManager {
 
+    private static Random random = new Random();
+
     private final static String PROTOCOL_SPP = "malspp";
     private final static String APID_QUALIFIER = "247";
     private final int apidRangeStart;
@@ -44,7 +46,6 @@ public class VirtualSPPURIsManager {
         this.apidRangeStart = apidRangeStart;
         this.apidRangeEnd = apidRangeEnd;
 
-        Random random = new Random();
         int apid = random.nextInt((apidRangeEnd - apidRangeStart) + 1) + apidRangeStart;
         int sourceId = random.nextInt((SOURDEID_RANGE_END - SOURDEID_RANGE_START) + 1) + SOURDEID_RANGE_START;
 
