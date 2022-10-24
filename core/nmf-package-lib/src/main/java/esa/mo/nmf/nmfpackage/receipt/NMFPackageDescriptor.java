@@ -21,7 +21,6 @@
 package esa.mo.nmf.nmfpackage.receipt;
 
 import esa.mo.nmf.nmfpackage.NMFPackageFile;
-import esa.mo.nmf.nmfpackage.metadata.DetailsApp;
 import esa.mo.nmf.nmfpackage.metadata.Metadata;
 import esa.mo.nmf.nmfpackage.utils.HelperNMFPackage;
 import java.io.BufferedReader;
@@ -35,6 +34,9 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 /**
+ * The NMF Package Descriptor holds the information of an App. This class is
+ * deprecated because NMF Packages are now more flexible and can carry other
+ * types of information. This class will be removed in a future release.
  *
  * @author Cesar Coelho
  */
@@ -112,6 +114,7 @@ public class NMFPackageDescriptor {
         }
     }
 
+    @Deprecated
     public Metadata toMetadata() {
         Properties props = details.getProperties();
         props.put(Metadata.PACKAGE_METADATA_VERSION, descriptorVersion);

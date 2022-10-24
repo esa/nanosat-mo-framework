@@ -68,27 +68,18 @@ public class Metadata {
     public static final String TYPE_UPDATE_MISSION = "mission";
     public static final String TYPE_UPDATE_NMF = "nmf";
 
-    public static final String APP_MAINCLASS = "pack.app.mainclass";
-    public static final String APP_MAIN_JAR = "pack.app.mainjar";
-    public static final String APP_MAX_HEAP = "pack.app.maxheap";
-    public static final String APP_MIN_HEAP = "pack.app.minheap";
-    public static final String APP_DEPENDENCIES = "pack.app.dependencies";
-
     public static final String FILE_COUNT = "zipped.file.count";
     public static final String FILE_PATH = "zipped.file.path";
     public static final String FILE_CRC = "zipped.file.crc";
 
-    private final Properties properties;
+    protected final Properties properties;
     private ArrayList<NMFPackageFile> files;
-
-    public Metadata() {
-        this(new Properties());
-    }
 
     public Metadata(final Properties properties) {
         this(properties, null);
     }
 
+    @Deprecated
     public Metadata(Properties properties, ArrayList<NMFPackageFile> files) {
         this.files = files;
         this.properties = this.newOrderedProperties();
@@ -103,7 +94,6 @@ public class Metadata {
                 this.properties.put(FILE_PATH + "." + i, file.getPath());
                 this.properties.put(FILE_CRC + "." + i, String.valueOf(file.getCRC()));
             }
-
         }
     }
 
@@ -136,24 +126,11 @@ public class Metadata {
         return properties.getProperty(PACKAGE_TYPE);
     }
 
-    public String getAppMainclass() {
-        return properties.getProperty(APP_MAINCLASS);
-    }
-
-    public String getAppMainJar() {
-        return properties.getProperty(APP_MAIN_JAR);
-    }
-
-    public String getAppMaxHeap() {
-        return properties.getProperty(APP_MAX_HEAP);
-    }
-
-    public String getAppMinHeap() {
-        return properties.getProperty(APP_MIN_HEAP);
-    }
-
-    public String getAppDependencies() {
-        return properties.getProperty(APP_DEPENDENCIES);
+    public MetadataApp castToApp() {
+        if (!isApp()) {
+            return null;
+        }
+        return new MetadataApp(this.properties);
     }
 
     public synchronized ArrayList<NMFPackageFile> getFiles() {
@@ -177,6 +154,7 @@ public class Metadata {
         properties.store(outStream, "NMF Package Metadata");
     }
 
+    @Deprecated
     public void store() throws IOException, FileNotFoundException, IOException {
         this.store(new FileOutputStream(Metadata.FILENAME));
     }
@@ -248,7 +226,7 @@ public class Metadata {
         };
     }
 
-    public boolean isAppPackage() {
+    public boolean isApp() {
         // Before version 4, all NMF Packages were used to carry Apps
         // Version 4 is more dynamic and allows NMF Packages to carry other
         // types of data, such as: NMF updates, NMF Mission updates, JREs, etc
@@ -283,6 +261,11 @@ public class Metadata {
         return true;
     }
 
+    /**
+     * Prints the metadata in a readable string.
+     *
+     * @return The metadata as a string.
+     */
     public String print() {
         StringBuilder str = new StringBuilder();
 

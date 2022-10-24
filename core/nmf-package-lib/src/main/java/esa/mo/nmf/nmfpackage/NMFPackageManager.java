@@ -23,13 +23,14 @@ package esa.mo.nmf.nmfpackage;
 import esa.mo.nmf.nmfpackage.utils.LinuxUsersGroups;
 import esa.mo.nmf.nmfpackage.utils.HelperNMFPackage;
 import esa.mo.helpertools.helpers.HelperMisc;
+import esa.mo.helpertools.misc.Const;
 import esa.mo.helpertools.misc.OSValidator;
 import esa.mo.nmf.nmfpackage.metadata.Metadata;
+import esa.mo.nmf.nmfpackage.metadata.MetadataApp;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -100,11 +101,14 @@ public class NMFPackageManager {
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                 "Copying the files to the new locations...");
 
-        installDependencies(metadata, packageLocation, nmfDir);
+        if(metadata.isApp()){
+            installDependencies(metadata.castToApp(), packageLocation, nmfDir);
+        }
+        
         extractFiles(pack, nmfDir);
         String packageName = metadata.getPackageName();
 
-        if (metadata.isAppPackage()) {
+        if (metadata.isApp()) {
             // We can do additional checks... for example: 
             //      1. Are we trying to install more than one App?
             //      2. Does the app name on the package matches the folder name?
@@ -138,7 +142,7 @@ public class NMFPackageManager {
                     username = null;
                 }
 
-                generateStartSHScript(metadata, installationDir, nmfDir);
+                HelperNMFPackage.generateStartScript(metadata.castToApp(), installationDir, nmfDir);
             }
 
             createAuxiliaryFiles(installationDir, username);
@@ -183,7 +187,7 @@ public class NMFPackageManager {
         removeFiles(packageMetadata);
         String packageName = packageMetadata.getPackageName();
 
-        if (packageMetadata.isAppPackage()) {
+        if (packageMetadata.isApp()) {
             // This directory should be passed in the method signature:
             File nmfDir = getInstallationFolder();
             File installationDir = new File(nmfDir.getAbsolutePath()
@@ -260,7 +264,7 @@ public class NMFPackageManager {
         removeFiles(oldPackMetadata);
 
         String packageName = oldPackMetadata.getPackageName();
-        boolean isApp = oldPackMetadata.isAppPackage();
+        boolean isApp = oldPackMetadata.isApp();
 
         if (isApp) {
             // This directory should be passed in the method signature:
@@ -280,7 +284,8 @@ public class NMFPackageManager {
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                 "Copying the new files to the locations...");
 
-        installDependencies(newPackMetadata, packageLocation, nmfDir);
+        MetadataApp appMetadata = newPackMetadata.castToApp();
+        installDependencies(appMetadata, packageLocation, nmfDir);
         extractFiles(newPack, nmfDir);
 
         if (isApp) {
@@ -291,7 +296,7 @@ public class NMFPackageManager {
 
             if ((new OSValidator()).isUnix()) {
                 username = generateUsername(packageName);
-                generateStartSHScript(newPackMetadata, installationDir, nmfDir);
+                HelperNMFPackage.generateStartScript(appMetadata, installationDir, nmfDir);
             }
 
             createAuxiliaryFiles(installationDir, username);
@@ -338,51 +343,13 @@ public class NMFPackageManager {
         String providerPath = installationDir.getAbsolutePath()
                 + File.separator + HelperMisc.PROVIDER_PROPERTIES_FILE;
         String providerContent = HelperNMFPackage.generateProviderProperties(username);
-        NMFPackageManager.writeFile(providerPath, providerContent);
+        HelperNMFPackage.writeFile(providerPath, providerContent);
 
         // Generate transport.properties
         String transportPath = installationDir.getAbsolutePath()
                 + File.separator + HelperMisc.TRANSPORT_PROPERTIES_FILE;
         String transportContent = HelperNMFPackage.generateTransportProperties();
-        NMFPackageManager.writeFile(transportPath, transportContent);
-    }
-
-    private static void generateStartSHScript(Metadata appDetails,
-            File installationDir, File nmfDir) throws IOException {
-        String packageName = appDetails.getPackageName();
-        String jarName = appDetails.getAppMainJar();
-
-        if (jarName.equals("")) {
-            File jar = HelperNMFPackage.findAppJarInFolder(installationDir);
-            jarName = jar.getName();
-        }
-
-        // The Java version for now will be forced to 8, however in
-        // the future the package should recommend a version
-        String javaCMD = HelperNMFPackage.findJREPath(nmfDir, 8, 8, 8);
-        String mainClass = appDetails.getAppMainclass();
-        String maxHeap = appDetails.getAppMaxHeap();
-        String content = HelperNMFPackage.generateLinuxStartAppScript(
-                javaCMD, mainClass, jarName, maxHeap);
-
-        String path = installationDir.getAbsolutePath()
-                + File.separator + "start_" + packageName + ".sh";
-
-        NMFPackageManager.writeFile(path, content);
-        File startApp = new File(path);
-        startApp.setExecutable(true, true);
-    }
-
-    private static void writeFile(String path, String content) {
-        System.out.println("   >> Creating file on: " + path);
-
-        try (FileWriter writer = new FileWriter(path)) {
-            writer.write(content);
-            writer.flush();
-            writer.close();
-        } catch (IOException e) {
-            // Handle the exception
-        }
+        HelperNMFPackage.writeFile(transportPath, transportContent);
     }
 
     /**
@@ -493,7 +460,7 @@ public class NMFPackageManager {
         return out.replace('\\', File.separatorChar);
     }
 
-    private static void installDependencies(Metadata metadata, String packageLocation,
+    private static void installDependencies(MetadataApp metadata, String packageLocation,
             File installationDir) throws IOException {
         String dependencies = metadata.getAppDependencies();
         String parent = (new File(packageLocation)).getParent();
@@ -503,7 +470,7 @@ public class NMFPackageManager {
                     Level.INFO, "Dependencies are:  " + dependencies);
 
             for (String file : dependencies.split(";")) {
-                file = file.replace(".jar", ".nmfpack");
+                file = file.replace(".jar", "." + Const.NMF_PACKAGE_SUFFIX);
                 String path = parent + File.separator + file;
                 extractFiles(new NMFPackage(path), installationDir);
             }
@@ -568,17 +535,18 @@ public class NMFPackageManager {
     }
 
     private static void removeFile(File file) throws IOException {
-        System.out.println("   >> Removing: " + file.getCanonicalPath());
+        String path = file.getCanonicalPath();
+        System.out.println("   >> Removing: " + path);
 
         if (!file.exists()) {
             Logger.getLogger(NMFPackageManager.class.getName()).log(Level.WARNING,
-                    "Not Found / Does not exist: " + file.getCanonicalPath());
+                    "Not Found / Does not exist: " + path);
             return;
         }
 
         if (!file.delete()) { // Remove the file!
             Logger.getLogger(NMFPackageManager.class.getName()).log(Level.WARNING,
-                    "One of the files could not be deleted: " + file.getCanonicalPath());
+                    "One of the files could not be deleted: " + path);
         }
     }
 
