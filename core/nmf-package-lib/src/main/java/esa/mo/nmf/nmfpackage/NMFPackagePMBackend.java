@@ -108,7 +108,7 @@ public class NMFPackagePMBackend implements PMBackend {
             ZipFile zipFile = new ZipFile(folderLocation);
 
             // Verify integrity of the file: Are all the declared files matching their CRCs?
-            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
+            Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.INFO,
                     "Reading the metadata file that includes the list of files to be uninstalled...");
 
             Metadata metadata = Metadata.parseZipFile(zipFile);
