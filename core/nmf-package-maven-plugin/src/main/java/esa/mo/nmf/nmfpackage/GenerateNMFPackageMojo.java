@@ -21,8 +21,6 @@
 package esa.mo.nmf.nmfpackage;
 
 import esa.mo.nmf.nmfpackage.utils.HelperNMFPackage;
-import esa.mo.helpertools.helpers.HelperTime;
-import esa.mo.nmf.nmfpackage.metadata.Metadata;
 import esa.mo.nmf.nmfpackage.metadata.MetadataApp;
 import esa.mo.nmf.nmfpackage.metadata.MetadataDependency;
 import java.io.File;
@@ -39,7 +37,6 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
-import org.ccsds.moims.mo.mal.structures.Time;
 
 /**
  * Generates the NMF Package for the NMF App
@@ -116,7 +113,7 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
     @Override
     public void execute() throws MojoExecutionException {
         getLog().info("Generating NMF Package...");
-        appPath = "apps" + File.separator + name + File.separator;
+        appPath = Deployment.DIR_APPS + File.separator + name + File.separator;
         String mainJar = "";
 
         try {
@@ -200,12 +197,10 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
         }
         
         getLog().info("------\nGenerating project NMF Package...\n");
-        final Time time = new Time(System.currentTimeMillis());
-        final String timestamp = HelperTime.time2readableString(time);
-
+        
         // Package
         MetadataApp metadata = new MetadataApp(name, version,
-                timestamp, mainClass, mainJar, maxHeap, dependencies);
+                mainClass, mainJar, maxHeap, dependencies);
         NMFPackageCreator.create(metadata, inputFiles, locations, TARGET_FOLDER);
     }
 
@@ -214,12 +209,10 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
         ArrayList<String> files = new ArrayList<>();
         files.add(file.toPath().toString());
 
-        Time time = new Time(System.currentTimeMillis());
-        String timestamp = HelperTime.time2readableString(time);
-        MetadataDependency metadata = new MetadataDependency(
-                artifact.getArtifactId(), artifact.getVersion(), timestamp);
+        String id = artifact.getArtifactId();
+        MetadataDependency metadata = new MetadataDependency(id, artifact.getVersion());
         ArrayList<String> newLocations = new ArrayList<>();
-        newLocations.add("jars-shared-dependencies" + File.separator + file.getName());
+        newLocations.add(Deployment.DIR_JARS_SHARED + File.separator + file.getName());
         NMFPackageCreator.create(metadata, files, newLocations, TARGET_FOLDER);
         return file.getName();
     }

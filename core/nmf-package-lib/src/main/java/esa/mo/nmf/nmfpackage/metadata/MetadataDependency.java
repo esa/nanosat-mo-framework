@@ -29,12 +29,11 @@ import java.util.Properties;
  */
 public class MetadataDependency extends Metadata {
 
-    public MetadataDependency(String packageName, String version, String timestamp) {
+    public MetadataDependency(String packageName, String version) {
         super(new Properties());
+        properties.put(Metadata.PACKAGE_TYPE, Metadata.TYPE_DEPENDENCY);
         properties.put(Metadata.PACKAGE_NAME, packageName);
         properties.put(Metadata.PACKAGE_VERSION, version);
-        properties.put(Metadata.PACKAGE_TIMESTAMP, timestamp);
-        properties.put(Metadata.PACKAGE_TYPE, Metadata.TYPE_DEPENDENCY);
     }
 
 }

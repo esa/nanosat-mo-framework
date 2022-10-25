@@ -266,6 +266,10 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
         System.exit(0);
     }
   }
+  
+  public AppsLauncherProviderServiceImpl getAppsLauncherService() {
+    return appsLauncherService;
+  }
 
   @Override
   public void init(MissionPlanningNMFAdapter mpAdapter) {

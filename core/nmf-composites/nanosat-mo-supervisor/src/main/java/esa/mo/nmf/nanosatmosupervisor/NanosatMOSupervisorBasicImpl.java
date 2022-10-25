@@ -84,7 +84,11 @@ public class NanosatMOSupervisorBasicImpl extends NanoSatMOSupervisor {
 
     @Override
     public void init(MonitorAndControlNMFAdapter mcAdapter) {
-        init(mcAdapter, new PlatformServicesConsumer(), new NMFPackagePMBackend("packages"));
+        init(mcAdapter,
+                new PlatformServicesConsumer(),
+                new NMFPackagePMBackend("packages", this.getAppsLauncherService())
+        );
+
         this.startStatusTracking();
     }
 
