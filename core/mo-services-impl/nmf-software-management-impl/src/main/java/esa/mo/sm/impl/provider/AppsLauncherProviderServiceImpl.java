@@ -508,7 +508,6 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     public ListAppResponse listApp(final IdentifierList appNames, final Identifier category,
             final MALInteraction interaction) throws MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
-        ListAppResponse outList = new ListAppResponse();
 
         if (null == appNames) { // Is the input null?
             throw new IllegalArgumentException("IdentifierList argument must not be null");
@@ -525,19 +524,24 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             }
         }
 
-        LongList ids = new LongList();
+        LongList matchedIds = new LongList();
         BooleanList runningApps = new BooleanList();
 
         for (int index = 0; index < appNames.size(); index++) {
             if ("*".equals(appNames.get(index).getValue())) {
-                ids.clear();  // if the wildcard is in the middle of the input list, we clear the output list and...
-                ids.addAll(manager.listAll());
+                // if the wildcard is in one of the entries of the input list, 
+                // then we clear the output list and...
+                matchedIds.clear();
+                matchedIds.addAll(manager.listAll());
                 break;
             }
 
-            if (manager.list(appNames.get(index)) == null) {
-                // The app does not exist...
+            Long appId = manager.list(appNames.get(index));
+            
+            if (appId == null) { // The app does not exist...
                 unkIndexList.add(new UInteger(index)); // Throw an UNKNOWN error
+            }else{
+                matchedIds.add(appId);
             }
         }
 
@@ -547,14 +551,11 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             );
         }
 
-        for (Long id : ids) { // Is the app running?
+        for (Long id : matchedIds) { // Is the app running?
             runningApps.add(manager.isAppRunning(id));
         }
 
-        outList.setBodyElement0(ids);
-        outList.setBodyElement1(runningApps);
-
-        return outList;
+        return new ListAppResponse(matchedIds, runningApps);
     }
 
     @Override
