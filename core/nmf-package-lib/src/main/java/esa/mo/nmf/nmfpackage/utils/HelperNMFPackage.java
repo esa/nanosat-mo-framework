@@ -22,6 +22,7 @@ package esa.mo.nmf.nmfpackage.utils;
 
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.misc.OSValidator;
+import esa.mo.nmf.nmfpackage.Deployment;
 import esa.mo.nmf.nmfpackage.metadata.MetadataApp;
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -82,37 +83,43 @@ public class HelperNMFPackage {
         StringBuilder str = new StringBuilder();
         str.append("#!/bin/sh\n");
         str.append(getBanner());
-        str.append("cd ${0%/*}\n");
-        str.append("\n");
+        str.append("cd ${0%/*}\n\n");
 
-        str.append("# Constants set at installation time:\n");
-        str.append("JAVA_CMD=").append(javaCommand).append("\n");
-        str.append("MAIN_JAR_NAME=").append(jarFilename).append("\n");
-        str.append("MAIN_CLASS_NAME=").append(meta.getAppMainclass()).append("\n");
+        str.append("# Java Runtime Environment:\n");
+        str.append("JAVA_CMD=").append(javaCommand).append("\n\n");
+        str.append("# App-related constants:\n");
+        str.append("MAIN_CLASS=").append(meta.getAppMainclass()).append("\n");
+        str.append("MAX_HEAP=").append(meta.getAppMaxHeap()).append("\n");
+        str.append("MIN_HEAP=").append(meta.getAppMinHeap()).append("\n\n");
+        
+        str.append("# Jars from: App, NMF, and shared dependencies:\n");
+        str.append("JAR_APP=").append(jarFilename).append("\n");
+        // The following code must be changed:
+        str.append("JARS_NMF=").append("`cd ../../libs > /dev/null; pwd`").append("\n");
+        String shared = "";
 
         if (meta.hasDependencies()) {
-            str.append("JAR_DEPENDENCIES=").append(meta.getAppDependencies()).append("\n");
+            String nmf = Deployment.getInstallationFolder().getAbsolutePath();
+            File sharedLibs = new File(nmf + File.separator + Deployment.DIR_JARS_SHARED);
+            String paths = meta.getAppDependenciesFullPaths(sharedLibs);
+            str.append("JARS_SHARED=").append(paths);
+            shared = ":$JARS_SHARED";
         }
-
-        str.append("MAX_HEAP=").append(meta.getAppMaxHeap()).append("\n");
-        // The NMF_LIB must be also hard-coded! The following code must be changed:
-        str.append("NMF_LIB=").append("`cd ../../libs > /dev/null; pwd`").append("\n");
-        str.append("\n");
+        str.append("\n\nJARS_ALL=$JAR_APP:$JARS_NMF/*").append(shared);
+        str.append("\n\n");
 
         str.append("if [ -z \"$JAVA_OPTS\" ] ; then\n");
         str.append("    JAVA_OPTS=\"-Xms32m -Xmx$MAX_HEAP $JAVA_OPTS\"\n");
-        str.append("fi\n");
-        str.append("\n");
+        str.append("fi\n\n");
 
         str.append("export JAVA_OPTS\n");
-        str.append("export NMF_LIB\n");
-        str.append("\n");
+        str.append("export NMF_LIB\n\n");
 
         // The command "exec" spawns the execution in a different process
         // str.append("exec ");
         str.append("$JAVA_CMD $JAVA_OPTS \\\n");
-        str.append("  -classpath \"$NMF_LIB/*:$MAIN_JAR_NAME\" \\\n");
-        str.append("  \"$MAIN_CLASS_NAME\" \\\n");
+        str.append("  -classpath \"$JARS_ALL\" \\\n");
+        str.append("  \"$MAIN_CLASS\" \\\n");
         str.append("  \"$@\"\n");
 
         return str.toString();
@@ -345,14 +352,13 @@ public class HelperNMFPackage {
         String javaCMD = HelperNMFPackage.findJREPath(nmfDir, 8, 8, 8);
 
         OSValidator os = new OSValidator();
+        String path = appDir.getAbsolutePath() + File.separator;
 
         if (os.isUnix() || os.isMac()) {
             String content = HelperNMFPackage.generateLinuxStartAppScript(
                     javaCMD, jarName, appDetails);
 
-            String path = appDir.getAbsolutePath()
-                    + File.separator + "start_" + name + ".sh";
-
+            path += "start_" + name + ".sh";
             HelperNMFPackage.writeFile(path, content);
             File startApp = new File(path);
             startApp.setExecutable(true, true);
@@ -362,9 +368,7 @@ public class HelperNMFPackage {
             String content = HelperNMFPackage.generateWindowsStartAppScript(
                     javaCMD, jarName, appDetails);
 
-            String path = appDir.getAbsolutePath()
-                    + File.separator + "start_" + name + ".bat";
-
+            path += "start_" + name + ".bat";
             HelperNMFPackage.writeFile(path, content);
         }
     }

@@ -22,8 +22,9 @@ package esa.mo.nmf.nmfpackage;
 
 import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.nmfpackage.metadata.Metadata;
-import java.io.File;
+import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
 import esa.mo.sm.impl.util.PMBackend;
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,7 +38,8 @@ import org.ccsds.moims.mo.mal.structures.StringList;
  */
 public class NMFPackagePMBackend implements PMBackend {
 
-    private final File packagesFolder;  // Location of the folder
+    private final File packagesFolder;  // Location of the packages folder
+    private final NMFPackageManager manager;
 
     /**
      * Initializes a backend for NMF Packages. The backend will look for
@@ -45,8 +47,13 @@ public class NMFPackagePMBackend implements PMBackend {
      *
      * @param folder The folder to look for packages
      */
+    public NMFPackagePMBackend(String folder, AppsLauncherProviderServiceImpl appsLauncherService) {
+        this.packagesFolder = new File(folder);
+        this.manager = new NMFPackageManager(appsLauncherService);
+    }
+
     public NMFPackagePMBackend(String folder) {
-        packagesFolder = new File(folder);
+        this(folder, null);
     }
 
     @Override
@@ -90,7 +97,7 @@ public class NMFPackagePMBackend implements PMBackend {
                 + "\nPackage location: " + packageLocation);
 
         try {
-            NMFPackageManager.install(packageLocation, destination);
+            manager.install(packageLocation, destination);
         } catch (IOException ex) {
             Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.SEVERE,
                     "The package '" + packageName + "' could not be installed!", ex);
@@ -112,7 +119,7 @@ public class NMFPackagePMBackend implements PMBackend {
                     "Reading the metadata file that includes the list of files to be uninstalled...");
 
             Metadata metadata = Metadata.parseZipFile(zipFile);
-            NMFPackageManager.uninstall(metadata, keepUserData);
+            manager.uninstall(metadata, keepUserData);
         } catch (IOException ex) {
             Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.SEVERE,
                     "The package '" + packageName + "' could not be uninstalled!", ex);
@@ -129,7 +136,7 @@ public class NMFPackagePMBackend implements PMBackend {
         File destination = getNMFDir();
 
         try {
-            NMFPackageManager.upgrade(packageLocation, destination);
+            manager.upgrade(packageLocation, destination);
         } catch (IOException ex) {
             Logger.getLogger(NMFPackagePMBackend.class.getName()).log(
                     Level.SEVERE, "The package could not be upgraded!", ex);
@@ -145,7 +152,7 @@ public class NMFPackagePMBackend implements PMBackend {
     @Override
     public boolean isPackageInstalled(final String packageName) {
         String folderLocation = this.getFolderLocation(packageName);
-        return NMFPackageManager.isPackageInstalled(folderLocation);
+        return manager.isPackageInstalled(folderLocation);
     }
 
     @Override
@@ -160,6 +167,10 @@ public class NMFPackagePMBackend implements PMBackend {
 
     private File getNMFDir() {
         return new File("");
+    }
+
+    public void setAppsLauncher(AppsLauncherProviderServiceImpl appsLauncherService) {
+        manager.setAppsLauncher(appsLauncherService);
     }
 
 }

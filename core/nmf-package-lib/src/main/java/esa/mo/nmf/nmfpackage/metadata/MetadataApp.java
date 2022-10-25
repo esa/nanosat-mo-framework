@@ -20,8 +20,12 @@
  */
 package esa.mo.nmf.nmfpackage.metadata;
 
+import esa.mo.helpertools.helpers.HelperTime;
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Properties;
+import org.ccsds.moims.mo.mal.structures.Time;
 
 /**
  * The MetadataApp class holds the metadata of an App in a NMF Package.
@@ -36,18 +40,34 @@ public class MetadataApp extends Metadata {
     public static final String APP_MIN_HEAP = "pack.app.minheap";
     public static final String APP_DEPENDENCIES = "pack.app.dependencies";
 
+    /**
+     *
+     * @param packageName The name of the package.
+     * @param version
+     * @param timestamp
+     * @param mainclass
+     * @param mainJar
+     * @param maxHeap
+     * @param dependencies
+     */
     public MetadataApp(final String packageName, final String version,
-            final String timestamp, final String mainclass, final String mainJar,
-            final String maxHeap, final ArrayList<String> dependencies) {
+            final String mainclass, final String mainJar, final String maxHeap,
+            final ArrayList<String> dependencies) {
         super(new Properties());
+        properties.put(Metadata.PACKAGE_TYPE, Metadata.TYPE_APP);
         properties.put(Metadata.PACKAGE_NAME, packageName);
         properties.put(Metadata.PACKAGE_VERSION, version);
-        properties.put(Metadata.PACKAGE_TIMESTAMP, timestamp);
-        properties.put(Metadata.PACKAGE_TYPE, Metadata.TYPE_APP);
         properties.put(MetadataApp.APP_MAINCLASS, mainclass);
         properties.put(MetadataApp.APP_MAIN_JAR, mainJar);
         properties.put(MetadataApp.APP_MAX_HEAP, maxHeap);
-        properties.put(MetadataApp.APP_DEPENDENCIES, dependencies);
+
+        if (dependencies != null && !dependencies.isEmpty()) {
+            StringBuilder str = new StringBuilder();
+            for (String dep : dependencies) {
+                str.append(dep).append(";");
+            }
+            properties.put(APP_DEPENDENCIES, removeLastChar(str.toString()));
+        }
     }
 
     MetadataApp(Properties props) {
@@ -70,13 +90,40 @@ public class MetadataApp extends Metadata {
         return properties.getProperty(APP_MIN_HEAP);
     }
 
-    public String getAppDependencies() {
-        return properties.getProperty(APP_DEPENDENCIES);
+    public ArrayList<String> getAppDependencies() {
+        String d = properties.getProperty(APP_DEPENDENCIES);
+        if (d == null) {
+            return new ArrayList<>();
+        }
+
+        ArrayList<String> deps = new ArrayList<>();
+        deps.addAll(Arrays.asList(d.split(";")));
+        return deps;
+    }
+
+    public String getAppDependenciesFullPaths(File sharedLibsFolder) {
+        String d = properties.getProperty(APP_DEPENDENCIES);
+        if (d == null) {
+            return "";
+        }
+
+        StringBuilder out = new StringBuilder();
+        String absolutePath = sharedLibsFolder.getAbsolutePath();
+        String[] splits = d.split(";");
+        for (String split : splits) {
+            out.append(absolutePath).append(File.separator).append(split).append(":");
+        }
+
+        return removeLastChar(out.toString());
     }
 
     public boolean hasDependencies() {
         String dependencies = properties.getProperty(APP_DEPENDENCIES);
-        return (dependencies != null) && (dependencies.equals(""));
+        return (dependencies != null) && !(dependencies.equals(""));
+    }
+
+    private String removeLastChar(String input) {
+        return input.substring(0, input.length() - 1); // Removes last: ";"
     }
 
 }
