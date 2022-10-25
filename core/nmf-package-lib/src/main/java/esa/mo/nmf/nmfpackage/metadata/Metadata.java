@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.nmfpackage.metadata;
 
+import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.nmf.nmfpackage.NMFPackageManager;
 import esa.mo.nmf.nmfpackage.receipt.NMFPackageDescriptor;
 import esa.mo.nmf.nmfpackage.NMFPackageFile;
@@ -43,6 +44,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+import org.ccsds.moims.mo.mal.structures.Time;
 
 /**
  * The Metadata class holds the metadata of a NMF Package.
@@ -83,6 +85,9 @@ public class Metadata {
     public Metadata(Properties properties, ArrayList<NMFPackageFile> files) {
         this.files = files;
         this.properties = this.newOrderedProperties();
+        final Time time = new Time(System.currentTimeMillis());
+        final String timestamp = HelperTime.time2readableString(time);
+        this.properties.put(Metadata.PACKAGE_TIMESTAMP, timestamp);
         this.properties.put(PACKAGE_METADATA_VERSION, METADATA_VERSION_LATEST);
         this.properties.putAll(properties);
 
