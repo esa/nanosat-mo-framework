@@ -133,14 +133,16 @@ public class ArchiveManager {
 
         this.dbProcessor.submitExternalTaskDBTransactions(() -> {
             synchronized (manager) {
+                Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO,
+                        "Starting Archive Backend...");
                 this.dbBackend.startBackendDatabase(this.dbProcessor);
-                Logger.getLogger(ArchiveManager.class.getName()).log(Level.FINE,
-                        "Initializing Fast classes!");
+                Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO,
+                        "Archive Backend started! Initializing Fast classes...");
                 fastDomain.init();
                 fastObjectType.init();
                 fastNetwork.init();
                 fastProviderURI.init();
-                Logger.getLogger(ArchiveManager.class.getName()).log(Level.FINE,
+                Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO,
                         "The Fast classes are initialized!");
             }
         });
