@@ -64,6 +64,7 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.body.ListAppResponse;
  * @author Cesar Coelho
  */
 public abstract class NanoSatMOSupervisor extends NMFProvider {
+    
   private static final Logger LOGGER = Logger.getLogger(NanoSatMOSupervisor.class.getName());
   private static final String PDU_CHANNEL_PARAMETER = "PDU1952";
   private static final Duration PDU_CHANNEL_REPORTING_PERIOD = new Duration(10);
@@ -157,11 +158,10 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
                         Level.INFO, "Done!");
           }
       });
-
+    
     // Are the dynamic changes enabled?
     if ("true".equals(System.getProperty(Const.DYNAMIC_CHANGES_PROPERTY))) {
-      LOGGER.log(Level.INFO,
-          "Loading previous configurations...");
+      LOGGER.log(Level.INFO, "Loading previous configurations...");
 
       // Activate the previous configuration
       final ObjectId confId = new ObjectId(ConfigurationHelper.PROVIDERCONFIGURATION_OBJECT_TYPE,
@@ -187,23 +187,21 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
     }
 
     // Populate the Directory service with the entries from the URIs File
-    LOGGER.log(Level.INFO,
-        "Populating Directory service...");
-    this.directoryService.loadURIs(Const.NANOSAT_MO_SUPERVISOR_NAME);
+    LOGGER.log(Level.INFO, "Populating Directory service...");
+    directoryService.loadURIs(Const.NANOSAT_MO_SUPERVISOR_NAME);
 
-    final String primaryURI
-        = this.directoryService.getConnection().getPrimaryConnectionDetails().getProviderURI().toString();
+    String primaryURI
+        = directoryService.getConnection().getPrimaryConnectionDetails().getProviderURI().toString();
 
-    final SingleConnectionDetails det
-        = this.directoryService.getConnection().getSecondaryConnectionDetails();
-    final String secondaryURI = (det != null) ? det.getProviderURI().toString() : null;
-    this.writeCentralDirectoryServiceURI(primaryURI, secondaryURI);
-    LOGGER.log(Level.INFO,
-        "NanoSat MO Supervisor initialized in "
+    SingleConnectionDetails det
+        = directoryService.getConnection().getSecondaryConnectionDetails();
+    String secondaryURI = (det != null) ? det.getProviderURI().toString() : null;
+    writeCentralDirectoryServiceURI(primaryURI, secondaryURI);
+    
+    LOGGER.log(Level.INFO, "NanoSat MO Supervisor initialized in "
         + (((float) (System.currentTimeMillis() - super.startTime)) / 1000)
         + " seconds!");
-    LOGGER.log(Level.INFO,
-        "URI: {0}\n", primaryURI);
+    LOGGER.log(Level.INFO, "URI: {0}\n", primaryURI);
 
     //Once all services are loaded and configured, enable status parameter and subscribe to it
     Identifier identifier = new Identifier(PDU_CHANNEL_PARAMETER);
@@ -310,10 +308,10 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
       this.getCOMServices().closeAll();
 
       // Exit the Java application
+      long duration = System.currentTimeMillis() - timestamp;
       LOGGER.log(Level.INFO,
           "Success! The currently running Java Virtual Machine will now terminate. "
-          + "(NanoSat MO Supervisor closed in: " + (System.currentTimeMillis() - timestamp) + " ms)\n");
-
+          + "(NanoSat MO Supervisor closed in: " + duration + " ms)\n");
     } catch (NMFException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
     }
