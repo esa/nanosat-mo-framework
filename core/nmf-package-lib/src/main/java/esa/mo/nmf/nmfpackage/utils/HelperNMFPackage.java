@@ -127,7 +127,29 @@ public class HelperNMFPackage {
 
     public static String generateWindowsStartAppScript(String javaCommand,
             String jarFilename, MetadataApp meta) throws IOException {
-        return "To be done...";
+        StringBuilder str = new StringBuilder();
+        str.append("@echo off\n\n");
+        str.append(":: Java Runtime Environment:\n");
+        str.append("set JAVA_CMD=").append(javaCommand).append("\n\n");
+        
+        str.append(":: App-related constants:\n");
+        str.append("set MAIN_CLASS=").append(meta.getAppMainclass()).append("\n");
+        str.append("set MAX_HEAP=").append(meta.getAppMaxHeap()).append("\n");
+        str.append("set MIN_HEAP=").append(meta.getAppMinHeap()).append("\n\n");
+        
+        str.append(":: Jars from: App, NMF, and Shared dependencies:\n");
+        str.append("set JAR_APP=").append(jarFilename).append("\n");
+
+        str.append("set BASEDIR=%~dp0\\..\\..\\..").append("\n");
+        str.append("set JARS_NMF=").append("%BASEDIR%\\lib\\*").append("\n");
+
+        str.append("\n\nset JARS_ALL=\"%JAR_APP%;%JARS_NMF%\"");
+        str.append("\n\n");
+        
+        str.append("%JAVA_CMD% %JAVA_OPTS% -classpath %JARS_ALL%");
+        str.append(" -Dapp.name=\"").append(meta.getPackageName());
+        str.append("\" ").append(meta.getAppMainclass());
+        return str.toString();
     }
 
     public static String generateProviderProperties(String runAs) throws IOException {
