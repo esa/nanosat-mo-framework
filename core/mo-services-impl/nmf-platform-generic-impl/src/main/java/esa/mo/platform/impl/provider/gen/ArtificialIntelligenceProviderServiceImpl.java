@@ -39,7 +39,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import org.ccsds.moims.mo.mal.MALStandardError;
+import org.ccsds.moims.mo.platform.artificialintelligence.provider.DoComputerVisionInteraction;
 
+/**
+ * The ArtificialIntelligenceProviderServiceImpl class has the implementation of
+ * the AI service.
+ *
+ * @author Cesar Coelho
+ */
 public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelligenceInheritanceSkeleton {
 
     private static final Logger LOGGER = Logger.getLogger(ArtificialIntelligenceProviderServiceImpl.class.getName());
@@ -182,5 +189,40 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
         }
 
         throw new MALException("The inference could not be performed!");
+    }
+
+    @Override
+    public void doComputerVision(String jsonPath, DoComputerVisionInteraction interaction) throws MALInteractionException, MALException {
+        if (jsonPath == null) {
+            throw new MALException("The jsonPath cannot be null!");
+        }
+
+        if (!jsonPath.endsWith(".json")) {
+            throw new MALException("The file does not end with the file extension: .json");
+        }
+
+        File path = new File(jsonPath);
+
+        if (!path.exists()) {
+            String msg = "The file does not exist in path: " + path;
+            throw new MALInteractionException(
+                    new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, msg)
+            );
+        }
+
+        if (interaction != null) {
+            interaction.sendAcknowledgement();
+        }
+
+        boolean success = true;
+        try {
+            adapter.doComputerVision(jsonPath);
+        } catch (IOException ex) {
+            success = false;
+        }
+
+        if (interaction != null) {
+            interaction.sendResponse(success);
+        }
     }
 }

@@ -2225,14 +2225,12 @@
                 comment="The modelId field holds the id of the model to be used for inference." name="modelId">
                 <mal:type area="MAL" list="false" name="Long" />
               </mal:field>
-              <mal:field canBeNull="false"
-                comment="The inputTiles field holds the absolute path to a folder with the tiles to be processed." name="inputTilesPath">
+              <mal:field canBeNull="false" comment="The inputTiles field holds the absolute path to a folder with the tiles to be processed." name="inputTilesPath">
                 <mal:type area="MAL" list="false" name="String" />
               </mal:field>
             </mal:request>
             <mal:response comment="">
-              <mal:field canBeNull="false"
-                comment="The outputTiles field holds the absolute path to a folder with the infered tiles." name="outputTilesPath">
+              <mal:field canBeNull="false" comment="The outputTiles field holds the absolute path to a folder with the infered tiles." name="outputTilesPath">
                 <mal:type area="MAL" list="false" name="String" />
               </mal:field>
             </mal:response>
@@ -2243,6 +2241,34 @@
             </mal:errorRef>
           </mal:errors>
         </mal:requestIP>
+      </mal:capabilitySet>
+      <mal:capabilitySet comment="" number="3">
+        <mal:invokeIP number="3" name="doComputerVision" comment="The doComputerVision operation allows a consumer to invoke the execution of inference with an AI unit." supportInReplay="false">
+          <mal:messages>
+            <mal:invoke comment="">
+              <mal:field name="jsonPath" canBeNull="false" comment="The jsonPath field holds the absolute path to a json file with information to be processed.">
+                <mal:type area="MAL" list="false" name="String" />
+              </mal:field>
+            </mal:invoke>
+            <mal:acknowledgement comment="" />
+            <mal:response comment="">
+              <mal:field name="success" canBeNull="false" comment="The success field states if the execution of the computer vision was successful.">
+                <mal:type area="MAL" list="false" name="Boolean" />
+              </mal:field>
+            </mal:response>
+          </mal:messages>
+          <mal:errors>
+            <mal:errorRef comment="The provided jsonPath file does not exist.">
+              <mal:type area="COM" list="false" name="INVALID" />
+            </mal:errorRef>
+            <mal:errorRef comment="The AI device is not available.">
+              <mal:type area="Platform" list="false" name="DEVICE_NOT_AVAILABLE" />
+            </mal:errorRef>
+            <mal:errorRef comment="The AI device is currently being used.">
+              <mal:type area="Platform" list="false" name="DEVICE_IN_USE" />
+            </mal:errorRef>
+          </mal:errors>
+        </mal:invokeIP>
       </mal:capabilitySet>
       <com:features />
     </mal:service>
