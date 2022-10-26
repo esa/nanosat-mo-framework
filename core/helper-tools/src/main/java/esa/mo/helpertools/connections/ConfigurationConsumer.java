@@ -22,8 +22,6 @@ package esa.mo.helpertools.connections;
 
 import esa.mo.helpertools.helpers.HelperMisc;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.SessionType;
 

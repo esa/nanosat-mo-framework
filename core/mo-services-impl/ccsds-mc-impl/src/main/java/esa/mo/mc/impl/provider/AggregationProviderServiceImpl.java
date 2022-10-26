@@ -163,9 +163,11 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         periodicReportingManager.init(); // Initialize the Periodic Reporting Manager
         periodicSamplingManager.init(); // Initialize the Periodic Sampling Manager
 
+        /*
         storeAggregationsInCOMArchive = Boolean.parseBoolean(System.getProperty(MCServicesHelper.STORE_IN_ARCHIVE_PROPERTY, "true"));
         String msg = MessageFormat.format("{0} = {1}", MCServicesHelper.STORE_IN_ARCHIVE_PROPERTY, storeAggregationsInCOMArchive);
         Logger.getLogger(AggregationProviderServiceImpl.class.getName()).log(Level.FINE, msg);
+        */
 
         initialiased = true;
         Logger.getLogger(AggregationProviderServiceImpl.class.getName()).info("Aggregation service READY");

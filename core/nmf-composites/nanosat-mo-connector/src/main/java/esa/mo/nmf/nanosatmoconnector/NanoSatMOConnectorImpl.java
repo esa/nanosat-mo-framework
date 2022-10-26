@@ -291,8 +291,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
 
         // Are the dynamic changes enabled?
         if ("true".equals(System.getProperty(Const.DYNAMIC_CHANGES_PROPERTY))) {
-            LOGGER.log(Level.INFO,
-                    "Loading previous configurations...");
+            LOGGER.log(Level.INFO, "Loading previous configurations...");
 
             // Activate the previous configuration
             final ObjectId confId = new ObjectId(ConfigurationHelper.PROVIDERCONFIGURATION_OBJECT_TYPE,
@@ -313,14 +312,12 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
             mcAdapter.initialRegistrations(registration);
         }
 
-        LOGGER.log(Level.INFO,
-                "NanoSat MO Connector initialized in "
+        LOGGER.log(Level.INFO, "NanoSat MO Connector initialized in "
                 + (((float) (System.currentTimeMillis() - super.startTime)) / 1000)
                 + " seconds!");
 
         final String uri = directoryService.getConnection().getPrimaryConnectionDetails().getProviderURI().toString();
-        LOGGER.log(Level.INFO,
-                "URI: {0}\n", uri);
+        LOGGER.log(Level.INFO, "URI: {0}\n", uri);
     }
 
     @Override
