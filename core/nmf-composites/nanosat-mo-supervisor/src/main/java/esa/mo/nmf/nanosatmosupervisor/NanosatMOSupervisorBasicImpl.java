@@ -31,7 +31,17 @@ import esa.mo.platform.impl.util.PlatformServicesProviderInterface;
 import esa.mo.platform.impl.util.PlatformServicesProviderSoftSim;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.structures.Duration;
+import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.structures.Union;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterCreationRequest;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterCreationRequestList;
+import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
+import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 
 /**
  * This is a specific implementation of the NMF supervisor which is currently
@@ -45,6 +55,8 @@ import org.ccsds.moims.mo.mal.MALException;
 public class NanosatMOSupervisorBasicImpl extends NanoSatMOSupervisor {
 
     private static final Logger LOGGER = Logger.getLogger(NanosatMOSupervisorBasicImpl.class.getName());
+    private static final String PDU_CHANNEL_PARAMETER = "PDU1952";
+    private static final Duration PDU_CHANNEL_REPORTING_PERIOD = new Duration(10);
     private PlatformServicesProviderInterface platformServicesProvider;
     private ConnectionConsumer connectionConsumer;
 
@@ -88,6 +100,37 @@ public class NanosatMOSupervisorBasicImpl extends NanoSatMOSupervisor {
                 new PlatformServicesConsumer(),
                 new NMFPackagePMBackend("packages", this.getAppsLauncherService())
         );
+
+        //Once all services are loaded and configured, enable status parameter and subscribe to it
+        Identifier identifier = new Identifier(PDU_CHANNEL_PARAMETER);
+        IdentifierList identifierList = new IdentifierList();
+        identifierList.add(identifier);
+        ParameterDefinitionDetails details = new ParameterDefinitionDetails("PowerStatusChecks",
+                Union.USHORT_SHORT_FORM.byteValue(), "N/A", true, PDU_CHANNEL_REPORTING_PERIOD,
+                null, null);
+
+        ParameterCreationRequest request = new ParameterCreationRequest(identifier, details);
+        ParameterCreationRequestList reqList = new ParameterCreationRequestList();
+        reqList.add(request);
+        try {
+            ObjectInstancePairList objInstPairList = mcServices.getParameterService().addParameter(reqList, null);
+            // check that the parameter was added successfully
+            if (objInstPairList.size() < 0
+                    || objInstPairList.get(0).getObjIdentityInstanceId() == null) {
+                LOGGER.log(Level.SEVERE,
+                        "Error creating request with parameter to fetch in the supervisor");
+            }
+        } catch (MALException e) {
+            LOGGER.log(Level.SEVERE,
+                    "Error creating request with parameter to fetch in the supervisor", e);
+        } catch (MALInteractionException e) {
+            if (e.getStandardError().getErrorNumber() == COMHelper.DUPLICATE_ERROR_NUMBER) {
+                // Parameter already exists - ignore it
+            } else {
+                LOGGER.log(Level.SEVERE,
+                        "Error creating request with parameter to fetch in the supervisor", e);
+            }
+        }
 
         this.startStatusTracking();
     }
