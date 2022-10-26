@@ -163,11 +163,9 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
         groupService.init(manager.getArchiveService());
 
-        storeParametersInCOMArchive = Boolean.parseBoolean(System.getProperty(
-            MCServicesHelper.STORE_IN_ARCHIVE_PROPERTY, "true"));
-        String msg = MessageFormat.format("{0} = {1}", MCServicesHelper.STORE_IN_ARCHIVE_PROPERTY,
-            storeParametersInCOMArchive);
-        Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.INFO, msg);
+        storeParametersInCOMArchive = Boolean.parseBoolean(System.getProperty(MCServicesHelper.STORE_IN_ARCHIVE_PROPERTY, "true"));
+        String msg = MessageFormat.format("{0} = {1}", MCServicesHelper.STORE_IN_ARCHIVE_PROPERTY, storeParametersInCOMArchive);
+        Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.FINE, msg);
 
         initialiased = true;
         Logger.getLogger(ParameterProviderServiceImpl.class.getName()).info("Parameter service READY");
