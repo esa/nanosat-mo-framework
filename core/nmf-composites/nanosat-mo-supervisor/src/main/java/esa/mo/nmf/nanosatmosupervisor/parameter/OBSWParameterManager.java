@@ -50,49 +50,52 @@ import esa.mo.nmf.MCRegistration;
  * @author Tanguy Soto
  */
 public class OBSWParameterManager {
-    /**
-     * The logger
-     */
-    private static final Logger LOGGER = Logger.getLogger(OBSWParameterManager.class.getName());
+  /**
+   * The logger
+   */
+  private static final Logger LOGGER = Logger.getLogger(OBSWParameterManager.class.getName());
 
-    /**
-     * Default OBSW parameter report interval (seconds)
-     */
-    private static final int DEFAULT_REPORT_INTERVAL = 5;
+  /**
+   * Default OBSW parameter report interval (seconds)
+   */
+  private static final int DEFAULT_REPORT_INTERVAL = 5;
 
-    /**
-     * Helper to read the OBSW parameter from datapool.
-     */
-    private final ParameterLister parameterLister;
+  /**
+   * Helper to read the OBSW parameter from datapool.
+   */
+  private final ParameterLister parameterLister;
 
-    /**
-     * Maps each parameter proxy (object instance id of the ParameterIdentity in the supervisor) to
-     * the OBSW parameter it represents.
-     */
-    private Map<Long, OBSWParameter> proxyIdsToOBSWParams;
+  /**
+   * Maps each parameter proxy (object instance id of the ParameterIdentity in the supervisor) to
+   * the OBSW parameter it represents.
+   */
+  private Map<Long, OBSWParameter> proxyIdsToOBSWParams;
 
-    /**
-     * Provides the OBSW parameter values
-     */
-    private OBSWParameterValuesProvider valuesProvider;
+  /**
+   * Provides the OBSW parameter values
+   */
+  private OBSWParameterValuesProvider valuesProvider;
 
-    public OBSWParameterManager(InputStream datapool) throws IOException, JAXBException, XMLStreamException {
-        // Read from provided inputstreams
-        parameterLister = new ParameterLister(datapool);
+  public OBSWParameterManager(InputStream datapool)
+      throws IOException, JAXBException, XMLStreamException {
+    // Read from provided inputstreams
+    parameterLister = new ParameterLister(datapool);
 
-        // Initialize the parameters proxies to OBSW parameter maps
-        proxyIdsToOBSWParams = new HashMap<>();
+    // Initialize the parameters proxies to OBSW parameter maps
+    proxyIdsToOBSWParams = new HashMap<>();
 
-        // Instantiate the value provider
-        HashMap<Identifier, OBSWParameter> parameterMap = parameterLister.getParameters();
-        String valuesProviderClass = System.getProperty("nmf.supervisor.parameter.valuesprovider.impl");
-        try {
-            Constructor<?> c = Class.forName(valuesProviderClass).getConstructor(parameterMap.getClass());
-            valuesProvider = (OBSWParameterValuesProvider) c.newInstance(new Object[]{parameterMap});
-        } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Error initializing the values provider. Using dummy values provider.", e);
-            valuesProvider = new DummyValuesProvider(parameterMap);
-        }
+    // Instantiate the value provider
+    HashMap<Identifier, OBSWParameter> parameterMap = parameterLister.getParameters();
+    String defaultClass = "esa.mo.nmf.nanosatmosupervisor.parameter.DummyValuesProvider";
+    String valuesProviderClass = System.getProperty("nmf.supervisor.parameter.valuesprovider.impl", defaultClass);
+
+    try {
+      Constructor<?> c = Class.forName(valuesProviderClass).getConstructor(parameterMap.getClass());
+      valuesProvider = (OBSWParameterValuesProvider) c.newInstance(new Object[] {parameterMap});
+    } catch (Exception e) {
+      LOGGER.log(Level.SEVERE,
+          "Error initializing the values provider. Using dummy values provider.", e);
+      valuesProvider = new DummyValuesProvider(parameterMap);
     }
 
     /**
