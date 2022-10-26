@@ -86,7 +86,9 @@ public class OBSWParameterManager {
 
     // Instantiate the value provider
     HashMap<Identifier, OBSWParameter> parameterMap = parameterLister.getParameters();
-    String valuesProviderClass = System.getProperty("nmf.supervisor.parameter.valuesprovider.impl");
+    String defaultClass = "esa.mo.nmf.nanosatmosupervisor.parameter.DummyValuesProvider";
+    String valuesProviderClass = System.getProperty("nmf.supervisor.parameter.valuesprovider.impl", defaultClass);
+
     try {
       Constructor<?> c = Class.forName(valuesProviderClass).getConstructor(parameterMap.getClass());
       valuesProvider = (OBSWParameterValuesProvider) c.newInstance(new Object[] {parameterMap});
