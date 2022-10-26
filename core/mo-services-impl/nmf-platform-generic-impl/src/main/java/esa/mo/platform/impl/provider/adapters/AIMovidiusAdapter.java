@@ -148,7 +148,8 @@ public class AIMovidiusAdapter implements AIAdapterInterface {
         return str.toString();
     }
 
-    private String buildPythonCommand(String modelXml, String modelBin, String inputTiles, String outputTiles) {
+    private String buildPythonCommand(String modelXml, String modelBin,
+            String inputTiles, String outputTiles) {
         StringBuilder str = new StringBuilder();
         str.append("python3 ").append(PYTHON_FILENAME);
         str.append(" --model_xml ").append(modelXml);
@@ -210,8 +211,7 @@ public class AIMovidiusAdapter implements AIAdapterInterface {
         StringBuilder buffer = new StringBuilder();
         String line;
         while ((line = br.readLine()) != null) {
-            buffer.append(line);
-            buffer.append("\n");
+            buffer.append(line).append("\n");
         }
 
         String message = buffer.toString();
@@ -232,6 +232,6 @@ public class AIMovidiusAdapter implements AIAdapterInterface {
     @Override
     public void doComputerVision(String jsonPath) throws IOException {
         throw new UnsupportedOperationException("The operation needs to be "
-                + "extended for AI specific applications that do Computer Vision!");
+                + "extended for specific AI applications that do Computer Vision!");
     }
 }

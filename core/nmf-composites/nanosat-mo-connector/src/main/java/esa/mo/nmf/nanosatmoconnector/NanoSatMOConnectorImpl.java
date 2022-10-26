@@ -306,8 +306,9 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
             mcAdapter.restoreParameterValuesFromArchive();
         }
 
-        LOGGER.log(Level.INFO, "NanoSat MO Connector initialized in " + (((float) (System.currentTimeMillis() -
-            super.startTime)) / 1000) + " seconds!");
+        LOGGER.log(Level.INFO, "NanoSat MO Connector initialized in "
+                + (((float) (System.currentTimeMillis() - super.startTime)) / 1000)
+                + " seconds!");
 
         final String uri = directoryService.getConnection().getPrimaryConnectionDetails().getProviderURI().toString();
         LOGGER.log(Level.INFO, "URI: {0}\n", uri);

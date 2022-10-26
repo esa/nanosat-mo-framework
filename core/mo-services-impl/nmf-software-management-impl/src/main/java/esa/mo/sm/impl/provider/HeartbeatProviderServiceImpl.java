@@ -63,7 +63,6 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
     private BeatPublisher publisher;
     private boolean initialiased = false;
     private boolean isRegistered = false;
-    private final Object lock = new Object();
     private boolean running = false;
     private final ConnectionProvider connection = new ConnectionProvider();
     private Timer timer;
@@ -143,15 +142,13 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
         }
     }
 
-    private void publishHeartbeat() {
+    private synchronized void publishHeartbeat() {
         try {
-            synchronized (lock) {
-                if (!isRegistered) {
-                    final EntityKeyList lst = new EntityKeyList();
-                    lst.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
-                    publisher.register(lst, new PublishInteractionListener());
-                    isRegistered = true;
-                }
+            if (!isRegistered) {
+                final EntityKeyList lst = new EntityKeyList();
+                lst.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
+                publisher.register(lst, new PublishInteractionListener());
+                isRegistered = true;
             }
 
             final UpdateHeaderList hdrlst = new UpdateHeaderList(1);
