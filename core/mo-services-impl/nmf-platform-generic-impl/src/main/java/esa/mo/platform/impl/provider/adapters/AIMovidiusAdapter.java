@@ -61,7 +61,7 @@ public class AIMovidiusAdapter implements AIAdapterInterface {
                     + " The command returned: " + out);
         }
 
-        LOGGER.log(Level.INFO, "The Python3 version is: " + splits[1]);
+        LOGGER.log(Level.FINE, "The Python3 version is: " + splits[1]);
         String[] subVersions = splits[1].split("\\.");
 
         if (Integer.valueOf(subVersions[1]) < 6) {
@@ -104,7 +104,7 @@ public class AIMovidiusAdapter implements AIAdapterInterface {
             File path = this.findPathToFile(folder, filename);
 
             if (path != null) { // Found!
-                LOGGER.log(Level.INFO, "The file was found on path:\n"
+                LOGGER.log(Level.FINE, "The file was found on path:\n"
                         + " >> " + path.getAbsolutePath());
                 return path;
             }
