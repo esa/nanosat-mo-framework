@@ -92,7 +92,7 @@ public class HelperNMFPackage {
         str.append("MAX_HEAP=").append(meta.getAppMaxHeap()).append("\n");
         str.append("MIN_HEAP=").append(meta.getAppMinHeap()).append("\n\n");
         
-        str.append("# Jars from: App, NMF, and shared dependencies:\n");
+        str.append("# Jars from: App, NMF, and Shared dependencies:\n");
         str.append("JAR_APP=").append(jarFilename).append("\n");
         // The following code must be changed:
         str.append("JARS_NMF=").append("`cd ../../libs > /dev/null; pwd`").append("\n");
