@@ -141,19 +141,15 @@ public class ArchiveManager {
                 Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO,
                         "Archive Backend started in " + timestamp + " ms! "
                         + "Initializing Fast classes...");
-            }
-        });
 
-        this.dbProcessor.submitExternalTaskDBTransactions(() -> {
-            synchronized (manager) {
-                long timestamp = System.currentTimeMillis();
+                long timestamp2 = System.currentTimeMillis();
                 fastDomain.init();
                 fastObjectType.init();
                 fastNetwork.init();
                 fastProviderURI.init();
-                timestamp = System.currentTimeMillis() - timestamp;
+                timestamp2 = System.currentTimeMillis() - timestamp2;
                 Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO,
-                        "The Fast classes were initialized in " + timestamp + " ms");
+                        "The Fast classes were initialized in " + timestamp2 + " ms");
                 dbBackend.getAvailability().release();
             }
         });
@@ -195,9 +191,11 @@ public class ArchiveManager {
      *
      */
     public synchronized void wipe() {
-        LOGGER.info("Reset table triggered!");
+        LOGGER.info("(0) Reset table requested!");
 
         this.dbProcessor.resetMainTable(() -> {
+            Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO,
+                    "(1) Starting to reset the table...");
             try {
                 dbBackend.getAvailability().acquire();
             } catch (InterruptedException ex) {
@@ -211,11 +209,17 @@ public class ArchiveManager {
                 Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex);
             }
 
+            Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO,
+                    "(2) Reset done for the COM table! Reseting Fast classes...");
+
             fastObjId.resetFastIDs();
             fastDomain.resetTable();
             fastNetwork.resetTable();
             fastProviderURI.resetTable();
             dbBackend.getAvailability().release();
+
+            Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO,
+                    "(3) Reset done for all Fast classes!");
 
             return null;
         });
