@@ -76,8 +76,15 @@ public class AIMovidiusAdapter implements AIAdapterInterface {
                 "/opt/intel"
             };
 
-            //setupVarsPath = this.crawlOptions(options, "setupvars.sh");
-            setupVarsPath = new File(""); // Temporary hardcoding it to avoid problems
+            File file;
+            try{
+                file = this.crawlOptions(options, "setupvars.sh");
+            }catch(IOException ex){
+                LOGGER.log(Level.WARNING, "The setupvars.sh was not found!");
+                file = new File("");
+            }
+            
+            setupVarsPath = file;
             return;
         }
 
@@ -91,8 +98,6 @@ public class AIMovidiusAdapter implements AIAdapterInterface {
             };
 
             setupVarsPath = this.crawlOptions(options, "setupvars.bat");
-
-            // Please install version: 2020.2
             return;
         }
 
