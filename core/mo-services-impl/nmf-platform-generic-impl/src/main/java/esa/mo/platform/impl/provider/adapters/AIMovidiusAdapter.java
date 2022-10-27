@@ -76,7 +76,8 @@ public class AIMovidiusAdapter implements AIAdapterInterface {
                 "/opt/intel"
             };
 
-            setupVarsPath = this.crawlOptions(options, "setupvars.sh");
+            //setupVarsPath = this.crawlOptions(options, "setupvars.sh");
+            setupVarsPath = new File(""); // Temporary hardcoding it to avoid problems
             return;
         }
 
