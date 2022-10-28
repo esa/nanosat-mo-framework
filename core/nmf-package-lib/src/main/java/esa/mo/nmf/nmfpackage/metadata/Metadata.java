@@ -25,6 +25,7 @@ import esa.mo.nmf.nmfpackage.NMFPackageManager;
 import esa.mo.nmf.nmfpackage.receipt.NMFPackageDescriptor;
 import esa.mo.nmf.nmfpackage.NMFPackageFile;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -69,6 +70,7 @@ public class Metadata {
     public static final String TYPE_UPDATE_JAVA = "java";
     public static final String TYPE_UPDATE_MISSION = "mission";
     public static final String TYPE_UPDATE_NMF = "nmf";
+    public static final String TYPE_DELTA = "delta";
 
     public static final String FILE_COUNT = "zipped.file.count";
     public static final String FILE_PATH = "zipped.file.path";
@@ -100,10 +102,6 @@ public class Metadata {
                 this.properties.put(FILE_CRC + "." + i, String.valueOf(file.getCRC()));
             }
         }
-    }
-
-    public String getProperty(String key) {
-        return properties.getProperty(key);
     }
 
     public void addProperty(String key, String value) {
@@ -212,6 +210,14 @@ public class Metadata {
         return new Metadata(props);
     }
 
+    public static Metadata load(File file) throws IOException {
+        Metadata loadedMetadata;
+        try (InputStream stream = new FileInputStream(file)) {
+            loadedMetadata = Metadata.load(stream);
+        }
+        return loadedMetadata;
+    }
+
     @SuppressWarnings("serial")
     private Properties newOrderedProperties() {
         return new Properties() {
@@ -243,21 +249,21 @@ public class Metadata {
         return TYPE_APP.equals(type);
     }
 
-    public boolean sameAs(Metadata installedMetadata) {
+    public boolean sameAs(Metadata other) {
         // Starts with the timestamp because this is most of the times unique!
-        if (!this.getPackageTimestamp().equals(installedMetadata.getPackageTimestamp())) {
+        if (!this.getPackageTimestamp().equals(other.getPackageTimestamp())) {
             Logger.getLogger(NMFPackageManager.class.getName()).log(
                     Level.FINE, "The creation timestamp does not match!");
             return false;
         }
 
-        if (!this.getPackageName().equals(installedMetadata.getPackageName())) {
+        if (!this.getPackageName().equals(other.getPackageName())) {
             Logger.getLogger(NMFPackageManager.class.getName()).log(
                     Level.FINE, "The name does not match!");
             return false;
         }
 
-        if (!this.getPackageVersion().equals(installedMetadata.getPackageVersion())) {
+        if (!this.getPackageVersion().equals(other.getPackageVersion())) {
             Logger.getLogger(NMFPackageManager.class.getName()).log(
                     Level.FINE, "The version does not match!");
             return false;

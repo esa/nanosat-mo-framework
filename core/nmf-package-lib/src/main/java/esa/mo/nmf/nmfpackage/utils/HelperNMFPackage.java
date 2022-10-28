@@ -49,9 +49,10 @@ public class HelperNMFPackage {
     public static final String NMF_PACKAGE_DESCRIPTOR_VERSION = "NMFPackageDescriptorVersion=";
 
     public static long calculateCRCFromFile(final String filepath) throws IOException {
-        InputStream inputStream = new BufferedInputStream(new FileInputStream(filepath));
-        long crc = calculateCRCFromInputStream(inputStream);
-        inputStream.close();
+        long crc;
+        try (InputStream inputStream = new BufferedInputStream(new FileInputStream(filepath))) {
+            crc = calculateCRCFromInputStream(inputStream);
+        }
         return crc;
     }
 
@@ -91,7 +92,7 @@ public class HelperNMFPackage {
         str.append("MAIN_CLASS=").append(meta.getAppMainclass()).append("\n");
         str.append("MAX_HEAP=").append(meta.getAppMaxHeap()).append("\n");
         str.append("MIN_HEAP=").append(meta.getAppMinHeap()).append("\n\n");
-        
+
         str.append("# Jars from: App, NMF, and Shared dependencies:\n");
         str.append("JAR_APP=").append(jarFilename).append("\n");
         // The following code must be changed:
@@ -99,7 +100,7 @@ public class HelperNMFPackage {
         String shared = "";
 
         if (meta.hasDependencies()) {
-            String nmf = Deployment.getInstallationFolder().getAbsolutePath();
+            String nmf = Deployment.getNMFRootDir().getAbsolutePath();
             File sharedLibs = new File(nmf + File.separator + Deployment.DIR_JARS_SHARED);
             String paths = meta.getAppDependenciesFullPaths(sharedLibs);
             str.append("JARS_SHARED=").append(paths);
@@ -131,12 +132,12 @@ public class HelperNMFPackage {
         str.append("@echo off\n\n");
         str.append(":: Java Runtime Environment:\n");
         str.append("set JAVA_CMD=").append(javaCommand).append("\n\n");
-        
+
         str.append(":: App-related constants:\n");
         str.append("set MAIN_CLASS=").append(meta.getAppMainclass()).append("\n");
         str.append("set MAX_HEAP=").append(meta.getAppMaxHeap()).append("\n");
         str.append("set MIN_HEAP=").append(meta.getAppMinHeap()).append("\n\n");
-        
+
         str.append(":: Jars from: App, NMF, and Shared dependencies:\n");
         str.append("set JAR_APP=").append(jarFilename).append("\n");
 
@@ -145,7 +146,7 @@ public class HelperNMFPackage {
 
         str.append("\n\nset JARS_ALL=\"%JAR_APP%;%JARS_NMF%\"");
         str.append("\n\n");
-        
+
         str.append("%JAVA_CMD% %JAVA_OPTS% -classpath %JARS_ALL%");
         str.append(" -Dapp.name=\"").append(meta.getPackageName());
         str.append("\" ").append(meta.getAppMainclass());
@@ -359,7 +360,7 @@ public class HelperNMFPackage {
         return bestJRE;
     }
 
-    public static void generateStartScript(MetadataApp appDetails, 
+    public static void generateStartScript(MetadataApp appDetails,
             File appDir, File nmfDir) throws IOException {
         String name = appDetails.getPackageName();
         String jarName = appDetails.getAppMainJar();
@@ -406,4 +407,13 @@ public class HelperNMFPackage {
         }
     }
 
+    public static String generateFilePathForSystem(final String path) throws IOException {
+        // Sanitize the path to prevent a ZipSlip attack:
+        if (path.contains("..")) {
+            throw new IOException("Warning! A ZipSlip attack was detected!");
+        }
+
+        String out = path.replace('/', File.separatorChar);
+        return out.replace('\\', File.separatorChar);
+    }
 }

@@ -31,14 +31,10 @@ import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -113,7 +109,7 @@ public class NMFPackageManager {
             installDependencies(metadata.castToApp(), packageLocation, nmfDir);
         }
 
-        extractFiles(pack, nmfDir);
+        pack.extractFiles(nmfDir);
         String packageName = metadata.getPackageName();
 
         if (metadata.isApp()) {
@@ -160,7 +156,7 @@ public class NMFPackageManager {
         }
 
         // Store a copy of the newReceipt to know that it has been installed!
-        File receiptsFolder = Deployment.getReceiptsFolder();
+        File receiptsFolder = Deployment.getInstallationsTrackerDir();
         String receiptFilename = packageName + RECEIPT_ENDING;
         String receiptPath = receiptsFolder.getCanonicalPath() + File.separator + receiptFilename;
         File receiptFile = new File(receiptPath);
@@ -193,7 +189,7 @@ public class NMFPackageManager {
 
         if (packageMetadata.isApp()) {
             // This directory should be passed in the method signature:
-            File nmfDir = Deployment.getInstallationFolder();
+            File nmfDir = Deployment.getNMFRootDir();
             File installationDir = new File(nmfDir.getAbsolutePath()
                     + File.separator + Deployment.DIR_APPS
                     + File.separator + packageName);
@@ -210,7 +206,7 @@ public class NMFPackageManager {
 
         removeFiles(packageMetadata);
 
-        String receiptsPath = Deployment.getReceiptsFolder().getCanonicalPath();
+        String receiptsPath = Deployment.getInstallationsTrackerDir().getCanonicalPath();
         String receiptFilename = packageName + RECEIPT_ENDING;
         File receiptFile = new File(receiptsPath + File.separator + receiptFilename);
 
@@ -247,17 +243,12 @@ public class NMFPackageManager {
                     + "Version: " + newPackMetadata.getMetadataVersion());
         }
 
-        File receiptsFolder = Deployment.getReceiptsFolder();
+        File receiptsFolder = Deployment.getInstallationsTrackerDir();
         String receiptFilename = newPackMetadata.getPackageName() + RECEIPT_ENDING;
         File oldReceiptFile = new File(receiptsFolder.getCanonicalPath() + File.separator + receiptFilename);
+        Metadata oldPackMetadata = Metadata.load(oldReceiptFile);
 
-        // Get the text out of that file and parse it into a NMFPackageDescriptor object
-        InputStream stream2 = new FileInputStream(oldReceiptFile);
-        Metadata oldPackMetadata = Metadata.load(stream2);
-        stream2.close();
-
-        Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
-                "Upgrading..."
+        Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO, "Upgrading..."
                 + "\n  >> From version: " + oldPackMetadata.getPackageVersion()
                 + " (timestamp: " + oldPackMetadata.getPackageTimestamp() + ")"
                 + "\n  >>   To version: " + newPackMetadata.getPackageVersion()
@@ -296,7 +287,7 @@ public class NMFPackageManager {
 
         MetadataApp appMetadata = newPackMetadata.castToApp();
         installDependencies(appMetadata, packageLocation, nmfDir);
-        extractFiles(newPack, nmfDir);
+        newPack.extractFiles(nmfDir);
 
         if (isApp) {
             String username = null;
@@ -356,7 +347,7 @@ public class NMFPackageManager {
             return false;
         }
 
-        File temp = Deployment.getReceiptsFolder();
+        File temp = Deployment.getInstallationsTrackerDir();
         String packageName = metadata.getPackageName();
         String receiptFilename = packageName + RECEIPT_ENDING;
         File receiptFile;
@@ -405,16 +396,6 @@ public class NMFPackageManager {
         return true;
     }
 
-    private static String generateFilePathForSystem(final String path) throws IOException {
-        // Sanitize the path to prevent a ZipSlip attack:
-        if (path.contains("..")) {
-            throw new IOException("Warning! A ZipSlip attack was detected!");
-        }
-
-        String out = path.replace('/', File.separatorChar);
-        return out.replace('\\', File.separatorChar);
-    }
-
     private static void installDependencies(MetadataApp metadata,
             String packageLocation, File installationDir) throws IOException {
         if (!metadata.hasDependencies()) {
@@ -430,51 +411,8 @@ public class NMFPackageManager {
         for (String file : dependencies) {
             file = file.replace(".jar", "." + Const.NMF_PACKAGE_SUFFIX);
             String path = parent + File.separator + file;
-            extractFiles(new NMFPackage(path), installationDir);
-        }
-    }
-
-    private static void extractFiles(NMFPackage pack, File to) throws IOException {
-        Metadata metadata = pack.getMetadata();
-        ZipFile zipFile = pack.getZipFile();
-
-        File newFile;
-        byte[] buffer = new byte[1024];
-
-        // Iterate through the files, unpack them into the right folders
-        ArrayList<NMFPackageFile> files = metadata.getFiles();
-
-        for (int i = 0; i < files.size(); i++) {
-            NMFPackageFile file = files.get(i);
-            ZipEntry entry = pack.getZipFileEntry(file.getPath());
-
-            String path = generateFilePathForSystem(entry.getName());
-            newFile = new File(to.getCanonicalPath() + File.separator + path);
-            File parent = new File(newFile.getParent());
-
-            if (!parent.exists()) {
-                new File(newFile.getParent()).mkdirs();
-            }
-
-            System.out.println("   >> Copying file to: " + newFile.getCanonicalPath());
-
-            FileOutputStream fos = new FileOutputStream(newFile);
-            InputStream zis = zipFile.getInputStream(entry);
-            int len;
-
-            while ((len = zis.read(buffer)) > 0) {
-                fos.write(buffer, 0, len);
-            }
-
-            fos.close();
-
-            long crc = HelperNMFPackage.calculateCRCFromFile(newFile.getCanonicalPath());
-
-            // We will also need to double check the CRCs again against the real files!
-            // Just to double-check.. better safe than sorry!
-            if (file.getCRC() != crc) {
-                throw new IOException("The CRC does not match!");
-            }
+            NMFPackage pack = new NMFPackage(path);
+            pack.extractFiles(installationDir);
         }
     }
 
@@ -511,13 +449,13 @@ public class NMFPackageManager {
     }
 
     private static void removeFiles(Metadata metadata) throws IOException {
-        File folder = Deployment.getInstallationFolder();
+        File folder = Deployment.getNMFRootDir();
         File file;
 
         // Do the files actually match the descriptor?
         for (int i = 0; i < metadata.getFiles().size(); i++) {
             NMFPackageFile packageFile = metadata.getFiles().get(i);
-            String path = generateFilePathForSystem(packageFile.getPath());
+            String path = HelperNMFPackage.generateFilePathForSystem(packageFile.getPath());
             file = new File(folder.getCanonicalPath() + File.separator + path);
             NMFPackageManager.removeFile(file);
         }
@@ -569,8 +507,8 @@ public class NMFPackageManager {
 
             IdentifierList myApp = new IdentifierList();
             myApp.add(new Identifier(name));
-            Identifier cat = new Identifier("*");
-            ListAppResponse response = appsLauncher.listApp(myApp, cat, null);
+            Identifier category = new Identifier("*");
+            ListAppResponse response = appsLauncher.listApp(myApp, category, null);
             LongList runningApp = new LongList();
 
             for (int i = 0; i < response.getBodyElement0().size(); i++) {
