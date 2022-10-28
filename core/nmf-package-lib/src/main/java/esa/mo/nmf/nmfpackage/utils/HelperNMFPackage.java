@@ -377,8 +377,7 @@ public class HelperNMFPackage {
         String path = appDir.getAbsolutePath() + File.separator;
 
         if (os.isUnix() || os.isMac()) {
-            String content = HelperNMFPackage.generateLinuxStartAppScript(
-                    javaCMD, jarName, appDetails);
+            String content = generateLinuxStartAppScript(javaCMD, jarName, appDetails);
 
             path += "start_" + name + ".sh";
             HelperNMFPackage.writeFile(path, content);
