@@ -26,9 +26,7 @@ import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.helpertools.helpers.HelperTime;
-import esa.mo.helpertools.misc.Const;
 import esa.mo.helpertools.misc.TaskScheduler;
-import esa.mo.nmf.sdk.OrekitResources;
 import esa.mo.platform.impl.util.HelperGPS;
 import esa.mo.platform.impl.util.PositionsCalculator;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
@@ -72,7 +70,6 @@ import org.ccsds.moims.mo.mal.structures.UpdateType;
 import org.ccsds.moims.mo.mal.transport.MALErrorBody;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.platform.PlatformHelper;
-import org.ccsds.moims.mo.platform.camera.CameraHelper;
 import org.ccsds.moims.mo.platform.gps.GPSHelper;
 import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionAndVelocityResponse;
 import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionResponse;
@@ -88,20 +85,6 @@ import org.ccsds.moims.mo.platform.gps.provider.NearbyPositionPublisher;
 import org.ccsds.moims.mo.platform.gps.structures.*;
 import org.ccsds.moims.mo.platform.structures.VectorD3D;
 import org.ccsds.moims.mo.platform.structures.VectorF3D;
-import org.hipparchus.geometry.euclidean.threed.Vector3D;
-import org.hipparchus.util.FastMath;
-import org.orekit.bodies.GeodeticPoint;
-import org.orekit.bodies.OneAxisEllipsoid;
-import org.orekit.data.DataProvidersManager;
-import org.orekit.frames.Frame;
-import org.orekit.frames.FramesFactory;
-import org.orekit.propagation.SpacecraftState;
-import org.orekit.propagation.analytical.tle.TLE;
-import org.orekit.propagation.analytical.tle.TLEPropagator;
-import org.orekit.time.AbsoluteDate;
-import org.orekit.time.TimeScalesFactory;
-import org.orekit.utils.Constants;
-import org.orekit.utils.IERSConventions;
 
 /**
  * GPS service Provider.
@@ -109,7 +92,7 @@ import org.orekit.utils.IERSConventions;
 public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
     implements ReconfigurableService
 {
-  private static final Logger LOGGER = Logger.getLogger(GPSProviderServiceImpl.class.getName());
+  protected static final Logger LOGGER = Logger.getLogger(GPSProviderServiceImpl.class.getName());
   private MALProvider gpsServiceProvider;
   private boolean initialiased = false;
   private boolean running = false;
@@ -119,26 +102,18 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
   private GPSManager manager;
   private PeriodicCurrentPosition periodicCurrentPosition;
   private final ConnectionProvider connection = new ConnectionProvider();
-  private GPSAdapterInterface adapter;
+  protected GPSAdapterInterface adapter;
   private ConfigurationChangeListener configurationAdapter;
 
-  private final Object MUTEX = new Object();
-  private Position currentPosition = null;
-  private VectorD3D currentCartesianPosition = null;
-  private VectorF3D currentCartesianPositionDeviation = null;
-  private VectorD3D currentCartesianVelocity = null;
-  private VectorF3D currentCartesianVelocityDeviation = null;
-  private long timeOfCurrentPosition;
-  private long timeOfCurrentPositionAndVelocity;
-
-  private Boolean isTLEFallbackEnabled =
-          Boolean.parseBoolean(System.getProperty(Const.PLATFORM_GNSS_FALLBACK_TO_TLE_PROPERTY,
-          Const.PLATFORM_GNSS_FALLBACK_TO_TLE_DEFAULT));
-
-  private static final int NANOSECONDS_IN_MILLISECOND = 1000000;
-  private Double utcOffset = Double.parseDouble(System.getProperty(Const.PLATFORM_GNSS_UTC_OFFSET_PROPERTY,
-          Const.PLATFORM_GNSS_UTC_OFFSET_DEFAULT));
-  private static boolean isOrekitDataInitialized = false;
+  protected final Object MUTEX = new Object();
+  protected Position currentPosition = null;
+  protected VectorD3D currentCartesianPosition = null;
+  protected VectorF3D currentCartesianPositionDeviation = null;
+  protected VectorD3D currentCartesianVelocity = null;
+  protected VectorF3D currentCartesianVelocityDeviation = null;
+  
+  protected long timeOfCurrentPosition;
+  protected long timeOfCurrentPositionAndVelocity;
 
   /**
    * creates the MAL objects, the publisher used to create updates and starts the publishing thread
@@ -331,52 +306,6 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
           new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
     }
     interaction.sendResponse(position);
-  }
-
-  /**
-   * Checks if TLE propagation should be used
-   * @return true if TLE propagation should be used, false otherwise
-   */
-
-  public boolean useTLEPropagation()
-    throws MALInteractionException, MALException
-  {
-    boolean useTLEpropagation = false;
-    if (!adapter.isUnitAvailable()) {
-      if(isTLEFallbackEnabled)
-      {
-        useTLEpropagation = true;
-      }
-      else
-      {
-        throw new MALInteractionException(
-          new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null)); 
-      }
-    }
-    else if(!isPositionFixed()){
-      useTLEpropagation = true;
-    }
-    return useTLEpropagation;
-  }
-
-  /**
-   * Updates the current position using TLE if useTLEpropagation is true,
-   * or the GPS adapter if useTLEpropagation is false
-   * @param useTLEpropagation
-   * @return the updated position, or null if the methods that get latest position fail
-   */
-  public Position updateCurrentPosition(boolean useTLEpropagation)
-  {
-    Position position = useTLEpropagation ? getTLEPropagatedPosition() : adapter.getCurrentPosition();
-    if (position == null) {
-      return null;
-    }
-
-    synchronized (MUTEX) { // Store the latest Position
-      currentPosition = position;
-      timeOfCurrentPosition = System.currentTimeMillis();
-    }
-    return position;
   }
 
   @Override
@@ -576,95 +505,10 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
     interaction.sendResponse(position, positionDeviation, velocity, velocityDeviation);
   }
 
-  /**
-   * Updates the current position/velocity
-   * @param useTLEpropagation
-   */
-  public void updateCurrentPositionAndVelocity(boolean useTLEpropagation)
-    throws IOException, NumberFormatException
-  {
-    try {
-      final VectorD3D position;
-      final VectorF3D positionDeviation;
-      final VectorD3D velocity;
-      final VectorF3D velocityDeviation;
-
-      if(useTLEpropagation)
-      {
-        Calendar targetDate = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        SpacecraftState state = getSpacecraftState(targetDate);
-        Vector3D pos = state.getPVCoordinates().getPosition();
-        position = new VectorD3D(pos.getX(), pos.getY(), pos.getZ());
-
-        positionDeviation = new VectorF3D(0f, 0f, 0f);
-
-        Vector3D velocity3D = state.getPVCoordinates().getVelocity();
-        velocity = new VectorD3D(velocity3D.getX(), velocity3D.getY(), velocity3D.getZ());
-
-        velocityDeviation = new VectorF3D(0f, 0f, 0f);
-      }
-      else {
-        String bestxyz = adapter.getBestXYZSentence();
-
-        String[] fields = HelperGPS.getDataFieldsFromBestXYZ(bestxyz);
-
-        position = new VectorD3D(
-                Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.PX]),
-                Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.PY]),
-                Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.PZ])
-        );
-
-        positionDeviation = new VectorF3D(
-                Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.PX_DEVIATION]),
-                Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.PY_DEVIATION]),
-                Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.PZ_DEVIATION])
-        );
-
-        velocity = new VectorD3D(
-                Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.VX]),
-                Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.VY]),
-                Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.VZ])
-        );
-
-        velocityDeviation = new VectorF3D(
-                Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.VX_DEVIATION]),
-                Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.VY_DEVIATION]),
-                Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.VZ_DEVIATION])
-        );
-      }
-      synchronized (MUTEX) { // Store the latest Position
-        currentCartesianPosition = position;
-        currentCartesianPositionDeviation = positionDeviation;
-        currentCartesianVelocity = velocity;
-        currentCartesianVelocityDeviation = velocityDeviation;
-        timeOfCurrentPositionAndVelocity = System.currentTimeMillis();
-      }
-    } catch (IOException | NumberFormatException e) {
-      e.printStackTrace();
-      throw e;
+    @Override
+    public void getTLE(GetTLEInteraction interaction) throws MALInteractionException, MALException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
-  }
-
-  @Override
-  public void getTLE(GetTLEInteraction interaction) throws MALInteractionException, MALException
-  {
-    if (!adapter.isUnitAvailable() && isTLEFallbackEnabled == false) { // Is the unit available?
-      throw new MALInteractionException(
-          new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
-    }
-    interaction.sendAcknowledgement();
-    TLE tle = adapter.getTLE();
-
-    interaction.sendResponse(new TwoLineElementSet(tle.getSatelliteNumber(), "" + tle.getClassification(),
-            tle.getLaunchYear(), tle.getLaunchNumber(), tle.getLaunchPiece(),
-            tle.getDate().getComponents(0).getDate().getYear(),
-            tle.getDate().getComponents(0).getDate().getDayOfYear(),
-            tle.getDate().getComponents(0).getTime().getSecondsInUTCDay(),
-            tle.getMeanMotionFirstDerivative(), tle.getMeanMotionSecondDerivative(),
-            tle.getBStar(), tle.getElementNumber(), tle.getI(), tle.getRaan(), tle.getE(),
-            tle.getPerigeeArgument(), tle.getMeanAnomaly(), tle.getMeanMotion(),
-            tle.getRevolutionNumberAtEpoch()));
-  }
 
   public static final class PublishInteractionListener implements MALPublishInteractionListener
   {
@@ -878,7 +722,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
     } catch (IOException e) {
       interaction
           .sendError(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
-      e.printStackTrace();
+      LOGGER.log(Level.SEVERE, e.getMessage());
     }
   }
 
@@ -896,65 +740,87 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
     } catch (IOException e) {
       interaction
           .sendError(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));
-      e.printStackTrace();
+      LOGGER.log(Level.SEVERE, e.getMessage());
     }
   }
 
+  public boolean useTLEPropagation() throws MALInteractionException, MALException {
+      return false;
+  }
+  
   /**
-   * Checks the fixQquality on the GNSS position.
-   * @return true if a fixed position has been established, false otherwise
+   * Updates the current position/velocity
+   * @param useTLEpropagation
    */
-  private boolean isPositionFixed() {
-    boolean isFixed = false;
-    try {
-      if(adapter.getCurrentPosition().getExtraDetails().getFixQuality() > 0){
-        isFixed = true;
-      }
-    } catch (NullPointerException e)
-    {
-      LOGGER.warning("Could not receive a fixed position: " + e.getMessage());
-    }
-    return isFixed;
-  }
-
-  private Position getTLEPropagatedPosition()
+  public void updateCurrentPositionAndVelocity(boolean useTLEpropagation)
+    throws IOException, NumberFormatException
   {
-    Calendar targetDate = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-    SpacecraftState state = getSpacecraftState(targetDate);
+    try {
+      final VectorD3D position;
+      final VectorF3D positionDeviation;
+      final VectorD3D velocity;
+      final VectorF3D velocityDeviation;
 
+        String bestxyz = adapter.getBestXYZSentence();
 
-    // Converting to geodetic lat/lon/alt
-    Frame ecf = FramesFactory.getITRF(IERSConventions.IERS_2010,true);
-    OneAxisEllipsoid earth = new OneAxisEllipsoid(Constants.WGS84_EARTH_EQUATORIAL_RADIUS, Constants.WGS84_EARTH_FLATTENING, ecf);
-    GeodeticPoint satLatLonAlt = earth.transform(state.getPVCoordinates().getPosition(), FramesFactory.getEME2000(),
-            state.getDate());
+        String[] fields = HelperGPS.getDataFieldsFromBestXYZ(bestxyz);
 
-    PositionExtraDetails extraDetails = new PositionExtraDetails(new Time(targetDate.getTimeInMillis()),
-            0, 0, 0.0f,0.0f, PositionSourceType.TLE);
+        position = new VectorD3D(
+                Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.PX]),
+                Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.PY]),
+                Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.PZ])
+        );
 
-    return new Position((float) FastMath.toDegrees(satLatLonAlt.getLatitude()), (float) FastMath.toDegrees(satLatLonAlt.getLongitude()),
-            (float) satLatLonAlt.getAltitude(), extraDetails);
-  }
+        positionDeviation = new VectorF3D(
+                Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.PX_DEVIATION]),
+                Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.PY_DEVIATION]),
+                Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.PZ_DEVIATION])
+        );
 
-  private SpacecraftState getSpacecraftState(Calendar targetDate) {
+        velocity = new VectorD3D(
+                Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.VX]),
+                Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.VY]),
+                Double.parseDouble(fields[HelperGPS.BESTXYZ_FIELD.VZ])
+        );
 
-    if(!isOrekitDataInitialized) {
-      //setup orekit if not yet initialized
-      DataProvidersManager manager = DataProvidersManager.getInstance();
-      if(manager.getProviders().isEmpty())
-      {
-        manager.addProvider(OrekitResources.getOrekitData());
+        velocityDeviation = new VectorF3D(
+                Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.VX_DEVIATION]),
+                Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.VY_DEVIATION]),
+                Float.parseFloat(fields[HelperGPS.BESTXYZ_FIELD.VZ_DEVIATION])
+        );
+
+      synchronized (MUTEX) { // Store the latest Position
+        currentCartesianPosition = position;
+        currentCartesianPositionDeviation = positionDeviation;
+        currentCartesianVelocity = velocity;
+        currentCartesianVelocityDeviation = velocityDeviation;
+        timeOfCurrentPositionAndVelocity = System.currentTimeMillis();
       }
-      isOrekitDataInitialized = true;
+    } catch (IOException | NumberFormatException e) {
+      LOGGER.log(Level.SEVERE, e.getMessage());
+      throw e;
+    }
+  }
+  
+  /**
+   * Updates the current position using TLE if useTLEpropagation is true,
+   * or the GPS adapter if useTLEpropagation is false
+   * @param useTLEpropagation
+   * @return the updated position, or null if the methods that get latest position fail
+   */
+  public Position updateCurrentPosition(boolean useTLEpropagation)
+  {
+    Position position = adapter.getCurrentPosition();
+    if (position == null) {
+      return null;
     }
 
-    TLE tle = adapter.getTLE();
-    TLEPropagator propagator = TLEPropagator.selectExtrapolator(tle);
-
-    return propagator.propagate(new AbsoluteDate(targetDate.get(Calendar.YEAR),
-            targetDate.get(Calendar.MONTH) + 1,
-            targetDate.get(Calendar.DAY_OF_MONTH), targetDate.get(Calendar.HOUR_OF_DAY), targetDate.get(Calendar.MINUTE),
-            targetDate.get(Calendar.SECOND), TimeScalesFactory.getUTC()));
+    synchronized (MUTEX) { // Store the latest Position
+      currentPosition = position;
+      timeOfCurrentPosition = System.currentTimeMillis();
+    }
+    return position;
   }
+  
 
 }

@@ -25,7 +25,6 @@ import java.io.IOException;
 import esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter;
 import esa.mo.platform.impl.provider.gen.PowerControlAdapterInterface;
 import opssat.simulator.main.ESASimulator;
-import org.ccsds.moims.mo.platform.gps.structures.TwoLineElementSet;
 import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceType;
 import org.orekit.propagation.analytical.tle.TLE;
 
@@ -37,7 +36,7 @@ public class GPSSoftSimAdapter extends GPSNMEAonlyAdapter implements SimulatorAd
 {
 
   private final ESASimulator instrumentsSimulator;
-  private PowerControlAdapterInterface pcAdapter;
+  private final PowerControlAdapterInterface pcAdapter;
 
   public GPSSoftSimAdapter(ESASimulator instrumentsSimulator, PowerControlAdapterInterface pcAdapter)
   {
@@ -87,7 +86,6 @@ public class GPSSoftSimAdapter extends GPSNMEAonlyAdapter implements SimulatorAd
     return pcAdapter.isDeviceEnabled(DeviceType.GNSS);
   }
 
-  @Override
   public TLE getTLE()
   {
     TLE tle = this.instrumentsSimulator.getSimulatorNode().getTLE();
