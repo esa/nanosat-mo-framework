@@ -68,13 +68,14 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
   private final ArtificialIntelligenceProviderServiceImpl aiService = new ArtificialIntelligenceProviderServiceImpl();
   private final AutonomousADCSProviderServiceImpl autonomousADCSService = new AutonomousADCSProviderServiceImpl();
   private final CameraProviderServiceImpl cameraService = new CameraProviderServiceImpl();
-  private final GPSProviderServiceImpl gpsService = new GPSProviderServiceImpl();
+  private final GPSProviderServiceWithTLEImpl gpsService = new GPSProviderServiceWithTLEImpl();
   private final OpticalDataReceiverProviderServiceImpl opticalDataReceiverService = new OpticalDataReceiverProviderServiceImpl();
   private final SoftwareDefinedRadioProviderServiceImpl sdrService = new SoftwareDefinedRadioProviderServiceImpl();
   private final PowerControlProviderServiceImpl powerService = new PowerControlProviderServiceImpl();
   private PowerControlAdapterInterface pcAdapter;
   private final ClockProviderServiceImpl clockService = new ClockProviderServiceImpl();
 
+  @Override
   public void init(COMServicesProvider comServices) throws MALException {
     // Check if hybrid setup is used
     CameraAdapterInterface camAdapter;
@@ -288,7 +289,7 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
             aiAdapter = new AIMovidiusAdapter();
         } catch (IOException ex) {
             Logger.getLogger(PlatformServicesProviderSoftSim.class.getName()).log(
-                    Level.SEVERE, "The AI adapter could not be started!", ex);
+                    Level.INFO, "The AI adapter could not be started!", ex);
             
             aiAdapter = null;
         }
@@ -341,9 +342,8 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
         return this.sdrService;
     }
 
-    @Override
-    public ArtificialIntelligenceInheritanceSkeleton getAIService() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
+  @Override
+  public ArtificialIntelligenceInheritanceSkeleton getAIService() {
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
 }
