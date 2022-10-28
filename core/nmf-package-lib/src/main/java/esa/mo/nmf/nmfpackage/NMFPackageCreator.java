@@ -70,7 +70,7 @@ public class NMFPackageCreator {
                 origin.close();
             }
             out.close();
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             Logger.getLogger(NMFPackageCreator.class.getName()).log(
                     Level.SEVERE, "The Files could not be zipped!", ex);
         }

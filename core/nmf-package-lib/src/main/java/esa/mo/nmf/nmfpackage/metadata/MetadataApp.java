@@ -20,12 +20,10 @@
  */
 package esa.mo.nmf.nmfpackage.metadata;
 
-import esa.mo.helpertools.helpers.HelperTime;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Properties;
-import org.ccsds.moims.mo.mal.structures.Time;
 
 /**
  * The MetadataApp class holds the metadata of an App in a NMF Package.

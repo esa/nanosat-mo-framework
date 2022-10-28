@@ -22,6 +22,8 @@ package esa.mo.nmf.nmfpackage;
 
 import esa.mo.nmf.nmfpackage.utils.HelperNMFPackage;
 import esa.mo.nmf.nmfpackage.metadata.Metadata;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -40,10 +42,6 @@ public class NMFPackage {
 
     public NMFPackage(String filepath) throws IOException {
         this.zipFile = new ZipFile(filepath);
-    }
-
-    public ZipFile getZipFile() {
-        return zipFile;
     }
 
     public synchronized Metadata getMetadata() throws IOException {
@@ -101,6 +99,47 @@ public class NMFPackage {
             }
 
             if (filepack.getCRC() != entry.getCrc()) {
+                throw new IOException("The CRC does not match!");
+            }
+        }
+    }
+
+    public void extractFiles(File to) throws IOException {
+        File newFile;
+        byte[] buffer = new byte[1024];
+
+        // Iterate through the files, unpack them into the right folders
+        ArrayList<NMFPackageFile> files = metadata.getFiles();
+
+        for (int i = 0; i < files.size(); i++) {
+            NMFPackageFile file = files.get(i);
+            ZipEntry entry = this.getZipFileEntry(file.getPath());
+
+            String path = HelperNMFPackage.generateFilePathForSystem(entry.getName());
+            newFile = new File(to.getCanonicalPath() + File.separator + path);
+            File parent = new File(newFile.getParent());
+
+            if (!parent.exists()) {
+                new File(newFile.getParent()).mkdirs();
+            }
+
+            System.out.println("   >> Copying file to: " + newFile.getCanonicalPath());
+
+            FileOutputStream fos = new FileOutputStream(newFile);
+            InputStream zis = zipFile.getInputStream(entry);
+            int len;
+
+            while ((len = zis.read(buffer)) > 0) {
+                fos.write(buffer, 0, len);
+            }
+
+            fos.close();
+
+            long crc = HelperNMFPackage.calculateCRCFromFile(newFile.getCanonicalPath());
+
+            // We will also need to double check the CRCs again against the real files!
+            // Just to double-check.. better safe than sorry!
+            if (file.getCRC() != crc) {
                 throw new IOException("The CRC does not match!");
             }
         }
