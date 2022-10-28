@@ -105,7 +105,7 @@ public class LinuxUsersGroups {
     public static void adduser(String username, String password,
             boolean withGroup) throws IOException {
         // First, we need to check if the "useradd" is from BusyBox or not
-        String[] cmd1 = {"sudo", "adduser", "-h"};
+        String[] cmd1 = {"sudo", "adduser", "-h", "|", "echo"};
         String out1 = runCommand(cmd1);
 
         // Different Linux Systems have different syntaxes for the same command
@@ -200,7 +200,7 @@ public class LinuxUsersGroups {
      * @throws IOException if the permissions could not be changed.
      */
     public static void chmod(boolean sudo, boolean recursive, String mode, String path) throws IOException {
-        String strRecursive = recursive ? "--recursive" : "";
+        String strRecursive = recursive ? "-R" : "";
         //String[] cmd = {sudo ? "sudo" : "", "chmod", strRecursive, mode, path};
         String[] cmd = sudo
                 ? new String[]{"sudo", "chmod", strRecursive, mode, path}
