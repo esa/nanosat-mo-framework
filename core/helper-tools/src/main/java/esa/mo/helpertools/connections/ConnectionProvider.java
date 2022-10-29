@@ -46,15 +46,16 @@ import org.ccsds.moims.mo.mal.structures.URI;
  */
 public class ConnectionProvider {
 
+    private final static ServicesConnectionDetails GLOBAL_PROVIDERS_DETAILS_PRIMARY = new ServicesConnectionDetails();
+    private final static ServicesConnectionDetails GLOBAL_PROVIDERS_DETAILS_SECONDARY = new ServicesConnectionDetails();
+
+    private final SingleConnectionDetails primaryConnectionDetails = new SingleConnectionDetails();
     private MALContextFactory malFactory;
     private MALContext mal;
     private MALProviderManager providerMgr;
     private MALProvider primaryMALServiceProvider = null;
     private MALProvider secondaryMALServiceProvider = null;
-    private final SingleConnectionDetails primaryConnectionDetails = new SingleConnectionDetails();
     private SingleConnectionDetails secondaryConnectionDetails = null;
-    private static ServicesConnectionDetails globalProvidersDetailsPrimary = new ServicesConnectionDetails();
-    private static ServicesConnectionDetails globalProvidersDetailsSecondary = new ServicesConnectionDetails();
 
     /**
      * Getter for the primaryConnectionDetails object.
@@ -190,12 +191,12 @@ public class ConnectionProvider {
         if (shouldInitUriFiles()) {
             String path = System.getProperty(HelperMisc.PROP_PROVIDERURIS_PATH,
                     HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME);
-            
+
             this.writeURIsOnFile(primaryConnectionDetails,
                     serviceName,
                     path);
         }
-        globalProvidersDetailsPrimary.add(serviceName, primaryConnectionDetails);
+        GLOBAL_PROVIDERS_DETAILS_PRIMARY.add(serviceName, primaryConnectionDetails);
 
         primaryMALServiceProvider = serviceProvider;
 
@@ -226,16 +227,15 @@ public class ConnectionProvider {
                                                                                                                  .getDomain(),
                                                                                                              serviceKey});
 
-
             if (shouldInitUriFiles()) {
                 String pathSec = System.getProperty(HelperMisc.PROP_PROVIDERURIS_SEC_PATH,
                         HelperMisc.PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME);
-            
+
                 this.writeURIsOnFile(secondaryConnectionDetails,
                         serviceName,
                         pathSec);
             }
-            globalProvidersDetailsSecondary.add(serviceName, secondaryConnectionDetails);
+            GLOBAL_PROVIDERS_DETAILS_SECONDARY.add(serviceName, secondaryConnectionDetails);
             secondaryMALServiceProvider = serviceProvider2;
         }
 
@@ -295,8 +295,7 @@ public class ConnectionProvider {
     }
 
     /**
-     * Indicates whether the URI Files should be initialised.
-     * Defaults to false.
+     * Indicates whether the URI Files should be initialised. Defaults to false.
      *
      * @return true if URI Files should be initialised
      */
@@ -308,8 +307,8 @@ public class ConnectionProvider {
      * Clears the URI links file if its generation is enabled
      */
     public static void resetURILinks() {
-        globalProvidersDetailsPrimary.reset();
-        globalProvidersDetailsSecondary.reset();
+        GLOBAL_PROVIDERS_DETAILS_PRIMARY.reset();
+        GLOBAL_PROVIDERS_DETAILS_SECONDARY.reset();
 
         if (shouldInitUriFiles()) {
             String path = System.getProperty(HelperMisc.PROP_PROVIDERURIS_PATH,
@@ -335,21 +334,23 @@ public class ConnectionProvider {
     }
 
     /**
-     * Get primary connection interface details of all providers in the application.
-     * 
+     * Get primary connection interface details of all providers in the
+     * application.
+     *
      * @return Primary connection details of all providers in the application.
      */
     public static ServicesConnectionDetails getGlobalProvidersDetailsPrimary() {
-        return globalProvidersDetailsPrimary;
+        return GLOBAL_PROVIDERS_DETAILS_PRIMARY;
     }
 
     /**
-     * Get secondary connection interface details of all providers in the application.
-     * 
+     * Get secondary connection interface details of all providers in the
+     * application.
+     *
      * @return Secondary connection details of all providers in the application.
      */
     public static ServicesConnectionDetails getGlobalProvidersDetailsSecondary() {
-        return globalProvidersDetailsSecondary;
+        return GLOBAL_PROVIDERS_DETAILS_SECONDARY;
     }
 
     /**
