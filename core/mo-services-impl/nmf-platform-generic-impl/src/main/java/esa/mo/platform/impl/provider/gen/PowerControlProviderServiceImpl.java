@@ -63,6 +63,8 @@ public class PowerControlProviderServiceImpl extends PowerControlInheritanceSkel
      * @throws MALException On initialisation error.
      */
     public synchronized void init(PowerControlAdapterInterface adapter) throws MALException {
+        long timestamp = System.currentTimeMillis();
+        
         if (!initialiased) {
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -96,7 +98,8 @@ public class PowerControlProviderServiceImpl extends PowerControlInheritanceSkel
 
         running = true;
         initialiased = true;
-        LOGGER.info("Power Control service READY");
+        timestamp = System.currentTimeMillis() - timestamp;
+        LOGGER.info("Power Control service: READY! (" + timestamp + " ms)");
     }
 
     /**

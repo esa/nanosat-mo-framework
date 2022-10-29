@@ -159,6 +159,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
      * @throws MALException if initialization error.
      */
     public synchronized void init(ArchiveManager manager) throws MALException {
+        long timestamp = System.currentTimeMillis();
         if (!initialiased) {
             if (null == MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION)) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -184,7 +185,8 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         archiveSyncServiceProvider = connection.startService(ArchiveSyncHelper.ARCHIVESYNC_SERVICE_NAME.toString(),
                 ArchiveSyncHelper.ARCHIVESYNC_SERVICE, false, this);
         initialiased = true;
-        LOGGER.info("ArchiveSync service READY");
+        timestamp = System.currentTimeMillis() - timestamp;
+        LOGGER.info("ArchiveSync service: READY! (" + timestamp + " ms)");
     }
 
     /**

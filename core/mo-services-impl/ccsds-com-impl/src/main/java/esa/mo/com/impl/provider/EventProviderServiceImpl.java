@@ -87,6 +87,8 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
      * @throws MALException On initialization error.
      */
     public synchronized void init(ArchiveProviderServiceImpl archiveService) throws MALException {
+        long timestamp = System.currentTimeMillis();
+        
         if (!initialiased) {
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -117,8 +119,9 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
             EventHelper.EVENT_SERVICE, this);
         running = true;
         initialiased = true;
-        Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.INFO, "Event service: READY");
-
+        timestamp = System.currentTimeMillis() - timestamp;
+        Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.INFO, 
+                "Event service: READY! (" + timestamp + " ms)");
     }
 
     public void setArchiveService(ArchiveProviderServiceImpl archiveService) {

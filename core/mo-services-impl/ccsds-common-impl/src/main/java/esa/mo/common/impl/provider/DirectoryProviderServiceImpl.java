@@ -76,49 +76,51 @@ import org.ccsds.moims.mo.mal.structures.UShort;
 /**
  * Directory service Provider.
  */
-public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
+public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton
+{
 
-    public static final String CHAR_S2G = "s2g";
-    private static final Logger LOGGER = Logger.getLogger(DirectoryProviderServiceImpl.class.getName());
+  public static final String CHAR_S2G = "s2g";
+  private static final Logger LOGGER
+      = Logger.getLogger(DirectoryProviderServiceImpl.class.getName());
 
-    private MALProvider directoryServiceProvider;
-    private boolean initialiased = false;
-    private boolean running = false;
-    private final ConnectionProvider connection = new ConnectionProvider();
-    protected final Map<Long, PublishDetails> providersAvailable = new ConcurrentHashMap<>();
-    protected final Object MUTEX = new Object();
-    private COMServicesProvider comServices;
+  private MALProvider directoryServiceProvider;
+  private boolean initialiased = false;
+  private boolean running = false;
+  private final ConnectionProvider connection = new ConnectionProvider();
+  protected final Map<Long, PublishDetails> providersAvailable
+      = new ConcurrentHashMap<>();
+  protected final Object MUTEX = new Object();
+  private COMServicesProvider comServices;
 
-    private static AddressDetails getServiceAddressDetails(final SingleConnectionDetails conn) {
-        QoSLevelList qos = new QoSLevelList();
-        qos.add(QoSLevel.ASSURED);
-        NamedValueList qosProperties = new NamedValueList();  // Nothing here for now...
+  /**
+   * creates the MAL objects, the publisher used to create updates and starts the publishing thread
+   *
+   * @param comServices
+   * @throws MALException On initialisation error.
+   */
+  public synchronized void init(COMServicesProvider comServices) throws MALException
+  {
+    long timestamp = System.currentTimeMillis();
+        
+    if (!initialiased) {
+      if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
+        MALHelper.init(MALContextFactory.getElementFactoryRegistry());
+      }
 
-        AddressDetails serviceAddress = new AddressDetails();
-        serviceAddress.setSupportedLevels(qos);
-        serviceAddress.setQoSproperties(qosProperties);
-        serviceAddress.setPriorityLevels(new UInteger(1));  // hum?
-        serviceAddress.setServiceURI(conn.getProviderURI());
-        serviceAddress.setBrokerURI(conn.getBrokerURI());
-        serviceAddress.setBrokerProviderObjInstId(null);
+      if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null) {
+        COMHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
+      }
 
-        return serviceAddress;
+      if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME,
+          CommonHelper.COMMON_AREA_VERSION) == null) {
+        CommonHelper.init(MALContextFactory.getElementFactoryRegistry());
+      }
+
+      if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION)
+                  .getServiceByName(DirectoryHelper.DIRECTORY_SERVICE_NAME) == null) {
+        DirectoryHelper.init(MALContextFactory.getElementFactoryRegistry());
+      }
     }
-
-    private static AddressDetailsList findAddressDetailsListOfService(final ServiceKey key,
-        final ServiceCapabilityList capabilities) {
-        if (key == null) {
-            return null;
-        }
-
-        // Iterate all capabilities until you find the serviceName
-        for (ServiceCapability capability : capabilities) {
-            if (capability != null) {
-                if (key.equals(capability.getServiceKey())) {
-                    return capability.getServiceAddresses();
-                }
-            }
-        }
 
         return null; // Not found!
     }
@@ -127,15 +129,22 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         return new ServiceKey(new UShort(keys.get(0)), new UShort(keys.get(1)), new UOctet(keys.get(2).shortValue()));
     }
 
-    /*
-    public HashMap<Long, PublishDetails> getListOfProviders() {
-    final HashMap<Long, PublishDetails> list = new HashMap<Long, PublishDetails>();
-    
-    synchronized (MUTEX) {
-    list.putAll(providersAvailable);
-    }
-    
-    return list;
+    directoryServiceProvider = connection.startService(
+        DirectoryHelper.DIRECTORY_SERVICE_NAME.toString(),
+        DirectoryHelper.DIRECTORY_SERVICE, false, this);
+
+    running = true;
+    initialiased = true;
+    timestamp = System.currentTimeMillis() - timestamp;
+    LOGGER.info("Directory service: READY! (" + timestamp + " ms)");
+  }
+
+  @Override
+  public ProviderSummaryList lookupProvider(final ServiceFilter filter,
+      final MALInteraction interaction) throws MALInteractionException, MALException
+  {
+    if (null == filter) { // Is the input null?
+      throw new IllegalArgumentException("filter argument must not be null");
     }
      */
     /**
@@ -456,12 +465,104 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         }
     }
 
-    public void withdrawAllProviders() throws MALInteractionException, MALException {
-        synchronized (MUTEX) {
-            for (Long key : providersAvailable.keySet()) {
-                withdrawProvider(key, null);
-            }
+  private static AddressDetails getServiceAddressDetails(final SingleConnectionDetails conn)
+  {
+    QoSLevelList qos = new QoSLevelList();
+    qos.add(QoSLevel.ASSURED);
+    NamedValueList qosProperties = new NamedValueList();  // Nothing here for now...
+
+    AddressDetails serviceAddress = new AddressDetails();
+    serviceAddress.setSupportedLevels(qos);
+    serviceAddress.setQoSproperties(qosProperties);
+    serviceAddress.setPriorityLevels(new UInteger(1));  // hum?
+    serviceAddress.setServiceURI(conn.getProviderURI());
+    serviceAddress.setBrokerURI(conn.getBrokerURI());
+    serviceAddress.setBrokerProviderObjInstId(null);
+
+    return serviceAddress;
+  }
+
+  private static AddressDetailsList findAddressDetailsListOfService(final ServiceKey key,
+      final ServiceCapabilityList capabilities)
+  {
+    if (key == null) {
+      return null;
+    }
+
+    // Iterate all capabilities until you find the serviceName
+    for (ServiceCapability capability : capabilities) {
+      if (capability != null) {
+        if (key.equals(capability.getServiceKey())) {
+          return capability.getServiceAddresses();
         }
+      }
+    }
+
+    return null; // Not found!
+  }
+
+  public static ServiceKey generateServiceKey(final IntegerList keys)
+  {
+    return new ServiceKey(new UShort(keys.get(0)), new UShort(keys.get(1)), new UOctet(
+        keys.get(2).shortValue()));
+  }
+
+  /**
+   * Closes all running threads and releases the MAL resources.
+   */
+  public void close()
+  {
+    try {
+      if (null != directoryServiceProvider) {
+        directoryServiceProvider.close();
+      }
+
+      connection.closeAll();
+      running = false;
+    } catch (MALException ex) {
+      LOGGER.log(Level.WARNING,
+          "Exception during close down of the provider {0}", ex);
+    }
+  }
+
+  public ConnectionProvider getConnection()
+  {
+    return this.connection;
+  }
+
+  public void withdrawAllProviders() throws MALInteractionException, MALException
+  {
+    synchronized (MUTEX) {
+      for(Long key : providersAvailable.keySet()) {
+        withdrawProvider(key, null);
+      }
+    }
+  }
+
+  public PublishDetails loadURIs(final String providerName)
+  {
+    ServicesConnectionDetails primaryConnectionDetails = ConnectionProvider.getGlobalProvidersDetailsPrimary();
+    ServicesConnectionDetails secondaryAddresses = ConnectionProvider.getGlobalProvidersDetailsSecondary();
+
+    // Services' connections
+    HashMap<String, SingleConnectionDetails> connsMap = primaryConnectionDetails.getServices();
+    Object[] serviceNames = connsMap.keySet().toArray();
+
+    final ServiceCapabilityList capabilities = new ServiceCapabilityList();
+
+    // Iterate all the services and make them available...
+    for (Object serviceName : serviceNames) {
+      SingleConnectionDetails conn = connsMap.get((String) serviceName);
+      AddressDetails serviceAddress = DirectoryProviderServiceImpl.getServiceAddressDetails(conn);
+      AddressDetailsList serviceAddresses = new AddressDetailsList();
+      serviceAddresses.add(serviceAddress);
+      ServiceKey key = DirectoryProviderServiceImpl.generateServiceKey(conn.getServiceKey());
+      ServiceCapability capability = new ServiceCapability();
+      capability.setServiceKey(key);
+      capability.setSupportedCapabilitySets(null); // "If NULL then all capabilities supported."
+      capability.setServiceProperties(new NamedValueList());
+      capability.setServiceAddresses(serviceAddresses);
+      capabilities.add(capability);
     }
 
     public PublishDetails loadURIs(final String providerName) {

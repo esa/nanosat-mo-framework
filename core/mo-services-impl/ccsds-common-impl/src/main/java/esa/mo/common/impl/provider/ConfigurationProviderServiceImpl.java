@@ -74,12 +74,11 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
     private MALProvider configurationServiceProvider;
     private boolean initialiased = false;
     private boolean running = false;
-    private final HashMap<ObjectId, Element> configs = new HashMap<ObjectId, Element>();
     private final ConnectionProvider connection = new ConnectionProvider();
     private final Random random = new Random();
     private COMServicesProvider comServices;
-    private final HashMap<ObjectId, ConfigurationObjectDetails> serviceConfigurations = new HashMap<ObjectId, ConfigurationObjectDetails>();
-    private final HashMap<ObjectId, ConfigurationObjectDetails> providerConfigurations = new HashMap<ObjectId, ConfigurationObjectDetails>();
+    private final HashMap<ObjectId, ConfigurationObjectDetails> serviceConfigurations = new HashMap<>();
+    private final HashMap<ObjectId, ConfigurationObjectDetails> providerConfigurations = new HashMap<>();
 
     /**
      * creates the MAL objects, the publisher used to create updates and starts
@@ -89,6 +88,8 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
      * @throws MALException On initialisation error.
      */
     public synchronized void init(COMServicesProvider comServices) throws MALException {
+        long timestamp = System.currentTimeMillis();
+        
         if (!initialiased) {
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -121,7 +122,9 @@ public class ConfigurationProviderServiceImpl extends ConfigurationInheritanceSk
 
         running = true;
         initialiased = true;
-        Logger.getLogger(ConfigurationProviderServiceImpl.class.getName()).info("Configuration service READY");
+        timestamp = System.currentTimeMillis() - timestamp;
+        Logger.getLogger(ConfigurationProviderServiceImpl.class.getName()).info(
+                "Configuration service: READY! (" + timestamp + " ms)");
     }
 
     /**

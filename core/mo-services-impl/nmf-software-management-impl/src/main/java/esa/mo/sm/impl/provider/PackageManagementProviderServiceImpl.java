@@ -67,7 +67,10 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
      * @param backend
      * @throws MALException On initialization error.
      */
-    public synchronized void init(final COMServicesProvider comServices, final PMBackend backend) throws MALException {
+    public synchronized void init(final COMServicesProvider comServices,
+            final PMBackend backend) throws MALException {
+        long timestamp = System.currentTimeMillis();
+        
         if (backend == null) {
             Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).severe(
                 "Package Management service could not be initialized! " + "The backend object cannot be null.");
@@ -108,7 +111,9 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             PackageManagementHelper.PACKAGEMANAGEMENT_SERVICE, false, this);
         running = true;
         initialiased = true;
-        Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).info("Package Management service READY");
+        timestamp = System.currentTimeMillis() - timestamp;
+        Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).info(
+                "Package Management service: READY! (" + timestamp + " ms)");
     }
 
     /**

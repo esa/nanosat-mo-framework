@@ -27,11 +27,8 @@ import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.helpers.HelperTime;
 import esa.mo.helpertools.misc.TaskScheduler;
 import esa.mo.mc.impl.util.GroupRetrieval;
-import esa.mo.mc.impl.util.MCServicesHelper;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 import esa.mo.reconfigurable.service.ReconfigurableService;
-
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -112,8 +109,9 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
      * @param parameterManager
      * @throws MALException On initialisation error.
      */
-    public synchronized void init(COMServicesProvider comServices, ParameterManager parameterManager)
-        throws MALException {
+    public synchronized void init(COMServicesProvider comServices, ParameterManager parameterManager) throws MALException {
+        long timestamp = System.currentTimeMillis();
+        
         if (!initialiased) {
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -168,7 +166,9 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         */
 
         initialiased = true;
-        Logger.getLogger(AggregationProviderServiceImpl.class.getName()).info("Aggregation service READY");
+        timestamp = System.currentTimeMillis() - timestamp;
+        Logger.getLogger(AggregationProviderServiceImpl.class.getName()).info(
+                "Aggregation service READY! (" + timestamp + " ms)");
     }
 
     public ConnectionProvider getConnectionProvider() {

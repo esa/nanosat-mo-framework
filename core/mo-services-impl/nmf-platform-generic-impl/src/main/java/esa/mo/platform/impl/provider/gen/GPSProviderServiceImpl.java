@@ -89,9 +89,8 @@ import org.ccsds.moims.mo.platform.structures.VectorF3D;
 /**
  * GPS service Provider.
  */
-public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
-    implements ReconfigurableService
-{
+public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements ReconfigurableService {
+    
   protected static final Logger LOGGER = Logger.getLogger(GPSProviderServiceImpl.class.getName());
   private MALProvider gpsServiceProvider;
   private boolean initialiased = false;
@@ -125,6 +124,8 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
   public synchronized void init(final COMServicesProvider comServices,
       final GPSAdapterInterface adapter) throws MALException
   {
+    long timestamp = System.currentTimeMillis();
+    
     if (!initialiased) {
 
       if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME,
@@ -154,9 +155,45 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton
         ConfigurationProviderSingleton.getSourceSessionName(), QoSLevel.BESTEFFORT, null,
         new UInteger(0));
 
-        publisher = createNearbyPositionPublisher(ConfigurationProviderSingleton.getDomain(),
-            ConfigurationProviderSingleton.getNetwork(), SessionType.LIVE, ConfigurationProviderSingleton
-                .getSourceSessionName(), QoSLevel.BESTEFFORT, null, new UInteger(0));
+    // Shut down old service transport
+    if (null != gpsServiceProvider) {
+      connection.closeAll();
+    }
+
+    manager = new GPSManager(comServices);
+    this.adapter = adapter;
+    gpsServiceProvider = connection.startService(GPSHelper.GPS_SERVICE_NAME.toString(),
+        GPSHelper.GPS_SERVICE, this);
+
+    if (Boolean.parseBoolean(System.getProperty(HelperMisc.PROP_GPS_POLLING_ACTIVE, "true"))) {
+      periodicCurrentPosition = new PeriodicCurrentPosition();
+      periodicCurrentPosition.init();
+      running = true;
+      initialiased = true;
+      periodicCurrentPosition.start();
+    }
+    
+    timestamp = System.currentTimeMillis() - timestamp;
+    LOGGER.info("GPS service: READY! (" + timestamp + " ms)");
+  }
+
+  /**
+   * Closes all running threads and releases the MAL resources.
+   */
+  public void close()
+  {
+    try {
+      if (null != gpsServiceProvider) {
+        gpsServiceProvider.close();
+      }
+
+      connection.closeAll();
+      running = false;
+    } catch (MALException ex) {
+      LOGGER.log(Level.WARNING,
+          "Exception during close down of the provider {0}", ex);
+    }
+  }
 
         // Shut down old service transport
         if (null != gpsServiceProvider) {
