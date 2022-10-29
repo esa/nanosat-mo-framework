@@ -162,6 +162,10 @@ public class NMFPackageManager {
         File receiptFile = new File(receiptPath);
         metadata.store(receiptFile);
 
+        if (appsLauncher != null) {
+            appsLauncher.refresh();
+        }
+        
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                 "Package successfully installed from: {0}", packageLocation);
 
@@ -215,9 +219,13 @@ public class NMFPackageManager {
                     "The receipt file could not be deleted from: " + receiptsPath);
         }
 
+        if (appsLauncher != null) {
+            appsLauncher.refresh();
+        }
+
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                 "Package successfully uninstalled: " + packageName);
-
+        
         System.out.printf(SEPARATOR);
     }
 
@@ -317,6 +325,10 @@ public class NMFPackageManager {
         // Store a copy of the newReceipt to know that it has been installed!
         newPackMetadata.store(oldReceiptFile);
 
+        if (appsLauncher != null) {
+            appsLauncher.refresh();
+        }
+        
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                 "Package successfully upgraded from location: " + packageLocation);
 
@@ -525,8 +537,8 @@ public class NMFPackageManager {
                 appsLauncher.stopApp(runningApp, null);
             }
         } catch (MALInteractionException ex) {
-            Logger.getLogger(NMFPackageManager.class.getName()).log(
-                    Level.INFO, "The " + name + " App was not found!");
+            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO, 
+                    "The " + name + " App was not found in the Directory service!");
         } catch (MALException ex) {
             Logger.getLogger(NMFPackageManager.class.getName()).log(
                     Level.SEVERE, "(2) Something went wrong...", ex);

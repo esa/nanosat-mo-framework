@@ -34,6 +34,7 @@ import esa.mo.nmf.CloseAppListener;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MissionPlanningNMFAdapter;
 import esa.mo.nmf.NMFException;
+import esa.mo.nmf.nmfpackage.Deployment;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.reconfigurable.provider.PersistProviderConfiguration;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
@@ -105,6 +106,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
       this.comServices.initArchiveSync();
       super.reconfigurableServices.add(this.appsLauncherService);
       this.appsLauncherService.setStdQuotaPerApp(stdQuota);
+      this.appsLauncherService.addFolderWithApps(Deployment.getNMFAppsDir());
       this.comServices.getArchiveSyncService().setStdQuota(stdQuota);
       this.startMCServices(mcAdapter);
       this.initPlatformServices(comServices);
