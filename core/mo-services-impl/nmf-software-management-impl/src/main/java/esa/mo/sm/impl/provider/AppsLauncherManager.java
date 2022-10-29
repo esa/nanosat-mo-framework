@@ -665,7 +665,7 @@ public class AppsLauncherManager extends DefinitionsManager {
             try {
                 listener.waitForAppClosing(APP_STOP_TIMEOUT);
             } catch (InterruptedException ex) {
-                LOGGER.log(Level.WARNING, null, ex);
+                LOGGER.log(Level.WARNING, "The listener timedout!", ex);
             }
         }
     }
