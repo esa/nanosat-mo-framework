@@ -296,28 +296,29 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         // Run the apps!
         for (int i = 0; i < appInstIds.size(); i++) {
             try {
-                String directoryServiceURI;
+                SingleConnectionDetails details;
+
                 if (directoryService.getConnection().getSecondaryConnectionDetails() != null) {
                     // For applications in space, the primary URI is MALSPP, and secondary a MALTCP
-                    directoryServiceURI
-                            = directoryService.getConnection().getSecondaryConnectionDetails().getProviderURI().toString();
+                    details = directoryService.getConnection().getSecondaryConnectionDetails();
                 } else {
-                    directoryServiceURI
-                            = directoryService.getConnection().getConnectionDetails().getProviderURI().toString();
+                    details = directoryService.getConnection().getConnectionDetails();
                 }
+                String directoryServiceURI = details.getProviderURI().toString();
                 AppDetails app = this.manager.get(appInstIds.get(i));
                 ObjectType objType = AppsLauncherHelper.STARTAPP_OBJECT_TYPE;
                 ObjectId eventSource = this.manager.getCOMServices().getActivityTrackingService()
                         .storeCOMOperationActivity(interaction, null);
 
                 Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO,
-                        "Generating StartApp event for app: {0} (Name: ''{1}'')", new Object[]{appInstIds.get(i), app.getName()});
-                this.manager.getCOMServices().getEventService()
-                        .generateAndStoreEvent(objType, ConfigurationProviderSingleton.getDomain(), app.getName(),
+                        "Generating StartApp event for app: {0} (Name: ''{1}'')", 
+                        new Object[]{appInstIds.get(i), app.getName()});
+                this.manager.getCOMServices().getEventService().generateAndStoreEvent(
+                        objType, ConfigurationProviderSingleton.getDomain(), app.getName(),
                                 appInstIds.get(i), eventSource, interaction);
 
-                manager.startAppProcess(new ProcessExecutionHandler(new CallbacksImpl(), appInstIds.get(i)),
-                        interaction, directoryServiceURI);
+                manager.startAppProcess(new ProcessExecutionHandler(new CallbacksImpl(), 
+                        appInstIds.get(i)), interaction, directoryServiceURI);
             } catch (IOException ex) {
                 UIntegerList intIndexList = new UIntegerList();
                 intIndexList.add(new UInteger(i));
@@ -644,6 +645,14 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         return AppsLauncherHelper.APPSLAUNCHER_SERVICE;
     }
 
+    public void refresh() {
+        manager.refreshAvailableAppsList(new URI(""));
+    }
+    
+    public void addFolderWithApps(java.io.File folder){
+        manager.addFolderWithApps(folder);
+    }
+
     public static final class PublishInteractionListener implements MALPublishInteractionListener {
 
         @Override
@@ -663,7 +672,6 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         public void publishRegisterAckReceived(final MALMessageHeader header, final Map qosProperties)
                 throws MALException {
             LOGGER.fine("PublishInteractionListener::publishRegisterAckReceived");
-//            Logger.getLogger(AppsLauncherProviderServiceImpl.class.getName()).log(Level.INFO, "Registration Ack: {0}", header.toString());
         }
 
         @Override
