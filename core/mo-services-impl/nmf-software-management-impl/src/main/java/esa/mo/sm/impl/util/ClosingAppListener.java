@@ -43,7 +43,7 @@ public class ClosingAppListener extends EventReceivedListener {
     private final EventConsumerServiceImpl eventService;
     private final Long objId;
     private boolean appClosed;
-    private final Object semaphore;
+    private final Object semaphore; // This should be done with a proper Semaphore... :/
 
     public ClosingAppListener(final StopAppInteraction interaction,
             final EventConsumerServiceImpl eventService, final Long objId) {
@@ -65,7 +65,9 @@ public class ClosingAppListener extends EventReceivedListener {
             LOGGER.log(Level.INFO, "The app with objId {0} is now stopped!", objId);
 
             try { // Send update to consumer stating that the app is stopped
-                interaction.sendUpdate(objId);
+                if (interaction != null) {
+                    interaction.sendUpdate(objId);
+                }
             } catch (MALInteractionException | MALException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
             }
