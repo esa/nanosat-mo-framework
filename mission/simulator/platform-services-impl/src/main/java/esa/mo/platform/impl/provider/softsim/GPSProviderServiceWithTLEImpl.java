@@ -59,14 +59,10 @@ import org.orekit.utils.IERSConventions;
  */
 public class GPSProviderServiceWithTLEImpl extends GPSProviderServiceImpl {
 
-  private static final int NANOSECONDS_IN_MILLISECOND = 1000000;
-  
   private final Boolean isTLEFallbackEnabled =
           Boolean.parseBoolean(System.getProperty(Const.PLATFORM_GNSS_FALLBACK_TO_TLE_PROPERTY,
           Const.PLATFORM_GNSS_FALLBACK_TO_TLE_DEFAULT));
 
-  private final Double utcOffset = Double.parseDouble(System.getProperty(Const.PLATFORM_GNSS_UTC_OFFSET_PROPERTY,
-          Const.PLATFORM_GNSS_UTC_OFFSET_DEFAULT));
   private static boolean isOrekitDataInitialized = false;
   
   private final GPSSoftSimAdapter adapterCast = (GPSSoftSimAdapter) adapter;

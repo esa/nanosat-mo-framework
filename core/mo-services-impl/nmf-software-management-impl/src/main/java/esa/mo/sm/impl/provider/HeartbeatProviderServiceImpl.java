@@ -75,6 +75,8 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
      * @throws MALException On initialisation error.
      */
     public synchronized void init() throws MALException {
+        long timestamp = System.currentTimeMillis();
+        
         if (!initialiased) {
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -109,10 +111,6 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
                 HeartbeatHelper.HEARTBEAT_SERVICE_NAME.toString(),
                 HeartbeatHelper.HEARTBEAT_SERVICE, true, this);
 
-        running = true;
-        initialiased = true;
-        LOGGER.info("Heartbeat service READY");
-
         // Start the timer to publish the heartbeat
         timer = new Timer("HeartbeatThread");
         timer.schedule(new TimerTask() {
@@ -123,6 +121,11 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
                 }
             }
         }, period, period);
+        
+        running = true;
+        initialiased = true;
+        timestamp = System.currentTimeMillis() - timestamp;
+        LOGGER.info("Heartbeat service: READY! (" + timestamp + " ms)");
     }
 
     /**

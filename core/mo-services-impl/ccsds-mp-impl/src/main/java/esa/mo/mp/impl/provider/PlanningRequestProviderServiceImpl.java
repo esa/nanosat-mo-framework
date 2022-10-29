@@ -102,6 +102,8 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
      * @throws MALException            On initialisation error.
      */
     public synchronized void init(COMServicesProvider comServices, MPArchiveManager archiveManager, MPServiceOperationManager registration) throws MALException {
+        long timestamp = System.currentTimeMillis();
+        
         if (!this.initialised) {
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -170,7 +172,8 @@ public class PlanningRequestProviderServiceImpl extends PlanningRequestInheritan
         }
 
         this.initialised = true;
-        LOGGER.info("Planning Request service READY");
+        timestamp = System.currentTimeMillis() - timestamp;
+        LOGGER.info("Planning Request service: READY! (" + timestamp + " ms)");
     }
 
     /**

@@ -83,6 +83,8 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
      * @throws MALException On initialization error.
      */
     public synchronized void init(final COMServicesProvider comServices) throws MALException {
+        long timestamp = System.currentTimeMillis();
+        
         if (!initialiased) {
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -120,8 +122,8 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
                 CommandExecutorHelper.COMMANDEXECUTOR_SERVICE_NAME.toString(),
                 CommandExecutorHelper.COMMANDEXECUTOR_SERVICE, this);
         initialiased = true;
-
-        LOGGER.log(Level.INFO, "Command Executor service READY");
+        timestamp = System.currentTimeMillis() - timestamp;
+        LOGGER.info("Command Executor service: READY! (" + timestamp + " ms)");
     }
 
     protected String[] assembleCommand(final String command) {

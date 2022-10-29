@@ -40,7 +40,6 @@ import org.ccsds.moims.mo.com.activitytracking.structures.ActivityTransferList;
 import org.ccsds.moims.mo.com.activitytracking.structures.OperationActivity;
 import org.ccsds.moims.mo.com.activitytracking.structures.OperationActivityList;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
-import org.ccsds.moims.mo.com.event.EventHelper;
 import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.com.structures.ObjectType;
@@ -74,6 +73,7 @@ public class ActivityTrackingProviderServiceImpl {
      */
     public synchronized void init(ArchiveProviderServiceImpl archiveService,
             EventProviderServiceImpl eventService) throws MALException {
+        long timestamp = System.currentTimeMillis();
 
         if (!initialiased) {
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
@@ -85,7 +85,7 @@ public class ActivityTrackingProviderServiceImpl {
             }
 
             if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION)
-                        .getServiceByName(ActivityTrackingHelper.ACTIVITYTRACKING_SERVICE_NAME) == null) {
+                    .getServiceByName(ActivityTrackingHelper.ACTIVITYTRACKING_SERVICE_NAME) == null) {
                 ActivityTrackingHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
         }
@@ -95,8 +95,9 @@ public class ActivityTrackingProviderServiceImpl {
 
         running = true;
         initialiased = true;
-        Logger.getLogger(ActivityTrackingProviderServiceImpl.class.getName()).info("Activity Tracking service READY");
-
+        timestamp = System.currentTimeMillis() - timestamp;
+        Logger.getLogger(ActivityTrackingProviderServiceImpl.class.getName()).info(
+                "Activity Tracking service: READY! (" + timestamp + " ms)");
     }
 
 //------------------------------------------------------------------------------
@@ -340,9 +341,9 @@ public class ActivityTrackingProviderServiceImpl {
                 Logger.getLogger(ActivityTrackingProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MALInteractionException ex) {
                 // A duplicate might happen if the the consumer stored the Operation Activity object
-                if(ex.getStandardError().getErrorNumber().getValue() != COMHelper.DUPLICATE_ERROR_NUMBER.getValue()){
+                if (ex.getStandardError().getErrorNumber().getValue() != COMHelper.DUPLICATE_ERROR_NUMBER.getValue()) {
                     Logger.getLogger(ActivityTrackingProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                }else{
+                } else {
                     // It's a Duplicate error, the object already exists... Do nothing!
                 }
             }

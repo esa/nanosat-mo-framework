@@ -29,9 +29,6 @@ import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.connections.ServicesConnectionDetails;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
-import esa.mo.helpertools.helpers.HelperMisc;
-import java.io.FileNotFoundException;
-import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -95,59 +92,6 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton
   protected final Object MUTEX = new Object();
   private COMServicesProvider comServices;
 
-  private static AddressDetails getServiceAddressDetails(final SingleConnectionDetails conn)
-  {
-    QoSLevelList qos = new QoSLevelList();
-    qos.add(QoSLevel.ASSURED);
-    NamedValueList qosProperties = new NamedValueList();  // Nothing here for now...
-
-    AddressDetails serviceAddress = new AddressDetails();
-    serviceAddress.setSupportedLevels(qos);
-    serviceAddress.setQoSproperties(qosProperties);
-    serviceAddress.setPriorityLevels(new UInteger(1));  // hum?
-    serviceAddress.setServiceURI(conn.getProviderURI());
-    serviceAddress.setBrokerURI(conn.getBrokerURI());
-    serviceAddress.setBrokerProviderObjInstId(null);
-
-    return serviceAddress;
-  }
-
-  private static AddressDetailsList findAddressDetailsListOfService(final ServiceKey key,
-      final ServiceCapabilityList capabilities)
-  {
-    if (key == null) {
-      return null;
-    }
-
-    // Iterate all capabilities until you find the serviceName
-    for (ServiceCapability capability : capabilities) {
-      if (capability != null) {
-        if (key.equals(capability.getServiceKey())) {
-          return capability.getServiceAddresses();
-        }
-      }
-    }
-
-    return null; // Not found!
-  }
-
-  public static ServiceKey generateServiceKey(final IntegerList keys)
-  {
-    return new ServiceKey(new UShort(keys.get(0)), new UShort(keys.get(1)), new UOctet(
-        keys.get(2).shortValue()));
-  }
-
-  /*
-  public HashMap<Long, PublishDetails> getListOfProviders() {
-  final HashMap<Long, PublishDetails> list = new HashMap<Long, PublishDetails>();
-
-  synchronized (MUTEX) {
-  list.putAll(providersAvailable);
-  }
-
-  return list;
-  }
-   */
   /**
    * creates the MAL objects, the publisher used to create updates and starts the publishing thread
    *
@@ -156,6 +100,8 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton
    */
   public synchronized void init(COMServicesProvider comServices) throws MALException
   {
+    long timestamp = System.currentTimeMillis();
+        
     if (!initialiased) {
       if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
         MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -189,31 +135,8 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton
 
     running = true;
     initialiased = true;
-    LOGGER.info("Directory service READY");
-
-  }
-
-  /**
-   * Closes all running threads and releases the MAL resources.
-   */
-  public void close()
-  {
-    try {
-      if (null != directoryServiceProvider) {
-        directoryServiceProvider.close();
-      }
-
-      connection.closeAll();
-      running = false;
-    } catch (MALException ex) {
-      LOGGER.log(Level.WARNING,
-          "Exception during close down of the provider {0}", ex);
-    }
-  }
-
-  public ConnectionProvider getConnection()
-  {
-    return this.connection;
+    timestamp = System.currentTimeMillis() - timestamp;
+    LOGGER.info("Directory service: READY! (" + timestamp + " ms)");
   }
 
   @Override
@@ -496,6 +419,71 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton
 
       this.providersAvailable.remove(providerObjectKey); // Remove the provider...
     }
+  }
+
+  private static AddressDetails getServiceAddressDetails(final SingleConnectionDetails conn)
+  {
+    QoSLevelList qos = new QoSLevelList();
+    qos.add(QoSLevel.ASSURED);
+    NamedValueList qosProperties = new NamedValueList();  // Nothing here for now...
+
+    AddressDetails serviceAddress = new AddressDetails();
+    serviceAddress.setSupportedLevels(qos);
+    serviceAddress.setQoSproperties(qosProperties);
+    serviceAddress.setPriorityLevels(new UInteger(1));  // hum?
+    serviceAddress.setServiceURI(conn.getProviderURI());
+    serviceAddress.setBrokerURI(conn.getBrokerURI());
+    serviceAddress.setBrokerProviderObjInstId(null);
+
+    return serviceAddress;
+  }
+
+  private static AddressDetailsList findAddressDetailsListOfService(final ServiceKey key,
+      final ServiceCapabilityList capabilities)
+  {
+    if (key == null) {
+      return null;
+    }
+
+    // Iterate all capabilities until you find the serviceName
+    for (ServiceCapability capability : capabilities) {
+      if (capability != null) {
+        if (key.equals(capability.getServiceKey())) {
+          return capability.getServiceAddresses();
+        }
+      }
+    }
+
+    return null; // Not found!
+  }
+
+  public static ServiceKey generateServiceKey(final IntegerList keys)
+  {
+    return new ServiceKey(new UShort(keys.get(0)), new UShort(keys.get(1)), new UOctet(
+        keys.get(2).shortValue()));
+  }
+
+  /**
+   * Closes all running threads and releases the MAL resources.
+   */
+  public void close()
+  {
+    try {
+      if (null != directoryServiceProvider) {
+        directoryServiceProvider.close();
+      }
+
+      connection.closeAll();
+      running = false;
+    } catch (MALException ex) {
+      LOGGER.log(Level.WARNING,
+          "Exception during close down of the provider {0}", ex);
+    }
+  }
+
+  public ConnectionProvider getConnection()
+  {
+    return this.connection;
   }
 
   public void withdrawAllProviders() throws MALInteractionException, MALException

@@ -32,7 +32,6 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
-import org.ccsds.moims.mo.com.archivesync.ArchiveSyncHelper;
 import org.ccsds.moims.mo.com.event.EventHelper;
 import org.ccsds.moims.mo.com.event.provider.EventInheritanceSkeleton;
 import org.ccsds.moims.mo.com.event.provider.MonitorEventPublisher;
@@ -88,6 +87,8 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
      * @throws MALException On initialization error.
      */
     public synchronized void init(ArchiveProviderServiceImpl archiveService) throws MALException {
+        long timestamp = System.currentTimeMillis();
+        
         if (!initialiased) {
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -121,8 +122,9 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
         eventServiceProvider = connection.startService(EventHelper.EVENT_SERVICE_NAME.toString(), EventHelper.EVENT_SERVICE, this);
         running = true;
         initialiased = true;
-        Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.INFO, "Event service: READY");
-
+        timestamp = System.currentTimeMillis() - timestamp;
+        Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.INFO, 
+                "Event service: READY! (" + timestamp + " ms)");
     }
 
     public void setArchiveService(ArchiveProviderServiceImpl archiveService) {

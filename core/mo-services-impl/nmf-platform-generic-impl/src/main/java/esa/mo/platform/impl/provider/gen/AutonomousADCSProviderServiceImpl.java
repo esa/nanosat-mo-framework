@@ -110,6 +110,8 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
      */
     public synchronized void init(COMServicesProvider comServices,
             AutonomousADCSAdapterInterface adapter) throws MALException {
+        long timestamp = System.currentTimeMillis();
+        
         if (!initialiased) {
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -151,7 +153,8 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
                 AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE, true, this);
 
         initialiased = true;
-        LOGGER.info("AutonomousADCS service READY");
+        timestamp = System.currentTimeMillis() - timestamp;
+        LOGGER.info("AutonomousADCS service: READY! (" + timestamp + " ms)");
     }
 
     /**

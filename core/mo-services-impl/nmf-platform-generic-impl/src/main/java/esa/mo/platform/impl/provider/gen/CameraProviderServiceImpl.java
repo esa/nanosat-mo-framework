@@ -99,6 +99,8 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
      */
     public synchronized void init(COMServicesProvider comServices,
             CameraAdapterInterface adapter) throws MALException {
+        long timestamp = System.currentTimeMillis();
+        
         if (!initialiased) {
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -142,7 +144,8 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
         availableFormats = adapter.getAvailableFormats();
         running = true;
         initialiased = true;
-        LOGGER.info("Camera service READY");
+        timestamp = System.currentTimeMillis() - timestamp;
+        LOGGER.info("Camera service: READY! (" + timestamp + " ms)");
     }
 
     /**
