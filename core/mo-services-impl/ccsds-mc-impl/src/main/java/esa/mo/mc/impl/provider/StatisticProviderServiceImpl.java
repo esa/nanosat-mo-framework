@@ -68,7 +68,6 @@ import org.ccsds.moims.mo.mal.structures.UpdateType;
 import org.ccsds.moims.mo.mal.transport.MALErrorBody;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.MCHelper;
-import org.ccsds.moims.mo.mc.group.GroupHelper;
 import org.ccsds.moims.mo.mc.group.structures.GroupDetails;
 import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
@@ -140,6 +139,7 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
             ParameterManager parameterManager,
             ExternalStatisticFunctionsInterface statisticFunctions)
             throws MALException {
+        long timestamp = System.currentTimeMillis();
 
         if (!initialiased) {
 
@@ -188,7 +188,9 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
         periodicSamplingManager.init(); // Initialize the Periodic Sampling Manager
 
         initialiased = true;
-        Logger.getLogger(StatisticProviderServiceImpl.class.getName()).info("Statistic service READY");
+        timestamp = System.currentTimeMillis() - timestamp;
+        Logger.getLogger(StatisticProviderServiceImpl.class.getName()).info(
+                "Statistic service READY! (" + timestamp + " ms)");
     }
 
     /**
@@ -203,7 +205,8 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
             connection.close();
             running = false;
         } catch (MALException ex) {
-            Logger.getLogger(StatisticProviderServiceImpl.class.getName()).log(Level.WARNING, "Exception during close down of the provider {0}", ex);
+            Logger.getLogger(StatisticProviderServiceImpl.class.getName()).log(
+                    Level.WARNING, "Exception during close down of the provider {0}", ex);
         }
     }
 
@@ -259,7 +262,9 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
     }
 
     @Override
-    public StatisticEvaluationReportList getStatistics(LongList funcObjInstIds, Boolean isGroupIds, ObjectKeyList reportInstances, MALInteraction interaction) throws MALInteractionException, MALException {
+    public StatisticEvaluationReportList getStatistics(LongList funcObjInstIds, 
+            Boolean isGroupIds, ObjectKeyList reportInstances, 
+            MALInteraction interaction) throws MALInteractionException, MALException {
 
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
@@ -459,7 +464,9 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
     }
 
     @Override
-    public StatisticEvaluationReportList resetEvaluation(Boolean isGroupIds, LongList resetInstances, Boolean returnCurrentEval, MALInteraction interaction) throws MALInteractionException, MALException {
+    public StatisticEvaluationReportList resetEvaluation(Boolean isGroupIds, 
+            LongList resetInstances, Boolean returnCurrentEval, 
+            MALInteraction interaction) throws MALInteractionException, MALException {
 
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
@@ -589,7 +596,8 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
     }
 
     @Override
-    public void enableReporting(Boolean isGroupIds, InstanceBooleanPairList enableInstances, MALInteraction interaction) throws MALInteractionException, MALException {
+    public void enableReporting(Boolean isGroupIds, InstanceBooleanPairList enableInstances, 
+            MALInteraction interaction) throws MALInteractionException, MALException {
 
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
@@ -607,7 +615,8 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
             if (instance.getId() == 0) {  // Is it the wildcard '0'? requirement: 3.6.12.2.c
                 // requirement: 3.6.12.2.e and 3.6.12.2.f and 3.6.12.2.j
                 manager.setReportingEnabledAll(instance.getValue(), connection.getConnectionDetails());
-                //3.6.2.n.b when disabling the periodic statistics reporting, the service shall continue evaluating the parameter statistics -> continue sampling
+                // 3.6.2.n.b when disabling the periodic statistics reporting, 
+                // the service shall continue evaluating the parameter statistics -> continue sampling
                 periodicReportingManager.refreshAll();
                 periodicCollectionManager.refreshAll();
                 foundWildcard = true;
@@ -699,7 +708,8 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
     }
 
     @Override
-    public ObjectInstancePairList addParameterEvaluation(StatisticCreationRequestList newDetails, MALInteraction interaction) throws MALInteractionException, MALException {
+    public ObjectInstancePairList addParameterEvaluation(StatisticCreationRequestList newDetails, 
+            MALInteraction interaction) throws MALInteractionException, MALException {
 
         UIntegerList invIndexList = new UIntegerList();
         UIntegerList unkIndexList = new UIntegerList();
@@ -781,7 +791,8 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
     }
 
     @Override
-    public LongList updateParameterEvaluation(LongList objInstIds, StatisticLinkDetailsList newDetails, MALInteraction interaction) throws MALInteractionException, MALException {
+    public LongList updateParameterEvaluation(LongList objInstIds, StatisticLinkDetailsList newDetails, 
+            MALInteraction interaction) throws MALInteractionException, MALException {
 
         UIntegerList invIndexList = new UIntegerList();
         UIntegerList unkIndexList = new UIntegerList();
@@ -894,7 +905,8 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
     }
 
     @Override
-    public StatisticLinkSummaryList listParameterEvaluations(LongList statObjInstId, MALInteraction interaction) throws MALInteractionException, MALException {
+    public StatisticLinkSummaryList listParameterEvaluations(LongList statObjInstId, 
+            MALInteraction interaction) throws MALInteractionException, MALException {
         LongList statLinkIds = new LongList();
         UIntegerList unkIndexList = new UIntegerList();
 
@@ -1044,12 +1056,15 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
         private void addPeriodicSampling(Long identityId) {
             final StatisticCreationRequest statLink = manager.getStatisticLink(identityId);
 
-            //requirement 3.6.2.n.b: Periodic Sampling shall not occur if the generation was disabled. So if it was never enabled nothing happens. If is was already enabled it should not even reach this code as the refresh-method will not be called in the enabledGeneration-operation
+            //requirement 3.6.2.n.b: Periodic Sampling shall not occur if the generation was disabled. 
+            // So if it was never enabled nothing happens. If is was already enabled it should not even 
+            // reach this code as the refresh-method will not be called in the enabledGeneration-operation
             //if (!statLink.getLinkDetails().getReportingEnabled()) {
             //	return;
             //}
             // Add to the Periodic Sampling Manager only if there's a sampleInterval selected for the parameterSet
-            // NOTE: The standard says its "perfectly possible" to set a sampleInterval greater than a reporting or collection interval so no other checks of the sampleinterval necessary here
+            // NOTE: The standard says its "perfectly possible" to set a sampleInterval greater than a reporting
+            // or collection interval so no other checks of the sampleinterval necessary here
             Duration sampleInterval = statLink.getLinkDetails().getSamplingInterval();
             if (sampleInterval.getValue() != 0) {
                 TaskScheduler timer = new TaskScheduler(1, true);  // Take care of adding a new timer

@@ -51,6 +51,8 @@ public class ClockProviderServiceImpl extends ClockInheritanceSkeleton {
      * @throws MALException On initialisation error.
      */
     public synchronized void init(ClockAdapterInterface adapter) throws MALException {
+        long timestamp = System.currentTimeMillis();
+        
         if (!initialiased) {
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -82,7 +84,8 @@ public class ClockProviderServiceImpl extends ClockInheritanceSkeleton {
                 ClockHelper.CLOCK_SERVICE_NAME.toString(), ClockHelper.CLOCK_SERVICE, this);
 
         initialiased = true;
-        LOGGER.info("Clock service READY");
+        timestamp = System.currentTimeMillis() - timestamp;
+        LOGGER.info("Clock service: READY! (" + timestamp + " ms)");
     }
 
     /**

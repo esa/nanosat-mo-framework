@@ -82,6 +82,8 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
      * @throws MALException On initialisation error.
      */
     public synchronized void init(SoftwareDefinedRadioAdapterInterface adapter) throws MALException {
+        long timestamp = System.currentTimeMillis();
+        
         if (!initialiased) {
 
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
@@ -125,8 +127,9 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
 
         running = true;
         initialiased = true;
+        timestamp = System.currentTimeMillis() - timestamp;
         Logger.getLogger(SoftwareDefinedRadioProviderServiceImpl.class.getName()).info(
-                "Software-defined Radio service READY");
+                "Software-defined Radio service: READY! (" + timestamp + " ms)");
     }
 
     /**

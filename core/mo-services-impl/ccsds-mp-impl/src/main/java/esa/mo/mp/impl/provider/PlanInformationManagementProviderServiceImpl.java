@@ -84,6 +84,8 @@ public class PlanInformationManagementProviderServiceImpl extends PlanInformatio
      * @throws MALException On initialisation error.
      */
     public synchronized void init(COMServicesProvider comServices, MPArchiveManager archiveManager, MPServiceOperationManager registration) throws MALException {
+        long timestamp = System.currentTimeMillis();
+        
         if (!this.initialised) {
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -117,7 +119,8 @@ public class PlanInformationManagementProviderServiceImpl extends PlanInformatio
         this.operationCallbackManager = registration;
 
         this.initialised = true;
-        LOGGER.info("Plan Information Management service READY");
+        timestamp = System.currentTimeMillis() - timestamp;
+        LOGGER.info("Plan Information Management service: READY! (" + timestamp + " ms)");
     }
 
     /**

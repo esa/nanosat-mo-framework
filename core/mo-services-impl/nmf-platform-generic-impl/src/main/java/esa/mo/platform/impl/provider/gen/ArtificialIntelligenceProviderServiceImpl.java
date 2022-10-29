@@ -65,6 +65,8 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
      * @throws MALException On initialisation error.
      */
     public synchronized void init(AIAdapterInterface adapter) throws MALException {
+        long timestamp = System.currentTimeMillis();
+        
         if (!initialiased) {
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -97,7 +99,8 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
                 ArtificialIntelligenceHelper.ARTIFICIALINTELLIGENCE_SERVICE, this);
 
         initialiased = true;
-        LOGGER.info("Artificial Intelligence service READY");
+        timestamp = System.currentTimeMillis() - timestamp;
+        LOGGER.info("Artificial Intelligence service: READY! (" + timestamp + " ms)");
     }
 
     /**
