@@ -321,7 +321,8 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
     }
 
     @Override
-    public void upgrade(final IdentifierList names, final UpgradeInteraction interaction) throws MALInteractionException, MALException {
+    public void upgrade(final IdentifierList names, 
+            final UpgradeInteraction interaction) throws MALInteractionException, MALException {
         interaction.sendAcknowledgement();
 
         UIntegerList unkIndexList = new UIntegerList();

@@ -59,6 +59,10 @@ public class Deployment {
         return folder;
     }
 
+    public static File getNMFAppsDir() {
+        return new File(DIR_APPS);
+    }
+    
     public static File getNMFRootDir() {
         if (pathNMF != null) {
             return new File(pathNMF);
