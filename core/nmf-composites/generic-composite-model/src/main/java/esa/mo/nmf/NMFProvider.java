@@ -326,7 +326,7 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
         Properties p = System.getProperties();
         final String SEPARATOR = "------------\n";
 
-        StringBuilder banner = new StringBuilder();
+        StringBuilder banner = new StringBuilder(256);
         banner.append("\n");
         banner.append(SEPARATOR);
         banner.append("NanoSat MO Framework\n");

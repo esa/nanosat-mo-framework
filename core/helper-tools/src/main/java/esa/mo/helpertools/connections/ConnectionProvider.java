@@ -376,7 +376,15 @@ public class ConnectionProvider {
      * Writes the URIs on a text file
      */
     private void writeURIsOnFile(SingleConnectionDetails connectionDetails, String serviceName, String filename) {
+        StringBuilder str = new StringBuilder();
+        str.append(serviceName).append(HelperConnections.SUFFIX_URI).append("=").append(connectionDetails.getProviderURI()).append("\n");
+        str.append(serviceName).append(HelperConnections.SUFFIX_BROKER).append("=").append(connectionDetails.getBrokerURI()).append("\n");
+        str.append(serviceName).append(HelperConnections.SUFFIX_DOMAIN).append("=").append(HelperMisc.domain2domainId(connectionDetails.getDomain())).append("\n");
+        str.append(serviceName).append(HelperConnections.SUFFIX_SERVICE_KEY).append("=").append(connectionDetails.getServiceKey()).append("\n");
+        
         try (BufferedWriter wrt = new BufferedWriter(new FileWriter(filename, true))) {
+            wrt.append(str.toString());
+            /*
             wrt.append(serviceName + HelperConnections.SUFFIX_URI + "=" + connectionDetails.getProviderURI());
             wrt.newLine();
             wrt.append(serviceName + HelperConnections.SUFFIX_BROKER + "=" + connectionDetails.getBrokerURI());
@@ -385,6 +393,7 @@ public class ConnectionProvider {
             wrt.newLine();
             wrt.append(serviceName + HelperConnections.SUFFIX_SERVICE_KEY + "=" + connectionDetails.getServiceKey());
             wrt.newLine();
+            */
         } catch (IOException ex) {
             Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING,
                     "Unable to write URI information to properties file {0}", ex);
