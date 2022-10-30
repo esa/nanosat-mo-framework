@@ -105,6 +105,7 @@ public class ArchiveManager {
     public ArchiveManager(EventProviderServiceImpl eventService) {
         this.eventService = eventService;
 
+        // This code is no longer needed here...
         if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) != null
                 && MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION)
                         .getServiceByName(ArchiveHelper.ARCHIVE_SERVICE_NAME) == null) {

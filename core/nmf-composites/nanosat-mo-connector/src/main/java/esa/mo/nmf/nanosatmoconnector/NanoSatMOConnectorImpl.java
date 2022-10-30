@@ -48,7 +48,6 @@ import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMService;
@@ -80,6 +79,8 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
 
     private static final Logger LOGGER = Logger.getLogger(NanoSatMOConnectorImpl.class.getName());
 
+    private final boolean fastMode = false;
+
     private Long appDirectoryServiceId;
     private EventConsumerServiceImpl serviceCOMEvent;
     private Subscription subscription;
@@ -97,39 +98,43 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
     public void init(final MonitorAndControlNMFAdapter mcAdapter) {
         super.startTime = System.currentTimeMillis();
         LOGGER.log(Level.INFO, this.generateStartBanner());
-        
+
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
         ConnectionProvider.resetURILinks(); // Resets the providerURIs.properties file
 
         // Create provider name to be registerd on the Directory service...
-        String appName = "Unknown";
-        try { // Use the folder name
-            appName = (new File((new File("")).getCanonicalPath())).getName();
-            System.setProperty(HelperMisc.PROP_MO_APP_NAME, appName);
-        } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE,
-                    "The NMF App name could not be established.");
-        }
-
+        String appName = this.determineAppName();
         this.providerName = AppsLauncherProviderServiceImpl.PROVIDER_PREFIX_NAME + appName;
 
         // Check if the new Home dir mode property is enabled:
         int mode = Integer.parseInt(System.getProperty(HelperMisc.PROP_WORK_DIR_STORAGE_MODE, "0"));
-        
-        if(mode >= 2){
+
+        if (mode >= 2) {
             File nmfInternal = AppStorage.getAppNMFInternalDir();
             String location = nmfInternal + File.separator + "comArchive.db";
             String url = "jdbc:sqlite:" + location;
             System.setProperty("esa.nmf.archive.persistence.jdbc.url", url);
-            
+
             String urisPath = nmfInternal + File.separator + HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME;
             System.setProperty(HelperMisc.PROP_PROVIDERURIS_PATH, urisPath);
             String urisPath_sec = nmfInternal + File.separator + HelperMisc.PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME;
             System.setProperty(HelperMisc.PROP_PROVIDERURIS_SEC_PATH, urisPath_sec);
         }
-        
-        ConnectionProvider.resetURILinks(); // Resets the providerURIs.properties file
-        
+
+        if (fastMode) {
+            Thread mcThread = new Thread(() -> {
+                try {
+                    startMCServices(mcAdapter);
+                } catch (MALException ex) {
+                    LOGGER.log(Level.SEVERE,
+                            "The services could not be initialized. "
+                            + "Perhaps there's something wrong with the Transport Layer.", ex);
+                }
+            });
+
+            mcThread.start();
+        }
+
         try {
             comServices.init();
             comServices.initArchiveSync();
@@ -144,8 +149,9 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
 
         if (centralDirectoryURI != null && centralDirectoryURI.getValue().startsWith("malspp")) {
             LOGGER.log(Level.INFO,
-                    "The Central Directory service URI read is selecting 'malspp' as transport. The URI will be discarded."
-                    + " To enable a better IPC communication, please enable the secondary transport protocol flag: "
+                    "The Central Directory service URI read is selecting 'malspp' as "
+                    + "transport. The URI will be discarded. To enable a better IPC "
+                    + "communication, please enable the secondary transport protocol flag: "
                     + HelperMisc.SECONDARY_PROTOCOL
             );
 
@@ -188,23 +194,12 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                     LOGGER.log(Level.SEVERE,
                             "Could not retrieve supervisor COM Event service details from the Central Directory.", ex);
                 }
-                if (serviceCOMEvent != null)
-                {
+                if (serviceCOMEvent != null) {
                     // Subscribe to all Events
                     // Select all object numbers from the Apps Launcher service Events
                     subscription = HelperCOM.generateSubscriptionCOMEvent(
                             "CloseAppEventListener",
                             AppsLauncherHelper.APP_OBJECT_TYPE);
-
-                    /* Previous code */
-                    /*
-                    final Long secondEntityKey = 0xFFFFFFFFFF000000L & HelperCOM.generateSubKey(AppsLauncherHelper.APP_OBJECT_TYPE);
-                    final Random random = new Random();
-                    subscription = ConnectionConsumer.subscriptionKeys(
-                            new Identifier("CloseAppEventListener" + random.nextInt()),
-                            new Identifier("*"), secondEntityKey, new Long(0), new Long(0));
-                     */
-                    /* ------------- */
 
                     // Register with the subscription key provided
                     serviceCOMEvent.addEventReceivedListener(subscription, new CloseAppEventListener(this));
@@ -251,7 +246,10 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
 
         // Initialize the rest of the services
         try {
-            this.startMCServices(mcAdapter);
+            if (!fastMode) {
+                this.startMCServices(mcAdapter);
+            }
+
             directoryService.init(comServices);
             heartbeatService.init();
         } catch (MALException ex) {
@@ -264,22 +262,21 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
         this.initAdditionalServices();
 
         // Populate the local Directory service with the entries from the URIs File
-        LOGGER.log(Level.INFO,
-                "Populating local Directory service...");
+        LOGGER.log(Level.INFO, "Populating local Directory service...");
         PublishDetails publishDetails = directoryService.loadURIs(this.providerName);
 
         // Populate the provider list of services in the Central Directory service
         if (centralDirectoryURI != null) {
             try {
                 if (centralDirectory != null) {
-                    LOGGER.log(Level.INFO,
-                            "Populating Central Directory service on URI: {0}", centralDirectoryURI.getValue());
+                    LOGGER.log(Level.INFO, "Populating Central Directory service "
+                            + "on URI: " + centralDirectoryURI.getValue());
 
                     final PublishProviderResponse response = centralDirectory.getDirectoryStub().publishProvider(publishDetails);
                     this.appDirectoryServiceId = response.getBodyElement0();
                     centralDirectory.close(); // Close the connection to the Directory service
-                    LOGGER.log(Level.INFO,
-                            "Populated! And the connection to the Directory service has been successfully closed!");
+                    LOGGER.log(Level.INFO, "Populated! And the connection to the "
+                            + "Directory service has been successfully closed!");
                 }
             } catch (MALException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
@@ -307,8 +304,10 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
         }
 
         if (mcAdapter != null) {
-            MCRegistration registration = new MCRegistration(comServices, mcServices.getParameterService(),
-                    mcServices.getAggregationService(), mcServices.getAlertService(), mcServices.getActionService());
+            LOGGER.log(Level.INFO, "Performing initial M&C registrations...");
+            MCRegistration registration = new MCRegistration(comServices, 
+                    mcServices.getParameterService(), mcServices.getAggregationService(), 
+                    mcServices.getAlertService(), mcServices.getActionService());
             mcAdapter.initialRegistrations(registration);
         }
 
@@ -327,14 +326,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
         ConnectionProvider.resetURILinks();
 
         // Create provider name to be registerd on the Directory service...
-        String appName = "Unknown";
-        try { // Use the folder name
-            appName = (new File((new File("")).getCanonicalPath())).getName();
-            System.setProperty(HelperMisc.PROP_MO_APP_NAME, appName);
-        } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, "The NMF App name could not be established.");
-        }
-
+        String appName = this.determineAppName();
         this.providerName = AppsLauncherProviderServiceImpl.PROVIDER_PREFIX_NAME + appName;
 
         try {
@@ -400,15 +392,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
         ConnectionProvider.resetURILinks();
 
         // Create provider name to be registerd on the Directory service...
-        String appName = "Unknown";
-        try { // Use the folder name
-            appName = (new File((new File("")).getCanonicalPath())).getName();
-            System.setProperty(HelperMisc.PROP_MO_APP_NAME, appName);
-        } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE,
-                    "The NMF App name could not be established.");
-        }
-
+        String appName = this.determineAppName();
         this.providerName = AppsLauncherProviderServiceImpl.PROVIDER_PREFIX_NAME + appName;
 
         try {
@@ -469,8 +453,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                     LOGGER.log(Level.SEVERE,
                             "Could not retrieve supervisor COM Event service details from the Central Directory.", ex);
                 }
-                if (serviceCOMEvent != null)
-                {
+                if (serviceCOMEvent != null) {
                     // Subscribe to all Events
                     // Select all object numbers from the Apps Launcher service Events
                     subscription = HelperCOM.generateSubscriptionCOMEvent(
@@ -478,15 +461,14 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                             AppsLauncherHelper.APP_OBJECT_TYPE);
 
                     /* Previous code */
-                    /*
+ /*
                     final Long secondEntityKey = 0xFFFFFFFFFF000000L & HelperCOM.generateSubKey(AppsLauncherHelper.APP_OBJECT_TYPE);
                     final Random random = new Random();
                     subscription = ConnectionConsumer.subscriptionKeys(
                             new Identifier("CloseAppEventListener" + random.nextInt()),
                             new Identifier("*"), secondEntityKey, new Long(0), new Long(0));
                      */
-                    /* ------------- */
-
+ /* ------------- */
                     // Register with the subscription key provided
                     serviceCOMEvent.addEventReceivedListener(subscription, new CloseAppEventListener(this));
                 }
@@ -505,8 +487,8 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                     }
 
                     // Select the best transport for IPC and convert to a ConnectionConsumer object
-                    final ProviderSummary filteredConnections =
-                            HelperCommon.selectBestIPCTransport(supervisorConnections.get(0));
+                    final ProviderSummary filteredConnections
+                            = HelperCommon.selectBestIPCTransport(supervisorConnections.get(0));
                     final ConnectionConsumer supervisorCCPlat = HelperCommon.providerSummaryToConnectionConsumer(filteredConnections);
 
                     // Connect to them...
@@ -730,7 +712,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
     }
 
     private void initClockService() {
-        SystemClock.setPlatformClockCallback(new PlatformClockCallback(){
+        SystemClock.setPlatformClockCallback(new PlatformClockCallback() {
             @Override
             public Time getPlatformTime() {
                 try {
@@ -751,6 +733,19 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                 return 1;
             }
         });
+    }
+
+    private String determineAppName() {
+        String appName = "Unknown";
+
+        try { // Use the folder name
+            appName = (new File((new File("")).getCanonicalPath())).getName();
+            System.setProperty(HelperMisc.PROP_MO_APP_NAME, appName);
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, "The NMF App name could not be established.");
+        }
+
+        return appName;
     }
 
 }
