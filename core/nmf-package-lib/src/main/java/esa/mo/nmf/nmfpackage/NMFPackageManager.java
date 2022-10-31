@@ -61,6 +61,8 @@ public class NMFPackageManager {
 
     private static final String SEPARATOR = "--------------\n";
 
+    private static final OSValidator OS = new OSValidator();
+
     private AppsLauncherProviderServiceImpl appsLauncher;
 
     public NMFPackageManager(AppsLauncherProviderServiceImpl appsLauncher) {
@@ -86,8 +88,8 @@ public class NMFPackageManager {
                 "Reading the package file to be installed...");
 
         // Get the File to be installed
-        NMFPackage pack = new NMFPackage(packageLocation);
-        Metadata metadata = pack.getMetadata();
+        NMFPackage nmfPackage = new NMFPackage(packageLocation);
+        Metadata metadata = nmfPackage.getMetadata();
 
         if (metadata.getMetadataVersion() < 3) {
             throw new IOException("The package version is deprecated! "
@@ -99,28 +101,25 @@ public class NMFPackageManager {
                 "Verifying the integrity of the files to be installed...");
 
         // Do the files actually match the descriptor?
-        pack.verifyPackageIntegrity();
-
-        // Copy the files according to the NMF statement file
-        Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
-                "Copying the files to the new locations...");
+        nmfPackage.verifyPackageIntegrity();
 
         if (metadata.isApp()) {
             installDependencies(metadata.castToApp(), packageLocation, nmfDir);
         }
 
-        pack.extractFiles(nmfDir);
+        // Copy the files according to the NMF statement file
+        Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
+                "Copying the files to the new locations...");
+
+        nmfPackage.extractFiles(nmfDir);
         String packageName = metadata.getPackageName();
 
         if (metadata.isApp()) {
-            File appDir = new File(nmfDir.getAbsolutePath()
-                    + File.separator + Deployment.DIR_APPS
-                    + File.separator + packageName);
-
+            File appDir = new File(Deployment.getNMFAppsDir(), packageName);
             String username = null;
             String password = null;
 
-            if ((new OSValidator()).isUnix()) {
+            if (OS.isUnix()) {
                 try {
                     // Create the User for this App
                     username = generateUsername(packageName);
@@ -131,9 +130,9 @@ public class NMFPackageManager {
 
                     // Set the right Group and Permissions to the Home Directory
                     // The owner remains with the app, the group is nmf-admin
-                    String homeDir = LinuxUsersGroups.findHomeDir(username);
-                    LinuxUsersGroups.chgrp(true, USER_NMF_ADMIN, homeDir);
-                    LinuxUsersGroups.chmod(true, true, "770", homeDir);
+                    String appHomeDir = LinuxUsersGroups.findHomeDir(username);
+                    LinuxUsersGroups.chgrp(true, USER_NMF_ADMIN, appHomeDir);
+                    LinuxUsersGroups.chmod(true, true, "770", appHomeDir);
                 } catch (IOException ex) {
                     Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                             "The User could not be created: " + username, ex);
@@ -143,29 +142,25 @@ public class NMFPackageManager {
 
             HelperNMFPackage.generateStartScript(metadata.castToApp(), appDir, nmfDir);
             createAuxiliaryFiles(appDir, username);
+            File logDir = new File(Deployment.getLogsDir(), packageName);
+            logDir.mkdirs();
 
-            if ((new OSValidator()).isUnix()) {
-                // Change Group owner of the appDir
-                if (username != null) {
-                    LinuxUsersGroups.chgrp(true, username, appDir.getAbsolutePath());
-                }
-
-                // chmod the installation directory with recursive
-                LinuxUsersGroups.chmod(false, true, "750", appDir.getAbsolutePath());
+            if (OS.isUnix()) { // Change Group owner of the appDir
+                changeGroupAndSetPermissions(appDir, username, "750");
+                changeGroupAndSetPermissions(logDir, username, "770");
             }
         }
 
         // Store a copy of the newReceipt to know that it has been installed!
         File receiptsFolder = Deployment.getInstallationsTrackerDir();
         String receiptFilename = packageName + RECEIPT_ENDING;
-        String receiptPath = receiptsFolder.getCanonicalPath() + File.separator + receiptFilename;
-        File receiptFile = new File(receiptPath);
+        File receiptFile = new File(receiptsFolder, receiptFilename);
         metadata.store(receiptFile);
 
         if (appsLauncher != null) {
             appsLauncher.refresh();
         }
-        
+
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                 "Package successfully installed from: {0}", packageLocation);
 
@@ -193,14 +188,10 @@ public class NMFPackageManager {
 
         if (packageMetadata.isApp()) {
             // This directory should be passed in the method signature:
-            File nmfDir = Deployment.getNMFRootDir();
-            File installationDir = new File(nmfDir.getAbsolutePath()
-                    + File.separator + Deployment.DIR_APPS
-                    + File.separator + packageName);
-
+            File installationDir = new File(Deployment.getNMFAppsDir(), packageName);
             removeAuxiliaryFiles(installationDir, packageName);
 
-            if ((new OSValidator()).isUnix()) {
+            if (OS.isUnix()) {
                 if (!keepUserData) {
                     String username = generateUsername(packageName);
                     LinuxUsersGroups.deluser(username, true);
@@ -210,13 +201,12 @@ public class NMFPackageManager {
 
         removeFiles(packageMetadata);
 
-        String receiptsPath = Deployment.getInstallationsTrackerDir().getCanonicalPath();
-        String receiptFilename = packageName + RECEIPT_ENDING;
-        File receiptFile = new File(receiptsPath + File.separator + receiptFilename);
+        File receiptsFolder = Deployment.getInstallationsTrackerDir();
+        File receiptFile = new File(receiptsFolder, packageName + RECEIPT_ENDING);
 
         if (!receiptFile.delete()) {
             Logger.getLogger(NMFPackageManager.class.getName()).log(Level.WARNING,
-                    "The receipt file could not be deleted from: " + receiptsPath);
+                    "The receipt file could not be deleted from: " + receiptsFolder);
         }
 
         if (appsLauncher != null) {
@@ -225,7 +215,7 @@ public class NMFPackageManager {
 
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                 "Package successfully uninstalled: " + packageName);
-        
+
         System.out.printf(SEPARATOR);
     }
 
@@ -253,7 +243,7 @@ public class NMFPackageManager {
 
         File receiptsFolder = Deployment.getInstallationsTrackerDir();
         String receiptFilename = newPackMetadata.getPackageName() + RECEIPT_ENDING;
-        File oldReceiptFile = new File(receiptsFolder.getCanonicalPath() + File.separator + receiptFilename);
+        File oldReceiptFile = new File(receiptsFolder, receiptFilename);
         Metadata oldPackMetadata = Metadata.load(oldReceiptFile);
 
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO, "Upgrading..."
@@ -275,10 +265,7 @@ public class NMFPackageManager {
 
         if (isApp) {
             // This directory should be passed in the method signature:
-            File installationDir = new File(nmfDir.getAbsolutePath()
-                    + File.separator + Deployment.DIR_APPS
-                    + File.separator + packageName);
-
+            File installationDir = new File(Deployment.getNMFAppsDir(), packageName);
             removeAuxiliaryFiles(installationDir, packageName);
         }
 
@@ -298,27 +285,17 @@ public class NMFPackageManager {
         newPack.extractFiles(nmfDir);
 
         if (isApp) {
-            String username = null;
-            File installationDir = new File(nmfDir.getAbsolutePath()
-                    + File.separator + Deployment.DIR_APPS
-                    + File.separator + packageName);
-
-            if ((new OSValidator()).isUnix()) {
-                username = generateUsername(packageName);
-            }
+            File installationDir = new File(Deployment.getNMFAppsDir(), packageName);
+            String username= generateUsername(packageName);
 
             HelperNMFPackage.generateStartScript(appMetadata, installationDir, nmfDir);
             createAuxiliaryFiles(installationDir, username);
+            File logDir = new File(Deployment.getLogsDir(), packageName);
+            logDir.mkdirs();
 
-            if ((new OSValidator()).isUnix()) {
-                String path = installationDir.getAbsolutePath();
-                // Change Group owner of the appDir
-                if (username != null) {
-                    LinuxUsersGroups.chgrp(true, username, path);
-                }
-
-                // chmod the installation directory with recursive
-                LinuxUsersGroups.chmod(false, true, "750", path);
+            if (OS.isUnix()) { // Change Group owner of the appDir
+                changeGroupAndSetPermissions(installationDir, username, "750");
+                changeGroupAndSetPermissions(logDir, username, "770");
             }
         }
 
@@ -328,7 +305,7 @@ public class NMFPackageManager {
         if (appsLauncher != null) {
             appsLauncher.refresh();
         }
-        
+
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                 "Package successfully upgraded from location: " + packageLocation);
 
@@ -361,19 +338,9 @@ public class NMFPackageManager {
 
         File temp = Deployment.getInstallationsTrackerDir();
         String packageName = metadata.getPackageName();
-        String receiptFilename = packageName + RECEIPT_ENDING;
-        File receiptFile;
-        try {
-            receiptFile = new File(temp.getCanonicalPath() + File.separator + receiptFilename);
-        } catch (IOException ex) {
-            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.SEVERE,
-                "Something is wrong with the receipt file!", ex);
-            return false;
-        }
+        File receiptFile = new File(temp, packageName + RECEIPT_ENDING);
 
-        boolean exists = receiptFile.exists();
-
-        if (!exists) {
+        if (!receiptFile.exists()) {
             Logger.getLogger(NMFPackageManager.class.getName()).log(Level.FINE,
                     "The package " + packageName + " is not installed!");
             return false;
@@ -428,36 +395,30 @@ public class NMFPackageManager {
         }
     }
 
-    private static void removeAuxiliaryFiles(File installationDir, String appName) throws IOException {
-        String providerPath = installationDir.getAbsolutePath()
-                + File.separator + HelperMisc.PROVIDER_PROPERTIES_FILE;
-        String transportPath = installationDir.getAbsolutePath()
-                + File.separator + HelperMisc.TRANSPORT_PROPERTIES_FILE;
-        File linux = new File(installationDir.getAbsolutePath()
-                + File.separator + "start_" + appName + ".sh");
-        File windows = new File(installationDir.getAbsolutePath()
-                + File.separator + "start_" + appName + ".sh");
+    private static void removeAuxiliaryFiles(File folder, String appName) throws IOException {
+        File provider = new File(folder, HelperMisc.PROVIDER_PROPERTIES_FILE);
+        File transport = new File(folder, HelperMisc.TRANSPORT_PROPERTIES_FILE);
+        File linux = new File(folder, "start_" + appName + ".sh");
+        File windows = new File(folder, "start_" + appName + ".bat");
 
         // Remove the provider.properties
         // Remove the transport.properties
-        // Remove the start_myAppName.sh
-        NMFPackageManager.removeFile(new File(providerPath));
-        NMFPackageManager.removeFile(new File(transportPath));
+        // Remove the start_myAppName.sh or start_myAppName.bat
+        NMFPackageManager.removeFile(provider);
+        NMFPackageManager.removeFile(transport);
         NMFPackageManager.removeFile(windows.exists() ? windows : linux);
     }
 
     private static void createAuxiliaryFiles(File installationDir, String username) throws IOException {
         // Generate provider.properties
-        String providerPath = installationDir.getAbsolutePath()
-                + File.separator + HelperMisc.PROVIDER_PROPERTIES_FILE;
+        File providerFile = new File(installationDir, HelperMisc.PROVIDER_PROPERTIES_FILE);
         String providerContent = HelperNMFPackage.generateProviderProperties(username);
-        HelperNMFPackage.writeFile(providerPath, providerContent);
+        HelperNMFPackage.writeFile(providerFile, providerContent);
 
         // Generate transport.properties
-        String transportPath = installationDir.getAbsolutePath()
-                + File.separator + HelperMisc.TRANSPORT_PROPERTIES_FILE;
+        File transportFile = new File(installationDir, HelperMisc.TRANSPORT_PROPERTIES_FILE);
         String transportContent = HelperNMFPackage.generateTransportProperties();
-        HelperNMFPackage.writeFile(transportPath, transportContent);
+        HelperNMFPackage.writeFile(transportFile, transportContent);
     }
 
     private static void removeFiles(Metadata metadata) throws IOException {
@@ -508,6 +469,16 @@ public class NMFPackageManager {
         return USER_NMF_APP_PREFIX + appName;
     }
 
+    private static void changeGroupAndSetPermissions(File file,
+            String toGroup, String permissions) throws IOException {
+        if (toGroup != null) {
+            LinuxUsersGroups.chgrp(true, toGroup, file.getAbsolutePath());
+        }
+
+        // chmod the installation directory with recursive
+        LinuxUsersGroups.chmod(false, true, permissions, file.getAbsolutePath());
+    }
+
     private void stopAppIfRunning(String name) {
         if (appsLauncher == null) {
             return;
@@ -537,7 +508,7 @@ public class NMFPackageManager {
                 appsLauncher.stopApp(runningApp, null);
             }
         } catch (MALInteractionException ex) {
-            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO, 
+            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                     "The " + name + " App was not found in the Directory service!");
         } catch (MALException ex) {
             Logger.getLogger(NMFPackageManager.class.getName()).log(

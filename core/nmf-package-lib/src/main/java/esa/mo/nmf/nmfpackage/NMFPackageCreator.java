@@ -124,7 +124,7 @@ public class NMFPackageCreator {
                     Level.SEVERE, "The file could not be stored!", ex);
         }
 
-        // Add the receipt file to the list of Files to be zipped
+        // Add the metadata file to the list of Files to be zipped
         files.add(metadataFile.getPath());
         newLocations.add(Metadata.FILENAME);
         // -------------------------------------------------------------------
@@ -188,7 +188,6 @@ public class NMFPackageCreator {
         }
          */
         // Delete temporary files:
-        //receipt.delete();
         metadataFile.delete();
         //digitalSignature.delete();
 

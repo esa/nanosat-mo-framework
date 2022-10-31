@@ -117,10 +117,10 @@ public class NMFPackage {
 
             String path = HelperNMFPackage.generateFilePathForSystem(entry.getName());
             newFile = new File(to.getCanonicalPath() + File.separator + path);
-            File parent = new File(newFile.getParent());
+            File parent = newFile.getParentFile();
 
             if (!parent.exists()) {
-                new File(newFile.getParent()).mkdirs();
+                parent.mkdirs();
             }
 
             System.out.println("   >> Copying file to: " + newFile.getCanonicalPath());

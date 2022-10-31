@@ -90,7 +90,7 @@ public class NMFPackagePMBackend implements PMBackend {
     @Override
     public void install(final String packageName) {
         String packageLocation = this.getFolderLocation(packageName);
-        File destination = getNMFDir();
+        File destination = Deployment.getNMFRootDir();
 
         Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.INFO,
                 "Installing the package...\nPackage name: " + packageName
@@ -133,7 +133,7 @@ public class NMFPackagePMBackend implements PMBackend {
                 "Upgrading the package from: {0}", packageLocation);
 
         // Define the location to be installed!
-        File destination = getNMFDir();
+        File destination = Deployment.getNMFRootDir();
 
         try {
             manager.upgrade(packageLocation, destination);
@@ -163,10 +163,6 @@ public class NMFPackagePMBackend implements PMBackend {
 
     private String getFolderLocation(final String packageName) {
         return packagesFolder.getAbsolutePath() + File.separator + packageName;
-    }
-
-    private File getNMFDir() {
-        return new File("");
     }
 
     public void setAppsLauncher(AppsLauncherProviderServiceImpl appsLauncherService) {
