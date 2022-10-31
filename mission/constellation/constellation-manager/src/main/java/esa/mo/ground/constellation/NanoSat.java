@@ -22,6 +22,8 @@
  */
 package esa.mo.ground.constellation;
 
+import esa.mo.com.impl.provider.ArchivePersistenceObject;
+import esa.mo.ground.constellation.services.sm.AppManagerGround;
 import esa.mo.ground.constellation.services.sm.PackageManagerGround;
 import esa.mo.mc.impl.provider.ParameterInstance;
 import esa.mo.nmf.commonmoadapter.CompleteDataReceivedListener;
@@ -31,9 +33,13 @@ import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.URI;
+import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetails;
+import org.ccsds.moims.mo.softwaremanagement.packagemanagement.body.FindPackageResponse;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -42,6 +48,12 @@ public class NanoSat {
     protected String ipAddress = null;
     protected ProviderSummaryList providers;
     protected GroundMOAdapterImpl groundAdapter;
+    protected HashMap<String, Long> installedApps = new HashMap<>();
+
+    // set active = false when segment is removed from constellation.
+    // needed to avoid naming issues when adding new segments to the
+    // constellation after others have been removed.
+    protected Boolean active;
 
     /**
      * Initializer Constructor.
@@ -50,7 +62,9 @@ public class NanoSat {
      * @param name NanoSat segment name
      */
     public NanoSat(String name) {
+
         this.name = name;
+        this.active = true;
     }
 
     /**
@@ -58,10 +72,12 @@ public class NanoSat {
      * This class manages the connection to a NanoSat segment.
      */
     public NanoSat() {
-    };
+        this.active = true;
+    }
+
+    ;
 
     /**
-     *
      * @return Container name
      */
     public String getName() {
@@ -69,7 +85,6 @@ public class NanoSat {
     }
 
     /**
-     *
      * @return NanoSat segment IP address
      * @throws IOException
      */
@@ -83,7 +98,6 @@ public class NanoSat {
     }
 
     /**
-     *
      * @param ipAddress NanoSat segment IP address
      */
     public void setIPAddress(String ipAddress) {
@@ -91,7 +105,6 @@ public class NanoSat {
     }
 
     /**
-     *
      * @return Supervisor Directory Service URI
      * @throws IOException
      */
@@ -100,20 +113,17 @@ public class NanoSat {
     }
 
     /**
-     *
      * @return Supervisor Directory Service URI String
      * @throws IOException
      */
     public String getDirectoryServiceURIString() throws IOException {
         // TODO: make this a bit prettier
-        return ("maltcp://" +
-                this.getIPAddress() +
-                ":1024/nanosat-mo-supervisor-Directory");
+        return ("maltcp://" + this.getIPAddress() + ":1024/nanosat-mo-supervisor-Directory");
     }
 
     /**
      * Overwritten by NanoSatSimulator.run()
-     * 
+     *
      * @throws IOException
      */
     public void run() throws IOException {
@@ -124,23 +134,17 @@ public class NanoSat {
      */
     public void connectToProviders() {
         try {
-            this.providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(
-                    this.getDirectoryServiceURI());
+            this.providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(this.getDirectoryServiceURI());
 
             if (!providers.isEmpty()) {
                 // Connect to provider on index 0
                 this.groundAdapter = new GroundMOAdapterImpl(this.providers.get(0));
-                this.groundAdapter.addDataReceivedListener(
-                        new NanoSat.CompleteDataReceivedAdapter(this.getName()));
+                this.groundAdapter.addDataReceivedListener(new NanoSat.CompleteDataReceivedAdapter(this.getName()));
             } else {
-                Logger
-                        .getLogger(ConstellationManager.class.getName())
-                        .log(Level.SEVERE, "The returned list of providers is empty!");
+                Logger.getLogger(ConstellationManager.class.getName()).log(Level.SEVERE, "{0}: the returned list of providers is empty!", new Object[]{this.name});
             }
         } catch (MALException | MALInteractionException | IOException ex) {
-            Logger
-                    .getLogger(ConstellationManager.class.getName())
-                    .log(Level.SEVERE, null, ex);
+            Logger.getLogger(ConstellationManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -154,16 +158,99 @@ public class NanoSat {
     }
 
     /**
-     * Get all NMF packages that are available on the NanoSat Segment
+     * Uninstall the given NMF package on the NanoSat Segment
      *
-     * TODO: define return type
+     * @param packageName NMF package name
      */
-    public void getAllPackages() {
-        PackageManagerGround.getAllPackages(this.groundAdapter);
+    public void uninstallPackage(String packageName) {
+        PackageManagerGround.uninstallPackage(this.groundAdapter, packageName);
     }
 
-    protected class CompleteDataReceivedAdapter
-            extends CompleteDataReceivedListener {
+    /**
+     * Update the given NMF package on the NanoSat Segment
+     *
+     * @param packageName NMF package name
+     */
+    public void upgradePackage(String packageName) {
+        PackageManagerGround.upgradePackage(this.groundAdapter, packageName);
+    }
+
+    /**
+     * Runs an App by name. Ignores Apps that are not installed.
+     *
+     * @param appName Name of the App that shall be installed
+     */
+    public void runAppByName(String appName) {
+        if (installedApps.get(appName) == null) {
+            Logger.getLogger(ConstellationManager.class.getName()).log(Level.INFO, "Cannot run App " + appName + " on " + this.name + ": App not installed!");
+            return;
+        }
+        AppManagerGround.runAppById(this.groundAdapter, installedApps.get(appName));
+    }
+
+    /**
+     * Stops an App by name. Ignores Apps that are not installed.
+     *
+     * @param appName Name of the App that shall be stopped
+     */
+    public void stopAppByName(String appName) {
+        if (installedApps.get(appName) == null) {
+            Logger.getLogger(ConstellationManager.class.getName()).log(Level.INFO, "Cannot stop App " + appName + " on " + this.name + ": App not installed!");
+            return;
+        }
+        AppManagerGround.stopAppById(this.groundAdapter, installedApps.get(appName));
+    }
+
+    /**
+     * Retrieves the installed Apps from the NanoSat.
+     * Saves the IDs of the installed Apps to installedApps and returns the list of installed
+     * Apps for further processing
+     *
+     * @return list with installed Apps
+     */
+    public List<ArchivePersistenceObject> getAllApps() {
+
+        List<ArchivePersistenceObject> apps = AppManagerGround.getApps(this.groundAdapter);
+
+        if (apps != null) {
+            for (ArchivePersistenceObject app : apps) {
+                AppDetails appDetails = (AppDetails) app.getObject();
+
+                if (installedApps.get(appDetails.getName().toString()) == null) {
+                    installedApps.put(appDetails.getName().toString(), app.getArchiveDetails().getInstId());
+                }
+            }
+        }
+
+        return apps;
+    }
+
+    /**
+     * Get all NMF packages that are available on the NanoSat Segment
+     *
+     * @return FindPackageResponse: provides the package name and its installation status
+     */
+    public FindPackageResponse getAllPackages() {
+        return PackageManagerGround.getAllPackages(this.groundAdapter);
+    }
+
+    /**
+     * Remove the NanoSat segment from the constellation.
+     */
+    public void delete() {
+        this.active = false;
+        this.providers = null;
+        this.groundAdapter = null;
+    }
+
+    /**
+     * @return NanoSat segment active status
+     */
+    public Boolean isActive() {
+        return this.active;
+    }
+
+    protected class CompleteDataReceivedAdapter extends CompleteDataReceivedListener {
         private String name;
 
         protected CompleteDataReceivedAdapter(String name) {
@@ -172,16 +259,7 @@ public class NanoSat {
 
         @Override
         public void onDataReceived(ParameterInstance parameterInstance) {
-            Logger
-                    .getLogger(ConstellationManager.class.getName())
-                    .log(
-                            Level.INFO,
-                            "\nNode: {0}\nParameter name: {1}\nParameter Value: {2}",
-                            new Object[] {
-                                    this.name,
-                                    parameterInstance.getName(),
-                                    parameterInstance.getParameterValue().toString(),
-                            });
+            Logger.getLogger(ConstellationManager.class.getName()).log(Level.INFO, "\nNode: {0}\nParameter name: {1}\nParameter Value: {2}", new Object[]{this.name, parameterInstance.getName(), parameterInstance.getParameterValue().toString(),});
         }
     }
 
@@ -190,12 +268,7 @@ public class NanoSat {
 
         @Override
         public void onDataReceived(String parameterName, Serializable data) {
-            Logger
-                    .getLogger(ConstellationManager.class.getName())
-                    .log(
-                            Level.INFO,
-                            "\nNode: {0}\nParameter name: {1}\nParameter Value: {2}",
-                            new Object[] { this.name, parameterName, data.toString() });
+            Logger.getLogger(ConstellationManager.class.getName()).log(Level.INFO, "\nNode: {0}\nParameter name: {1}\nParameter Value: {2}", new Object[]{this.name, parameterName, data.toString()});
         }
     }
 }

@@ -23,6 +23,8 @@
 package esa.mo.ground.constellation;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * NanoSat Segment Simulator Object.
@@ -31,7 +33,7 @@ import java.io.IOException;
  *
  */
 public class NanoSatSimulator extends NanoSat {
-  private final String image = "nmf-rpi/nmf-supervisor"; // TODO: get image name from config
+  private final String image = "nmf-rpi/nmf-supervisor:4.0"; // TODO: get image name from config
 
   /**
    * Initializer Constructor.
@@ -92,5 +94,24 @@ public class NanoSatSimulator extends NanoSat {
   @Override
   public void setIPAddress(String ipAddress) {
     // do nothing - don't change container IP Address
+  }
+
+  /**
+   * Remove the NanoSat segment from the constellation and removes the Docker container.
+   */
+  @Override
+  public void delete(){
+    this.active = false;
+    this.providers = null;
+    this.groundAdapter = null;
+    try {
+      DockerApi.removeContainer(this.name);
+    } catch (IOException ex) {
+      Logger
+        .getLogger(ConstellationManager.class.getName())
+        .log(Level.SEVERE, "{0}: could not be removed!: {1}",
+          new Object[] { this.name, ex }
+        );
+    }
   }
 }

@@ -58,19 +58,34 @@ public class ConstellationManager {
   }
 
   /**
+   * Returns a NanoSat Object by its name.
+   * 
+   * @param name NanoSat Name
+   * @return NanoSat Object
+   */
+  public NanoSat getNanoSatSegmentByName(String name) {
+    for (NanoSat nanoSat : constellation) {
+      if (nanoSat.getName().equals(name)) {
+        return nanoSat;
+      }
+    }
+    return null;
+  }
+
+  /**
    * Initializes the constellation. Creates and runs the Docker containers.
    *
-   * Very WIP!
-   *
    * @param name Name of the constellation. Container naming scheme:
-   *             <name>-node-<1...n>
+   *             <name>-sim-<1...n>
    * @param size Constellation size
    */
   public void addNodesToConstellation(String name, int size) {
     try {
       for (int i = 1; i <= size; i++) {
-        this.constellation.add(new NanoSatSimulator(name + "-node-" + i));
-        this.constellation.get(this.constellation.size() - 1).run();
+        int nodeNumber = this.constellation.size() + 1;
+        NanoSatSimulator nanoSat = new NanoSatSimulator(name + "-sim-" + nodeNumber);
+        nanoSat.run();
+        this.constellation.add(nanoSat);
       }
 
       LOGGER.log(Level.INFO, "Successfully added nodes to constellation. ");
@@ -95,33 +110,10 @@ public class ConstellationManager {
   }
 
   /**
-   * Connects to the providers of the constellation.
-   *
+   * Connects to the service providers on all the constellation's NanoSat segments.
    */
-  public void connectToProviders() {
-    constellation.forEach(
-        nanoSat -> {
-          try {
-            LOGGER.log(
-                Level.INFO,
-                "Connecting to " + nanoSat.getDirectoryServiceURIString());
-            nanoSat.connectToProviders();
-          } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, "Failed to connect to provider: ", ex);
-          }
-        });
-  }
-
-  /**
-   * Install a NMF package on all the nodes of the constellation.
-   * 
-   * @param packageName Name of the NMF package
-   */
-  public void installPackageOnAllNodes(String packageName) {
-    constellation.forEach(
-        nanoSat -> {
-          nanoSat.installPackage(packageName);
-        });
+  public void connectToConstellationProviders() {
+    this.constellation.forEach(NanoSat::connectToProviders);
   }
 
   /**

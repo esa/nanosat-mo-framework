@@ -22,51 +22,109 @@
  */
 package esa.mo.ground.constellation.services.sm;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
+import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
+import esa.mo.com.impl.provider.ArchivePersistenceObject;
+import esa.mo.com.impl.util.HelperArchive;
+import esa.mo.ground.constellation.ConstellationManager;
+import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
+import esa.mo.sm.impl.consumer.AppsLauncherConsumerServiceImpl;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
+import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
+import org.ccsds.moims.mo.softwaremanagement.appslauncher.body.ListAppResponse;
+import org.ccsds.moims.mo.softwaremanagement.appslauncher.consumer.AppsLauncherAdapter;
 
-import esa.mo.ground.constellation.ConstellationManager;
-import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
-import esa.mo.sm.impl.consumer.AppsLauncherConsumerServiceImpl;
+import javax.swing.*;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AppManagerGround {
-    private static AppsLauncherConsumerServiceImpl serviceSMAppsLauncher;
 
     /**
      * Launches an App on a NanoSat Segment
-     * 
-     * Very WIP!
-     * 
-     * @param services
-     * @param appName
+     *
+     * @param groundMOAdapter Ground MO Adapter implementation
      */
-    public static void launchApp(GroundMOAdapterImpl services, String appName) {
-        serviceSMAppsLauncher = services.getSMServices().getAppsLauncherService();
+    public static List<ArchivePersistenceObject> getApps(GroundMOAdapterImpl groundMOAdapter) {
+        final AppsLauncherConsumerServiceImpl serviceSMAppsLauncher = groundMOAdapter.getSMServices().getAppsLauncherService();
 
-        IdentifierList ids = new IdentifierList();
-        ids.add(new Identifier(appName));
+        IdentifierList idList = new IdentifierList();
+        idList.add(new Identifier("*"));
 
-        // LongList ids = new LongList();
-        // Long objId =
-        // appsTable.getSelectedCOMObject().getArchiveDetails().getInstId();
-        // ids.add(objId);
+        try {
+            ListAppResponse appResponse = serviceSMAppsLauncher.getAppsLauncherStub().listApp(idList, new Identifier("*"));
+
+            ArchiveConsumerServiceImpl archiveService = groundMOAdapter.getCOMServices().getArchiveService();
+            IdentifierList domain = serviceSMAppsLauncher.getConnectionDetails().getDomain();
+
+            return HelperArchive.getArchiveCOMObjectList(archiveService.getArchiveStub(), AppsLauncherHelper.APP_OBJECT_TYPE, domain, appResponse.getBodyElement0());
+
+        } catch (MALInteractionException | MALException ex) {
+            Logger.getLogger(ConstellationManager.class.getName()).log(Level.SEVERE, "Failed to list Apps from NanoSat: ", ex);
+        }
+        return null;
+    }
+
+    /**
+     * Runs an App.
+     *
+     * @param groundMOAdapter Ground MO Adapter implementation
+     * @param appId           ID of the App to run
+     */
+    public static void runAppById(GroundMOAdapterImpl groundMOAdapter, Long appId) {
+        final AppsLauncherConsumerServiceImpl serviceSMAppsLauncher = groundMOAdapter.getSMServices().getAppsLauncherService();
+
+        LongList ids = new LongList();
+        ids.add(appId);
+
+        try {
+            serviceSMAppsLauncher.getAppsLauncherStub().runApp(ids);
+        } catch (MALInteractionException | MALException ex) {
+            Logger.getLogger(ConstellationManager.class.getName()).log(Level.SEVERE, "Failed to run App: ", ex);
+        }
+    }
+
+    public static void stopAppById(GroundMOAdapterImpl groundMOAdapter, Long appId) {
+        final AppsLauncherConsumerServiceImpl serviceSMAppsLauncher = groundMOAdapter.getSMServices().getAppsLauncherService();
+
+        LongList ids = new LongList();
+        ids.add(appId);
 
         // unsubscribeFromPreviousEvents(objId);
 
-        // try {
-        // subscribeToEvents(objId);
-        // serviceSMAppsLauncher.getAppsLauncherStub().runApp(ids);
-        // } catch (MALInteractionException | MALException ex) {
-        // Logger
-        // .getLogger(ConstellationManager.class.getName())
-        // .log(Level.SEVERE, null, ex);
-        // }
+        try {
+            // subscribeToEvents(objId);
+            serviceSMAppsLauncher.getAppsLauncherStub().stopApp(ids, new AppsLauncherAdapter() {
 
+                @Override
+                public void stopAppAckReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, java.util.Map qosProperties) {
+                    Logger.getLogger(ConstellationManager.class.getName()).log(Level.INFO, "Stopping...");
+                }
+
+                @Override
+                public void stopAppUpdateReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, Long appClosing, java.util.Map qosProperties) {
+                    Logger.getLogger(ConstellationManager.class.getName()).log(Level.INFO, "Stopped!");
+                }
+
+                @Override
+                public void stopAppAckErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties) {
+                    String msg = "There was an error during the stop operation.";
+                    JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.PLAIN_MESSAGE);
+                    Logger.getLogger(ConstellationManager.class.getName()).log(Level.SEVERE, msg, error);
+                }
+
+                @Override
+                public void stopAppResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, java.util.Map qosProperties) {
+                    Logger.getLogger(ConstellationManager.class.getName()).log(Level.INFO, "Stop App Completed.");
+                }
+
+            });
+        } catch (MALInteractionException | MALException ex) {
+            Logger.getLogger(ConstellationManager.class.getName()).log(Level.SEVERE, "Failed to run App: ", ex);
+        }
     }
 }

@@ -77,6 +77,18 @@ public class DockerApi {
   }
 
   /**
+   * Removes a Docker Container.
+   *
+   * @param name Container Name
+   * @throws IOException
+   */
+  public static void removeContainer(String name) throws IOException {
+    stop(name);
+    String cmd = String.format("rm %s", name);
+    executeDockerCommand(cmd);
+  }
+
+  /**
    * Execute a Docker command via /bin/bash
    *
    * TODO: check for injections, prettier return sequence
