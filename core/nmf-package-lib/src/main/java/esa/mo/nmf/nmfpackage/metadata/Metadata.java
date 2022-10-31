@@ -157,11 +157,6 @@ public class Metadata {
         properties.store(outStream, "NMF Package Metadata");
     }
 
-    @Deprecated
-    public void store() throws IOException, FileNotFoundException, IOException {
-        this.store(new FileOutputStream(Metadata.FILENAME));
-    }
-
     public void store(File file) throws FileNotFoundException, IOException {
         String parent = file.getParent();
 

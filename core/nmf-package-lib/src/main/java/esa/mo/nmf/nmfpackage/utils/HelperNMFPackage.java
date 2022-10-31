@@ -1,3 +1,4 @@
+
 /* ----------------------------------------------------------------------------
  * Copyright (C) 2021      European Space Agency
  *                         European Space Operations Centre
@@ -27,14 +28,10 @@ import esa.mo.nmf.nmfpackage.metadata.MetadataApp;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.zip.CRC32;
 
 /**
@@ -100,8 +97,7 @@ public class HelperNMFPackage {
         String shared = "";
 
         if (meta.hasDependencies()) {
-            String nmf = Deployment.getNMFRootDir().getAbsolutePath();
-            File sharedLibs = new File(nmf + File.separator + Deployment.DIR_JARS_SHARED);
+            File sharedLibs = Deployment.getJarsSharedDir();
             String paths = meta.getAppDependenciesFullPaths(sharedLibs);
             str.append("JARS_SHARED=").append(paths);
             shared = ":$JARS_SHARED";
@@ -110,18 +106,25 @@ public class HelperNMFPackage {
         str.append("\n\n");
 
         str.append("if [ -z \"$JAVA_OPTS\" ] ; then\n");
-        str.append("    JAVA_OPTS=\"-Xms32m -Xmx$MAX_HEAP $JAVA_OPTS\"\n");
+        str.append("    JAVA_OPTS=\"-Xms$MIN_HEAP -Xmx$MAX_HEAP $JAVA_OPTS\"\n");
         str.append("fi\n\n");
 
         str.append("export JAVA_OPTS\n");
         str.append("export NMF_LIB\n\n");
 
+        str.append("NOW=$(date +\"%F\")\n");
+        String appName = meta.getPackageName();
+        str.append("FILENAME=").append(appName).append("_$NOW.log\n");
+        str.append("LOG_PATH=/nanosat-mo-framework/logs/").append(appName).append("\n");
+        str.append("mkdir -p $LOG_PATH\n\n");
+        
         // The command "exec" spawns the execution in a different process
         // str.append("exec ");
         str.append("$JAVA_CMD $JAVA_OPTS \\\n");
         str.append("  -classpath \"$JARS_ALL\" \\\n");
         str.append("  \"$MAIN_CLASS\" \\\n");
-        str.append("  \"$@\"\n");
+        str.append("  \"$@\" \\\n");
+        str.append("  2>&1 | tee -a $LOG_PATH/$FILENAME \n");
 
         return str.toString();
     }
@@ -246,120 +249,6 @@ public class HelperNMFPackage {
         throw new IOException("There are too many jars inside the target folder!");
     }
 
-    /**
-     * Find the best Java Runtime Environment inside an nmf directory. The best
-     * JRE will be determined based on arguments containing a recommended
-     * version, a minimum version, and a maximum version.
-     *
-     * @param recommended The recommended version to run the App.
-     * @param min The minimum version needed to run the App.
-     * @param max The maximum version to run the App.
-     * @return The Best JRE available for .
-     */
-    public static String findJREPath(File nmfDir, int recommended, int min, int max) {
-        if (min < max) {
-            Logger.getLogger(HelperNMFPackage.class.getName()).log(Level.WARNING,
-                    "The JRE minimum version cannot be greater than the maximum!");
-        }
-
-        if (recommended < min || recommended > max) {
-            Logger.getLogger(HelperNMFPackage.class.getName()).log(Level.WARNING,
-                    "The JRE recommended version should be between the min and max!");
-        }
-
-        File javaNMFDir = new File(nmfDir.getAbsolutePath() + File.separator + "java");
-        String bestJRE = "java"; // Default value and worst-case scenario
-
-        if (!javaNMFDir.exists()) {
-            return bestJRE; // Return the default value
-        }
-
-        final String VERSION_PROP = "JAVA_VERSION";
-        File[] list = javaNMFDir.listFiles();
-
-        for (File dir : list) {
-            if (!dir.isDirectory()) {
-                continue; // Jump over if it is not a directory
-            }
-
-            try {
-                // Check which java version it is from the release file...
-                String path = dir.getAbsolutePath();
-                File release = new File(path + File.separator + "release");
-
-                if (!release.exists()) {
-                    Logger.getLogger(HelperNMFPackage.class.getName()).log(
-                            Level.WARNING, "The JRE release file does not "
-                            + "exist in: " + release.getAbsolutePath());
-                    continue;
-                }
-
-                Properties props = new Properties();
-                props.load(new FileInputStream(release));
-                String version = (String) props.get(VERSION_PROP);
-
-                if (version == null) {
-                    Logger.getLogger(HelperNMFPackage.class.getName()).log(
-                            Level.WARNING, "The JAVA_VERSION property "
-                            + "was not be found on release file: " + path);
-                    continue;
-                }
-
-                String[] subs = version.replace("\"", "").split("\\.");
-
-                if (subs.length < 3) {
-                    Logger.getLogger(HelperNMFPackage.class.getName()).log(
-                            Level.WARNING, "The JRE version '" + version
-                            + "' could not be determined from the release file: "
-                            + release.getAbsolutePath());
-                    continue;
-                }
-
-                // Java version used to start with 1 until at least Java 8
-                int java_version = (Integer.parseInt(subs[0]) != 1)
-                        ? Integer.parseInt(subs[0])
-                        : Integer.parseInt(subs[1]);
-
-                String jre = dir.getAbsolutePath() + File.separator
-                        + "bin" + File.separator + "java";
-
-                if (!(new File(jre)).exists()) {
-                    Logger.getLogger(HelperNMFPackage.class.getName()).log(
-                            Level.WARNING,
-                            "The JRE could not be found in directory: " + path);
-                    continue;
-                }
-
-                if (java_version == recommended) {
-                    // Perfect, just return it directly!
-                    Logger.getLogger(HelperNMFPackage.class.getName()).log(
-                            Level.INFO, "The JRE version " + java_version
-                            + " was successfully found in directory:"
-                            + "\n          >> " + jre);
-
-                    return jre;
-                }
-
-                // The version is outside boundaries?
-                if (java_version < min && java_version > max) {
-                    continue;
-                }
-                bestJRE = jre;
-                // The code here will need to be improved...
-                // The objective should be to return the
-                // highest available version within the choices
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(HelperNMFPackage.class.getName()).log(
-                        Level.WARNING, "Something went wrong...", ex);
-            } catch (IOException ex) {
-                Logger.getLogger(HelperNMFPackage.class.getName()).log(
-                        Level.WARNING, "Something went wrong...", ex);
-            }
-        }
-
-        return bestJRE;
-    }
-
     public static void generateStartScript(MetadataApp appDetails,
             File appDir, File nmfDir) throws IOException {
         String name = appDetails.getPackageName();
@@ -372,33 +261,29 @@ public class HelperNMFPackage {
 
         // The Java version for now will be forced to 8, however in
         // the future the package should recommend a version
-        String javaCMD = HelperNMFPackage.findJREPath(nmfDir, 8, 8, 8);
+        String javaCMD = Deployment.findJREPath(nmfDir, 8, 8, 8);
 
         OSValidator os = new OSValidator();
-        String path = appDir.getAbsolutePath() + File.separator;
 
         if (os.isUnix() || os.isMac()) {
             String content = generateLinuxStartAppScript(javaCMD, jarName, appDetails);
-
-            path += "start_" + name + ".sh";
-            HelperNMFPackage.writeFile(path, content);
-            File startApp = new File(path);
+            File startApp = new File(appDir, "start_" + name + ".sh");
+            HelperNMFPackage.writeFile(startApp, content);
             startApp.setExecutable(true, true);
         }
 
         if (os.isWindows()) {
             String content = HelperNMFPackage.generateWindowsStartAppScript(
                     javaCMD, jarName, appDetails);
-
-            path += "start_" + name + ".bat";
-            HelperNMFPackage.writeFile(path, content);
+            File startApp = new File(appDir, "start_" + name + ".bat");
+            HelperNMFPackage.writeFile(startApp, content);
         }
     }
 
-    public static void writeFile(String path, String content) {
-        System.out.println("   >> Creating file on: " + path);
+    public static void writeFile(File file, String content) {
+        System.out.println("   >> Creating file on: " + file);
 
-        try (FileWriter writer = new FileWriter(path)) {
+        try (FileWriter writer = new FileWriter(file)) {
             writer.write(content);
             writer.flush();
             writer.close();
