@@ -85,6 +85,12 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
     private String maxHeap;
 
     /**
+     * The App maximum heap size to be set on the JVM
+     */
+    @Parameter(property = "generate-nmf-package.maxHeap", defaultValue = "16m")
+    private String minHeap;
+
+    /**
      * The set of libraries to be added to the .nmfpack
      */
     @Parameter(property = "generate-nmf-package.libs")
@@ -200,7 +206,7 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
         
         // Package
         MetadataApp metadata = new MetadataApp(name, version,
-                mainClass, mainJar, maxHeap, dependencies);
+                mainClass, mainJar, maxHeap, minHeap, dependencies);
         NMFPackageCreator.create(metadata, inputFiles, locations, TARGET_FOLDER);
     }
 

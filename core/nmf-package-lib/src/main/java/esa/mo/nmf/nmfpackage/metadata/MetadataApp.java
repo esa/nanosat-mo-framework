@@ -39,25 +39,27 @@ public class MetadataApp extends Metadata {
     public static final String APP_DEPENDENCIES = "pack.app.dependencies";
 
     /**
+     * Constructor for the MetadataApp class.
      *
      * @param packageName The name of the package.
-     * @param version
-     * @param timestamp
-     * @param mainclass
-     * @param mainJar
-     * @param maxHeap
-     * @param dependencies
+     * @param version The version of the package.
+     * @param timestamp The timestamp of the package.
+     * @param mainclass The mainclass of the package.
+     * @param mainJar The main jar of the package.
+     * @param maxHeap The Maximum Heap of the package.
+     * @param dependencies The jar filenames dependencies of the App.
      */
     public MetadataApp(final String packageName, final String version,
             final String mainclass, final String mainJar, final String maxHeap,
-            final ArrayList<String> dependencies) {
+            final String minHeap, final ArrayList<String> dependencies) {
         super(new Properties());
         properties.put(Metadata.PACKAGE_TYPE, Metadata.TYPE_APP);
         properties.put(Metadata.PACKAGE_NAME, packageName);
         properties.put(Metadata.PACKAGE_VERSION, version);
         properties.put(MetadataApp.APP_MAINCLASS, mainclass);
         properties.put(MetadataApp.APP_MAIN_JAR, mainJar);
-        properties.put(MetadataApp.APP_MAX_HEAP, maxHeap);
+        properties.put(MetadataApp.APP_MAX_HEAP, maxHeap == null ? "128m" : maxHeap);
+        properties.put(MetadataApp.APP_MIN_HEAP, minHeap == null ? "32m" : minHeap);
 
         if (dependencies != null && !dependencies.isEmpty()) {
             StringBuilder str = new StringBuilder();
@@ -68,6 +70,11 @@ public class MetadataApp extends Metadata {
         }
     }
 
+    /**
+     * Constructor for the MetadataApp class.
+     *
+     * @param props The initial properties for the package.
+     */
     MetadataApp(Properties props) {
         super(props);
     }
