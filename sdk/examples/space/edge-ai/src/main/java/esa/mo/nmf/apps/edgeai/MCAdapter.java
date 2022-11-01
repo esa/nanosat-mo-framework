@@ -20,7 +20,6 @@
  */
 package esa.mo.nmf.apps.edgeai;
 
-import static esa.mo.helpertools.helpers.HelperAttributes.attribute2JavaType;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
@@ -34,7 +33,6 @@ import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetails;
 import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetailsList;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetails;
 import org.ccsds.moims.mo.mc.structures.ArgumentDefinitionDetailsList;
-import org.ccsds.moims.mo.mc.structures.AttributeValue;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
@@ -200,13 +198,6 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
         } catch (NMFException e) {
             LOG.log(Level.SEVERE, "Failed to publish parameter", e);
         }
-    }
-
-    private static <T> T getAs(AttributeValue attributeValue) {
-        if (attributeValue == null) {
-            return null;
-        }
-        return (T) attribute2JavaType(attributeValue.getValue());
     }
 
 }
