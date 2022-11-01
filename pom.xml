@@ -44,7 +44,6 @@
     <module>parent</module>
     <module>core</module>
     <module>mission/simulator</module>
-    <module>mission/constellation</module>
     <module>sdk</module>
   </modules>
 </project>
