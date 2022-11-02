@@ -1,7 +1,7 @@
 <project name="SDK Package" default="build" basedir="../../">
   <property name="outputDir" value="${esa.nmf.sdk.assembly.outputdir}/home"/>
   <property name="repoName" value="nmf/lib"/>
-  <target name="build" depends="emit-ctt, emit-com-archive-tool, emit-simulator-gui, emit-space-supervisor, emit-space-app-all-mc-services,
+  <target name="build" depends="emit-ctt, emit-com-archive-tool, emit-cli-consumer, emit-simulator-gui, emit-space-supervisor, emit-space-app-all-mc-services,
   emit-space-app-publish-clock, emit-space-app-camera, emit-space-app-benchmark, emit-space-app-payloads-test,
   emit-space-app-waveform, emit-space-app-camera-acquisitor-system, emit-space-app-picture-processor,
   emit-space-app-mp-demo, emit-ground-app-mp-demo">
@@ -40,6 +40,24 @@
       <property name="nmf_home" value="%cd%\.."/>
       <property name="nmf_lib" value="`cd ../lib > /dev/null; pwd`"/>
       <property name="binDir" value="nmf/com-archive-tool"/>
+    </ant>
+  </target>
+
+  <target name="emit-cli-consumer">
+    <ant antfile="antpkg/build_shell_script.xml">
+      <property name="mainClass" value="esa.mo.nmf.cliconsumer.CLIConsumer"/>
+      <property name="id" value="cli-consumer"/>
+      <property name="nmf_home" value="`cd .. > /dev/null; pwd`"/>
+      <property name="nmf_lib" value="`cd ../lib > /dev/null; pwd`"/>
+      <property name="binDir" value="nmf/cli-consumer"/>
+      <property name="max_heap" value="256m"/>
+    </ant>
+    <ant antfile="antpkg/build_batch_script.xml">
+      <property name="mainClass" value="esa.mo.nmf.cliconsumer.CLIConsumer"/>
+      <property name="id" value="cli-consumer"/>
+      <property name="nmf_home" value="%cd%\.."/>
+      <property name="nmf_lib" value="`cd ../lib > /dev/null; pwd`"/>
+      <property name="binDir" value="nmf/cli-consumer"/>
     </ant>
   </target>
 

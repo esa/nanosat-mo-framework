@@ -66,6 +66,7 @@
   <modules>
     <module>consumer-test-tool</module>
     <module>com-archive-tool</module>
+    <module>cli-consumer</module>
   </modules>
 
 </project>
