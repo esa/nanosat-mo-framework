@@ -296,12 +296,11 @@ public class PlanExecutionControlProviderServiceImpl extends PlanExecutionContro
 
         UpdateHeaderList headerList = new UpdateHeaderList();
 
-        Identifier firstSubKey = identity;
         Long secondSubKey = COMObjectIdHelper.getInstanceId(identityId);
         Long thirdSubKey = COMObjectIdHelper.getInstanceId(instanceId);
         Long fourthSubKey = Long.valueOf(update.getStatus().getNumericValue().getValue());
 
-        EntityKey entityKey = new EntityKey(firstSubKey, secondSubKey, thirdSubKey, fourthSubKey);
+        EntityKey entityKey = new EntityKey(identity, secondSubKey, thirdSubKey, fourthSubKey);
         headerList.add(new UpdateHeader(
             update.getTimestamp(),
             connection.getConnectionDetails().getProviderURI(),

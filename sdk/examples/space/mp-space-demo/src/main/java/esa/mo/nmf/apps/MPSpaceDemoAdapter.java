@@ -122,15 +122,13 @@ public class MPSpaceDemoAdapter extends MissionPlanningNMFAdapter {
             LOGGER.info("Received SUBMIT_REQUEST operation with request " + requestVersion.toString());
 
             // Get current plan
-            PlanVersionDetails currentPlan = getArchiveManager().PLAN.getInstanceByIdentityId(getPlanIdentityId());
 
 
             /* Insert some Mission Planning System here */
 
 
             // Save modified Plan Version
-            PlanVersionDetails updatedPlan = currentPlan;
-            ObjectId planVersionId = getArchiveManager().PLAN.updateInstanceByIdentityId(getPlanIdentityId(), updatedPlan, null, requestArgument.getInteraction());
+            ObjectId planVersionId = getArchiveManager().PLAN.updateInstanceByIdentityId(getPlanIdentityId(), getArchiveManager().PLAN.getInstanceByIdentityId(getPlanIdentityId()), null, requestArgument.getInteraction());
             PlanUpdateDetails planUpdate = MPFactory.createPlanUpdate(PlanStatus.DRAFT);
             getArchiveManager().PLAN.addStatus(planVersionId, planUpdate, null, requestArgument.getInteraction());
 

@@ -252,8 +252,7 @@ public class PlanDistributionProviderServiceImpl extends PlanDistributionInherit
         }
 
         // Send response to consumer
-        ListPlansResponse response = new ListPlansResponse(identityIdList, versionIdList, informationList, statusList);
-        return response;
+        return new ListPlansResponse(identityIdList, versionIdList, informationList, statusList);
     }
 
     @Override
@@ -273,8 +272,7 @@ public class PlanDistributionProviderServiceImpl extends PlanDistributionInherit
         }
 
         // Send response to consumer
-        GetPlanResponse response = new GetPlanResponse(versionIdList, versionList);
-        return response;
+        return new GetPlanResponse(versionIdList, versionList);
     }
 
     @Override
@@ -294,8 +292,7 @@ public class PlanDistributionProviderServiceImpl extends PlanDistributionInherit
         }
 
         // Send response to consumer
-        GetPlanStatusResponse response = new GetPlanStatusResponse(versionIdList, statusList);
-        return response;
+        return new GetPlanStatusResponse(versionIdList, statusList);
     }
 
     @Override
@@ -350,12 +347,11 @@ public class PlanDistributionProviderServiceImpl extends PlanDistributionInherit
 
         UpdateHeaderList headerList = new UpdateHeaderList();
 
-        Identifier firstSubKey = planIdentity;
         Long secondSubKey = COMObjectIdHelper.getInstanceId(planIdentityId);
         Long thirdSubKey = COMObjectIdHelper.getInstanceId(planVersionId);
         Long fourthSubKey = planUpdate != null ? Long.valueOf(planUpdate.getStatus().getNumericValue().getValue()) : 0L;
 
-        EntityKey entityKey = new EntityKey(firstSubKey, secondSubKey, thirdSubKey, fourthSubKey);
+        EntityKey entityKey = new EntityKey(planIdentity, secondSubKey, thirdSubKey, fourthSubKey);
         headerList.add(new UpdateHeader(
             HelperTime.getTimestampMillis(),
             connection.getConnectionDetails().getProviderURI(),
@@ -378,12 +374,11 @@ public class PlanDistributionProviderServiceImpl extends PlanDistributionInherit
 
         UpdateHeaderList headerList = new UpdateHeaderList();
 
-        Identifier firstSubKey = planIdentity;
         Long secondSubKey = COMObjectIdHelper.getInstanceId(planIdentityId);
         Long thirdSubKey = COMObjectIdHelper.getInstanceId(planVersionId);
         Long fourthSubKey = Long.valueOf(planUpdate.getStatus().getNumericValue().getValue());
 
-        EntityKey entityKey = new EntityKey(firstSubKey, secondSubKey, thirdSubKey, fourthSubKey);
+        EntityKey entityKey = new EntityKey(planIdentity, secondSubKey, thirdSubKey, fourthSubKey);
         headerList.add(new UpdateHeader(
             HelperTime.getTimestampMillis(),
             connection.getConnectionDetails().getProviderURI(),
