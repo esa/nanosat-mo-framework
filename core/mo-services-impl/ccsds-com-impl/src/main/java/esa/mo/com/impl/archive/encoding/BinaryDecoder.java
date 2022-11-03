@@ -427,7 +427,7 @@ public class BinaryDecoder extends GENDecoder
             {
               // we do, so allocate one
               bufferRealloced(existingBufferLength);
-              existingBufferLength = (requiredLength > BLOCK_SIZE) ? requiredLength : BLOCK_SIZE;
+              existingBufferLength = Math.max(requiredLength, BLOCK_SIZE);
               destBuf = new byte[existingBufferLength];
             }
 

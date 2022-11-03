@@ -321,8 +321,8 @@ public final class ActionManager extends MCManager {
 
         // So, first of all, are we even comparing things of the same size?
         if (sizeArgVal != sizeDef) {
-            int min = (sizeDef < sizeArgVal) ? sizeDef : sizeArgVal;
-            int max = (sizeDef > sizeArgVal) ? sizeDef : sizeArgVal;
+            int min = Math.min(sizeDef, sizeArgVal);
+            int max = Math.max(sizeDef, sizeArgVal);
 
             for (int i = min; i < max; i++) {
                 errorList.add(new UInteger(i));
@@ -336,8 +336,8 @@ public final class ActionManager extends MCManager {
             int sizeDefArgIds = actionDef.getArguments().size();
             int sizeInstArgIds = actionInstance.getArgumentIds().size();
 
-            int min = (sizeDefArgIds < sizeInstArgIds) ? sizeDefArgIds : sizeInstArgIds;
-            int max = (sizeDefArgIds > sizeInstArgIds) ? sizeDefArgIds : sizeInstArgIds;
+            int min = Math.min(sizeDefArgIds, sizeInstArgIds);
+            int max = Math.max(sizeDefArgIds, sizeInstArgIds);
 
             if (sizeDefArgIds != sizeInstArgIds) {
                 for (int i = min; i < max; i++) {

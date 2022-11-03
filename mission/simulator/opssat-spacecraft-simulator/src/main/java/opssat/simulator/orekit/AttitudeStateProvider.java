@@ -64,11 +64,7 @@ public class AttitudeStateProvider implements AdditionalStateProvider
           transitionDate[i] = state.getDate();
         }
         double transition = 2 * state.getDate().durationFrom(transitionDate[i]) / transitionTime - 1.;
-        if (transition < 1.) {
-          additionalState[i] = transition;
-        } else {
-          additionalState[i] = 1.;
-        }
+        additionalState[i] = Math.min(transition, 1.);
       }
     }
 

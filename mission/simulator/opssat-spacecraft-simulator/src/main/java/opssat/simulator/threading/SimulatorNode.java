@@ -3803,7 +3803,7 @@ public class SimulatorNode extends TaskNode
           int height = (Integer) argObject.get(1);
           final int maxSize = CAMERA_MAX_SIZE;
           int size = width * height * 2;// [bytes]
-          size = (size > maxSize ? maxSize : size);
+          size = (Math.min(size, maxSize));
           reloadImageBuffer();
           globalResult = this.cameraBuffer.getDataAsByteArray(size);
           if (this.cameraScriptPath != null) {

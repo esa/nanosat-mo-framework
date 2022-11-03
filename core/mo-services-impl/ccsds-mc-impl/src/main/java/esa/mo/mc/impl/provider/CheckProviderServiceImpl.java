@@ -294,7 +294,7 @@ public class CheckProviderServiceImpl extends CheckInheritanceSkeleton {
         for (int i = 0; i < checkSummaryParts; i++) {
             //requirement: 3.5.8.2.a, n, o, p, r
             final List<CheckResultSummary> oneUpdateSlice = checkSummaries.subList(i * summaryPartSize,
-                    ((i + 1) * summaryPartSize < checkSummaries.size() ? (i + 1) * summaryPartSize : checkSummaries.size()));
+                    (Math.min((i + 1) * summaryPartSize, checkSummaries.size())));
             CheckResultSummaryList sendCheckSummaries = manager.applyFilter(oneUpdateSlice,
                     checksToFilterFor, parametersToFilterFor, filter.getStateFilter());
 
