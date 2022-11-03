@@ -39,11 +39,11 @@ public class SMServicesProvider {
     private final AppsLauncherProviderServiceImpl applicationsManagerService = new AppsLauncherProviderServiceImpl();
     private final HeartbeatProviderServiceImpl heartbeatService = new HeartbeatProviderServiceImpl();
 
-    public void init(COMServicesProvider comServices, DirectoryProviderServiceImpl directoryService) {
+    public void init(final COMServicesProvider comServices, final DirectoryProviderServiceImpl directoryService) {
         try {
             applicationsManagerService.init(comServices, directoryService);
             heartbeatService.init();
-        } catch (MALException ex) {
+        } catch (final MALException ex) {
             Logger.getLogger(SMServicesProvider.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

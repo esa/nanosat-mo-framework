@@ -36,7 +36,7 @@ public abstract class MOelement extends javax.swing.JPanel {
     boolean editable;
 
     @SuppressWarnings("unchecked")
-    public MOelement(String fieldName, Object obj, boolean editable, boolean objIsNull){
+    public MOelement(final String fieldName, final Object obj, final boolean editable, final boolean objIsNull){
         initComponents();
         
         this.fieldName.setText(fieldName);
@@ -60,15 +60,15 @@ public abstract class MOelement extends javax.swing.JPanel {
 
         if (obj instanceof Union){
             try {
-                Field field = obj.getClass().getDeclaredField("value");
-                Field fieldTypeShortForm = obj.getClass().getDeclaredField("typeShortForm");
+                final Field field = obj.getClass().getDeclaredField("value");
+                final Field fieldTypeShortForm = obj.getClass().getDeclaredField("typeShortForm");
                 field.setAccessible(true);
                 fieldTypeShortForm.setAccessible(true);
 
-                Integer typeShortForm = (Integer) fieldTypeShortForm.get(obj);
+                final Integer typeShortForm = (Integer) fieldTypeShortForm.get(obj);
                 className = HelperAttributes.typeShortForm2attributeName(typeShortForm);
 
-            } catch (IllegalArgumentException | SecurityException | NoSuchFieldException | IllegalAccessException ex) {
+            } catch (final IllegalArgumentException | SecurityException | NoSuchFieldException | IllegalAccessException ex) {
                 Logger.getLogger(MOelement.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -131,7 +131,7 @@ public abstract class MOelement extends javax.swing.JPanel {
         nullCB.addActionListener(this::nullCBActionPerformed);
         mainPanel.add(nullCB);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        final javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -148,7 +148,7 @@ public abstract class MOelement extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void nullCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nullCBActionPerformed
+    private void nullCBActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nullCBActionPerformed
         for (int i = 0 ; i < this.middlePanel.getComponentCount(); i++){
             this.middlePanel.getComponent(i).setEnabled(!this.middlePanel.getComponent(i).isEnabled());
         }
@@ -156,7 +156,7 @@ public abstract class MOelement extends javax.swing.JPanel {
         this.fieldSelectableAttribute.setEnabled(!this.fieldSelectableAttribute.isEnabled());
     }//GEN-LAST:event_nullCBActionPerformed
 
-    private void fieldSelectableAttributeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldSelectableAttributeActionPerformed
+    private void fieldSelectableAttributeActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldSelectableAttributeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_fieldSelectableAttributeActionPerformed
 

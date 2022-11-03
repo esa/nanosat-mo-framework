@@ -108,7 +108,7 @@ public class HelperGPS
    * @return Position object
    * @throws java.io.IOException
    */
-  public static Position gpggalong2Position(String gpgga) throws IOException
+  public static Position gpggalong2Position(final String gpgga) throws IOException
   {
     return gpgga2Position(gpgga);
   }
@@ -120,10 +120,10 @@ public class HelperGPS
    * @return Position object
    * @throws java.io.IOException
    */
-  public static Position gpgga2Position(String gpgga) throws IOException
+  public static Position gpgga2Position(final String gpgga) throws IOException
   {
-    Position pos = new Position();
-    String[] items = gpgga.split(",");
+    final Position pos = new Position();
+    final String[] items = gpgga.split(",");
     try {
       pos.setAltitude(Float.parseFloat(items[GPGGA_GEN_COL.ALTITUDE]));
       pos.setLatitude(
@@ -133,7 +133,7 @@ public class HelperGPS
           degMinutes2Degrees(items[GPGGA_GEN_COL.LONG]) * ((items[GPGGA_GEN_COL.LONG_DIR]).equals(
           "W") ? -1 : 1));
 
-      PositionExtraDetails posExtraDetails = new PositionExtraDetails();
+      final PositionExtraDetails posExtraDetails = new PositionExtraDetails();
       posExtraDetails.setPositionSource(PositionSourceType.GNSS);
       if(items[GPGGA_GEN_COL.QUAL].length() != 0)
         posExtraDetails.setFixQuality(Integer.parseInt(items[GPGGA_GEN_COL.QUAL]));
@@ -161,16 +161,16 @@ public class HelperGPS
       * mm = minute of hour
       * ss.ss = second in Minute (with fractional second)
       */
-      String time = items[GPGGA_GEN_COL.UTC];
-      int hours = Integer.parseInt(time.substring(0, 2));
-      int minutes = Integer.parseInt(time.substring(2, 4));
-      int seconds = Integer.parseInt(time.substring(4, 6));
+      final String time = items[GPGGA_GEN_COL.UTC];
+      final int hours = Integer.parseInt(time.substring(0, 2));
+      final int minutes = Integer.parseInt(time.substring(2, 4));
+      final int seconds = Integer.parseInt(time.substring(4, 6));
       // The GGALONG sentence also contains the fractions of second witch is not contained in the GGA sentence
-      int milliSeconds = (int) (Double.parseDouble(time.substring(6, 9)) * 1000); // convert fractional seconds to milliseconds
+      final int milliSeconds = (int) (Double.parseDouble(time.substring(6, 9)) * 1000); // convert fractional seconds to milliseconds
 
       // Get current time
-      Calendar cal = (Calendar) Calendar.getInstance().clone();
-      Calendar cal2 = (Calendar) cal.clone();
+      final Calendar cal = (Calendar) Calendar.getInstance().clone();
+      final Calendar cal2 = (Calendar) cal.clone();
 
       // Set Timezone to utc
       cal.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -192,7 +192,7 @@ public class HelperGPS
 
       pos.setExtraDetails(posExtraDetails);
       return pos;
-    } catch (NumberFormatException e) {
+    } catch (final NumberFormatException e) {
       throw new IOException(e);
     }
   }
@@ -207,16 +207,16 @@ public class HelperGPS
   public static SatelliteInfoList gpgsv2SatelliteInfoList(final String gpgsv) throws IOException
   {
     try {
-      SatelliteInfoList sats = new SatelliteInfoList();
-      String[] sentences = gpgsv.split("\n");
-      for (String sentence : sentences) {
-        String[] words = sentence.split(",|\\*");
-        int count = words.length;
-        int sentenceSatCount = (count - 5) / 4;
+      final SatelliteInfoList sats = new SatelliteInfoList();
+      final String[] sentences = gpgsv.split("\n");
+      for (final String sentence : sentences) {
+        final String[] words = sentence.split(",|\\*");
+        final int count = words.length;
+        final int sentenceSatCount = (count - 5) / 4;
         if (sentenceSatCount <= 0 || sentenceSatCount > 4) {
           throw new IOException("Sentence [" + sentence + "] has calculated [" + sentenceSatCount + "] sat count");
         }
-        int expectedSize = sentenceSatCount * 4 + 5;
+        final int expectedSize = sentenceSatCount * 4 + 5;
         if (count != expectedSize) {
           throw new IOException("Sentence [" + sentence + "] has wrong GPS sentence size [" + count + "], expected minimum [" + expectedSize + "]");
 
@@ -228,13 +228,13 @@ public class HelperGPS
         for (int satOffset = 0, i = 0; i < sentenceSatCount; i++, satOffset += 4) {
           float azimuth = 0, elevation = 0;
           Float snr;
-          int prn;
+          final int prn;
           prn = Integer.parseInt(words[satOffset + GPGSV_COL.SAT_PRN]);
           elevation = Float.parseFloat(words[satOffset + GPGSV_COL.SAT_ELEV]);
           azimuth = Float.parseFloat(words[satOffset + GPGSV_COL.SAT_AZ]);
           try {
             snr = Float.parseFloat(words[satOffset + GPGSV_COL.SAT_SNR]);
-          } catch (NumberFormatException e) {
+          } catch (final NumberFormatException e) {
             snr = null; // Workaround for OEM615 not sending SNR of some sats
           }
           if (prn > 0) {
@@ -244,18 +244,18 @@ public class HelperGPS
         }
       }
       return sats;
-    } catch (NumberFormatException e) {
+    } catch (final NumberFormatException e) {
       throw new IOException(e);
     }
   }
 
-  public static float degMinutes2Degrees(String in) throws IOException
+  public static float degMinutes2Degrees(final String in) throws IOException
   {
-    int len = in.length();
+    final int len = in.length();
     if (len < 4 || len > 13) {
       throw new IOException("Wrong string length for '" + in + "'");
     }
-    int decimalAt = in.indexOf('.');
+    final int decimalAt = in.indexOf('.');
     if(decimalAt == -1) {
       throw new IOException("Did not find decimal in " + in);
     }
@@ -263,7 +263,7 @@ public class HelperGPS
     return Float.parseFloat(in.substring(0, decimalAt-2))
         + Float.parseFloat(in.substring(decimalAt-2, len)) / 60;
     }
-    catch (NumberFormatException e) {
+    catch (final NumberFormatException e) {
       throw new IOException("Failed to parse degrees and minutes.", e);
     }
   }
@@ -275,7 +275,7 @@ public class HelperGPS
    * @param bestXYZ BestXYZ message String
    * @return a String Array containing the fields of the given BestXYZ Message
    */
-  public static String[] getDataFieldsFromBestXYZ(String bestXYZ)
+  public static String[] getDataFieldsFromBestXYZ(final String bestXYZ)
   {
     String tmp = bestXYZ.split(";")[1]; //cut of header wich is seperated by a ';'
     tmp = tmp.split("\\*")[0]; //cut of footer wich is seperated by a '*'
@@ -288,7 +288,7 @@ public class HelperGPS
    * @param bestXYZ BestXYZ message String
    * @return String containing the Header of the BestXYZ message
    */
-  public static String getHeaderFromBestXYZ(String bestXYZ)
+  public static String getHeaderFromBestXYZ(final String bestXYZ)
   {
     return bestXYZ.split(";")[0];
   }

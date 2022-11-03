@@ -41,11 +41,11 @@ public abstract class GenericSimulator {
         return pFineADCS;
     }
 
-    public void setpGPS(PGPS pGPS) {
+    public void setpGPS(final PGPS pGPS) {
         this.pGPS = pGPS;
     }
 
-    public void setpFineADCS(PFineADCS pFineADCS) {
+    public void setpFineADCS(final PFineADCS pFineADCS) {
         this.pFineADCS = pFineADCS;
     }
 
@@ -53,7 +53,7 @@ public abstract class GenericSimulator {
         return pSDR;
     }
 
-    public void setpSDR(PSDR pSDR) {
+    public void setpSDR(final PSDR pSDR) {
         this.pSDR = pSDR;
     }
 
@@ -61,7 +61,7 @@ public abstract class GenericSimulator {
         return pCamera;
     }
 
-    public void setpCamera(PCamera pCamera) {
+    public void setpCamera(final PCamera pCamera) {
         this.pCamera = pCamera;
     }
 
@@ -69,7 +69,7 @@ public abstract class GenericSimulator {
         return pOpticalReceiver;
     }
 
-    public void setpOpticalReceiver(POpticalReceiver pOpticalReceiver) {
+    public void setpOpticalReceiver(final POpticalReceiver pOpticalReceiver) {
         this.pOpticalReceiver = pOpticalReceiver;
     }
     

@@ -30,12 +30,12 @@ public class DemoSpace2Space {
 
     public DemoSpace2Space()
     {
-        Space2SpaceAdapter adapter = new Space2SpaceAdapter();
-        NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
+        final Space2SpaceAdapter adapter = new Space2SpaceAdapter();
+        final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
         connector.init(adapter);
 
         // Initialize application's NMF consumer (consuming the supervisor)
-        SpaceMOApdapterImpl spaceAppSMA =
+        final SpaceMOApdapterImpl spaceAppSMA =
                 SpaceMOApdapterImpl.forNMFApp(connector.readCentralDirectoryServiceURI(), "gps");
 
         adapter.setConnector(connector);
@@ -50,6 +50,6 @@ public class DemoSpace2Space {
      * @throws java.lang.Exception If there is an error
      */
     public static void main(final String[] args) throws Exception {
-        DemoSpace2Space demo = new DemoSpace2Space();
+        final DemoSpace2Space demo = new DemoSpace2Space();
     }
 }

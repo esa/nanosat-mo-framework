@@ -168,7 +168,7 @@ public class GuiMainWindow implements Runnable {
   private JTextField textFieldPath;
   private JTable tableCurrentSettings;
 
-  public GuiMainWindow(final GuiApp parent, String targetURL, int targetPort) {
+  public GuiMainWindow(final GuiApp parent, final String targetURL, final int targetPort) {
     this.parent = parent;
     logger = parent.getLogger();
     this.targetURL = targetURL;
@@ -180,13 +180,13 @@ public class GuiMainWindow implements Runnable {
       parent.startSocket();
       try {
         Thread.sleep(2000);
-      } catch (InterruptedException e) {
+      } catch (final InterruptedException e) {
         e.printStackTrace();
       }
     });
   }
 
-  public void setParent(GuiApp parent) {
+  public void setParent(final GuiApp parent) {
     this.parent = parent;
   }
 
@@ -199,8 +199,8 @@ public class GuiMainWindow implements Runnable {
     parent.addGUIInteraction(platformProperties);
   }
 
-  private CommandDescriptor getCommandDescriptorForID(int internalID) {
-    for (CommandDescriptor c : commandsList) {
+  private CommandDescriptor getCommandDescriptorForID(final int internalID) {
+    for (final CommandDescriptor c : commandsList) {
       if (c.getInternalID() == internalID) {
         return c;
       }
@@ -208,9 +208,9 @@ public class GuiMainWindow implements Runnable {
     return null;
   }
 
-  private ArgumentTemplate getArgTemplateForString(CommandDescriptor command,
-      String templateDescription) {
-    for (ArgumentTemplate t : command.getTemplateList()) {
+  private ArgumentTemplate getArgTemplateForString(final CommandDescriptor command,
+                                                   final String templateDescription) {
+    for (final ArgumentTemplate t : command.getTemplateList()) {
       if (t.getDescription().equals(templateDescription)) {
         return t;
       }
@@ -222,23 +222,23 @@ public class GuiMainWindow implements Runnable {
    * Create the GUI and show it. For thread safety, this method should be invoked
    * from the event-dispatching thread.
    */
-  private ImageIcon createImageIconFromBMPResource(String path) {
+  private ImageIcon createImageIconFromBMPResource(final String path) {
     // java.net.URL imgURL = GuiMainWindow.class.getClassLoader().getResource(path);
     /*
      * String workingdir = System.getProperty("user.dir"); File interfacesFile = new
      * File(workingdir, "src/main/resources/" + path); String targetPath = "";
      * targetPath = interfacesFile.getAbsolutePath();
      */
-    String absolutePath = SimulatorNode.handleResourcePath(path, logger,
+    final String absolutePath = SimulatorNode.handleResourcePath(path, logger,
         getClass().getClassLoader(), false);
-    File interfacesFile = new File(absolutePath);
-    String targetPath = interfacesFile.getAbsolutePath();
+    final File interfacesFile = new File(absolutePath);
+    final String targetPath = interfacesFile.getAbsolutePath();
 
     if (interfacesFile.exists()) {
       try {
-        Image image = ImageIO.read(interfacesFile);
+        final Image image = ImageIO.read(interfacesFile);
         return new ImageIcon(image);
-      } catch (IOException ex) {
+      } catch (final IOException ex) {
         Logger.getLogger(GuiMainWindow.class.getName()).log(Level.SEVERE, null, ex);
       }
 
@@ -250,15 +250,15 @@ public class GuiMainWindow implements Runnable {
 
   }
 
-  private void createTabsBasedOnDeviceList(LinkedList<SimulatorDeviceData> deviceList) {
+  private void createTabsBasedOnDeviceList(final LinkedList<SimulatorDeviceData> deviceList) {
     if (this.panelTabbed.getTabCount() == DEFAULT_NUM_TABS) {
-      for (SimulatorDeviceData simulatorDeviceData : deviceList) {
-        JPanel newPanel = new JPanel();
-        JCheckBox checkBox = new JCheckBox("Update values");
+      for (final SimulatorDeviceData simulatorDeviceData : deviceList) {
+        final JPanel newPanel = new JPanel();
+        final JCheckBox checkBox = new JCheckBox("Update values");
         checkBox.setSelected(true);
 
-        JButton copyToClipBoard = new JButton("Copy all to clipboard");
-        JTextArea wholeField = new JTextArea();
+        final JButton copyToClipBoard = new JButton("Copy all to clipboard");
+        final JTextArea wholeField = new JTextArea();
         wholeField.setEditable(false);
         wholeField.setLineWrap(true);
         hashTableDataOutAgregate.put(simulatorDeviceData.getName(),
@@ -272,15 +272,15 @@ public class GuiMainWindow implements Runnable {
         });
 
         copyToClipBoard.addActionListener(e -> {
-          Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
-          StringSelection stringSelection = new StringSelection(
+          final Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
+          final StringSelection stringSelection = new StringSelection(
               hashTableDataOutAgregate.get(targetDevice).getTextArea().getText());
           clpbrd.setContents(stringSelection, null);
         });
 
-        JPanel linePanel = new JPanel();
-        JPanel wholeFieldPanel = new JPanel();
-        BoxLayout lineLayout = new BoxLayout(linePanel, BoxLayout.X_AXIS);
+        final JPanel linePanel = new JPanel();
+        final JPanel wholeFieldPanel = new JPanel();
+        final BoxLayout lineLayout = new BoxLayout(linePanel, BoxLayout.X_AXIS);
         linePanel.add(checkBox);
         linePanel.add(copyToClipBoard);
         linePanel.setLayout(lineLayout);
@@ -288,14 +288,14 @@ public class GuiMainWindow implements Runnable {
         newPanel.add(wholeField);
         newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.Y_AXIS));
 
-        String title = simulatorDeviceData.getName();
-        DefaultCaret caretConsole = (DefaultCaret) wholeField.getCaret();
+        final String title = simulatorDeviceData.getName();
+        final DefaultCaret caretConsole = (DefaultCaret) wholeField.getCaret();
         caretConsole.setUpdatePolicy(DefaultCaret.NEVER_UPDATE);
 
-        JScrollPane scrollPanel = new JScrollPane(newPanel);
+        final JScrollPane scrollPanel = new JScrollPane(newPanel);
         wholeFieldPanel.add(linePanel);
         wholeFieldPanel.add(scrollPanel);
-        BoxLayout lineLayoutWhole = new BoxLayout(wholeFieldPanel, BoxLayout.Y_AXIS);
+        final BoxLayout lineLayoutWhole = new BoxLayout(wholeFieldPanel, BoxLayout.Y_AXIS);
         wholeFieldPanel.setLayout(lineLayoutWhole);
 
         this.panelTabbed.addTab(title, wholeFieldPanel);
@@ -325,28 +325,28 @@ public class GuiMainWindow implements Runnable {
     this.lblSimulatorTimeRunning.setFont(new Font(appFont, Font.BOLD, 14));
     this.pauseResumeButton = new JButton("Time Control");
     this.startStopButton = new JButton("System Control");
-    JLabel lblTimeFactor = new JLabel("time factor x");
-    JButton editHeaderButton = new JButton("Edit Header");
-    JButton btnNewTemplate = new JButton("New");
-    JButton btnSaveTemplate = new JButton("Save");
-    JButton btnUpdateServer = new JButton("Update Server");
-    JButton sendManualButton = new JButton("Send Manual Command");
-    JButton resetInputArgsButton = new JButton("Reset Input Arguments");
+    final JLabel lblTimeFactor = new JLabel("time factor x");
+    final JButton editHeaderButton = new JButton("Edit Header");
+    final JButton btnNewTemplate = new JButton("New");
+    final JButton btnSaveTemplate = new JButton("Save");
+    final JButton btnUpdateServer = new JButton("Update Server");
+    final JButton sendManualButton = new JButton("Send Manual Command");
+    final JButton resetInputArgsButton = new JButton("Reset Input Arguments");
     this.chkBoxShowAll = new JCheckBox("Show all");
-    JCheckBox chkBoxPeriodicSending = new JCheckBox("Enable periodic sending");
-    ImageIcon icon = createImageIconFromBMPResource("03_logo_dark_blue.bmp");
-    JLabel lblESALogo = new JLabel(icon);
-    JLabel lblTemplates = new JLabel("Input templates");
+    final JCheckBox chkBoxPeriodicSending = new JCheckBox("Enable periodic sending");
+    final ImageIcon icon = createImageIconFromBMPResource("03_logo_dark_blue.bmp");
+    final JLabel lblESALogo = new JLabel(icon);
+    final JLabel lblTemplates = new JLabel("Input templates");
     final JTextField txtLoaderPrompt = new JTextField(targetURL + ":" + targetPort);
     this.panelLoader = new JPanel();
     this.txtConsole = new JTextArea();
-    DefaultCaret caretConsole = (DefaultCaret) txtConsole.getCaret();
+    final DefaultCaret caretConsole = (DefaultCaret) txtConsole.getCaret();
     caretConsole.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
-    JScrollPane scroll = new JScrollPane(txtConsole);
+    final JScrollPane scroll = new JScrollPane(txtConsole);
     this.txtScheduler = new JTextArea();
-    DefaultCaret caretScheduler = (DefaultCaret) txtScheduler.getCaret();
+    final DefaultCaret caretScheduler = (DefaultCaret) txtScheduler.getCaret();
     caretScheduler.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
-    JScrollPane scrollScheduler = new JScrollPane(txtScheduler);
+    final JScrollPane scrollScheduler = new JScrollPane(txtScheduler);
     this.panelTop = new JPanel();
     this.panelTabbed = new JTabbedPane();
     panelTabbed
@@ -357,18 +357,18 @@ public class GuiMainWindow implements Runnable {
     this.panelScheduler = new JPanel();
     this.panelTabbed.addTab("Scheduler", this.panelScheduler);
     // this.panelTabbed.addTab("Test",new JPanel());
-    JPanel panelManualMethods = new JPanel();
+    final JPanel panelManualMethods = new JPanel();
     this.comboCommands = new JComboBox();
     this.comboTemplates = new JComboBox();
     this.lblIFMethodDescriptor = new JLabel();
     this.lblMethodDescriptor = new JTextArea();
-    JScrollPane scrollLblMethodDescriptor = new JScrollPane(lblMethodDescriptor);
+    final JScrollPane scrollLblMethodDescriptor = new JScrollPane(lblMethodDescriptor);
     this.lblCommandResult = new JTextArea();
     this.txtInputArguments = new JTextArea("[Input arguments]");
-    JScrollPane scrollTxtInputArguments = new JScrollPane(txtInputArguments);
+    final JScrollPane scrollTxtInputArguments = new JScrollPane(txtInputArguments);
     this.txtOutputArguments = new JTextArea("[Output]");
-    JScrollPane scrollTxtOutputArguments = new JScrollPane(txtOutputArguments);
-    JScrollPane scrollLblCommandResult = new JScrollPane(lblCommandResult);
+    final JScrollPane scrollTxtOutputArguments = new JScrollPane(txtOutputArguments);
+    final JScrollPane scrollLblCommandResult = new JScrollPane(lblCommandResult);
     this.panelBottom = new JPanel();
     txtTimeFactor = new JTextField("2");
 
@@ -377,7 +377,7 @@ public class GuiMainWindow implements Runnable {
 
     txtTimeFactor.setPreferredSize(new Dimension(35, 20));
     txtTimeFactor.addActionListener(e -> {
-      String newFactor = txtTimeFactor.getText();
+      final String newFactor = txtTimeFactor.getText();
       int newTimeFactor = Integer.parseInt(newFactor);
       if (newTimeFactor < 1) {
         newTimeFactor = 1;
@@ -395,13 +395,13 @@ public class GuiMainWindow implements Runnable {
     pauseResumeButton.addActionListener(e -> parent.addGUIInteraction("TogglePauseResume"));
 
     sendManualButton.addActionListener(e -> {
-      Object c = comboCommands.getSelectedItem();
+      final Object c = comboCommands.getSelectedItem();
       if (c instanceof CommandDescriptor) {
         sendManualCommand((CommandDescriptor) c, true);
       }
     });
     resetInputArgsButton.addActionListener(e -> {
-      Object c = comboCommands.getSelectedItem();
+      final Object c = comboCommands.getSelectedItem();
       if (c instanceof CommandDescriptor) {
         ((CommandDescriptor) c).resetInputArgs();
         displayManualMethod(((CommandDescriptor) c));
@@ -409,8 +409,8 @@ public class GuiMainWindow implements Runnable {
     });
 
     btnNewTemplate.addActionListener(e -> {
-      String test1 = JOptionPane.showInputDialog("Input description for new template: ");
-      Object c = comboCommands.getSelectedItem();
+      final String test1 = JOptionPane.showInputDialog("Input description for new template: ");
+      final Object c = comboCommands.getSelectedItem();
       if (test1 != null && c instanceof CommandDescriptor) {
         if (test1.isEmpty()) {
           JOptionPane.showMessageDialog(frame, "The description cannot be empty");
@@ -428,10 +428,10 @@ public class GuiMainWindow implements Runnable {
     btnSaveTemplate.addActionListener(e -> {
       // String test1= JOptionPane.showInputDialog("Input description for new
       // template: ");
-      Object c = comboCommands.getSelectedItem();
-      String cTemplateDescription = (String) comboTemplates.getSelectedItem();
+      final Object c = comboCommands.getSelectedItem();
+      final String cTemplateDescription = (String) comboTemplates.getSelectedItem();
       if (c instanceof CommandDescriptor) {
-        boolean dataOk = sendManualCommand((CommandDescriptor) c, false);
+        final boolean dataOk = sendManualCommand((CommandDescriptor) c, false);
         if (dataOk) {
           if (cTemplateDescription.equals(CommandDescriptor.KEYWORD_DEFAULT)) {
             JOptionPane.showMessageDialog(frame,
@@ -448,12 +448,12 @@ public class GuiMainWindow implements Runnable {
       }
     });
     btnUpdateServer.addActionListener(e -> {
-      int resultConfirm = JOptionPane.showConfirmDialog(frame,
+      final int resultConfirm = JOptionPane.showConfirmDialog(frame,
           "Server will be updated with local copy of commands & templates. Do you want to continue?",
           "Update server", JOptionPane.YES_NO_OPTION);
       if (resultConfirm == JOptionPane.YES_OPTION) {
         showMessageConsole("User;Local;UpdateServer;");
-        LinkedList<CommandDescriptor> newCommandsList = new LinkedList<>();
+        final LinkedList<CommandDescriptor> newCommandsList = new LinkedList<>();
         newCommandsList.addAll(commandsList);
         parent.addGUIInteraction(newCommandsList);
       }
@@ -462,15 +462,15 @@ public class GuiMainWindow implements Runnable {
     txtLoaderPrompt.setBackground(Color.orange);
 
     txtLoaderPrompt.addActionListener(e -> {
-      String targetConnection = txtLoaderPrompt.getText();
-      List<String> items = Arrays.asList(targetConnection.split(":"));
-      boolean dataOk = items.size() == 2;
+      final String targetConnection = txtLoaderPrompt.getText();
+      final List<String> items = Arrays.asList(targetConnection.split(":"));
+      final boolean dataOk = items.size() == 2;
       if (dataOk) {
         targetURL = items.get(0);
         targetPort = Integer.parseInt(items.get(1));
         parent.setTargetConnection(targetURL, targetPort);
         // SFTP
-        SFTPInformation ui = new SFTPInformation(GuiMainWindow.this);
+        final SFTPInformation ui = new SFTPInformation(GuiMainWindow.this);
         ui.setBounds(100, 100, 496, 145);
         ui.setVisible(true);
         GuiMainWindow.this.frame.setEnabled(false);
@@ -502,7 +502,7 @@ public class GuiMainWindow implements Runnable {
     comboCommands.addItem("Select");
     comboCommands.addItemListener(arg0 -> {
       if (arg0.getStateChange() == ItemEvent.SELECTED) {
-        Object item = arg0.getItem();
+        final Object item = arg0.getItem();
         if (item instanceof CommandDescriptor) {
           displayManualMethod(((CommandDescriptor) item));
         }
@@ -510,8 +510,8 @@ public class GuiMainWindow implements Runnable {
     });
     comboTemplates.addItemListener(arg0 -> {
       if (arg0.getStateChange() == ItemEvent.SELECTED) {
-        Object item = arg0.getItem();
-        Object commandDescriptorItem = comboCommands.getItemAt(comboCommands.getSelectedIndex());
+        final Object item = arg0.getItem();
+        final Object commandDescriptorItem = comboCommands.getItemAt(comboCommands.getSelectedIndex());
         if (item instanceof String && commandDescriptorItem instanceof CommandDescriptor) {
           logger.log(Level.FINE, "Looking up " + item);
           if (((CommandDescriptor) commandDescriptorItem).templateSelected((String) item)) {
@@ -524,7 +524,7 @@ public class GuiMainWindow implements Runnable {
     });
 
     this.lblMethodDescriptor.setEditable(false);
-    DefaultCaret caret = (DefaultCaret) lblMethodDescriptor.getCaret();
+    final DefaultCaret caret = (DefaultCaret) lblMethodDescriptor.getCaret();
     caret.setUpdatePolicy(DefaultCaret.NEVER_UPDATE);
 
     fixScrollPaneForMain(scrollLblMethodDescriptor);
@@ -592,12 +592,12 @@ public class GuiMainWindow implements Runnable {
     final JPanel panelCameraSettings = new JPanel();
     panelTabbed.addTab("Camera Simulator Settings", null, panelCameraSettings, null);
 
-    JLabel lblMode = new JLabel("Image selection mode:");
+    final JLabel lblMode = new JLabel("Image selection mode:");
 
     final JComboBox<String> selectMode = new JComboBox<>();
     selectMode.setModel(new DefaultComboBoxModel<>(new String[]{"Fixed", "Random"}));
     selectMode.addItemListener(arg0 -> textFieldPath.setText(""));
-    SpringLayout sl_panelCameraSettings = new SpringLayout();
+    final SpringLayout sl_panelCameraSettings = new SpringLayout();
     sl_panelCameraSettings.putConstraint(SpringLayout.NORTH, lblMode, 10, SpringLayout.NORTH,
         panelCameraSettings);
     sl_panelCameraSettings.putConstraint(SpringLayout.NORTH, selectMode, -4, SpringLayout.NORTH,
@@ -622,10 +622,10 @@ public class GuiMainWindow implements Runnable {
     panelCameraSettings.add(textFieldPath);
     textFieldPath.setColumns(10);
 
-    JButton btnOpenTargetSelect = new JButton("Browse");
+    final JButton btnOpenTargetSelect = new JButton("Browse");
     btnOpenTargetSelect.addActionListener(arg0 -> {
       if (targetURL.equals("127.0.0.1")) { // browse locally
-        JFileChooser fc = new JFileChooser(System.getProperty("user.dir"));
+        final JFileChooser fc = new JFileChooser(System.getProperty("user.dir"));
         if (selectMode.getSelectedItem().equals("Fixed")) {
           fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
           fc.removeChoosableFileFilter(fc.getChoosableFileFilters()[0]);
@@ -634,13 +634,13 @@ public class GuiMainWindow implements Runnable {
         } else {
           fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         }
-        int res = fc.showOpenDialog(panelCameraSettings);
+        final int res = fc.showOpenDialog(panelCameraSettings);
         if (res == JFileChooser.APPROVE_OPTION) {
-          String chosenName = fc.getSelectedFile().getAbsolutePath();
+          final String chosenName = fc.getSelectedFile().getAbsolutePath();
           textFieldPath.setText(chosenName);
         }
       } else { // use SFTP browser
-        SFTPBrowser browser = new SFTPBrowser(sftpChannel, (String) selectMode.getSelectedItem(),
+        final SFTPBrowser browser = new SFTPBrowser(sftpChannel, (String) selectMode.getSelectedItem(),
             window);
         browser.setBounds(100, 100, 400, 300);
         browser.setVisible(true);
@@ -655,11 +655,11 @@ public class GuiMainWindow implements Runnable {
         SpringLayout.SOUTH, textFieldPath);
     panelCameraSettings.add(btnOpenTargetSelect);
 
-    JButton btnApplyCamSettings = new JButton("Apply");
+    final JButton btnApplyCamSettings = new JButton("Apply");
     btnApplyCamSettings.addActionListener(arg0 -> {
-      ArrayList<PlatformMessage> updates = new ArrayList<>();
-      String path = textFieldPath.getText();
-      String mode = (String) selectMode.getSelectedItem();
+      final ArrayList<PlatformMessage> updates = new ArrayList<>();
+      final String path = textFieldPath.getText();
+      final String mode = (String) selectMode.getSelectedItem();
       updates.add(new PlatformMessage("camerasim.imagemode", mode));
       if (!path.equals("")) {
         if (mode.equals("Fixed")) {
@@ -669,7 +669,7 @@ public class GuiMainWindow implements Runnable {
         }
       }
       // Send updates to server
-      for (PlatformMessage p : updates) {
+      for (final PlatformMessage p : updates) {
         parent.addGUIInteraction(p);
       }
 
@@ -682,22 +682,22 @@ public class GuiMainWindow implements Runnable {
         SpringLayout.WEST, lblMode);
     panelCameraSettings.add(btnApplyCamSettings);
 
-    TableColumnModel columnTitles = new DefaultTableColumnModel();
-    TableColumn prop = new TableColumn();
+    final TableColumnModel columnTitles = new DefaultTableColumnModel();
+    final TableColumn prop = new TableColumn();
     prop.setHeaderValue("Property");
     columnTitles.addColumn(prop);
-    TableColumn val = new TableColumn();
+    final TableColumn val = new TableColumn();
     val.setHeaderValue("Value");
     columnTitles.addColumn(val);
 
-    JLabel lblTitleSettings = new JLabel("Current Camera Settings");
+    final JLabel lblTitleSettings = new JLabel("Current Camera Settings");
     sl_panelCameraSettings.putConstraint(SpringLayout.NORTH, lblTitleSettings, 0,
         SpringLayout.NORTH, lblMode);
     sl_panelCameraSettings.putConstraint(SpringLayout.WEST, lblTitleSettings, 15, SpringLayout.EAST,
         btnOpenTargetSelect);
     panelCameraSettings.add(lblTitleSettings);
 
-    JSeparator separator = new JSeparator();
+    final JSeparator separator = new JSeparator();
     sl_panelCameraSettings.putConstraint(SpringLayout.NORTH, separator, 0, SpringLayout.NORTH,
         lblTitleSettings);
     sl_panelCameraSettings.putConstraint(SpringLayout.WEST, separator, 10, SpringLayout.EAST,
@@ -710,10 +710,10 @@ public class GuiMainWindow implements Runnable {
 
     tableCurrentSettings = new JTable() {
       @Override
-      public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
-        Component component = super.prepareRenderer(renderer, row, column);
-        int rendererWidth = component.getPreferredSize().width;
-        TableColumn tableColumn = getColumnModel().getColumn(column);
+      public Component prepareRenderer(final TableCellRenderer renderer, final int row, final int column) {
+        final Component component = super.prepareRenderer(renderer, row, column);
+        final int rendererWidth = component.getPreferredSize().width;
+        final TableColumn tableColumn = getColumnModel().getColumn(column);
         tableColumn.setPreferredWidth(Math.max(rendererWidth + getIntercellSpacing().width + 20,
             tableColumn.getPreferredWidth()));
         return component;
@@ -724,21 +724,21 @@ public class GuiMainWindow implements Runnable {
           Class[] columnTypes = new Class[] { String.class, String.class };
 
           @Override
-          public Class getColumnClass(int columnIndex) {
+          public Class getColumnClass(final int columnIndex) {
             return columnTypes[columnIndex];
           }
 
           boolean[] columnEditables = new boolean[] { false, false };
 
           @Override
-          public boolean isCellEditable(int row, int column) {
+          public boolean isCellEditable(final int row, final int column) {
             return columnEditables[column];
           }
         });
     tableCurrentSettings.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
     // tableCurrentSettings.getColumnModel().getColumn(0).setMinWidth(180);
     // tableCurrentSettings.getColumnModel().getColumn(1).setMinWidth(1500);
-    JScrollPane scrollPane = new JScrollPane(tableCurrentSettings);
+    final JScrollPane scrollPane = new JScrollPane(tableCurrentSettings);
     sl_panelCameraSettings.putConstraint(SpringLayout.NORTH, scrollPane, 0, SpringLayout.NORTH,
         textFieldPath);
     sl_panelCameraSettings.putConstraint(SpringLayout.WEST, scrollPane, 0, SpringLayout.WEST,
@@ -764,7 +764,7 @@ public class GuiMainWindow implements Runnable {
    * 
    * @param path The path to put into the text field.
    */
-  public void setPathFromSFTP(String path) {
+  public void setPathFromSFTP(final String path) {
     textFieldPath.setText(path);
     this.frame.setEnabled(true);
   }
@@ -775,24 +775,24 @@ public class GuiMainWindow implements Runnable {
    * @param ui SFTPInformation containing important connection information.
    * @return true on success, false otherwise
    */
-  public boolean connectStfp(SFTPInformation ui) {
+  public boolean connectStfp(final SFTPInformation ui) {
     ftp = new JSch();
     try {
       ftp.setKnownHosts(ui.getKnownHosts());
-      Session session = ftp.getSession(ui.getUsername(), targetURL, 22);
+      final Session session = ftp.getSession(ui.getUsername(), targetURL, 22);
       session.setUserInfo(ui);
       session.connect();
-      Channel channel = session.openChannel("sftp");
+      final Channel channel = session.openChannel("sftp");
       channel.connect();
       sftpChannel = (ChannelSftp) channel;
       refreshPlatformProperties();
       this.frame.setEnabled(true);
       return true;
-    } catch (JSchException e1) {
+    } catch (final JSchException e1) {
       e1.printStackTrace();
       JOptionPane.showMessageDialog(this.frame,
           "Failed to init connection. Check your username and password!");
-      SFTPInformation nui = new SFTPInformation(this);
+      final SFTPInformation nui = new SFTPInformation(this);
       nui.setBounds(100, 100, 500, 300);
       nui.setVisible(true);
       this.frame.setEnabled(false);
@@ -808,22 +808,22 @@ public class GuiMainWindow implements Runnable {
     while (platformProperties.size() == 0) {
       // NOP
     }
-    DefaultTableModel dtm = (DefaultTableModel) tableCurrentSettings.getModel();
+    final DefaultTableModel dtm = (DefaultTableModel) tableCurrentSettings.getModel();
     dtm.setRowCount(0); // clear table
-    Set<Entry<Object, Object>> props = platformProperties.entrySet();
-    for (Entry<Object, Object> e : props) {
-      String key = (String) e.getKey();
+    final Set<Entry<Object, Object>> props = platformProperties.entrySet();
+    for (final Entry<Object, Object> e : props) {
+      final String key = (String) e.getKey();
       if (key.startsWith("camera")) {
-        String val = (String) e.getValue();
+        final String val = (String) e.getValue();
         dtm.addRow(new String[] { key, val });
       }
     }
   }
 
-  public boolean sendManualCommand(CommandDescriptor c, boolean doRun) {
+  public boolean sendManualCommand(final CommandDescriptor c, final boolean doRun) {
     // data = data.replaceAll("\\{.*?}", "");
 
-    String test = txtInputArguments.getText().replaceAll("\\s*\\([^\\)]*\\)\\s*", "");
+    final String test = txtInputArguments.getText().replaceAll("\\s*\\([^\\)]*\\)\\s*", "");
     this.logger.log(Level.INFO, test);
     final String dataOk = c.setInputArgsFromString(test);
     if (dataOk.equals("ParseOk")) {
@@ -855,10 +855,10 @@ public class GuiMainWindow implements Runnable {
   private void handleSchedulerList(final LinkedList<SimulatorSchedulerPiece> data) {
     javax.swing.SwingUtilities.invokeLater(() -> {
       txtScheduler.setText("");
-      StringBuilder schedulerDataStr = new StringBuilder();
-      for (SimulatorSchedulerPiece piece : data) {
-        CommandDescriptor c = getCommandDescriptorForID(piece.getInternalID());
-        ArgumentTemplate t = getArgTemplateForString(c, piece.getArgumentTemplateDescription());
+      final StringBuilder schedulerDataStr = new StringBuilder();
+      for (final SimulatorSchedulerPiece piece : data) {
+        final CommandDescriptor c = getCommandDescriptorForID(piece.getInternalID());
+        final ArgumentTemplate t = getArgTemplateForString(c, piece.getArgumentTemplateDescription());
         schedulerDataStr.append(piece.getSchedulerOutput()).append(c.getMethodBody()).append(CommandDescriptor.SEPARATOR_DATAFILES).append(t.getArgContent()).append("\n");
       }
       txtScheduler.setText(schedulerDataStr.toString());
@@ -867,14 +867,14 @@ public class GuiMainWindow implements Runnable {
 
   public void showMessageConsole(final String data) {
     javax.swing.SwingUtilities.invokeLater(() -> {
-      DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd;HH:mm:ss");
-      Date date = new Date();
+      final DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd;HH:mm:ss");
+      final Date date = new Date();
       txtConsole.append(dateFormat.format(date) + ";" + data + "\n");
       while (txtConsole.getLineCount() > 500) {
         try {
-          int end = txtConsole.getLineEndOffset(0);
+          final int end = txtConsole.getLineEndOffset(0);
           txtConsole.replaceRange("", 0, end);
-        } catch (BadLocationException ex) {
+        } catch (final BadLocationException ex) {
           Logger.getLogger(GuiMainWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
       }
@@ -883,8 +883,8 @@ public class GuiMainWindow implements Runnable {
 
   }
 
-  public String getKeyFromDeviceDataAndPiece(SimulatorDeviceData deviceData,
-      ArgumentDescriptor devicePiece) {
+  public String getKeyFromDeviceDataAndPiece(final SimulatorDeviceData deviceData,
+                                             final ArgumentDescriptor devicePiece) {
     return deviceData.getName() + devicePiece.getName();
   }
 
@@ -893,10 +893,10 @@ public class GuiMainWindow implements Runnable {
     this.logger.log(Level.ALL, "Received list of SimulatorDeviceData with ["
         + linkedSimulatorDeviceData.size() + "] items");
     javax.swing.SwingUtilities.invokeLater(() -> {
-      for (SimulatorDeviceData simulatorDeviceData : linkedSimulatorDeviceData) {
+      for (final SimulatorDeviceData simulatorDeviceData : linkedSimulatorDeviceData) {
         if (hashTableDataOutAgregate.get(simulatorDeviceData.getName()).isUpdateValues()) {
-          StringBuilder composite = new StringBuilder();
-          for (ArgumentDescriptor simulatorDeviceDataPiece : simulatorDeviceData.getDataList()) {
+          final StringBuilder composite = new StringBuilder();
+          for (final ArgumentDescriptor simulatorDeviceDataPiece : simulatorDeviceData.getDataList()) {
             composite.append(simulatorDeviceDataPiece.toString()).append("\n\n");
           }
           hashTableDataOutAgregate.get(simulatorDeviceData.getName()).getTextArea()
@@ -910,7 +910,7 @@ public class GuiMainWindow implements Runnable {
 
     javax.swing.SwingUtilities.invokeLater(() -> {
       lblCommandResult.setText(data.toExtString());
-      Object obj = data.getOutput();
+      final Object obj = data.getOutput();
       txtOutputArguments.setText(data.getOutputAsString());
       txtOutputArguments.setBackground(data.isCommandFailed() ? colorOutputKO : colorOutputOK);
       txtInputArguments.setBackground(colorInputCommand);
@@ -930,7 +930,7 @@ public class GuiMainWindow implements Runnable {
       txtInputArguments.setCaretColor(Color.WHITE);
       txtOutputArguments.setBackground(Color.LIGHT_GRAY);
       comboTemplates.removeAllItems();
-      for (ArgumentTemplate t : data.getTemplateList()) {
+      for (final ArgumentTemplate t : data.getTemplateList()) {
         comboTemplates.addItem(t.getDescription());
       }
       if (isEnduranceTest) {
@@ -959,7 +959,7 @@ public class GuiMainWindow implements Runnable {
     parent.addGUIInteraction(simulatorHeader);
   }
 
-  private void fixScrollPaneForMain(JScrollPane pane) {
+  private void fixScrollPaneForMain(final JScrollPane pane) {
     pane.setMinimumSize(new Dimension(Integer.MAX_VALUE, 50));
     pane.setPreferredSize(new Dimension(Integer.MAX_VALUE, 200));
     pane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -968,11 +968,11 @@ public class GuiMainWindow implements Runnable {
   public void processSimulatorData(final SimulatorData data) {
     javax.swing.SwingUtilities.invokeLater(() -> {
       lblSimulatorData.setText(data.toString());
-      Map<TimeUnit, Long> computedDiff;
+      final Map<TimeUnit, Long> computedDiff;
       if (simulatorHeader != null) {
         computedDiff = SimulatorData.computeDiff(simulatorHeader.getStartDate(),
             data.getCurrentTime());
-        String localMinutes = String.format(simulatorHeader.FROM_START_FORMAT,
+        final String localMinutes = String.format(simulatorHeader.FROM_START_FORMAT,
             computedDiff.get(TimeUnit.DAYS), computedDiff.get(TimeUnit.HOURS),
             computedDiff.get(TimeUnit.MINUTES), computedDiff.get(TimeUnit.SECONDS),
             computedDiff.get(TimeUnit.MILLISECONDS));
@@ -1039,7 +1039,7 @@ public class GuiMainWindow implements Runnable {
   public void putManualCommandsInCombo(final boolean showAll) {
     javax.swing.SwingUtilities.invokeLater(() -> chkBoxShowAll.setSelected(showAll));
     clearManualCommands();
-    for (CommandDescriptor c : commandsList) {
+    for (final CommandDescriptor c : commandsList) {
       if (c.isVisible() || showAll) {
         addManualCommandsItem(c);
       }
@@ -1051,14 +1051,14 @@ public class GuiMainWindow implements Runnable {
     while (true) {
 
       try {
-        String preamble = "FromServer";
-        Object result = this.parent.getFromServerQueue().poll();
+        final String preamble = "FromServer";
+        final Object result = this.parent.getFromServerQueue().poll();
         if (result instanceof CommandResult) {
-          CommandResult convertedResult = (CommandResult) result;
+          final CommandResult convertedResult = (CommandResult) result;
           showMessageConsole(preamble + ";Result;" + convertedResult.toString());
           showCommandResult(convertedResult);
         } else if (result instanceof SimulatorHeader) {
-          SimulatorHeader convertedResult = (SimulatorHeader) result;
+          final SimulatorHeader convertedResult = (SimulatorHeader) result;
           showMessageConsole(preamble + ";Result;" + convertedResult.toString());
           simulatorHeader = ((SimulatorHeader) result);
           if (editForm != null) {
@@ -1071,18 +1071,18 @@ public class GuiMainWindow implements Runnable {
         } else if (result instanceof SimulatorData) {
           processSimulatorData((SimulatorData) result);
         } else if (result instanceof String) {
-          String res = (String) result;
+          final String res = (String) result;
           if (res.contains("PWD")) {
-            String[] pwd = res.split(":");
+            final String[] pwd = res.split(":");
             this.parent.setSimulatorWorkingDir(pwd[1]);
           }
           showMessageConsole(res);
         } else if (result instanceof LinkedList) {
-          LinkedList linkedListResult = (LinkedList) result;
+          final LinkedList linkedListResult = (LinkedList) result;
           Object testItem = null;
           try {
             testItem = ((LinkedList) result).get(0);
-          } catch (IndexOutOfBoundsException ex) {
+          } catch (final IndexOutOfBoundsException ex) {
             continue;
           }
           // System.out.println(testItem.getClass().getName());
@@ -1096,7 +1096,7 @@ public class GuiMainWindow implements Runnable {
             int obj = 0;
             int visibleItems = 0;
             while (linkedListResult.get(obj) instanceof CommandDescriptor) {
-              CommandDescriptor commandDescriptor = (CommandDescriptor) linkedListResult.get(obj);
+              final CommandDescriptor commandDescriptor = (CommandDescriptor) linkedListResult.get(obj);
               commandDescriptor.setLogger(this.logger);
               commandsList.add(commandDescriptor);
               obj++;
@@ -1107,7 +1107,7 @@ public class GuiMainWindow implements Runnable {
             putManualCommandsInCombo(visibleItems <= 0);
             showMessageConsole(
                 preamble + ";Received commands list with [" + commandsList.size() + "] methods");
-            LinkedList<SimulatorDeviceData> devicesList = new LinkedList<>();// (LinkedList<CommandDescriptor>)
+            final LinkedList<SimulatorDeviceData> devicesList = new LinkedList<>();// (LinkedList<CommandDescriptor>)
                                                                                                 // result;
             while (obj < linkedListResult.size()
                 && linkedListResult.get(obj) instanceof SimulatorDeviceData) {
@@ -1127,7 +1127,7 @@ public class GuiMainWindow implements Runnable {
           makeEnduranceTest();
         }
         Thread.sleep(250);
-      } catch (InterruptedException ex) {
+      } catch (final InterruptedException ex) {
         Logger.getLogger(GuiMainWindow.class.getName()).log(Level.SEVERE, null, ex);
       }
     }

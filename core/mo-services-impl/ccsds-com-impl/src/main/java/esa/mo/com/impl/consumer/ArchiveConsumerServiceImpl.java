@@ -43,7 +43,7 @@ public class ArchiveConsumerServiceImpl extends ConsumerServiceImpl {
     private ArchiveStub archiveService = null;
 
     @Override
-    public Object generateServiceStub(MALConsumer tmConsumer) {
+    public Object generateServiceStub(final MALConsumer tmConsumer) {
         return new ArchiveStub(tmConsumer);
     }
 
@@ -56,11 +56,11 @@ public class ArchiveConsumerServiceImpl extends ConsumerServiceImpl {
         return archiveService;
     }
 
-    public ArchiveConsumerServiceImpl(SingleConnectionDetails connectionDetails) throws MALException, MalformedURLException {
+    public ArchiveConsumerServiceImpl(final SingleConnectionDetails connectionDetails) throws MALException, MalformedURLException {
         this(connectionDetails, null, null);
     }
 
-    public ArchiveConsumerServiceImpl(SingleConnectionDetails connectionDetails, Blob authenticationId, String localNamePrefix) throws MALException, MalformedURLException {
+    public ArchiveConsumerServiceImpl(final SingleConnectionDetails connectionDetails, final Blob authenticationId, final String localNamePrefix) throws MALException, MalformedURLException {
 
         if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
             MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -81,7 +81,7 @@ public class ArchiveConsumerServiceImpl extends ConsumerServiceImpl {
         if (tmConsumer != null) {
             try {
                 tmConsumer.close();
-            } catch (MALException ex) {
+            } catch (final MALException ex) {
                 Logger.getLogger(ArchiveConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

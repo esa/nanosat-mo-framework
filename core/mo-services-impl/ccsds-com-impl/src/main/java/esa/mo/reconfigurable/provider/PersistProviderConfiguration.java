@@ -79,7 +79,7 @@ public class PersistProviderConfiguration
             {
                 ConfigurationHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
-            catch (MALException ex)
+            catch (final MALException ex)
             {
                 Logger.getLogger(PersistProviderConfiguration.class.getName())
                         .log(Level.SEVERE, "Unexpectedly ConfigurationHelper already initialized!?", ex);
@@ -119,7 +119,7 @@ public class PersistProviderConfiguration
 
             for (int i = 0; i < reconfigurableServices.size(); i++)
             {
-                Long confObjId = (long) (i + 1);
+                final Long confObjId = (long) (i + 1);
                 final PersistLatestServiceConfigurationAdapter persistLatestConfig =
                         new PersistLatestServiceConfigurationAdapter(reconfigurableServices.get(i), confObjId,
                                                                      this.archiveService, this.executor);
@@ -129,10 +129,10 @@ public class PersistProviderConfiguration
             }
 
             // Store the provider configuration objects
-            ConfigurationObjectDetailsList archObj = new ConfigurationObjectDetailsList(1);
-            ConfigurationObjectDetails providerObjects = new ConfigurationObjectDetails();
-            ConfigurationObjectSetList setList = new ConfigurationObjectSetList(1);
-            ConfigurationObjectSet set = new ConfigurationObjectSet();
+            final ConfigurationObjectDetailsList archObj = new ConfigurationObjectDetailsList(1);
+            final ConfigurationObjectDetails providerObjects = new ConfigurationObjectDetails();
+            final ConfigurationObjectSetList setList = new ConfigurationObjectSetList(1);
+            final ConfigurationObjectSet set = new ConfigurationObjectSet();
             set.setDomain(ConfigurationProviderSingleton.getDomain());
             set.setObjType(ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE);
             set.setObjInstIds(objIds);
@@ -141,7 +141,7 @@ public class PersistProviderConfiguration
             providerObjects.setConfigObjects(setList);
             archObj.add(providerObjects);
 
-            LongList objIds3 = this.archiveService.store(true, ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE,
+            final LongList objIds3 = this.archiveService.store(true, ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE,
                                                          ConfigurationProviderSingleton.getDomain(),
                                                          HelperArchive.generateArchiveDetailsList(null, null,
                                                                                                   ConfigurationProviderSingleton.getNetwork(),
@@ -150,17 +150,17 @@ public class PersistProviderConfiguration
 
             // Store the provider configuration
             // Related points to the Provider's Configuration Object
-            ArchiveDetailsList details = HelperArchive.generateArchiveDetailsList(objIds3.get(0), null,
+            final ArchiveDetailsList details = HelperArchive.generateArchiveDetailsList(objIds3.get(0), null,
                                                                                   ConfigurationProviderSingleton.getNetwork(),
                                                                                   new URI(""));
             details.get(0).setInstId(confId.getKey().getInstId());
-            IdentifierList providerNameList = new IdentifierList(1);
+            final IdentifierList providerNameList = new IdentifierList(1);
             providerNameList.add(provider.getProviderName());
 
             this.archiveService.store(false, ConfigurationHelper.PROVIDERCONFIGURATION_OBJECT_TYPE,
                                       ConfigurationProviderSingleton.getDomain(), details, providerNameList, null);
         }
-        catch (MALException | MALInteractionException ex)
+        catch (final MALException | MALInteractionException ex)
         {
             Logger.getLogger(PersistProviderConfiguration.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -196,7 +196,7 @@ public class PersistProviderConfiguration
             throws IOException
     {
         // Retrieve the COM object of the service
-        List<ArchivePersistenceObject> comObjects = HelperArchive.getArchiveCOMObjectList(archiveService,
+        final List<ArchivePersistenceObject> comObjects = HelperArchive.getArchiveCOMObjectList(archiveService,
                                                                                           ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE,
                                                                                           ConfigurationProviderSingleton.getDomain(),
                                                                                           objIds);
@@ -211,13 +211,13 @@ public class PersistProviderConfiguration
         final LongList relateds = new LongList();
 
         // Get all of the related links to retrieve from the archive
-        for (ArchivePersistenceObject comObject : comObjects)
+        for (final ArchivePersistenceObject comObject : comObjects)
         {
             relateds.add(comObject.getArchiveDetails().getDetails().getRelated());
         }
 
         // Retrieve it from the Archive
-        List<ArchivePersistenceObject> confObjs = HelperArchive.getArchiveCOMObjectList(archiveService,
+        final List<ArchivePersistenceObject> confObjs = HelperArchive.getArchiveCOMObjectList(archiveService,
                                                                                         ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE,
                                                                                         ConfigurationProviderSingleton.getDomain(),
                                                                                         relateds);
@@ -230,7 +230,7 @@ public class PersistProviderConfiguration
 
         for (int i = 0; i < confObjs.size(); i++)
         {
-            ConfigurationObjectDetails configurationObjectDetails =
+            final ConfigurationObjectDetails configurationObjectDetails =
                     (ConfigurationObjectDetails) confObjs.get(i).getObject();
 
             if (configurationObjectDetails == null)
@@ -259,15 +259,15 @@ public class PersistProviderConfiguration
 
         ConfigurationThreadFactory()
         {
-            SecurityManager s = System.getSecurityManager();
+            final SecurityManager s = System.getSecurityManager();
             group = (s != null) ? s.getThreadGroup() : Thread.currentThread().getThreadGroup();
             namePrefix = "ConfigurationUpdate-";
         }
 
         @Override
-        public Thread newThread(Runnable r)
+        public Thread newThread(final Runnable r)
         {
-            Thread t = new Thread(group, r, namePrefix + threadNumber.getAndIncrement(), 0);
+            final Thread t = new Thread(group, r, namePrefix + threadNumber.getAndIncrement(), 0);
             if (t.isDaemon())
             {
                 t.setDaemon(false);

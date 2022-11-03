@@ -49,7 +49,7 @@ public class MPServicesConsumer {
     private PlanEditConsumerServiceImpl planEditService;
     private PlanExecutionControlConsumerServiceImpl planExecutionControlService;
 
-    public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices) {
+    public void init(final ConnectionConsumer connectionConsumer, final COMServicesConsumer comServices) {
         SingleConnectionDetails details;
 
         try {
@@ -82,7 +82,7 @@ public class MPServicesConsumer {
             if (details != null) {
                 this.planExecutionControlService = new PlanExecutionControlConsumerServiceImpl(details, comServices);
             }
-        } catch (MALException | MalformedURLException ex) {
+        } catch (final MALException | MalformedURLException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }

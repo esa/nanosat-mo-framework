@@ -35,9 +35,9 @@ import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
 public class PictureProcessorApp {
 
     public PictureProcessorApp() {
-        Path outputFolder = createDirectoriesIfNotExist(Paths.get("pictures"));
+        final Path outputFolder = createDirectoriesIfNotExist(Paths.get("pictures"));
 
-        NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
+        final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
 
         connector.init(new PictureProcessorMCAdapter(connector, outputFolder));
     }

@@ -35,7 +35,7 @@ import org.ccsds.moims.mo.mc.check.structures.CheckDefinitionDetails;
  */
 public class CheckDefinitionsTablePanel extends SharedTablePanel {
 
-    public CheckDefinitionsTablePanel(ArchiveConsumerServiceImpl archiveService) {
+    public CheckDefinitionsTablePanel(final ArchiveConsumerServiceImpl archiveService) {
         super(archiveService);
     }
 
@@ -48,20 +48,20 @@ public class CheckDefinitionsTablePanel extends SharedTablePanel {
 
         try {
             semaphore.acquire();
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         // We are actually receiving a Check Definition that points to the right definition via the source field
 
         // So, let's get the source Object with the details of the definition
-        ArchivePersistenceObject sourceCOMObject = HelperArchive.getArchiveCOMObject(super.getArchiveService().getArchiveStub(),
+        final ArchivePersistenceObject sourceCOMObject = HelperArchive.getArchiveCOMObject(super.getArchiveService().getArchiveStub(),
                     comObject.getArchiveDetails().getDetails().getSource().getType(), 
                     comObject.getArchiveDetails().getDetails().getSource().getKey().getDomain(), 
                     comObject.getArchiveDetails().getDetails().getSource().getKey().getInstId() );
         
         
-        CheckDefinitionDetails checkDef = (CheckDefinitionDetails) sourceCOMObject.getObject();
+        final CheckDefinitionDetails checkDef = (CheckDefinitionDetails) sourceCOMObject.getObject();
         
         tableData.addRow(new Object[]{
             comObject.getArchiveDetails().getInstId(),
@@ -82,7 +82,7 @@ public class CheckDefinitionsTablePanel extends SharedTablePanel {
     @Override
     public void defineTableContent() {
     
-        String[] tableCol = new String[]{
+        final String[] tableCol = new String[]{
             "Obj Inst Id", "Check Definition name", "Description", 
             "Severity", "Max Reporting Interval", "Nominal Count", 
             "Nominal Time", "Violation Count", "Violation Time" };
@@ -96,12 +96,12 @@ public class CheckDefinitionsTablePanel extends SharedTablePanel {
                     };
 
                     @Override               //all cells false
-                    public boolean isCellEditable(int row, int column) {
+                    public boolean isCellEditable(final int row, final int column) {
                         return false;
                     }
 
                     @Override
-                    public Class getColumnClass(int columnIndex) {
+                    public Class getColumnClass(final int columnIndex) {
                         return types[columnIndex];
                     }
                 };

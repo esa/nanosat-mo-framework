@@ -36,7 +36,7 @@ public class SystemClock {
 
     private SystemClock() {}
 
-    public static void setPlatformClockCallback(PlatformClockCallback callback) {
+    public static void setPlatformClockCallback(final PlatformClockCallback callback) {
         platformClockCallback = callback;
         if (platformClockCallback != null && Objects.equals(System.getProperty(USE_PLATFORM_CLOCK_PROPERTY), "true")) {
             usePlatformClock = true;

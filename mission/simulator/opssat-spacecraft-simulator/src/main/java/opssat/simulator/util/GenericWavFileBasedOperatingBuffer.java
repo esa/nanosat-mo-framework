@@ -43,14 +43,14 @@ public abstract class GenericWavFileBasedOperatingBuffer implements SimulatorOpe
     private int operatingIndex;
     private Logger logger;
 
-    public GenericWavFileBasedOperatingBuffer(Logger logger) {
+    public GenericWavFileBasedOperatingBuffer(final Logger logger) {
         operatingIndex = 0;
         this.dataBuffer = new double[0];
         this.logger = logger;
     }
 
     @Override
-    public boolean loadFromPath(String path) {
+    public boolean loadFromPath(final String path) {
         try {
             /*
             String absolutePath = SimulatorNode.getResourcesPath() + path;
@@ -87,23 +87,23 @@ public abstract class GenericWavFileBasedOperatingBuffer implements SimulatorOpe
 //            this.dataFilePath = Paths.get(absolutePath).toString();
             this.dataFilePath = SimulatorNode.handleResourcePath(path, logger, getClass().getClassLoader(), false);
             
-            WavFile wavFile;
+            final WavFile wavFile;
             try {
                 wavFile = WavFile.openWavFile(new File(this.dataFilePath));
-                String displayInfo = wavFile.getDisplayInfo();
-                for (String line : displayInfo.split("\\r?\\n")) {
+                final String displayInfo = wavFile.getDisplayInfo();
+                for (final String line : displayInfo.split("\\r?\\n")) {
                     this.logger.log(Level.FINE, line);
                 }
-                double[] tempBuffer = new double[((int) wavFile.getNumFrames() * wavFile.getNumChannels())];
-                int framesRead;
+                final double[] tempBuffer = new double[((int) wavFile.getNumFrames() * wavFile.getNumChannels())];
+                final int framesRead;
                 // Read frames into buffer
                 framesRead = wavFile.readFrames(tempBuffer, (int) wavFile.getNumFrames());
                 this.dataBuffer = tempBuffer;
                 this.operatingIndex = 0;
-            } catch (WavFileException ex) {
+            } catch (final WavFileException ex) {
                 Logger.getLogger(GenericWavFileBasedOperatingBuffer.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             this.logger.log(Level.INFO, ex.toString());
             return false;
         }
@@ -111,15 +111,15 @@ public abstract class GenericWavFileBasedOperatingBuffer implements SimulatorOpe
     }
 
     @Override
-    public boolean preparePath(String path) {
+    public boolean preparePath(final String path) {
         boolean fileExists = true;
         
         try {
-            RandomAccessFile f = new RandomAccessFile(SimulatorNode.getResourcesPath() + path, "r");
+            final RandomAccessFile f = new RandomAccessFile(SimulatorNode.getResourcesPath() + path, "r");
             f.close();
-        } catch (FileNotFoundException ex) {
+        } catch (final FileNotFoundException ex) {
             fileExists = false;
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             Logger.getLogger(GenericFileBasedOperatingBuffer.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -138,10 +138,10 @@ public abstract class GenericWavFileBasedOperatingBuffer implements SimulatorOpe
 
     public String getDataBufferAsString() {
         if (dataBuffer instanceof byte[]) {
-            byte[] tempCast = (byte[]) dataBuffer;
-            StringBuilder result = new StringBuilder("byte[] {");
+            final byte[] tempCast = (byte[]) dataBuffer;
+            final StringBuilder result = new StringBuilder("byte[] {");
             int k = 0;
-            for (byte b : tempCast) {
+            for (final byte b : tempCast) {
                 result.append(String.format("0x%02X", b));
                 if (++k < tempCast.length) {
                     result.append(",");
@@ -155,10 +155,10 @@ public abstract class GenericWavFileBasedOperatingBuffer implements SimulatorOpe
             return result.toString();
         }
         if (dataBuffer instanceof double[]) {
-            double[] tempCast = (double[]) dataBuffer;
-            StringBuilder result = new StringBuilder("double[] {");
+            final double[] tempCast = (double[]) dataBuffer;
+            final StringBuilder result = new StringBuilder("double[] {");
             int k = 0;
-            for (double b : tempCast) {
+            for (final double b : tempCast) {
                 result.append(String.format("%s", b));
                 if (++k < tempCast.length) {
                     result.append(",");
@@ -174,7 +174,7 @@ public abstract class GenericWavFileBasedOperatingBuffer implements SimulatorOpe
         return "Unknown data type [" + dataBuffer.getClass().getName() + "]";
     }
 
-    public void setDataBuffer(Object dataBuffer) {
+    public void setDataBuffer(final Object dataBuffer) {
         this.dataBuffer = dataBuffer;
     }
 
@@ -183,7 +183,7 @@ public abstract class GenericWavFileBasedOperatingBuffer implements SimulatorOpe
         return operatingIndex;
     }
 
-    public void setOperatingIndex(int operatingIndex) {
+    public void setOperatingIndex(final int operatingIndex) {
         this.operatingIndex = operatingIndex;
     }
 

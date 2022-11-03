@@ -30,29 +30,29 @@ public class Vector {
     private final double y;
     private final double z;
 
-    public Vector(double x, double y, double z) {
+    public Vector(final double x, final double y, final double z) {
         this.x = x;
         this.y = y;
         this.z = z;
     }
 
     // Add
-    public Vector add(Vector addend) {
+    public Vector add(final Vector addend) {
         return new Vector(x + addend.x, y + addend.y, z + addend.z);
     }
 
     // Cross Product
-    public Vector crossProduct(Vector b) {
+    public Vector crossProduct(final Vector b) {
         return new Vector((y * b.z - b.y * z), (z * b.x - b.z * x), (x * b.y - b.x * y));
     }
 
     // Dot Product
-    public Vector dotProduct(Vector b) {
+    public Vector dotProduct(final Vector b) {
         return new Vector(x * b.x, y * b.y, z * b.z);
     }
 
     // times
-    public Vector times(double constant) {
+    public Vector times(final double constant) {
         return new Vector(x * constant, y * constant, z * constant);
     }
 

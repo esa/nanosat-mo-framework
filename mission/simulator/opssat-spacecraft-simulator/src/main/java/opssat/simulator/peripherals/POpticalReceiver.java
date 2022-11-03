@@ -37,14 +37,14 @@ import opssat.simulator.threading.SimulatorNode;
                                    })
 public class POpticalReceiver extends GenericPeripheral implements IOpticalReceiver {
 
-    public POpticalReceiver(SimulatorNode simulatorNode, String name) {
+    public POpticalReceiver(final SimulatorNode simulatorNode, final String name) {
         super(simulatorNode, name);
     }
 
     @Override
     @InternalData (internalID=7001,commandIDs={"",""},argNames={"cmdID","data"})
-    public byte[] runRawCommand(int cmdID,byte[] data) {
-        ArrayList<Object> argObject = new ArrayList<>();
+    public byte[] runRawCommand(final int cmdID, final byte[] data) {
+        final ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(cmdID);
         argObject.add(data);
         return (byte[]) super.getSimulatorNode().runGenericMethod(7001,argObject);
@@ -52,32 +52,32 @@ public class POpticalReceiver extends GenericPeripheral implements IOpticalRecei
 
     @Override
     @InternalData (internalID=7002,commandIDs={"",""},argNames={"buffer"})
-    public void simSetMessageBuffer(byte[] buffer) {
-        ArrayList<Object> argObject = new ArrayList<>();
+    public void simSetMessageBuffer(final byte[] buffer) {
+        final ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(buffer);
         super.getSimulatorNode().runGenericMethod(7002,argObject);
     }
 
     @Override
     @InternalData (internalID=7003,commandIDs={"",""},argNames={"successRate"})
-    public void simSetSuccessRate(int successRate) {
-        ArrayList<Object> argObject = new ArrayList<>();
+    public void simSetSuccessRate(final int successRate) {
+        final ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(successRate);
         super.getSimulatorNode().runGenericMethod(7003,argObject);
     }
 
     @Override
     @InternalData (internalID=7004,commandIDs={"",""},argNames={"bytesNo"})
-    public byte[] readFromMessageBuffer(int bytesNo) {
-        ArrayList<Object> argObject = new ArrayList<>();
+    public byte[] readFromMessageBuffer(final int bytesNo) {
+        final ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(bytesNo);
         return (byte[]) super.getSimulatorNode().runGenericMethod(7004,argObject);
     }
 
     @Override
     @InternalData (internalID=7005,commandIDs={"",""},argNames={"fileName"})
-    public void simPreloadFile(String fileName) {
-        ArrayList<Object> argObject = new ArrayList<>();
+    public void simPreloadFile(final String fileName) {
+        final ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(fileName);
         super.getSimulatorNode().runGenericMethod(7005,argObject);
     }

@@ -60,7 +60,7 @@ public class AppsLauncherConsumerServiceImpl extends ConsumerServiceImpl {
     }
 
     @Override
-    public Object generateServiceStub(MALConsumer tmConsumer) {
+    public Object generateServiceStub(final MALConsumer tmConsumer) {
         return new AppsLauncherStub(tmConsumer);
     }
 
@@ -100,7 +100,7 @@ public class AppsLauncherConsumerServiceImpl extends ConsumerServiceImpl {
         if (tmConsumer != null) {
             try {
                 tmConsumer.close();
-            } catch (MALException ex) {
+            } catch (final MALException ex) {
                 Logger.getLogger(AppsLauncherConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

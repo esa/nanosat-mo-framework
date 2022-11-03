@@ -34,12 +34,12 @@ public class EventDefTablePanel extends SharedTablePanel {
 
     private static final Logger LOGGER = Logger.getLogger(EventDefTablePanel.class.getName());
 
-    public EventDefTablePanel(ArchiveConsumerServiceImpl archiveService) {
+    public EventDefTablePanel(final ArchiveConsumerServiceImpl archiveService) {
         super(archiveService);
     }
 
     @Override
-    public void addEntry(Identifier identity, ArchivePersistenceObject comObject) {
+    public void addEntry(final Identifier identity, final ArchivePersistenceObject comObject) {
         if (comObject == null) {
             LOGGER.log(Level.SEVERE, "The table cannot process a null COM Object.");
             return;
@@ -47,11 +47,11 @@ public class EventDefTablePanel extends SharedTablePanel {
 
         try {
             semaphore.acquire();
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
-        EventDefinitionDetails definition = (EventDefinitionDetails) comObject.getObject();
+        final EventDefinitionDetails definition = (EventDefinitionDetails) comObject.getObject();
 
         tableData.addRow(new Object[]{
             identity,
@@ -65,7 +65,7 @@ public class EventDefTablePanel extends SharedTablePanel {
 
     @Override
     public void defineTableContent() {
-        String[] tableCol = new String[]{
+        final String[] tableCol = new String[]{
             "Identity", "Definition ID", "Description"
         };
 
@@ -76,12 +76,12 @@ public class EventDefTablePanel extends SharedTablePanel {
                 };
 
                 @Override               //all cells false
-                public boolean isCellEditable(int row, int column) {
+                public boolean isCellEditable(final int row, final int column) {
                     return false;
                 }
 
                 @Override
-                public Class getColumnClass(int columnIndex) {
+                public Class getColumnClass(final int columnIndex) {
                     return types[columnIndex];
                 }
         };

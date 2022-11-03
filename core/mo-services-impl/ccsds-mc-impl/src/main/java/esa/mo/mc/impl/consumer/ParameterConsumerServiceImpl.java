@@ -63,17 +63,17 @@ public class ParameterConsumerServiceImpl extends ConsumerServiceImpl {
     }
 
     @Override
-    public Object generateServiceStub(MALConsumer tmConsumer) {
+    public Object generateServiceStub(final MALConsumer tmConsumer) {
         return new ParameterStub(tmConsumer);
     }
 
-    public ParameterConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
+    public ParameterConsumerServiceImpl(final SingleConnectionDetails connectionDetails, final COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
         this(connectionDetails, comServices, null, null);
     }
 
-    public ParameterConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices,
-                                        Blob authenticationId,
-                                        String localNamePrefix) throws MALException, MalformedURLException, MALInteractionException {
+    public ParameterConsumerServiceImpl(final SingleConnectionDetails connectionDetails, final COMServicesConsumer comServices,
+                                        final Blob authenticationId,
+                                        final String localNamePrefix) throws MALException, MalformedURLException, MALInteractionException {
 
         if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
             MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -106,7 +106,7 @@ public class ParameterConsumerServiceImpl extends ConsumerServiceImpl {
 
             try {
                 tmConsumer.close();
-            } catch (MALException ex) {
+            } catch (final MALException ex) {
                 Logger.getLogger(ParameterConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

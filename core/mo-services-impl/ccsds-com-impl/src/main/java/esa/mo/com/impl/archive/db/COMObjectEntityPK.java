@@ -40,14 +40,14 @@ public class COMObjectEntityPK implements Serializable {
     }
 
     @Override
-    public boolean equals(Object other) {
+    public boolean equals(final Object other) {
         if (this == other) {
             return true;
         }
         if (!(other instanceof COMObjectEntityPK)) {
             return false;
         }
-        COMObjectEntityPK input = (COMObjectEntityPK) other;
+        final COMObjectEntityPK input = (COMObjectEntityPK) other;
 
         return (input.objectTypeId.equals(objectTypeId)
                 && input.domainId.equals(domainId)
@@ -63,7 +63,7 @@ public class COMObjectEntityPK implements Serializable {
         return objectTypeId;
     }
 
-    public void setObjectTypeId(Integer objectTypeId) {
+    public void setObjectTypeId(final Integer objectTypeId) {
         this.objectTypeId = objectTypeId;
     }
 
@@ -71,7 +71,7 @@ public class COMObjectEntityPK implements Serializable {
         return domainId;
     }
 
-    public void setDomainId(Integer domainId) {
+    public void setDomainId(final Integer domainId) {
         this.domainId = domainId;
     }
 
@@ -79,7 +79,7 @@ public class COMObjectEntityPK implements Serializable {
         return objId;
     }
 
-    public void setObjId(Long objId) {
+    public void setObjId(final Long objId) {
         this.objId = objId;
     }
 }

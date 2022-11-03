@@ -67,7 +67,7 @@ public class GPSSatInViewScience {
         return stdDevElevation;
     }
 
-    public GPSSatInViewScience(double minDistance, double maxDistance, double minElevation, double maxElevation, double avgDistance, double avgElevation, double stdDevDistance, double stdDevElevation) {
+    public GPSSatInViewScience(final double minDistance, final double maxDistance, final double minElevation, final double maxElevation, final double avgDistance, final double avgElevation, final double stdDevDistance, final double stdDevElevation) {
         this.minDistance = minDistance;
         this.maxDistance = maxDistance;
         this.minElevation = minElevation;

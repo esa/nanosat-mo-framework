@@ -36,7 +36,7 @@ public class MonolithicProviderDemo {
      */
     public static void main(final String[] args) throws Exception {
         final NanoSatMOMonolithicSim monolithic = new NanoSatMOMonolithicSim();
-        MCAllInOneAdapter adapter = new MCAllInOneAdapter(monolithic);
+        final MCAllInOneAdapter adapter = new MCAllInOneAdapter(monolithic);
         monolithic.init(adapter);
         adapter.startAdcsAttitudeMonitoring();
         adapter.startPeriodicAlertsPublishing();

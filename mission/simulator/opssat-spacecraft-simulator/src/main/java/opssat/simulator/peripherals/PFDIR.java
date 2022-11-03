@@ -32,14 +32,14 @@ import opssat.simulator.threading.SimulatorNode;
  */
 public class PFDIR extends GenericPeripheral implements IFDIR{
     
-    public PFDIR(SimulatorNode simulatorNode, String name) {
+    public PFDIR(final SimulatorNode simulatorNode, final String name) {
         super(simulatorNode, name);
     }
     
     @Override
     @InternalData (internalID=5001,commandIDs={"",""},argNames={"cmdID","data"})
-    public byte[] runRawCommand(int cmdID,byte[] data) {
-        ArrayList<Object> argObject = new ArrayList<>();
+    public byte[] runRawCommand(final int cmdID, final byte[] data) {
+        final ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(cmdID);
         argObject.add(data);
         return (byte[]) super.getSimulatorNode().runGenericMethod(5001,argObject);

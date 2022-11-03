@@ -55,22 +55,22 @@ public class PublishedPlansTable extends SharedTablePanel {
     private final ArchiveConsumerServiceImpl archiveService;
     private final PlanDistributionConsumerServiceImpl pdsService;
 
-    public PublishedPlansTable(ArchiveConsumerServiceImpl archiveService, PlanDistributionConsumerServiceImpl pdsService) {
+    public PublishedPlansTable(final ArchiveConsumerServiceImpl archiveService, final PlanDistributionConsumerServiceImpl pdsService) {
         super(archiveService);
         this.archiveService = archiveService;
         this.pdsService = pdsService;
     }
 
     @Override
-    public void addEntry(Identifier identity, ArchivePersistenceObject comObject) {
+    public void addEntry(final Identifier identity, final ArchivePersistenceObject comObject) {
         // Not used
     }
 
-    public void addEntry(IdentifierList domain, Time timestamp, Long identityId, Identifier identity, Long instanceId, PlanVersionDetails planVersion) {
+    public void addEntry(final IdentifierList domain, final Time timestamp, final Long identityId, final Identifier identity, final Long instanceId, final PlanVersionDetails planVersion) {
 
         try {
             semaphore.acquire();
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
@@ -94,16 +94,16 @@ public class PublishedPlansTable extends SharedTablePanel {
             }
         }
 
-        ObjectType instanceObjectType = PlanDistributionHelper.PLANVERSION_OBJECT_TYPE;
-        LongList objectIds = new LongList();
+        final ObjectType instanceObjectType = PlanDistributionHelper.PLANVERSION_OBJECT_TYPE;
+        final LongList objectIds = new LongList();
         objectIds.add(0L);
-        List<ArchivePersistenceObject> instanceObjects = HelperArchive
+        final List<ArchivePersistenceObject> instanceObjects = HelperArchive
             .getArchiveCOMObjectList(this.archiveService.getArchiveStub(), instanceObjectType, domain, objectIds);
 
         ArchivePersistenceObject comObject = null;
         if (instanceObjects != null) {
-            for (ArchivePersistenceObject instanceObject : instanceObjects) {
-                PlanVersionDetails archiveInstance = (PlanVersionDetails) instanceObject.getObject();
+            for (final ArchivePersistenceObject instanceObject : instanceObjects) {
+                final PlanVersionDetails archiveInstance = (PlanVersionDetails) instanceObject.getObject();
                 if (Objects.equals(archiveInstance, planVersion)) {
                     comObject = instanceObject;
                 }
@@ -127,7 +127,7 @@ public class PublishedPlansTable extends SharedTablePanel {
 
     @Override
     public void defineTableContent() {
-        String[] tableCol = new String[]{
+        final String[] tableCol = new String[]{
             "Timestamp", "Plan Identity", "Plan Identity ID",
             "Plan Version ID", "Planned Activities", "Planned Events",
             "Description", "Comments"
@@ -142,12 +142,12 @@ public class PublishedPlansTable extends SharedTablePanel {
                 };
 
                 @Override               //all cells false
-                public boolean isCellEditable(int row, int column) {
+                public boolean isCellEditable(final int row, final int column) {
                     return false;
                 }
 
                 @Override
-                public Class getColumnClass(int columnIndex) {
+                public Class getColumnClass(final int columnIndex) {
                     return types[columnIndex];
                 }
         };
@@ -164,17 +164,17 @@ public class PublishedPlansTable extends SharedTablePanel {
     class PlanMonitor extends PlanDistributionAdapter {
 
         @Override
-        public void monitorPlanNotifyReceived(MALMessageHeader msgHeader, Identifier identifier, UpdateHeaderList headerList, PlanVersionDetailsList versionList, Map qosProperties) {
+        public void monitorPlanNotifyReceived(final MALMessageHeader msgHeader, final Identifier identifier, final UpdateHeaderList headerList, final PlanVersionDetailsList versionList, final Map qosProperties) {
             for (int index = 0; index < versionList.size(); index++) {
-                UpdateHeader updateHeader = headerList.get(index);
-                PlanVersionDetails planVersion = versionList.get(index);
+                final UpdateHeader updateHeader = headerList.get(index);
+                final PlanVersionDetails planVersion = versionList.get(index);
 
-                IdentifierList domain = msgHeader.getDomain();
-                Time timestamp = updateHeader.getTimestamp();
+                final IdentifierList domain = msgHeader.getDomain();
+                final Time timestamp = updateHeader.getTimestamp();
 
-                Identifier identity = updateHeader.getKey().getFirstSubKey();
-                Long identityId = updateHeader.getKey().getSecondSubKey();
-                Long instanceId = updateHeader.getKey().getThirdSubKey();
+                final Identifier identity = updateHeader.getKey().getFirstSubKey();
+                final Long identityId = updateHeader.getKey().getSecondSubKey();
+                final Long instanceId = updateHeader.getKey().getThirdSubKey();
 
                 addEntry(domain, timestamp, identityId, identity, instanceId, planVersion);
             }

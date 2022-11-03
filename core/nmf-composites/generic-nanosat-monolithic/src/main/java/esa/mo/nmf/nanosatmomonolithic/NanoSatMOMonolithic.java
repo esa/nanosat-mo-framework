@@ -85,7 +85,7 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
             super.startMCServices(mcAdapter);
             this.initPlatformServices(comServices);
             directoryService.init(comServices);
-        } catch (MALException ex) {
+        } catch (final MALException ex) {
             Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.SEVERE,
                     "The services could not be initialized. Perhaps there's "
                     + "something wrong with the selected Transport Layer.", ex);
@@ -119,13 +119,13 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
 
             try {
                 super.providerConfiguration.loadPreviousConfigurations();
-            } catch (IOException ex) {
+            } catch (final IOException ex) {
                 Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
         if (mcAdapter != null) {
-            MCRegistration registration = new MCRegistration(comServices, mcServices.getParameterService(),
+            final MCRegistration registration = new MCRegistration(comServices, mcServices.getParameterService(),
                     mcServices.getAggregationService(), mcServices.getAlertService(), mcServices.getActionService());
             mcAdapter.initialRegistrations(registration);
         }
@@ -140,7 +140,7 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
     }
 
     @Override
-    public void init(MissionPlanningNMFAdapter mpAdapter) {
+    public void init(final MissionPlanningNMFAdapter mpAdapter) {
       // Not implemented. MP services are accessible only from connector.
     }
 
@@ -153,10 +153,10 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
     public final void closeGracefully(final ObjectId source) {
         try {
             AppShutdownGuard.start();
-            long time = System.currentTimeMillis();
+            final long time = System.currentTimeMillis();
 
             // Acknowledge the reception of the request to close (Closing...)
-            Long eventId = this.getCOMServices().getEventService().generateAndStoreEvent(
+            final Long eventId = this.getCOMServices().getEventService().generateAndStoreEvent(
                     AppsLauncherHelper.STOPPING_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(),
                     null,
@@ -169,7 +169,7 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
             try {
                 this.getCOMServices().getEventService().publishEvent(uri, eventId,
                         AppsLauncherHelper.STOPPING_OBJECT_TYPE, null, source, null);
-            } catch (IOException ex) {
+            } catch (final IOException ex) {
                 Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.SEVERE, null, ex);
             }
 
@@ -181,7 +181,7 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
                 this.closeAppAdapter.onClose(); // Time to sleep, boy!
             }
 
-            Long eventId2 = this.getCOMServices().getEventService().generateAndStoreEvent(
+            final Long eventId2 = this.getCOMServices().getEventService().generateAndStoreEvent(
                     AppsLauncherHelper.STOPPED_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(),
                     null,
@@ -192,7 +192,7 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
             try {
                 this.getCOMServices().getEventService().publishEvent(uri, eventId2,
                         AppsLauncherHelper.STOPPED_OBJECT_TYPE, null, source, null);
-            } catch (IOException ex) {
+            } catch (final IOException ex) {
                 Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.SEVERE, null, ex);
             }
 
@@ -205,7 +205,7 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
             Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO,
                     "Success! The currently running Java Virtual Machine will now terminate. "
                     + "(App closed in: " + (System.currentTimeMillis() - time) + " ms)\n");
-        } catch (NMFException ex) {
+        } catch (final NMFException ex) {
             Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.SEVERE, null, ex);
         }
 

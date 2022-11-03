@@ -45,7 +45,7 @@ public class WorldMap {
     private float ratio;
     private int final_height;
 
-    public WorldMap(int width) {
+    public WorldMap(final int width) {
 
         try {
             imageLoaded = ImageIO.read(new File(earthPictureFilename));
@@ -54,18 +54,18 @@ public class WorldMap {
             ratio = ((float) final_width) / ((float) imageLoaded.getWidth());
             final_height = (int) (ratio * ((float) imageLoaded.getHeight()));
 
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             Logger.getLogger(WorldMap.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
-    private void addPixel(double x_double, double y_double) {
-        int x_top = (int) floor(x_double);
-        int y_top = (int) floor(y_double);
+    private void addPixel(final double x_double, final double y_double) {
+        final int x_top = (int) floor(x_double);
+        final int y_top = (int) floor(y_double);
 
-        int x_bot = (int) ceil(x_double);
-        int y_bot = (int) ceil(y_double);
+        final int x_bot = (int) ceil(x_double);
+        final int y_bot = (int) ceil(y_double);
 
         // Print 4 pixels
         imageLoaded.setRGB(x_top, y_top, Color.RED.getRGB());
@@ -74,7 +74,7 @@ public class WorldMap {
         imageLoaded.setRGB(x_bot, y_bot, Color.RED.getRGB());
     }
 
-    public ImageIcon addCoordinate(double latitude, double longitude) {
+    public ImageIcon addCoordinate(final double latitude, final double longitude) {
         // Convert to pixel:
         // Hint: (0,0) is top left
         //       (final_width, final_height) is bottom right
@@ -85,10 +85,10 @@ public class WorldMap {
         final double height = imageLoaded.getHeight() - 1;
 
         // longitude to x position:
-        double x = (longitude * width / 360 + width / 2);
+        final double x = (longitude * width / 360 + width / 2);
 
         // latitude to y position:
-        double y = (-latitude * height / 180 + height / 2);
+        final double y = (-latitude * height / 180 + height / 2);
 
         // Add the pixel on the map:
         this.addPixel(x, y);

@@ -62,11 +62,11 @@ public class SFTPBrowser extends JFrame implements Comparator<ChannelSftp.LsEntr
   private JTable tableFiles;
   private boolean doubleClick = false;
 
-  public SFTPBrowser(ChannelSftp chan, String mode, GuiMainWindow mainGui) {
+  public SFTPBrowser(final ChannelSftp chan, final String mode, final GuiMainWindow mainGui) {
     this.mainGui = mainGui;
     try {
       sb = new StringBuilder(chan.pwd());
-    } catch (SftpException e) {
+    } catch (final SftpException e) {
       e.printStackTrace();
     }
     setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -74,15 +74,15 @@ public class SFTPBrowser extends JFrame implements Comparator<ChannelSftp.LsEntr
     setTitle("Browse");
     this.channel = chan;
     this.mode = mode;
-    SpringLayout springLayout = new SpringLayout();
+    final SpringLayout springLayout = new SpringLayout();
     getContentPane().setLayout(springLayout);
 
     tableFiles = new JTable() {
       @Override
-      public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
-        Component component = super.prepareRenderer(renderer, row, column);
-        int rendererWidth = component.getPreferredSize().width;
-        TableColumn tableColumn = getColumnModel().getColumn(column);
+      public Component prepareRenderer(final TableCellRenderer renderer, final int row, final int column) {
+        final Component component = super.prepareRenderer(renderer, row, column);
+        final int rendererWidth = component.getPreferredSize().width;
+        final TableColumn tableColumn = getColumnModel().getColumn(column);
         tableColumn.setPreferredWidth(Math.max(rendererWidth + getIntercellSpacing().width + 20,
             tableColumn.getPreferredWidth()));
         return component;
@@ -92,20 +92,20 @@ public class SFTPBrowser extends JFrame implements Comparator<ChannelSftp.LsEntr
       Class[] columnTypes = new Class[] { String.class };
 
       @Override
-      public Class getColumnClass(int columnIndex) {
+      public Class getColumnClass(final int columnIndex) {
         return columnTypes[columnIndex];
       }
 
       boolean[] columnEditables = new boolean[] { false };
 
       @Override
-      public boolean isCellEditable(int row, int column) {
+      public boolean isCellEditable(final int row, final int column) {
         return columnEditables[column];
       }
     });
     tableFiles.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 
-    JScrollPane scrollPane = new JScrollPane(tableFiles);
+    final JScrollPane scrollPane = new JScrollPane(tableFiles);
     springLayout.putConstraint(SpringLayout.NORTH, scrollPane, 30, SpringLayout.NORTH,
         getContentPane());
     springLayout.putConstraint(SpringLayout.WEST, scrollPane, 10, SpringLayout.WEST,
@@ -117,7 +117,7 @@ public class SFTPBrowser extends JFrame implements Comparator<ChannelSftp.LsEntr
     getContentPane().add(scrollPane);
 
     // Fill table with initial data
-    DefaultTableModel dtm = (DefaultTableModel) tableFiles.getModel();
+    final DefaultTableModel dtm = (DefaultTableModel) tableFiles.getModel();
     dtm.setRowCount(0); // clear table
     Vector<ChannelSftp.LsEntry> files;
     updateFileTable();
@@ -125,20 +125,20 @@ public class SFTPBrowser extends JFrame implements Comparator<ChannelSftp.LsEntr
     // Add listener for double clicks on folders
     tableFiles.addMouseListener(new MouseAdapter() {
       @Override
-      public void mousePressed(MouseEvent mouseEvent) {
-        JTable table = (JTable) mouseEvent.getSource();
-        Point point = mouseEvent.getPoint();
-        int row = table.rowAtPoint(point);
+      public void mousePressed(final MouseEvent mouseEvent) {
+        final JTable table = (JTable) mouseEvent.getSource();
+        final Point point = mouseEvent.getPoint();
+        final int row = table.rowAtPoint(point);
         doubleClick = false;
         if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1 && row != -1) {
           doubleClick = true;
         } else {
-          Integer timerinterval = (Integer) Toolkit.getDefaultToolkit()
+          final Integer timerinterval = (Integer) Toolkit.getDefaultToolkit()
               .getDesktopProperty("awt.multiClickInterval");
-          String folder = (String) table.getValueAt(row, 0);
+          final String folder = (String) table.getValueAt(row, 0);
           sb.append("/").append(folder);
           tfName.setText(sb.toString());
-          Timer timer = new Timer(timerinterval, evt -> {
+          final Timer timer = new Timer(timerinterval, evt -> {
             if (doubleClick) {
               doubleClick = false; // reset flag
               updateFileTable();
@@ -150,7 +150,7 @@ public class SFTPBrowser extends JFrame implements Comparator<ChannelSftp.LsEntr
       }
     });
 
-    JLabel lblName = new JLabel("Name:");
+    final JLabel lblName = new JLabel("Name:");
     springLayout.putConstraint(SpringLayout.NORTH, lblName, 5, SpringLayout.SOUTH, scrollPane);
     springLayout.putConstraint(SpringLayout.WEST, lblName, 0, SpringLayout.WEST, scrollPane);
     getContentPane().add(lblName);
@@ -162,7 +162,7 @@ public class SFTPBrowser extends JFrame implements Comparator<ChannelSftp.LsEntr
     getContentPane().add(tfName);
     tfName.setColumns(10);
 
-    JButton btnSubmit = new JButton("Select");
+    final JButton btnSubmit = new JButton("Select");
     btnSubmit.addActionListener(arg0 -> {
       mainGui.setPathFromSFTP(sb.toString());
       SFTPBrowser.this.dispose();
@@ -173,43 +173,43 @@ public class SFTPBrowser extends JFrame implements Comparator<ChannelSftp.LsEntr
     this.getRootPane().setDefaultButton(btnSubmit);
   }
 
-  public boolean isImg(ChannelSftp.LsEntry file) {
-    String name = file.getFilename();
-    String[] parts = name.split("\\.");
+  public boolean isImg(final ChannelSftp.LsEntry file) {
+    final String name = file.getFilename();
+    final String[] parts = name.split("\\.");
     if (parts.length < 2) {
       return false;
     }
-    String extension = parts[parts.length - 1];
-    ArrayList<String> extensions = new ArrayList<>(
+    final String extension = parts[parts.length - 1];
+    final ArrayList<String> extensions = new ArrayList<>(
             Arrays.asList("jpg", "jpeg", "png", "bmp", "raw"));
     return extensions.contains(extension);
   }
 
   private void updateFileTable() {
-    DefaultTableModel dtm = (DefaultTableModel) tableFiles.getModel();
+    final DefaultTableModel dtm = (DefaultTableModel) tableFiles.getModel();
     dtm.setRowCount(0); // clear table
-    Vector<ChannelSftp.LsEntry> files;
+    final Vector<ChannelSftp.LsEntry> files;
     try {
       files = channel.ls(sb.toString());
-      Predicate<ChannelSftp.LsEntry> predicate;
+      final Predicate<ChannelSftp.LsEntry> predicate;
       if (mode.equals("Fixed")) {
         predicate = x -> isImg(x) || x.getAttrs().isDir();
       } else {
         predicate = x -> x.getAttrs().isDir();
       }
-      List<ChannelSftp.LsEntry> filteredFiles = files.stream().filter(predicate)
+      final List<ChannelSftp.LsEntry> filteredFiles = files.stream().filter(predicate)
               .sorted(this).collect(Collectors.toList());
-      for (ChannelSftp.LsEntry e : filteredFiles) {
-        String key = e.getFilename();
+      for (final ChannelSftp.LsEntry e : filteredFiles) {
+        final String key = e.getFilename();
         dtm.addRow(new String[] { key });
       }
-    } catch (SftpException e1) {
+    } catch (final SftpException e1) {
       e1.printStackTrace();
     }
   }
 
   @Override
-  public int compare(ChannelSftp.LsEntry arg0, ChannelSftp.LsEntry arg1) {
+  public int compare(final ChannelSftp.LsEntry arg0, final ChannelSftp.LsEntry arg1) {
     return String.CASE_INSENSITIVE_ORDER.compare(arg0.getFilename(), arg1.getFilename());
   }
 

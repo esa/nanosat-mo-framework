@@ -35,7 +35,7 @@ public class WholeTextAreaObject {
         return textArea;
     }
 
-    public void setTextArea(JTextArea textArea) {
+    public void setTextArea(final JTextArea textArea) {
         this.textArea = textArea;
     }
 
@@ -43,11 +43,11 @@ public class WholeTextAreaObject {
         return updateValues;
     }
 
-    public void setUpdateValues(boolean updateValues) {
+    public void setUpdateValues(final boolean updateValues) {
         this.updateValues = updateValues;
     }
 
-    public WholeTextAreaObject(JTextArea textArea, Boolean updateValues) {
+    public WholeTextAreaObject(final JTextArea textArea, final Boolean updateValues) {
         this.textArea = textArea;
         this.updateValues = updateValues;
     }

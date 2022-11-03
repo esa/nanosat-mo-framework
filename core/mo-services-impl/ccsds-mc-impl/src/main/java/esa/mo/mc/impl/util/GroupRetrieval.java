@@ -36,8 +36,8 @@ import org.ccsds.moims.mo.mal.structures.UIntegerList;
  */
 public class GroupRetrieval {
 
-    public GroupRetrieval(UIntegerList unkIndexList, UIntegerList invIndexList, 
-            LongList objIdToBeEnabled, BooleanList valueToBeEnabled) {
+    public GroupRetrieval(final UIntegerList unkIndexList, final UIntegerList invIndexList,
+                          final LongList objIdToBeEnabled, final BooleanList valueToBeEnabled) {
         this.unkIndexList = unkIndexList;
         this.invIndexList = invIndexList;
         this.objIdToBeEnabled = objIdToBeEnabled;
@@ -58,13 +58,13 @@ public class GroupRetrieval {
      *
      * @param index
      */
-    public void addUnkIndex(UInteger index) {
+    public void addUnkIndex(final UInteger index) {
         if (!this.unkIndexList.contains(index)) {
             this.unkIndexList.add(index);
         }
     }
 
-    public void setUnkIndexList(UIntegerList unkIndexList) {
+    public void setUnkIndexList(final UIntegerList unkIndexList) {
         this.unkIndexList = unkIndexList;
     }
 
@@ -72,7 +72,7 @@ public class GroupRetrieval {
         return invIndexList;
     }
 
-    public void setInvIndexList(UIntegerList invIndexList) {
+    public void setInvIndexList(final UIntegerList invIndexList) {
         this.invIndexList = invIndexList;
     }
 
@@ -81,7 +81,7 @@ public class GroupRetrieval {
      *
      * @param index
      */
-    public void addInvIndex(UInteger index) {
+    public void addInvIndex(final UInteger index) {
         if (!this.invIndexList.contains(index)) {
             this.invIndexList.add(index);
         }
@@ -91,11 +91,11 @@ public class GroupRetrieval {
         return objIdToBeEnabled;
     }
 
-    public void addObjIdToBeEnabled(Long objIdToBeEnabled) {
+    public void addObjIdToBeEnabled(final Long objIdToBeEnabled) {
         this.objIdToBeEnabled.add(objIdToBeEnabled);
     }
 
-    public void setObjIdToBeEnabled(LongList objIdToBeEnabled) {
+    public void setObjIdToBeEnabled(final LongList objIdToBeEnabled) {
         this.objIdToBeEnabled = objIdToBeEnabled;
     }
 
@@ -103,11 +103,11 @@ public class GroupRetrieval {
         return valueToBeEnabled;
     }
 
-    public void addValueToBeEnabled(Boolean valueToBeEnabled) {
+    public void addValueToBeEnabled(final Boolean valueToBeEnabled) {
         this.valueToBeEnabled.add(valueToBeEnabled);
     }
 
-    public void setValueToBeEnabled(BooleanList valueToBeEnabled) {
+    public void setValueToBeEnabled(final BooleanList valueToBeEnabled) {
         this.valueToBeEnabled = valueToBeEnabled;
     }
 

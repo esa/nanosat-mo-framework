@@ -44,10 +44,10 @@ public class DemoGroundDirectory
   private GroundMOAdapterImpl gma;
   private static final Logger LOGGER = Logger.getLogger(DemoGroundDirectory.class.getName());
 
-  public DemoGroundDirectory(String directoryURI)
+  public DemoGroundDirectory(final String directoryURI)
   {
     try {
-      ProviderSummaryList providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(
+      final ProviderSummaryList providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(
           new URI(directoryURI));
 
       if (!providers.isEmpty()) {
@@ -58,7 +58,7 @@ public class DemoGroundDirectory
         LOGGER.log(Level.SEVERE,
             "The returned list of providers is empty!");
       }
-    } catch (MALException | MalformedURLException | MALInteractionException ex) {
+    } catch (final MALException | MalformedURLException | MALInteractionException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
     }
   }
@@ -77,14 +77,14 @@ public class DemoGroundDirectory
       System.exit(1);
     }
 
-    DemoGroundDirectory demo = new DemoGroundDirectory(args[0]);
+    final DemoGroundDirectory demo = new DemoGroundDirectory(args[0]);
   }
 
   private class SimpleDataReceivedAdapter extends SimpleDataReceivedListener
   {
 
     @Override
-    public void onDataReceived(String parameterName, Serializable data)
+    public void onDataReceived(final String parameterName, final Serializable data)
     {
       LOGGER.log(Level.INFO,
           "\nParameter name: {0}" + "\n" + "Data content:\n{1}",
@@ -100,7 +100,7 @@ public class DemoGroundDirectory
   {
 
     @Override
-    public void onDataReceived(ParameterInstance parameterInstance)
+    public void onDataReceived(final ParameterInstance parameterInstance)
     {
       LOGGER.log(Level.INFO,
           "\nParameter name: {0}" + "\n" + "Parameter Value: {1}",

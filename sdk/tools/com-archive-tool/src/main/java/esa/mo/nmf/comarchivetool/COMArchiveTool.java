@@ -53,10 +53,10 @@ public class COMArchiveTool {
    *
    * @param args the command line arguments
    */
-  public static void main(String[] args) {
+  public static void main(final String[] args) {
     NMFConsumer.initHelpers();
-    COMArchiveTool browser = new COMArchiveTool();
-    CommandLine cmd = new CommandLine(browser);
+    final COMArchiveTool browser = new COMArchiveTool();
+    final CommandLine cmd = new CommandLine(browser);
     cmd.setUsageHelpAutoWidth(true);
     cmd.setUsageHelpLongOptionsMaxWidth(30);
 

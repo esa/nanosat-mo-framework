@@ -95,14 +95,14 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
     public void execute() throws MojoExecutionException {
         getLog().info("Generating NMF Package...");
 
-        ArrayList<String> inputFiles = new ArrayList<>();
-        ArrayList<String> locations = new ArrayList<>();
+        final ArrayList<String> inputFiles = new ArrayList<>();
+        final ArrayList<String> locations = new ArrayList<>();
 
         try {
-            File myAppFilename = this.findAppJarInTargetFolder();
+            final File myAppFilename = this.findAppJarInTargetFolder();
             inputFiles.add(myAppFilename.getAbsolutePath());
             locations.add("apps" + SEPARATOR + name + SEPARATOR + myAppFilename.getName());
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             Logger.getLogger(GenerateNMFPackageMojo.class.getName()).log(
                     Level.SEVERE, "The Jar file was not found!", ex);
         }
@@ -130,7 +130,7 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
         final String timestamp = HelperTime.time2readableString(time);
 
         // Package 1
-        NMFPackageDetails details = new NMFPackageDetails(name, version, timestamp, mainClass, maxHeap);
+        final NMFPackageDetails details = new NMFPackageDetails(name, version, timestamp, mainClass, maxHeap);
         NMFPackageCreator.nmfPackageCreator(details,
                 inputFiles, locations, "target");
         // Additional libraries?
@@ -138,10 +138,10 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
 
     private File findAppJarInTargetFolder() throws IOException {
 
-        File targetFolder = new File("target");
-        File[] fList = targetFolder.listFiles();
+        final File targetFolder = new File("target");
+        final File[] fList = targetFolder.listFiles();
 
-        for (File file : fList) {
+        for (final File file : fList) {
             if (file.isDirectory()) {
                 continue; // Jump over if it is a directory
             }

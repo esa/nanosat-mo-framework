@@ -36,7 +36,7 @@ import org.ccsds.moims.mo.mc.statistic.structures.StatisticLinkDetails;
  */
 public class StatisticLinkTablePanel extends SharedTablePanel {
 
-    public StatisticLinkTablePanel(ArchiveConsumerServiceImpl archiveService) {
+    public StatisticLinkTablePanel(final ArchiveConsumerServiceImpl archiveService) {
         super(archiveService);
     }
 
@@ -49,14 +49,14 @@ public class StatisticLinkTablePanel extends SharedTablePanel {
 
         try {
             semaphore.acquire();
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        StatisticLinkDetails statLink = (StatisticLinkDetails) comObject.getObject();
+        final StatisticLinkDetails statLink = (StatisticLinkDetails) comObject.getObject();
         
         // Get the parameter definition from the source link
-        ParameterDefinitionDetails pDef = (ParameterDefinitionDetails) HelperArchive.getObjectBodyFromArchive(
+        final ParameterDefinitionDetails pDef = (ParameterDefinitionDetails) HelperArchive.getObjectBodyFromArchive(
                 this.getArchiveService().getArchiveStub(), 
                 comObject.getArchiveDetails().getDetails().getSource().getType(), 
                 comObject.getArchiveDetails().getDetails().getSource().getKey().getDomain(), 
@@ -78,11 +78,11 @@ public class StatisticLinkTablePanel extends SharedTablePanel {
 
     }
 
-    public void switchEnabledstatus(boolean status){
+    public void switchEnabledstatus(final boolean status){
         
         try {
             semaphore.acquire();
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -94,11 +94,11 @@ public class StatisticLinkTablePanel extends SharedTablePanel {
         
     }
     
-    public void switchEnabledstatusAll(boolean status){
+    public void switchEnabledstatusAll(final boolean status){
         
         try {
             semaphore.acquire();
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -116,7 +116,7 @@ public class StatisticLinkTablePanel extends SharedTablePanel {
     @Override
     public void defineTableContent() {
     
-        String[] tableCol = new String[]{
+        final String[] tableCol = new String[]{
             "Obj Inst Id", "Stat Function Id", "Parameter Name", "collection interval", "reporting interval", "sampling interval", "reporting Enabled" };
 
         tableData = new javax.swing.table.DefaultTableModel(
@@ -127,12 +127,12 @@ public class StatisticLinkTablePanel extends SharedTablePanel {
                     };
 
                     @Override               //all cells false
-                    public boolean isCellEditable(int row, int column) {
+                    public boolean isCellEditable(final int row, final int column) {
                         return false;
                     }
 
                     @Override
-                    public Class getColumnClass(int columnIndex) {
+                    public Class getColumnClass(final int columnIndex) {
                         return types[columnIndex];
                     }
                 };

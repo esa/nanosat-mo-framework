@@ -38,7 +38,7 @@ public class EvaluationResult {
         return evaluationTime;
     }
 
-    public void setEvaluationTime(Time evaluationTime) {
+    public void setEvaluationTime(final Time evaluationTime) {
         this.evaluationTime = evaluationTime;
     }
 
@@ -46,7 +46,7 @@ public class EvaluationResult {
         return evaluationState;
     }
 
-    public void setEvaluationState(CheckState evaluationState) {
+    public void setEvaluationState(final CheckState evaluationState) {
         this.evaluationState = evaluationState;
     }
 
@@ -54,7 +54,7 @@ public class EvaluationResult {
         return evaluationResult;
     }
 
-    public void setEvaluationResult(Boolean evaluationResult) {
+    public void setEvaluationResult(final Boolean evaluationResult) {
         this.evaluationResult = evaluationResult;
     }
 
@@ -62,7 +62,7 @@ public class EvaluationResult {
         return checkedValue;
     }
 
-    public void setCheckedValue(Attribute checkedValue) {
+    public void setCheckedValue(final Attribute checkedValue) {
         this.checkedValue = checkedValue;
     }
 

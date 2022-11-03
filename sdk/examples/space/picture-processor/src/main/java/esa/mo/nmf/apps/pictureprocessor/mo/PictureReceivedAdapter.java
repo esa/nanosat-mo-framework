@@ -48,14 +48,14 @@ public class PictureReceivedAdapter extends CameraAdapter {
     private final Path outputFolder;
     private final PictureProcessingExecutor executor;
 
-    public PictureReceivedAdapter(ProcessEventListener processEventListener, Long processRequestId, Path outputFolder, Integer minProcessDurationSeconds, Integer maxProcessDurationSeconds) {
+    public PictureReceivedAdapter(final ProcessEventListener processEventListener, final Long processRequestId, final Path outputFolder, final Integer minProcessDurationSeconds, final Integer maxProcessDurationSeconds) {
         this.outputFolder = outputFolder;
         this.executor = new PictureProcessingExecutor(processEventListener, processRequestId, minProcessDurationSeconds, maxProcessDurationSeconds);
     }
 
     @Override
-    public void takePictureResponseReceived(MALMessageHeader msgHeader, Picture picture, java.util.Map qosProperties) {
-        Path outputFile = outputFolder.resolve(pictureFileName());
+    public void takePictureResponseReceived(final MALMessageHeader msgHeader, final Picture picture, final java.util.Map qosProperties) {
+        final Path outputFile = outputFolder.resolve(pictureFileName());
 
         if (!savePicture(outputFile, picture)) {
             return;
@@ -68,11 +68,11 @@ public class PictureReceivedAdapter extends CameraAdapter {
         executor.destroyProcess();
     }
 
-    private static boolean savePicture(Path outputFile, Picture picture) {
+    private static boolean savePicture(final Path outputFile, final Picture picture) {
         try {
             // Store it in a file!
             Files.write(outputFile, picture.getContent().getValue());
-        } catch (IOException | MALException e) {
+        } catch (final IOException | MALException e) {
             Logger.getLogger(PictureReceivedAdapter.class.getName()).log(Level.SEVERE,
                     "Picture could not be saved to file!", e);
             return false;

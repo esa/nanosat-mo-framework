@@ -83,7 +83,7 @@ public class PlanInformationManagementProviderServiceImpl extends PlanInformatio
      * @param comServices
      * @throws MALException On initialisation error.
      */
-    public synchronized void init(COMServicesProvider comServices, MPArchiveManager archiveManager, MPServiceOperationManager registration) throws MALException {
+    public synchronized void init(final COMServicesProvider comServices, final MPArchiveManager archiveManager, final MPServiceOperationManager registration) throws MALException {
         if (!this.initialised) {
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -99,7 +99,7 @@ public class PlanInformationManagementProviderServiceImpl extends PlanInformatio
 
             try {
                 PlanInformationManagementHelper.init(MALContextFactory.getElementFactoryRegistry());
-            } catch (MALException ex) {
+            } catch (final MALException ex) {
                 // nothing to be done..
             }
         }
@@ -130,7 +130,7 @@ public class PlanInformationManagementProviderServiceImpl extends PlanInformatio
             }
 
             this.connection.closeAll();
-        } catch (MALException ex) {
+        } catch (final MALException ex) {
             LOGGER.log(Level.WARNING, "Exception during close down of the provider {0}", ex);
         }
     }
@@ -140,7 +140,7 @@ public class PlanInformationManagementProviderServiceImpl extends PlanInformatio
     }
 
     @Override
-    public ObjectInstancePairList addRequestDef(IdentifierList identities, RequestTemplateDetailsList definitions, MALInteraction interaction) throws MALInteractionException, MALException {
+    public ObjectInstancePairList addRequestDef(final IdentifierList identities, final RequestTemplateDetailsList definitions, final MALInteraction interaction) throws MALInteractionException, MALException {
         return this.addDef(
             MPServiceOperation.ADD_REQUEST_DEF,
             this.archiveManager.REQUEST_TEMPLATE,
@@ -151,7 +151,7 @@ public class PlanInformationManagementProviderServiceImpl extends PlanInformatio
     }
 
     @Override
-    public LongList updateRequestDef(LongList identityIds, RequestTemplateDetailsList definitions, MALInteraction interaction) throws MALInteractionException, MALException {
+    public LongList updateRequestDef(final LongList identityIds, final RequestTemplateDetailsList definitions, final MALInteraction interaction) throws MALInteractionException, MALException {
         return this.updateDef(
             MPServiceOperation.UPDATE_REQUEST_DEF,
             this.archiveManager.REQUEST_TEMPLATE,
@@ -163,7 +163,7 @@ public class PlanInformationManagementProviderServiceImpl extends PlanInformatio
     }
 
     @Override
-    public ObjectInstancePairList listRequestDefs(IdentifierList identities, MALInteraction interaction) throws MALInteractionException, MALException {
+    public ObjectInstancePairList listRequestDefs(final IdentifierList identities, final MALInteraction interaction) throws MALInteractionException, MALException {
         return this.listDefs(
             this.archiveManager.REQUEST_TEMPLATE,
             identities,
@@ -173,7 +173,7 @@ public class PlanInformationManagementProviderServiceImpl extends PlanInformatio
     }
 
     @Override
-    public RequestTemplateDetailsList getRequestDef(LongList identityIds, MALInteraction interaction) throws MALInteractionException, MALException {
+    public RequestTemplateDetailsList getRequestDef(final LongList identityIds, final MALInteraction interaction) throws MALInteractionException, MALException {
         return (RequestTemplateDetailsList) this.getDef(
             this.archiveManager.REQUEST_TEMPLATE,
             identityIds,
@@ -184,7 +184,7 @@ public class PlanInformationManagementProviderServiceImpl extends PlanInformatio
     }
 
     @Override
-    public void removeRequestDef(LongList identityIds, MALInteraction interaction) throws MALInteractionException, MALException {
+    public void removeRequestDef(final LongList identityIds, final MALInteraction interaction) throws MALInteractionException, MALException {
         this.removeDef(
             MPServiceOperation.REMOVE_REQUEST_DEF,
             this.archiveManager.REQUEST_TEMPLATE,
@@ -195,7 +195,7 @@ public class PlanInformationManagementProviderServiceImpl extends PlanInformatio
     }
 
     @Override
-    public ObjectInstancePairList addActivityDef(IdentifierList identities, ActivityDefinitionDetailsList definitions, MALInteraction interaction) throws MALInteractionException, MALException {
+    public ObjectInstancePairList addActivityDef(final IdentifierList identities, final ActivityDefinitionDetailsList definitions, final MALInteraction interaction) throws MALInteractionException, MALException {
         return this.addDef(
             MPServiceOperation.ADD_ACTIVITY_DEF,
             this.archiveManager.ACTIVITY,
@@ -206,7 +206,7 @@ public class PlanInformationManagementProviderServiceImpl extends PlanInformatio
     }
 
     @Override
-    public LongList updateActivityDef(LongList identityIds, ActivityDefinitionDetailsList definitions, MALInteraction interaction) throws MALInteractionException, MALException {
+    public LongList updateActivityDef(final LongList identityIds, final ActivityDefinitionDetailsList definitions, final MALInteraction interaction) throws MALInteractionException, MALException {
         return this.updateDef(
             MPServiceOperation.UPDATE_ACTIVITY_DEF,
             this.archiveManager.ACTIVITY,
@@ -218,7 +218,7 @@ public class PlanInformationManagementProviderServiceImpl extends PlanInformatio
     }
 
     @Override
-    public ObjectInstancePairList listActivityDefs(IdentifierList identities, MALInteraction interaction) throws MALInteractionException, MALException {
+    public ObjectInstancePairList listActivityDefs(final IdentifierList identities, final MALInteraction interaction) throws MALInteractionException, MALException {
         return this.listDefs(
             this.archiveManager.ACTIVITY,
             identities,
@@ -228,7 +228,7 @@ public class PlanInformationManagementProviderServiceImpl extends PlanInformatio
     }
 
     @Override
-    public ActivityDefinitionDetailsList getActivityDef(LongList identityIds, MALInteraction interaction) throws MALInteractionException, MALException {
+    public ActivityDefinitionDetailsList getActivityDef(final LongList identityIds, final MALInteraction interaction) throws MALInteractionException, MALException {
         return (ActivityDefinitionDetailsList) this.getDef(
             this.archiveManager.ACTIVITY,
             identityIds,
@@ -239,7 +239,7 @@ public class PlanInformationManagementProviderServiceImpl extends PlanInformatio
     }
 
     @Override
-    public void removeActivityDef(LongList identityIds, MALInteraction interaction) throws MALInteractionException, MALException {
+    public void removeActivityDef(final LongList identityIds, final MALInteraction interaction) throws MALInteractionException, MALException {
         this.removeDef(
             MPServiceOperation.REMOVE_ACTIVITY_DEF,
             this.archiveManager.ACTIVITY,
@@ -250,7 +250,7 @@ public class PlanInformationManagementProviderServiceImpl extends PlanInformatio
     }
 
     @Override
-    public ObjectInstancePairList addEventDef(IdentifierList identities, EventDefinitionDetailsList definitions, MALInteraction interaction) throws MALInteractionException, MALException {
+    public ObjectInstancePairList addEventDef(final IdentifierList identities, final EventDefinitionDetailsList definitions, final MALInteraction interaction) throws MALInteractionException, MALException {
         return this.addDef(
             MPServiceOperation.ADD_EVENT_DEF,
             this.archiveManager.EVENT,
@@ -261,7 +261,7 @@ public class PlanInformationManagementProviderServiceImpl extends PlanInformatio
     }
 
     @Override
-    public LongList updateEventDef(LongList identityIds, EventDefinitionDetailsList definitions, MALInteraction interaction) throws MALInteractionException, MALException {
+    public LongList updateEventDef(final LongList identityIds, final EventDefinitionDetailsList definitions, final MALInteraction interaction) throws MALInteractionException, MALException {
         return this.updateDef(
             MPServiceOperation.UPDATE_EVENT_DEF,
             this.archiveManager.EVENT,
@@ -273,7 +273,7 @@ public class PlanInformationManagementProviderServiceImpl extends PlanInformatio
     }
 
     @Override
-    public ObjectInstancePairList listEventDefs(IdentifierList identities, MALInteraction interaction) throws MALInteractionException, MALException {
+    public ObjectInstancePairList listEventDefs(final IdentifierList identities, final MALInteraction interaction) throws MALInteractionException, MALException {
         return this.listDefs(
             this.archiveManager.EVENT,
             identities,
@@ -283,7 +283,7 @@ public class PlanInformationManagementProviderServiceImpl extends PlanInformatio
     }
 
     @Override
-    public EventDefinitionDetailsList getEventDef(LongList identityIds, MALInteraction interaction) throws MALInteractionException, MALException {
+    public EventDefinitionDetailsList getEventDef(final LongList identityIds, final MALInteraction interaction) throws MALInteractionException, MALException {
         return (EventDefinitionDetailsList) this.getDef(
             this.archiveManager.EVENT,
             identityIds,
@@ -294,7 +294,7 @@ public class PlanInformationManagementProviderServiceImpl extends PlanInformatio
     }
 
     @Override
-    public void removeEventDef(LongList identityIds, MALInteraction interaction) throws MALInteractionException, MALException {
+    public void removeEventDef(final LongList identityIds, final MALInteraction interaction) throws MALInteractionException, MALException {
         this.removeDef(
             MPServiceOperation.REMOVE_EVENT_DEF,
             this.archiveManager.EVENT,
@@ -305,7 +305,7 @@ public class PlanInformationManagementProviderServiceImpl extends PlanInformatio
     }
 
     @Override
-    public ObjectInstancePairList addResourceDef(IdentifierList identities, c_ResourceDefinitionDetailsList definitions, MALInteraction interaction) throws MALInteractionException, MALException {
+    public ObjectInstancePairList addResourceDef(final IdentifierList identities, final c_ResourceDefinitionDetailsList definitions, final MALInteraction interaction) throws MALInteractionException, MALException {
         return this.addDef(
             MPServiceOperation.ADD_RESOURCE_DEF,
             this.archiveManager.RESOURCE,
@@ -316,7 +316,7 @@ public class PlanInformationManagementProviderServiceImpl extends PlanInformatio
     }
 
     @Override
-    public LongList updateResourceDef(LongList identityIds, c_ResourceDefinitionDetailsList definitions, MALInteraction interaction) throws MALInteractionException, MALException {
+    public LongList updateResourceDef(final LongList identityIds, final c_ResourceDefinitionDetailsList definitions, final MALInteraction interaction) throws MALInteractionException, MALException {
         return this.updateDef(
             MPServiceOperation.UPDATE_RESOURCE_DEF,
             this.archiveManager.RESOURCE,
@@ -328,7 +328,7 @@ public class PlanInformationManagementProviderServiceImpl extends PlanInformatio
     }
 
     @Override
-    public ObjectInstancePairList listResourceDefs(IdentifierList identities, MALInteraction interaction) throws MALInteractionException, MALException {
+    public ObjectInstancePairList listResourceDefs(final IdentifierList identities, final MALInteraction interaction) throws MALInteractionException, MALException {
         return this.listDefs(
             this.archiveManager.RESOURCE,
             identities,
@@ -338,7 +338,7 @@ public class PlanInformationManagementProviderServiceImpl extends PlanInformatio
     }
 
     @Override
-    public c_ResourceDefinitionDetailsList getResourceDef(LongList identityIds, MALInteraction interaction) throws MALInteractionException, MALException {
+    public c_ResourceDefinitionDetailsList getResourceDef(final LongList identityIds, final MALInteraction interaction) throws MALInteractionException, MALException {
         return (c_ResourceDefinitionDetailsList) this.getDef(
             this.archiveManager.RESOURCE,
             identityIds,
@@ -349,7 +349,7 @@ public class PlanInformationManagementProviderServiceImpl extends PlanInformatio
     }
 
     @Override
-    public void removeResourceDef(LongList identityIds, MALInteraction interaction) throws MALInteractionException, MALException {
+    public void removeResourceDef(final LongList identityIds, final MALInteraction interaction) throws MALInteractionException, MALException {
         this.removeDef(
             MPServiceOperation.REMOVE_RESOURCE_DEF,
             this.archiveManager.RESOURCE,
@@ -359,126 +359,126 @@ public class PlanInformationManagementProviderServiceImpl extends PlanInformatio
         );
     }
 
-    private ObjectInstancePairList addDef(MPServiceOperation operation, COMStaticItemArchiveManager archive, IdentifierList identities, ElementList definitions, MALInteraction interaction) throws MALInteractionException, MALException {
-        ObjectIdPairList pairs = archive.addDefinitions(identities, definitions, null, interaction);
+    private ObjectInstancePairList addDef(final MPServiceOperation operation, final COMStaticItemArchiveManager archive, final IdentifierList identities, final ElementList definitions, final MALInteraction interaction) throws MALInteractionException, MALException {
+        final ObjectIdPairList pairs = archive.addDefinitions(identities, definitions, null, interaction);
         return this.addDefResponse(operation, pairs, interaction);
     }
 
-    private ObjectInstancePairList addDef(MPServiceOperation operation, COMStateArchiveManager archive, IdentifierList identities, ElementList definitions, MALInteraction interaction) throws MALInteractionException, MALException {
-        ObjectIdPairList pairs = archive.addDefinitions(identities, definitions, null, interaction);
+    private ObjectInstancePairList addDef(final MPServiceOperation operation, final COMStateArchiveManager archive, final IdentifierList identities, final ElementList definitions, final MALInteraction interaction) throws MALInteractionException, MALException {
+        final ObjectIdPairList pairs = archive.addDefinitions(identities, definitions, null, interaction);
         return this.addDefResponse(operation, pairs, interaction);
     }
 
-    private ObjectInstancePairList addDef(MPServiceOperation operation, COMInstanceArchiveManager archive, IdentifierList identities, ElementList definitions, MALInteraction interaction) throws MALInteractionException, MALException {
-        ObjectIdPairList pairs = archive.addDefinitions(identities, definitions, null, interaction);
+    private ObjectInstancePairList addDef(final MPServiceOperation operation, final COMInstanceArchiveManager archive, final IdentifierList identities, final ElementList definitions, final MALInteraction interaction) throws MALInteractionException, MALException {
+        final ObjectIdPairList pairs = archive.addDefinitions(identities, definitions, null, interaction);
         return this.addDefResponse(operation, pairs, interaction);
     }
 
-    private ObjectInstancePairList addDefResponse(MPServiceOperation operation, ObjectIdPairList pairs, MALInteraction interaction) throws MALInteractionException, MALException {
+    private ObjectInstancePairList addDefResponse(final MPServiceOperation operation, final ObjectIdPairList pairs, final MALInteraction interaction) throws MALInteractionException, MALException {
         // Operation callback
-        List<MPServiceOperationArguments> arguments = MPServiceOperationHelper.asArgumentsList(pairs, null, interaction);
+        final List<MPServiceOperationArguments> arguments = MPServiceOperationHelper.asArgumentsList(pairs, null, interaction);
         this.operationCallbackManager.notify(operation, arguments);
 
-        ObjectInstancePairList response = COMObjectIdHelper.getInstancePairIds(pairs);
+        final ObjectInstancePairList response = COMObjectIdHelper.getInstancePairIds(pairs);
         return response;
     }
 
-    private LongList updateDef(MPServiceOperation operation, COMStaticItemArchiveManager archive, LongList identityInstanceIds, ObjectType identityType, ElementList definitions, MALInteraction interaction) throws MALInteractionException, MALException {
-        ObjectIdList identityIds = COMObjectIdHelper.getObjectIds(identityInstanceIds, identityType);
-        ObjectIdList objectIdList = archive.updateDefinitions(identityIds, definitions, null, interaction);
+    private LongList updateDef(final MPServiceOperation operation, final COMStaticItemArchiveManager archive, final LongList identityInstanceIds, final ObjectType identityType, final ElementList definitions, final MALInteraction interaction) throws MALInteractionException, MALException {
+        final ObjectIdList identityIds = COMObjectIdHelper.getObjectIds(identityInstanceIds, identityType);
+        final ObjectIdList objectIdList = archive.updateDefinitions(identityIds, definitions, null, interaction);
         return this.updateDefResponse(operation, identityIds, objectIdList, interaction);
     }
 
-    private LongList updateDef(MPServiceOperation operation, COMStateArchiveManager archive, LongList identityInstanceIds, ObjectType identityType, ElementList definitions, MALInteraction interaction) throws MALInteractionException, MALException {
-        ObjectIdList identityIds = COMObjectIdHelper.getObjectIds(identityInstanceIds, identityType);
-        ObjectIdList objectIdList = archive.updateDefinitions(identityIds, definitions, null, interaction);
+    private LongList updateDef(final MPServiceOperation operation, final COMStateArchiveManager archive, final LongList identityInstanceIds, final ObjectType identityType, final ElementList definitions, final MALInteraction interaction) throws MALInteractionException, MALException {
+        final ObjectIdList identityIds = COMObjectIdHelper.getObjectIds(identityInstanceIds, identityType);
+        final ObjectIdList objectIdList = archive.updateDefinitions(identityIds, definitions, null, interaction);
         return this.updateDefResponse(operation, identityIds, objectIdList, interaction);
     }
 
-    private LongList updateDef(MPServiceOperation operation, COMInstanceArchiveManager archive, LongList identityInstanceIds, ObjectType identityType, ElementList definitions, MALInteraction interaction) throws MALInteractionException, MALException {
-        ObjectIdList identityIds = COMObjectIdHelper.getObjectIds(identityInstanceIds, identityType);
-        ObjectIdList objectIdList = archive.updateDefinitions(identityIds, definitions, null, interaction);
+    private LongList updateDef(final MPServiceOperation operation, final COMInstanceArchiveManager archive, final LongList identityInstanceIds, final ObjectType identityType, final ElementList definitions, final MALInteraction interaction) throws MALInteractionException, MALException {
+        final ObjectIdList identityIds = COMObjectIdHelper.getObjectIds(identityInstanceIds, identityType);
+        final ObjectIdList objectIdList = archive.updateDefinitions(identityIds, definitions, null, interaction);
         return this.updateDefResponse(operation, identityIds, objectIdList, interaction);
     }
 
-    private LongList updateDefResponse(MPServiceOperation operation, ObjectIdList identityIds, ObjectIdList objectIdList, MALInteraction interaction) throws MALInteractionException, MALException {
+    private LongList updateDefResponse(final MPServiceOperation operation, final ObjectIdList identityIds, final ObjectIdList objectIdList, final MALInteraction interaction) throws MALInteractionException, MALException {
         // Operation callback
-        List<MPServiceOperationArguments> arguments = MPServiceOperationHelper.asArgumentsList(identityIds, objectIdList, null, null, interaction, null);
+        final List<MPServiceOperationArguments> arguments = MPServiceOperationHelper.asArgumentsList(identityIds, objectIdList, null, null, interaction, null);
         this.operationCallbackManager.notify(operation, arguments);
 
-        LongList response = COMObjectIdHelper.getInstanceIds(objectIdList);
+        final LongList response = COMObjectIdHelper.getInstanceIds(objectIdList);
         return response;
     }
 
-    private ObjectInstancePairList listDefs(COMStaticItemArchiveManager archive, IdentifierList identities, ObjectType identityType, MALInteraction interaction) throws MALInteractionException, MALException {
-        ObjectIdList identityIds = archive.getIdentityIds(identities, identityType);
-        ObjectIdList definitionIds = archive.getDefinitionIdsByIdentityIds(identityIds);
+    private ObjectInstancePairList listDefs(final COMStaticItemArchiveManager archive, final IdentifierList identities, final ObjectType identityType, final MALInteraction interaction) throws MALInteractionException, MALException {
+        final ObjectIdList identityIds = archive.getIdentityIds(identities, identityType);
+        final ObjectIdList definitionIds = archive.getDefinitionIdsByIdentityIds(identityIds);
         return this.listDefsResponse(identityIds, definitionIds, interaction);
     }
 
-    private ObjectInstancePairList listDefs(COMStateArchiveManager archive, IdentifierList identities, ObjectType identityType, MALInteraction interaction) throws MALInteractionException, MALException {
-        ObjectIdList identityIds = archive.getIdentityIds(identities, identityType);
-        ObjectIdList definitionIds = archive.getDefinitionIdsByIdentityIds(identityIds);
+    private ObjectInstancePairList listDefs(final COMStateArchiveManager archive, final IdentifierList identities, final ObjectType identityType, final MALInteraction interaction) throws MALInteractionException, MALException {
+        final ObjectIdList identityIds = archive.getIdentityIds(identities, identityType);
+        final ObjectIdList definitionIds = archive.getDefinitionIdsByIdentityIds(identityIds);
         return this.listDefsResponse(identityIds, definitionIds, interaction);
     }
 
-    private ObjectInstancePairList listDefs(COMInstanceArchiveManager archive, IdentifierList identities, ObjectType identityType, MALInteraction interaction) throws MALInteractionException, MALException {
-        ObjectIdList identityIds = archive.getIdentityIds(identities, identityType);
-        ObjectIdList definitionIds = archive.getDefinitionIdsByIdentityIds(identityIds);
+    private ObjectInstancePairList listDefs(final COMInstanceArchiveManager archive, final IdentifierList identities, final ObjectType identityType, final MALInteraction interaction) throws MALInteractionException, MALException {
+        final ObjectIdList identityIds = archive.getIdentityIds(identities, identityType);
+        final ObjectIdList definitionIds = archive.getDefinitionIdsByIdentityIds(identityIds);
         return this.listDefsResponse(identityIds, definitionIds, interaction);
     }
 
-    private ObjectInstancePairList listDefsResponse(ObjectIdList identityIds, ObjectIdList definitionIds, MALInteraction interaction) throws MALInteractionException, MALException {
-        ObjectInstancePairList response = new ObjectInstancePairList();
+    private ObjectInstancePairList listDefsResponse(final ObjectIdList identityIds, final ObjectIdList definitionIds, final MALInteraction interaction) throws MALInteractionException, MALException {
+        final ObjectInstancePairList response = new ObjectInstancePairList();
         for (int index = 0; index < identityIds.size(); index++) {
-            Long identityId = COMObjectIdHelper.getInstanceId(identityIds.get(index));
-            Long definitionId = COMObjectIdHelper.getInstanceId(definitionIds.get(index));
-            ObjectInstancePair pair = new ObjectInstancePair(identityId, definitionId);
+            final Long identityId = COMObjectIdHelper.getInstanceId(identityIds.get(index));
+            final Long definitionId = COMObjectIdHelper.getInstanceId(definitionIds.get(index));
+            final ObjectInstancePair pair = new ObjectInstancePair(identityId, definitionId);
             response.add(pair);
         }
 
         return response;
     }
 
-    private ElementList getDef(COMStaticItemArchiveManager archive, LongList identityInstanceIds, ObjectType identityType, MALInteraction interaction, Element element) throws MALInteractionException, MALException {
-        ObjectIdList identityIds = COMObjectIdHelper.getObjectIds(identityInstanceIds, identityType);
-        ElementList definitions = archive.getDefinitionsByIdentityIds(identityIds);
+    private ElementList getDef(final COMStaticItemArchiveManager archive, final LongList identityInstanceIds, final ObjectType identityType, final MALInteraction interaction, final Element element) throws MALInteractionException, MALException {
+        final ObjectIdList identityIds = COMObjectIdHelper.getObjectIds(identityInstanceIds, identityType);
+        final ElementList definitions = archive.getDefinitionsByIdentityIds(identityIds);
         return definitions;
     }
 
-    private ElementList getDef(COMStateArchiveManager archive, LongList identityInstanceIds, ObjectType identityType, MALInteraction interaction, Element element) throws MALInteractionException, MALException {
-        ObjectIdList identityIds = COMObjectIdHelper.getObjectIds(identityInstanceIds, identityType);
-        ElementList definitions = archive.getDefinitionsByIdentityIds(identityIds);
+    private ElementList getDef(final COMStateArchiveManager archive, final LongList identityInstanceIds, final ObjectType identityType, final MALInteraction interaction, final Element element) throws MALInteractionException, MALException {
+        final ObjectIdList identityIds = COMObjectIdHelper.getObjectIds(identityInstanceIds, identityType);
+        final ElementList definitions = archive.getDefinitionsByIdentityIds(identityIds);
         return definitions;
     }
 
-    private ElementList getDef(COMInstanceArchiveManager archive, LongList identityInstanceIds, ObjectType identityType, MALInteraction interaction, Element element) throws MALInteractionException, MALException {
-        ObjectIdList identityIds = COMObjectIdHelper.getObjectIds(identityInstanceIds, identityType);
-        ElementList definitions = archive.getDefinitionsByIdentityIds(identityIds);
+    private ElementList getDef(final COMInstanceArchiveManager archive, final LongList identityInstanceIds, final ObjectType identityType, final MALInteraction interaction, final Element element) throws MALInteractionException, MALException {
+        final ObjectIdList identityIds = COMObjectIdHelper.getObjectIds(identityInstanceIds, identityType);
+        final ElementList definitions = archive.getDefinitionsByIdentityIds(identityIds);
         return definitions;
     }
 
-    private void removeDef(MPServiceOperation operation, COMStaticItemArchiveManager archive, LongList identityInstanceIds, ObjectType identityType, MALInteraction interaction) throws MALInteractionException, MALException {
-        ObjectIdList identityIds = COMObjectIdHelper.getObjectIds(identityInstanceIds, identityType);
+    private void removeDef(final MPServiceOperation operation, final COMStaticItemArchiveManager archive, final LongList identityInstanceIds, final ObjectType identityType, final MALInteraction interaction) throws MALInteractionException, MALException {
+        final ObjectIdList identityIds = COMObjectIdHelper.getObjectIds(identityInstanceIds, identityType);
         archive.removeDefinitions(identityIds, interaction);
         this.removeDefResponse(operation, identityIds, interaction);
     }
 
-    private void removeDef(MPServiceOperation operation, COMStateArchiveManager archive, LongList identityInstanceIds, ObjectType identityType, MALInteraction interaction) throws MALInteractionException, MALException {
-        ObjectIdList identityIds = COMObjectIdHelper.getObjectIds(identityInstanceIds, identityType);
+    private void removeDef(final MPServiceOperation operation, final COMStateArchiveManager archive, final LongList identityInstanceIds, final ObjectType identityType, final MALInteraction interaction) throws MALInteractionException, MALException {
+        final ObjectIdList identityIds = COMObjectIdHelper.getObjectIds(identityInstanceIds, identityType);
         archive.removeDefinitions(identityIds, interaction);
         this.removeDefResponse(operation, identityIds, interaction);
     }
 
-    private void removeDef(MPServiceOperation operation, COMInstanceArchiveManager archive, LongList identityInstanceIds, ObjectType identityType, MALInteraction interaction) throws MALInteractionException, MALException {
-        ObjectIdList identityIds = COMObjectIdHelper.getObjectIds(identityInstanceIds, identityType);
+    private void removeDef(final MPServiceOperation operation, final COMInstanceArchiveManager archive, final LongList identityInstanceIds, final ObjectType identityType, final MALInteraction interaction) throws MALInteractionException, MALException {
+        final ObjectIdList identityIds = COMObjectIdHelper.getObjectIds(identityInstanceIds, identityType);
         archive.removeDefinitions(identityIds, interaction);
         this.removeDefResponse(operation, identityIds, interaction);
     }
 
-    private void removeDefResponse(MPServiceOperation operation, ObjectIdList identityIds, MALInteraction interaction) throws MALInteractionException, MALException {
+    private void removeDefResponse(final MPServiceOperation operation, final ObjectIdList identityIds, final MALInteraction interaction) throws MALInteractionException, MALException {
         // Operation callback
-        List<MPServiceOperationArguments> arguments = MPServiceOperationHelper.asArgumentsList(identityIds, null, null, null, interaction, null);
+        final List<MPServiceOperationArguments> arguments = MPServiceOperationHelper.asArgumentsList(identityIds, null, null, null, interaction, null);
         this.operationCallbackManager.notify(operation, arguments);
     }
 }

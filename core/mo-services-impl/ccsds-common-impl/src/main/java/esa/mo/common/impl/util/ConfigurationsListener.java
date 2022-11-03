@@ -28,7 +28,7 @@ import esa.mo.com.impl.provider.EventProviderServiceImpl;
  */
 public class ConfigurationsListener {
 
-    public ConfigurationsListener(EventProviderServiceImpl eventService) {
+    public ConfigurationsListener(final EventProviderServiceImpl eventService) {
 
     }
 

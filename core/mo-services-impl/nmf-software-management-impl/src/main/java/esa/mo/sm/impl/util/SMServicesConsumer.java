@@ -56,7 +56,7 @@ public class SMServicesConsumer
    * @param connectionConsumer Connection details
    * @param comServices        COM services
    */
-  public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices)
+  public void init(final ConnectionConsumer connectionConsumer, final COMServicesConsumer comServices)
   {
     init(connectionConsumer, comServices, null, null);
   }
@@ -68,8 +68,8 @@ public class SMServicesConsumer
    * @param comServices        COM services
    * @param authenticationId authenticationId of the logged in user
    */
-  public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices,
-                   Blob authenticationId, String localNamePrefix)
+  public void init(final ConnectionConsumer connectionConsumer, final COMServicesConsumer comServices,
+                   final Blob authenticationId, final String localNamePrefix)
   {
 
     SingleConnectionDetails details;
@@ -101,7 +101,7 @@ public class SMServicesConsumer
       if (details != null) {
         heartbeatService = new HeartbeatConsumerServiceImpl(details, comServices, authenticationId, localNamePrefix);
       }
-    } catch (MALException | MalformedURLException | MALInteractionException ex) {
+    } catch (final MALException | MalformedURLException | MALInteractionException ex) {
       Logger.getLogger(SMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
     }
   }
@@ -134,10 +134,10 @@ public class SMServicesConsumer
    * @param heartbeatService         Heartbeat service consumer
    * @param commandExecutorService   Command Executor Service consumer
    */
-  public void setServices(PackageManagementConsumerServiceImpl packageManagementService,
-      AppsLauncherConsumerServiceImpl appsLauncherService,
-      HeartbeatConsumerServiceImpl heartbeatService,
-      CommandExecutorConsumerServiceImpl commandExecutorService)
+  public void setServices(final PackageManagementConsumerServiceImpl packageManagementService,
+                          final AppsLauncherConsumerServiceImpl appsLauncherService,
+                          final HeartbeatConsumerServiceImpl heartbeatService,
+                          final CommandExecutorConsumerServiceImpl commandExecutorService)
   {
     this.packageManagementService = packageManagementService;
     this.appsLauncherService = appsLauncherService;
@@ -168,7 +168,7 @@ public class SMServicesConsumer
     }
   }
 
-  public void setAuthenticationId(Blob authenticationId) {
+  public void setAuthenticationId(final Blob authenticationId) {
     if (this.packageManagementService != null) {
       this.packageManagementService.setAuthenticationId(authenticationId);
     }

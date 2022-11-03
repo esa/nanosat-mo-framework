@@ -47,15 +47,15 @@ public class EchoGround
   private static final String ECHO_SPACE_PROVIDER = "App: echo-space";
   private static final Logger LOGGER = Logger.getLogger(EchoGround.class.getName());
 
-  public EchoGround(String directoryURI)
+  public EchoGround(final String directoryURI)
   {
     try {
       GroundMOAdapterImpl gma = null;
-      ProviderSummaryList providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(
+      final ProviderSummaryList providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(
           new URI(directoryURI));
 
       if (!providers.isEmpty()) {
-        for(ProviderSummary provider : providers){
+        for(final ProviderSummary provider : providers){
           if(provider.getProviderId().toString().equals(ECHO_SPACE_PROVIDER)){
             gma = new GroundMOAdapterImpl(provider);
             gma.addDataReceivedListener(new CompleteDataReceivedAdapter());
@@ -69,7 +69,7 @@ public class EchoGround
 
       if(gma != null)
       {
-        StringBuilder sb = new StringBuilder("A");
+        final StringBuilder sb = new StringBuilder("A");
         for(int i = 0; i < 50; i++){
           gma.setParameter("Data", new Blob(sb.toString().getBytes()));
           sb.append("A");
@@ -83,7 +83,7 @@ public class EchoGround
         LOGGER.log(Level.SEVERE, "Failed to connect to the provider. No such provider found - " +
                 ECHO_SPACE_PROVIDER);
       }
-    } catch (MALException | MalformedURLException | MALInteractionException | InterruptedException ex) {
+    } catch (final MALException | MalformedURLException | MALInteractionException | InterruptedException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
     }
   }
@@ -102,7 +102,7 @@ public class EchoGround
       System.exit(1);
     }
 
-    EchoGround demo = new EchoGround(args[0]);
+    final EchoGround demo = new EchoGround(args[0]);
     return;
   }
 
@@ -110,7 +110,7 @@ public class EchoGround
   {
 
     @Override
-    public void onDataReceived(String parameterName, Serializable data)
+    public void onDataReceived(final String parameterName, final Serializable data)
     {
       LOGGER.log(Level.INFO,
           "\nParameter name: {0}" + "\n" + "Data content:\n{1}",
@@ -126,7 +126,7 @@ public class EchoGround
   {
 
     @Override
-    public void onDataReceived(ParameterInstance parameterInstance)
+    public void onDataReceived(final ParameterInstance parameterInstance)
     {
       LOGGER.log(Level.INFO,
           "\nParameter name: {0}" + "\n" + "Parameter Value: {1}\nSource: {2}",

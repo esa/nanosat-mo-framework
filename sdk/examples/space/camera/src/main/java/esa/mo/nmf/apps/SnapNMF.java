@@ -30,7 +30,7 @@ public class SnapNMF {
     private final NanoSatMOConnectorImpl connector;
 
     public SnapNMF() {
-        MCSnapNMFAdapter adapter = new MCSnapNMFAdapter();
+        final MCSnapNMFAdapter adapter = new MCSnapNMFAdapter();
         connector = new NanoSatMOConnectorImpl();
         adapter.setNMF(connector);
         connector.init(adapter);
@@ -43,7 +43,7 @@ public class SnapNMF {
      * @throws java.lang.Exception If there is an error
      */
     public static void main(final String[] args) throws Exception {
-        SnapNMF demo = new SnapNMF();
+        final SnapNMF demo = new SnapNMF();
     }
 
 }

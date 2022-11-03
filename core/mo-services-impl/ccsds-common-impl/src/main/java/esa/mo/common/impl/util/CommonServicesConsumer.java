@@ -46,12 +46,12 @@ public class CommonServicesConsumer {
     private ConfigurationConsumerServiceImpl configurationService;
     private LoginConsumerServiceImpl loginService;
 
-    public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices) {
+    public void init(final ConnectionConsumer connectionConsumer, final COMServicesConsumer comServices) {
         init(connectionConsumer, comServices, null, null);
     }
 
-    public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices,
-                     Blob authenticationId, String localNamePrefix) {
+    public void init(final ConnectionConsumer connectionConsumer, final COMServicesConsumer comServices,
+                     final Blob authenticationId, final String localNamePrefix) {
 
         SingleConnectionDetails details;
 
@@ -73,7 +73,7 @@ public class CommonServicesConsumer {
             if (details != null) {
                 loginService = new LoginConsumerServiceImpl(details, comServices, authenticationId, localNamePrefix);
             }
-        } catch (MALException | MALInteractionException | MalformedURLException ex) {
+        } catch (final MALException | MALInteractionException | MalformedURLException ex) {
             Logger.getLogger(CommonServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -92,23 +92,23 @@ public class CommonServicesConsumer {
     }
 
     public void setServices(
-            DirectoryConsumerServiceImpl directoryService,
-            ConfigurationConsumerServiceImpl configurationService,
-            LoginConsumerServiceImpl loginService) {
+            final DirectoryConsumerServiceImpl directoryService,
+            final ConfigurationConsumerServiceImpl configurationService,
+            final LoginConsumerServiceImpl loginService) {
         this.directoryService = directoryService;
         this.configurationService = configurationService;
         this.loginService = loginService;
     }
 
-    public void setDirectoryService(DirectoryConsumerServiceImpl directoryService) {
+    public void setDirectoryService(final DirectoryConsumerServiceImpl directoryService) {
         this.directoryService = directoryService;
     }
 
-    public void setConfigurationService(ConfigurationConsumerServiceImpl configurationService) {
+    public void setConfigurationService(final ConfigurationConsumerServiceImpl configurationService) {
         this.configurationService = configurationService;
     }
 
-    public void setLoginService(LoginConsumerServiceImpl loginService) {
+    public void setLoginService(final LoginConsumerServiceImpl loginService) {
         this.loginService = loginService;
     }
 
@@ -130,7 +130,7 @@ public class CommonServicesConsumer {
         }
     }
 
-    public void setAuthenticationId(Blob authenticationId) {
+    public void setAuthenticationId(final Blob authenticationId) {
         if (this.directoryService != null) {
             this.directoryService.setAuthenticationId(authenticationId);
         }

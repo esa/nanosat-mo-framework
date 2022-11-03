@@ -92,7 +92,7 @@ public class OBSWAggregation {
    *
    * @param id The ID to set.
    */
-  public void setId(long id) {
+  public void setId(final long id) {
     this.id = id;
   }
 
@@ -110,7 +110,7 @@ public class OBSWAggregation {
    *
    * @param dynamic The dynamic to set.
    */
-  public void setDynamic(boolean dynamic) {
+  public void setDynamic(final boolean dynamic) {
     this.dynamic = dynamic;
   }
 
@@ -128,7 +128,7 @@ public class OBSWAggregation {
    *
    * @param builtin The builtin to set.
    */
-  public void setBuiltin(boolean builtin) {
+  public void setBuiltin(final boolean builtin) {
     this.builtin = builtin;
   }
 
@@ -146,7 +146,7 @@ public class OBSWAggregation {
    *
    * @param name The name to set.
    */
-  public void setName(String name) {
+  public void setName(final String name) {
     this.name = name;
   }
 
@@ -164,7 +164,7 @@ public class OBSWAggregation {
    *
    * @param category The category to set.
    */
-  public void setCategory(String category) {
+  public void setCategory(final String category) {
     this.category = category;
   }
 
@@ -182,7 +182,7 @@ public class OBSWAggregation {
    *
    * @param description The description to set.
    */
-  public void setDescription(String description) {
+  public void setDescription(final String description) {
     this.description = description;
   }
 
@@ -200,7 +200,7 @@ public class OBSWAggregation {
    *
    * @param updateInterval The updateInterval to set.
    */
-  public void setUpdateInterval(long updateInterval) {
+  public void setUpdateInterval(final long updateInterval) {
     this.updateInterval = updateInterval;
   }
 
@@ -218,7 +218,7 @@ public class OBSWAggregation {
    *
    * @param generationEnabled The generationEnabled to set.
    */
-  public void setGenerationEnabled(boolean generationEnabled) {
+  public void setGenerationEnabled(final boolean generationEnabled) {
     this.generationEnabled = generationEnabled;
   }
 

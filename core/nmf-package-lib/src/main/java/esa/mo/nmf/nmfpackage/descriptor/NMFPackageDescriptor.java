@@ -39,7 +39,7 @@ public class NMFPackageDescriptor {
     private final NMFPackageDetails details;
     private final ArrayList<NMFPackageFile> files;
 
-    public NMFPackageDescriptor(NMFPackageDetails details) {
+    public NMFPackageDescriptor(final NMFPackageDetails details) {
         this.details = details;
         this.files = new ArrayList<>();
     }
@@ -64,16 +64,16 @@ public class NMFPackageDescriptor {
      */
     public static NMFPackageDescriptor parseInputStream(final InputStream stream) throws IOException {
         NMFPackageDescriptor newDescriptor = null;
-        InputStreamReader isr = new InputStreamReader(stream, StandardCharsets.UTF_8);
-        BufferedReader br = new BufferedReader(isr);
+        final InputStreamReader isr = new InputStreamReader(stream, StandardCharsets.UTF_8);
+        final BufferedReader br = new BufferedReader(isr);
 
-            String line = br.readLine(); // Reads the first line!
+            final String line = br.readLine(); // Reads the first line!
 
             if (line != null) {
-                String version;
+                final String version;
                 // Check the version of the Installation procedure
                 if (line.startsWith(line)) {
-                    int length = HelperNMFPackage.NMF_PACKAGE_DESCRIPTOR_VERSION.length();
+                    final int length = HelperNMFPackage.NMF_PACKAGE_DESCRIPTOR_VERSION.length();
                     version = line.substring(length).trim();
                 } else {
                     throw new IOException("Could not read the NMF Package Descriptor version!");

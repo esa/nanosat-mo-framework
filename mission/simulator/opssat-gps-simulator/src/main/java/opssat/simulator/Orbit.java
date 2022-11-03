@@ -89,7 +89,7 @@ public class Orbit {
          * @param velocity
          * @param time
          */
-        public OrbitParameters(double latitude, double longitude, double a, Vector velocity, Date time) {
+        public OrbitParameters(final double latitude, final double longitude, final double a, final Vector velocity, final Date time) {
             this.latitude = latitude;
             this.longitude = longitude;
             this.a = a;
@@ -121,16 +121,16 @@ public class Orbit {
             return velocity;
         }
     }
-    public Orbit(double a, double i, double RAAN, double arg_per, double true_anomaly)
+    public Orbit(final double a, final double i, final double RAAN, final double arg_per, final double true_anomaly)
     {
         this(a,i,RAAN,arg_per,true_anomaly,EPOCH_INITIAL);
     }
-    public Orbit(double a, double i, double RAAN, double arg_per, double true_anomaly, String initialEpoch) {
-        SimpleDateFormat df = new SimpleDateFormat(DATEFORMATSTRING);//DateFormat.getInstance();    
+    public Orbit(final double a, final double i, final double RAAN, final double arg_per, final double true_anomaly, final String initialEpoch) {
+        final SimpleDateFormat df = new SimpleDateFormat(DATEFORMATSTRING);//DateFormat.getInstance();
         df.setLenient(true);
         try {
             Epoch = df.parse(initialEpoch);
-        } catch (ParseException ex) {
+        } catch (final ParseException ex) {
             Logger.getLogger(Orbit.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -146,7 +146,7 @@ public class Orbit {
         this.calculateMeanMotion();
 
         this.time = new Date();
-        double time_int = getEpochDiffSec(time);
+        final double time_int = getEpochDiffSec(time);
         //time.toEpochSecond(ZoneOffset.UTC) - this.Epoch.toEpochSecond(ZoneOffset.UTC);
         this.RAAN = this.RAAN_init + calculateRAANPrecession(time_int);
         this.arg_per = this.arg_per_init + calculatePerigeePrecession(time_int);
@@ -159,28 +159,28 @@ public class Orbit {
     }
     
     
-    public OrbitParameters getParameters(Date currentTime) {
+    public OrbitParameters getParameters(final Date currentTime) {
 
         this.time = currentTime;
         this.M_anom = calculateMeanAnomaly(this.time);
 
-        double time_int = getEpochDiffSec(time);
+        final double time_int = getEpochDiffSec(time);
         //System.out.println(time_int);
         this.RAAN = this.RAAN_init + calculateRAANPrecession(time_int);
         this.arg_per = this.arg_per_init + calculatePerigeePrecession(time_int);
 
         // Local Sideral Time during Epoch (16:36:17) from: http://www.jgiesen.de/astro/astroJS/siderealClock/
-        double lst_epoch = (16 * 3600 + 36 * 60 + 17) * 2 * Math.PI / (3600 * 24);
+        final double lst_epoch = (16 * 3600 + 36 * 60 + 17) * 2 * Math.PI / (3600 * 24);
         // Compute the Local Sideral Time
-        double delta_lst = lst_epoch + SOLAR_DAY * 2 * Math.PI * (time_int) / (24 * 3600);
+        final double delta_lst = lst_epoch + SOLAR_DAY * 2 * Math.PI * (time_int) / (24 * 3600);
 
         //System.out.printf("RAAN: %f\nPeriod: %f\nTime int: %f\n\n", this.RAAN, Period, time_int );
         // Generate vectors
         this.calculateUnitVectors();
         this.calculateCartesianVector();
 
-        double lat = Math.asin(this.r.z() / this.r.length());
-        double lon = this.normalizeAngle(Math.atan2(this.r.y(), this.r.x()) - delta_lst);
+        final double lat = Math.asin(this.r.z() / this.r.length());
+        final double lon = this.normalizeAngle(Math.atan2(this.r.y(), this.r.x()) - delta_lst);
         //System.out.println("lat:["+lat+"] lon:["+lon+"]");
 
         return new OrbitParameters(lat * (180 / Math.PI), lon * (180 / Math.PI),
@@ -188,9 +188,9 @@ public class Orbit {
     }
 
     // Calculates ascending node change (RAAN)
-    private double calculateRAANPrecession(double time_int) {
+    private double calculateRAANPrecession(final double time_int) {
         // time_int: interval of time passed
-        double J2 = 1.08262668E-3;
+        final double J2 = 1.08262668E-3;
 
         return -3 * Math.PI * J2 * (R_e * R_e)
             / (Math.pow(a * (1 - e * e), 2))
@@ -199,9 +199,9 @@ public class Orbit {
     }
 
     // Calculates Nodal Precession
-    private double calculatePerigeePrecession(double time_int) {
+    private double calculatePerigeePrecession(final double time_int) {
         // time_int: interval of time passed
-        double J2 = 1.08262668E-3;
+        final double J2 = 1.08262668E-3;
 
         return -(3 * Math.PI * J2 * R_e * R_e / (2 * Math.pow(a * (1 - e * e), 2)))
             * (5 * Math.pow(Math.sin(i), 2) - 4)
@@ -209,13 +209,13 @@ public class Orbit {
     }
 
     // Calculates Mean Anomaly: M
-    private double calculateMeanAnomaly(Date now) {
+    private double calculateMeanAnomaly(final Date now) {
         // t: is the time since epoch
-        double t = getEpochDiffSec(now);
+        final double t = getEpochDiffSec(now);
         return (this.n * t);
     }
 
-    private double getEpochDiffSec(Date now) {
+    private double getEpochDiffSec(final Date now) {
         return (now.getTime() - Epoch.getTime()) / 1000.0;
     }
     // Calculates Mean motion variable: n
@@ -242,18 +242,18 @@ public class Orbit {
     // Calculates the vector r
     private void calculateCartesianVector() {
         //Calculating Position vector: r
-        Vector part1 = this.P.times(this.a * (Math.cos(this.M_anom) - this.e));
-        Vector part2 = this.Q.times(this.a * Math.sqrt(1 - Math.pow(this.e, 2)) * (Math.sin(this.M_anom)));
+        final Vector part1 = this.P.times(this.a * (Math.cos(this.M_anom) - this.e));
+        final Vector part2 = this.Q.times(this.a * Math.sqrt(1 - Math.pow(this.e, 2)) * (Math.sin(this.M_anom)));
         this.r = part1.add(part2);
 
         //Calculating Velocity vector: v
-        double E_dot = Math.sqrt(G * M_e / Math.pow(a, 3)) / (1 - this.e * Math.cos(M_anom));
-        Vector part3 = this.P.times(-this.a * Math.sin(this.M_anom) * E_dot);
-        Vector part4 = this.Q.times(this.a * Math.sqrt(1 - Math.pow(this.e, 2)) * (Math.cos(this.M_anom)) * E_dot);
+        final double E_dot = Math.sqrt(G * M_e / Math.pow(a, 3)) / (1 - this.e * Math.cos(M_anom));
+        final Vector part3 = this.P.times(-this.a * Math.sin(this.M_anom) * E_dot);
+        final Vector part4 = this.Q.times(this.a * Math.sqrt(1 - Math.pow(this.e, 2)) * (Math.cos(this.M_anom)) * E_dot);
         this.v = part3.add(part4);
     }
 
-    private double normalizeAngle(double angle) {
+    private double normalizeAngle(final double angle) {
         double newAngle = angle;
         while (newAngle <= -Math.PI) {
             newAngle += 2 * Math.PI;

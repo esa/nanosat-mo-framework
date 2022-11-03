@@ -67,15 +67,15 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
   private PowerControlConsumerServiceImpl powerControlService;
   private ClockConsumerServiceImpl clockService;
 
-  public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices)
+  public void init(final ConnectionConsumer connectionConsumer, final COMServicesConsumer comServices)
   {
     init(connectionConsumer, comServices, null, null);
   }
 
-  public void init(ConnectionConsumer connectionConsumer,
-                   COMServicesConsumer comServices,
-                   Blob authenticationID,
-                   String localNamePrefix)
+  public void init(final ConnectionConsumer connectionConsumer,
+                   final COMServicesConsumer comServices,
+                   final Blob authenticationID,
+                   final String localNamePrefix)
   {
     SingleConnectionDetails details;
 
@@ -126,7 +126,7 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
       if (details != null) {
         clockService = new ClockConsumerServiceImpl(details, comServices);
       }
-    } catch (MALException | MALInteractionException | MalformedURLException ex) {
+    } catch (final MALException | MALInteractionException | MalformedURLException ex) {
       Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
     }
   }
@@ -202,37 +202,37 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
   }
 
   // Setters
-  public void setAutonomousADCSService(AutonomousADCSConsumerServiceImpl autonomousADCSService)
+  public void setAutonomousADCSService(final AutonomousADCSConsumerServiceImpl autonomousADCSService)
   {
     this.autonomousADCSService = autonomousADCSService;
   }
 
-  public void setCameraService(CameraConsumerServiceImpl cameraService)
+  public void setCameraService(final CameraConsumerServiceImpl cameraService)
   {
     this.cameraService = cameraService;
   }
 
-  public void setGPSService(GPSConsumerServiceImpl gpsService)
+  public void setGPSService(final GPSConsumerServiceImpl gpsService)
   {
     this.gpsService = gpsService;
   }
 
-  public void setOpticalDataReceiverService(OpticalDataReceiverConsumerServiceImpl odrService)
+  public void setOpticalDataReceiverService(final OpticalDataReceiverConsumerServiceImpl odrService)
   {
     this.odrService = odrService;
   }
 
-  public void setSoftwareDefinedRadioService(SoftwareDefinedRadioConsumerServiceImpl sdrService)
+  public void setSoftwareDefinedRadioService(final SoftwareDefinedRadioConsumerServiceImpl sdrService)
   {
     this.sdrService = sdrService;
   }
 
-  public void setPowerControlService(PowerControlConsumerServiceImpl powerControlService)
+  public void setPowerControlService(final PowerControlConsumerServiceImpl powerControlService)
   {
     this.powerControlService = powerControlService;
   }
 
-  public void setClockService(ClockConsumerServiceImpl clockService)
+  public void setClockService(final ClockConsumerServiceImpl clockService)
   {
     this.clockService = clockService;
   }
@@ -268,7 +268,7 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
     }
   }
 
-  public void setAuthenticationId(Blob authenticationId) {
+  public void setAuthenticationId(final Blob authenticationId) {
     if (this.autonomousADCSService != null) {
       this.autonomousADCSService.setAuthenticationId(authenticationId);
     }

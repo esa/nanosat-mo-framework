@@ -72,8 +72,8 @@ public class ActivityTrackingProviderServiceImpl {
      * @param eventService Event service provider
      * @throws MALException On initialization error.
      */
-    public synchronized void init(ArchiveProviderServiceImpl archiveService,
-            EventProviderServiceImpl eventService) throws MALException {
+    public synchronized void init(final ArchiveProviderServiceImpl archiveService,
+                                  final EventProviderServiceImpl eventService) throws MALException {
 
         if (!initialiased) {
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
@@ -102,40 +102,40 @@ public class ActivityTrackingProviderServiceImpl {
 //------------------------------------------------------------------------------
 // With MALInteraction object
 //------------------------------------------------------------------------------
-    public void publishExecutionEventSubmitAck(MALInteraction interaction, boolean success,
-            ObjectId source) throws MALInteractionException, MALException {
+    public void publishExecutionEventSubmitAck(final MALInteraction interaction, final boolean success,
+                                               final ObjectId source) throws MALInteractionException, MALException {
         publishExecutionEventOperation(interaction, success, 1, 1, null, source);
     }
 
-    public void publishExecutionEventRequestResponse(MALInteraction interaction, boolean success,
-            ObjectId source) throws MALInteractionException, MALException {
+    public void publishExecutionEventRequestResponse(final MALInteraction interaction, final boolean success,
+                                                     final ObjectId source) throws MALInteractionException, MALException {
         publishExecutionEventOperation(interaction, success, 1, 1, null, source);
     }
 
-    public void publishExecutionEventInvokeAck(MALInteraction interaction, boolean success,
-            ObjectId source) throws MALInteractionException, MALException {
+    public void publishExecutionEventInvokeAck(final MALInteraction interaction, final boolean success,
+                                               final ObjectId source) throws MALInteractionException, MALException {
         publishExecutionEventOperation(interaction, success, 1, 2, null, source);
     }
 
-    public void publishExecutionEventInvokeResponse(MALInteraction interaction, boolean success,
-            ObjectId source) throws MALInteractionException, MALException {
+    public void publishExecutionEventInvokeResponse(final MALInteraction interaction, final boolean success,
+                                                    final ObjectId source) throws MALInteractionException, MALException {
         publishExecutionEventOperation(interaction, success, 2, 2, null, source);
     }
 
-    public void publishReleaseEvent(MALInteraction interaction, boolean success, Duration nextDuration,
-            URI nextDestination, ObjectId source) throws MALInteractionException, MALException {
+    public void publishReleaseEvent(final MALInteraction interaction, final boolean success, final Duration nextDuration,
+                                    final URI nextDestination, final ObjectId source) throws MALInteractionException, MALException {
         this.publishTransferEventOperation(interaction, ActivityTrackingHelper.RELEASE_OBJECT_TYPE,
                 success, nextDuration, nextDestination, source);
     }
 
-    public void publishReceptionEvent(MALInteraction interaction, boolean success, Duration nextDuration,
-            URI nextDestination, ObjectId source) throws MALInteractionException, MALException {
+    public void publishReceptionEvent(final MALInteraction interaction, final boolean success, final Duration nextDuration,
+                                      final URI nextDestination, final ObjectId source) throws MALInteractionException, MALException {
         this.publishTransferEventOperation(interaction, ActivityTrackingHelper.RECEPTION_OBJECT_TYPE,
                 success, nextDuration, nextDestination, source);
     }
 
-    public void publishForwardEvent(MALInteraction interaction, boolean success, Duration nextDuration,
-            URI nextDestination, ObjectId source) throws MALInteractionException, MALException {
+    public void publishForwardEvent(final MALInteraction interaction, final boolean success, final Duration nextDuration,
+                                    final URI nextDestination, final ObjectId source) throws MALInteractionException, MALException {
         this.publishTransferEventOperation(interaction, ActivityTrackingHelper.FORWARD_OBJECT_TYPE,
                 success, nextDuration, nextDestination, source);
     }
@@ -145,58 +145,58 @@ public class ActivityTrackingProviderServiceImpl {
 // With uri and network fields directly
 //------------------------------------------------------------------------------
     public void publishExecutionEventSubmitAck(final URI uri, final Identifier network,
-            boolean success, ObjectId source) throws MALInteractionException, MALException {
+                                               final boolean success, final ObjectId source) throws MALInteractionException, MALException {
         publishExecutionEventOperation(uri, network, success, 1, 1, null, source);
     }
 
     public void publishExecutionEventRequestResponse(final URI uri, final Identifier network,
-            boolean success, ObjectId source) throws MALInteractionException, MALException {
+                                                     final boolean success, final ObjectId source) throws MALInteractionException, MALException {
         publishExecutionEventOperation(uri, network, success, 1, 1, null, source);
     }
 
     public void publishExecutionEventInvokeAck(final URI uri, final Identifier network,
-            boolean success, ObjectId source) throws MALInteractionException, MALException {
+                                               final boolean success, final ObjectId source) throws MALInteractionException, MALException {
         publishExecutionEventOperation(uri, network, success, 1, 2, null, source);
     }
 
     public void publishExecutionEventInvokeResponse(final URI uri, final Identifier network,
-            boolean success, ObjectId source) throws MALInteractionException, MALException {
+                                                    final boolean success, final ObjectId source) throws MALInteractionException, MALException {
         publishExecutionEventOperation(uri, network, success, 2, 2, null, source);
     }
 
-    public void publishReleaseEvent(final URI uri, final Identifier network, boolean success, Duration nextDuration,
-            URI nextDestination, ObjectId source) throws MALInteractionException, MALException {
+    public void publishReleaseEvent(final URI uri, final Identifier network, final boolean success, final Duration nextDuration,
+                                    final URI nextDestination, final ObjectId source) throws MALInteractionException, MALException {
         this.publishTransferEventOperation(uri, network, ActivityTrackingHelper.RELEASE_OBJECT_TYPE, success, nextDuration, nextDestination, source);
     }
 
-    public void publishReceptionEvent(final URI uri, final Identifier network, boolean success, Duration nextDuration,
-            URI nextDestination, ObjectId source) throws MALInteractionException, MALException {
+    public void publishReceptionEvent(final URI uri, final Identifier network, final boolean success, final Duration nextDuration,
+                                      final URI nextDestination, final ObjectId source) throws MALInteractionException, MALException {
         this.publishTransferEventOperation(uri, network, ActivityTrackingHelper.RECEPTION_OBJECT_TYPE, success, nextDuration, nextDestination, source);
     }
 
-    public void publishForwardEvent(final URI uri, final Identifier network, boolean success, Duration nextDuration,
-            URI nextDestination, ObjectId source) throws MALInteractionException, MALException {
+    public void publishForwardEvent(final URI uri, final Identifier network, final boolean success, final Duration nextDuration,
+                                    final URI nextDestination, final ObjectId source) throws MALInteractionException, MALException {
         this.publishTransferEventOperation(uri, network, ActivityTrackingHelper.FORWARD_OBJECT_TYPE, success, nextDuration, nextDestination, source);
     }
 
 //------------------------------------------------------------------------------
-    public ObjectId publishExecutionEventOperation(MALInteraction interaction, boolean success,
-            int currentStageCount, int totalStageCount, final Long related, ObjectId source) throws MALInteractionException, MALException {
+    public ObjectId publishExecutionEventOperation(final MALInteraction interaction, final boolean success,
+                                                   final int currentStageCount, final int totalStageCount, final Long related, final ObjectId source) throws MALInteractionException, MALException {
         return this.publishExecutionEventOperation(interaction, null, null, success,
                 currentStageCount, totalStageCount, related, source);
     }
 
-    public ObjectId publishExecutionEventOperation(final URI uri, final Identifier network, boolean success,
-            int currentStageCount, int totalStageCount, final Long related, ObjectId source) throws MALInteractionException, MALException {
+    public ObjectId publishExecutionEventOperation(final URI uri, final Identifier network, final boolean success,
+                                                   final int currentStageCount, final int totalStageCount, final Long related, final ObjectId source) throws MALInteractionException, MALException {
         return this.publishExecutionEventOperation(null, uri, network, success,
                 currentStageCount, totalStageCount, related, source);
     }
 
     private ObjectId publishExecutionEventOperation(final MALInteraction interaction, final URI uri, final Identifier network,
-            boolean success, int currentStageCount, int totalStageCount, final Long related, ObjectId source) throws MALInteractionException, MALException {
+                                                    final boolean success, final int currentStageCount, final int totalStageCount, final Long related, final ObjectId source) throws MALInteractionException, MALException {
         // Produce ActivityExecutionList
-        ActivityExecutionList ael = new ActivityExecutionList(1);
-        ActivityExecution activityExecutionInstance = new ActivityExecution(
+        final ActivityExecutionList ael = new ActivityExecutionList(1);
+        final ActivityExecution activityExecutionInstance = new ActivityExecution(
                 success,
                 new UInteger(currentStageCount),
                 new UInteger(totalStageCount));
@@ -219,16 +219,16 @@ public class ActivityTrackingProviderServiceImpl {
 
         try {
             eventService.publishEvent(sourceURI, objId, ActivityTrackingHelper.EXECUTION_OBJECT_TYPE, related, source, ael);
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             Logger.getLogger(ActivityTrackingProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return new ObjectId(ActivityTrackingHelper.EXECUTION_OBJECT_TYPE, key);
     }
 
-    public Long publishTransferEventOperation(MALInteraction interaction,
-            final ObjectType objType, final boolean success, final Duration duration,
-            final URI nextDestination, final ObjectId source) throws MALInteractionException, MALException {
+    public Long publishTransferEventOperation(final MALInteraction interaction,
+                                              final ObjectType objType, final boolean success, final Duration duration,
+                                              final URI nextDestination, final ObjectId source) throws MALInteractionException, MALException {
         return this.publishTransferEventOperation(interaction, null, null, objType, success, duration, nextDestination, source);
     }
 
@@ -238,13 +238,13 @@ public class ActivityTrackingProviderServiceImpl {
         return this.publishTransferEventOperation(null, uri, network, objType, success, duration, nextDestination, source);
     }
 
-    private Long publishTransferEventOperation(MALInteraction interaction, final URI uri, final Identifier network,
-            final ObjectType objType, final boolean success, final Duration duration,
-            final URI nextDestination, final ObjectId source) throws MALInteractionException, MALException {
+    private Long publishTransferEventOperation(final MALInteraction interaction, final URI uri, final Identifier network,
+                                               final ObjectType objType, final boolean success, final Duration duration,
+                                               final URI nextDestination, final ObjectId source) throws MALInteractionException, MALException {
 
         // Produce ActivityTransferList
-        ActivityTransferList atl = new ActivityTransferList();
-        ActivityTransfer at = new ActivityTransfer(success, duration, nextDestination);
+        final ActivityTransferList atl = new ActivityTransferList();
+        final ActivityTransfer at = new ActivityTransfer(success, duration, nextDestination);
         atl.add(at);
 
         final Long objId;
@@ -259,27 +259,27 @@ public class ActivityTrackingProviderServiceImpl {
 
         try {
             eventService.publishEvent(sourceURI, objId, objType, null, source, atl);
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             Logger.getLogger(ActivityTrackingProviderServiceImpl.class.getName()).log(Level.SEVERE, null, "Could not publish the Event!");
         }
 
         return objId;
     }
 
-    public Long publishAcceptanceEventOperation(MALInteraction interaction, boolean success, final Long related, final ObjectId source)
+    public Long publishAcceptanceEventOperation(final MALInteraction interaction, final boolean success, final Long related, final ObjectId source)
             throws MALInteractionException, MALException {
         return this.publishAcceptanceEventOperation(interaction, null, null, success, related, source);
     }
 
-    public Long publishAcceptanceEventOperation(final URI uri, final Identifier network, boolean success, final Long related, final ObjectId source)
+    public Long publishAcceptanceEventOperation(final URI uri, final Identifier network, final boolean success, final Long related, final ObjectId source)
             throws MALInteractionException, MALException {
         return this.publishAcceptanceEventOperation(null, uri, network, success, related, source);
     }
 
-    public Long publishAcceptanceEventOperation(MALInteraction interaction, final URI uri, final Identifier network,
-            boolean success, final Long related, final ObjectId source) throws MALInteractionException, MALException {
+    public Long publishAcceptanceEventOperation(final MALInteraction interaction, final URI uri, final Identifier network,
+                                                final boolean success, final Long related, final ObjectId source) throws MALInteractionException, MALException {
         // Create ActivityAcceptanceList
-        ActivityAcceptanceList aal = new ActivityAcceptanceList();
+        final ActivityAcceptanceList aal = new ActivityAcceptanceList();
         aal.add(new ActivityAcceptance(success));
 
         final Long objId;
@@ -296,7 +296,7 @@ public class ActivityTrackingProviderServiceImpl {
 
         try {
             eventService.publishEvent(sourceURI, objId, ActivityTrackingHelper.ACCEPTANCE_OBJECT_TYPE, null, source, aal);
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             Logger.getLogger(ActivityTrackingProviderServiceImpl.class.getName()).log(Level.SEVERE, null, "Could not publish the Event!");
         }
 
@@ -336,9 +336,9 @@ public class ActivityTrackingProviderServiceImpl {
                         archiveDetails,
                         opActivityList,
                         interaction); // requirement: 3.5.2.3 & 3.5.2.5
-            } catch (MALException ex) {
+            } catch (final MALException ex) {
                 Logger.getLogger(ActivityTrackingProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
+            } catch (final MALInteractionException ex) {
                 // A duplicate might happen if the the consumer stored the Operation Activity object
                 if(ex.getStandardError().getErrorNumber().getValue() != COMHelper.DUPLICATE_ERROR_NUMBER.getValue()){
                     Logger.getLogger(ActivityTrackingProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -362,15 +362,15 @@ public class ActivityTrackingProviderServiceImpl {
         private final String namePrefix;
 
         ActivityTrackingThreadFactory() {
-            SecurityManager s = System.getSecurityManager();
+            final SecurityManager s = System.getSecurityManager();
             group = (s != null) ? s.getThreadGroup()
                     : Thread.currentThread().getThreadGroup();
             namePrefix = "ActivityTrackingProcessor-thread-";
         }
 
         @Override
-        public Thread newThread(Runnable r) {
-            Thread t = new Thread(group, r,
+        public Thread newThread(final Runnable r) {
+            final Thread t = new Thread(group, r,
                     namePrefix + threadNumber.getAndIncrement(),
                     0);
             if (t.isDaemon()) {

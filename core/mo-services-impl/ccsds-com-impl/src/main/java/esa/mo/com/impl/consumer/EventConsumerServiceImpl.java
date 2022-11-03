@@ -63,7 +63,7 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
     private SubscriptionList subs = new SubscriptionList();
 
     @Override
-    public Object generateServiceStub(MALConsumer tmConsumer) {
+    public Object generateServiceStub(final MALConsumer tmConsumer) {
         return new EventStub(tmConsumer);
     }
 
@@ -76,11 +76,11 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
         return eventService;
     }
 
-    public EventConsumerServiceImpl(SingleConnectionDetails connectionDetails) throws MALException, MALInteractionException, MalformedURLException {
+    public EventConsumerServiceImpl(final SingleConnectionDetails connectionDetails) throws MALException, MALInteractionException, MalformedURLException {
         this(connectionDetails, null, null);
     }
 
-    public EventConsumerServiceImpl(SingleConnectionDetails connectionDetails, Blob authenticationId, String localNamePrefix) throws MALException, MALInteractionException, MalformedURLException {
+    public EventConsumerServiceImpl(final SingleConnectionDetails connectionDetails, final Blob authenticationId, final String localNamePrefix) throws MALException, MALInteractionException, MalformedURLException {
         if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
             MALHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
@@ -103,7 +103,7 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
                 final IdentifierList subLst = new IdentifierList();
                 subLst.add(subscriptionId);
 
-                for (Subscription sub : subs) {
+                for (final Subscription sub : subs) {
                     subLst.add(sub.getSubscriptionId());
                 }
 
@@ -113,7 +113,7 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
 
                 subs = new SubscriptionList();
                 tmConsumer.close();
-            } catch (MALException | MALInteractionException ex) {
+            } catch (final MALException | MALInteractionException ex) {
                 Logger.getLogger(EventConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -135,28 +135,28 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
 
             @Override
             public void monitorEventNotifyReceived(final MALMessageHeader msgHeader,
-                    final Identifier lIdentifier, final UpdateHeaderList lUpdateHeaderList,
-                    final ObjectDetailsList objectDetailsList, final ElementList elementList,
-                    Map qosProperties) {
+                                                   final Identifier lIdentifier, final UpdateHeaderList lUpdateHeaderList,
+                                                   final ObjectDetailsList objectDetailsList, final ElementList elementList,
+                                                   final Map qosProperties) {
 
                 if (objectDetailsList.size() == lUpdateHeaderList.size()) { // Something is wrong
                     for (int i = 0; i < lUpdateHeaderList.size(); i++) {
 
-                        Identifier entityKey1 = lUpdateHeaderList.get(i).getKey().getFirstSubKey();
-                        Long entityKey2 = lUpdateHeaderList.get(i).getKey().getSecondSubKey();
-                        Long entityKey3 = lUpdateHeaderList.get(i).getKey().getThirdSubKey();
-                        Long entityKey4 = lUpdateHeaderList.get(i).getKey().getFourthSubKey(); // ObjType of the source
+                        final Identifier entityKey1 = lUpdateHeaderList.get(i).getKey().getFirstSubKey();
+                        final Long entityKey2 = lUpdateHeaderList.get(i).getKey().getSecondSubKey();
+                        final Long entityKey3 = lUpdateHeaderList.get(i).getKey().getThirdSubKey();
+                        final Long entityKey4 = lUpdateHeaderList.get(i).getKey().getFourthSubKey(); // ObjType of the source
 
                         // (UShort area, UShort service, UOctet version, UShort number)
                         // (UShort area, UShort service, UOctet version, 0)
-                        ObjectType objType = HelperCOM.objectTypeId2objectType(entityKey2);
+                        final ObjectType objType = HelperCOM.objectTypeId2objectType(entityKey2);
                         objType.setNumber(new UShort(Integer.parseInt(entityKey1.toString())));
 
-                        Object nativeBody = ((elementList == null) ? null : elementList.get(i));
-                        Element body = (Element) HelperAttributes.javaType2Attribute(nativeBody);
+                        final Object nativeBody = ((elementList == null) ? null : elementList.get(i));
+                        final Element body = (Element) HelperAttributes.javaType2Attribute(nativeBody);
 
                         // ----
-                        EventCOMObject newEvent = new EventCOMObject();
+                        final EventCOMObject newEvent = new EventCOMObject();
 //                        newEvent.setDomain(msgHeader.getDomain());
                         newEvent.setDomain(connectionDetails.getDomain());
                         newEvent.setObjType(objType);
@@ -181,7 +181,7 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
         try {  // Register with the subscription key provided
             this.getEventStub().monitorEventRegister(subscription, new EventReceivedAdapter());
             subs.add(subscription);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (final MALInteractionException | MALException ex) {
             Logger.getLogger(EventConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -197,20 +197,20 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
             try {
                 final IdentifierList subLst = new IdentifierList();
 
-                for (Subscription sub : subs) {
+                for (final Subscription sub : subs) {
                     subLst.add(sub.getSubscriptionId());
                 }
 
                 if (eventService != null) {
                     try {
                         eventService.monitorEventDeregister(subLst);
-                    } catch (MALInteractionException ex) {
+                    } catch (final MALInteractionException ex) {
                         Logger.getLogger(EventConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
 
                 tmConsumer.close();
-            } catch (MALException ex) {
+            } catch (final MALException ex) {
                 Logger.getLogger(ConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

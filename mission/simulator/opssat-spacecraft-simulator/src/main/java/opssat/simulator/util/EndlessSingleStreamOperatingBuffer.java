@@ -29,15 +29,15 @@ import java.util.logging.Logger;
  */
 public class EndlessSingleStreamOperatingBuffer extends GenericFileBasedOperatingBuffer {
 
-    public EndlessSingleStreamOperatingBuffer(Logger logger) {
+    public EndlessSingleStreamOperatingBuffer(final Logger logger) {
         super(logger);
     }
 
-    public byte[] getDataAsByteArray(int quantityOfData) {
+    public byte[] getDataAsByteArray(final int quantityOfData) {
         int bytesNo= quantityOfData;
-        byte[] result=new byte[bytesNo];
-        byte[] tempData=(byte[])super.getDataBuffer();
-        int capacity=tempData.length;
+        final byte[] result=new byte[bytesNo];
+        final byte[] tempData=(byte[])super.getDataBuffer();
+        final int capacity=tempData.length;
         int tempOperatingIndex=super.getOperatingIndex();
         if (tempData!=null && capacity>0)
         {
@@ -54,7 +54,7 @@ public class EndlessSingleStreamOperatingBuffer extends GenericFileBasedOperatin
         }
         return result;
     }
-    public void setDataFromByteArray(byte[] directData)
+    public void setDataFromByteArray(final byte[] directData)
     {
         super.setOperatingIndex(0);
         super.setDataBuffer(directData);

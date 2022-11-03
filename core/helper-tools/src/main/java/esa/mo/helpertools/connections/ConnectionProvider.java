@@ -105,8 +105,8 @@ public class ConnectionProvider {
      * @return MALProvider
      * @throws MALException On error.
      */
-    public MALProvider startService(String serviceName, MALService malService,
-            MALInteractionHandler handler) throws MALException {
+    public MALProvider startService(final String serviceName, final MALService malService,
+                                    final MALInteractionHandler handler) throws MALException {
         return startService(serviceName, malService, true, handler);
     }
 
@@ -121,8 +121,8 @@ public class ConnectionProvider {
      * @return MALProvider
      * @throws MALException On error.
      */
-    public MALProvider startService(String serviceName, MALService malService,
-                                    boolean isPublisher, MALInteractionHandler handler) throws MALException {
+    public MALProvider startService(final String serviceName, final MALService malService,
+                                    final boolean isPublisher, final MALInteractionHandler handler) throws MALException {
         return startService(serviceName, malService, isPublisher, handler, null);
     }
 
@@ -138,11 +138,11 @@ public class ConnectionProvider {
      * @return MALProvider
      * @throws MALException On error.
      */
-    public MALProvider startService(String serviceName, MALService malService,
-            boolean isPublisher, MALInteractionHandler handler, Blob authenticationId) throws MALException {
+    public MALProvider startService(final String serviceName, final MALService malService,
+                                    final boolean isPublisher, final MALInteractionHandler handler, final Blob authenticationId) throws MALException {
         try {
             malFactory = MALContextFactory.newFactory();
-        } catch (MALException ex) {
+        } catch (final MALException ex) {
             Logger.getLogger(ConnectionProvider.class.getName()).log(Level.SEVERE,
                     "Check if the MAL implementation is included in your project!! "
                     + "This error usually happens when the MAL layer is missing.", ex);
@@ -160,10 +160,10 @@ public class ConnectionProvider {
         final String moAppName = System.getProperty(HelperMisc.PROP_MO_APP_NAME);
         final String uriName = (moAppName != null) ? moAppName + "-" + serviceName : serviceName;  // Create the uri string name
 
-        Properties props = new Properties();
+        final Properties props = new Properties();
         props.putAll(System.getProperties());
 
-        MALProvider serviceProvider = providerMgr.createProvider(uriName,
+        final MALProvider serviceProvider = providerMgr.createProvider(uriName,
                 null,
                 malService,
                 null == authenticationId ? new Blob("".getBytes()) : authenticationId,
@@ -176,7 +176,7 @@ public class ConnectionProvider {
                 isPublisher,
                 sharedBrokerURI);
 
-        IntegerList serviceKey = new IntegerList();
+        final IntegerList serviceKey = new IntegerList();
         serviceKey.add(malService.getArea().getNumber().getValue()); // Area
         serviceKey.add(malService.getNumber().getValue()); // Service
         serviceKey.add((int) malService.getArea().getVersion().getValue()); // Version
@@ -213,7 +213,7 @@ public class ConnectionProvider {
         if (secondaryProtocol != null) {
             secondaryConnectionDetails = new SingleConnectionDetails();
 
-            MALProvider serviceProvider2 = providerMgr.createProvider(uriName,
+            final MALProvider serviceProvider2 = providerMgr.createProvider(uriName,
                     secondaryProtocol,
                     malService,
                     null == authenticationId ? new Blob("".getBytes()) : authenticationId,
@@ -270,7 +270,7 @@ public class ConnectionProvider {
             if (null != mal) {
                 mal.close();
             }
-        } catch (MALException ex) {
+        } catch (final MALException ex) {
             Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING,
                     "Exception during close down of the provider {0}", ex);
         }
@@ -289,7 +289,7 @@ public class ConnectionProvider {
             if (null != secondaryMALServiceProvider) {
                 secondaryMALServiceProvider.close();
             }
-        } catch (MALException ex) {
+        } catch (final MALException ex) {
             Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING,
                     "Exception during close down of the provider {0}", ex);
         }
@@ -302,7 +302,7 @@ public class ConnectionProvider {
             if (null != mal) {
                 mal.close();
             }
-        } catch (MALException ex) {
+        } catch (final MALException ex) {
             Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING,
                     "Exception during close down of the provider {0}", ex);
         }
@@ -324,15 +324,15 @@ public class ConnectionProvider {
         globalProvidersDetailsSecondary.reset();
 
         if (shouldInitUriFiles()) {
-            try (BufferedWriter wrt = new BufferedWriter(new FileWriter(HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME, false))) {
-            } catch (IOException ex) {
+            try (final BufferedWriter wrt = new BufferedWriter(new FileWriter(HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME, false))) {
+            } catch (final IOException ex) {
                 Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING,
                         "Unable to reset URI information from properties file {0}", ex);
             }
 
             if (System.getProperty(HelperMisc.SECONDARY_PROTOCOL) != null) {
-                try (BufferedWriter wrt2 = new BufferedWriter(new FileWriter(HelperMisc.PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME, false))) {
-                } catch (IOException ex) {
+                try (final BufferedWriter wrt2 = new BufferedWriter(new FileWriter(HelperMisc.PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME, false))) {
+                } catch (final IOException ex) {
                     Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING,
                             "Unable to reset URI information from properties file {0}", ex);
                 }
@@ -363,8 +363,8 @@ public class ConnectionProvider {
     /**
      * Writes the URIs on a text file
      */
-    private void writeURIsOnFile(SingleConnectionDetails connectionDetails, String serviceName, String filename) {
-        try (BufferedWriter wrt = new BufferedWriter(new FileWriter(filename, true))) {
+    private void writeURIsOnFile(final SingleConnectionDetails connectionDetails, final String serviceName, final String filename) {
+        try (final BufferedWriter wrt = new BufferedWriter(new FileWriter(filename, true))) {
             wrt.append(serviceName + HelperConnections.SUFFIX_URI + "=" + connectionDetails.getProviderURI());
             wrt.newLine();
             wrt.append(serviceName + HelperConnections.SUFFIX_BROKER + "=" + connectionDetails.getBrokerURI());
@@ -373,7 +373,7 @@ public class ConnectionProvider {
             wrt.newLine();
             wrt.append(serviceName + HelperConnections.SUFFIX_SERVICE_KEY + "=" + connectionDetails.getServiceKey());
             wrt.newLine();
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING,
                     "Unable to write URI information to properties file {0}", ex);
         }

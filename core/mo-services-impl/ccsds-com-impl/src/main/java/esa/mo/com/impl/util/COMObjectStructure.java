@@ -109,7 +109,7 @@ public class COMObjectStructure {
         try {
             bodies = HelperMisc.element2elementList(object);
             bodies.add(object);
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             bodies = null;
         }
 

@@ -41,7 +41,7 @@ public class PositionAndTime
   public final double longitude;
   public final double altitude;
 
-  public PositionAndTime(AbsoluteDate orekitDate, GeodeticPoint location)
+  public PositionAndTime(final AbsoluteDate orekitDate, final GeodeticPoint location)
   {
     this.orekitDate = orekitDate;
     this.date = orekitDate.toString();

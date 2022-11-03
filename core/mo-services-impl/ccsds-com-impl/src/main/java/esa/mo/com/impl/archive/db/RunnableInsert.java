@@ -16,7 +16,7 @@ final class RunnableInsert implements Runnable {
     private final TransactionsProcessor transactionsProcessor;
     private final Runnable publishEvents;
 
-    RunnableInsert(TransactionsProcessor transactionsProcessor, Runnable publishEvents) {
+    RunnableInsert(final TransactionsProcessor transactionsProcessor, final Runnable publishEvents) {
         this.transactionsProcessor = transactionsProcessor;
         this.publishEvents = publishEvents;
     }
@@ -27,11 +27,11 @@ final class RunnableInsert implements Runnable {
         if (container != null) {
             try {
                 this.transactionsProcessor.dbBackend.getAvailability().acquire();
-            } catch (InterruptedException ex) {
+            } catch (final InterruptedException ex) {
                 TransactionsProcessor.LOGGER.log(Level.SEVERE, null, ex);
             }
 
-            ArrayList<COMObjectEntity> objs = new ArrayList<>();
+            final ArrayList<COMObjectEntity> objs = new ArrayList<>();
             objs.addAll(container.getPerObjs());
 
             while (true) {
@@ -55,12 +55,12 @@ final class RunnableInsert implements Runnable {
     
     void persistObjects(final ArrayList<COMObjectEntity> perObjs) {
         try {
-            Connection c = this.transactionsProcessor.dbBackend.getConnection();
+            final Connection c = this.transactionsProcessor.dbBackend.getConnection();
             c.setAutoCommit(false);
-            PreparedStatement insertStmt = transactionsProcessor.dbBackend.getPreparedStatements().getInsertCOMObjects();
+            final PreparedStatement insertStmt = transactionsProcessor.dbBackend.getPreparedStatements().getInsertCOMObjects();
 
             for (int i = 0; i < perObjs.size(); i++) { // 6.510 ms per cycle
-                COMObjectEntity obj = perObjs.get(i);
+                final COMObjectEntity obj = perObjs.get(i);
                 insertStmt.setObject(1, obj.getObjectTypeId());
                 insertStmt.setObject(2, obj.getObjectId());
                 insertStmt.setObject(3, obj.getDomainId());
@@ -88,7 +88,7 @@ final class RunnableInsert implements Runnable {
 
             insertStmt.executeBatch();
             c.setAutoCommit(true);
-        } catch (SQLException ex) {
+        } catch (final SQLException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }

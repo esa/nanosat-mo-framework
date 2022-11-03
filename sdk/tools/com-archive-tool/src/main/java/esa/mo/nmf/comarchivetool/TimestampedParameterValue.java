@@ -28,7 +28,7 @@ public class TimestampedParameterValue {
     private final String parameterValue;
     private final Long timestamp;
 
-    public TimestampedParameterValue(ParameterValue value, FineTime timestamp) {
+    public TimestampedParameterValue(final ParameterValue value, final FineTime timestamp) {
         this.parameterValue = String.valueOf(value.getRawValue());
         this.timestamp = timestamp.getValue();
     }

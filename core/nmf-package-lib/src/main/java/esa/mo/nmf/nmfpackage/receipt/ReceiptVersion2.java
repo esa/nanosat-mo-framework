@@ -119,7 +119,7 @@ public class ReceiptVersion2 {
         bw.newLine();
 
         // Iterate the newLocations and write them down on the file
-        for (NMFPackageFile f : descriptor.getFiles()) {
+        for (final NMFPackageFile f : descriptor.getFiles()) {
             bw.write(FILE_PATH + f.getPath());
             bw.newLine();
             bw.write(FILE_CRC + String.valueOf(f.getCRC()));
@@ -128,7 +128,7 @@ public class ReceiptVersion2 {
     }
 
     private static String readLineSafe(final BufferedReader br) throws IOException {
-        String line = br.readLine();
+        final String line = br.readLine();
 
         if (line == null) {
             throw new IOException("The line is null! It happens when it reaches the end of the file!");

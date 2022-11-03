@@ -34,7 +34,7 @@ public class MOelementList extends MOelement{
     private final javax.swing.JToggleButton buttonRemove;
     private javax.swing.JTextField fieldValue;
     
-    public MOelementList(final MOWindow previousWindow, String fieldNameIn, Object obj, boolean editable, boolean objIsNull) {
+    public MOelementList(final MOWindow previousWindow, final String fieldNameIn, final Object obj, final boolean editable, final boolean objIsNull) {
         super(fieldNameIn, obj, true, objIsNull);
         
         this.editable = editable;
@@ -43,7 +43,7 @@ public class MOelementList extends MOelement{
         buttonRemove = new javax.swing.JToggleButton();
         buttonRemove.setText("Remove");
         final MOelementList temp = this;
-        java.awt.event.ActionListener actionListenerRemove = evt -> {
+        final java.awt.event.ActionListener actionListenerRemove = evt -> {
             previousWindow.getComponentsPanel().remove(temp);
 
             // Fix the indexes
@@ -56,7 +56,7 @@ public class MOelementList extends MOelement{
         buttonRemove.addActionListener(actionListenerRemove);
 
         // Is it an Attribute?
-        boolean isAttribute = (HelperAttributes.attributeName2typeShortForm(obj.getClass().getSimpleName()) != null);
+        final boolean isAttribute = (HelperAttributes.attributeName2typeShortForm(obj.getClass().getSimpleName()) != null);
         
         if(isAttribute && !(obj instanceof ElementList)){
             // Make a textbox and put it in the middle Panel
@@ -104,16 +104,16 @@ public class MOelementList extends MOelement{
             return null;
         }else{
             // Is it an Attribute?
-            boolean isAttribute = (HelperAttributes.attributeName2typeShortForm(this.object.getClass().getSimpleName()) != null);
+            final boolean isAttribute = (HelperAttributes.attributeName2typeShortForm(this.object.getClass().getSimpleName()) != null);
             return (isAttribute) ? HelperAttributes.string2attribute(this.object, this.fieldValue.getText()) : HelperAttributes.attribute2JavaType(this.object);
         }
     }
     
-    private void buttonEditActionPerformed(java.awt.event.ActionEvent evt) {                                       
-        MOWindow genericObj = new MOWindow(this.object, this.editable);
+    private void buttonEditActionPerformed(final java.awt.event.ActionEvent evt) {
+        final MOWindow genericObj = new MOWindow(this.object, this.editable);
         try {
             this.object = genericObj.getObject();
-        } catch (InterruptedIOException ex) {
+        } catch (final InterruptedIOException ex) {
             return;
         }
 

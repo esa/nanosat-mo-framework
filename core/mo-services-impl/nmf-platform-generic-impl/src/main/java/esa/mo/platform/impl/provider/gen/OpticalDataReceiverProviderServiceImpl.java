@@ -58,7 +58,7 @@ public class OpticalDataReceiverProviderServiceImpl extends OpticalDataReceiverI
    * @param adapter The Optical Data RX adapter
    * @throws MALException On initialisation error.
    */
-  public synchronized void init(OpticalDataReceiverAdapterInterface adapter) throws MALException
+  public synchronized void init(final OpticalDataReceiverAdapterInterface adapter) throws MALException
   {
     if (!initialiased) {
 
@@ -107,14 +107,14 @@ public class OpticalDataReceiverProviderServiceImpl extends OpticalDataReceiverI
         opticalDataReceiverServiceProvider.close();
       }
       connection.closeAll();
-    } catch (MALException ex) {
+    } catch (final MALException ex) {
       Logger.getLogger(OpticalDataReceiverProviderServiceImpl.class.getName()).log(Level.WARNING,
           "Exception during close down of the provider {0}", ex);
     }
   }
 
   @Override
-  public void recordSamples(Duration recordingDuration, RecordSamplesInteraction interaction) throws
+  public void recordSamples(final Duration recordingDuration, final RecordSamplesInteraction interaction) throws
       MALInteractionException, MALException
   {
     if (!adapter.isUnitAvailable()) {
@@ -133,7 +133,7 @@ public class OpticalDataReceiverProviderServiceImpl extends OpticalDataReceiverI
       return;
     }
     interaction.sendAcknowledgement();
-    byte[] data = adapter.recordOpticalReceiverData(recordingDuration);
+    final byte[] data = adapter.recordOpticalReceiverData(recordingDuration);
     if (data == null) {
       // TODO Add error code to the service spec
       interaction.sendError(new MALStandardError(new UInteger(0), null));

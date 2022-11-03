@@ -44,10 +44,10 @@ import org.ccsds.moims.mo.mc.aggregation.structures.AggregationParameterSetList;
  */
 public class StoreAggregations {
 
-    public static void storeAggregations(int numberOfObjs, NMFInterface connector) {
+    public static void storeAggregations(final int numberOfObjs, final NMFInterface connector) {
         try {
-            AggregationDefinitionDetailsList defs = new AggregationDefinitionDetailsList();
-            AggregationDefinitionDetails def = new AggregationDefinitionDetails();
+            final AggregationDefinitionDetailsList defs = new AggregationDefinitionDetailsList();
+            final AggregationDefinitionDetails def = new AggregationDefinitionDetails();
             def.setDescription("dfvgdf");
             def.setCategory(new UOctet((short) 1));
             def.setSendUnchanged(false);
@@ -56,10 +56,10 @@ public class StoreAggregations {
             def.setFilterEnabled(false);
             def.setFilteredTimeout(new Duration(54));
             def.setSendDefinitions(false);
-            AggregationParameterSetList aaa = new AggregationParameterSetList();
-            AggregationParameterSet aa = new AggregationParameterSet();
+            final AggregationParameterSetList aaa = new AggregationParameterSetList();
+            final AggregationParameterSet aa = new AggregationParameterSet();
             aa.setDomain(null);
-            LongList lissssst = new LongList();
+            final LongList lissssst = new LongList();
             lissssst.add(65L);
             aa.setParameters(lissssst);
             aa.setSampleInterval(new Duration(43));
@@ -69,12 +69,12 @@ public class StoreAggregations {
             for (int i = 0; i < numberOfObjs; i++) {
                 defs.add(def);
             }
-            ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(null, null,
+            final ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(null, null,
                     connector.getMCServices().getActionService().getConnectionProvider().getConnectionDetails());
             for (int i = 0; i < numberOfObjs - 1; i++) {
                 archDetails.add(archDetails.get(0));
             }
-            long startTime = System.nanoTime();
+            final long startTime = System.nanoTime();
             /*
             try {
             LongList objIds = nanoSatMOFramework.getCOMServices().getArchiveService().store(
@@ -113,8 +113,8 @@ public class StoreAggregations {
             try {
 
                 for (int i = 0; i < defs.size(); i++) {
-                    ArchiveDetailsList xxx = new ArchiveDetailsList();
-                    AggregationDefinitionDetailsList yyy = new AggregationDefinitionDetailsList();
+                    final ArchiveDetailsList xxx = new ArchiveDetailsList();
+                    final AggregationDefinitionDetailsList yyy = new AggregationDefinitionDetailsList();
                     xxx.add(archDetails.get(0));
                     yyy.add(defs.get(i));
 
@@ -127,17 +127,17 @@ public class StoreAggregations {
 
                 }
 
-            } catch (MALException | MALInteractionException ex) {
+            } catch (final MALException | MALInteractionException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
-            long estimatedTime = System.nanoTime() - startTime;
+            final long estimatedTime = System.nanoTime() - startTime;
             Logger.getLogger(BenchmarkApp.class.getName()).log(Level.INFO,
                     "Total time: " + numberOfObjs + " objects in {0} nanoseconds", estimatedTime);
-            float objectPerSec = numberOfObjs / ((float) estimatedTime / (float) 1000000000);
-            float averageTimePerObj = 1 / objectPerSec;
+            final float objectPerSec = numberOfObjs / ((float) estimatedTime / (float) 1000000000);
+            final float averageTimePerObj = 1 / objectPerSec;
             Logger.getLogger(BenchmarkApp.class.getName()).log(Level.INFO,
                     "Objects per second: " + objectPerSec + " (average: " + averageTimePerObj + " sec)");
-        } catch (NMFException ex) {
+        } catch (final NMFException ex) {
             Logger.getLogger(BenchmarkApp.class.getName()).log(Level.SEVERE, null, ex);
         }
 

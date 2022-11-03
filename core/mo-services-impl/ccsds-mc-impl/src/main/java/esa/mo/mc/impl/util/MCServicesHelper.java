@@ -336,7 +336,7 @@ public class MCServicesHelper {
     //public static final UShort ALERT_HANDLER_OBJECT_NUMBER = new UShort(4000);
     // The object number for the alert test handler
     //public static final UShort ALERT_TEST_HANDLER_OBJECT_NUMBER = new UShort(4001);
-    public static long getAlertObjectTypeAsKey(int objectNumber) {
+    public static long getAlertObjectTypeAsKey(final int objectNumber) {
         long iKey;
 
         iKey = objectNumber;
@@ -346,8 +346,8 @@ public class MCServicesHelper {
         return iKey;
     }
 
-    public static long getAlertSourceObjectTypeAsKey(int objectNumber) {
-        long iKey;
+    public static long getAlertSourceObjectTypeAsKey(final int objectNumber) {
+        final long iKey;
 
         iKey = objectNumber;
 //    iKey = iKey | (long) MCPrototypeHelper._MCPROTOTYPE_AREA_NUMBER << 48;
@@ -367,7 +367,7 @@ public class MCServicesHelper {
      * @param objectNumber
      * @return
      */
-    static public Long generateSubKey(int area, int service, int version, int objectNumber) {
+    static public Long generateSubKey(final int area, final int service, final int version, final int objectNumber) {
         long subkey = objectNumber;
         subkey = subkey | (((long) version) << 24);
         subkey = subkey | ((long) service << 32);
@@ -384,7 +384,7 @@ public class MCServicesHelper {
      * @param includeObjectNumber
      * @return
      */
-    static public Long generateSubKey(ObjectType objectType, boolean includeObjectNumber) {
+    static public Long generateSubKey(final ObjectType objectType, final boolean includeObjectNumber) {
         return generateSubKey(objectType.getArea().getValue(),
                 objectType.getService().getValue(),
                 objectType.getVersion().getValue(),
@@ -400,8 +400,8 @@ public class MCServicesHelper {
      * @param sourceObjectType
      * @return
      */
-    static public EntityKey generateEntityKey(ObjectType objectType, long instanceNumber,
-            ObjectType sourceObjectType) {
+    static public EntityKey generateEntityKey(final ObjectType objectType, final long instanceNumber,
+                                              final ObjectType sourceObjectType) {
         return new EntityKey(
                 new Identifier(String.valueOf(objectType.getNumber())),
                 MCServicesHelper.generateSubKey(objectType, false),
@@ -417,7 +417,7 @@ public class MCServicesHelper {
         public ObjectType sourceObjectType = new ObjectType();
     }
 
-    static public void getValuesFromEntityKey(EntityKey key, KeyParts keyParts) {
+    static public void getValuesFromEntityKey(final EntityKey key, final KeyParts keyParts) {
         // Get the area/service/version from the second sub key
         generateObjectTypeFromSubKey(keyParts.objectType, key.getSecondSubKey());
         // Add object number from first subkey
@@ -438,8 +438,8 @@ public class MCServicesHelper {
 //      object.getAreaVersion().getValue(),
 //      objectNumber);
 //  }
-    public static void generateObjectTypeFromSubKey(ObjectType objectType, Long secondSubKey) {
-        long subkey = secondSubKey;
+    public static void generateObjectTypeFromSubKey(final ObjectType objectType, final Long secondSubKey) {
+        final long subkey = secondSubKey;
 
         // Get the object number from the bottom 3 bytes.
         objectType.setNumber(new UShort((int) (subkey & 0xFFFFFF)));
@@ -451,7 +451,7 @@ public class MCServicesHelper {
         objectType.setArea(new UShort((int) ((subkey >> 48) & 0xFFFF)));
     }
 
-    public static Attribute getAttribute(String value, int type) {
+    public static Attribute getAttribute(final String value, final int type) {
 //        LoggingBase.logMessage("Getting Attribute of type " + type + " with value " + value);
 
         Attribute ret = null;
@@ -486,8 +486,8 @@ public class MCServicesHelper {
         return ret;
     }
 
-    public static double getDouble(Attribute attr) {
-        int type = attr.getTypeShortForm();
+    public static double getDouble(final Attribute attr) {
+        final int type = attr.getTypeShortForm();
         switch (type) {
             case Attribute._DOUBLE_TYPE_SHORT_FORM:
                 //Already double.

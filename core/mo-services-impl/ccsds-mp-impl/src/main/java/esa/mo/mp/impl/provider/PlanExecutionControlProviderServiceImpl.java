@@ -105,7 +105,7 @@ public class PlanExecutionControlProviderServiceImpl extends PlanExecutionContro
      * @param comServices
      * @throws MALException            On initialisation error.
      */
-    public synchronized void init(COMServicesProvider comServices, MPArchiveManager archiveManager, MPServiceOperationManager registration, ActivityExecutionEngine activityExecutionEngine) throws MALException {
+    public synchronized void init(final COMServicesProvider comServices, final MPArchiveManager archiveManager, final MPServiceOperationManager registration, final ActivityExecutionEngine activityExecutionEngine) throws MALException {
         if (!this.initialised) {
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -121,7 +121,7 @@ public class PlanExecutionControlProviderServiceImpl extends PlanExecutionContro
 
             try {
                 PlanExecutionControlHelper.init(MALContextFactory.getElementFactoryRegistry());
-            } catch (MALException ex) {
+            } catch (final MALException ex) {
                 // nothing to be done..
             }
         }
@@ -152,26 +152,26 @@ public class PlanExecutionControlProviderServiceImpl extends PlanExecutionContro
 
         // Listen Event Service for Activity updates in COM Archive
         try {
-            EventConsumerServiceImpl consumer = new EventConsumerServiceImpl(comServices.getEventService().getConnectionProvider().getConnectionDetails());
-            Subscription subcription = HelperCOM.generateCOMEventSubscriptionBySourceType("ActivityStatusUpdates", PlanEditHelper.ACTIVITYUPDATE_OBJECT_TYPE);
+            final EventConsumerServiceImpl consumer = new EventConsumerServiceImpl(comServices.getEventService().getConnectionProvider().getConnectionDetails());
+            final Subscription subcription = HelperCOM.generateCOMEventSubscriptionBySourceType("ActivityStatusUpdates", PlanEditHelper.ACTIVITYUPDATE_OBJECT_TYPE);
             consumer.addEventReceivedListener(subcription, new EventReceivedListener(){
                 @Override
-                public void onDataReceived(EventCOMObject eventCOMObject) {
-                    ObjectId statusId = eventCOMObject.getSource();
-                    ObjectId activityInstanceId = archiveManager.ACTIVITY.getInstanceIdByStatusId(statusId);
-                    ObjectId activityDefinitionId = archiveManager.ACTIVITY.getDefinitionIdByInstanceId(activityInstanceId);
-                    ObjectId activityIdentityId = archiveManager.ACTIVITY.getIdentityIdByDefinitionId(activityDefinitionId);
-                    Identifier activityIdentity = archiveManager.ACTIVITY.getIdentity(activityIdentityId);
-                    ActivityUpdateDetails status = archiveManager.ACTIVITY.getStatus(statusId);
+                public void onDataReceived(final EventCOMObject eventCOMObject) {
+                    final ObjectId statusId = eventCOMObject.getSource();
+                    final ObjectId activityInstanceId = archiveManager.ACTIVITY.getInstanceIdByStatusId(statusId);
+                    final ObjectId activityDefinitionId = archiveManager.ACTIVITY.getDefinitionIdByInstanceId(activityInstanceId);
+                    final ObjectId activityIdentityId = archiveManager.ACTIVITY.getIdentityIdByDefinitionId(activityDefinitionId);
+                    final Identifier activityIdentity = archiveManager.ACTIVITY.getIdentity(activityIdentityId);
+                    final ActivityUpdateDetails status = archiveManager.ACTIVITY.getStatus(statusId);
                     try {
                         publishActivityUpdate(activityIdentity, activityIdentityId, activityInstanceId, status);
-                    } catch (IllegalArgumentException | MALInteractionException | MALException e) {
+                    } catch (final IllegalArgumentException | MALInteractionException | MALException e) {
                         LOGGER.warning("Error publishing activity update");
                     }
                 }
             });
             LOGGER.info("Subscribed to Activity updates");
-        } catch (MALInteractionException | MalformedURLException e) {
+        } catch (final MALInteractionException | MalformedURLException e) {
             throw new MALException(e.getMessage());
         }
 
@@ -191,7 +191,7 @@ public class PlanExecutionControlProviderServiceImpl extends PlanExecutionContro
             }
 
             this.connection.closeAll();
-        } catch (MALException ex) {
+        } catch (final MALException ex) {
             LOGGER.log(Level.WARNING, "Exception during close down of the provider {0}", ex);
         }
     }
@@ -201,18 +201,18 @@ public class PlanExecutionControlProviderServiceImpl extends PlanExecutionContro
     }
 
     @Override
-    public PlanStatus submitPlan(ObjectId planVersionId, PlanVersionDetails planVersion, MALInteraction interaction) throws MALInteractionException, MALException {
-        Long planVersionInstanceId = COMObjectIdHelper.getInstanceId(planVersionId);
+    public PlanStatus submitPlan(final ObjectId planVersionId, final PlanVersionDetails planVersion, final MALInteraction interaction) throws MALInteractionException, MALException {
+        final Long planVersionInstanceId = COMObjectIdHelper.getInstanceId(planVersionId);
         LOGGER.info(String.format("Submitted plan version (id: %s) received...", planVersionInstanceId));
 
         // Update plan status
         this.updatePlanStatus(planVersionId, PlanStatus.SUBMITTED, interaction);
 
-        ArrayList<TimelineItem> timeline = getTimeline(planVersion.getItems());
+        final ArrayList<TimelineItem> timeline = getTimeline(planVersion.getItems());
 
         executor.stop();
 
-        TimelineExecutionCallback executionCallback = getExecutionCallback(planVersionId, interaction);
+        final TimelineExecutionCallback executionCallback = getExecutionCallback(planVersionId, interaction);
 
         executor.setCallback(executionCallback);
         executor.submitTimeline(timeline);
@@ -222,24 +222,24 @@ public class PlanExecutionControlProviderServiceImpl extends PlanExecutionContro
         return PlanStatus.SUBMITTED;
     }
 
-    private ArrayList<TimelineItem> getTimeline(PlannedItems plannedItems) {
+    private ArrayList<TimelineItem> getTimeline(final PlannedItems plannedItems) {
         // Create Timeline based on PlannedActivities
-        ArrayList<TimelineItem> timeline = new ArrayList<>();
-        for (PlannedActivity plannedActivity : plannedItems.getPlannedActivities()) {
-            ObjectKey activityInstanceIdKey = plannedActivity.getInstanceId();
-            ObjectId activityInstanceId = new ObjectId(PlanEditHelper.ACTIVITYINSTANCE_OBJECT_TYPE, activityInstanceIdKey);
+        final ArrayList<TimelineItem> timeline = new ArrayList<>();
+        for (final PlannedActivity plannedActivity : plannedItems.getPlannedActivities()) {
+            final ObjectKey activityInstanceIdKey = plannedActivity.getInstanceId();
+            final ObjectId activityInstanceId = new ObjectId(PlanEditHelper.ACTIVITYINSTANCE_OBJECT_TYPE, activityInstanceIdKey);
 
-            ObjectId activityDefinitionId = archiveManager.ACTIVITY.getDefinitionIdByInstanceId(activityInstanceId);
-            ObjectId activityIdentityId = archiveManager.ACTIVITY.getIdentityIdByDefinitionId(activityDefinitionId);
-            ActivityDefinitionDetails activityDefinition = archiveManager.ACTIVITY.getDefinition(activityDefinitionId);
-            Identifier identity = archiveManager.ACTIVITY.getIdentity(activityIdentityId);
-            ActivityUpdateDetails status = archiveManager.ACTIVITY.getStatusByInstanceId(activityInstanceId);
+            final ObjectId activityDefinitionId = archiveManager.ACTIVITY.getDefinitionIdByInstanceId(activityInstanceId);
+            final ObjectId activityIdentityId = archiveManager.ACTIVITY.getIdentityIdByDefinitionId(activityDefinitionId);
+            final ActivityDefinitionDetails activityDefinition = archiveManager.ACTIVITY.getDefinition(activityDefinitionId);
+            final Identifier identity = archiveManager.ACTIVITY.getIdentity(activityIdentityId);
+            final ActivityUpdateDetails status = archiveManager.ACTIVITY.getStatusByInstanceId(activityInstanceId);
 
             if (status.getStatus() != ActivityStatus.PLANNED) continue;
 
-            long earliestStartTime = status.getStart().getTimeTrigger().getTriggerTime().getValue();
-            long latestStartTime = status.getEnd().getTimeTrigger().getTriggerTime().getValue();
-            String itemId = String.format("%s(%s)", identity.getValue(), activityInstanceIdKey.getInstId());
+            final long earliestStartTime = status.getStart().getTimeTrigger().getTriggerTime().getValue();
+            final long latestStartTime = status.getEnd().getTimeTrigger().getTriggerTime().getValue();
+            final String itemId = String.format("%s(%s)", identity.getValue(), activityInstanceIdKey.getInstId());
 
             timeline.add(new TimelineItem(earliestStartTime, latestStartTime, itemId, new ItemCallback(){
                 @Override
@@ -255,7 +255,7 @@ public class PlanExecutionControlProviderServiceImpl extends PlanExecutionContro
         return timeline;
     }
 
-    private TimelineExecutionCallback getExecutionCallback(ObjectId planVersionId, MALInteraction interaction) {
+    private TimelineExecutionCallback getExecutionCallback(final ObjectId planVersionId, final MALInteraction interaction) {
         return new TimelineExecutionCallback(){
             @Override
             public void onStart() {
@@ -272,21 +272,21 @@ public class PlanExecutionControlProviderServiceImpl extends PlanExecutionContro
         };
     }
 
-    private void updatePlanStatus(ObjectId planVersionId, PlanStatus status, MALInteraction interaction) {
+    private void updatePlanStatus(final ObjectId planVersionId, final PlanStatus status, final MALInteraction interaction) {
         this.updatePlanStatus(planVersionId, status, null, interaction);
     }
 
-    private void updatePlanStatus(ObjectId planVersionId, PlanStatus status, String terminationInfo, MALInteraction interaction) {
+    private void updatePlanStatus(final ObjectId planVersionId, final PlanStatus status, final String terminationInfo, final MALInteraction interaction) {
         try {
-            PlanUpdateDetails planUpdate = MPFactory.createPlanUpdate(status);
+            final PlanUpdateDetails planUpdate = MPFactory.createPlanUpdate(status);
             planUpdate.setTerminationInfo(terminationInfo);
             archiveManager.PLAN.addStatus(planVersionId, planUpdate, null, interaction);
-        } catch (MALException | MALInteractionException e) {
+        } catch (final MALException | MALInteractionException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
     }
 
-    private void publishActivityUpdate(Identifier identity, ObjectId identityId, ObjectId instanceId, ActivityUpdateDetails update) throws IllegalArgumentException, MALInteractionException, MALException {
+    private void publishActivityUpdate(final Identifier identity, final ObjectId identityId, final ObjectId instanceId, final ActivityUpdateDetails update) throws IllegalArgumentException, MALInteractionException, MALException {
         if (!this.isPublisherRegistered) {
             final EntityKeyList entityKeys = new EntityKeyList();
             entityKeys.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
@@ -294,21 +294,21 @@ public class PlanExecutionControlProviderServiceImpl extends PlanExecutionContro
             this.isPublisherRegistered = true;
         }
 
-        UpdateHeaderList headerList = new UpdateHeaderList();
+        final UpdateHeaderList headerList = new UpdateHeaderList();
 
-        Identifier firstSubKey = identity;
-        Long secondSubKey = COMObjectIdHelper.getInstanceId(identityId);
-        Long thirdSubKey = COMObjectIdHelper.getInstanceId(instanceId);
-        Long fourthSubKey = Long.valueOf(update.getStatus().getNumericValue().getValue());
+        final Identifier firstSubKey = identity;
+        final Long secondSubKey = COMObjectIdHelper.getInstanceId(identityId);
+        final Long thirdSubKey = COMObjectIdHelper.getInstanceId(instanceId);
+        final Long fourthSubKey = Long.valueOf(update.getStatus().getNumericValue().getValue());
 
-        EntityKey entityKey = new EntityKey(firstSubKey, secondSubKey, thirdSubKey, fourthSubKey);
+        final EntityKey entityKey = new EntityKey(firstSubKey, secondSubKey, thirdSubKey, fourthSubKey);
         headerList.add(new UpdateHeader(
             update.getTimestamp(),
             connection.getConnectionDetails().getProviderURI(),
             UpdateType.CREATION,
             entityKey
         ));
-        ActivityUpdateDetailsList activityStatusList = new ActivityUpdateDetailsList();
+        final ActivityUpdateDetailsList activityStatusList = new ActivityUpdateDetailsList();
         activityStatusList.add(update);
 
         activityPublisher.publish(headerList, activityStatusList);

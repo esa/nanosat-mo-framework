@@ -119,7 +119,7 @@ public class AggregationLister {
    * @throws SAXException
    * @throws ParserConfigurationException
    */
-  public AggregationLister(InputStream aggregations, ParameterLister parameterLister)
+  public AggregationLister(final InputStream aggregations, final ParameterLister parameterLister)
       throws IOException, SAXException, ParserConfigurationException {
     LOGGER.log(Level.INFO, "Loading OBSW aggregations");
     aggregationMap = readAggregations(aggregations, parameterLister);
@@ -145,31 +145,31 @@ public class AggregationLister {
    * @throws IOException
    * @throws SAXException
    */
-  private Map<Long, OBSWAggregation> readAggregations(InputStream aggregations,
-      ParameterLister parameterLister)
+  private Map<Long, OBSWAggregation> readAggregations(final InputStream aggregations,
+                                                      final ParameterLister parameterLister)
       throws ParserConfigurationException, IOException, SAXException {
-    Map<Long, OBSWAggregation> map = new HashMap<>();
+    final Map<Long, OBSWAggregation> map = new HashMap<>();
 
-    DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-    DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-    Document document = documentBuilder.parse(aggregations);
+    final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+    final DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+    final Document document = documentBuilder.parse(aggregations);
 
-    NodeList aggregationNodeList = document.getElementsByTagName(TAG_AGGREGATION);
+    final NodeList aggregationNodeList = document.getElementsByTagName(TAG_AGGREGATION);
     for (int i = 0; i < aggregationNodeList.getLength(); i++) {
-      Node aggregationNode = aggregationNodeList.item(i);
+      final Node aggregationNode = aggregationNodeList.item(i);
       if (Node.ELEMENT_NODE == aggregationNode.getNodeType()) {
-        Element aggregationElement = (Element) aggregationNode;
+        final Element aggregationElement = (Element) aggregationNode;
 
-        String id = aggregationElement.getAttribute(ATTRIBUTE_ID);
-        String dynamic = aggregationElement.getAttribute(ATTRIBUTE_DYNAMIC);
-        String builtin = aggregationElement.getAttribute(ATTRIBUTE_BUILTIN);
-        String name = aggregationElement.getAttribute(ATTRIBUTE_NAME);
-        String category = aggregationElement.getAttribute(ATTRIBUTE_CATEGORY);
-        String description = aggregationElement.getAttribute(ATTRIBUTE_DESCRIPTION);
-        String updateInterval = aggregationElement.getAttribute(ATTRIBUTE_UPDATE_INTERVAL);
-        String generationEnabled = aggregationElement.getAttribute(ATTRIBUTE_GENERATION_ENABLED);
+        final String id = aggregationElement.getAttribute(ATTRIBUTE_ID);
+        final String dynamic = aggregationElement.getAttribute(ATTRIBUTE_DYNAMIC);
+        final String builtin = aggregationElement.getAttribute(ATTRIBUTE_BUILTIN);
+        final String name = aggregationElement.getAttribute(ATTRIBUTE_NAME);
+        final String category = aggregationElement.getAttribute(ATTRIBUTE_CATEGORY);
+        final String description = aggregationElement.getAttribute(ATTRIBUTE_DESCRIPTION);
+        final String updateInterval = aggregationElement.getAttribute(ATTRIBUTE_UPDATE_INTERVAL);
+        final String generationEnabled = aggregationElement.getAttribute(ATTRIBUTE_GENERATION_ENABLED);
 
-        OBSWAggregation aggregation = new OBSWAggregation();
+        final OBSWAggregation aggregation = new OBSWAggregation();
         aggregation.setId(Long.decode(id));
         aggregation.setDynamic(Boolean.parseBoolean(dynamic));
         aggregation.setBuiltin(Boolean.parseBoolean(builtin));
@@ -181,7 +181,7 @@ public class AggregationLister {
         }
         aggregation.setGenerationEnabled(Boolean.parseBoolean(generationEnabled));
 
-        for (OBSWParameter p : getParameterList(parameterLister.getParameters(),
+        for (final OBSWParameter p : getParameterList(parameterLister.getParameters(),
             aggregationElement)) {
           aggregation.getParameters().add(p);
         }
@@ -200,20 +200,20 @@ public class AggregationLister {
    * @param aggregationElement The XML node to get sub-elements.
    * @return The list of parameters that are referenced by aggregationElement.
    */
-  private List<OBSWParameter> getParameterList(Map<Identifier, OBSWParameter> parameterMap,
-      Element aggregationElement) {
-    List<OBSWParameter> parameterList = new ArrayList<>();
+  private List<OBSWParameter> getParameterList(final Map<Identifier, OBSWParameter> parameterMap,
+                                               final Element aggregationElement) {
+    final List<OBSWParameter> parameterList = new ArrayList<>();
 
-    NodeList OBSWParameterNodeList = aggregationElement.getElementsByTagName(TAG_PARAMETER);
+    final NodeList OBSWParameterNodeList = aggregationElement.getElementsByTagName(TAG_PARAMETER);
 
     for (int i = 0; i < OBSWParameterNodeList.getLength(); i++) {
-      Node OBSWParameterNode = OBSWParameterNodeList.item(i);
+      final Node OBSWParameterNode = OBSWParameterNodeList.item(i);
 
       if (Node.ELEMENT_NODE == OBSWParameterNode.getNodeType()) {
-        Element OBSWParameterElement = (Element) OBSWParameterNode;
+        final Element OBSWParameterElement = (Element) OBSWParameterNode;
 
-        String paramName = OBSWParameterElement.getAttribute(ATTRIBUTE_REF);
-        OBSWParameter parameter = parameterMap.get(new Identifier(paramName));
+        final String paramName = OBSWParameterElement.getAttribute(ATTRIBUTE_REF);
+        final OBSWParameter parameter = parameterMap.get(new Identifier(paramName));
         // Only add references that can be found
         if (parameter != null) {
           parameterList.add(parameter);

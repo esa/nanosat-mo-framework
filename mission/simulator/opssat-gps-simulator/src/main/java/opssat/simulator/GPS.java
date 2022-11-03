@@ -49,7 +49,7 @@ public class GPS {
     Timer timer;
     private final Object MUTEX = new Object();
 
-    public GPS(Orbit selectedOrbit) {
+    public GPS(final Orbit selectedOrbit) {
         this.orbit = selectedOrbit;
         this.timer = new Timer();
 
@@ -67,9 +67,9 @@ public class GPS {
         return this.getPosition(this.Position.gettime());
     }
 
-    public OrbitParameters getPosition(Date time) {
+    public OrbitParameters getPosition(final Date time) {
 
-        OrbitParameters PositionWithErrors;
+        final OrbitParameters PositionWithErrors;
 
         synchronized (MUTEX) {
             this.Position = orbit.getParameters(time);
@@ -99,7 +99,7 @@ public class GPS {
         return PositionWithErrors;
     }
 
-    public static BigDecimal truncateDecimal(double x, int numberofDecimals) {
+    public static BigDecimal truncateDecimal(final double x, final int numberofDecimals) {
         // From: http://stackoverflow.com/questions/7747469/how-can-i-truncate-a-double-to-only-two-decimal-places-in-java
         if (x > 0) {
             return new BigDecimal(String.valueOf(x)).setScale(numberofDecimals, RoundingMode.FLOOR);
@@ -108,7 +108,7 @@ public class GPS {
         }
     }
 
-    private static double fixBoundaries(double input, double low_limit, double top_limit) {
+    private static double fixBoundaries(final double input, final double low_limit, final double top_limit) {
         if (input < low_limit) {
             return low_limit;
         }
@@ -121,13 +121,13 @@ public class GPS {
     }
 
     // k is the constant and it's the error in meters
-    private OrbitParameters generateError(double k, OrbitParameters param) {
+    private OrbitParameters generateError(final double k, final OrbitParameters param) {
         // Generate errors
 //    System.out.printf("Time: %s\n", RealPosition.time.toString());
-        Random randomno = new Random();
+        final Random randomno = new Random();
 
         // Factor to convert the k from meters to degrees
-        double factor = 360 / (2 * Math.PI * param.geta());
+        final double factor = 360 / (2 * Math.PI * param.geta());
 
         // The values are divided by 3 to represent a 3 sigma confidence interval
         // The meters need to be converted to kilometers ("/ 1000")

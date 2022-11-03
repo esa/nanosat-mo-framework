@@ -56,7 +56,7 @@ public class ArchiveToRolesAdapter extends ArchiveAdapter implements QueryStatus
      */
     private final List<String> rolesNames = new ArrayList<>();
 
-    public void retrieveResponseReceived(MALMessageHeader msgHeader, ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+    public void retrieveResponseReceived(final MALMessageHeader msgHeader, final ArchiveDetailsList objDetails, final ElementList objBodies, final Map qosProperties) {
         for(int i = 0; i < objDetails.size(); ++i) {
             rolesIds.add(objDetails.get(i).getInstId());
             rolesNames.add(objBodies.get(i).toString());
@@ -65,13 +65,13 @@ public class ArchiveToRolesAdapter extends ArchiveAdapter implements QueryStatus
     }
 
     @Override
-    public void retrieveAckErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+    public void retrieveAckErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error, final Map qosProperties) {
         LOGGER.log(Level.SEVERE, "retrieveAckErrorReceived", error);
         setIsQueryOver(true);
     }
 
     @Override
-    public void retrieveResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+    public void retrieveResponseErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error, final Map qosProperties) {
         LOGGER.log(Level.SEVERE, "retrieveResponseErrorReceived", error);
         setIsQueryOver(true);
     }
@@ -81,7 +81,7 @@ public class ArchiveToRolesAdapter extends ArchiveAdapter implements QueryStatus
         return isQueryOver;
     }
 
-    public void setIsQueryOver(boolean queryOver) {
+    public void setIsQueryOver(final boolean queryOver) {
         isQueryOver = queryOver;
     }
 

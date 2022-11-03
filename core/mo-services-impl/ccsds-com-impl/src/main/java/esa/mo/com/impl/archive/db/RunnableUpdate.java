@@ -16,7 +16,7 @@ private final TransactionsProcessor transactionsProcessor;
     private final Runnable publishEvents;
     private final ArrayList<COMObjectEntity> newObjs;
 
-    RunnableUpdate(TransactionsProcessor transactionsProcessor, Runnable publishEvents, ArrayList<COMObjectEntity> newObjs) {
+    RunnableUpdate(final TransactionsProcessor transactionsProcessor, final Runnable publishEvents, final ArrayList<COMObjectEntity> newObjs) {
         this.transactionsProcessor = transactionsProcessor;
         this.publishEvents = publishEvents;
         this.newObjs = newObjs;
@@ -26,20 +26,20 @@ private final TransactionsProcessor transactionsProcessor;
     public void run() {
         try {
             this.transactionsProcessor.dbBackend.getAvailability().acquire();
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             TransactionsProcessor.LOGGER.log(Level.SEVERE, null, ex);
         }
 
         try {
-            Connection c = this.transactionsProcessor.dbBackend.getConnection();
+            final Connection c = this.transactionsProcessor.dbBackend.getConnection();
             c.setAutoCommit(false);
 
 
-            PreparedStatement update = transactionsProcessor.dbBackend.getPreparedStatements().getUpdateCOMObjects();
+            final PreparedStatement update = transactionsProcessor.dbBackend.getPreparedStatements().getUpdateCOMObjects();
 
             // Generate the object Ids if needed and the persistence objects to be removed
             for (int i = 0; i < newObjs.size(); i++) {
-                COMObjectEntity obj = newObjs.get(i);
+                final COMObjectEntity obj = newObjs.get(i);
                 update.setObject(1, obj.getObjectTypeId());
                 update.setObject(2, obj.getObjectId());
                 update.setObject(3, obj.getDomainId());
@@ -71,7 +71,7 @@ private final TransactionsProcessor transactionsProcessor;
 
             update.executeBatch();
             c.setAutoCommit(true);
-        } catch (SQLException ex) {
+        } catch (final SQLException ex) {
             TransactionsProcessor.LOGGER.log(Level.SEVERE, null, ex);
         }
         this.transactionsProcessor.dbBackend.getAvailability().release();

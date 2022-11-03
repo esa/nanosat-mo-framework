@@ -41,29 +41,29 @@ public class MPServiceOperationManager {
 
     private final HashMap<MPServiceOperation, MPServiceOperationCallback> operations = new HashMap<>();
 
-    public void register(MPServiceOperation operationName, MPServiceOperationCallback callback) {
+    public void register(final MPServiceOperation operationName, final MPServiceOperationCallback callback) {
         if (operations.get(operationName) != null) {
             LOGGER.warning(String.format("Operation %s is already registered. Ignoring previous registration.", operationName));
         }
         operations.put(operationName, callback);
     }
 
-    public void notifyRequestValidation(MPServiceOperation operationName, RequestVersionDetails requestVersion) {
+    public void notifyRequestValidation(final MPServiceOperation operationName, final RequestVersionDetails requestVersion) {
         if (operations.get(operationName) == null) return;
         operations.get(operationName).validate(requestVersion);
     }
 
-    public void notifyActivityValidation(MPServiceOperation operationName, PlanVersionDetails planVersion, ActivityInstanceDetails activityInstance) {
+    public void notifyActivityValidation(final MPServiceOperation operationName, final PlanVersionDetails planVersion, final ActivityInstanceDetails activityInstance) {
         if (operations.get(operationName) == null) return;
         operations.get(operationName).validate(planVersion, activityInstance);
     }
 
-    public void notifyEventValidation(MPServiceOperation operationName, PlanVersionDetails planVersion, EventInstanceDetails eventInstance) {
+    public void notifyEventValidation(final MPServiceOperation operationName, final PlanVersionDetails planVersion, final EventInstanceDetails eventInstance) {
         if (operations.get(operationName) == null) return;
         operations.get(operationName).validate(planVersion, eventInstance);
     }
 
-    public void notify(MPServiceOperation operationName, List<MPServiceOperationArguments> arguments) throws MALException, MALInteractionException {
+    public void notify(final MPServiceOperation operationName, final List<MPServiceOperationArguments> arguments) throws MALException, MALInteractionException {
         if (operations.get(operationName) == null) return;
         operations.get(operationName).onCallback(arguments);
     }

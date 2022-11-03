@@ -30,44 +30,44 @@ import java.util.TimeZone;
  * @author Cezar Suteu
  */
 public class DateExtraction {
-    public static int getYearFromDate(Date date)
+    public static int getYearFromDate(final Date date)
     {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy");
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy");
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         return Integer.parseInt(dateFormat.format(date));
     }
     
-    public static int getMonthFromDate(Date date)
+    public static int getMonthFromDate(final Date date)
     {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM");
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("MM");
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         return Integer.parseInt(dateFormat.format(date));
     }
     
-    public static int getDayFromDate(Date date)
+    public static int getDayFromDate(final Date date)
     {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd");
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("dd");
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         return Integer.parseInt(dateFormat.format(date));
     }
     
-    public static int getHourFromDate(Date date)
+    public static int getHourFromDate(final Date date)
     {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("HH");
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("HH");
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         return Integer.parseInt(dateFormat.format(date));
     }
     
-    public static int getMinuteFromDate(Date date)
+    public static int getMinuteFromDate(final Date date)
     {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("mm");
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("mm");
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         return Integer.parseInt(dateFormat.format(date));
     }
     
-    public static int getSecondsFromDate(Date date)
+    public static int getSecondsFromDate(final Date date)
     {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("ss");
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("ss");
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         return Integer.parseInt(dateFormat.format(date));
     }

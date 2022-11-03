@@ -77,7 +77,7 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
     private SEPP_IADCS_API_VECTOR3_XYZ_FLOAT targetVector; // For sun pointing
     private SEPP_IADCS_API_TARGET_POINTING_OPERATION_PARAMETERS_TELEMETRY tolerance;
 
-    MCAdapter(NanoSatMOConnectorImpl connector) {
+    MCAdapter(final NanoSatMOConnectorImpl connector) {
         this.connector = connector;
     }
 
@@ -90,8 +90,8 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
             filepath += File.separator + "lib" + File.separator + "iadcs_api.jar";
 
             // Check if the file exists:
-            File file = new File(filepath);
-            String fileExists = (file.exists()) ? "The file exists! :)" : "The file does not exist!!  :(";
+            final File file = new File(filepath);
+            final String fileExists = (file.exists()) ? "The file exists! :)" : "The file does not exist!!  :(";
             LOGGER.log(Level.INFO, "Loading Library from: {0}\n{1}",
                     new Object[]{filepath, fileExists});
 
@@ -99,7 +99,7 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
             System.load(filepath);
             // System.loadLibrary(filepath);
             System.out.println("Library Loaded.");
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             LOGGER.log(Level.SEVERE, "iADCS library could not be loaded!", ex);
             initialized = false;
             return;
@@ -109,7 +109,7 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
         try {
             // Try running a short command as a ping
             adcsApi.Get_Epoch_Time();
-        } catch (Exception e) {
+        } catch (final Exception e) {
             LOGGER.log(Level.SEVERE, "Failed to initialize iADCS", e);
             initialized = false;
             return;
@@ -117,7 +117,7 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
 
         try {
             HKTelemetry.dumpHKTelemetry(adcsApi);
-        } catch (Exception e) {
+        } catch (final Exception e) {
             LOGGER.log(Level.WARNING, "Failed to dump iADCS TM", e);
         }
         initialized = true;
@@ -130,23 +130,23 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
         tolerance.setPREALIGNMENT_TARGET_THRESHOLD_RAD(TARGET_THRESHOLD_RAD); // See section 6.2.2.4 in ICD        
          */
         tolerance = new SEPP_IADCS_API_TARGET_POINTING_OPERATION_PARAMETERS_TELEMETRY();
-        float[] angles = {ANGLE_TOL_RAD, ANGLE_TOL_PERCENT, ANGLE_VEL_TOL_RADPS, TARGET_THRESHOLD_RAD};
+        final float[] angles = {ANGLE_TOL_RAD, ANGLE_TOL_PERCENT, ANGLE_VEL_TOL_RADPS, TARGET_THRESHOLD_RAD};
         tolerance.setPREALIGN_ANGLES(angles);
     }
 
     @Override
-    public void initialRegistrations(MCRegistration registration) {
+    public void initialRegistrations(final MCRegistration registration) {
         registration.setMode(MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS);
 
         // Used MAL Types
-        Byte rawTypeString = Attribute._STRING_TYPE_SHORT_FORM;
-        Byte rawTypeTime = Attribute._TIME_TYPE_SHORT_FORM;
-        Byte rawTypeFloat = Attribute._FLOAT_TYPE_SHORT_FORM;
-        Byte rawTypeLong = Attribute._LONG_TYPE_SHORT_FORM;
+        final Byte rawTypeString = Attribute._STRING_TYPE_SHORT_FORM;
+        final Byte rawTypeTime = Attribute._TIME_TYPE_SHORT_FORM;
+        final Byte rawTypeFloat = Attribute._FLOAT_TYPE_SHORT_FORM;
+        final Byte rawTypeLong = Attribute._LONG_TYPE_SHORT_FORM;
 
         // ------------------ Parameters ------------------
-        ParameterDefinitionDetailsList parDef = new ParameterDefinitionDetailsList();
-        IdentifierList paramNames = new IdentifierList();
+        final ParameterDefinitionDetailsList parDef = new ParameterDefinitionDetailsList();
+        final IdentifierList paramNames = new IdentifierList();
 
         parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_1, rawTypeString, "unit", false, new Duration(0), null, null));
         parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_2, rawTypeTime, "time", false, new Duration(0), null, null));
@@ -203,17 +203,17 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
         registration.registerParameters(paramNames, parDef);
 
         // ------------------ Actions ------------------
-        ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
-        IdentifierList actionNames = new IdentifierList();
+        final ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
+        final IdentifierList actionNames = new IdentifierList();
 
-        ConditionalConversionList cc = null; // conditionalConversions
-        Byte ct = null; // convertedType
-        String cu = null; // convertedUnit
+        final ConditionalConversionList cc = null; // conditionalConversions
+        final Byte ct = null; // convertedType
+        final String cu = null; // convertedUnit
 
-        ArgumentDefinitionDetailsList arguments1 = new ArgumentDefinitionDetailsList();
+        final ArgumentDefinitionDetailsList arguments1 = new ArgumentDefinitionDetailsList();
         arguments1.add(new ArgumentDefinitionDetails(new Identifier("iadcs"), "", rawTypeLong, "msec", cc, ct, cu));
 
-        ArgumentDefinitionDetailsList arguments4 = new ArgumentDefinitionDetailsList();
+        final ArgumentDefinitionDetailsList arguments4 = new ArgumentDefinitionDetailsList();
         arguments4.add(new ArgumentDefinitionDetails(new Identifier("start_epoch_time"), "", rawTypeLong, "msec", cc, ct, cu));
         arguments4.add(new ArgumentDefinitionDetails(new Identifier("stop_epoch_time"), "", rawTypeLong, "msec", cc, ct, cu));
         arguments4.add(new ArgumentDefinitionDetails(new Identifier("start_latitude"), "", rawTypeFloat, "rad", cc, ct, cu));
@@ -221,16 +221,16 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
         arguments4.add(new ArgumentDefinitionDetails(new Identifier("stop_latitude"), "", rawTypeFloat, "rad", cc, ct, cu));
         arguments4.add(new ArgumentDefinitionDetails(new Identifier("stop_longitude"), "", rawTypeFloat, "rad", cc, ct, cu));
 
-        ArgumentDefinitionDetailsList arguments5 = new ArgumentDefinitionDetailsList();
+        final ArgumentDefinitionDetailsList arguments5 = new ArgumentDefinitionDetailsList();
         arguments5.add(new ArgumentDefinitionDetails(new Identifier("latitude"), "", rawTypeFloat, "rad", cc, ct, cu));
         arguments5.add(new ArgumentDefinitionDetails(new Identifier("longitude"), "", rawTypeFloat, "rad", cc, ct, cu));
 
-        ArgumentDefinitionDetailsList arguments7 = new ArgumentDefinitionDetailsList();
+        final ArgumentDefinitionDetailsList arguments7 = new ArgumentDefinitionDetailsList();
         arguments7.add(new ArgumentDefinitionDetails(new Identifier("body_axis"), "Options: x, y, z", rawTypeString, "axis", cc, ct, cu));
         arguments7.add(new ArgumentDefinitionDetails(new Identifier("angular_velocity"), "", rawTypeFloat, "rad/s", cc, ct, cu));
 
-        UOctet cat = new UOctet((short) 0); // Category
-        UShort steps = new UShort(0); // The total number of steps
+        final UOctet cat = new UOctet((short) 0); // Category
+        final UShort steps = new UShort(0); // The total number of steps
 
         actionDefs.add(new ActionDefinitionDetails(DefinitionNames.ACTION_DESCRIPTION_1, cat, steps, arguments1));
         actionDefs.add(new ActionDefinitionDetails(DefinitionNames.ACTION_DESCRIPTION_2, cat, steps, null));
@@ -262,133 +262,133 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
         actionNames.add(new Identifier(DefinitionNames.ACTION_NAME_13));
         actionNames.add(new Identifier(DefinitionNames.ACTION_NAME_14));
 
-        LongList actionObjIds = registration.registerActions(actionNames, actionDefs);
+        final LongList actionObjIds = registration.registerActions(actionNames, actionDefs);
     }
 
     @Override
-    public Attribute onGetValue(Identifier identifier, Byte rawType) throws IOException {
+    public Attribute onGetValue(final Identifier identifier, final Byte rawType) throws IOException {
         if (DefinitionNames.PARAMETER_NAME_1.equals(identifier.getValue())) {
             return (Attribute) HelperAttributes.javaType2Attribute("Hello World!");
         }
         if (DefinitionNames.PARAMETER_NAME_2.equals(identifier.getValue())) {
-            long epoch = adcsApi.Get_Epoch_Time();
+            final long epoch = adcsApi.Get_Epoch_Time();
             return (Attribute) HelperAttributes.javaType2Attribute(epoch);
 //            SEPP_IADCS_API_ATTITUDE_TELEMETRY tm = adcsApi.Get_Attitude_Telemetry();
 //            return (Attribute) HelperAttributes.javaType2Attribute(tm.getEPOCH_TIME_MSEC());
         }
         if (DefinitionNames.PARAMETER_NAME_3.equals(identifier.getValue())) {
-            SEPP_IADCS_API_ATTITUDE_TELEMETRY tm = adcsApi.Get_Attitude_Telemetry();
-            IADCS_100_Quaternion q = tm.getATTITUDE_QUATERNION_BF();
+            final SEPP_IADCS_API_ATTITUDE_TELEMETRY tm = adcsApi.Get_Attitude_Telemetry();
+            final IADCS_100_Quaternion q = tm.getATTITUDE_QUATERNION_BF();
             return (Attribute) HelperAttributes.javaType2Attribute(q.getQ());
         }
         if (DefinitionNames.PARAMETER_NAME_4.equals(identifier.getValue())) {
-            SEPP_IADCS_API_ATTITUDE_TELEMETRY tm = adcsApi.Get_Attitude_Telemetry();
-            IADCS_100_Quaternion q = tm.getATTITUDE_QUATERNION_BF();
+            final SEPP_IADCS_API_ATTITUDE_TELEMETRY tm = adcsApi.Get_Attitude_Telemetry();
+            final IADCS_100_Quaternion q = tm.getATTITUDE_QUATERNION_BF();
             return (Attribute) HelperAttributes.javaType2Attribute(q.getQI());
         }
         if (DefinitionNames.PARAMETER_NAME_5.equals(identifier.getValue())) {
-            SEPP_IADCS_API_ATTITUDE_TELEMETRY tm = adcsApi.Get_Attitude_Telemetry();
-            IADCS_100_Quaternion q = tm.getATTITUDE_QUATERNION_BF();
+            final SEPP_IADCS_API_ATTITUDE_TELEMETRY tm = adcsApi.Get_Attitude_Telemetry();
+            final IADCS_100_Quaternion q = tm.getATTITUDE_QUATERNION_BF();
             return (Attribute) HelperAttributes.javaType2Attribute(q.getQJ());
         }
         if (DefinitionNames.PARAMETER_NAME_6.equals(identifier.getValue())) {
-            SEPP_IADCS_API_ATTITUDE_TELEMETRY tm = adcsApi.Get_Attitude_Telemetry();
-            IADCS_100_Quaternion q = tm.getATTITUDE_QUATERNION_BF();
+            final SEPP_IADCS_API_ATTITUDE_TELEMETRY tm = adcsApi.Get_Attitude_Telemetry();
+            final IADCS_100_Quaternion q = tm.getATTITUDE_QUATERNION_BF();
             return (Attribute) HelperAttributes.javaType2Attribute(q.getQK());
         }
         if (DefinitionNames.PARAMETER_NAME_7.equals(identifier.getValue())) {
-            SEPP_IADCS_API_ATTITUDE_TELEMETRY tm = adcsApi.Get_Attitude_Telemetry();
-            SEPP_IADCS_API_VECTOR3_XYZ_FLOAT av = tm.getANGULAR_VELOCITY_VECTOR_RADPS();
+            final SEPP_IADCS_API_ATTITUDE_TELEMETRY tm = adcsApi.Get_Attitude_Telemetry();
+            final SEPP_IADCS_API_VECTOR3_XYZ_FLOAT av = tm.getANGULAR_VELOCITY_VECTOR_RADPS();
             return (Attribute) HelperAttributes.javaType2Attribute(av.getX());
         }
         if (DefinitionNames.PARAMETER_NAME_8.equals(identifier.getValue())) {
-            SEPP_IADCS_API_ATTITUDE_TELEMETRY tm = adcsApi.Get_Attitude_Telemetry();
-            SEPP_IADCS_API_VECTOR3_XYZ_FLOAT av = tm.getANGULAR_VELOCITY_VECTOR_RADPS();
+            final SEPP_IADCS_API_ATTITUDE_TELEMETRY tm = adcsApi.Get_Attitude_Telemetry();
+            final SEPP_IADCS_API_VECTOR3_XYZ_FLOAT av = tm.getANGULAR_VELOCITY_VECTOR_RADPS();
             return (Attribute) HelperAttributes.javaType2Attribute(av.getY());
         }
         if (DefinitionNames.PARAMETER_NAME_9.equals(identifier.getValue())) {
-            SEPP_IADCS_API_ATTITUDE_TELEMETRY tm = adcsApi.Get_Attitude_Telemetry();
-            SEPP_IADCS_API_VECTOR3_XYZ_FLOAT av = tm.getANGULAR_VELOCITY_VECTOR_RADPS();
+            final SEPP_IADCS_API_ATTITUDE_TELEMETRY tm = adcsApi.Get_Attitude_Telemetry();
+            final SEPP_IADCS_API_VECTOR3_XYZ_FLOAT av = tm.getANGULAR_VELOCITY_VECTOR_RADPS();
             return (Attribute) HelperAttributes.javaType2Attribute(av.getZ());
         }
         if (DefinitionNames.PARAMETER_NAME_10.equals(identifier.getValue())) {
-            SEPP_IADCS_API_ATTITUDE_TELEMETRY tm = adcsApi.Get_Attitude_Telemetry();
-            SEPP_IADCS_API_VECTOR3_XYZ_FLOAT sv = tm.getMEASURED_SUN_VECTOR_BF();
+            final SEPP_IADCS_API_ATTITUDE_TELEMETRY tm = adcsApi.Get_Attitude_Telemetry();
+            final SEPP_IADCS_API_VECTOR3_XYZ_FLOAT sv = tm.getMEASURED_SUN_VECTOR_BF();
             return (Attribute) HelperAttributes.javaType2Attribute(sv.getX());
         }
         if (DefinitionNames.PARAMETER_NAME_11.equals(identifier.getValue())) {
-            SEPP_IADCS_API_ATTITUDE_TELEMETRY tm = adcsApi.Get_Attitude_Telemetry();
-            SEPP_IADCS_API_VECTOR3_XYZ_FLOAT sv = tm.getMEASURED_SUN_VECTOR_BF();
+            final SEPP_IADCS_API_ATTITUDE_TELEMETRY tm = adcsApi.Get_Attitude_Telemetry();
+            final SEPP_IADCS_API_VECTOR3_XYZ_FLOAT sv = tm.getMEASURED_SUN_VECTOR_BF();
             return (Attribute) HelperAttributes.javaType2Attribute(sv.getY());
         }
         if (DefinitionNames.PARAMETER_NAME_12.equals(identifier.getValue())) {
-            SEPP_IADCS_API_ATTITUDE_TELEMETRY tm = adcsApi.Get_Attitude_Telemetry();
-            SEPP_IADCS_API_VECTOR3_XYZ_FLOAT sv = tm.getMEASURED_SUN_VECTOR_BF();
+            final SEPP_IADCS_API_ATTITUDE_TELEMETRY tm = adcsApi.Get_Attitude_Telemetry();
+            final SEPP_IADCS_API_VECTOR3_XYZ_FLOAT sv = tm.getMEASURED_SUN_VECTOR_BF();
             return (Attribute) HelperAttributes.javaType2Attribute(sv.getZ());
         }
         if (DefinitionNames.PARAMETER_NAME_13.equals(identifier.getValue())) {
-            SEPP_IADCS_API_ATTITUDE_TELEMETRY tm = adcsApi.Get_Attitude_Telemetry();
-            SEPP_IADCS_API_VECTOR3_XYZ_FLOAT mf = tm.getMEASURED_MAGNETIC_FIELD_VECTOR_BF_T();
+            final SEPP_IADCS_API_ATTITUDE_TELEMETRY tm = adcsApi.Get_Attitude_Telemetry();
+            final SEPP_IADCS_API_VECTOR3_XYZ_FLOAT mf = tm.getMEASURED_MAGNETIC_FIELD_VECTOR_BF_T();
             return (Attribute) HelperAttributes.javaType2Attribute(mf.getX());
         }
         if (DefinitionNames.PARAMETER_NAME_14.equals(identifier.getValue())) {
-            SEPP_IADCS_API_ATTITUDE_TELEMETRY tm = adcsApi.Get_Attitude_Telemetry();
-            SEPP_IADCS_API_VECTOR3_XYZ_FLOAT mf = tm.getMEASURED_MAGNETIC_FIELD_VECTOR_BF_T();
+            final SEPP_IADCS_API_ATTITUDE_TELEMETRY tm = adcsApi.Get_Attitude_Telemetry();
+            final SEPP_IADCS_API_VECTOR3_XYZ_FLOAT mf = tm.getMEASURED_MAGNETIC_FIELD_VECTOR_BF_T();
             return (Attribute) HelperAttributes.javaType2Attribute(mf.getY());
         }
         if (DefinitionNames.PARAMETER_NAME_15.equals(identifier.getValue())) {
-            SEPP_IADCS_API_ATTITUDE_TELEMETRY tm = adcsApi.Get_Attitude_Telemetry();
-            SEPP_IADCS_API_VECTOR3_XYZ_FLOAT mf = tm.getMEASURED_MAGNETIC_FIELD_VECTOR_BF_T();
+            final SEPP_IADCS_API_ATTITUDE_TELEMETRY tm = adcsApi.Get_Attitude_Telemetry();
+            final SEPP_IADCS_API_VECTOR3_XYZ_FLOAT mf = tm.getMEASURED_MAGNETIC_FIELD_VECTOR_BF_T();
             return (Attribute) HelperAttributes.javaType2Attribute(mf.getZ());
         }
         if (DefinitionNames.PARAMETER_NAME_16.equals(identifier.getValue())) {
-            SEPP_IADCS_API_ACTUATOR_TELEMETRY tm = adcsApi.Get_Actuator_Telemetry();
-            SEPP_IADCS_API_VECTOR3_XYZ_FLOAT ts = tm.getREACTIONWHEEL_TARGET_SPEED_VECTOR_XYZ_RADPS();
+            final SEPP_IADCS_API_ACTUATOR_TELEMETRY tm = adcsApi.Get_Actuator_Telemetry();
+            final SEPP_IADCS_API_VECTOR3_XYZ_FLOAT ts = tm.getREACTIONWHEEL_TARGET_SPEED_VECTOR_XYZ_RADPS();
             return (Attribute) HelperAttributes.javaType2Attribute(ts.getX());
         }
         if (DefinitionNames.PARAMETER_NAME_17.equals(identifier.getValue())) {
-            SEPP_IADCS_API_ACTUATOR_TELEMETRY tm = adcsApi.Get_Actuator_Telemetry();
-            SEPP_IADCS_API_VECTOR3_XYZ_FLOAT ts = tm.getREACTIONWHEEL_TARGET_SPEED_VECTOR_XYZ_RADPS();
+            final SEPP_IADCS_API_ACTUATOR_TELEMETRY tm = adcsApi.Get_Actuator_Telemetry();
+            final SEPP_IADCS_API_VECTOR3_XYZ_FLOAT ts = tm.getREACTIONWHEEL_TARGET_SPEED_VECTOR_XYZ_RADPS();
             return (Attribute) HelperAttributes.javaType2Attribute(ts.getY());
         }
         if (DefinitionNames.PARAMETER_NAME_18.equals(identifier.getValue())) {
-            SEPP_IADCS_API_ACTUATOR_TELEMETRY tm = adcsApi.Get_Actuator_Telemetry();
-            SEPP_IADCS_API_VECTOR3_XYZ_FLOAT ts = tm.getREACTIONWHEEL_TARGET_SPEED_VECTOR_XYZ_RADPS();
+            final SEPP_IADCS_API_ACTUATOR_TELEMETRY tm = adcsApi.Get_Actuator_Telemetry();
+            final SEPP_IADCS_API_VECTOR3_XYZ_FLOAT ts = tm.getREACTIONWHEEL_TARGET_SPEED_VECTOR_XYZ_RADPS();
             return (Attribute) HelperAttributes.javaType2Attribute(ts.getZ());
         }
         if (DefinitionNames.PARAMETER_NAME_19.equals(identifier.getValue())) {
-            SEPP_IADCS_API_ACTUATOR_TELEMETRY tm = adcsApi.Get_Actuator_Telemetry();
-            SEPP_IADCS_API_VECTOR3_XYZ_FLOAT cs = tm.getREACTIONWHEEL_CURRENT_SPEED_VECTOR_XYZ_RADPS();
+            final SEPP_IADCS_API_ACTUATOR_TELEMETRY tm = adcsApi.Get_Actuator_Telemetry();
+            final SEPP_IADCS_API_VECTOR3_XYZ_FLOAT cs = tm.getREACTIONWHEEL_CURRENT_SPEED_VECTOR_XYZ_RADPS();
             return (Attribute) HelperAttributes.javaType2Attribute(cs.getX());
         }
         if (DefinitionNames.PARAMETER_NAME_20.equals(identifier.getValue())) {
-            SEPP_IADCS_API_ACTUATOR_TELEMETRY tm = adcsApi.Get_Actuator_Telemetry();
-            SEPP_IADCS_API_VECTOR3_XYZ_FLOAT cs = tm.getREACTIONWHEEL_CURRENT_SPEED_VECTOR_XYZ_RADPS();
+            final SEPP_IADCS_API_ACTUATOR_TELEMETRY tm = adcsApi.Get_Actuator_Telemetry();
+            final SEPP_IADCS_API_VECTOR3_XYZ_FLOAT cs = tm.getREACTIONWHEEL_CURRENT_SPEED_VECTOR_XYZ_RADPS();
             return (Attribute) HelperAttributes.javaType2Attribute(cs.getY());
         }
         if (DefinitionNames.PARAMETER_NAME_21.equals(identifier.getValue())) {
-            SEPP_IADCS_API_ACTUATOR_TELEMETRY tm = adcsApi.Get_Actuator_Telemetry();
-            SEPP_IADCS_API_VECTOR3_XYZ_FLOAT cs = tm.getREACTIONWHEEL_CURRENT_SPEED_VECTOR_XYZ_RADPS();
+            final SEPP_IADCS_API_ACTUATOR_TELEMETRY tm = adcsApi.Get_Actuator_Telemetry();
+            final SEPP_IADCS_API_VECTOR3_XYZ_FLOAT cs = tm.getREACTIONWHEEL_CURRENT_SPEED_VECTOR_XYZ_RADPS();
             return (Attribute) HelperAttributes.javaType2Attribute(cs.getZ());
         }
         if (DefinitionNames.PARAMETER_NAME_22.equals(identifier.getValue())) {
-            SEPP_IADCS_API_ACTUATOR_TELEMETRY tm = adcsApi.Get_Actuator_Telemetry();
-            SEPP_IADCS_API_VECTOR3_XYZ_FLOAT td = tm.getMAGNETORQUERS_TARGET_DIPOLE_MOMENT_VECTOR_AM2();
+            final SEPP_IADCS_API_ACTUATOR_TELEMETRY tm = adcsApi.Get_Actuator_Telemetry();
+            final SEPP_IADCS_API_VECTOR3_XYZ_FLOAT td = tm.getMAGNETORQUERS_TARGET_DIPOLE_MOMENT_VECTOR_AM2();
             return (Attribute) HelperAttributes.javaType2Attribute(td.getX());
         }
         if (DefinitionNames.PARAMETER_NAME_23.equals(identifier.getValue())) {
-            SEPP_IADCS_API_ACTUATOR_TELEMETRY tm = adcsApi.Get_Actuator_Telemetry();
-            SEPP_IADCS_API_VECTOR3_XYZ_FLOAT td = tm.getMAGNETORQUERS_TARGET_DIPOLE_MOMENT_VECTOR_AM2();
+            final SEPP_IADCS_API_ACTUATOR_TELEMETRY tm = adcsApi.Get_Actuator_Telemetry();
+            final SEPP_IADCS_API_VECTOR3_XYZ_FLOAT td = tm.getMAGNETORQUERS_TARGET_DIPOLE_MOMENT_VECTOR_AM2();
             return (Attribute) HelperAttributes.javaType2Attribute(td.getY());
         }
         if (DefinitionNames.PARAMETER_NAME_24.equals(identifier.getValue())) {
-            SEPP_IADCS_API_ACTUATOR_TELEMETRY tm = adcsApi.Get_Actuator_Telemetry();
-            SEPP_IADCS_API_VECTOR3_XYZ_FLOAT td = tm.getMAGNETORQUERS_TARGET_DIPOLE_MOMENT_VECTOR_AM2();
+            final SEPP_IADCS_API_ACTUATOR_TELEMETRY tm = adcsApi.Get_Actuator_Telemetry();
+            final SEPP_IADCS_API_VECTOR3_XYZ_FLOAT td = tm.getMAGNETORQUERS_TARGET_DIPOLE_MOMENT_VECTOR_AM2();
             return (Attribute) HelperAttributes.javaType2Attribute(td.getZ());
         }
         if (DefinitionNames.PARAMETER_NAME_25.equals(identifier.getValue())) {
-            SEPP_IADCS_API_ACTUATOR_TELEMETRY tm = adcsApi.Get_Actuator_Telemetry();
-            IADCS_100_Actuator_State state = tm.getMAGNETORQUERS_CURRENT_STATE();
+            final SEPP_IADCS_API_ACTUATOR_TELEMETRY tm = adcsApi.Get_Actuator_Telemetry();
+            final IADCS_100_Actuator_State state = tm.getMAGNETORQUERS_CURRENT_STATE();
             return (Attribute) HelperAttributes.javaType2Attribute(state.swigValue());
         }
 
@@ -396,16 +396,16 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
     }
 
     @Override
-    public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
+    public Boolean onSetValue(final IdentifierList identifiers, final ParameterRawValueList values) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
-            Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
+    public UInteger actionArrived(final Identifier name, final AttributeValueList attributeValues,
+                                  final Long actionInstanceObjId, final boolean reportProgress, final MALInteraction interaction) {
         if (DefinitionNames.ACTION_NAME_1.equals(name.getValue())) {
             // Call the action
-            Long value = (Long) HelperAttributes.attribute2JavaType(attributeValues.get(0).getValue());
+            final Long value = (Long) HelperAttributes.attribute2JavaType(attributeValues.get(0).getValue());
             adcsApi.Set_Epoch_Time(value);
         }
 
@@ -416,27 +416,27 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
 
         if (DefinitionNames.ACTION_NAME_3.equals(name.getValue())) {
             // Call the action
-            SEPP_IADCS_API_DETUMBLING_MODE_PARAMETERS values
+            final SEPP_IADCS_API_DETUMBLING_MODE_PARAMETERS values
                     = new SEPP_IADCS_API_DETUMBLING_MODE_PARAMETERS();
             adcsApi.Start_Operation_Mode_Detumbling(values);
         }
 
         if (DefinitionNames.ACTION_NAME_4.equals(name.getValue())) {
             // Call the action
-            SEPP_IADCS_API_EARTH_TARGET_POINTING_CONST_VELOCITY_MODE_PARAMETERS values
+            final SEPP_IADCS_API_EARTH_TARGET_POINTING_CONST_VELOCITY_MODE_PARAMETERS values
                     = new SEPP_IADCS_API_EARTH_TARGET_POINTING_CONST_VELOCITY_MODE_PARAMETERS();
 
-            Long start_Epoch_Time = (Long) HelperAttributes.attribute2JavaType(attributeValues.get(0).getValue());
+            final Long start_Epoch_Time = (Long) HelperAttributes.attribute2JavaType(attributeValues.get(0).getValue());
             values.setSTART_EPOCH_TIME_MSEC(start_Epoch_Time);
-            Long stop_Epoch_Time = (Long) HelperAttributes.attribute2JavaType(attributeValues.get(1).getValue());
+            final Long stop_Epoch_Time = (Long) HelperAttributes.attribute2JavaType(attributeValues.get(1).getValue());
             values.setSTOP_EPOCH_TIME_MSEC(stop_Epoch_Time);
-            Float start_Longitude = (Float) HelperAttributes.attribute2JavaType(attributeValues.get(2).getValue());
+            final Float start_Longitude = (Float) HelperAttributes.attribute2JavaType(attributeValues.get(2).getValue());
             values.setSTART_LATITUDE_RAD(start_Longitude);
-            Float start_Latitude = (Float) HelperAttributes.attribute2JavaType(attributeValues.get(3).getValue());
+            final Float start_Latitude = (Float) HelperAttributes.attribute2JavaType(attributeValues.get(3).getValue());
             values.setSTART_LONGITUDE_RAD(start_Latitude);
-            Float stop_Longitude = (Float) HelperAttributes.attribute2JavaType(attributeValues.get(4).getValue());
+            final Float stop_Longitude = (Float) HelperAttributes.attribute2JavaType(attributeValues.get(4).getValue());
             values.setSTOP_LATITUDE_RAD(stop_Longitude);
-            Float stop_Latitude = (Float) HelperAttributes.attribute2JavaType(attributeValues.get(5).getValue());
+            final Float stop_Latitude = (Float) HelperAttributes.attribute2JavaType(attributeValues.get(5).getValue());
             values.setSTOP_LONGITUDE_RAD(stop_Latitude);
 
             adcsApi.Start_Target_Pointing_Earth_Const_Velocity_Mode(values);
@@ -444,12 +444,12 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
 
         if (DefinitionNames.ACTION_NAME_5.equals(name.getValue())) {
             // Call the action
-            SEPP_IADCS_API_EARTH_TARGET_POINTING_FIXED_MODE_PARAMETERS values
+            final SEPP_IADCS_API_EARTH_TARGET_POINTING_FIXED_MODE_PARAMETERS values
                     = new SEPP_IADCS_API_EARTH_TARGET_POINTING_FIXED_MODE_PARAMETERS();
 
-            Float lat = (Float) HelperAttributes.attribute2JavaType(attributeValues.get(0).getValue());
+            final Float lat = (Float) HelperAttributes.attribute2JavaType(attributeValues.get(0).getValue());
             values.setTARGET_LATITUDE_RAD(lat);
-            Float lon = (Float) HelperAttributes.attribute2JavaType(attributeValues.get(1).getValue());
+            final Float lon = (Float) HelperAttributes.attribute2JavaType(attributeValues.get(1).getValue());
             values.setTARGET_LONGITUDE_RAD(lon);
 
             adcsApi.Start_Target_Pointing_Earth_Fix_Mode(values);
@@ -457,14 +457,14 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
 
         if (DefinitionNames.ACTION_NAME_6.equals(name.getValue())) {
             // Call the action
-            SEPP_IADCS_API_TARGET_POINTING_NADIR_MODE_PARAMETERS values
+            final SEPP_IADCS_API_TARGET_POINTING_NADIR_MODE_PARAMETERS values
                     = new SEPP_IADCS_API_TARGET_POINTING_NADIR_MODE_PARAMETERS();
             adcsApi.Start_Target_Pointing_Nadir_Mode(values);
         }
 
         if (DefinitionNames.ACTION_NAME_7.equals(name.getValue())) {
             IADCS_100_Axis axis = IADCS_100_Axis.IADCS_100_AXIS_X; // Default value
-            String body = (String) HelperAttributes.attribute2JavaType(attributeValues.get(0).getValue());
+            final String body = (String) HelperAttributes.attribute2JavaType(attributeValues.get(0).getValue());
 
             if ("x".equals(body)) {
                 axis = IADCS_100_Axis.IADCS_100_AXIS_X;
@@ -476,14 +476,14 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
                 axis = IADCS_100_Axis.IADCS_100_AXIS_Z;
             }
 
-            Float angular_velocity = (Float) HelperAttributes.attribute2JavaType(attributeValues.get(1).getValue());
+            final Float angular_velocity = (Float) HelperAttributes.attribute2JavaType(attributeValues.get(1).getValue());
 
             adcsApi.Start_SingleAxis_AngularVelocity_Controller(axis, angular_velocity);
         }
 
         if (DefinitionNames.ACTION_NAME_8.equals(name.getValue())) {
             // Call the action
-            SEPP_IADCS_API_SUN_POINTING_MODE_PARAMETERS values = new SEPP_IADCS_API_SUN_POINTING_MODE_PARAMETERS();
+            final SEPP_IADCS_API_SUN_POINTING_MODE_PARAMETERS values = new SEPP_IADCS_API_SUN_POINTING_MODE_PARAMETERS();
             adcsApi.Start_Operation_Mode_Sun_Pointing(values);
         }
 

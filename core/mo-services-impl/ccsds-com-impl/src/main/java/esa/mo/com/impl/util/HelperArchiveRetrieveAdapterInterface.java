@@ -24,15 +24,15 @@ public interface HelperArchiveRetrieveAdapterInterface {
     public void waitUntilReady();
     
     public default List<ArchivePersistenceObject> getPersistenceObjectList() {
-        ElementList obj = getObjectBodyList();
-        ArchiveDetailsList objDetails = getArchiveDetailsList();
+        final ElementList obj = getObjectBodyList();
+        final ArchiveDetailsList objDetails = getArchiveDetailsList();
         if (objDetails == null || obj == null) {
             return null;
         }
-        List<ArchivePersistenceObject> ret = new ArrayList<>();
+        final List<ArchivePersistenceObject> ret = new ArrayList<>();
 
         for (int i = 0; i < objDetails.size(); i++) {
-            ArchivePersistenceObject tmp = new ArchivePersistenceObject(getObjType(), getDomain(),
+            final ArchivePersistenceObject tmp = new ArchivePersistenceObject(getObjType(), getDomain(),
                     ((ArchiveDetails) objDetails.get(i)).getInstId(), (ArchiveDetails) objDetails.get(i),
                     (Element) obj.get(i));
 

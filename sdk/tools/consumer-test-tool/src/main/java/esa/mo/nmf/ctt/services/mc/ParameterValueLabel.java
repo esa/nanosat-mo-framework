@@ -45,7 +45,7 @@ public class ParameterValueLabel implements Serializable {
     }
 
     public void setNewValue(final String newVal, final boolean isError) {
-        boolean updatelabel = true;
+        final boolean updatelabel = true;
         inError = isError;
 
         // display the new value

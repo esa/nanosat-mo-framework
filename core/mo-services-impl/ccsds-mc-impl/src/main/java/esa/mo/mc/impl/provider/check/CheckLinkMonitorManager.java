@@ -55,7 +55,7 @@ public class CheckLinkMonitorManager {
      */
     private final Map<Long, List<Long>> notifyList;
 
-    public CheckLinkMonitorManager(EventStub eventService, CheckManager checkManager) {
+    public CheckLinkMonitorManager(final EventStub eventService, final CheckManager checkManager) {
         this.adapter = new CheckLinkMonitorAdapter(this);
         this.eventService = eventService;
         this.checkManager = checkManager;
@@ -72,8 +72,8 @@ public class CheckLinkMonitorManager {
      * @param compoundedCheckLinks the checkLinks referenced in the compound
      * check
      */
-    public synchronized void add(Long checkLinkId, List<Long> compoundedCheckLinks) {
-        for (Long compoundedCheckLink : compoundedCheckLinks) {
+    public synchronized void add(final Long checkLinkId, final List<Long> compoundedCheckLinks) {
+        for (final Long compoundedCheckLink : compoundedCheckLinks) {
             List<Long> currentChecksToNotify = notifyList.get(compoundedCheckLink);
             if (currentChecksToNotify == null) {
                 currentChecksToNotify = new ArrayList<>();
@@ -92,9 +92,9 @@ public class CheckLinkMonitorManager {
      * check
      * @param compoundedCheckLinks the checkLinks referenced in the compound
      */
-    public synchronized void remove(Long checkLinkId, List<Long> compoundedCheckLinks) {
+    public synchronized void remove(final Long checkLinkId, final List<Long> compoundedCheckLinks) {
         deregisterForCheckTranisitionEvents();
-        for (Long compoundedCheckLink : compoundedCheckLinks) {
+        for (final Long compoundedCheckLink : compoundedCheckLinks) {
             final List<Long> checksToNotify = notifyList.get(compoundedCheckLink);
             checksToNotify.remove(checkLinkId);
             if (checksToNotify.isEmpty()) {
@@ -109,13 +109,13 @@ public class CheckLinkMonitorManager {
      * @param sourceCheckLinkDefId
      * @param domain
      */
-    public synchronized void updatedCheckLinkEvaluation(Long sourceCheckLinkDefId, IdentifierList domain) {
+    public synchronized void updatedCheckLinkEvaluation(final Long sourceCheckLinkDefId, final IdentifierList domain) {
         // sourceCheckLinkDefId was obtained from related link of CheckTransition
         // but we need the CheckLink id here, because that is what was put into notifyList
-        Long sourceCheckLinkId = checkManager.getCheckLinkId(sourceCheckLinkDefId);
+        final Long sourceCheckLinkId = checkManager.getCheckLinkId(sourceCheckLinkDefId);
         final List<Long> checkLinksToNotify = notifyList.get(sourceCheckLinkId);
         if (checkLinksToNotify != null) {
-            for (Long checkLinkToNotify : checkLinksToNotify) {
+            for (final Long checkLinkToNotify : checkLinksToNotify) {
                 checkManager.executeCheck(checkLinkToNotify, null, false, false,
                         new ObjectId(CheckHelper.CHECKLINK_OBJECT_TYPE, new ObjectKey(domain, sourceCheckLinkId)));
             }
@@ -128,7 +128,7 @@ public class CheckLinkMonitorManager {
     private synchronized void registerForCheckTranisitionEvents() {
         try {
             eventService.monitorEventRegister(subscriptionKeys(new Identifier("AllCheckTransitions"), new Identifier("4"), 0L, 0L, 0L), adapter);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (final MALInteractionException | MALException ex) {
             Logger.getLogger(CheckLinkMonitorManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -138,10 +138,10 @@ public class CheckLinkMonitorManager {
      */
     private synchronized void deregisterForCheckTranisitionEvents() {
         try {
-            IdentifierList subIdentifiers = new IdentifierList();
+            final IdentifierList subIdentifiers = new IdentifierList();
             subIdentifiers.add(new Identifier("AllCheckTransitions"));
             eventService.monitorEventDeregister(subIdentifiers);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (final MALInteractionException | MALException ex) {
             Logger.getLogger(CheckLinkMonitorManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -160,7 +160,7 @@ public class CheckLinkMonitorManager {
      * the event source ObjectType
      * @return The subscription object
      */
-    private Subscription subscriptionKeys(Identifier subId, Identifier key1, Long key2, Long key3, Long key4) {
+    private Subscription subscriptionKeys(final Identifier subId, final Identifier key1, final Long key2, final Long key3, final Long key4) {
         final EntityKeyList entityKeys = new EntityKeyList();
         final EntityKey entitykey = new EntityKey(key1, key2, key3, key4);
         entityKeys.add(entitykey);

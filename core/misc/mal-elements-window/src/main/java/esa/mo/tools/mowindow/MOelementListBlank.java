@@ -28,7 +28,7 @@ public class MOelementListBlank extends MOelement{
     
     private final javax.swing.JToggleButton buttonAdd;
 
-    public MOelementListBlank(java.awt.event.ActionListener actionListener, boolean editable) {
+    public MOelementListBlank(final java.awt.event.ActionListener actionListener, final boolean editable) {
         super("", null, editable, false);
         
         this.editable = editable;

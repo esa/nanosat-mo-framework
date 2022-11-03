@@ -193,7 +193,7 @@ public class SimulatorNode extends TaskNode
     {
       platformProperties = this.readProperties("platformsim.properties");
     }
-    catch(IOException e) {
+    catch(final IOException e) {
       logger.log(Level.WARNING, "Could not initialize platformsim.properties - using defaults.");
       platformProperties = new Properties();
       platformProperties.setProperty("platform.mode", "sim");
@@ -209,10 +209,10 @@ public class SimulatorNode extends TaskNode
    *
    * @param filename The properties file to read.
    */
-  private Properties readProperties(String filename) throws FileNotFoundException, IOException
+  private Properties readProperties(final String filename) throws FileNotFoundException, IOException
   {
-    InputStream input = new FileInputStream(filename);
-    Properties prop = new Properties();
+    final InputStream input = new FileInputStream(filename);
+    final Properties prop = new Properties();
     prop.load(input);
     return prop;
   }
@@ -232,27 +232,27 @@ public class SimulatorNode extends TaskNode
     return System.getProperty("user.dir");
   }
 
-  public static String calcNMEAChecksum(String sentence)
+  public static String calcNMEAChecksum(final String sentence)
   {
     char result = 0;
     // Trim "$" at the beginning of the sentence
-    for (char c : sentence.substring(1).toCharArray()) {
+    for (final char c : sentence.substring(1).toCharArray()) {
       result ^= c;
     }
     return String.format("*%02X", (int) result);
   }
 
-  public static String handleResourcePath(String path, Logger logger, ClassLoader classLoader,
-      boolean replace)
+  public static String handleResourcePath(final String path, final Logger logger, final ClassLoader classLoader,
+                                          final boolean replace)
   {
-    String resourcesFolder = SimulatorNode.getResourcesPath();
-    File folder = new File(resourcesFolder);
+    final String resourcesFolder = SimulatorNode.getResourcesPath();
+    final File folder = new File(resourcesFolder);
     if (!folder.exists()) {
       logger.log(Level.FINE, "Folder [" + folder.getAbsolutePath() + "] has been created");
       folder.mkdir();
     }
-    String absolutePath = resourcesFolder + path;
-    File f = new File(absolutePath);
+    final String absolutePath = resourcesFolder + path;
+    final File f = new File(absolutePath);
 
     if (replace && !f.isDirectory()) {
       f.delete();
@@ -267,12 +267,12 @@ public class SimulatorNode extends TaskNode
       final InputStream inputStream = classLoader.getSystemResourceAsStream(path);
       if (inputStream != null) {
         try {
-          File newFile = new File(absolutePath);
+          final File newFile = new File(absolutePath);
           if (newFile.createNewFile()) {
             logger.log(Level.FINER, "File created");
-            OutputStream outputStream = new FileOutputStream(newFile);
+            final OutputStream outputStream = new FileOutputStream(newFile);
             int read = 0;
-            byte[] bytes = new byte[1024];
+            final byte[] bytes = new byte[1024];
             while ((read = inputStream.read(bytes)) != -1) {
               outputStream.write(bytes, 0, read);
             }
@@ -280,7 +280,7 @@ public class SimulatorNode extends TaskNode
           } else {
             logger.log(Level.WARNING, "File [" + absolutePath + "] could not be created");
           }
-        } catch (IOException e) {
+        } catch (final IOException e) {
           logger.log(Level.WARNING, e.toString());
         }
       } else {
@@ -320,7 +320,7 @@ public class SimulatorNode extends TaskNode
     }
   }
 
-  public void runVectorTargetTracking(float x, float y, float z, float margin)
+  public void runVectorTargetTracking(final float x, final float y, final float z, final float margin)
   {
     logger.log(Level.INFO, "Vector " + x + " " + y + " " + z);
     if (simulatorHeader.isUseOrekitPropagator()) {
@@ -423,7 +423,7 @@ public class SimulatorNode extends TaskNode
   {
     benchmarkInProgress = false;
     benchmarkFinished = false;
-    String imageFile = platformProperties.getProperty("camerasim.imagefile");
+    final String imageFile = platformProperties.getProperty("camerasim.imagefile");
     this.cameraBuffer.loadImageFromAbsolutePath(imageFile);
     this.sdrBuffer = new EndlessWavStreamOperatingBuffer(this.logger);
     this.logger.log(Level.FINE, "Kepler elements [" + simulatorHeader.getKeplerElements() + "]");
@@ -441,7 +441,7 @@ public class SimulatorNode extends TaskNode
     boolean keplerElementsOk = true;
     boolean displayKeplerElementsWarning = false;
     if (simulatorHeader.getKeplerElements() != null) {
-      String[] list = simulatorHeader.getKeplerElements().split(";");
+      final String[] list = simulatorHeader.getKeplerElements().split(";");
       if (list.length == 6) {
         OPS_SAT_A = Double.parseDouble(list[0]);
         OPS_SAT_E = Double.parseDouble(list[1]);
@@ -485,7 +485,7 @@ public class SimulatorNode extends TaskNode
             this);
         this.logger.log(Level.FINE, "orekit initialized successfully");
         this.orekitCore.processPropagateStep(0);
-      } catch (OrekitException exception) {
+      } catch (final OrekitException exception) {
         this.logger.log(Level.SEVERE,
             "orekit initialization failed from [" + exception + "]! Switching module off");
         this.simulatorHeader.setUseOrekitPropagator(false);
@@ -493,7 +493,7 @@ public class SimulatorNode extends TaskNode
     }
     this.opticalReceiverModel = new OpticalReceiverModel("Optical Receiver", this.logger);
     schedulerDataIndex = 0;
-    for (SimulatorSchedulerPiece p : schedulerData) {
+    for (final SimulatorSchedulerPiece p : schedulerData) {
       p.setExecuted(false);
     }
     simulatorData.setMethodsExecuted(0);
@@ -516,9 +516,9 @@ public class SimulatorNode extends TaskNode
 
   private Logger logger;
 
-  public SimulatorNode(ConcurrentLinkedQueue<Object> queueIn,
-      ConcurrentLinkedQueue<Object> queueOut, String name, int delay, Level logLevel,
-      Level consoleLogLevel)
+  public SimulatorNode(final ConcurrentLinkedQueue<Object> queueIn,
+                       final ConcurrentLinkedQueue<Object> queueOut, final String name, final int delay, final Level logLevel,
+                       final Level consoleLogLevel)
   {
     super(queueIn, queueOut, name, delay, logLevel, consoleLogLevel);
     benchmarkStartupTime = System.currentTimeMillis();
@@ -538,9 +538,9 @@ public class SimulatorNode extends TaskNode
     commandsList = new LinkedList<>();
     commandsQueue = new LinkedList<>();
     commandsResults = new LinkedList<>();
-    String workingdir = System.getProperty("user.dir");
+    final String workingdir = System.getProperty("user.dir");
     this.logger.log(Level.ALL, "Workingdir is [" + workingdir + "]");
-    File interfacesFolderCheck = new File(workingdir);
+    final File interfacesFolderCheck = new File(workingdir);
     this.logger.log(Level.ALL, "Location is " + interfacesFolderCheck.getName());
     loadMethodsFromReflection();
     loadTemplatesFromFile(getTemplatesFile());
@@ -576,9 +576,9 @@ public class SimulatorNode extends TaskNode
     loadMethodsDescriptionFromResources();
   }
 
-  private void putDescriptionIntoMethod(String description, int internalID)
+  private void putDescriptionIntoMethod(final String description, final int internalID)
   {
-    for (CommandDescriptor c : commandsList) {
+    for (final CommandDescriptor c : commandsList) {
       if (c.getInternalID() == internalID) {
         c.setComment(description);
         break;
@@ -593,16 +593,16 @@ public class SimulatorNode extends TaskNode
   {
     try {
       this.writeProperties(new File("platformsim.properties"), this.platformProperties);
-    } catch (IOException e) {
+    } catch (final IOException e) {
       Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE,
           "Could not save platform properties");
     }
     reloadImageBuffer();
   }
 
-  public void writeProperties(File file, Properties props) throws IOException
+  public void writeProperties(final File file, final Properties props) throws IOException
   {
-    FileOutputStream fos = new FileOutputStream(file);
+    final FileOutputStream fos = new FileOutputStream(file);
     props.store(fos, null);
   }
 
@@ -611,37 +611,37 @@ public class SimulatorNode extends TaskNode
    */
   private void reloadImageBuffer()
   {
-    String mode = platformProperties.getProperty("camerasim.imagemode");
-    String path;
+    final String mode = platformProperties.getProperty("camerasim.imagemode");
+    final String path;
     if (mode.equals("Fixed")) {
       path = platformProperties.getProperty("camerasim.imagefile");
       this.cameraBuffer.loadImageFromAbsolutePath(path);
     } else {
       path = platformProperties.getProperty("camerasim.imagedirectory");
       try {
-        Stream<Path> walker = Files.walk(Paths.get(path));
-        List<String> files = walker
+        final Stream<Path> walker = Files.walk(Paths.get(path));
+        final List<String> files = walker
             .map(p -> p.getFileName().toString()).filter(s -> s.toLowerCase().endsWith(".png")
             || s.toLowerCase().endsWith(".jpg") || s.toLowerCase().endsWith("bmp") || s.toLowerCase().endsWith(".raw"))
             .collect(Collectors.toList());
         walker.close();
-        Random r = new Random();
-        int filenum = r.nextInt(files.size());
-        String absolutePath = path + "/" + files.get(filenum);
+        final Random r = new Random();
+        final int filenum = r.nextInt(files.size());
+        final String absolutePath = path + "/" + files.get(filenum);
         this.cameraBuffer.loadImageFromAbsolutePath(absolutePath);
-      } catch (IOException e) {
+      } catch (final IOException e) {
         logger.log(Level.WARNING, "Could not reload image", e);
       }
     }
   }
 
-  private ArrayList<String> readLinesFromInputStream(InputStream fileName)
+  private ArrayList<String> readLinesFromInputStream(final InputStream fileName)
   {
 
     if (fileName != null) {
-      ArrayList<String> result = new ArrayList<>();
+      final ArrayList<String> result = new ArrayList<>();
       try {
-        BufferedReader in = new BufferedReader(new InputStreamReader(fileName));
+        final BufferedReader in = new BufferedReader(new InputStreamReader(fileName));
         String description = null;
         boolean skipRead;
         String line;
@@ -653,12 +653,12 @@ public class SimulatorNode extends TaskNode
           } else if (line.equals("*/")) {
             skipRead = true;
           } else {
-            String[] lineWords = line.split(" ");
+            final String[] lineWords = line.split(" ");
             if (lineWords.length > 1) {
               if (lineWords[0].equals("void") || lineWords[0].equals("byte[]")) {
-                String[] lineWords2 = line.split("//");
+                final String[] lineWords2 = line.split("//");
                 if (lineWords2.length > 1) {
-                  int internalID = Integer.parseInt(lineWords2[1]);
+                  final int internalID = Integer.parseInt(lineWords2[1]);
                   putDescriptionIntoMethod(description, internalID);
                 }
               }
@@ -670,7 +670,7 @@ public class SimulatorNode extends TaskNode
           }
         }
 
-      } catch (IOException ex) {
+      } catch (final IOException ex) {
         Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
       }
       return result;
@@ -683,9 +683,9 @@ public class SimulatorNode extends TaskNode
 
   private void loadMethodsDescriptionFromResources()
   {
-    String fileName = "descriptions.txt";
-    ClassLoader classLoader = getClass().getClassLoader();
-    InputStream istream = classLoader.getResourceAsStream(fileName);
+    final String fileName = "descriptions.txt";
+    final ClassLoader classLoader = getClass().getClassLoader();
+    final InputStream istream = classLoader.getResourceAsStream(fileName);
     if (istream != null) {
       readLinesFromInputStream(istream);
     } else {
@@ -693,30 +693,30 @@ public class SimulatorNode extends TaskNode
     }
   }
 
-  private void reflectObjectGetMethods(Object targetObject)
+  private void reflectObjectGetMethods(final Object targetObject)
   {
-    String name = ((GenericPeripheral) targetObject).getName();
+    final String name = ((GenericPeripheral) targetObject).getName();
     this.logger.log(Level.FINE, "reflectObjectGetMethods from [" + name + "]");
-    SimulatorDeviceData simulatorDeviceData = new SimulatorDeviceData(name);
+    final SimulatorDeviceData simulatorDeviceData = new SimulatorDeviceData(name);
     simulatorDevices.add(simulatorDeviceData);
-    ISimulatorDeviceData simulatorDeviceDataAnnotation = targetObject.getClass()
+    final ISimulatorDeviceData simulatorDeviceDataAnnotation = targetObject.getClass()
         .getAnnotation(ISimulatorDeviceData.class);
     if (simulatorDeviceDataAnnotation != null) {
-      for (String str : simulatorDeviceDataAnnotation.descriptors()) {
-        String[] split = str.split(":");
+      for (final String str : simulatorDeviceDataAnnotation.descriptors()) {
+        final String[] split = str.split(":");
         this.logger.log(Level.FINEST, "Reflecting simulatorDeviceDataAnnotation [" + str + "]");
         simulatorDeviceData.getDataList().add(new ArgumentDescriptor(split[0], split[1]));
       }
     }
     this.logger.log(Level.FINE, "Reflected [" + simulatorDeviceData.getDataList().size()
         + "] simulator data pieces from annotation.");
-    for (Method m : targetObject.getClass().getMethods()) {
+    for (final Method m : targetObject.getClass().getMethods()) {
       String body = m.toString();
-      String[] bodyWords = body.split(" ");
+      final String[] bodyWords = body.split(" ");
       boolean foundData = false;
       int j = 0;
       this.logger.log(Level.FINEST, "Processing [+" + body + "+]");
-      for (String test : bodyWords) {
+      for (final String test : bodyWords) {
         this.logger.log(Level.FINEST, "Processing [+" + test + "+]");
         String returnString = "";
         switch (test) {
@@ -758,20 +758,20 @@ public class SimulatorNode extends TaskNode
         }
         j++;
         if (foundData) {
-          String[] functionWords = bodyWords[j].split("\\(");
+          final String[] functionWords = bodyWords[j].split("\\(");
           String functionName = functionWords[0];
-          String[] functionWords2 = functionName.split("\\.");
+          final String[] functionWords2 = functionName.split("\\.");
           functionName = functionWords2[functionWords2.length - 1];
           this.logger.log(Level.FINEST, "functionName [" + functionName + "]");
           if (functionName.equals("toString") || functionName.equals("wait")) {
             // Disregard the method, it is internal to java language
             foundData = false;
           } else {
-            StringBuilder arguments = new StringBuilder();
-            String[] argumentsBody = functionWords[1].split("\\,");
-            InternalData internalData = m.getAnnotation(InternalData.class);
+            final StringBuilder arguments = new StringBuilder();
+            final String[] argumentsBody = functionWords[1].split("\\,");
+            final InternalData internalData = m.getAnnotation(InternalData.class);
             int indexArg = 0;
-            for (String singleArg : argumentsBody) {
+            for (final String singleArg : argumentsBody) {
               this.logger.log(Level.FINE, "Checking singleArg [" + singleArg + "]");
               if (singleArg.equals("java.lang.String)") || singleArg.equals("java.lang.String")) {
                 arguments.append("String ").append(internalData.argNames()[indexArg]);
@@ -808,17 +808,17 @@ public class SimulatorNode extends TaskNode
 
       }
       if (foundData) {
-        StringBuilder argNames = new StringBuilder();
-        InternalData internalData = m.getAnnotation(InternalData.class);
+        final StringBuilder argNames = new StringBuilder();
+        final InternalData internalData = m.getAnnotation(InternalData.class);
         String annotation = "";
 
         if (internalData != null) {
           annotation = String.valueOf(internalData.internalID());
-          for (String str : internalData.argNames()) {
+          for (final String str : internalData.argNames()) {
             argNames.append(str);
           }
 
-          CommandDescriptor commandDescriptor = new CommandDescriptor(name, body,
+          final CommandDescriptor commandDescriptor = new CommandDescriptor(name, body,
               internalData.description(), internalData.internalID(), super.getLogObject());
           this.logger.log(Level.FINE, "Added method [" + commandDescriptor.toString() + "]");
           // System.out.println(commandDescriptor.toCustomFormat1());
@@ -831,7 +831,7 @@ public class SimulatorNode extends TaskNode
     }
   }
 
-  private File getFileFromDirAndPath(String workingDir, String targetPath)
+  private File getFileFromDirAndPath(final String workingDir, final String targetPath)
   {
     // this.logger.log(Level.INFO, "Opening path [" + result.getAbsolutePath() +
     // "].");
@@ -850,7 +850,7 @@ public class SimulatorNode extends TaskNode
 
   private File getSchedulerFileAsBackup()
   {
-    String now = new SimpleDateFormat("yyyy_MMdd_HHmmss").format(new Date());
+    final String now = new SimpleDateFormat("yyyy_MMdd_HHmmss").format(new Date());
     return getFileFromDirAndPath(getWorkingDir(),
         "_OPS-SAT-SIMULATOR-scheduler_backup_" + now + ".txt");
   }
@@ -870,23 +870,23 @@ public class SimulatorNode extends TaskNode
     return getFileFromDirAndPath(getWorkingDir(), "_OPS-SAT-SIMULATOR-filter.txt");
   }
 
-  private boolean isValidCommandID(int commandID)
+  private boolean isValidCommandID(final int commandID)
   {
     return true;
   }
 
   private void loadSimulatorCommandsFilter()
   {
-    File filterFile = getCommandsFilterFile();
+    final File filterFile = getCommandsFilterFile();
     if (filterFile.exists()) {
       this.logger.log(Level.FINE, "Filter [" + filterFile.toString() + "] found!");
       boolean dataOk = true;
 
       try {
-        BufferedReader in = new BufferedReader(new FileReader(filterFile.getAbsolutePath()));
+        final BufferedReader in = new BufferedReader(new FileReader(filterFile.getAbsolutePath()));
         String line;
         while ((line = in.readLine()) != null) {
-          List<String> items = Arrays.asList(line.split(" "));
+          final List<String> items = Arrays.asList(line.split(" "));
           if (line.startsWith("#")) {
             // comment line
           } else if (items.size() != 1) {
@@ -895,17 +895,17 @@ public class SimulatorNode extends TaskNode
             dataOk = false;
             break;
           } else {
-            String fieldName;
+            final String fieldName;
             fieldName = items.get(0);
             int test = 0;
             try {
               test = Integer.parseInt(fieldName);
-            } catch (NumberFormatException ex) {
+            } catch (final NumberFormatException ex) {
               this.logger.log(Level.SEVERE, ex.toString());
             }
             if (checkInternalIDExists(test)) {
               this.logger.log(Level.FINE, "Found valid command ID [" + fieldName + "]");
-              CommandDescriptor c = getCommandDescriptorForID(Integer.parseInt(fieldName));
+              final CommandDescriptor c = getCommandDescriptorForID(Integer.parseInt(fieldName));
               c.setVisible(true);
             }
 
@@ -914,7 +914,7 @@ public class SimulatorNode extends TaskNode
         }
 
         in.close();
-      } catch (IOException ex) {
+      } catch (final IOException ex) {
         Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
       }
       if (!dataOk) {
@@ -933,18 +933,18 @@ public class SimulatorNode extends TaskNode
   {
     // This function is responsible for initializing simulator header if it is not
     // found or reading from it
-    File headerFile = getHeaderFile();
+    final File headerFile = getHeaderFile();
     if (headerFile.exists()) {
       this.logger.log(Level.FINE, "Header [" + headerFile.toString() + "] found!");
       boolean dataOk = true;
       simulatorHeader = new SimulatorHeader();
       try {
-        BufferedReader in = new BufferedReader(new FileReader(headerFile.getAbsolutePath()));
+        final BufferedReader in = new BufferedReader(new FileReader(headerFile.getAbsolutePath()));
         String line;
         label:
         while ((line = in.readLine()) != null) {
 
-          List<String> items = Arrays.asList(line.split("="));
+          final List<String> items = Arrays.asList(line.split("="));
           if (line.startsWith("#")) {
             // nothing to be done
           } else if (items.size() != 2) {
@@ -953,7 +953,8 @@ public class SimulatorNode extends TaskNode
             dataOk = false;
             break;
           } else {
-            String fieldName, fieldValue;
+            final String fieldName;
+            final String fieldValue;
             fieldName = items.get(0);
             fieldValue = items.get(1);
 
@@ -965,7 +966,7 @@ public class SimulatorNode extends TaskNode
                 simulatorHeader.setAutoStartTime(Boolean.parseBoolean(fieldValue));
                 break;
               case "timeFactor":
-                int newTimeFactor = Integer.parseInt(fieldValue);
+                final int newTimeFactor = Integer.parseInt(fieldValue);
                 if (simulatorHeader.validateTimeFactor(newTimeFactor)) {
                   simulatorHeader.setTimeFactor(newTimeFactor);
                 } else {
@@ -975,7 +976,7 @@ public class SimulatorNode extends TaskNode
                 }
                 break;
               case "startDate":
-                Date startDate = simulatorHeader.parseStringIntoDate(fieldValue);
+                final Date startDate = simulatorHeader.parseStringIntoDate(fieldValue);
                 if (startDate != null) {
                   simulatorHeader.setStartDate(startDate);
                 } else {
@@ -985,7 +986,7 @@ public class SimulatorNode extends TaskNode
                 }
                 break;
               case "endDate":
-                Date endDate = simulatorHeader.parseStringIntoDate(fieldValue);
+                final Date endDate = simulatorHeader.parseStringIntoDate(fieldValue);
                 if (endDate != null) {
                   simulatorHeader.setEndDate(endDate);
                 } else {
@@ -1004,12 +1005,12 @@ public class SimulatorNode extends TaskNode
                 simulatorHeader.setOrekitPropagator(String.valueOf(fieldValue));
                 break;
               case "orekitTLE1": {
-                String tempResult = String.valueOf(fieldValue);
+                final String tempResult = String.valueOf(fieldValue);
                 simulatorHeader.setOrekitTLE1(tempResult.substring(1, tempResult.length() - 1));
                 break;
               }
               case "orekitTLE2": {
-                String tempResult = String.valueOf(fieldValue);
+                final String tempResult = String.valueOf(fieldValue);
                 simulatorHeader.setOrekitTLE2(tempResult.substring(1, tempResult.length() - 1));
                 break;
               }
@@ -1033,7 +1034,7 @@ public class SimulatorNode extends TaskNode
 
         }
         in.close();
-      } catch (IOException ex) {
+      } catch (final IOException ex) {
         Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
       }
       if (!dataOk) {
@@ -1047,13 +1048,13 @@ public class SimulatorNode extends TaskNode
     }
   }
 
-  private void initializeFilter(File filterFile)
+  private void initializeFilter(final File filterFile)
   {
     this.logger.log(Level.FINE, "initializeFilter");
     writeFilter(filterFile);
   }
 
-  private void initializeHeader(File headerFile)
+  private void initializeHeader(final File headerFile)
   {
     this.logger.log(Level.FINE, "initializeHeader");
     simulatorHeader = new SimulatorHeader();
@@ -1072,56 +1073,56 @@ public class SimulatorNode extends TaskNode
     writeSchedulerToFile(null);
   }
 
-  private void writeHeader(File headerFile)
+  private void writeHeader(final File headerFile)
   {
     BufferedWriter out = null;
     try {
       out = new BufferedWriter(new FileWriter(headerFile.getAbsolutePath()));
       out.write(simulatorHeader.toFileString());
-    } catch (IOException ex) {
+    } catch (final IOException ex) {
       Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
     } finally {
       try {
         out.close();
-      } catch (IOException ex) {
+      } catch (final IOException ex) {
         Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
       }
     }
   }
 
-  private void writeFilter(File filterFile)
+  private void writeFilter(final File filterFile)
   {
     BufferedWriter out = null;
     try {
       out = new BufferedWriter(new FileWriter(filterFile.getAbsolutePath()));
       // out.write("#1001 - ");
-    } catch (IOException ex) {
+    } catch (final IOException ex) {
       Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
     } finally {
       try {
         out.close();
-      } catch (IOException ex) {
+      } catch (final IOException ex) {
         Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
       }
     }
   }
 
-  private void writeTemplate(String data, BufferedWriter out)
+  private void writeTemplate(final String data, final BufferedWriter out)
   {
 
     try {
       out.write(data + "\n");
 
-    } catch (IOException ex) {
+    } catch (final IOException ex) {
       Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
     }
   }
 
-  private boolean checkInternalIDExists(int internalID)
+  private boolean checkInternalIDExists(final int internalID)
   {
     boolean found = false;
 
-    for (CommandDescriptor c : commandsList) {
+    for (final CommandDescriptor c : commandsList) {
       if (c.getInternalID() == internalID) {
         found = true;
         break;
@@ -1130,9 +1131,9 @@ public class SimulatorNode extends TaskNode
     return found;
   }
 
-  private CommandDescriptor getCommandDescriptorForID(int internalID)
+  private CommandDescriptor getCommandDescriptorForID(final int internalID)
   {
-    for (CommandDescriptor c : commandsList) {
+    for (final CommandDescriptor c : commandsList) {
       if (c.getInternalID() == internalID) {
         return c;
       }
@@ -1140,12 +1141,12 @@ public class SimulatorNode extends TaskNode
     return null;
   }
 
-  private boolean checkArgumentTemplateExists(int internalID, String templateName)
+  private boolean checkArgumentTemplateExists(final int internalID, final String templateName)
   {
     boolean found = false;
-    for (CommandDescriptor c : commandsList) {
+    for (final CommandDescriptor c : commandsList) {
       if (c.getInternalID() == internalID) {
-        for (ArgumentTemplate t : c.getTemplateList()) {
+        for (final ArgumentTemplate t : c.getTemplateList()) {
           if (t.getDescription().equals(templateName)) {
             found = true;
             break;
@@ -1160,11 +1161,11 @@ public class SimulatorNode extends TaskNode
     return found;
   }
 
-  private boolean putCustomTemplateInCollection(int internalID, ArgumentTemplate template)
+  private boolean putCustomTemplateInCollection(final int internalID, final ArgumentTemplate template)
   {
     boolean found = false;
 
-    for (CommandDescriptor c : commandsList) {
+    for (final CommandDescriptor c : commandsList) {
       if (c.getInternalID() == internalID) {
         found = true;
         this.logger.finer(
@@ -1187,12 +1188,12 @@ public class SimulatorNode extends TaskNode
     if (folder.exists()) {
       int customSchedulerCommands = 0;
       try {
-        BufferedReader in = new BufferedReader(new FileReader(folder.getAbsolutePath()));
+        final BufferedReader in = new BufferedReader(new FileReader(folder.getAbsolutePath()));
 
         schedulerFile = getSchedulerFileAsBackup();
         try {
           outScheduler = new BufferedWriter(new FileWriter(schedulerFile.getAbsolutePath()));
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
           Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -1200,7 +1201,7 @@ public class SimulatorNode extends TaskNode
         while ((line = in.readLine()) != null) {
           outScheduler.write(line + "\n");
           if (!line.startsWith("#")) {
-            List<String> items = Arrays
+            final List<String> items = Arrays
                 .asList(line.split("[" + CommandDescriptor.SEPARATOR_DATAFILES + "]"));
             if (items.size() == 4) {
               // 00000:00:00:00|0000000000|1000 |GPGGA
@@ -1209,7 +1210,7 @@ public class SimulatorNode extends TaskNode
               long def2Value = -1;
               try {
                 def2Value = Long.parseLong(items.get(1));
-              } catch (NumberFormatException ex) {
+              } catch (final NumberFormatException ex) {
                 Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
               }
               boolean rowOK = def1Value >= 0 && !(def1Value == 0 && def2Value > 0);
@@ -1239,7 +1240,7 @@ public class SimulatorNode extends TaskNode
                 }
                 try {
                   internalID = Integer.parseInt(items.get(2));
-                } catch (NumberFormatException ex) {
+                } catch (final NumberFormatException ex) {
                   Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
                   rowOK = false;
                 }
@@ -1271,7 +1272,7 @@ public class SimulatorNode extends TaskNode
           }
         }
         in.close();
-      } catch (IOException ex) {
+      } catch (final IOException ex) {
         Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
       }
       this.logger.log(Level.FINE, "Loaded [" + customSchedulerCommands + "] scheduler commands");
@@ -1307,7 +1308,7 @@ public class SimulatorNode extends TaskNode
           outScheduler = null;
 //                    Files.delete(schedulerFile.toPath());
           schedulerFile.delete();
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
           Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
         }
       }
@@ -1315,7 +1316,7 @@ public class SimulatorNode extends TaskNode
     if (outScheduler != null) {
       try {
         outScheduler.close();
-      } catch (IOException ex) {
+      } catch (final IOException ex) {
         Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
       }
     }
@@ -1324,7 +1325,7 @@ public class SimulatorNode extends TaskNode
   private void printSchedulerData()
   {
     this.logger.log(Level.INFO, "Printing scheduler data");
-    for (SimulatorSchedulerPiece p : schedulerData) {
+    for (final SimulatorSchedulerPiece p : schedulerData) {
       this.logger.log(Level.FINE, p.getFileString());
     }
   }
@@ -1334,14 +1335,14 @@ public class SimulatorNode extends TaskNode
     if (folder.exists()) {
       int customTemplates = 0;
       try {
-        BufferedReader in = new BufferedReader(new FileReader(folder.getAbsolutePath()));
+        final BufferedReader in = new BufferedReader(new FileReader(folder.getAbsolutePath()));
         String line;
         while ((line = in.readLine()) != null) {
           if (!line.startsWith("#")) {
-            List<String> items = Arrays
+            final List<String> items = Arrays
                 .asList(line.split("[" + CommandDescriptor.SEPARATOR_DATAFILES + "]"));
             if (items.size() == 3) {
-              ArgumentTemplate template = new ArgumentTemplate(items.get(1), items.get(2));
+              final ArgumentTemplate template = new ArgumentTemplate(items.get(1), items.get(2));
               if (!putCustomTemplateInCollection(Integer.parseInt(items.get(0)), template)) {
                 this.logger.log(Level.WARNING,
                     "Error finding internal id [" + items.get(0) + "] in row [" + line + "]");
@@ -1354,7 +1355,7 @@ public class SimulatorNode extends TaskNode
           }
         }
         in.close();
-      } catch (IOException ex) {
+      } catch (final IOException ex) {
         Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
       }
       this.logger.log(Level.FINE, "Loaded [" + customTemplates + "] custom templates");
@@ -1365,24 +1366,24 @@ public class SimulatorNode extends TaskNode
 
   }
 
-  public static boolean isInteger(String s)
+  public static boolean isInteger(final String s)
   {
     try {
       Integer.parseInt(s);
-    } catch (NumberFormatException | NullPointerException e) {
+    } catch (final NumberFormatException | NullPointerException e) {
       return false;
     }
     // only got here if we didn't return false
     return true;
   }
 
-  private void writeSchedulerToFile(Object obj)
+  private void writeSchedulerToFile(final Object obj)
   {
     BufferedWriter outScheduler = null;
-    File schedulerFile = getSchedulerFile();
+    final File schedulerFile = getSchedulerFile();
     try {
       outScheduler = new BufferedWriter(new FileWriter(schedulerFile.getAbsolutePath()));
-    } catch (IOException ex) {
+    } catch (final IOException ex) {
       Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
     }
     try {
@@ -1400,39 +1401,39 @@ public class SimulatorNode extends TaskNode
       outScheduler.write(
           "#days:hours:minutes:seconds:milliseconds|milliseconds|internalID|argument_template_name\n");
       outScheduler.write("#00000:00:00:00:000|0000000000000000000|1001|CUSTOM\n");
-    } catch (IOException ex) {
+    } catch (final IOException ex) {
       Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
     }
 
     if (obj != null) {
-      for (SimulatorSchedulerPiece s : schedulerData) {
+      for (final SimulatorSchedulerPiece s : schedulerData) {
         try {
           outScheduler.write(s.getFileString() + "\n");
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
           Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
         }
       }
     }
     try {
       outScheduler.close();
-    } catch (IOException ex) {
+    } catch (final IOException ex) {
       Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
     }
   }
 
-  private void writeTemplatesToFile(Object obj)
+  private void writeTemplatesToFile(final Object obj)
   {
     BufferedWriter outTemplates = null;
-    File templatesFile = getTemplatesFile();
+    final File templatesFile = getTemplatesFile();
     try {
       outTemplates = new BufferedWriter(new FileWriter(templatesFile.getAbsolutePath()));
-    } catch (IOException ex) {
+    } catch (final IOException ex) {
       Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
     }
     if (obj != null) {
-      LinkedList<CommandDescriptor> castedObj = (LinkedList<CommandDescriptor>) obj;
-      for (CommandDescriptor c : castedObj) {
-        for (ArgumentTemplate t : c.getTemplateList()) {
+      final LinkedList<CommandDescriptor> castedObj = (LinkedList<CommandDescriptor>) obj;
+      for (final CommandDescriptor c : castedObj) {
+        for (final ArgumentTemplate t : c.getTemplateList()) {
           if (!t.getDescription().equals(CommandDescriptor.KEYWORD_DEFAULT)) {
             writeTemplate(c.getInternalID() + CommandDescriptor.SEPARATOR_DATAFILES + t.toString(),
                 outTemplates);
@@ -1441,7 +1442,7 @@ public class SimulatorNode extends TaskNode
       }
       try {
         outTemplates.close();
-      } catch (IOException ex) {
+      } catch (final IOException ex) {
         Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
       }
     } else {
@@ -1449,29 +1450,29 @@ public class SimulatorNode extends TaskNode
         outTemplates
             .write("#<internalID>|<templateName>|<inputArgs=[String inputArgument={data}>]\n");
         outTemplates.write("#2001|GLMLA|inputArgs=[String inputSentence={GLMLA}]");
-      } catch (IOException ex) {
+      } catch (final IOException ex) {
         Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
       }
       try {
         outTemplates.close();
-      } catch (IOException ex) {
+      } catch (final IOException ex) {
         Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
       }
     }
   }
 
   @Override
-  void dataIn(Object obj)
+  void dataIn(final Object obj)
   {
     if (obj instanceof PlatformMessage) {
-      PlatformMessage msg = (PlatformMessage) obj;
+      final PlatformMessage msg = (PlatformMessage) obj;
       this.platformProperties.put(msg.getKey(), msg.getValue());
     }
     if (obj instanceof Properties) { // send platform properties back to client
       this.queueOut.add(platformProperties);
     }
     if (obj instanceof String) {
-      String data = (String) obj;
+      final String data = (String) obj;
       this.logger.log(Level.FINE, data);
       if (data.equals("ToggleStartStop")) {
         simulatorData.toggleSimulatorRunning();
@@ -1481,7 +1482,7 @@ public class SimulatorNode extends TaskNode
       } else if (data.equals("TogglePauseResume")) {
         simulatorData.toggleTimeRunning();
       } else if (data.startsWith("TimeFactor")) {
-        String[] bits = data.split(":");
+        final String[] bits = data.split(":");
         simulatorData.setTimeFactor(Integer.parseInt(bits[bits.length - 1]));
       }
     } else if (obj instanceof CommandDescriptor) {
@@ -1506,14 +1507,14 @@ public class SimulatorNode extends TaskNode
 
   }
 
-  public static String dump(Object o, int callCount)
+  public static String dump(final Object o, int callCount)
   {
     callCount++;
-    StringBuilder tabs = new StringBuilder();
+    final StringBuilder tabs = new StringBuilder();
     for (int k = 0; k < callCount; k++) {
       tabs.append("\t");
     }
-    StringBuilder buffer = new StringBuilder();
+    final StringBuilder buffer = new StringBuilder();
     Class oClass = o.getClass();
     if (oClass.isArray()) {
       buffer.append("\n");
@@ -1523,7 +1524,7 @@ public class SimulatorNode extends TaskNode
         if (i < 0) {
           buffer.append(",");
         }
-        Object value = Array.get(o, i);
+        final Object value = Array.get(o, i);
         if (value.getClass().isPrimitive() || value.getClass() == java.lang.Long.class
             || value.getClass() == java.lang.String.class
             || value.getClass() == java.lang.Integer.class
@@ -1540,14 +1541,14 @@ public class SimulatorNode extends TaskNode
       buffer.append(tabs.toString());
       buffer.append("{\n");
       while (oClass != null) {
-        Field[] fields = oClass.getDeclaredFields();
+        final Field[] fields = oClass.getDeclaredFields();
         for (int i = 0; i < fields.length; i++) {
           buffer.append(tabs.toString());
           fields[i].setAccessible(true);
           buffer.append(fields[i].getName());
           buffer.append("=");
           try {
-            Object value = fields[i].get(o);
+            final Object value = fields[i].get(o);
             if (value != null) {
               if (value.getClass().isPrimitive() || value.getClass() == java.lang.Long.class
                   || value.getClass() == java.lang.String.class
@@ -1558,7 +1559,7 @@ public class SimulatorNode extends TaskNode
                 buffer.append(dump(value, callCount));
               }
             }
-          } catch (IllegalAccessException e) {
+          } catch (final IllegalAccessException e) {
             buffer.append(e.getMessage());
           }
           buffer.append("\n");
@@ -1571,11 +1572,11 @@ public class SimulatorNode extends TaskNode
     return buffer.toString();
   }
 
-  private String getArgDescriptionForSchedulerPiece(SimulatorSchedulerPiece piece)
+  private String getArgDescriptionForSchedulerPiece(final SimulatorSchedulerPiece piece)
   {
-    for (CommandDescriptor c : commandsList) {
+    for (final CommandDescriptor c : commandsList) {
       if (c.getInternalID() == piece.getInternalID()) {
-        for (ArgumentTemplate t : c.getTemplateList()) {
+        for (final ArgumentTemplate t : c.getTemplateList()) {
           if (t.getDescription().equals(piece.getArgumentTemplateDescription())) {
             return t.getArgContent();
           }
@@ -1590,7 +1591,7 @@ public class SimulatorNode extends TaskNode
     boolean stillHasData = true;
     while (stillHasData) {
       if (schedulerDataIndex < schedulerData.size()) {
-        SimulatorSchedulerPiece piece = schedulerData.get(schedulerDataIndex);
+        final SimulatorSchedulerPiece piece = schedulerData.get(schedulerDataIndex);
         if (simulatorData.getCurrentTimeMillis() >= piece.getTime()) {
           runGenericMethod(piece.getInternalID(), getArgDescriptionForSchedulerPiece(piece));
           piece.setExecuted(true);
@@ -1647,16 +1648,16 @@ public class SimulatorNode extends TaskNode
       schedulerPollData();
       if (simulatorHeader.isUseOrekitPropagator()) {
         try {
-          double ts = (timeElapsed) / 1000.0 * simulatorData.getTimeFactor();
+          final double ts = (timeElapsed) / 1000.0 * simulatorData.getTimeFactor();
           //System.out.println("Timestep: " + ts);
           orekitCore.processPropagateStep((timeElapsed) / 1000.0 * simulatorData.getTimeFactor());
-        } catch (OrekitException ex) {
+        } catch (final OrekitException ex) {
           Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
         }
       }
     }
     // Job queue
-    CommandDescriptor c = commandsQueue.poll();
+    final CommandDescriptor c = commandsQueue.poll();
     if (c != null) {
       commandsResults.offer(runGenericMethodForCommand(c));
     }
@@ -1686,7 +1687,7 @@ public class SimulatorNode extends TaskNode
      * result.append(";SimulatorTime;"+ simulatorData.getUTCCurrentTime2());
      * this.logger.log(Level.INFO,result.toString()); } }
      */
-    CommandResult commandResult = commandsResults.poll();
+    final CommandResult commandResult = commandsResults.poll();
     if (commandResult != null) {
       return commandResult;
     }
@@ -1696,7 +1697,7 @@ public class SimulatorNode extends TaskNode
     }
     if (sendList) {
       sendList = false;
-      LinkedList<Object> newDataOut = new LinkedList<>();
+      final LinkedList<Object> newDataOut = new LinkedList<>();
       newDataOut.addAll(commandsList);
       newDataOut.addAll(simulatorDevices);
       return newDataOut;
@@ -1710,8 +1711,8 @@ public class SimulatorNode extends TaskNode
     if (super.getTimers().get(TIMER_CELESTIA_DATA).isElapsed() && simulatorHeader.isUseCelestia()
         && simulatorHeader.isUseOrekitPropagator()) {
       if (orekitCore.isIsInitialized()) {
-        SimulatorSpacecraftState simulatorSpacecraftState = getSpacecraftState();
-        CelestiaData celestiaData = new CelestiaData(simulatorSpacecraftState.getRv(),
+        final SimulatorSpacecraftState simulatorSpacecraftState = getSpacecraftState();
+        final CelestiaData celestiaData = new CelestiaData(simulatorSpacecraftState.getRv(),
             simulatorSpacecraftState.getQ());
         celestiaData.setDate(simulatorData.getCurrentTime());
         celestiaData.setAnx(orekitCore.getNextAnx());
@@ -1729,7 +1730,7 @@ public class SimulatorNode extends TaskNode
           .setType(this.cameraBuffer.getDataBufferAsString());
       this.hMapSDData.get(DevDatPBind.Camera_CameraBufferOperatingIndex)
           .setType(this.cameraBuffer.getOperatingIndex());
-      SimulatorSpacecraftState simulatorSpacecraftState = getSpacecraftState();
+      final SimulatorSpacecraftState simulatorSpacecraftState = getSpacecraftState();
       float[] p = new float[3];
       float[] v = new float[3];
       float[] q = new float[4];
@@ -1797,13 +1798,13 @@ public class SimulatorNode extends TaskNode
   public SimulatorSpacecraftState getSpacecraftState()
   {
     if (this.simulatorHeader.isUseOrekitPropagator()) {
-      GeodeticPoint result = this.orekitCore.getGeodeticPoint();
-      SimulatorSpacecraftState data = new SimulatorSpacecraftState(
+      final GeodeticPoint result = this.orekitCore.getGeodeticPoint();
+      final SimulatorSpacecraftState data = new SimulatorSpacecraftState(
           toDegrees(result.getLatitude()), toDegrees(result.getLongitude()),
           result.getAltitude());
       data.setRv(this.orekitCore.getOrbit().getPVCoordinates().getPosition(),
           this.orekitCore.getOrbit().getPVCoordinates().getVelocity());
-      float[] q = new float[4];
+      final float[] q = new float[4];
       orekitCore.putQuaternionsInVector(q);
       data.setQ(q);
       data.setMagField(orekitCore.getMagneticField());
@@ -1814,10 +1815,10 @@ public class SimulatorNode extends TaskNode
       data.setModeOperation(orekitCore.getAttitudeMode().toString());
 
       if (quaternionTcpServer != null) {
-        String qData = quaternionTcpServer.getData();
+        final String qData = quaternionTcpServer.getData();
         if (qData != null) {
 
-          String[] quaternions = qData.split(" ");
+          final String[] quaternions = qData.split(" ");
           if (quaternions.length == 4) {
             q[0] = Float.parseFloat(quaternions[0]);
             q[1] = Float.parseFloat(quaternions[1]);
@@ -1828,9 +1829,9 @@ public class SimulatorNode extends TaskNode
             // 0 heading
             // 1 roll
             // 2 pitch
-            double yaw = Double.parseDouble(quaternions[0]);
-            double pitch = Double.parseDouble(quaternions[2]);
-            double roll = Double.parseDouble(quaternions[1]);
+            final double yaw = Double.parseDouble(quaternions[0]);
+            final double pitch = Double.parseDouble(quaternions[2]);
+            final double roll = Double.parseDouble(quaternions[1]);
             // System.out.println("yaw=["+yaw+"] pitch=["+pitch+"] roll=["+roll+"]");
             this.orekitCore.putQuaternionsInVectorFromYPR(yaw, pitch, roll, q);
             data.setQ(q);
@@ -1841,43 +1842,43 @@ public class SimulatorNode extends TaskNode
       return data;
 
     } else {
-      Orbit.OrbitParameters orbitData = this.gps.getPosition(simulatorData.getCurrentTime());
+      final Orbit.OrbitParameters orbitData = this.gps.getPosition(simulatorData.getCurrentTime());
       return new SimulatorSpacecraftState(orbitData.getlatitude(), orbitData.getlongitude(),
           orbitData.getGPSaltitude() * 1000);
     }
   }
 
   // Globals
-  public Object runGenericMethod(int internalID, ArrayList<Object> argObject)
+  public Object runGenericMethod(final int internalID, final ArrayList<Object> argObject)
   {
-    CommandDescriptor c = new CommandDescriptor("external", "external", "external", internalID,
+    final CommandDescriptor c = new CommandDescriptor("external", "external", "external", internalID,
         super.getLogObject());
     c.setInputArgsFromArrayList(argObject);
-    CommandResult r = runGenericMethodForCommand(c);
+    final CommandResult r = runGenericMethodForCommand(c);
     return r.getOutput();
   }
 
-  public Object runGenericMethod(int internalID, String argObjectDescription)
+  public Object runGenericMethod(final int internalID, final String argObjectDescription)
   {
     CommandDescriptor command = null;
-    for (CommandDescriptor c : commandsList) {
+    for (final CommandDescriptor c : commandsList) {
       if (c.getInternalID() == internalID) {
         c.setInputArgsFromString(argObjectDescription);
         command = c;
         break;
       }
     }
-    CommandResult r = runGenericMethodForCommand(command);
+    final CommandResult r = runGenericMethodForCommand(command);
     return r.getOutput();
   }
 
-  public CommandResult runGenericMethodForCommand(CommandDescriptor c)
+  public CommandResult runGenericMethodForCommand(final CommandDescriptor c)
   {
     simulatorData.incrementMethods();
-    ArrayList<Object> argObject = c.getInputArgObjList();
+    final ArrayList<Object> argObject = c.getInputArgObjList();
     this.logger.log(Level.FINE,
         "runGenericMethod;identifier;" + c.getInternalID() + ";" + c.getInputArgs());
-    CommandResult commandResult = new CommandResult(c, new Date(), simulatorData.getCurrentTime());
+    final CommandResult commandResult = new CommandResult(c, new Date(), simulatorData.getCurrentTime());
     Object globalResult = null;
     try {
 
@@ -1885,9 +1886,9 @@ public class SimulatorNode extends TaskNode
 
         case 1001: {// Origin [IFineADCS] Method [byte[] runRawCommand(int cmdID,byte[] data,int
           // iAD);//1001//Low level command to interact with FineADCS]
-          int cmdID = (Integer) argObject.get(0);
-          byte[] data = (byte[]) argObject.get(1);
-          int iAD = (Integer) argObject.get(2);
+          final int cmdID = (Integer) argObject.get(0);
+          final byte[] data = (byte[]) argObject.get(1);
+          final int iAD = (Integer) argObject.get(2);
           globalResult = new byte[0];
           break;
         }
@@ -1906,8 +1907,8 @@ public class SimulatorNode extends TaskNode
         }
         case 1005: {// Origin [IFineADCS] Method [void SetDateTime(long seconds,int
           // subseconds);//1005//High level command to interact with FineADCS]
-          long seconds = (Long) argObject.get(0);
-          int subseconds = (Integer) argObject.get(1);
+          final long seconds = (Long) argObject.get(0);
+          final int subseconds = (Integer) argObject.get(1);
           break;
         }
         case 1006: {// Origin [IFineADCS] Method [byte[] GetDateTime();//1006//High level command to
@@ -1917,23 +1918,23 @@ public class SimulatorNode extends TaskNode
         }
         case 1007: {// Origin [IFineADCS] Method [void iADCSPowerCycle(byte onoff,byte
           // register);//1007//High level command to interact with FineADCS]
-          byte onoff = (Byte) argObject.get(0);
-          byte register = (Byte) argObject.get(1);
+          final byte onoff = (Byte) argObject.get(0);
+          final byte register = (Byte) argObject.get(1);
           break;
         }
         case 1008: {// Origin [IFineADCS] Method [void SetOperationMode(byte opmode);//1008//High
           // level command to interact with FineADCS]
-          byte opmode = (Byte) argObject.get(0);
+          final byte opmode = (Byte) argObject.get(0);
           break;
         }
         case 1009: {// Origin [IFineADCS] Method [void SetPowerUpdateInterval(long
           // miliseconds);//1009//High level command to interact with FineADCS]
-          long miliseconds = (Long) argObject.get(0);
+          final long miliseconds = (Long) argObject.get(0);
           break;
         }
         case 1010: {// Origin [IFineADCS] Method [void SetTemperatureUpdateInterval(long
           // miliseconds);//1010//High level command to interact with FineADCS]
-          long miliseconds = (Long) argObject.get(0);
+          final long miliseconds = (Long) argObject.get(0);
           break;
         }
         case 1011: {// Origin [IFineADCS] Method [byte[] GetStandardTelemetry();//1011//High level
@@ -1958,9 +1959,9 @@ public class SimulatorNode extends TaskNode
         }
         case 1015: {// Origin [IFineADCS] Method [byte[] GetSensorTelemetry();//1015//High level
           // command to interact with FineADCS]
-          byte[] result = new byte[74];
-          SimulatorSpacecraftState spacecraftState = getSpacecraftState();
-          float[] magneticField = spacecraftState.getMagnetometer();
+          final byte[] result = new byte[74];
+          final SimulatorSpacecraftState spacecraftState = getSpacecraftState();
+          final float[] magneticField = spacecraftState.getMagnetometer();
           FWRefFineADCS.putFloatInByteArray(magneticField[0],
               FWRefFineADCS.SENSORTM_IDX.MAG_FIELD_X, result);
           FWRefFineADCS.putFloatInByteArray(magneticField[1],
@@ -1995,7 +1996,7 @@ public class SimulatorNode extends TaskNode
           FWRefFineADCS.putFloatInByteArray(
               this.hMapSDData.get(DevDatPBind.FineADCS_Gyro2).getTypeAsFloatByIndex(2),
               FWRefFineADCS.SENSORTM_IDX.GYRO2_Z, result);
-          float[] quaternions = spacecraftState.getQ();
+          final float[] quaternions = spacecraftState.getQ();
           FWRefFineADCS.putFloatInByteArray(quaternions[0], FWRefFineADCS.SENSORTM_IDX.QUATERNION1,
               result);
           FWRefFineADCS.putFloatInByteArray(quaternions[1], FWRefFineADCS.SENSORTM_IDX.QUATERNION2,
@@ -2009,7 +2010,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1016: {// Origin [IFineADCS] Method [byte[] GetActuatorTelemetry();//1016//High level
           // command to interact with FineADCS]
-          byte[] result = new byte[21];
+          final byte[] result = new byte[21];
           FWRefFineADCS.putInt16InByteArray(
               this.hMapSDData.get(DevDatPBind.FineADCS_ReactionWheels).getTypeAsIntByIndex(0),
               FWRefFineADCS.ACTUATORTM_IDX.RW_CURRENT_SPEED_X, result);
@@ -2034,7 +2035,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1017: {// Origin [IFineADCS] Method [byte[] GetAttitudeTelemetry();//1017//High level
           // command to interact with FineADCS]
-          byte[] result = new byte[28];
+          final byte[] result = new byte[28];
           byte pointingLoopState = 1;
           if (this.simulatorHeader.isUseOrekitPropagator()) {
             pointingLoopState = orekitCore.getStateTarget();
@@ -2071,7 +2072,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1023: {// Origin [IFineADCS] Method [void SetThresholdValueForMagEmulation(int
           // value);//1023//High level command to interact with FineADCS]
-          int value = (Integer) argObject.get(0);
+          final int value = (Integer) argObject.get(0);
           break;
         }
         case 1024: {// Origin [IFineADCS] Method [byte[]
@@ -2086,41 +2087,41 @@ public class SimulatorNode extends TaskNode
         }
         case 1026: {// Origin [IFineADCS] Method [byte[] GetSystemRegisters(byte
           // register);//1026//High level command to interact with FineADCS]
-          byte register = (Byte) argObject.get(0);
+          final byte register = (Byte) argObject.get(0);
           globalResult = new byte[4];
           break;
         }
         case 1027: {// Origin [IFineADCS] Method [byte[] GetControlRegisters(byte
           // register);//1027//High level command to interact with FineADCS]
-          byte register = (Byte) argObject.get(0);
+          final byte register = (Byte) argObject.get(0);
           globalResult = new byte[4];
           break;
         }
         case 1028: {// Origin [IFineADCS] Method [void SetSystemRegister(byte[] data);//1028//High
           // level command to interact with FineADCS]
-          byte[] data = (byte[]) argObject.get(0);
+          final byte[] data = (byte[]) argObject.get(0);
           break;
         }
         case 1029: {// Origin [IFineADCS] Method [void ResetSystemRegister(byte[] data);//1029//High
           // level command to interact with FineADCS]
-          byte[] data = (byte[]) argObject.get(0);
+          final byte[] data = (byte[]) argObject.get(0);
           break;
         }
         case 1030: {// Origin [IFineADCS] Method [void SetMemberUpdateInterval(byte memberID,long
           // interval);//1030//High level command to interact with FineADCS]
-          byte memberID = (Byte) argObject.get(0);
-          long interval = (Long) argObject.get(1);
+          final byte memberID = (Byte) argObject.get(0);
+          final long interval = (Long) argObject.get(1);
           break;
         }
         case 1031: {// Origin [IFineADCS] Method [byte[] GetMemberUpdateInterval(byte
           // memberID);//1031//High level command to interact with FineADCS]
-          byte memberID = (Byte) argObject.get(0);
+          final byte memberID = (Byte) argObject.get(0);
           globalResult = new byte[8];
           break;
         }
         case 1032: {// Origin [IFineADCS] Method [void SetHILStatus(byte[]
           // HILStatusRegister);//1032//High level command to interact with FineADCS]
-          byte[] HILStatusRegister = (byte[]) argObject.get(0);
+          final byte[] HILStatusRegister = (byte[]) argObject.get(0);
           break;
         }
         case 1033: {// Origin [IFineADCS] Method [byte[] GetHILStatus();//1033//High level command
@@ -2130,12 +2131,12 @@ public class SimulatorNode extends TaskNode
         }
         case 1034: {// Origin [IFineADCS] Method [void SetUpdateInterval(int interval);//1034//High
           // level command to interact with FineADCS]
-          int interval = (Integer) argObject.get(0);
+          final int interval = (Integer) argObject.get(0);
           break;
         }
         case 1035: {// Origin [IFineADCS] Method [void SetValuesToAllSensors(int[]
           // values);//1035//High level command to interact with FineADCS]
-          int[] values = (int[]) argObject.get(0);
+          final int[] values = (int[]) argObject.get(0);
           break;
         }
         case 1036: {// Origin [IFineADCS] Method [byte[] GetValuesAllSensors();//1036//High level
@@ -2145,7 +2146,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1037: {// Origin [IFineADCS] Method [void SetCalibrationParametersAllSensors(int[]
           // values);//1037//High level command to interact with FineADCS]
-          int[] values = (int[]) argObject.get(0);
+          final int[] values = (int[]) argObject.get(0);
           break;
         }
         case 1038: {// Origin [IFineADCS] Method [byte[]
@@ -2164,12 +2165,12 @@ public class SimulatorNode extends TaskNode
         }
         case 1041: {// Origin [IFineADCS] Method [void SetUpdateIntervalRW(int
           // interval);//1041//High level command to interact with FineADCS]
-          int interval = (Integer) argObject.get(0);
+          final int interval = (Integer) argObject.get(0);
           break;
         }
         case 1042: {// Origin [IFineADCS] Method [void SetSpeedToAllRWs(int[] values);//1042//High
           // level command to interact with FineADCS]
-          int[] values = (int[]) argObject.get(0);
+          final int[] values = (int[]) argObject.get(0);
           break;
         }
         case 1043: {// Origin [IFineADCS] Method [byte[] GetSpeedAllRWs();//1043//High level command
@@ -2179,18 +2180,18 @@ public class SimulatorNode extends TaskNode
         }
         case 1044: {// Origin [IFineADCS] Method [byte[] SetAccAllRWs(int[] values);//1044//High
           // level command to interact with FineADCS]
-          int[] values = (int[]) argObject.get(0);
+          final int[] values = (int[]) argObject.get(0);
           globalResult = new byte[6];
           break;
         }
         case 1045: {// Origin [IFineADCS] Method [void SetSleepAllRWs(byte sleepMode);//1045//High
           // level command to interact with FineADCS]
-          byte sleepMode = (Byte) argObject.get(0);
+          final byte sleepMode = (Byte) argObject.get(0);
           break;
         }
         case 1046: {// Origin [IFineADCS] Method [void SetDipoleMomentAllMTQs(int[]
           // values);//1046//High level command to interact with FineADCS]
-          int[] values = (int[]) argObject.get(0);
+          final int[] values = (int[]) argObject.get(0);
           break;
         }
         case 1047: {// Origin [IFineADCS] Method [byte[] GetDipoleMomentAllMTQs();//1047//High level
@@ -2216,7 +2217,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1052: {// Origin [IFineADCS] Method [void SetMTQRelaxTime(int relaxtime);//1052//High
           // level command to interact with FineADCS]
-          int relaxtime = (Integer) argObject.get(0);
+          final int relaxtime = (Integer) argObject.get(0);
           break;
         }
         case 1053: {// Origin [IFineADCS] Method [void StopAllMTQ();//1053//High level command to
@@ -2225,7 +2226,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1054: {// Origin [IFineADCS] Method [void MTQXSetDipoleMoment(int
           // dipoleValue);//1054//High level command to interact with FineADCS]
-          int dipoleValue = (Integer) argObject.get(0);
+          final int dipoleValue = (Integer) argObject.get(0);
           this.hMapSDData.get(DevDatPBind.FineADCS_Magnetorquer).setIntTypeByIndex(dipoleValue, 0);
           break;
         }
@@ -2259,7 +2260,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1061: {// Origin [IFineADCS] Method [void MTQYSetDipoleMoment(int
           // dipoleValue);//1061//High level command to interact with FineADCS]
-          int dipoleValue = (Integer) argObject.get(0);
+          final int dipoleValue = (Integer) argObject.get(0);
           this.hMapSDData.get(DevDatPBind.FineADCS_Magnetorquer).setIntTypeByIndex(dipoleValue, 1);
           break;
         }
@@ -2290,7 +2291,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1068: {// Origin [IFineADCS] Method [void MTQZSetDipoleMoment(int
           // dipoleValue);//1068//High level command to interact with FineADCS]
-          int dipoleValue = (Integer) argObject.get(0);
+          final int dipoleValue = (Integer) argObject.get(0);
           this.hMapSDData.get(DevDatPBind.FineADCS_Magnetorquer).setIntTypeByIndex(dipoleValue, 2);
           break;
         }
@@ -2321,7 +2322,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1075: {// Origin [IFineADCS] Method [void SetRWXSpeed(int speedValue);//1075//High
           // level command to interact with FineADCS]
-          int speedValue = (Integer) argObject.get(0);
+          final int speedValue = (Integer) argObject.get(0);
           this.hMapSDData.get(DevDatPBind.FineADCS_ReactionWheels).setIntTypeByIndex(speedValue, 0);
 
           break;
@@ -2333,12 +2334,12 @@ public class SimulatorNode extends TaskNode
         }
         case 1077: {// Origin [IFineADCS] Method [void SetRWXAcceleration(int
           // accelerationValue);//1077//High level command to interact with FineADCS]
-          int accelerationValue = (Integer) argObject.get(0);
+          final int accelerationValue = (Integer) argObject.get(0);
           break;
         }
         case 1078: {// Origin [IFineADCS] Method [void SetRWXSleep(byte sleepMode);//1078//High
           // level command to interact with FineADCS]
-          byte sleepMode = (Byte) argObject.get(0);
+          final byte sleepMode = (Byte) argObject.get(0);
           break;
         }
         case 1079: {// Origin [IFineADCS] Method [byte[] GetRWXID();//1079//High level command to
@@ -2348,7 +2349,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1080: {// Origin [IFineADCS] Method [void SetRWYSpeed(int speedValue);//1080//High
           // level command to interact with FineADCS]
-          int speedValue = (Integer) argObject.get(0);
+          final int speedValue = (Integer) argObject.get(0);
           this.hMapSDData.get(DevDatPBind.FineADCS_ReactionWheels).setIntTypeByIndex(speedValue, 1);
           break;
         }
@@ -2359,12 +2360,12 @@ public class SimulatorNode extends TaskNode
         }
         case 1082: {// Origin [IFineADCS] Method [void SetRWYAcceleration(int
           // accelerationValue);//1082//High level command to interact with FineADCS]
-          int accelerationValue = (Integer) argObject.get(0);
+          final int accelerationValue = (Integer) argObject.get(0);
           break;
         }
         case 1083: {// Origin [IFineADCS] Method [void SetRWYSleep(byte sleepMode);//1083//High
           // level command to interact with FineADCS]
-          byte sleepMode = (Byte) argObject.get(0);
+          final byte sleepMode = (Byte) argObject.get(0);
           break;
         }
         case 1084: {// Origin [IFineADCS] Method [byte[] GetRWYID();//1084//High level command to
@@ -2374,7 +2375,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1085: {// Origin [IFineADCS] Method [void SetRWZSpeed(int speedValue);//1085//High
           // level command to interact with FineADCS]
-          int speedValue = (Integer) argObject.get(0);
+          final int speedValue = (Integer) argObject.get(0);
           this.hMapSDData.get(DevDatPBind.FineADCS_ReactionWheels).setIntTypeByIndex(speedValue, 2);
           break;
         }
@@ -2385,12 +2386,12 @@ public class SimulatorNode extends TaskNode
         }
         case 1087: {// Origin [IFineADCS] Method [void SetRWZAcceleration(int
           // accelerationValue);//1087//High level command to interact with FineADCS]
-          int accelerationValue = (Integer) argObject.get(0);
+          final int accelerationValue = (Integer) argObject.get(0);
           break;
         }
         case 1088: {// Origin [IFineADCS] Method [void SetRWZSleep(byte sleepMode);//1088//High
           // level command to interact with FineADCS]
-          byte sleepMode = (Byte) argObject.get(0);
+          final byte sleepMode = (Byte) argObject.get(0);
           break;
         }
         case 1089: {// Origin [IFineADCS] Method [byte[] GetRWZID();//1089//High level command to
@@ -2400,17 +2401,17 @@ public class SimulatorNode extends TaskNode
         }
         case 1090: {// Origin [IFineADCS] Method [void ST200SetQuaternion(int[] values);//1090//High
           // level command to interact with FineADCS]
-          int[] values = (int[]) argObject.get(0);
+          final int[] values = (int[]) argObject.get(0);
           break;
         }
         case 1091: {// Origin [IFineADCS] Method [void ST200UpdateInterval(long
           // interval);//1091//High level command to interact with FineADCS]
-          long interval = (Long) argObject.get(0);
+          final long interval = (Long) argObject.get(0);
           break;
         }
         case 1092: {// Origin [IFineADCS] Method [void SunSensor1SetValue(int[] values);//1092//High
           // level command to interact with FineADCS]
-          int[] values = (int[]) argObject.get(0);
+          final int[] values = (int[]) argObject.get(0);
           break;
         }
         case 1093: {// Origin [IFineADCS] Method [byte[] SunSensor1GetValue();//1093//High level
@@ -2420,7 +2421,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1094: {// Origin [IFineADCS] Method [void SunSensor1SetValueQuaternion(int[]
           // values);//1094//High level command to interact with FineADCS]
-          int[] values = (int[]) argObject.get(0);
+          final int[] values = (int[]) argObject.get(0);
           break;
         }
         case 1095: {// Origin [IFineADCS] Method [byte[] SunSensor1GetValueQuaternion();//1095//High
@@ -2430,7 +2431,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1096: {// Origin [IFineADCS] Method [void Gyro1SetRate(float[] values);//1096//High
           // level command to interact with FineADCS]
-          float[] values = (float[]) argObject.get(0);
+          final float[] values = (float[]) argObject.get(0);
           this.hMapSDData.get(DevDatPBind.FineADCS_Gyro1).setType(values);
           this.hMapSDData.get(DevDatPBind.FineADCS_AngularMomentum).setType(values);
           break;
@@ -2442,7 +2443,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1098: {// Origin [IFineADCS] Method [void Gyro1SetUpdateInterval(int
           // updateRate);//1098//High level command to interact with FineADCS]
-          int updateRate = (Integer) argObject.get(0);
+          final int updateRate = (Integer) argObject.get(0);
           break;
         }
         case 1099: {// Origin [IFineADCS] Method [void Gyro1RemoveBias();//1099//High level command
@@ -2456,13 +2457,13 @@ public class SimulatorNode extends TaskNode
         }
         case 1101: {// Origin [IFineADCS] Method [void Gyro1SetFilter1(byte updateRate,int
           // allowedDeviation);//1101//High level command to interact with FineADCS]
-          byte updateRate = (Byte) argObject.get(0);
-          int allowedDeviation = (Integer) argObject.get(1);
+          final byte updateRate = (Byte) argObject.get(0);
+          final int allowedDeviation = (Integer) argObject.get(1);
           break;
         }
         case 1102: {// Origin [IFineADCS] Method [void Gyro1SetCalibrationParameters(int[]
           // calibrationValues);//1102//High level command to interact with FineADCS]
-          int[] calibrationValues = (int[]) argObject.get(0);
+          final int[] calibrationValues = (int[]) argObject.get(0);
           break;
         }
         case 1103: {// Origin [IFineADCS] Method [byte[]
@@ -2481,7 +2482,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1106: {// Origin [IFineADCS] Method [void Gyro1SetQuaternionFromSunSensor(float[]
           // quaternionValues);//1106//High level command to interact with FineADCS]
-          float[] quaternionValues = (float[]) argObject.get(0);
+          final float[] quaternionValues = (float[]) argObject.get(0);
           break;
         }
         case 1107: {// Origin [IFineADCS] Method [byte[]
@@ -2492,7 +2493,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1108: {// Origin [IFineADCS] Method [void accelerometerSetValues(float[]
           // values);//1108//High level command to interact with FineADCS]
-          float[] values = (float[]) argObject.get(0);
+          final float[] values = (float[]) argObject.get(0);
           this.hMapSDData.get(DevDatPBind.FineADCS_Accelerometer).setType(values);
           break;
         }
@@ -2503,12 +2504,12 @@ public class SimulatorNode extends TaskNode
         }
         case 1110: {// Origin [IFineADCS] Method [void accelerometerReadInterval(int
           // interval);//1110//High level command to interact with FineADCS]
-          int interval = (Integer) argObject.get(0);
+          final int interval = (Integer) argObject.get(0);
           break;
         }
         case 1111: {// Origin [IFineADCS] Method [void magnetometerSetMagneticField(float[]
           // values);//1111//High level command to interact with FineADCS]
-          float[] values = (float[]) argObject.get(0);
+          final float[] values = (float[]) argObject.get(0);
           break;
         }
         case 1112: {// Origin [IFineADCS] Method [byte[] magnetometerGetMagneticField();//1112//High
@@ -2518,12 +2519,12 @@ public class SimulatorNode extends TaskNode
         }
         case 1113: {// Origin [IFineADCS] Method [void magnetometerSetUpdateInterval(int
           // interval);//1113//High level command to interact with FineADCS]
-          int interval = (Integer) argObject.get(0);
+          final int interval = (Integer) argObject.get(0);
           break;
         }
         case 1114: {// Origin [IFineADCS] Method [void accelerometerSetCalibrationParams(float[]
           // values);//1114//High level command to interact with FineADCS]
-          float[] values = (float[]) argObject.get(0);
+          final float[] values = (float[]) argObject.get(0);
           break;
         }
         case 1115: {// Origin [IFineADCS] Method [byte[]
@@ -2544,7 +2545,7 @@ public class SimulatorNode extends TaskNode
         case 1118: {// Origin [IFineADCS] Method [void
           // accelerometerSetQuaternionFromSunSensor(float[]
           // quaternionValues);//1118//High level command to interact with FineADCS]
-          float[] quaternionValues = (float[]) argObject.get(0);
+          final float[] quaternionValues = (float[]) argObject.get(0);
           break;
         }
         case 1119: {// Origin [IFineADCS] Method [byte[]
@@ -2555,13 +2556,13 @@ public class SimulatorNode extends TaskNode
         }
         case 1120: {// Origin [IFineADCS] Method [byte[] kalman2FilterGetTelemetry(int
           // requestRegister);//1120//High level command to interact with FineADCS]
-          int requestRegister = (Integer) argObject.get(0);
+          final int requestRegister = (Integer) argObject.get(0);
           globalResult = new byte[68];
           break;
         }
         case 1121: {// Origin [IFineADCS] Method [void kalman2FilterSelectGyro(byte
           // selectGyro);//1121//High level command to interact with FineADCS]
-          byte selectGyro = (Byte) argObject.get(0);
+          final byte selectGyro = (Byte) argObject.get(0);
           break;
         }
         case 1122: {// Origin [IFineADCS] Method [void kalman2FilterStart();//1122//High level
@@ -2574,13 +2575,13 @@ public class SimulatorNode extends TaskNode
         }
         case 1124: {// Origin [IFineADCS] Method [byte[] kalman4FilterGetTelemetry(int
           // requestRegister);//1124//High level command to interact with FineADCS]
-          int requestRegister = (Integer) argObject.get(0);
+          final int requestRegister = (Integer) argObject.get(0);
           globalResult = new byte[68];
           break;
         }
         case 1125: {// Origin [IFineADCS] Method [void kalman4FilterSelectGyro(byte
           // selectGyro);//1125//High level command to interact with FineADCS]
-          byte selectGyro = (Byte) argObject.get(0);
+          final byte selectGyro = (Byte) argObject.get(0);
           break;
         }
         case 1126: {// Origin [IFineADCS] Method [void kalman4FilterStart();//1126//High level
@@ -2593,7 +2594,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1128: {// Origin [IFineADCS] Method [void controlLoopsSetUpdateInterval(int
           // interval);//1128//High level command to interact with FineADCS]
-          int interval = (Integer) argObject.get(0);
+          final int interval = (Integer) argObject.get(0);
           break;
         }
         case 1129: {// Origin [IFineADCS] Method [byte[] controlLoopsGetTargetRWSpeed();//1129//High
@@ -2615,55 +2616,55 @@ public class SimulatorNode extends TaskNode
         case 1132: {// Origin [IFineADCS] Method [void controlLoopsSetAntiWindup(byte axis,int
           // controlRegister,float[] values);//1132//High level command to interact with
           // FineADCS]
-          byte axis = (Byte) argObject.get(0);
-          int controlRegister = (Integer) argObject.get(1);
-          float[] values = (float[]) argObject.get(2);
+          final byte axis = (Byte) argObject.get(0);
+          final int controlRegister = (Integer) argObject.get(1);
+          final float[] values = (float[]) argObject.get(2);
           break;
         }
         case 1133: {// Origin [IFineADCS] Method [byte[] controlLoopsGetAntiWindup(byte axis,int
           // controlRegister);//1133//High level command to interact with FineADCS]
-          byte axis = (Byte) argObject.get(0);
-          int controlRegister = (Integer) argObject.get(1);
+          final byte axis = (Byte) argObject.get(0);
+          final int controlRegister = (Integer) argObject.get(1);
           globalResult = new byte[16];
           break;
         }
         case 1134: {// Origin [IFineADCS] Method [void singleAxisStartControlLoop(byte axis,int
           // controlRegister,float[] targetAngle);//1134//High level command to interact
           // with FineADCS]
-          byte axis = (Byte) argObject.get(0);
-          int controlRegister = (Integer) argObject.get(1);
-          float[] targetAngle = (float[]) argObject.get(2);
+          final byte axis = (Byte) argObject.get(0);
+          final int controlRegister = (Integer) argObject.get(1);
+          final float[] targetAngle = (float[]) argObject.get(2);
           break;
         }
         case 1135: {// Origin [IFineADCS] Method [void singleAxisStopControlLoop(byte
           // axis);//1135//High level command to interact with FineADCS]
-          byte axis = (Byte) argObject.get(0);
+          final byte axis = (Byte) argObject.get(0);
           break;
         }
         case 1136: {// Origin [IFineADCS] Method [void singleAxisSetParameter(byte axis,int
           // controlRegister,float[] values);//1136//High level command to interact with
           // FineADCS]
-          byte axis = (Byte) argObject.get(0);
-          int controlRegister = (Integer) argObject.get(1);
-          float[] values = (float[]) argObject.get(2);
+          final byte axis = (Byte) argObject.get(0);
+          final int controlRegister = (Integer) argObject.get(1);
+          final float[] values = (float[]) argObject.get(2);
           break;
         }
         case 1137: {// Origin [IFineADCS] Method [byte[] singleAxisGetParameter(byte axis,int
           // controlRegister);//1137//High level command to interact with FineADCS]
-          byte axis = (Byte) argObject.get(0);
-          int controlRegister = (Integer) argObject.get(1);
+          final byte axis = (Byte) argObject.get(0);
+          final int controlRegister = (Integer) argObject.get(1);
           globalResult = new byte[28];
           break;
         }
         case 1138: {// Origin [IFineADCS] Method [void singleAxisResetParameter(byte axis,int
           // controlRegister);//1138//High level command to interact with FineADCS]
-          byte axis = (Byte) argObject.get(0);
-          int controlRegister = (Integer) argObject.get(1);
+          final byte axis = (Byte) argObject.get(0);
+          final int controlRegister = (Integer) argObject.get(1);
           break;
         }
         case 1139: {// Origin [IFineADCS] Method [void sunPointingStartControlLoop(float[]
           // targetSunVector);//1139//High level command to interact with FineADCS]
-          float[] targetSunVector = (float[]) argObject.get(0);
+          final float[] targetSunVector = (float[]) argObject.get(0);
           break;
         }
         case 1140: {// Origin [IFineADCS] Method [void sunPointingStopControlLoop();//1140//High
@@ -2672,7 +2673,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1141: {// Origin [IFineADCS] Method [void sunPointingSetParameter(float[]
           // values);//1141//High level command to interact with FineADCS]
-          float[] values = (float[]) argObject.get(0);
+          final float[] values = (float[]) argObject.get(0);
           break;
         }
         case 1142: {// Origin [IFineADCS] Method [byte[] sunPointingGetParameter();//1142//High
@@ -2686,7 +2687,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1144: {// Origin [IFineADCS] Method [void bdotStartControlLoop(byte
           // controller);//1144//High level command to interact with FineADCS]
-          byte controller = (Byte) argObject.get(0);
+          final byte controller = (Byte) argObject.get(0);
           break;
         }
         case 1145: {// Origin [IFineADCS] Method [void bdotStopControlLoop();//1145//High level
@@ -2695,7 +2696,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1146: {// Origin [IFineADCS] Method [void bdotSetParameter(float gain);//1146//High
           // level command to interact with FineADCS]
-          float gain = (Float) argObject.get(0);
+          final float gain = (Float) argObject.get(0);
           break;
         }
         case 1147: {// Origin [IFineADCS] Method [byte[] bdotGetParameter();//1147//High level
@@ -2710,9 +2711,9 @@ public class SimulatorNode extends TaskNode
         case 1149: {// Origin [IFineADCS] Method [void singleSpinningStartControlLoop(float[]
           // targetBodyAxis,float targetAngularVelocityMagnitude,float[]
           // inertialTargetVector);//1149//High level command to interact with FineADCS]
-          float[] targetBodyAxis = (float[]) argObject.get(0);
-          float targetAngularVelocityMagnitude = (Float) argObject.get(1);
-          float[] inertialTargetVector = (float[]) argObject.get(2);
+          final float[] targetBodyAxis = (float[]) argObject.get(0);
+          final float targetAngularVelocityMagnitude = (Float) argObject.get(1);
+          final float[] inertialTargetVector = (float[]) argObject.get(2);
           break;
         }
         case 1150: {// Origin [IFineADCS] Method [void singleSpinningStopControlLoop();//1150//High
@@ -2721,7 +2722,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1151: {// Origin [IFineADCS] Method [void singleSpinningSetParameter(float[]
           // values);//1151//High level command to interact with FineADCS]
-          float[] values = (float[]) argObject.get(0);
+          final float[] values = (float[]) argObject.get(0);
           break;
         }
         case 1152: {// Origin [IFineADCS] Method [byte[] singleSpinningGetParameter();//1152//High
@@ -2732,25 +2733,25 @@ public class SimulatorNode extends TaskNode
         case 1153: {// Origin [IFineADCS] Method [void targetTrackingStartModeConstantVel(byte
           // modeType,float[] values,long[] times);//1153//High level command to interact
           // with FineADCS]
-          byte modeType = (Byte) argObject.get(0);
-          float[] values = (float[]) argObject.get(1);
-          long[] times = (long[]) argObject.get(2);
+          final byte modeType = (Byte) argObject.get(0);
+          final float[] values = (float[]) argObject.get(1);
+          final long[] times = (long[]) argObject.get(2);
           break;
         }
         case 1154: {// Origin [IFineADCS] Method [void targetTrackingStartModeGeneral(byte
           // modeType,float[] values,long[] times);//1154//High level command to interact
           // with FineADCS]
-          byte modeType = (Byte) argObject.get(0);
-          float[] values = (float[]) argObject.get(1);
-          long[] times = (long[]) argObject.get(2);
+          final byte modeType = (Byte) argObject.get(0);
+          final float[] values = (float[]) argObject.get(1);
+          final long[] times = (long[]) argObject.get(2);
           break;
         }
         case 1155: {// Origin [IFineADCS] Method [void targetTrackingStartModeWGS84(byte
           // modeType,float[] values,long[] times);//1155//High level command to interact
           // with FineADCS]
-          byte modeType = (Byte) argObject.get(0);
-          float[] values = (float[]) argObject.get(1);
-          long[] times = (long[]) argObject.get(2);
+          final byte modeType = (Byte) argObject.get(0);
+          final float[] values = (float[]) argObject.get(1);
+          final long[] times = (long[]) argObject.get(2);
           break;
         }
         case 1156: {// Origin [IFineADCS] Method [void targetTrackingStopMode();//1156//High level
@@ -2759,7 +2760,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1157: {// Origin [IFineADCS] Method [void targetTrackingSetParameters(float[]
           // values);//1157//High level command to interact with FineADCS]
-          float[] values = (float[]) argObject.get(0);
+          final float[] values = (float[]) argObject.get(0);
           break;
         }
         case 1158: {// Origin [IFineADCS] Method [byte[] targetTrackingGetParameters();//1158//High
@@ -2782,9 +2783,10 @@ public class SimulatorNode extends TaskNode
         }
         case 1162: {// Origin [IFineADCS] Method [void orbitSetTLE(byte[] tleData);//1162//High
           // level command to interact with FineADCS]
-          byte[] tleData = (byte[]) argObject.get(0);
-          StringBuilder newTLE1 = new StringBuilder(), newTLE2 = new StringBuilder();
-          boolean result = OrekitCore.parseTLEFromBytes(tleData, newTLE1, newTLE2);
+          final byte[] tleData = (byte[]) argObject.get(0);
+          final StringBuilder newTLE1 = new StringBuilder();
+          final StringBuilder newTLE2 = new StringBuilder();
+          final boolean result = OrekitCore.parseTLEFromBytes(tleData, newTLE1, newTLE2);
           this.logger.log(Level.FINE, "Response ok to new TLEs is [" + result + "]");
           if (result) {
             simulatorHeader.setOrekitTLE1(newTLE1.toString());
@@ -2797,7 +2799,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1163: {// Origin [IFineADCS] Method [byte[] orbitSetUpdateInterval(int
           // updateInterval);//1163//High level command to interact with FineADCS]
-          int updateInterval = (Integer) argObject.get(0);
+          final int updateInterval = (Integer) argObject.get(0);
           globalResult = new byte[32];
           break;
         }
@@ -2821,8 +2823,8 @@ public class SimulatorNode extends TaskNode
         }
         case 1167: {// Origin [IFineADCS] Method [void opModeDetumble(byte start,long[]
           // times);//1167//High level command to interact with FineADCS]
-          byte start = (Byte) argObject.get(0);
-          long[] times = (long[]) argObject.get(1);
+          final byte start = (Byte) argObject.get(0);
+          final long[] times = (long[]) argObject.get(1);
           if (simulatorHeader.isUseOrekitPropagator()) {
             this.orekitCore.changeAttitude(OrekitCore.ATTITUDE_MODE.BDOT_DETUMBLE);
           }
@@ -2831,9 +2833,9 @@ public class SimulatorNode extends TaskNode
         case 1168: {// Origin [IFineADCS] Method [void opModeSunPointing(byte[] mode,long[]
           // times,float[] targetSunVector);//1168//High level command to interact with
           // FineADCS]
-          byte[] mode = (byte[]) argObject.get(0);
-          long[] times = (long[]) argObject.get(1);
-          float[] targetSunVector = (float[]) argObject.get(2);
+          final byte[] mode = (byte[]) argObject.get(0);
+          final long[] times = (long[]) argObject.get(1);
+          final float[] targetSunVector = (float[]) argObject.get(2);
           if (simulatorHeader.isUseOrekitPropagator()) {
             this.orekitCore.changeAttitude(OrekitCore.ATTITUDE_MODE.SUN_POINTING);
           }
@@ -2841,9 +2843,9 @@ public class SimulatorNode extends TaskNode
         }
         case 1169: {// Origin [IFineADCS] Method [byte[] opModeGetSunPointingStatus();//1169//High
           // level command to interact with FineADCS]
-          byte[] result = new byte[25];
-          SimulatorSpacecraftState spacecraftState = getSpacecraftState();
-          double[] sunVector = spacecraftState.getSunVector();
+          final byte[] result = new byte[25];
+          final SimulatorSpacecraftState spacecraftState = getSpacecraftState();
+          final double[] sunVector = spacecraftState.getSunVector();
           FWRefFineADCS.putFloatInByteArray((float) sunVector[0],
               FWRefFineADCS.SUNPOINTSTAT_IDX.SUN_VECTOR_X, result);
           FWRefFineADCS.putFloatInByteArray((float) sunVector[1],
@@ -2865,9 +2867,9 @@ public class SimulatorNode extends TaskNode
         case 1170: {// Origin [IFineADCS] Method [void opModeSetModeSpin(byte mode,long[]
           // times,float[] targetVector);//1170//High level command to interact with
           // FineADCS]
-          byte mode = (Byte) argObject.get(0);
-          long[] times = (long[]) argObject.get(1);
-          float[] targetVector = (float[]) argObject.get(2);
+          final byte mode = (Byte) argObject.get(0);
+          final long[] times = (long[]) argObject.get(1);
+          final float[] targetVector = (float[]) argObject.get(2);
           if (simulatorHeader.isUseOrekitPropagator()) {
             this.orekitCore.changeAttitudeLof(targetVector[0], targetVector[1], targetVector[2],
                 targetVector[6]);
@@ -2876,11 +2878,11 @@ public class SimulatorNode extends TaskNode
         }
         case 1171: {// Origin [IFineADCS] Method [byte[] opModeGetSpinModeStatus();//1171//High
           // level command to interact with FineADCS]
-          byte[] result = new byte[64];
-          SimulatorSpacecraftState spacecraftState = getSpacecraftState();
-          double[] sunVector = spacecraftState.getSunVector();
-          float[] magneticField = spacecraftState.getMagnetometer();
-          float[] quaternions = spacecraftState.getQ();
+          final byte[] result = new byte[64];
+          final SimulatorSpacecraftState spacecraftState = getSpacecraftState();
+          final double[] sunVector = spacecraftState.getSunVector();
+          final float[] magneticField = spacecraftState.getMagnetometer();
+          final float[] quaternions = spacecraftState.getQ();
           FWRefFineADCS.putFloatInByteArray((float) sunVector[0],
               FWRefFineADCS.SPINMODESTAT_IDX.SUN_VECTOR_X, result);
           FWRefFineADCS.putFloatInByteArray((float) sunVector[1],
@@ -2926,9 +2928,9 @@ public class SimulatorNode extends TaskNode
         case 1172: {// Origin [IFineADCS] Method [void opModeSetTargetTrackingCVelocity(byte
           // mode,long[] times,float[] targetVector);//1172//High level command to
           // interact with FineADCS]
-          byte mode = (Byte) argObject.get(0);
-          long[] times = (long[]) argObject.get(1);
-          float[] targetVector = (float[]) argObject.get(2);
+          final byte mode = (Byte) argObject.get(0);
+          final long[] times = (long[]) argObject.get(1);
+          final float[] targetVector = (float[]) argObject.get(2);
           break;
         }
         case 1173: {// Origin [IFineADCS] Method [byte[]
@@ -2939,8 +2941,8 @@ public class SimulatorNode extends TaskNode
         }
         case 1174: {// Origin [IFineADCS] Method [void opModeSetNadirTargetTracking(byte mode,long[]
           // times);//1174//High level command to interact with FineADCS]
-          byte mode = (Byte) argObject.get(0);
-          long[] times = (long[]) argObject.get(1);
+          final byte mode = (Byte) argObject.get(0);
+          final long[] times = (long[]) argObject.get(1);
           if (simulatorHeader.isUseOrekitPropagator()) {
             this.orekitCore.changeAttitude(OrekitCore.ATTITUDE_MODE.NADIR_POINTING);
           }
@@ -2949,10 +2951,10 @@ public class SimulatorNode extends TaskNode
         case 1175: {// Origin [IFineADCS] Method [byte[]
           // opModeGetNadirTargetTrackingStatus();//1175//High level command to interact
           // with FineADCS]
-          byte[] result = new byte[68];
-          SimulatorSpacecraftState spacecraftState = getSpacecraftState();
-          float[] positionVector = spacecraftState.getRv();
-          float[] quaternions = spacecraftState.getQ();
+          final byte[] result = new byte[68];
+          final SimulatorSpacecraftState spacecraftState = getSpacecraftState();
+          final float[] positionVector = spacecraftState.getRv();
+          final float[] quaternions = spacecraftState.getQ();
           FWRefFineADCS.putFloatInByteArray(positionVector[0],
               FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.POSITION_VECTOR_X, result);
           FWRefFineADCS.putFloatInByteArray(positionVector[1],
@@ -2999,9 +3001,9 @@ public class SimulatorNode extends TaskNode
         case 1176: {// Origin [IFineADCS] Method [void opModeSetStandardTargetTracking(byte
           // mode,long[] times,float[] quaternionCoefficients);//1176//High level command
           // to interact with FineADCS]
-          byte mode = (Byte) argObject.get(0);
-          long[] times = (long[]) argObject.get(1);
-          float[] quaternionCoefficients = (float[]) argObject.get(2);
+          final byte mode = (Byte) argObject.get(0);
+          final long[] times = (long[]) argObject.get(1);
+          final float[] quaternionCoefficients = (float[]) argObject.get(2);
           break;
         }
         case 1177: {// Origin [IFineADCS] Method [byte[]
@@ -3013,9 +3015,9 @@ public class SimulatorNode extends TaskNode
         case 1178: {// Origin [IFineADCS] Method [void opModeSetFixWGS84TargetTracking(byte
           // mode,long[] times,float[] latitudeLongitude);//1178//High level command to
           // interact with FineADCS]
-          byte mode = (Byte) argObject.get(0);
-          long[] times = (long[]) argObject.get(1);
-          float[] latitudeLongitude = (float[]) argObject.get(2);
+          final byte mode = (Byte) argObject.get(0);
+          final long[] times = (long[]) argObject.get(1);
+          final float[] latitudeLongitude = (float[]) argObject.get(2);
           if (simulatorHeader.isUseOrekitPropagator()) {
             this.orekitCore.changeAttitudeTarget(latitudeLongitude[0], latitudeLongitude[1], 0);
           }
@@ -3024,10 +3026,10 @@ public class SimulatorNode extends TaskNode
         case 1179: {// Origin [IFineADCS] Method [byte[]
           // opModeGetFixWGS84TargetTracking();//1179//High level command to interact with
           // FineADCS]
-          byte[] result = new byte[68];
-          SimulatorSpacecraftState spacecraftState = getSpacecraftState();
-          float[] positionVector = spacecraftState.getRv();
-          float[] quaternions = spacecraftState.getQ();
+          final byte[] result = new byte[68];
+          final SimulatorSpacecraftState spacecraftState = getSpacecraftState();
+          final float[] positionVector = spacecraftState.getRv();
+          final float[] quaternions = spacecraftState.getQ();
           FWRefFineADCS.putFloatInByteArray(positionVector[0],
               FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.POSITION_VECTOR_X, result);
           FWRefFineADCS.putFloatInByteArray(positionVector[1],
@@ -3073,9 +3075,9 @@ public class SimulatorNode extends TaskNode
         }
         case 1180: {// Origin [IFineADCS] Method [void opModeSetTargetCapture1(byte mode,long
           // startTime,float[] data);//1180//High level command to interact with FineADCS]
-          byte mode = (Byte) argObject.get(0);
-          long startTime = (Long) argObject.get(1);
-          float[] data = (float[]) argObject.get(2);
+          final byte mode = (Byte) argObject.get(0);
+          final long startTime = (Long) argObject.get(1);
+          final float[] data = (float[]) argObject.get(2);
           break;
         }
         case 1181: {// Origin [IFineADCS] Method [byte[] opModeGetTargetCapture1();//1181//High
@@ -3086,10 +3088,10 @@ public class SimulatorNode extends TaskNode
         case 1182: {// Origin [IFineADCS] Method [byte[] simGetOrbitTLEBytesFromString(String
           // tleLine1,String tleLine2);//1182//High level command to interact with
           // FineADCS]
-          String tleLine1 = (String) argObject.get(0);
-          String tleLine2 = (String) argObject.get(1);
-          StringBuilder exception = new StringBuilder();
-          byte[] result = new byte[140];
+          final String tleLine1 = (String) argObject.get(0);
+          final String tleLine2 = (String) argObject.get(1);
+          final StringBuilder exception = new StringBuilder();
+          final byte[] result = new byte[140];
           if (!OrekitCore.parseTLEFromStrings(result, tleLine1, tleLine2, exception)) {
             commandResult.setCommandFailed(true);
             throw new Exception(exception.toString());
@@ -3099,67 +3101,67 @@ public class SimulatorNode extends TaskNode
         }
         case 1183: {// Origin [IFineADCS] Method [float simGetFloatFromByteArray(byte[] data,int
           // byteOffset);//1183//Test command for the helper libraries]
-          byte[] data = (byte[]) argObject.get(0);
-          int byteOffset = (Integer) argObject.get(1);
+          final byte[] data = (byte[]) argObject.get(0);
+          final int byteOffset = (Integer) argObject.get(1);
           globalResult = FWRefFineADCS.getFloatFromByteArray(data, byteOffset);
           break;
         }
         case 1184: {// Origin [IFineADCS] Method [byte[] simGetByteArrayFromFloat(float
           // data);//1184//Test command for the helper libraries]
-          float data = (Float) argObject.get(0);
-          byte[] result = new byte[4];
+          final float data = (Float) argObject.get(0);
+          final byte[] result = new byte[4];
           FWRefFineADCS.putFloatInByteArray(data, 0, result);
           globalResult = result;
           break;
         }
         case 1185: {// Origin [IFineADCS] Method [double simGetDoubleFromByteArray(byte[] data,int
           // byteOffset);//1185//Test command for the helper libraries]
-          byte[] data = (byte[]) argObject.get(0);
-          int byteOffset = (Integer) argObject.get(1);
+          final byte[] data = (byte[]) argObject.get(0);
+          final int byteOffset = (Integer) argObject.get(1);
           globalResult = FWRefFineADCS.getDoubleFromByteArray(data, byteOffset);
           break;
         }
         case 1186: {// Origin [IFineADCS] Method [byte[] simGetByteArrayFromDouble(double
           // data);//1186//Test command for the helper libraries]
-          double data = (Double) argObject.get(0);
-          byte[] result = new byte[8];
+          final double data = (Double) argObject.get(0);
+          final byte[] result = new byte[8];
           FWRefFineADCS.putDoubleInByteArray(data, 0, result);
           globalResult = result;
           break;
         }
         case 1187: {// Origin [IFineADCS] Method [int simGetIntFromByteArray(byte[] data,int
           // byteOffset);//1187//Test command for the helper libraries]
-          byte[] data = (byte[]) argObject.get(0);
-          int byteOffset = (Integer) argObject.get(1);
+          final byte[] data = (byte[]) argObject.get(0);
+          final int byteOffset = (Integer) argObject.get(1);
           globalResult = FWRefFineADCS.getIntFromByteArray(data, byteOffset);
           break;
         }
         case 1188: {// Origin [IFineADCS] Method [byte[] simGetByteArrayFromInt(int
           // data);//1188//Test command for the helper libraries]
-          int data = (Integer) argObject.get(0);
-          byte[] result = new byte[4];
+          final int data = (Integer) argObject.get(0);
+          final byte[] result = new byte[4];
           FWRefFineADCS.putIntInByteArray(data, 0, result);
           globalResult = result;
           break;
         }
         case 1189: {// Origin [IFineADCS] Method [long simGetLongFromByteArray(byte[] data,long
           // byteOffset);//1189//Test command for the helper libraries]
-          byte[] data = (byte[]) argObject.get(0);
-          int byteOffset = (Integer) argObject.get(1);
+          final byte[] data = (byte[]) argObject.get(0);
+          final int byteOffset = (Integer) argObject.get(1);
           globalResult = FWRefFineADCS.getLongFromByteArray(data, byteOffset);
           break;
         }
         case 1190: {// Origin [IFineADCS] Method [byte[] simGetByteArrayFromLong(long
           // data);//1190//Test command for the helper libraries]
-          long data = (Long) argObject.get(0);
-          byte[] result = new byte[8];
+          final long data = (Long) argObject.get(0);
+          final byte[] result = new byte[8];
           FWRefFineADCS.putLongInByteArray(data, 0, result);
           globalResult = result;
           break;
         }
         case 1191: {// Origin [IFineADCS] Method [void Gyro2SetRate(float[] values);//1191//High
           // level command to interact with FineADCS]
-          float[] values = (float[]) argObject.get(0);
+          final float[] values = (float[]) argObject.get(0);
           this.hMapSDData.get(DevDatPBind.FineADCS_Gyro2).setType(values);
           this.hMapSDData.get(DevDatPBind.FineADCS_AngularMomentum).setType(values);
           break;
@@ -3171,7 +3173,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1193: {// Origin [IFineADCS] Method [void Gyro2SetUpdateInterval(int
           // updateRate);//1193//High level command to interact with FineADCS]
-          int updateRate = (Integer) argObject.get(0);
+          final int updateRate = (Integer) argObject.get(0);
           break;
         }
         case 1194: {// Origin [IFineADCS] Method [void Gyro2RemoveBias();//1194//High level command
@@ -3185,13 +3187,13 @@ public class SimulatorNode extends TaskNode
         }
         case 1196: {// Origin [IFineADCS] Method [void Gyro2SetFilter1(byte updateRate,int
           // allowedDeviation);//1196//High level command to interact with FineADCS]
-          byte updateRate = (Byte) argObject.get(0);
-          int allowedDeviation = (Integer) argObject.get(1);
+          final byte updateRate = (Byte) argObject.get(0);
+          final int allowedDeviation = (Integer) argObject.get(1);
           break;
         }
         case 1197: {// Origin [IFineADCS] Method [void Gyro2SetCalibrationParameters(int[]
           // calibrationValues);//1197//High level command to interact with FineADCS]
-          int[] calibrationValues = (int[]) argObject.get(0);
+          final int[] calibrationValues = (int[]) argObject.get(0);
           break;
         }
         case 1198: {// Origin [IFineADCS] Method [byte[]
@@ -3210,7 +3212,7 @@ public class SimulatorNode extends TaskNode
         }
         case 1201: {// Origin [IFineADCS] Method [void Gyro2SetQuaternionFromSunSensor(float[]
           // quaternionValues);//1201//High level command to interact with FineADCS]
-          float[] quaternionValues = (float[]) argObject.get(0);
+          final float[] quaternionValues = (float[]) argObject.get(0);
           break;
         }
         case 1202: {// Origin [IFineADCS] Method [byte[]
@@ -3221,16 +3223,16 @@ public class SimulatorNode extends TaskNode
         }
         case 1203: {// Origin [IFineADCS] Method [int simGetInt16FromByteArray(byte[] data,int
           // byteOffset);//1203//Test command for the helper libraries]
-          byte[] data = (byte[]) argObject.get(0);
-          int byteOffset = (Integer) argObject.get(1);
+          final byte[] data = (byte[]) argObject.get(0);
+          final int byteOffset = (Integer) argObject.get(1);
           globalResult = FWRefFineADCS.getInt16FromByteArray(data, byteOffset);
           break;
         }
         case 1204: {// Origin [IFineADCS] Method [void simRunDeviceCommand(String
           // data);//1204//Generic for loading restricted subsystems]
-          String data = (String) argObject.get(0);
+          final String data = (String) argObject.get(0);
           if (data != null) {
-            String[] words = data.split(":");
+            final String[] words = data.split(":");
             if (words.length > 0) {
               if ("quaternionServer".equals(words[0])) {
                 if (this.quaternionTcpServer != null) {
@@ -3251,13 +3253,13 @@ public class SimulatorNode extends TaskNode
 
         case 2001: {// Origin [IGPS] Method [String getNMEASentence(String
           // inputSentence);//201//Obtain a NMEA response for a given NMEA sentence]
-          String inputSentence = ((String) argObject.get(0)).trim(); // discard white characters
+          final String inputSentence = ((String) argObject.get(0)).trim(); // discard white characters
           StringBuilder result = new StringBuilder();
           if (inputSentence.endsWith("GLMLA")) {
-            String separator = ",";
-            String separatorNewLine = "\r\n";
-            LinkedList<GPSSatInView> tempResult = getSatsInView();
-            int numberInSet = tempResult.size();
+            final String separator = ",";
+            final String separatorNewLine = "\r\n";
+            final LinkedList<GPSSatInView> tempResult = getSatsInView();
+            final int numberInSet = tempResult.size();
             for (int iSat = 1; iSat <= numberInSet; iSat++) {
               for (int i = PGPS.FirmwareReferenceOEM16.GLMLA_COL.HEADER; i <= PGPS.FirmwareReferenceOEM16.GLMLA_COL.CHECKSUM; i++) {
                 if (i == PGPS.FirmwareReferenceOEM16.GLMLA_COL.HEADER) {
@@ -3299,8 +3301,8 @@ public class SimulatorNode extends TaskNode
               result.append(separatorNewLine);
             }
           } else if (inputSentence.endsWith("GPGRS")) {
-            String separator = ",";
-            String separatorNewLine = "\r\n";
+            final String separator = ",";
+            final String separatorNewLine = "\r\n";
             for (int i = PGPS.FirmwareReferenceOEM16.GPGRS_COL.HEADER; i <= PGPS.FirmwareReferenceOEM16.GPGRS_COL.CHECKSUM; i++) {
               if (i == PGPS.FirmwareReferenceOEM16.GPGRS_COL.HEADER) {
                 result.append("$GPGRS").append(separator);
@@ -3316,8 +3318,8 @@ public class SimulatorNode extends TaskNode
               }
             }
           } else if (inputSentence.endsWith("GPGRS")) {
-            String separator = ",";
-            String separatorNewLine = "\r\n";
+            final String separator = ",";
+            final String separatorNewLine = "\r\n";
             for (int i = PGPS.FirmwareReferenceOEM16.GPGRS_COL.HEADER; i <= PGPS.FirmwareReferenceOEM16.GPGRS_COL.CHECKSUM; i++) {
               if (i == PGPS.FirmwareReferenceOEM16.GPGRS_COL.HEADER) {
                 result.append("$GPGRS").append(separator);
@@ -3333,7 +3335,7 @@ public class SimulatorNode extends TaskNode
               }
             }
           } else if (inputSentence.endsWith("GPGST")) {
-            String separator = ",";
+            final String separator = ",";
             for (int i = PGPS.FirmwareReferenceOEM16.GPGST_COL.HEADER; i <= PGPS.FirmwareReferenceOEM16.GPGST_COL.CHECKSUM; i++) {
               if (i == PGPS.FirmwareReferenceOEM16.GPGST_COL.HEADER) {
                 result.append("$GPGST").append(separator);
@@ -3358,15 +3360,15 @@ public class SimulatorNode extends TaskNode
               }
             }
           } else if (inputSentence.endsWith("GPGSV")) {
-            String separator = ",";
-            LinkedList<GPSSatInView> tempResult = getSatsInView();
-            int numberInSet = tempResult.size();
-            int numberMessages = (int) Math.ceil((float) numberInSet / 4);
+            final String separator = ",";
+            final LinkedList<GPSSatInView> tempResult = getSatsInView();
+            final int numberInSet = tempResult.size();
+            final int numberMessages = (int) Math.ceil((float) numberInSet / 4);
             int k = 0;
             for (int iSat = 1; iSat <= numberMessages; iSat++) {
-              int[] tempPRN = new int[4];
-              int[] tempElevation = new int[4];
-              int[] tempAzimuth = new int[4];
+              final int[] tempPRN = new int[4];
+              final int[] tempElevation = new int[4];
+              final int[] tempAzimuth = new int[4];
               for (int j = 0; j < 4; j++) {
                 if (k < numberInSet) {
                   tempPRN[j] = tempResult.get(k).getPrn();
@@ -3422,7 +3424,7 @@ public class SimulatorNode extends TaskNode
               result.append("\n");
             }
           } else if (inputSentence.endsWith("GPHDT")) {
-            String separator = ",";
+            final String separator = ",";
             for (int i = PGPS.FirmwareReferenceOEM16.GPHDT_COL.HEADER; i <= PGPS.FirmwareReferenceOEM16.GPHDT_COL.CHECKSUM; i++) {
               if (i == PGPS.FirmwareReferenceOEM16.GPHDT_COL.HEADER) {
                 result.append("$GPHDT").append(separator);
@@ -3435,7 +3437,7 @@ public class SimulatorNode extends TaskNode
               }
             }
           } else if (inputSentence.endsWith("GPRMB")) {
-            String separator = ",";
+            final String separator = ",";
             for (int i = PGPS.FirmwareReferenceOEM16.GPRMB_COL.HEADER; i <= PGPS.FirmwareReferenceOEM16.GPRMB_COL.CHECKSUM; i++) {
               if (i == PGPS.FirmwareReferenceOEM16.GPRMB_COL.HEADER) {
                 result.append("$GPRMB").append(separator);
@@ -3472,7 +3474,7 @@ public class SimulatorNode extends TaskNode
               }
             }
           } else if (inputSentence.endsWith("GPRMC")) {
-            String separator = ",";
+            final String separator = ",";
             for (int i = PGPS.FirmwareReferenceOEM16.GPRMC_COL.HEADER; i <= PGPS.FirmwareReferenceOEM16.GPRMC_COL.CHECKSUM; i++) {
               if (i == PGPS.FirmwareReferenceOEM16.GPRMC_COL.HEADER) {
                 result.append("$GPRMC").append(separator);
@@ -3505,7 +3507,7 @@ public class SimulatorNode extends TaskNode
               }
             }
           } else if (inputSentence.endsWith("GPVTG")) {
-            String separator = ",";
+            final String separator = ",";
             for (int i = PGPS.FirmwareReferenceOEM16.GPVTG_COL.HEADER; i <= PGPS.FirmwareReferenceOEM16.GPVTG_COL.CHECKSUM; i++) {
               if (i == PGPS.FirmwareReferenceOEM16.GPVTG_COL.HEADER) {
                 result.append("$GPVTG").append(separator);
@@ -3532,7 +3534,7 @@ public class SimulatorNode extends TaskNode
               }
             }
           } else if (inputSentence.endsWith("GPZDA")) {
-            String separator = ",";
+            final String separator = ",";
             for (int i = PGPS.FirmwareReferenceOEM16.GPZDA_COL.HEADER; i <= PGPS.FirmwareReferenceOEM16.GPZDA_COL.CHECKSUM; i++) {
               if (i == PGPS.FirmwareReferenceOEM16.GPZDA_COL.HEADER) {
                 result.append("$GPZDA").append(separator);
@@ -3552,10 +3554,10 @@ public class SimulatorNode extends TaskNode
               }
             }
           } else if (inputSentence.endsWith("GPALM")) {
-            String separator = ",";
-            String separatorNewLine = "\r\n";
-            LinkedList<GPSSatInView> tempResult = getSatsInView();
-            int numberInSet = tempResult.size();
+            final String separator = ",";
+            final String separatorNewLine = "\r\n";
+            final LinkedList<GPSSatInView> tempResult = getSatsInView();
+            final int numberInSet = tempResult.size();
             for (int iSat = 1; iSat <= numberInSet; iSat++) {
               for (int i = PGPS.FirmwareReferenceOEM16.GPALM_COL.HEADER; i <= PGPS.FirmwareReferenceOEM16.GPALM_COL.CHECKSUM; i++) {
                 if (i == PGPS.FirmwareReferenceOEM16.GPALM_COL.HEADER) {
@@ -3597,8 +3599,8 @@ public class SimulatorNode extends TaskNode
               result.append(separatorNewLine);
             }
           } else if (inputSentence.endsWith("GPGGA")) {
-            SimulatorSpacecraftState simulatorSpacecraftState = getSpacecraftState();
-            String separator = ",";
+            final SimulatorSpacecraftState simulatorSpacecraftState = getSpacecraftState();
+            final String separator = ",";
             for (int i = PGPS.FirmwareReferenceOEM16.GPGGA_COL.HEADER; i <= PGPS.FirmwareReferenceOEM16.GPGGA_COL.CHECKSUM; i++) {
               if (i == PGPS.FirmwareReferenceOEM16.GPGGA_COL.HEADER) {
                 result.append("$GPGGA").append(separator);
@@ -3651,8 +3653,8 @@ public class SimulatorNode extends TaskNode
              * ""+separator+//differential base station ID #13 "*XX"//checksum #14 ;
              */
           } else if (inputSentence.endsWith("GPGGALONG")) {
-            SimulatorSpacecraftState simulatorSpacecraftState = getSpacecraftState();
-            String separator = ",";
+            final SimulatorSpacecraftState simulatorSpacecraftState = getSpacecraftState();
+            final String separator = ",";
             for (int i = PGPS.FirmwareReferenceOEM16.GPGGALONG_COL.HEADER; i <= PGPS.FirmwareReferenceOEM16.GPGGALONG_COL.CHECKSUM; i++) {
               if (i == PGPS.FirmwareReferenceOEM16.GPGGALONG_COL.HEADER) {
                 result.append("$GPGGALONG").append(separator);
@@ -3690,8 +3692,8 @@ public class SimulatorNode extends TaskNode
               }
             }
           } else if (inputSentence.endsWith("GPGGARTK")) {
-            SimulatorSpacecraftState simulatorSpacecraftState = getSpacecraftState();
-            String separator = ",";
+            final SimulatorSpacecraftState simulatorSpacecraftState = getSpacecraftState();
+            final String separator = ",";
             for (int i = PGPS.FirmwareReferenceOEM16.GPGGARTK_COL.HEADER; i <= PGPS.FirmwareReferenceOEM16.GPGGARTK_COL.CHECKSUM; i++) {
               if (i == PGPS.FirmwareReferenceOEM16.GPGGARTK_COL.HEADER) {
                 result.append("$GPGGARTK").append(separator);
@@ -3742,55 +3744,55 @@ public class SimulatorNode extends TaskNode
         }
         case 2003: {// Origin [IGPS] Method [String getBestXYZSentence();//2003//Obtain current
           // position in xyz coordinates]
-          SimulatorSpacecraftState simulatorSpacecraftState = getSpacecraftState();
-          double lat = Math.toRadians(simulatorSpacecraftState.getLatitude());
-          double lon = Math.toRadians(simulatorSpacecraftState.getLongitude());
-          double alt = simulatorSpacecraftState.getAltitude() / 1000.0;
-          double e = Math.sqrt(1.0 - (EARTH_RADIUS_POLAR * EARTH_RADIUS_POLAR)
+          final SimulatorSpacecraftState simulatorSpacecraftState = getSpacecraftState();
+          final double lat = Math.toRadians(simulatorSpacecraftState.getLatitude());
+          final double lon = Math.toRadians(simulatorSpacecraftState.getLongitude());
+          final double alt = simulatorSpacecraftState.getAltitude() / 1000.0;
+          final double e = Math.sqrt(1.0 - (EARTH_RADIUS_POLAR * EARTH_RADIUS_POLAR)
               / (EARTH_RADIUS_EQUATOR * EARTH_RADIUS_EQUATOR));
-          double e_sqr = e * e;
-          double sinLat = Math.sin(lat);
-          double cosLat = Math.cos(lat);
-          double sinLon = Math.sin(lon);
-          double cosLon = Math.cos(lon);
-          double r_n = EARTH_RADIUS_EQUATOR / Math.sqrt(1 - e_sqr * sinLat * sinLat);
-          double x = (r_n + alt) * cosLat * cosLon * 1000; // multiply by thousand to get meters
-          double y = (r_n + alt) * cosLat * sinLon * 1000;
-          double z = ((1 - e_sqr) * r_n + alt) * sinLat * 1000;
-          Vector3D vel = this.orekitCore.getOrbit().getPVCoordinates(this.orekitCore.earthFrameITRF)
+          final double e_sqr = e * e;
+          final double sinLat = Math.sin(lat);
+          final double cosLat = Math.cos(lat);
+          final double sinLon = Math.sin(lon);
+          final double cosLon = Math.cos(lon);
+          final double r_n = EARTH_RADIUS_EQUATOR / Math.sqrt(1 - e_sqr * sinLat * sinLat);
+          final double x = (r_n + alt) * cosLat * cosLon * 1000; // multiply by thousand to get meters
+          final double y = (r_n + alt) * cosLat * sinLon * 1000;
+          final double z = ((1 - e_sqr) * r_n + alt) * sinLat * 1000;
+          final Vector3D vel = this.orekitCore.getOrbit().getPVCoordinates(this.orekitCore.earthFrameITRF)
               .getVelocity();// this.orekitCore.getOrbit().getPVCoordinates().getPosition();
-          double velX = vel.getX();
-          double velY = vel.getY();
-          double velZ = vel.getZ();
-          StringBuilder sb = new StringBuilder(generateOEMHeader("BESTXYZA", "FINESTEERING"));
+          final double velX = vel.getX();
+          final double velY = vel.getY();
+          final double velZ = vel.getZ();
+          final StringBuilder sb = new StringBuilder(generateOEMHeader("BESTXYZA", "FINESTEERING"));
           sb.append("SOL_COMPUTED,NARROW_INT,").append(x).append(",").append(y).append(",");
           sb.append(z).append(",0,0,0,SOL_COMPUTED,NARROW_INT,").append(velX).append(",");
           sb.append(velY).append(",").append(velZ).append(",0,0,0,\"AAAA\",0.250,1.000,0.000,");
-          int satsInView = orekitCore.getSatsNoInView();
+          final int satsInView = orekitCore.getSatsNoInView();
           sb.append(this.orekitCore.getGpsConstellation().size()).append(",").append(satsInView);
           sb.append(",").append(satsInView).append(",").append(satsInView).append(",0,01,0,33*");
-          byte[] currentData = sb.toString().getBytes();
-          Checksum cs = new CRC32();
+          final byte[] currentData = sb.toString().getBytes();
+          final Checksum cs = new CRC32();
           cs.update(currentData, 0, currentData.length);
           sb.append(String.format("%x", cs.getValue()));
           globalResult = sb.toString();
           break;
         }
         case 2004: {// Origin [IGPS] Method [String getTIMEASentence();//2004//Obtain UTC time info]
-          StringBuilder sb = new StringBuilder(generateOEMHeader("TIMEA", "FINESTEERING"));
+          final StringBuilder sb = new StringBuilder(generateOEMHeader("TIMEA", "FINESTEERING"));
           sb.append("VALID,");
           sb.append("0,0,-18.00000000000,");
-          String year = simulatorData.getCurrentYear();
-          String month = simulatorData.getCurrentMonth();
-          String day = simulatorData.getCurrentDay();
-          String hour = simulatorData.getUTCCurrentHour();
-          String minute = simulatorData.getUTCCurrentMinute();
-          String ms = simulatorData.getUTCCurrentSecond() + simulatorData.getUTCCurrentMillis();
+          final String year = simulatorData.getCurrentYear();
+          final String month = simulatorData.getCurrentMonth();
+          final String day = simulatorData.getCurrentDay();
+          final String hour = simulatorData.getUTCCurrentHour();
+          final String minute = simulatorData.getUTCCurrentMinute();
+          final String ms = simulatorData.getUTCCurrentSecond() + simulatorData.getUTCCurrentMillis();
           sb.append(year).append(",").append(month).append(",");
           sb.append(day).append(",").append(hour).append(",").append(minute).append(",");
           sb.append(ms).append(",VALID*");
-          byte[] currentData = sb.toString().getBytes();
-          Checksum cs = new CRC32();
+          final byte[] currentData = sb.toString().getBytes();
+          final Checksum cs = new CRC32();
           cs.update(currentData, 0, currentData.length);
           sb.append(String.format("%x", cs.getValue()));
           globalResult = sb.toString();
@@ -3799,8 +3801,8 @@ public class SimulatorNode extends TaskNode
         case 3001: {// Origin [ICamera] Method [byte[] takePicture(int width,int
           // height);//3001//High level command: file written to filesystem to request
           // camera take a picture]
-          int width = (Integer) argObject.get(0);
-          int height = (Integer) argObject.get(1);
+          final int width = (Integer) argObject.get(0);
+          final int height = (Integer) argObject.get(1);
           final int maxSize = CAMERA_MAX_SIZE;
           int size = width * height * 2;// [bytes]
           size = (size > maxSize ? maxSize : size);
@@ -3814,7 +3816,7 @@ public class SimulatorNode extends TaskNode
         case 3002: {// Origin [ICamera] Method [void simPreloadPicture(String
           // fileName);//3002//Simulator helper command: preload into memory a raw camera
           // picture]
-          String fileName = (String) argObject.get(0);
+          final String fileName = (String) argObject.get(0);
           if (!this.cameraBuffer.loadFromPath(fileName)) {
             throw new IOException();
           }
@@ -3822,7 +3824,7 @@ public class SimulatorNode extends TaskNode
         }
         case 6002: {// Origin [ISDR] Method [void simPreloadFile(String fileName);//6002//Simulator
           // helper command: preload into memory a raw data file]
-          String fileName = (String) argObject.get(0);
+          final String fileName = (String) argObject.get(0);
           if (!this.sdrBuffer.loadFromPath(fileName)) {
             throw new IOException();
           }
@@ -3830,41 +3832,41 @@ public class SimulatorNode extends TaskNode
         }
         case 6003: {// Origin [ISDR] Method [double[] readFromBuffer(int numberSamples);//6003//Read
           // samples from operating buffer]
-          int numberSamples = (Integer) argObject.get(0);
+          final int numberSamples = (Integer) argObject.get(0);
           globalResult = this.sdrBuffer.getDataAsDoubleArray(numberSamples * 2);
           break;
         }
         case 7001: {// Origin [IOpticalReceiver] Method [byte[] runRawCommand(int cmdID,byte[]
           // data);//701//Low level command to interact with OpticalReceiver.]
-          int cmdID = (Integer) argObject.get(0);
-          byte[] data = (byte[]) argObject.get(1);
+          final int cmdID = (Integer) argObject.get(0);
+          final byte[] data = (byte[]) argObject.get(1);
           globalResult = new byte[0];
           break;
         }
         case 7002: {// Origin [IOpticalReceiver] Method [void simSetMessageBuffer(byte[]
           // buffer);//702//Simulator method only: sets the operating buffer of the
           // optical receiver.]
-          byte[] buffer = (byte[]) argObject.get(0);
+          final byte[] buffer = (byte[]) argObject.get(0);
           this.opticalReceiverModel.setOperatingBuffer(buffer);
           break;
         }
         case 7003: {// Origin [IOpticalReceiver] Method [void simSetDegradationRate(int
           // degradationRate);//703//Simulator method only: sets the chance a bit from the
           // operating buffer will be flipped upon read.]
-          int degradationRate = (Integer) argObject.get(0);
+          final int degradationRate = (Integer) argObject.get(0);
           this.opticalReceiverModel.setSuccessRate(degradationRate);
           break;
         }
         case 7004: {// Origin [IOpticalReceiver] Method [byte[] readFromMessageBuffer(int
           // bytesNo);//704//Read bytesNo from operating buffer]
-          int bytesNo = (Integer) argObject.get(0);
+          final int bytesNo = (Integer) argObject.get(0);
           globalResult = this.opticalReceiverModel.getBytesFromBuffer(bytesNo);
           break;
         }
         case 7005: {// Origin [IOpticalReceiver] Method [void simPreloadFile(String
           // fileName);//7005//Simulator helper command: preload into memory a raw data
           // file]
-          String fileName = (String) argObject.get(0);
+          final String fileName = (String) argObject.get(0);
           if (!this.opticalReceiverModel.getSingleStreamOperatingBuffer().loadFromPath(fileName)) {
             throw new IOException();
           }
@@ -3875,8 +3877,8 @@ public class SimulatorNode extends TaskNode
           globalResult = "CommandID [" + c.getInternalID() + "] unknown";
           commandResult.setCommandFailed(true);
       }
-    } catch (Exception e) {
-      String errorString = e.toString();
+    } catch (final Exception e) {
+      final String errorString = e.toString();
       commandResult.setOutput(errorString);
       commandResult.setCommandFailed(true);
     }
@@ -3894,11 +3896,11 @@ public class SimulatorNode extends TaskNode
    * @param timeStatus Quality of reference time (e.g. SATTIME)
    * @return An ASCII message header.
    */
-  public String generateOEMHeader(String msgType, String timeStatus)
+  public String generateOEMHeader(final String msgType, final String timeStatus)
   {
-    StringBuilder sb = new StringBuilder("#");
-    long gpsTime = simulatorData.getCurrentTime().getTime() - simulatorData.getUtcOffsetInMillis();
-    Calendar fdow = Calendar.getInstance();
+    final StringBuilder sb = new StringBuilder("#");
+    final long gpsTime = simulatorData.getCurrentTime().getTime() - simulatorData.getUtcOffsetInMillis();
+    final Calendar fdow = Calendar.getInstance();
     fdow.setTimeInMillis(gpsTime);
     fdow.set(Calendar.HOUR_OF_DAY, 0);
     fdow.clear(Calendar.MINUTE);
@@ -3906,20 +3908,20 @@ public class SimulatorNode extends TaskNode
     fdow.clear(Calendar.MILLISECOND);
     fdow.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 
-    Calendar current = Calendar.getInstance();
+    final Calendar current = Calendar.getInstance();
     current.setTimeInMillis(gpsTime);
 
-    Calendar base = new GregorianCalendar(1980, 1, 5);
-    Instant d1i = Instant.ofEpochMilli(base.getTimeInMillis());
-    Instant d2i = Instant.ofEpochMilli(current.getTimeInMillis());
+    final Calendar base = new GregorianCalendar(1980, 1, 5);
+    final Instant d1i = Instant.ofEpochMilli(base.getTimeInMillis());
+    final Instant d2i = Instant.ofEpochMilli(current.getTimeInMillis());
 
-    LocalDateTime startDate = LocalDateTime.ofInstant(d1i, ZoneId.systemDefault());
-    LocalDateTime endDate = LocalDateTime.ofInstant(d2i, ZoneId.systemDefault());
+    final LocalDateTime startDate = LocalDateTime.ofInstant(d1i, ZoneId.systemDefault());
+    final LocalDateTime endDate = LocalDateTime.ofInstant(d2i, ZoneId.systemDefault());
 
-    long weeks = ChronoUnit.WEEKS.between(startDate, endDate);
-    long seconds = current.getTimeInMillis() / 1000 - fdow.getTimeInMillis() / 1000;
-    DateFormat df = new SimpleDateFormat("SSS");
-    String millis = df.format(current.getTime());
+    final long weeks = ChronoUnit.WEEKS.between(startDate, endDate);
+    final long seconds = current.getTimeInMillis() / 1000 - fdow.getTimeInMillis() / 1000;
+    final DateFormat df = new SimpleDateFormat("SSS");
+    final String millis = df.format(current.getTime());
 
     sb.append(msgType).append(",COM1,").append("0,").append(35.0).append(",").append(timeStatus);
     sb.append(",").append(weeks).append(",").append(seconds).append(".").append(millis).append(

@@ -38,8 +38,8 @@ public class MyFormatter extends Formatter {
     //
     private static final DateFormat df = new SimpleDateFormat("yyyy:MM:dd;hh:mm:ss.SSS");
 
-    public String format(LogRecord record) {
-        StringBuilder builder = new StringBuilder(1000);
+    public String format(final LogRecord record) {
+        final StringBuilder builder = new StringBuilder(1000);
         builder.append(df.format(new Date(record.getMillis()))).append(";");
         builder.append(record.getMillis()).append(";");
         builder.append(record.getSourceClassName()).append(";");
@@ -50,11 +50,11 @@ public class MyFormatter extends Formatter {
         return builder.toString();
     }
 
-    public String getHead(Handler h) {
+    public String getHead(final Handler h) {
         return super.getHead(h);
     }
 
-    public String getTail(Handler h) {
+    public String getTail(final Handler h) {
         return super.getTail(h);
     }
 }

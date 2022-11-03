@@ -33,7 +33,7 @@ public class GPSSatellite {
     TLEPropagator propagator;
     private SpacecraftState state;
 
-    public GPSSatellite(String name, TLEPropagator propagator) {
+    public GPSSatellite(final String name, final TLEPropagator propagator) {
         this.name = name;
         this.propagator = propagator;
     }
@@ -42,7 +42,7 @@ public class GPSSatellite {
         return state;
     }
     
-    public void setState(SpacecraftState state) {
+    public void setState(final SpacecraftState state) {
         this.state = state;
     }
     

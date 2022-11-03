@@ -17,7 +17,7 @@ private final TransactionsProcessor transactionsProcessor;
     private final Integer domainId;
     private final Integer objTypeId;
 
-    CallableGetAllCOMObjectIds(TransactionsProcessor transactionsProcessor, Integer domainId, Integer objTypeId) {
+    CallableGetAllCOMObjectIds(final TransactionsProcessor transactionsProcessor, final Integer domainId, final Integer objTypeId) {
         this.transactionsProcessor = transactionsProcessor;
         this.domainId = domainId;
         this.objTypeId = objTypeId;
@@ -27,22 +27,22 @@ private final TransactionsProcessor transactionsProcessor;
     public LongList call() {
         try {
             this.transactionsProcessor.dbBackend.getAvailability().acquire();
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             TransactionsProcessor.LOGGER.log(Level.SEVERE, null, ex);
         }
 
-        LongList objIds = new LongList();
+        final LongList objIds = new LongList();
 
         try {
-            PreparedStatement stmt = this.transactionsProcessor.dbBackend.getPreparedStatements().getSelectAllCOMObjects();
+            final PreparedStatement stmt = this.transactionsProcessor.dbBackend.getPreparedStatements().getSelectAllCOMObjects();
             stmt.setInt(1, objTypeId);
             stmt.setInt(2, domainId);
-            ResultSet rs = stmt.executeQuery();
+            final ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
                 objIds.add(TransactionsProcessor.convert2Long(rs.getObject(1)));
             }
-        } catch (SQLException ex) {
+        } catch (final SQLException ex) {
             TransactionsProcessor.LOGGER.log(Level.SEVERE, null, ex);
         }
 

@@ -254,9 +254,9 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
     IDLE, BDOT, SUNPOINTING, SINGLESPINNING, TARGETTRACKING, NADIRPOINTING, VECTORPOINTING
   }
 
-  private UOctet attitudeModeToParamValue(AttitudeMode attitude)
+  private UOctet attitudeModeToParamValue(final AttitudeMode attitude)
   {
-    AttitudeModeEnum modeEnum;
+    final AttitudeModeEnum modeEnum;
     if (attitude == null) {
       modeEnum = AttitudeModeEnum.IDLE;
     } else if (attitude instanceof AttitudeModeBDot) {
@@ -278,7 +278,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
   }
 
   @Override
-  public void initialRegistrations(MCRegistration registration)
+  public void initialRegistrations(final MCRegistration registration)
   {
     // call super for annotations to work!
     super.initialRegistrations(registration);
@@ -287,13 +287,13 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
     registerParameters(registration);
   }
 
-  private void registerParameters(MCRegistration registration) throws IllegalArgumentException
+  private void registerParameters(final MCRegistration registration) throws IllegalArgumentException
   {
-    ParameterConversion paramConversion = registerAdcsModeConversion(registration);
+    final ParameterConversion paramConversion = registerAdcsModeConversion(registration);
 
     // ------------------ Parameters ------------------
-    ParameterDefinitionDetailsList defsOther = new ParameterDefinitionDetailsList();
-    IdentifierList paramOtherNames = new IdentifierList();
+    final ParameterDefinitionDetailsList defsOther = new ParameterDefinitionDetailsList();
+    final IdentifierList paramOtherNames = new IdentifierList();
 
     defsOther.add(new ParameterDefinitionDetails(
         "The ADCS mode of operation",
@@ -309,10 +309,10 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
     registration.registerParameters(paramOtherNames, defsOther);
   }
 
-  private ParameterConversion registerAdcsModeConversion(MCRegistration registration) throws
+  private ParameterConversion registerAdcsModeConversion(final MCRegistration registration) throws
       IllegalArgumentException
   {
-    PairList mappings = new PairList();
+    final PairList mappings = new PairList();
     mappings.add(new Pair(new UOctet((short) AttitudeModeEnum.IDLE.ordinal()), new Union("IDLE")));
     mappings.add(new Pair(new UOctet((short) AttitudeModeEnum.BDOT.ordinal()), new Union("BDOT")));
     mappings.add(new Pair(new UOctet((short) AttitudeModeEnum.SUNPOINTING.ordinal()), new Union(
@@ -325,27 +325,27 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
         "NADIRPOINTING")));
     mappings.add(new Pair(new UOctet((short) AttitudeModeEnum.VECTORPOINTING.ordinal()), new Union(
         "VECTORPOINTING")));
-    DiscreteConversionDetailsList conversions = new DiscreteConversionDetailsList();
+    final DiscreteConversionDetailsList conversions = new DiscreteConversionDetailsList();
     conversions.add(new DiscreteConversionDetails(mappings));
     ParameterConversion paramConversion = null;
     try {
-      ObjectIdList objIds = registration.registerConversions(conversions);
+      final ObjectIdList objIds = registration.registerConversions(conversions);
 
       if (objIds.size() == 1) {
-        ObjectId objId = objIds.get(0);
-        ParameterExpression paramExpr = null;
+        final ObjectId objId = objIds.get(0);
+        final ParameterExpression paramExpr = null;
 
-        ConditionalConversion condition = new ConditionalConversion(paramExpr, objId.getKey());
-        ConditionalConversionList conditionalConversions = new ConditionalConversionList();
+        final ConditionalConversion condition = new ConditionalConversion(paramExpr, objId.getKey());
+        final ConditionalConversionList conditionalConversions = new ConditionalConversionList();
         conditionalConversions.add(condition);
 
-        Byte convertedType = Attribute.STRING_TYPE_SHORT_FORM.byteValue();
-        String convertedUnit = "n/a";
+        final Byte convertedType = Attribute.STRING_TYPE_SHORT_FORM.byteValue();
+        final String convertedUnit = "n/a";
 
         paramConversion = new ParameterConversion(convertedType, convertedUnit,
             conditionalConversions);
       }
-    } catch (NMFException | MALException | MALInteractionException ex) {
+    } catch (final NMFException | MALException | MALInteractionException ex) {
       LOGGER.log(Level.SEVERE,
           "Failed to register conversion.", ex);
     }
@@ -359,23 +359,23 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
     class GPSAdapterImpl extends GPSAdapter
     {
       @Override
-      public void getSatellitesInfoResponseReceived(MALMessageHeader msgHeader,
-          SatelliteInfoList gpsSatellitesInfo, java.util.Map qosProperties)
+      public void getSatellitesInfoResponseReceived(final MALMessageHeader msgHeader,
+                                                    final SatelliteInfoList gpsSatellitesInfo, final java.util.Map qosProperties)
       {
         GPS_NumberOfSatellitesInView = gpsSatellitesInfo.size();
         sem.release();
       }
 
       @Override
-      public void getSatellitesInfoAckErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-          org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties)
+      public void getSatellitesInfoAckErrorReceived(final org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+                                                    final org.ccsds.moims.mo.mal.MALStandardError error, final java.util.Map qosProperties)
       {
         sem.release();
       }
 
       @Override
-      public void getSatellitesInfoResponseErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-          org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties)
+      public void getSatellitesInfoResponseErrorReceived(final org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+                                                         final org.ccsds.moims.mo.mal.MALStandardError error, final java.util.Map qosProperties)
       {
         sem.release();
       }
@@ -383,14 +383,14 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
 
     try {
       nmf.getPlatformServices().getGPSService().getSatellitesInfo(new GPSAdapterImpl());
-    } catch (IOException | MALInteractionException | MALException | NMFException ex) {
+    } catch (final IOException | MALInteractionException | MALException | NMFException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
       GPS_NumberOfSatellitesInView = null;
     }
 
     try {
       sem.acquire();
-    } catch (InterruptedException ex) {
+    } catch (final InterruptedException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
     }
   }
@@ -400,7 +400,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
     try {
       GPS_Latitude =
           nmf.getPlatformServices().getGPSService().getLastKnownPosition().getBodyElement0().getLatitude();
-    } catch (NMFException | IOException | MALInteractionException | MALException ex) {
+    } catch (final NMFException | IOException | MALInteractionException | MALException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
       GPS_Latitude = null;
     }
@@ -411,7 +411,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
     try {
       GPS_Longitude =
           nmf.getPlatformServices().getGPSService().getLastKnownPosition().getBodyElement0().getLongitude();
-    } catch (NMFException | IOException | MALInteractionException | MALException ex) {
+    } catch (final NMFException | IOException | MALInteractionException | MALException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
       GPS_Longitude = null;
     }
@@ -425,8 +425,8 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
       class AdapterImpl extends GPSAdapter {
 
         @Override
-        public void getPositionResponseReceived(MALMessageHeader msgHeader, Position position,
-                Map qosProperties) {
+        public void getPositionResponseReceived(final MALMessageHeader msgHeader, final Position position,
+                                                final Map qosProperties) {
                   pos.add(position);
                   sem.release();
         }
@@ -435,7 +435,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
 
         sem.acquire();
         GPS_Altitude = pos.get(0).getAltitude();
-    } catch (NMFException | IOException | MALInteractionException | MALException | InterruptedException ex){
+    } catch (final NMFException | IOException | MALInteractionException | MALException | InterruptedException ex){
       LOGGER.log(Level.SEVERE, null, ex);
       GPS_Altitude = null;
     }
@@ -447,7 +447,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
     try {
       GPS_ElapsedTime =
           nmf.getPlatformServices().getGPSService().getLastKnownPosition().getBodyElement1();
-    } catch (NMFException | IOException | MALInteractionException | MALException ex) {
+    } catch (final NMFException | IOException | MALInteractionException | MALException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
       GPS_ElapsedTime = null;
     }
@@ -458,7 +458,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
     try {
       MagneticField_X =
           nmf.getPlatformServices().getAutonomousADCSService().getStatus().getBodyElement0().getMagneticField().getX();
-    } catch (NMFException | IOException | MALInteractionException | MALException ex) {
+    } catch (final NMFException | IOException | MALInteractionException | MALException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
       MagneticField_X = null;
     }
@@ -469,7 +469,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
     try {
       MagneticField_Y =
           nmf.getPlatformServices().getAutonomousADCSService().getStatus().getBodyElement0().getMagneticField().getY();
-    } catch (NMFException | IOException | MALInteractionException | MALException ex) {
+    } catch (final NMFException | IOException | MALInteractionException | MALException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
       MagneticField_Y = null;
     }
@@ -480,7 +480,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
     try {
       MagneticField_Z =
           nmf.getPlatformServices().getAutonomousADCSService().getStatus().getBodyElement0().getMagneticField().getZ();
-    } catch (NMFException | IOException | MALInteractionException | MALException ex) {
+    } catch (final NMFException | IOException | MALInteractionException | MALException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
       MagneticField_Z = null;
     }
@@ -496,10 +496,10 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
 
   @Action(description = "Changes the spacecraft's attitude to sun pointing mode.")
   public UInteger adcs_SunPointingMode(
-      Long actionInstanceObjId,
-      boolean reportProgress,
-      MALInteraction interaction,
-      @ActionParameter(name = "Hold Duration", rawUnit = "seconds") Duration holdDuration)
+          final Long actionInstanceObjId,
+          final boolean reportProgress,
+          final MALInteraction interaction,
+          @ActionParameter(name = "Hold Duration", rawUnit = "seconds") final Duration holdDuration)
   {
     return actionsHandler.executeAdcsModeAction(holdDuration,
         new AttitudeModeSunPointing(), this);
@@ -507,10 +507,10 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
 
   @Action(description = "Changes the spacecraft's attitude to nadir pointing mode.")
   public UInteger adcs_NadirPointingMode(
-      Long actionInstanceObjId,
-      boolean reportProgress,
-      MALInteraction interaction,
-      @ActionParameter(name = "Hold Duration", rawUnit = "seconds") Duration holdDuration)
+          final Long actionInstanceObjId,
+          final boolean reportProgress,
+          final MALInteraction interaction,
+          @ActionParameter(name = "Hold Duration", rawUnit = "seconds") final Duration holdDuration)
   {
     return actionsHandler.executeAdcsModeAction(holdDuration,
         new AttitudeModeNadirPointing(), this);
@@ -518,14 +518,14 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
 
   @Action(description = "Changes the spacecraft's attitude to vector pointing mode.")
   public UInteger adcs_VectorPointingMode(
-      Long actionInstanceObjId,
-      boolean reportProgress,
-      MALInteraction interaction,
-      @ActionParameter(name = "Hold Duration", rawUnit = "seconds") Duration holdDuration,
-      @ActionParameter(name = "X", rawUnit = "degree") float x,
-      @ActionParameter(name = "Y", rawUnit = "degree") float y,
-      @ActionParameter(name = "Z", rawUnit = "degree") float z,
-      @ActionParameter(name = "margin", rawUnit = "degree") float margin)
+          final Long actionInstanceObjId,
+          final boolean reportProgress,
+          final MALInteraction interaction,
+          @ActionParameter(name = "Hold Duration", rawUnit = "seconds") final Duration holdDuration,
+          @ActionParameter(name = "X", rawUnit = "degree") final float x,
+          @ActionParameter(name = "Y", rawUnit = "degree") final float y,
+          @ActionParameter(name = "Z", rawUnit = "degree") final float z,
+          @ActionParameter(name = "margin", rawUnit = "degree") final float margin)
   {
     return actionsHandler.executeAdcsModeAction(holdDuration,
         new AttitudeModeVectorPointing(new VectorF3D(x, y, z), margin), this);
@@ -533,20 +533,20 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
 
   @Action(description = "Changes the spacecraft's attitude to inertial pointing mode")
   public UInteger adcs_InertialPointingMode(
-      Long actionInstanceObjId,
-      boolean reportProgress,
-      MALInteraction interaction,
-      @ActionParameter(name = "Hold Duration", rawUnit = "seconds") Duration holdDuration,
-      @ActionParameter(name = "losX", rawUnit = "degree") float losx,
-      @ActionParameter(name = "losY", rawUnit = "degree") float losy,
-      @ActionParameter(name = "losZ", rawUnit = "degree") float losz,
-      @ActionParameter(name = "flightX", rawUnit = "degree") float flightx,
-      @ActionParameter(name = "flightY", rawUnit = "degree") float flighty,
-      @ActionParameter(name = "flightZ", rawUnit = "degree") float flightz,
-      @ActionParameter(name = "quatA", rawUnit = "") float quatA,
-      @ActionParameter(name = "quatB", rawUnit = "") float quatB,
-      @ActionParameter(name = "quatC", rawUnit = "") float quatC,
-      @ActionParameter(name = "quatD", rawUnit = "") float quatD)
+          final Long actionInstanceObjId,
+          final boolean reportProgress,
+          final MALInteraction interaction,
+          @ActionParameter(name = "Hold Duration", rawUnit = "seconds") final Duration holdDuration,
+          @ActionParameter(name = "losX", rawUnit = "degree") final float losx,
+          @ActionParameter(name = "losY", rawUnit = "degree") final float losy,
+          @ActionParameter(name = "losZ", rawUnit = "degree") final float losz,
+          @ActionParameter(name = "flightX", rawUnit = "degree") final float flightx,
+          @ActionParameter(name = "flightY", rawUnit = "degree") final float flighty,
+          @ActionParameter(name = "flightZ", rawUnit = "degree") final float flightz,
+          @ActionParameter(name = "quatA", rawUnit = "") final float quatA,
+          @ActionParameter(name = "quatB", rawUnit = "") final float quatB,
+          @ActionParameter(name = "quatC", rawUnit = "") final float quatC,
+          @ActionParameter(name = "quatD", rawUnit = "") final float quatD)
   {
     return actionsHandler.executeAdcsModeAction(holdDuration,
         new AttitudeModeInertialPointing(
@@ -557,9 +557,9 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
 
   @Action(description = "Unsets the spacecraft's attitude.")
   public UInteger adcs_UnsetAttitude(
-      Long actionInstanceObjId,
-      boolean reportProgress,
-      MALInteraction interaction)
+          final Long actionInstanceObjId,
+          final boolean reportProgress,
+          final MALInteraction interaction)
   {
     return actionsHandler.executeAdcsModeAction(null, null, this);
   }
@@ -567,10 +567,10 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
   
   @Action(description = "Schedule JPG picture acquisition.")
   public UInteger scheduleTakePictureJPG(
-      Long actionInstanceObjId,
-      boolean reportProgress,
-      MALInteraction interaction,
-      @ActionParameter(name = "Execution delay") Duration acquisitionDelay)
+          final Long actionInstanceObjId,
+          final boolean reportProgress,
+          final MALInteraction interaction,
+          @ActionParameter(name = "Execution delay") final Duration acquisitionDelay)
   {
     return actionsHandler
         .scheduleTakePicture(actionInstanceObjId, reportProgress, interaction, acquisitionDelay, PictureFormat.JPG, false);
@@ -578,10 +578,10 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
 
   @Action(description = "Schedule JPG picture acquisition.")
   public UInteger scheduleTakePictureAutoExposedJPG(
-      Long actionInstanceObjId,
-      boolean reportProgress,
-      MALInteraction interaction,
-      @ActionParameter(name = "Execution delay") Duration acquisitionDelay)
+          final Long actionInstanceObjId,
+          final boolean reportProgress,
+          final MALInteraction interaction,
+          @ActionParameter(name = "Execution delay") final Duration acquisitionDelay)
   {
     return actionsHandler
         .scheduleTakePicture(actionInstanceObjId, reportProgress, interaction, acquisitionDelay, PictureFormat.JPG, true);
@@ -590,9 +590,9 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
   @Action(description = "Uses the NMF Camera service to take a picture in RAW format.",
       stepCount = PayloadsTestActionsHandler.TOTAL_STAGES)
   public UInteger takePicture_RAW(
-      Long actionInstanceObjId,
-      boolean reportProgress,
-      MALInteraction interaction)
+          final Long actionInstanceObjId,
+          final boolean reportProgress,
+          final MALInteraction interaction)
   {
     return actionsHandler
         .takePicture(actionInstanceObjId, reportProgress, interaction, PictureFormat.RAW);
@@ -601,9 +601,9 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
   @Action(description = "Uses the NMF Camera service to take a picture in JPG format.",
       stepCount = PayloadsTestActionsHandler.TOTAL_STAGES)
   public UInteger takePicture_JPG(
-      Long actionInstanceObjId,
-      boolean reportProgress,
-      MALInteraction interaction)
+          final Long actionInstanceObjId,
+          final boolean reportProgress,
+          final MALInteraction interaction)
   {
     return actionsHandler
         .takePicture(actionInstanceObjId, reportProgress, interaction, PictureFormat.JPG);
@@ -612,9 +612,9 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
   @Action(description = "Uses the NMF Camera service to take a picture in BMP format.",
       stepCount = PayloadsTestActionsHandler.TOTAL_STAGES)
   public UInteger takePicture_BMP(
-      Long actionInstanceObjId,
-      boolean reportProgress,
-      MALInteraction interaction)
+          final Long actionInstanceObjId,
+          final boolean reportProgress,
+          final MALInteraction interaction)
   {
     return actionsHandler
         .takePicture(actionInstanceObjId, reportProgress, interaction, PictureFormat.BMP);
@@ -623,9 +623,9 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
   @Action(description = "Uses the NMF Camera service to take an auto exposed picture in RAW format.",
       stepCount = PayloadsTestActionsHandler.TOTAL_STAGES)
   public UInteger takeAutoExposedPicture_RAW(
-      Long actionInstanceObjId,
-      boolean reportProgress,
-      MALInteraction interaction)
+          final Long actionInstanceObjId,
+          final boolean reportProgress,
+          final MALInteraction interaction)
   {
     return actionsHandler
         .takeAutoExposedPicture(actionInstanceObjId, reportProgress, interaction, PictureFormat.RAW);
@@ -634,9 +634,9 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
   @Action(description = "Uses the NMF Camera service to take an auto exposed picture in JPG format.",
       stepCount = PayloadsTestActionsHandler.TOTAL_STAGES)
   public UInteger takeAutoExposedPicture_JPG(
-      Long actionInstanceObjId,
-      boolean reportProgress,
-      MALInteraction interaction)
+          final Long actionInstanceObjId,
+          final boolean reportProgress,
+          final MALInteraction interaction)
   {
     return actionsHandler
         .takeAutoExposedPicture(actionInstanceObjId, reportProgress, interaction, PictureFormat.JPG);
@@ -646,9 +646,9 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
   @Action(description = "Uses the NMF Camera service to take an auto exposed picture in BMP format.",
       stepCount = PayloadsTestActionsHandler.TOTAL_STAGES)
   public UInteger takeAutoExposedPicture_BMP(
-      Long actionInstanceObjId,
-      boolean reportProgress,
-      MALInteraction interaction)
+          final Long actionInstanceObjId,
+          final boolean reportProgress,
+          final MALInteraction interaction)
   {
     return actionsHandler
         .takeAutoExposedPicture(actionInstanceObjId, reportProgress, interaction, PictureFormat.BMP);
@@ -656,10 +656,10 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
 
   @Action(description = "Use NMF PowerControl to switch a device On.")
   public UInteger powerOnDevice(
-      Long actionInstanceObjId,
-      boolean reportProgress,
-      MALInteraction interaction,
-      @ActionParameter(name = "DeviceType") UInteger deviceType)
+          final Long actionInstanceObjId,
+          final boolean reportProgress,
+          final MALInteraction interaction,
+          @ActionParameter(name = "DeviceType") final UInteger deviceType)
   {
     return actionsHandler
         .setDeviceState(actionInstanceObjId, reportProgress, interaction, deviceType, true);
@@ -667,10 +667,10 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
 
   @Action(description = "Use NMF PowerControl to switch a device Off.")
   public UInteger powerOffDevice(
-      Long actionInstanceObjId,
-      boolean reportProgress,
-      MALInteraction interaction,
-      @ActionParameter(name = "DeviceType") UInteger deviceType)
+          final Long actionInstanceObjId,
+          final boolean reportProgress,
+          final MALInteraction interaction,
+          @ActionParameter(name = "DeviceType") final UInteger deviceType)
   {
     return actionsHandler
         .setDeviceState(actionInstanceObjId, reportProgress, interaction, deviceType, false);
@@ -678,15 +678,15 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
 
   @Action(description = "Record Optical RX samples.")
   public UInteger recordOptRXData(
-      Long actionInstanceObjId,
-      boolean reportProgress,
-      MALInteraction interaction)
+          final Long actionInstanceObjId,
+          final boolean reportProgress,
+          final MALInteraction interaction)
   {
     try {
       nmf.getPlatformServices().getOpticalDataReceiverService().recordSamples(
           new Duration(5), new PayloadsTestOpticalDataHandler());
       return null; // Success!
-    } catch (MALInteractionException | MALException | IOException | NMFException ex) {
+    } catch (final MALInteractionException | MALException | IOException | NMFException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
       return new UInteger(1);
     }
@@ -694,9 +694,9 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
 
   @Action(description = "Record SDR samples.")
   public UInteger recordSDRData(
-      Long actionInstanceObjId,
-      boolean reportProgress,
-      MALInteraction interaction)
+          final Long actionInstanceObjId,
+          final boolean reportProgress,
+          final MALInteraction interaction)
   {
     return actionsHandler.recordSDRData(actionInstanceObjId, reportProgress, interaction);
   }
@@ -713,7 +713,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
       );
       nmf.getPlatformServices().getAutonomousADCSService().enableMonitoring(true,
           ATTITUDE_MONITORING_INTERVAL);
-    } catch (IOException | MALInteractionException | MALException | NMFException ex) {
+    } catch (final IOException | MALInteractionException | MALException | NMFException ex) {
       LOGGER.log(Level.SEVERE, "Error when setting up attitude monitoring.", ex);
     }
   }
@@ -722,21 +722,21 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
   {
     @Override
     public void monitorAttitudeNotifyReceived(
-        final MALMessageHeader msgHeader,
-        final Identifier lIdentifier, final UpdateHeaderList lUpdateHeaderList,
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetryList attitudeTelemetryList,
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.ActuatorsTelemetryList actuatorsTelemetryList,
-        org.ccsds.moims.mo.mal.structures.DurationList controlDurationList,
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeList attitudeModeList,
-        final Map qosp)
+            final MALMessageHeader msgHeader,
+            final Identifier lIdentifier, final UpdateHeaderList lUpdateHeaderList,
+            final org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetryList attitudeTelemetryList,
+            final org.ccsds.moims.mo.platform.autonomousadcs.structures.ActuatorsTelemetryList actuatorsTelemetryList,
+            final org.ccsds.moims.mo.mal.structures.DurationList controlDurationList,
+            final org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeModeList attitudeModeList,
+            final Map qosp)
     {
       LOGGER.log(Level.FINE, "Received monitorAttitude notify");
-      for (AttitudeTelemetry attitudeTm : attitudeTelemetryList) {
+      for (final AttitudeTelemetry attitudeTm : attitudeTelemetryList) {
         try {
-          VectorF3D sunVector = attitudeTm.getSunVector();
-          VectorF3D magneticField = attitudeTm.getMagneticField();
-          VectorF3D angularVelocity = attitudeTm.getAngularVelocity();
-          Quaternion attitude = attitudeTm.getAttitude();
+          final VectorF3D sunVector = attitudeTm.getSunVector();
+          final VectorF3D magneticField = attitudeTm.getMagneticField();
+          final VectorF3D angularVelocity = attitudeTm.getAngularVelocity();
+          final Quaternion attitude = attitudeTm.getAttitude();
           //attMode = AttitudeMode.NADIRPOINTING;
           nmf.pushParameterValue(PARAMETER_SUN_VECTOR_X, sunVector.getX());
           nmf.pushParameterValue(PARAMETER_SUN_VECTOR_Y, sunVector.getY());
@@ -754,43 +754,43 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter
           nmf.pushParameterValue(PARAMETER_ATTITUDE_Q_B, attitude.getB());
           nmf.pushParameterValue(PARAMETER_ATTITUDE_Q_C, attitude.getC());
           nmf.pushParameterValue(PARAMETER_ATTITUDE_Q_D, attitude.getD());
-        } catch (NMFException ex) {
+        } catch (final NMFException ex) {
           LOGGER.log(Level.SEVERE, "Error when propagating Sensors TM", ex);
         }
       }
-      for (ActuatorsTelemetry actuatorsTm : actuatorsTelemetryList) {
+      for (final ActuatorsTelemetry actuatorsTm : actuatorsTelemetryList) {
         try {
-          VectorF3D mtqDipoleMoment = actuatorsTm.getMtqDipoleMoment();
+          final VectorF3D mtqDipoleMoment = actuatorsTm.getMtqDipoleMoment();
           nmf.pushParameterValue(PARAMETER_MTQ_X, mtqDipoleMoment.getX());
           nmf.pushParameterValue(PARAMETER_MTQ_Y, mtqDipoleMoment.getY());
           nmf.pushParameterValue(PARAMETER_MTQ_Z, mtqDipoleMoment.getZ());
-        } catch (NMFException ex) {
+        } catch (final NMFException ex) {
           LOGGER.log(Level.SEVERE, "Error when propagating Actuators TM", ex);
         }
       }
-      for (Object activeAttitudeMode : attitudeModeList) {
+      for (final Object activeAttitudeMode : attitudeModeList) {
         try {
           nmf.pushParameterValue(PARAMETER_ADCS_MODE, attitudeModeToParamValue(
               (AttitudeMode) activeAttitudeMode));
-        } catch (NMFException ex) {
+        } catch (final NMFException ex) {
           LOGGER.log(Level.SEVERE, "Error when propagating active ADCS mode", ex);
         }
       }
-      for (Duration remainingDuration : controlDurationList) {
+      for (final Duration remainingDuration : controlDurationList) {
         try {
           if (remainingDuration != null) {
             nmf.pushParameterValue(PARAMETER_ADCS_DURATION, remainingDuration);
           } else {
             nmf.pushParameterValue(PARAMETER_ADCS_DURATION, new Duration(0));
           }
-        } catch (NMFException ex) {
+        } catch (final NMFException ex) {
           LOGGER.log(Level.SEVERE, "Error when propagating active ADCS mode duration", ex);
         }
       }
     }
   }
 
-  public void setSimpleCommandingInterface(SimpleCommandingInterface arg)
+  public void setSimpleCommandingInterface(final SimpleCommandingInterface arg)
   {
     simpleCommandingInterface = arg;
   }

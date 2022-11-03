@@ -48,7 +48,7 @@ public interface ParameterStatusListener
    * @throws java.io.IOException if the parameter value could not be acquired
    */
   @Deprecated
-  default Attribute onGetValue(Identifier identifier, Byte rawType) throws IOException
+  default Attribute onGetValue(final Identifier identifier, final Byte rawType) throws IOException
   {
     throw new UnsupportedOperationException("Not supported yet.");
   }
@@ -64,7 +64,7 @@ public interface ParameterStatusListener
    * @return The value of the parameter that was requested
    * @throws java.io.IOException if the parameter value could not be acquired
    */
-  default Attribute onGetValue(Long parameterID) throws IOException
+  default Attribute onGetValue(final Long parameterID) throws IOException
   {
     throw new UnsupportedOperationException("Not supported yet.");
   }
@@ -78,7 +78,7 @@ public interface ParameterStatusListener
    * @return True if the value was set successfully, false if not
    */
   @Deprecated
-  default Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values)
+  default Boolean onSetValue(final IdentifierList identifiers, final ParameterRawValueList values)
   {
     throw new UnsupportedOperationException("Not supported yet.");
   }
@@ -90,7 +90,7 @@ public interface ParameterStatusListener
    * @param newRawValues The new values to be set at the parameter
    * @return True if the value was set successfully, false if not
    */
-  default Boolean onSetValue(ParameterRawValueList newRawValues)
+  default Boolean onSetValue(final ParameterRawValueList newRawValues)
   {// This function needs to be implement here to ensure backwards compatibility
     throw new UnsupportedOperationException("Not supported yet.");
   }
@@ -124,7 +124,7 @@ public interface ParameterStatusListener
    * @param parameterID id of the parameter
    * @return True, if it is read-only. False, if you can set it.
    */
-  default boolean isReadOnly(Long parameterID)
+  default boolean isReadOnly(final Long parameterID)
   {
     throw new UnsupportedOperationException("Not supported yet.");
   }

@@ -46,19 +46,19 @@ public class SFTPInformation extends JFrame implements UserInfo {
   private GuiMainWindow parent;
   private JTextField tfKnownHosts;
 
-  public SFTPInformation(GuiMainWindow parent) {
+  public SFTPInformation(final GuiMainWindow parent) {
     this.parent = parent;
     setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
     window = this;
     setAlwaysOnTop(true);
     setTitle("Enter your connection information");
-    SpringLayout springLayout = new SpringLayout();
+    final SpringLayout springLayout = new SpringLayout();
     getContentPane().setLayout(springLayout);
 
-    JLabel lblUsername = new JLabel("Username:");
+    final JLabel lblUsername = new JLabel("Username:");
     getContentPane().add(lblUsername);
 
-    JLabel lblPassword = new JLabel("Password:");
+    final JLabel lblPassword = new JLabel("Password:");
     springLayout.putConstraint(SpringLayout.NORTH, lblPassword, 10, SpringLayout.SOUTH,
         lblUsername);
     springLayout.putConstraint(SpringLayout.EAST, lblPassword, 0, SpringLayout.EAST, lblUsername);
@@ -78,7 +78,7 @@ public class SFTPInformation extends JFrame implements UserInfo {
     springLayout.putConstraint(SpringLayout.WEST, passwordField, 5, SpringLayout.EAST, lblUsername);
     getContentPane().add(passwordField);
 
-    JButton btnSubmit = new JButton("Submit");
+    final JButton btnSubmit = new JButton("Submit");
     springLayout.putConstraint(SpringLayout.NORTH, btnSubmit, 6, SpringLayout.SOUTH, passwordField);
     springLayout.putConstraint(SpringLayout.EAST, btnSubmit, -189, SpringLayout.EAST,
         getContentPane());
@@ -92,7 +92,7 @@ public class SFTPInformation extends JFrame implements UserInfo {
     getContentPane().add(btnSubmit);
     this.getRootPane().setDefaultButton(btnSubmit);
 
-    JLabel lblPathToKnown = new JLabel("Path to known hosts:");
+    final JLabel lblPathToKnown = new JLabel("Path to known hosts:");
     springLayout.putConstraint(SpringLayout.NORTH, lblUsername, 10, SpringLayout.SOUTH,
         lblPathToKnown);
     springLayout.putConstraint(SpringLayout.EAST, lblUsername, 0, SpringLayout.EAST,
@@ -111,13 +111,13 @@ public class SFTPInformation extends JFrame implements UserInfo {
         lblPathToKnown);
     getContentPane().add(tfKnownHosts);
 
-    JButton btnBrowse = new JButton("Browse");
+    final JButton btnBrowse = new JButton("Browse");
     btnBrowse.addActionListener(arg0 -> {
-      JFileChooser fc = new JFileChooser(System.getProperty("user.dir"));
+      final JFileChooser fc = new JFileChooser(System.getProperty("user.dir"));
       fc.setFileHidingEnabled(false);
-      int res = fc.showOpenDialog(SFTPInformation.this);
+      final int res = fc.showOpenDialog(SFTPInformation.this);
       if (res == JFileChooser.APPROVE_OPTION) {
-        String chosenName = fc.getSelectedFile().getAbsolutePath();
+        final String chosenName = fc.getSelectedFile().getAbsolutePath();
         tfKnownHosts.setText(chosenName);
       }
     });
@@ -128,7 +128,7 @@ public class SFTPInformation extends JFrame implements UserInfo {
 
     this.addWindowListener(new WindowAdapter() {
       @Override
-      public void windowClosed(WindowEvent windowEvent) {
+      public void windowClosed(final WindowEvent windowEvent) {
         SFTPInformation.this.parent.frame.setEnabled(true);
       }
     });
@@ -153,25 +153,25 @@ public class SFTPInformation extends JFrame implements UserInfo {
   }
 
   @Override
-  public boolean promptPassphrase(String msg) {
+  public boolean promptPassphrase(final String msg) {
     return true;
   }
 
   @Override
-  public boolean promptPassword(String msg) {
+  public boolean promptPassword(final String msg) {
     return true;
   }
 
   @Override
-  public boolean promptYesNo(String msg) {
-    Object[] options = { "Yes", "No" };
-    int result = JOptionPane.showOptionDialog(null, msg, "Warning", JOptionPane.DEFAULT_OPTION,
+  public boolean promptYesNo(final String msg) {
+    final Object[] options = { "Yes", "No" };
+    final int result = JOptionPane.showOptionDialog(null, msg, "Warning", JOptionPane.DEFAULT_OPTION,
         JOptionPane.WARNING_MESSAGE, null, options, options[0]);
     return result == 0;
   }
 
   @Override
-  public void showMessage(String message) {
+  public void showMessage(final String message) {
     JOptionPane.showMessageDialog(null, message);
   }
 }

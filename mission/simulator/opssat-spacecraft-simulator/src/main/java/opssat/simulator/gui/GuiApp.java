@@ -49,7 +49,7 @@ public class GuiApp {
     return simulatorWorkingDir;
   }
 
-  public void setSimulatorWorkingDir(String dir) {
+  public void setSimulatorWorkingDir(final String dir) {
     this.simulatorWorkingDir = dir;
   }
 
@@ -57,7 +57,7 @@ public class GuiApp {
     return socketClient;
   }
 
-  public void setTargetConnection(String targetURL, int targetPort) {
+  public void setTargetConnection(final String targetURL, final int targetPort) {
     this.targetURL = targetURL;
     this.targetPort = targetPort;
     this.socketClient.setTargetConnection(targetURL, targetPort);
@@ -85,11 +85,11 @@ public class GuiApp {
     return logger;
   }
 
-  public GuiApp(String targetURL, int targetPort) {
+  public GuiApp(final String targetURL, final int targetPort) {
     this.logger = Logger.getLogger(GuiMainWindow.class.getName());
     logger.setUseParentHandlers(false);
     logger.setLevel(Level.ALL);
-    ConsoleHandler consoleHandler = (new ConsoleHandler());
+    final ConsoleHandler consoleHandler = (new ConsoleHandler());
     consoleHandler.setFormatter(new LoggerFormatter1Line(GuiMainWindow.class.getName()));
     logger.addHandler(consoleHandler);
     fromServerQueue = new ConcurrentLinkedQueue<>();
@@ -105,7 +105,7 @@ public class GuiApp {
     socketClient.start();
   }
 
-  public void addGUIInteraction(Object data) {
+  public void addGUIInteraction(final Object data) {
     toServerQueue.add(data);
     fromServerQueue.add("Local;UserInput;" + CommandDescriptor.makeConsoleDescriptionForObj(data));
   }

@@ -46,135 +46,135 @@ import esa.mo.mp.impl.com.COMConfiguration;
 public class COMStateArchiveManager <IdentityT extends Element, IdentityListT extends ElementList, DefinitionT extends Element, DefinitionListT extends ElementList, StatusT extends Element, StatusListT extends ElementList>
         extends COMArchiveManager<IdentityT, IdentityListT, DefinitionT, DefinitionListT, Element, ElementList, StatusT, StatusListT> {
 
-    public COMStateArchiveManager(COMServicesProvider comServices, COMConfiguration configuration) {
+    public COMStateArchiveManager(final COMServicesProvider comServices, final COMConfiguration configuration) {
         super(comServices, configuration);
     }
 
-    public ObjectIdPair addDefinition(Identifier identity, DefinitionT definition, ObjectId source, MALInteraction interaction) throws MALException, MALInteractionException {
+    public ObjectIdPair addDefinition(final Identifier identity, final DefinitionT definition, final ObjectId source, final MALInteraction interaction) throws MALException, MALInteractionException {
         return super.addCOMObject(identity, definition, source, interaction);
     }
 
-    public ObjectIdPairList addDefinitions(IdentifierList identities, DefinitionListT definitions, ObjectId source, MALInteraction interaction) throws MALException, MALInteractionException {
+    public ObjectIdPairList addDefinitions(final IdentifierList identities, final DefinitionListT definitions, final ObjectId source, final MALInteraction interaction) throws MALException, MALInteractionException {
         return super.addCOMObjects(identities, definitions, source, interaction);
     }
 
-    public ObjectId addStatus(ObjectId definitionId, StatusT status, ObjectId source, MALInteraction interaction) throws MALException, MALInteractionException {
+    public ObjectId addStatus(final ObjectId definitionId, final StatusT status, final ObjectId source, final MALInteraction interaction) throws MALException, MALInteractionException {
         return super.addCOMObject(definitionId, status, source, interaction);
     }
 
-    public ObjectIdList addStatuses(ObjectIdList definitionIds, StatusListT statuses, ObjectId source, MALInteraction interaction) throws MALException, MALInteractionException {
+    public ObjectIdList addStatuses(final ObjectIdList definitionIds, final StatusListT statuses, final ObjectId source, final MALInteraction interaction) throws MALException, MALInteractionException {
         return super.addCOMObjects(definitionIds, statuses, source, interaction);
     }
 
-    protected ObjectIdList listAllIdentityIds(ObjectType identityType) {
+    protected ObjectIdList listAllIdentityIds(final ObjectType identityType) {
         return super.listAllIdentityIds(identityType);
     }
 
-    protected ObjectIdList listAllDefinitionIds(ObjectType definitionType) {
+    protected ObjectIdList listAllDefinitionIds(final ObjectType definitionType) {
         return super.listAllObjectIds(definitionType);
     }
 
-    protected ObjectIdList listAllStatusIds(ObjectType statusType) {
+    protected ObjectIdList listAllStatusIds(final ObjectType statusType) {
         return super.listAllObjectIds(statusType);
     }
 
-    public Identifier getIdentity(ObjectId identityId) {
+    public Identifier getIdentity(final ObjectId identityId) {
         return (Identifier) super.getObject(identityId);
     }
 
-    protected ObjectId getIdentityId(Identifier identity, ObjectType identityType) {
+    protected ObjectId getIdentityId(final Identifier identity, final ObjectType identityType) {
         return super.getIdentityId(identity, identityType);
     }
 
-    public ObjectIdList getIdentityIds(IdentifierList identities, ObjectType identityType) {
+    public ObjectIdList getIdentityIds(final IdentifierList identities, final ObjectType identityType) {
         return super.getIdentityIds(identities, identityType);
     }
 
-    protected DefinitionT getDefinition(Identifier identity, ObjectType identityType) {
+    protected DefinitionT getDefinition(final Identifier identity, final ObjectType identityType) {
         return (DefinitionT) super.getObject(identity, identityType);
     }
 
-    protected DefinitionListT getDefinitions(IdentifierList identities, ObjectType identityType) {
+    protected DefinitionListT getDefinitions(final IdentifierList identities, final ObjectType identityType) {
         return (DefinitionListT) super.getObjects(identities, identityType);
     }
 
-    public ObjectId getDefinitionIdByIdentityId(ObjectId identityId) {
+    public ObjectId getDefinitionIdByIdentityId(final ObjectId identityId) {
         return super.getObjectIdByRelatedId(identityId);
     }
 
-    public ObjectIdList getDefinitionIdsByIdentityIds(ObjectIdList identityIds) {
+    public ObjectIdList getDefinitionIdsByIdentityIds(final ObjectIdList identityIds) {
         return super.getObjectIdsByRelatedIds(identityIds);
     }
 
-    public ObjectId getDefinitionIdByStatusId(ObjectId statusId) {
+    public ObjectId getDefinitionIdByStatusId(final ObjectId statusId) {
         return super.getObjectIdByInverseRelatedId(statusId);
     }
 
-    public ObjectIdList getDefinitionIdsByStatusIds(ObjectIdList statusIds) {
+    public ObjectIdList getDefinitionIdsByStatusIds(final ObjectIdList statusIds) {
         return super.getObjectIdsByInverseRelatedIds(statusIds);
     }
 
-    public DefinitionT getDefinitionByIdentityId(ObjectId identityId) {
+    public DefinitionT getDefinitionByIdentityId(final ObjectId identityId) {
         return (DefinitionT) super.getObjectByRelatedId(identityId);
     }
 
-    public DefinitionListT getDefinitionsByIdentityIds(ObjectIdList identityIds) {
+    public DefinitionListT getDefinitionsByIdentityIds(final ObjectIdList identityIds) {
         return (DefinitionListT) super.getObjectsByRelatedIds(identityIds);
     }
 
-    public DefinitionT getDefinition(ObjectId definitionId) {
+    public DefinitionT getDefinition(final ObjectId definitionId) {
         return (DefinitionT) super.getObject(definitionId);
     }
 
-    public DefinitionListT getDefinitions(ObjectIdList definitionIds) {
+    public DefinitionListT getDefinitions(final ObjectIdList definitionIds) {
         return (DefinitionListT) super.getObjects(definitionIds);
     }
 
-    public ObjectId getStatusIdByDefinitionId(ObjectId definitionId) {
+    public ObjectId getStatusIdByDefinitionId(final ObjectId definitionId) {
         return super.getObjectIdByRelatedId(definitionId);
     }
 
-    public ObjectIdList getStatusIdsByDefinitionIds(ObjectIdList definitionIds) {
+    public ObjectIdList getStatusIdsByDefinitionIds(final ObjectIdList definitionIds) {
         return super.getObjectIdsByRelatedIds(definitionIds);
     }
 
-    public StatusT getStatusByDefinitionId(ObjectId definitionId) {
+    public StatusT getStatusByDefinitionId(final ObjectId definitionId) {
         return (StatusT) super.getObjectByRelatedId(definitionId);
     }
 
-    public StatusListT getStatusesByDefinitionIds(ObjectIdList definitionIds) {
+    public StatusListT getStatusesByDefinitionIds(final ObjectIdList definitionIds) {
         return (StatusListT) super.getObjectsByRelatedIds(definitionIds);
     }
 
-    public StatusT getStatus(ObjectId statusId) {
+    public StatusT getStatus(final ObjectId statusId) {
         return (StatusT) super.getObject(statusId);
     }
 
-    public StatusListT getStatuses(ObjectIdList statusIds) {
+    public StatusListT getStatuses(final ObjectIdList statusIds) {
         return (StatusListT) super.getObjects(statusIds);
     }
 
-    public ObjectId updateDefinition(ObjectId identityId, DefinitionT definition, ObjectId source, MALInteraction interaction) throws MALException, MALInteractionException {
+    public ObjectId updateDefinition(final ObjectId identityId, final DefinitionT definition, final ObjectId source, final MALInteraction interaction) throws MALException, MALInteractionException {
         return super.updateCOMObject(identityId, definition, source, interaction);
     }
 
-    public ObjectIdList updateDefinitions(ObjectIdList identityIds, DefinitionListT definitions, ObjectId source, MALInteraction interaction) throws MALException, MALInteractionException {
+    public ObjectIdList updateDefinitions(final ObjectIdList identityIds, final DefinitionListT definitions, final ObjectId source, final MALInteraction interaction) throws MALException, MALInteractionException {
         return super.updateCOMObjects(identityIds, definitions, source, interaction);
     }
 
-    public ObjectId updateStatus(ObjectId definitionId, StatusT status, ObjectId source, MALInteraction interaction) throws MALException, MALInteractionException {
+    public ObjectId updateStatus(final ObjectId definitionId, final StatusT status, final ObjectId source, final MALInteraction interaction) throws MALException, MALInteractionException {
         return super.updateCOMObject(definitionId, status, source, interaction);
     }
 
-    public ObjectIdList updateStatuses(ObjectIdList definitionIds, StatusListT statuses, ObjectId source, MALInteraction interaction) throws MALException, MALInteractionException {
+    public ObjectIdList updateStatuses(final ObjectIdList definitionIds, final StatusListT statuses, final ObjectId source, final MALInteraction interaction) throws MALException, MALInteractionException {
         return super.updateCOMObjects(definitionIds, statuses, source, interaction);
     }
 
-    public void removeDefinition(ObjectId identityId, MALInteraction interaction) throws MALException, MALInteractionException {
+    public void removeDefinition(final ObjectId identityId, final MALInteraction interaction) throws MALException, MALInteractionException {
         super.removeObject(identityId, interaction);
     }
 
-    public void removeDefinitions(ObjectIdList identityIds, MALInteraction interaction) throws MALException, MALInteractionException {
+    public void removeDefinitions(final ObjectIdList identityIds, final MALInteraction interaction) throws MALException, MALInteractionException {
         super.removeObjects(identityIds, interaction);
     }
 }

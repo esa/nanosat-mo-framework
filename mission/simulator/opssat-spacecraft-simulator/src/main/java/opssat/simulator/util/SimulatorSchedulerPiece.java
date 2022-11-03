@@ -40,9 +40,9 @@ public class SimulatorSchedulerPiece implements Serializable {
     boolean executed;
     String argumentTemplateDescription;
 
-    public static String getDDDDDHHMMSSmmmFromMillis(long data)
+    public static String getDDDDDHHMMSSmmmFromMillis(final long data)
     {
-        Map<TimeUnit,Long> computedDiff=SimulatorData.computeTimeUnit(data);
+        final Map<TimeUnit,Long> computedDiff=SimulatorData.computeTimeUnit(data);
         if (computedDiff!=null)
         {
             return String.format(SimulatorHeader.FROM_START_FORMAT,computedDiff.get(TimeUnit.DAYS),computedDiff.get(TimeUnit.HOURS),computedDiff.get(TimeUnit.MINUTES),computedDiff.get(TimeUnit.SECONDS),computedDiff.get(TimeUnit.MILLISECONDS));
@@ -52,7 +52,7 @@ public class SimulatorSchedulerPiece implements Serializable {
             return "computedDiff is null!";
         }
     }
-    public static long getMillisFromDDDDDHHMMSSmmm(String data)
+    public static long getMillisFromDDDDDHHMMSSmmm(final String data)
     {
         if (data.length()!=18)
         {
@@ -60,7 +60,7 @@ public class SimulatorSchedulerPiece implements Serializable {
         }
         else
         {
-            List<String> words=Arrays.asList(data.split(CommandDescriptor.SEPARATOR_TIMEDEFINITION));
+            final List<String> words=Arrays.asList(data.split(CommandDescriptor.SEPARATOR_TIMEDEFINITION));
             if (words.size()!=5)
             {
                 return -1;
@@ -74,7 +74,7 @@ public class SimulatorSchedulerPiece implements Serializable {
                        Long.parseLong(words.get(3))*1000 +
                        Long.parseLong(words.get(4));
                 }
-                catch (NumberFormatException ex)
+                catch (final NumberFormatException ex)
                 {
                     Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
                     return -1;
@@ -95,7 +95,7 @@ public class SimulatorSchedulerPiece implements Serializable {
         //return getDDDDDHHMMSSmmmFromMillis(time)+CommandDescriptor.SEPARATOR_DATAFILES+this.internalID+"\t"+CommandDescriptor.SEPARATOR_DATAFILES+argumentTemplateDescription+"\t\t"+CommandDescriptor.SEPARATOR_DATAFILES+"executed:"+this.executed+CommandDescriptor.SEPARATOR_DATAFILES;
     }
 
-    public SimulatorSchedulerPiece(long time, int internalID, String argumentTemplateDescription) {
+    public SimulatorSchedulerPiece(final long time, final int internalID, final String argumentTemplateDescription) {
         this.time = time;
         this.internalID = internalID;
         this.argumentTemplateDescription = argumentTemplateDescription;
@@ -114,7 +114,7 @@ public class SimulatorSchedulerPiece implements Serializable {
         return argumentTemplateDescription;
     }
 
-    public void setExecuted(boolean executed) {
+    public void setExecuted(final boolean executed) {
         this.executed = executed;
     }
     

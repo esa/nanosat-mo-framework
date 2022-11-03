@@ -72,7 +72,7 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
      * @param serviceMCStatistic
      * @param serviceMCParameter
      */
-    public StatisticConsumerPanel(StatisticConsumerServiceImpl serviceMCStatistic, ParameterConsumerServiceImpl serviceMCParameter) {
+    public StatisticConsumerPanel(final StatisticConsumerServiceImpl serviceMCStatistic, final ParameterConsumerServiceImpl serviceMCParameter) {
         initComponents();
 
         statisticTable = new StatisticLinkTablePanel(serviceMCStatistic.getCOMServices().getArchiveService());
@@ -88,7 +88,7 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
         subscription = ConnectionConsumer.subscriptionWildcard();
         try {
             serviceMCStatistic.getStatisticStub().monitorStatisticsRegister(subscription, new StatisticConsumerAdapter());
-        } catch (MALInteractionException | MALException ex) {
+        } catch (final MALInteractionException | MALException ex) {
             Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -97,11 +97,11 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
     public void removeNotify()
     {
         super.removeNotify();
-        IdentifierList ids = new IdentifierList();
+        final IdentifierList ids = new IdentifierList();
         ids.add(subscription.getSubscriptionId());
         try {
             serviceMCStatistic.getStatisticStub().monitorStatisticsDeregister(ids);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (final MALInteractionException | MALException ex) {
             Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -153,7 +153,7 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
                 java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Float.class
             };
 
-            public Class getColumnClass(int columnIndex) {
+            public Class getColumnClass(final int columnIndex) {
                 return types [columnIndex];
             }
         });
@@ -164,7 +164,7 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
         actionDefinitionsTable.setMinimumSize(null);
         actionDefinitionsTable.setPreferredSize(null);
         actionDefinitionsTable.addContainerListener(new java.awt.event.ContainerAdapter() {
-            public void componentAdded(java.awt.event.ContainerEvent evt) {
+            public void componentAdded(final java.awt.event.ContainerEvent evt) {
                 actionDefinitionsTableComponentAdded(evt);
             }
         });
@@ -212,7 +212,7 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
 
         parameterTab.add(jPanel5);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        final javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -232,13 +232,13 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void listDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listDefinitionButtonActionPerformed
+    private void listDefinitionButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listDefinitionButtonActionPerformed
         
     }//GEN-LAST:event_listDefinitionButtonActionPerformed
 
-    private void addLinkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addLinkButtonActionPerformed
+    private void addLinkButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addLinkButtonActionPerformed
         // Create and Show the Action Definition to the user
-        StatisticLinkDetails statLinkDetails = new StatisticLinkDetails();
+        final StatisticLinkDetails statLinkDetails = new StatisticLinkDetails();
         statLinkDetails.setCollectionInterval(new Duration(2));
         statLinkDetails.setReportingEnabled(true);
         statLinkDetails.setReportingInterval(new Duration(4));
@@ -247,28 +247,28 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
         
 //        statLink.setLinkDetails(statLinkDetails);
         
-        ObjectKey paramId = new ObjectKey();
+        final ObjectKey paramId = new ObjectKey();
         paramId.setDomain(serviceMCParameter.getConnectionDetails().getDomain());
         paramId.setInstId(3L);
 //        statLink.setParameterId(paramId);
         
 
-        StatisticCreationRequest request = new StatisticCreationRequest();
+        final StatisticCreationRequest request = new StatisticCreationRequest();
         request.setLinkDetails(statLinkDetails);
         request.setParameterId(paramId);
         request.setStatFuncInstId(1L);
         
-        MOWindow statDefinitionWindow = new MOWindow(request, true);
+        final MOWindow statDefinitionWindow = new MOWindow(request, true);
         
-        StatisticCreationRequestList statLinkList = new StatisticCreationRequestList();
+        final StatisticCreationRequestList statLinkList = new StatisticCreationRequestList();
         try {
             statLinkList.add((StatisticCreationRequest) statDefinitionWindow.getObject());
-        } catch (InterruptedIOException ex) {
+        } catch (final InterruptedIOException ex) {
             return;
         }
 
         try {
-            ObjectInstancePairList objIds = this.serviceMCStatistic.getStatisticStub().addParameterEvaluation(statLinkList);
+            final ObjectInstancePairList objIds = this.serviceMCStatistic.getStatisticStub().addParameterEvaluation(statLinkList);
 
             if (objIds.isEmpty()) {
                 return;
@@ -276,7 +276,7 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
 
             Thread.sleep(500);
             // Get the stored Action Definition from the Archive
-            ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(
+            final ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(
                     this.serviceMCStatistic.getCOMServices().getArchiveService().getArchiveStub(),
                     StatisticHelper.STATISTICLINK_OBJECT_TYPE,
                     serviceMCStatistic.getConnectionDetails().getDomain(),
@@ -284,61 +284,61 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
 
             // Add the Statistic Link to the table
             statisticTable.addEntry(new Identifier("MyStat!"), comObject);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (final MALInteractionException | MALException ex) {
             JOptionPane.showMessageDialog(null, "There was an error with the submitted statistic link.", "Error", JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_addLinkButtonActionPerformed
 
-    private void updateLinkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateLinkButtonActionPerformed
+    private void updateLinkButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateLinkButtonActionPerformed
         if (statisticTable.getSelectedRow() == -1) { // The row is not selected?
             return;  // Well, then nothing to be done here folks!
         }
 
-        ArchivePersistenceObject obj = statisticTable.getSelectedCOMObject();
-        MOWindow moObject = new MOWindow(obj.getObject(), true);
+        final ArchivePersistenceObject obj = statisticTable.getSelectedCOMObject();
+        final MOWindow moObject = new MOWindow(obj.getObject(), true);
 
-        LongList objIds = new LongList();
+        final LongList objIds = new LongList();
         objIds.add(statisticTable.getSelectedDefinitionObjId());
 
-        StatisticLinkDetailsList links = new StatisticLinkDetailsList();
+        final StatisticLinkDetailsList links = new StatisticLinkDetailsList();
         try {
             links.add( ((StatisticLinkDetails) moObject.getObject()) );
-        } catch (InterruptedIOException ex) {
+        } catch (final InterruptedIOException ex) {
             return;
         }
 
         try {
             this.serviceMCStatistic.getStatisticStub().updateParameterEvaluation(objIds, links);
             this.listDefinitionAllButtonActionPerformed(null);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (final MALInteractionException | MALException ex) {
             Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_updateLinkButtonActionPerformed
 
-    private void removeLinkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeLinkButtonActionPerformed
+    private void removeLinkButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeLinkButtonActionPerformed
 
         if (statisticTable.getSelectedRow() == -1) { // The row is not selected?
             return;  // Well, then nothing to be done here folks!
         }
 
-        LongList longlist = new LongList();
+        final LongList longlist = new LongList();
         longlist.add(statisticTable.getSelectedDefinitionObjId());
 
         try {
             this.serviceMCStatistic.getStatisticStub().removeParameterEvaluation(longlist);
             statisticTable.removeSelectedEntry();
-        } catch (MALInteractionException | MALException ex) {
+        } catch (final MALInteractionException | MALException ex) {
             Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_removeLinkButtonActionPerformed
 
-    private void listDefinitionAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listDefinitionAllButtonActionPerformed
+    private void listDefinitionAllButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listDefinitionAllButtonActionPerformed
 
 
 
@@ -346,31 +346,31 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
         
     }//GEN-LAST:event_listDefinitionAllButtonActionPerformed
 
-    private void removeLinkAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeLinkAllButtonActionPerformed
+    private void removeLinkAllButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeLinkAllButtonActionPerformed
 
-        Long objId = (long) 0;
-        LongList longlist = new LongList();
+        final Long objId = (long) 0;
+        final LongList longlist = new LongList();
         longlist.add(objId);
 
         try {
             this.serviceMCStatistic.getStatisticStub().removeParameterEvaluation(longlist);
             statisticTable.removeAllEntries();
-        } catch (MALInteractionException | MALException ex) {
+        } catch (final MALInteractionException | MALException ex) {
             Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_removeLinkAllButtonActionPerformed
 
-    private void actionDefinitionsTableComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_actionDefinitionsTableComponentAdded
+    private void actionDefinitionsTableComponentAdded(final java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_actionDefinitionsTableComponentAdded
         // TODO add your handling code here:
     }//GEN-LAST:event_actionDefinitionsTableComponentAdded
 
-    private void enableDefinitionAllAggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enableDefinitionAllAggActionPerformed
+    private void enableDefinitionAllAggActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enableDefinitionAllAggActionPerformed
 
-        Boolean curState;
+        final Boolean curState;
 
         if (statisticTable.getSelectedRow() == -1) {  // Used to avoid problems if no row is selected
-            StatisticLinkDetails statisticLink = (StatisticLinkDetails) statisticTable.getFirstCOMObject().getObject();
+            final StatisticLinkDetails statisticLink = (StatisticLinkDetails) statisticTable.getFirstCOMObject().getObject();
             if (statisticLink != null) {
                 curState = statisticLink.getReportingEnabled();
             } else {
@@ -380,44 +380,44 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
             curState = ((StatisticLinkDetails) statisticTable.getSelectedCOMObject().getObject()).getReportingEnabled();
         }
 
-        InstanceBooleanPairList BoolPairList = new InstanceBooleanPairList();
+        final InstanceBooleanPairList BoolPairList = new InstanceBooleanPairList();
         BoolPairList.add(new InstanceBooleanPair((long) 0, !curState));  // Zero is the wildcard
 
         try {
             this.serviceMCStatistic.getStatisticStub().enableReporting(false, BoolPairList);
             statisticTable.switchEnabledstatusAll(!curState);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (final MALInteractionException | MALException ex) {
             Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_enableDefinitionAllAggActionPerformed
 
-    private void enableDefinitionButtonAggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enableDefinitionButtonAggActionPerformed
+    private void enableDefinitionButtonAggActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enableDefinitionButtonAggActionPerformed
         if (statisticTable.getSelectedRow() == -1) { // The row is not selected?
             return;  // Well, then nothing to be done here folks!
         }
 
-        Boolean curState = ((StatisticLinkDetails) statisticTable.getSelectedCOMObject().getObject()).getReportingEnabled();
-        InstanceBooleanPairList BoolPairList = new InstanceBooleanPairList();
+        final Boolean curState = ((StatisticLinkDetails) statisticTable.getSelectedCOMObject().getObject()).getReportingEnabled();
+        final InstanceBooleanPairList BoolPairList = new InstanceBooleanPairList();
         BoolPairList.add(new InstanceBooleanPair((long) 0, !curState));  // Zero is the wildcard
 
         try {
             this.serviceMCStatistic.getStatisticStub().enableReporting(false, BoolPairList);
             statisticTable.switchEnabledstatus(!curState);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (final MALInteractionException | MALException ex) {
             Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_enableDefinitionButtonAggActionPerformed
 
-    private void msgBoxOn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_msgBoxOn2ActionPerformed
+    private void msgBoxOn2ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_msgBoxOn2ActionPerformed
 
     }//GEN-LAST:event_msgBoxOn2ActionPerformed
 
     public class StatisticConsumerAdapter extends StatisticAdapter {
         @Override
-    public void monitorStatisticsNotifyReceived(MALMessageHeader msgHeader, 
-            Identifier _Identifier0, UpdateHeaderList lUpdateHeaderList, 
-            LongList _LongList2, ObjectIdList _ObjectIdList3, 
-            StatisticValueList _StatisticValueList3, Map qosProperties) {
+    public void monitorStatisticsNotifyReceived(final MALMessageHeader msgHeader,
+                                                final Identifier _Identifier0, final UpdateHeaderList lUpdateHeaderList,
+                                                final LongList _LongList2, final ObjectIdList _ObjectIdList3,
+                                                final StatisticValueList _StatisticValueList3, final Map qosProperties) {
 
             final long iDiff = System.currentTimeMillis() - msgHeader.getTimestamp().getValue();
 
@@ -440,7 +440,7 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
                     JOptionPane.showMessageDialog(null, str, "Returned Statistic Value from the Provider", JOptionPane.PLAIN_MESSAGE);
                 }
 
-            } catch (NumberFormatException ex) {
+            } catch (final NumberFormatException ex) {
             }
         }
     }

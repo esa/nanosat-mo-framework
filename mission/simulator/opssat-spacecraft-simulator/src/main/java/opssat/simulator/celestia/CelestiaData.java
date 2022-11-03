@@ -45,7 +45,7 @@ public class CelestiaData implements Serializable {
         return info;
     }
 
-    public void setInfo(String info) {
+    public void setInfo(final String info) {
         this.info = info;
     }
     
@@ -53,7 +53,7 @@ public class CelestiaData implements Serializable {
         return anx;
     }
 
-    public void setAnx(String anx) {
+    public void setAnx(final String anx) {
         this.anx = anx;
     }
 
@@ -61,7 +61,7 @@ public class CelestiaData implements Serializable {
         return dnx;
     }
 
-    public void setDnx(String dnx) {
+    public void setDnx(final String dnx) {
         this.dnx = dnx;
     }
 
@@ -69,7 +69,7 @@ public class CelestiaData implements Serializable {
         return aos;
     }
 
-    public void setAos(String aos) {
+    public void setAos(final String aos) {
         this.aos = aos;
     }
 
@@ -77,12 +77,12 @@ public class CelestiaData implements Serializable {
         return los;
     }
 
-    public void setLos(String los) {
+    public void setLos(final String los) {
         this.los = los;
     }
     
     
-    public CelestiaData(float[] rv, float[] q) {
+    public CelestiaData(final float[] rv, final float[] q) {
         this.rv = rv;
         this.q = q;
     }
@@ -120,14 +120,14 @@ public class CelestiaData implements Serializable {
         return new SimpleDateFormat(DATE_FORMAT).format(this.date);
     }
 
-    public void setDate(Date date) {
+    public void setDate(final Date date) {
         this.date = date;
     }
     
-    public void setDate(String date) {
+    public void setDate(final String date) {
         try {
             this.date = (new SimpleDateFormat(DATE_FORMAT)).parse(date);
-        } catch (ParseException ex) {
+        } catch (final ParseException ex) {
             Logger.getLogger(CelestiaData.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -136,7 +136,7 @@ public class CelestiaData implements Serializable {
         return rv;
     }
 
-    public void setRv(float[] rv) {
+    public void setRv(final float[] rv) {
         this.rv = rv;
     }
 
@@ -144,7 +144,7 @@ public class CelestiaData implements Serializable {
         return q;
     }
 
-    public void setQ(float[] q) {
+    public void setQ(final float[] q) {
         this.q = q;
     }
 

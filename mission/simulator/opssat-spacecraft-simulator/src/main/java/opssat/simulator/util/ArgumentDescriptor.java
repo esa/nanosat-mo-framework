@@ -36,13 +36,13 @@ public class ArgumentDescriptor implements Serializable {
     Object defaultType;
     String defaultName;
 
-    public ArgumentDescriptor(Object type, String name) {
+    public ArgumentDescriptor(final Object type, final String name) {
         this.type = type;
         this.name = name;
         this.defaultType = type;
         this.defaultName = name;
     }
-    public ArgumentDescriptor(String type, String name) {
+    public ArgumentDescriptor(final String type, final String name) {
         
         this.name = name;
         if (type.equals("Boolean")) {
@@ -90,11 +90,11 @@ public class ArgumentDescriptor implements Serializable {
         this.type = this.defaultType;
         this.name = this.defaultName;
     }
-    public float getTypeAsFloatByIndex(int index)
+    public float getTypeAsFloatByIndex(final int index)
     {
         return ((float []) type)[index];
     }
-    public int getTypeAsIntByIndex(int index)
+    public int getTypeAsIntByIndex(final int index)
     {
         return ((int []) type)[index];
     }
@@ -102,20 +102,20 @@ public class ArgumentDescriptor implements Serializable {
         return type;
     }
 
-    public void setType(Object type) {
+    public void setType(final Object type) {
         this.type = type;
     }
     
-    public void setIntTypeByIndex(int newValue,int index) {
-        int[] cast=((int[]) this.type);
+    public void setIntTypeByIndex(final int newValue, final int index) {
+        final int[] cast=((int[]) this.type);
         if (cast.length<index+1)
         {
             this.type=new int[index+1];
         }
         ((int[]) this.type)[index]=newValue;
     }
-    public void setFloatTypeByIndex(float newValue,int index) {
-        float[] cast=((float[]) this.type);
+    public void setFloatTypeByIndex(final float newValue, final int index) {
+        final float[] cast=((float[]) this.type);
         if (cast.length<index+1)
         {
             this.type=new float[index+1];
@@ -126,7 +126,7 @@ public class ArgumentDescriptor implements Serializable {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
     @Override
@@ -136,10 +136,10 @@ public class ArgumentDescriptor implements Serializable {
         if (type instanceof Byte) {
             formattedArgs = formattedArgs + "Byte " + name + "={" + String.format("0x%02X", type) + "}";
         } else if (type instanceof byte[]) {
-            StringBuilder sb = new StringBuilder();
-            byte[] bytes = (byte[]) type;
+            final StringBuilder sb = new StringBuilder();
+            final byte[] bytes = (byte[]) type;
             int bytesLen = 0;
-            for (byte b : bytes) {
+            for (final byte b : bytes) {
                 sb.append(String.format("0x%02X",b));
                 if (++bytesLen < bytes.length) {
                     sb.append(",");
@@ -147,10 +147,10 @@ public class ArgumentDescriptor implements Serializable {
             }
             formattedArgs = formattedArgs + "byte[] " + name + "={" + sb.toString() + "}";
         } else if (type instanceof int[]) {
-            StringBuilder sb = new StringBuilder();
-            int[] ints = (int[]) type;
+            final StringBuilder sb = new StringBuilder();
+            final int[] ints = (int[]) type;
             int intsLen = 0;
-            for (int b : ints) {
+            for (final int b : ints) {
                 sb.append(b);
                 if (++intsLen < ints.length) {
                     sb.append(",");
@@ -158,10 +158,10 @@ public class ArgumentDescriptor implements Serializable {
             }
             formattedArgs = formattedArgs + "int[] " + name + "={" + sb.toString() + "}";
         } else if (type instanceof float[]) {
-            StringBuilder sb = new StringBuilder();
-            float[] floats = (float[]) type;
+            final StringBuilder sb = new StringBuilder();
+            final float[] floats = (float[]) type;
             int floatsLen = 0;
-            for (float b : floats) {
+            for (final float b : floats) {
                 sb.append(b);
                 if (++floatsLen < floats.length) {
                     sb.append(",");
@@ -169,10 +169,10 @@ public class ArgumentDescriptor implements Serializable {
             }
             formattedArgs = formattedArgs + "float[] " + name + "={" + sb.toString() + "}";
         } else if (type instanceof long[]) {
-            StringBuilder sb = new StringBuilder();
-            long[] longs = (long[]) type;
+            final StringBuilder sb = new StringBuilder();
+            final long[] longs = (long[]) type;
             int longsLen = 0;
-            for (long b : longs) {
+            for (final long b : longs) {
                 sb.append(b);
                 if (++longsLen < longs.length) {
                     sb.append(",");
@@ -180,10 +180,10 @@ public class ArgumentDescriptor implements Serializable {
             }
             formattedArgs = formattedArgs + "long[] " + name + "={" + sb.toString() + "}";
         } else if (type instanceof double[]) {
-            StringBuilder sb = new StringBuilder();
-            double[] doubles = (double[]) type;
+            final StringBuilder sb = new StringBuilder();
+            final double[] doubles = (double[]) type;
             int doublesLen = 0;
-            for (double b : doubles) {
+            for (final double b : doubles) {
                 sb.append(b);
                 if (++doublesLen < doubles.length) {
                     sb.append(",");

@@ -77,7 +77,7 @@ public class ParameterManager extends MCManager
 
     private Long uniqueObjIdPVal;
 
-    public ParameterManager(COMServicesProvider comServices, ParameterStatusListener parametersMonitoring)
+    public ParameterManager(final COMServicesProvider comServices, final ParameterStatusListener parametersMonitoring)
     {
         super(comServices);
 
@@ -87,7 +87,7 @@ public class ParameterManager extends MCManager
             try {
                 ParameterHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
-            catch (MALException ex) {
+            catch (final MALException ex) {
               Logger.getLogger(ParameterManager.class.getName())
                       .log(Level.SEVERE, "Unexpectedly ParameterHelper already initialized!?", ex);
             }
@@ -110,7 +110,7 @@ public class ParameterManager extends MCManager
             {
                 this.conversionService.init(super.getArchiveService());
             }
-            catch (MALException ex)
+            catch (final MALException ex)
             {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -123,9 +123,9 @@ public class ParameterManager extends MCManager
      * @param identityId the id of the parameter to be checked
      * @return true, if it is readonly. false, if you can set it.
      */
-    public boolean isReadOnly(Long identityId)
+    public boolean isReadOnly(final Long identityId)
     {
-        Class cla;
+        final Class cla;
         try
         {
             cla = parametersMonitoring.getClass().getMethod("onGetValue", Identifier.class, Byte.class)
@@ -135,7 +135,7 @@ public class ParameterManager extends MCManager
                 return parametersMonitoring.isReadOnly(identityId);
             }
         }
-        catch (NoSuchMethodException | SecurityException ex)
+        catch (final NoSuchMethodException | SecurityException ex)
         {
             Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -164,8 +164,8 @@ public class ParameterManager extends MCManager
      * @return The unique identifier or null if the implementation is using the Archive service for objects storage. In
      * this case, the unique identifier must be retrieved from the Archive during storage
      */
-    protected Long storeAndGeneratePValobjId(Long identityId, ParameterValue pVal, ObjectId source,
-                                             SingleConnectionDetails connectionDetails, FineTime timestamp)
+    protected Long storeAndGeneratePValobjId(final Long identityId, final ParameterValue pVal, final ObjectId source,
+                                             final SingleConnectionDetails connectionDetails, final FineTime timestamp)
     {
         if (super.getArchiveService() == null)
         {
@@ -174,7 +174,7 @@ public class ParameterManager extends MCManager
         }
         else
         {
-            ParameterValueList pValList = new ParameterValueList();
+            final ParameterValueList pValList = new ParameterValueList();
             pValList.add(pVal);
             final Long related = getDefinitionId(identityId);
 
@@ -197,7 +197,7 @@ public class ParameterManager extends MCManager
             {
                 // requirement: 3.3.4.d
                 //save the published value in the COM-Archive
-                LongList objIds = super.getArchiveService()
+                final LongList objIds = super.getArchiveService()
                         .store(true, ParameterHelper.PARAMETERVALUEINSTANCE_OBJECT_TYPE,
                                ConfigurationProviderSingleton.getDomain(), archiveDetailsList, pValList, null);
                 if (objIds.size() == 1)
@@ -205,7 +205,7 @@ public class ParameterManager extends MCManager
                     return objIds.get(0);
                 }
             }
-            catch (MALException | MALInteractionException ex)
+            catch (final MALException | MALInteractionException ex)
             {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -230,11 +230,11 @@ public class ParameterManager extends MCManager
         if (super.getArchiveService() != null)
         {
 
-            ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
+            final ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
 
             for (int i = 0; i < relatedList.size(); i++)
             {
-                ArchiveDetails archiveDetails = new ArchiveDetails();
+                final ArchiveDetails archiveDetails = new ArchiveDetails();
                 archiveDetails.setInstId(0L);
                 archiveDetails.setDetails(new ObjectDetails(relatedList.get(i), sourcesList.get(i)));
                 archiveDetails.setNetwork(ConfigurationProviderSingleton.getNetwork());
@@ -246,7 +246,7 @@ public class ParameterManager extends MCManager
 
             try
             {// requirement: 3.3.4.d
-                LongList objIds = super.getArchiveService()
+                final LongList objIds = super.getArchiveService()
                         .store(true, ParameterHelper.PARAMETERVALUEINSTANCE_OBJECT_TYPE,
                                ConfigurationProviderSingleton.getDomain(), archiveDetailsList, pVals, null);
 
@@ -255,7 +255,7 @@ public class ParameterManager extends MCManager
                     return objIds;
                 }
             }
-            catch (MALException | MALInteractionException ex)
+            catch (final MALException | MALInteractionException ex)
             {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -270,7 +270,7 @@ public class ParameterManager extends MCManager
      * @param identityIds the ids of the identities
      * @return a list with the requested parameter-values
      */
-    protected ParameterValueList getParameterValues(LongList identityIds)
+    protected ParameterValueList getParameterValues(final LongList identityIds)
     {
         return getParameterValues(identityIds, false);
 
@@ -285,16 +285,16 @@ public class ParameterManager extends MCManager
      *                    parameter will be expired.
      * @return a list with the requested parameter-values
      */
-    protected ParameterValueList getParameterValues(LongList identityIds, boolean aggrExpired)
+    protected ParameterValueList getParameterValues(final LongList identityIds, final boolean aggrExpired)
     {
-        ParameterValueList pValList = new ParameterValueList();
-        for (Long identityId : identityIds)
+        final ParameterValueList pValList = new ParameterValueList();
+        for (final Long identityId : identityIds)
         {
             try
             {
                 pValList.add(getParameterValue(identityId, aggrExpired));
             }
-            catch (MALInteractionException ex)
+            catch (final MALInteractionException ex)
             {
                 pValList.add(null);
             }
@@ -310,7 +310,7 @@ public class ParameterManager extends MCManager
      * @return the requested parameter-value
      * @throws MALInteractionException
      */
-    public ParameterValue getParameterValue(Long identityId) throws MALInteractionException
+    public ParameterValue getParameterValue(final Long identityId) throws MALInteractionException
     {
         return getParameterValue(identityId, false);
     }
@@ -325,22 +325,22 @@ public class ParameterManager extends MCManager
      * @return the requested parameter-value
      * @throws MALInteractionException
      */
-    public ParameterValue getParameterValue(Long identityId, boolean aggrExpired) throws MALInteractionException
+    public ParameterValue getParameterValue(final Long identityId, final boolean aggrExpired) throws MALInteractionException
     {
         if (!this.existsIdentity(identityId))
         {  // The Parameter does not exist
             throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, identityId));
         }
 
-        ParameterDefinitionDetails pDef = this.getParameterDefinition(identityId);
+        final ParameterDefinitionDetails pDef = this.getParameterDefinition(identityId);
 
         try
         {
-            Attribute rawValue = getRawValue(identityId, pDef);
+            final Attribute rawValue = getRawValue(identityId, pDef);
             // Generate final Parameter Value
             return generateNewParameterValue(rawValue, pDef, aggrExpired);
         }
-        catch (IOException ex)
+        catch (final IOException ex)
         {
             return new ParameterValue(getAsUOctet(ValidityState.INVALID_RAW), null, null);
         }
@@ -366,24 +366,24 @@ public class ParameterManager extends MCManager
      *
      * @return
      */
-    public Attribute getValue(Long paramIdentityId) throws IOException
+    public Attribute getValue(final Long paramIdentityId) throws IOException
     {
         // check if new interface method is implemented, if yes, call it
         try
         {
-            Class cla = parametersMonitoring.getClass().getMethod("onGetValue", Identifier.class, Byte.class)
+            final Class cla = parametersMonitoring.getClass().getMethod("onGetValue", Identifier.class, Byte.class)
                     .getDeclaringClass();
             if (cla == ParameterStatusListener.class)
             {
                 return parametersMonitoring.onGetValue(paramIdentityId);
             }
         }
-        catch (NoSuchMethodException | SecurityException ex)
+        catch (final NoSuchMethodException | SecurityException ex)
         {
         }
 
         // else use old procedure:
-        ParameterDefinitionDetails pDef = this.getParameterDefinition(paramIdentityId);
+        final ParameterDefinitionDetails pDef = this.getParameterDefinition(paramIdentityId);
         Attribute value;
 
         return parametersMonitoring.onGetValue(super.getName(paramIdentityId), pDef.getRawType());
@@ -396,7 +396,7 @@ public class ParameterManager extends MCManager
      * @param identityId the id of the identity you want the details from
      * @return the definition-details. Or Null if not found.
      */
-    public ParameterDefinitionDetails getParameterDefinition(Long identityId)
+    public ParameterDefinitionDetails getParameterDefinition(final Long identityId)
     {
         return (ParameterDefinitionDetails) this.getDefinition(identityId);
     }
@@ -407,7 +407,7 @@ public class ParameterManager extends MCManager
      * @param expression the parameterExpression to be evaluated
      * @return The boolean value of the evaluation. Null if not evaluated.
      */
-    public Boolean evaluateParameterExpression(ParameterExpression expression)
+    public Boolean evaluateParameterExpression(final ParameterExpression expression)
     {
 
         if (expression == null)
@@ -417,12 +417,12 @@ public class ParameterManager extends MCManager
 
         //TODO: contains the expression defintion or identity-id? -> issue #132, #179
         final Long paramIdentityId = expression.getParameterId().getInstId();
-        ParameterDefinitionDetails pDef = this.getParameterDefinition(paramIdentityId);
+        final ParameterDefinitionDetails pDef = this.getParameterDefinition(paramIdentityId);
         Attribute value;
         try
         {
 
-            Class cla = parametersMonitoring.getClass().getMethod("onGetValue", Identifier.class, Byte.class)
+            final Class cla = parametersMonitoring.getClass().getMethod("onGetValue", Identifier.class, Byte.class)
                     .getDeclaringClass();
             if (cla == ParameterStatusListener.class)
             {
@@ -433,7 +433,7 @@ public class ParameterManager extends MCManager
                 value = parametersMonitoring.onGetValue(super.getName(paramIdentityId), pDef.getRawType());
             }
         }
-        catch (IOException | NoSuchMethodException | SecurityException ex)
+        catch (final IOException | NoSuchMethodException | SecurityException ex)
         {
             Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             return false;
@@ -495,7 +495,7 @@ public class ParameterManager extends MCManager
         else
         {
             //get validityState of the parameters that are needed for the expression
-            UOctet expPValState = getValidityState(validityExpression, aggrExpired);
+            final UOctet expPValState = getValidityState(validityExpression, aggrExpired);
             //expression failed with not valid parameters
             if (!expPValState.equals(getAsUOctet(ValidityState.VALID)))
             { // requirement: 3.3.3.m
@@ -514,7 +514,7 @@ public class ParameterManager extends MCManager
      * @param valState the validityState to be converted
      * @return the converted validityState as an UOctet
      */
-    private UOctet getAsUOctet(ValidityState valState)
+    private UOctet getAsUOctet(final ValidityState valState)
     {
         return new UOctet((short) valState.getNumericValue().getValue());
     }
@@ -525,13 +525,13 @@ public class ParameterManager extends MCManager
      * @param validityExpression the expression where parameters are used
      * @return the validity-state of the parameter used in the expression
      */
-    private UOctet getValidityState(final ParameterExpression validityExpression, boolean aggrExpired)
+    private UOctet getValidityState(final ParameterExpression validityExpression, final boolean aggrExpired)
     {
         final Long expPIdentityId = validityExpression.getParameterId().getInstId();
         final Attribute expParamValue;
         try
         {
-            Class cla = parametersMonitoring.getClass().getMethod("onGetValue", Identifier.class, Byte.class)
+            final Class cla = parametersMonitoring.getClass().getMethod("onGetValue", Identifier.class, Byte.class)
                     .getDeclaringClass();
             if (cla == ParameterStatusListener.class)
             {
@@ -543,7 +543,7 @@ public class ParameterManager extends MCManager
             }
 
         }
-        catch (IOException | NoSuchMethodException | SecurityException ex)
+        catch (final IOException | NoSuchMethodException | SecurityException ex)
         {
             Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             return getAsUOctet(ValidityState.INVALID_RAW);
@@ -553,8 +553,8 @@ public class ParameterManager extends MCManager
                                      getConvertedValue(expParamValue, expPDef), aggrExpired);
     }
 
-    protected ObjectInstancePairList addMultiple(IdentifierList names, ParameterDefinitionDetailsList definitions,
-                                                 ObjectId source, SingleConnectionDetails connectionDetails)
+    protected ObjectInstancePairList addMultiple(final IdentifierList names, final ParameterDefinitionDetailsList definitions,
+                                                 final ObjectId source, final SingleConnectionDetails connectionDetails)
     {
         try
         {
@@ -574,20 +574,20 @@ public class ParameterManager extends MCManager
                         "Parameter identifiers list size is different than definitions list size!");
             }
         }
-        catch (IllegalArgumentException e)
+        catch (final IllegalArgumentException e)
         {
             Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, e);
             return null;
         }
 
         // requirement: 3.3.2.5
-        ObjectInstancePairList newIdPairList = new ObjectInstancePairList();
+        final ObjectInstancePairList newIdPairList = new ObjectInstancePairList();
 
         if (super.getArchiveService() == null)
         {
             for (int i = 0; i < names.size(); i++)
             {
-                ObjectInstancePair newIdPair;
+                final ObjectInstancePair newIdPair;
                 //add to providers local list
                 uniqueObjIdIdentity++; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
                 uniqueObjIdDef++; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
@@ -599,16 +599,16 @@ public class ParameterManager extends MCManager
         {
             try
             {
-                IdentifierList namesToAdd = new IdentifierList();
+                final IdentifierList namesToAdd = new IdentifierList();
 
-                LongList identityIds = new LongList();
+                final LongList identityIds = new LongList();
 
                 int i = 0;
-                for (Identifier name : names)
+                for (final Identifier name : names)
                 {
                     //requirement: 3.3.12.2.f: if a ParameterName ever existed before, use the old ParameterIdentity-Object by retrieving it from the archive
                     //check if the name existed before and retrieve id if found
-                    Long identityId =
+                    final Long identityId =
                             retrieveIdentityIdByNameFromArchive(ConfigurationProviderSingleton.getDomain(), name,
                                                                 ParameterHelper.PARAMETERIDENTITY_OBJECT_TYPE);
 
@@ -625,9 +625,9 @@ public class ParameterManager extends MCManager
                     i++;
                 }
 
-                ArchiveDetailsList identityDetails = new ArchiveDetailsList();
+                final ArchiveDetailsList identityDetails = new ArchiveDetailsList();
 
-                for (Identifier name : namesToAdd)
+                for (final Identifier name : namesToAdd)
                 {
                     identityDetails.add(
                             HelperArchive.generateArchiveDetailsList(null, source, connectionDetails.getProviderURI())
@@ -635,45 +635,45 @@ public class ParameterManager extends MCManager
                 }
 
                 //add to the archive
-                LongList idIds = super.getArchiveService().store(true, ParameterHelper.PARAMETERIDENTITY_OBJECT_TYPE,
+                final LongList idIds = super.getArchiveService().store(true, ParameterHelper.PARAMETERIDENTITY_OBJECT_TYPE,
                                                                  ConfigurationProviderSingleton.getDomain(),
                                                                  identityDetails, namesToAdd, null);
                 i = 0;
 
-                for (Identifier name : namesToAdd)
+                for (final Identifier name : namesToAdd)
                 {
-                    int index = names.indexOf(name);
+                    final int index = names.indexOf(name);
 
                     identityIds.add(index, idIds.get(i));
 
                     i++;
                 }
 
-                ArchiveDetailsList definitionDetails = new ArchiveDetailsList();
+                final ArchiveDetailsList definitionDetails = new ArchiveDetailsList();
 
-                for (Long idId : identityIds)
+                for (final Long idId : identityIds)
                 {
-                    ArchiveDetailsList defDetails =
+                    final ArchiveDetailsList defDetails =
                             HelperArchive.generateArchiveDetailsList(idId, source, connectionDetails.getProviderURI());
 
                     definitionDetails.add(defDetails.get(0));
                 }
 
                 //not matter if the parameter was created or loaded, a new definition will be created
-                LongList defIds = super.getArchiveService().store(true, ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE,
+                final LongList defIds = super.getArchiveService().store(true, ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE,
                                                                   ConfigurationProviderSingleton.getDomain(),
                                                                   definitionDetails, definitions, null);
 
                 i = 0;
                 //add to providers local list
-                for (Long idId : identityIds)
+                for (final Long idId : identityIds)
                 {
-                    ObjectInstancePair newIdPair = new ObjectInstancePair(identityIds.get(i), defIds.get(i));
+                    final ObjectInstancePair newIdPair = new ObjectInstancePair(identityIds.get(i), defIds.get(i));
                     newIdPairList.add(newIdPair);
                     i++;
                 }
             }
-            catch (MALException | MALInteractionException ex)
+            catch (final MALException | MALInteractionException ex)
             {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
                 return null;
@@ -682,7 +682,7 @@ public class ParameterManager extends MCManager
 
         int i = 0;
 
-        for (Identifier name : names)
+        for (final Identifier name : names)
         {
             this.addIdentityDefinition(name, newIdPairList.get(i), definitions.get(i));
             i++;
@@ -691,10 +691,10 @@ public class ParameterManager extends MCManager
         return newIdPairList;
     }
 
-    protected ObjectInstancePair add(Identifier name, ParameterDefinitionDetails definition, ObjectId source,
-                                     SingleConnectionDetails connectionDetails)
+    protected ObjectInstancePair add(final Identifier name, final ParameterDefinitionDetails definition, final ObjectId source,
+                                     final SingleConnectionDetails connectionDetails)
     { // requirement: 3.3.2.5
-        ObjectInstancePair newIdPair;
+        final ObjectInstancePair newIdPair;
 
         if (super.getArchiveService() == null)
         {
@@ -715,10 +715,10 @@ public class ParameterManager extends MCManager
                 //in case the ParameterName never existed before, create a new identity
                 if (identityId == null)
                 {
-                    IdentifierList names = new IdentifierList();
+                    final IdentifierList names = new IdentifierList();
                     names.add(name);
                     //add to the archive
-                    LongList identityIds = super.getArchiveService()
+                    final LongList identityIds = super.getArchiveService()
                             .store(true, ParameterHelper.PARAMETERIDENTITY_OBJECT_TYPE,
                                    ConfigurationProviderSingleton.getDomain(),
                                    HelperArchive.generateArchiveDetailsList(null, source, connectionDetails), names,
@@ -727,9 +727,9 @@ public class ParameterManager extends MCManager
                 }
 
                 //not matter if the parameter was created or loaded, a new definition will be created
-                ParameterDefinitionDetailsList defs = new ParameterDefinitionDetailsList();
+                final ParameterDefinitionDetailsList defs = new ParameterDefinitionDetailsList();
                 defs.add(definition);
-                LongList defIds = super.getArchiveService().store(true, ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE,
+                final LongList defIds = super.getArchiveService().store(true, ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE,
                                                                   ConfigurationProviderSingleton.getDomain(),
                                                                   HelperArchive.generateArchiveDetailsList(identityId,
                                                                                                            source,
@@ -740,7 +740,7 @@ public class ParameterManager extends MCManager
                 newIdPair = new ObjectInstancePair(identityId, defIds.get(0));
 
             }
-            catch (MALException | MALInteractionException ex)
+            catch (final MALException | MALInteractionException ex)
             {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
                 return null;
@@ -758,7 +758,7 @@ public class ParameterManager extends MCManager
      * @param identityId the id of the identity to be removed
      * @return true if it was successful.
      */
-    protected boolean delete(Long identityId)
+    protected boolean delete(final Long identityId)
     { // requirement: 3.3.2.d
         return this.deleteIdentity(identityId);
     }
@@ -773,10 +773,10 @@ public class ParameterManager extends MCManager
      * @return true if it was successfully updated. false if def is null or the new bool value was the same as the
      * current value.
      */
-    protected Long setGenerationEnabled(Long identityId, Boolean bool, ObjectId source,
-                                        SingleConnectionDetails connectionDetails)
+    protected Long setGenerationEnabled(final Long identityId, final Boolean bool, final ObjectId source,
+                                        final SingleConnectionDetails connectionDetails)
     { // requirement: 3.3.2.a.c
-        ParameterDefinitionDetails def = this.getParameterDefinition(identityId);
+        final ParameterDefinitionDetails def = this.getParameterDefinition(identityId);
 
         if (def == null)
         {
@@ -803,8 +803,8 @@ public class ParameterManager extends MCManager
      * @param connectionDetails the given connectionDetails
      * @return the object instance identifier of the new parameter-definition
      */
-    protected Long update(Long identityId, ParameterDefinitionDetails definition, ObjectId source,
-                          SingleConnectionDetails connectionDetails)
+    protected Long update(final Long identityId, final ParameterDefinitionDetails definition, final ObjectId source,
+                          final SingleConnectionDetails connectionDetails)
     { // requirement: 3.3.2.d
         Long newDefId = null;
 
@@ -819,11 +819,11 @@ public class ParameterManager extends MCManager
         {  // update in the COM Archive
             try
             {
-                ParameterDefinitionDetailsList defs = new ParameterDefinitionDetailsList();
+                final ParameterDefinitionDetailsList defs = new ParameterDefinitionDetailsList();
                 defs.add(definition);
 
                 //create a new ParameterDefinition
-                LongList defIds = super.getArchiveService().store(true, ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE,
+                final LongList defIds = super.getArchiveService().store(true, ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE,
                                                                   ConfigurationProviderSingleton.getDomain(),
                                                                   HelperArchive.generateArchiveDetailsList(identityId,
                                                                                                            source,
@@ -833,7 +833,7 @@ public class ParameterManager extends MCManager
                 newDefId = defIds.get(0);
 
             }
-            catch (MALException | MALInteractionException ex)
+            catch (final MALException | MALInteractionException ex)
             {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -851,14 +851,14 @@ public class ParameterManager extends MCManager
      * @param source            the source that created this update. will be set as the new defintions source
      * @param connectionDetails the details of the connection
      */
-    protected void setGenerationEnabledAll(Boolean bool, ObjectId source, SingleConnectionDetails connectionDetails)
+    protected void setGenerationEnabledAll(final Boolean bool, final ObjectId source, final SingleConnectionDetails connectionDetails)
     {
-        LongList identitiyIds = new LongList();
+        final LongList identitiyIds = new LongList();
         identitiyIds.addAll(this.listAllIdentities());
 
-        for (Long identityId : identitiyIds)
+        for (final Long identityId : identitiyIds)
         {
-            ParameterDefinitionDetails def = this.getParameterDefinition(identityId);
+            final ParameterDefinitionDetails def = this.getParameterDefinition(identityId);
             def.setGenerationEnabled(bool);
             this.update(identityId, def, source, connectionDetails);
         }
@@ -871,31 +871,31 @@ public class ParameterManager extends MCManager
      * @param newRawValues the new value to be set
      * @return a list with boolean values, that say which values were successfully (true) or unsuccessfully(false) set
      */
-    protected ParameterValueList setValues(ParameterRawValueList newRawValues)
+    protected ParameterValueList setValues(final ParameterRawValueList newRawValues)
     {
 
         // check if new interface method is implemented, if yes, call it
         try
         {
-            Class cla = parametersMonitoring.getClass()
+            final Class cla = parametersMonitoring.getClass()
                     .getMethod("onSetValue", IdentifierList.class, ParameterRawValueList.class).getDeclaringClass();
             if (cla == ParameterStatusListener.class)
             {
-                Boolean setSuccessful = parametersMonitoring.onSetValue(newRawValues);
+                final Boolean setSuccessful = parametersMonitoring.onSetValue(newRawValues);
             }
         }
-        catch (NoSuchMethodException | SecurityException ex)
+        catch (final NoSuchMethodException | SecurityException ex)
         {
         }
         // else use old procedure:
 
-        ParameterValueList paramValList = new ParameterValueList();
-        IdentifierList names = new IdentifierList(newRawValues.size());
+        final ParameterValueList paramValList = new ParameterValueList();
+        final IdentifierList names = new IdentifierList(newRawValues.size());
 
         //each Raw Value shall be set
-        for (ParameterRawValue newRawValue : newRawValues)
+        for (final ParameterRawValue newRawValue : newRawValues)
         {
-            Long identityId = newRawValue.getParamInstId();
+            final Long identityId = newRawValue.getParamInstId();
             //requirement 3.3.9.2.h: create a new ParameterValue
             //TODO: what happens with the newly crated value? only raw value will be saved in the parameterApplication -> issue #140
             //            ParameterValue newValue = generateNewParameterValue(newRawValue.getRawValue(), getParameterDefinition(identityId), false);
@@ -916,9 +916,9 @@ public class ParameterManager extends MCManager
         // setSuccessful is not being used anywhere... weird
         try
         {
-            Boolean setSuccessful = parametersMonitoring.onSetValue(names, newRawValues);
+            final Boolean setSuccessful = parametersMonitoring.onSetValue(names, newRawValues);
         }
-        catch (UnsupportedOperationException ex)
+        catch (final UnsupportedOperationException ex)
         {
         }
 
@@ -954,7 +954,7 @@ public class ParameterManager extends MCManager
         Attribute convertedValue = this.getConvertedValue(rawValue, pDef);
 
         //check the validity and set the state
-        UOctet validityState = generateValidityState(pDef, rawValue, convertedValue, aggrExpired);
+        final UOctet validityState = generateValidityState(pDef, rawValue, convertedValue, aggrExpired);
         newPValue.setValidityState(validityState);
 
         if (validityState.equals(getAsUOctet(ValidityState.INVALID_CONVERSION)))
@@ -979,7 +979,7 @@ public class ParameterManager extends MCManager
      * @param pDef       the definition of the parameter
      * @return the raw value. null if there is no parametersMonitoring
      */
-    private Attribute getRawValue(Long identityId, ParameterDefinitionDetails pDef) throws IOException
+    private Attribute getRawValue(final Long identityId, final ParameterDefinitionDetails pDef) throws IOException
     {
         if (parametersMonitoring == null)
         {
@@ -987,14 +987,14 @@ public class ParameterManager extends MCManager
         }
         try
         {
-            Class cla = parametersMonitoring.getClass().getMethod("onGetValue", Identifier.class, Byte.class)
+            final Class cla = parametersMonitoring.getClass().getMethod("onGetValue", Identifier.class, Byte.class)
                     .getDeclaringClass();
             if (cla == ParameterStatusListener.class)
             {
                 return parametersMonitoring.onGetValue(identityId);
             }
         }
-        catch (NoSuchMethodException | SecurityException ex)
+        catch (final NoSuchMethodException | SecurityException ex)
         {
             Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
         }

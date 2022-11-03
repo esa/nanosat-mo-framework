@@ -70,7 +70,7 @@ public class TransactionsProcessor {
 
     final LinkedBlockingQueue<StoreCOMObjectsContainer> storeQueue;
 
-    public TransactionsProcessor(DatabaseBackend dbBackend) {
+    public TransactionsProcessor(final DatabaseBackend dbBackend) {
         this.dbBackend = dbBackend;
         this.storeQueue = new LinkedBlockingQueue<>();
         this.sequencialStoring = new AtomicBoolean(false);
@@ -93,11 +93,11 @@ public class TransactionsProcessor {
    */
   public void vacuum() {
     try {
-      Connection c = dbBackend.getConnection();
+      final Connection c = dbBackend.getConnection();
       LOGGER.log(Level.FINE, "Vacuuming database");
-      Statement query = c.createStatement();
+      final Statement query = c.createStatement();
       query.executeUpdate("VACUUM");
-    } catch (SQLException ex) {
+    } catch (final SQLException ex) {
       LOGGER.log(Level.SEVERE,
           "Failed to vacuum database", ex);
     }
@@ -107,18 +107,18 @@ public class TransactionsProcessor {
             final Long objId) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
 
-        LongList ids = new LongList();
+        final LongList ids = new LongList();
         ids.add(objId);
-        Future<List<COMObjectEntity>> future = dbTransactionsExecutor.submit(new CallableGetCOMObjects(this, ids, domainId, objTypeId));
+        final Future<List<COMObjectEntity>> future = dbTransactionsExecutor.submit(new CallableGetCOMObjects(this, ids, domainId, objTypeId));
 
         try {
-            List<COMObjectEntity> ret = future.get();
+            final List<COMObjectEntity> ret = future.get();
             if (ret.size() == 1) {
                 return ret.get(0);
             } else {
                 return null;
             }
-        } catch (InterruptedException | ExecutionException ex) {
+        } catch (final InterruptedException | ExecutionException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
@@ -132,11 +132,11 @@ public class TransactionsProcessor {
     public List<COMObjectEntity> getCOMObjects(final Integer objTypeId, final Integer domainId, final LongList ids) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
 
-        Future<List<COMObjectEntity>> future = dbTransactionsExecutor.submit(new CallableGetCOMObjects(this, ids, domainId, objTypeId));
+        final Future<List<COMObjectEntity>> future = dbTransactionsExecutor.submit(new CallableGetCOMObjects(this, ids, domainId, objTypeId));
 
         try {
             return future.get();
-        } catch (InterruptedException | ExecutionException ex) {
+        } catch (final InterruptedException | ExecutionException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
@@ -146,17 +146,17 @@ public class TransactionsProcessor {
     public List<COMObjectEntity> getAllCOMObjects(final Integer objTypeId, final Integer domainId) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
 
-        IntegerList types = new IntegerList();
+        final IntegerList types = new IntegerList();
         types.add(objTypeId);
-        IntegerList domains = new IntegerList();
+        final IntegerList domains = new IntegerList();
         domains.add(domainId);
-        ArchiveQuery archiveQuery = new ArchiveQuery(null, null, null, 0L, null, null, null, null, null);
-        CallableSelectQuery query = new CallableSelectQuery(this, types, archiveQuery, domains, null, null, null, null);
-        Future<ArrayList<COMObjectEntity>> future = dbTransactionsExecutor.submit(query);
+        final ArchiveQuery archiveQuery = new ArchiveQuery(null, null, null, 0L, null, null, null, null, null);
+        final CallableSelectQuery query = new CallableSelectQuery(this, types, archiveQuery, domains, null, null, null, null);
+        final Future<ArrayList<COMObjectEntity>> future = dbTransactionsExecutor.submit(query);
 
         try {
             return future.get();
-        } catch (InterruptedException | ExecutionException ex) {
+        } catch (final InterruptedException | ExecutionException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
@@ -166,11 +166,11 @@ public class TransactionsProcessor {
     public LongList getAllCOMObjectsIds(final Integer objTypeId, final Integer domainId) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
 
-        Future<LongList> future = dbTransactionsExecutor.submit(new CallableGetAllCOMObjectIds(this, domainId, objTypeId));
+        final Future<LongList> future = dbTransactionsExecutor.submit(new CallableGetAllCOMObjectIds(this, domainId, objTypeId));
 
         try {
             return future.get();
-        } catch (InterruptedException | ExecutionException ex) {
+        } catch (final InterruptedException | ExecutionException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
@@ -185,7 +185,7 @@ public class TransactionsProcessor {
 
         try { // Insert into queue
             storeQueue.put(container);
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             Logger.getLogger(ArchiveManager.class.getName()).log(Level.SEVERE,
                     "Something went wrong...", ex);
         }
@@ -214,11 +214,11 @@ public class TransactionsProcessor {
     final CallableSelectQuery task = new CallableSelectQuery(this, objTypeIds, archiveQuery,
         domainIds, providerURIId, networkId, sourceLink, filter);
 
-    Future<ArrayList<COMObjectEntity>> future = dbTransactionsExecutor.submit(task);
+    final Future<ArrayList<COMObjectEntity>> future = dbTransactionsExecutor.submit(task);
 
     try {
       return future.get();
-    } catch (InterruptedException | ExecutionException ex) {
+    } catch (final InterruptedException | ExecutionException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
     }
 
@@ -233,11 +233,11 @@ public class TransactionsProcessor {
     final CallableDeleteQuery task = new CallableDeleteQuery(this, objTypeIds, archiveQuery,
         domainIds, providerURIId, networkId, sourceLink, filter);
 
-    Future<Integer> future = dbTransactionsExecutor.submit(task);
+    final Future<Integer> future = dbTransactionsExecutor.submit(task);
 
     try {
       return future.get();
-    } catch (InterruptedException | ExecutionException ex) {
+    } catch (final InterruptedException | ExecutionException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
     }
 
@@ -246,24 +246,24 @@ public class TransactionsProcessor {
 
   public void resetMainTable(final Callable<?> task) {
     this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
-    Future<?> f = dbTransactionsExecutor.submit(task);
+    final Future<?> f = dbTransactionsExecutor.submit(task);
     LOGGER.info("Reset table submitted!");
 
     try {
       f.get();
       LOGGER.info("Reset table callback!");
-    } catch (InterruptedException | ExecutionException ex) {
+    } catch (final InterruptedException | ExecutionException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
     }
   }
 
   public void stopInteractions(final Callable<?> task) {
     this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
-    Future<?> future = dbTransactionsExecutor.submit(task);
+    final Future<?> future = dbTransactionsExecutor.submit(task);
 
     try {
       future.get();
-    } catch (InterruptedException | ExecutionException ex) {
+    } catch (final InterruptedException | ExecutionException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
     }
   }
@@ -277,16 +277,16 @@ public class TransactionsProcessor {
     private final AtomicInteger threadNumber = new AtomicInteger(1);
     private final String namePrefix;
 
-    DBThreadFactory(String prefix) {
-      SecurityManager s = System.getSecurityManager();
+    DBThreadFactory(final String prefix) {
+      final SecurityManager s = System.getSecurityManager();
       group = (s != null) ? s.getThreadGroup()
           : Thread.currentThread().getThreadGroup();
       namePrefix = prefix + "-thread-";
     }
 
     @Override
-    public Thread newThread(Runnable r) {
-      Thread t = new Thread(group, r,
+    public Thread newThread(final Runnable r) {
+      final Thread t = new Thread(group, r,
           namePrefix + threadNumber.getAndIncrement(),
           0);
       if (t.isDaemon()) {

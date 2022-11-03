@@ -8,7 +8,7 @@ public class PreparedStatements {
 
     Connection c;
 
-    public PreparedStatements(Connection serverConnection) {
+    public PreparedStatements(final Connection serverConnection) {
         c = serverConnection;
     }
 
@@ -40,7 +40,7 @@ public class PreparedStatements {
     private PreparedStatement updateCOMObjects;
     private PreparedStatement selectMaxObjId;
 
-    public void init(boolean isPostgres) throws SQLException {
+    public void init(final boolean isPostgres) throws SQLException {
         if(isPostgres) {
             selectCOMObjects = c.prepareStatement(SELECT_COM_OBJECTS);
         }

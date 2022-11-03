@@ -38,7 +38,7 @@ public class SoftwareDefinedRadioSoftSimAdapter implements SoftwareDefinedRadioA
   private final ESASimulator instrumentsSimulator;
   private PowerControlAdapterInterface pcAdapter;
 
-  public SoftwareDefinedRadioSoftSimAdapter(ESASimulator instrumentsSimulator, PowerControlAdapterInterface pcAdapter)
+  public SoftwareDefinedRadioSoftSimAdapter(final ESASimulator instrumentsSimulator, final PowerControlAdapterInterface pcAdapter)
   {
     this.instrumentsSimulator = instrumentsSimulator;
     this.pcAdapter = pcAdapter;
@@ -51,13 +51,13 @@ public class SoftwareDefinedRadioSoftSimAdapter implements SoftwareDefinedRadioA
   }
 
   @Override
-  public boolean setConfiguration(SDRConfiguration configuration)
+  public boolean setConfiguration(final SDRConfiguration configuration)
   {
     return false;
   }
 
   @Override
-  public boolean enableSDR(Boolean enable)
+  public boolean enableSDR(final Boolean enable)
   {
     return true;
   }
@@ -66,11 +66,11 @@ public class SoftwareDefinedRadioSoftSimAdapter implements SoftwareDefinedRadioA
   public IQComponents getIQComponents()
   {
 
-    int nSamples = 10000;
-    double[] data = instrumentsSimulator.getpSDR().readFromBuffer(nSamples);
+    final int nSamples = 10000;
+    final double[] data = instrumentsSimulator.getpSDR().readFromBuffer(nSamples);
 
-    FloatList inPhase = new FloatList();
-    FloatList quadrature = new FloatList();
+    final FloatList inPhase = new FloatList();
+    final FloatList quadrature = new FloatList();
 
     // Trim the accuracy to match NMF interface
     for (int i = 0; i < nSamples; i++) {
@@ -78,7 +78,7 @@ public class SoftwareDefinedRadioSoftSimAdapter implements SoftwareDefinedRadioA
       quadrature.add((float) data[2 * i + 1]);
     }
 
-    IQComponents iqComponents = new IQComponents();
+    final IQComponents iqComponents = new IQComponents();
     iqComponents.setInPhase(inPhase);
     iqComponents.setQuadrature(quadrature);
 

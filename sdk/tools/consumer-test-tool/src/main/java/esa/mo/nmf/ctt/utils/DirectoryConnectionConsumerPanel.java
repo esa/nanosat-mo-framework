@@ -88,7 +88,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel
     this.initTextBoxAddress();
     this.isS2G = isS2G;
 
-    String[] tableCol = new String[]{"Service name", "Supported Capabilities",
+    final String[] tableCol = new String[]{"Service name", "Supported Capabilities",
       "Service Properties", "URI address", "Broker URI Address"};
 
     tableData = new javax.swing.table.DefaultTableModel(
@@ -100,13 +100,13 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel
       };
 
       @Override               //all cells false
-      public boolean isCellEditable(int row, int column)
+      public boolean isCellEditable(final int row, final int column)
       {
         return false;
       }
 
       @Override
-      public Class getColumnClass(int columnIndex)
+      public Class getColumnClass(final int columnIndex)
       {
         return types[columnIndex];
       }
@@ -114,7 +114,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel
 
     jTable1.setModel(tableData);
 
-    ListSelectionListener listSelectionListener = listSelectionEvent -> {
+    final ListSelectionListener listSelectionListener = listSelectionEvent -> {
       // Update the jTable according to the selection of the index
       cleanTableData();
 
@@ -124,18 +124,18 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel
         index = 0;
       }
 
-      ServiceCapabilityList services
+      final ServiceCapabilityList services
           = summaryList.get(index).getProviderDetails().getServiceCapabilities();
 
       // And then add the new stuff
       for (int i = 0; i < services.size(); i++) {
-        ServiceCapability service = services.get(i);
+        final ServiceCapability service = services.get(i);
 
         String serviceName;
         try {
           serviceName = HelperMisc.serviceKey2name(service.getServiceKey().getKeyArea(),
               service.getServiceKey().getKeyAreaVersion(), service.getServiceKey().getKeyService());
-        } catch (MALException ex) {
+        } catch (final MALException ex) {
           serviceName = "<Unknown service>";
         }
 
@@ -149,7 +149,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel
               ? "null" : service.getServiceAddresses().get(0).getBrokerURI().toString();
         }
 
-        String supportedCapabilities = (service.getSupportedCapabilitySets() == null)
+        final String supportedCapabilities = (service.getSupportedCapabilitySets() == null)
             ? "All Supported" : service.getSupportedCapabilitySets().toString();
 
         tableData.addRow(new Object[]{
@@ -230,7 +230,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel
         connectButton.setText("Connect to Selected Provider");
         connectButton.addActionListener(this::connectButtonActionPerformed);
 
-        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        final javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -289,7 +289,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Providers List:");
 
-        javax.swing.GroupLayout homeTabLayout = new javax.swing.GroupLayout(homeTab);
+        final javax.swing.GroupLayout homeTabLayout = new javax.swing.GroupLayout(homeTab);
         homeTab.setLayout(homeTabLayout);
         homeTabLayout.setHorizontalGroup(
             homeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -313,7 +313,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel
                     .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        final javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -330,7 +330,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
+    private void connectButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
       if (providersList.getModel().getSize() == 0) {
         return;
       }
@@ -338,40 +338,40 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel
       final ProviderSummary summary = summaryList.get(providersList.getSelectedIndex());
       final int count = tabs.getTabCount();
 
-      Thread t1 = new Thread()
+      final Thread t1 = new Thread()
       {
         @Override
         public void run()
         {
           this.setName("ConnectButtonActionThread");
 
-          ServiceKey loginServiceKey = new ServiceKey(LoginHelper.LOGIN_SERVICE.getArea().getNumber(),
+          final ServiceKey loginServiceKey = new ServiceKey(LoginHelper.LOGIN_SERVICE.getArea().getNumber(),
                                                       LoginHelper.LOGIN_SERVICE.getNumber(),
                                                       LoginHelper.LOGIN_SERVICE.getArea().getVersion());
-          ServiceCapability loginService = summary.getProviderDetails().getServiceCapabilities()
+          final ServiceCapability loginService = summary.getProviderDetails().getServiceCapabilities()
                                                   .stream()
                                                   .filter(serviceCapability -> serviceCapability.getServiceKey().equals(loginServiceKey))
                                                   .findFirst()
                                                   .orElse(null);
 
-            ServiceKey archiveServiceKey = new ServiceKey(ArchiveHelper.ARCHIVE_SERVICE.getArea().getNumber(),
+            final ServiceKey archiveServiceKey = new ServiceKey(ArchiveHelper.ARCHIVE_SERVICE.getArea().getNumber(),
                                                           ArchiveHelper.ARCHIVE_SERVICE.getNumber(),
                                                           ArchiveHelper.ARCHIVE_SERVICE.getArea().getVersion());
-            ServiceCapability archiveService = summary.getProviderDetails().getServiceCapabilities()
+            final ServiceCapability archiveService = summary.getProviderDetails().getServiceCapabilities()
                                                       .stream()
                                                       .filter(serviceCapability -> serviceCapability.getServiceKey().equals(archiveServiceKey))
                                                       .findFirst()
                                                       .orElse(null);
           Blob authenticationId = null;
           String localNamePrefix = null;
-          IdentifierList providerDomain = summary.getProviderKey().getDomain();
+          final IdentifierList providerDomain = summary.getProviderKey().getDomain();
           IdentifierList domainForArchiveRetrieval = providerDomain;
           if(loginService != null && archiveService != null)
           {
             if(loginService.getServiceAddresses().get(0).getServiceURI().getValue().toLowerCase().contains("lwmcs"))
             {
                 localNamePrefix = "LWMCS_Consumer_"  + new Random().nextInt();
-                ProviderSummary lwmcs = summaryList.stream()
+                final ProviderSummary lwmcs = summaryList.stream()
                                                    .filter(providerSummary -> providerSummary.getProviderId()
                                                                                              .getValue()
                                                                                              .toLowerCase()
@@ -383,7 +383,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel
                     domainForArchiveRetrieval = lwmcs.getProviderKey().getDomain();
                 }
             }
-            LoginDialog loginDialog = new LoginDialog(loginService, archiveService,
+            final LoginDialog loginDialog = new LoginDialog(loginService, archiveService,
                                                       providerDomain, domainForArchiveRetrieval,
                                                       localNamePrefix);
             if(loginDialog.isLoginSuccessful())
@@ -396,18 +396,18 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel
             }
           }
 
-          ProviderTabPanel providerPanel = createNewProviderTabPanel(summary, authenticationId, localNamePrefix);
+          final ProviderTabPanel providerPanel = createNewProviderTabPanel(summary, authenticationId, localNamePrefix);
 
           // -- Close Button --
           final javax.swing.JPanel pnlTab = new javax.swing.JPanel();
           pnlTab.setOpaque(false);
-          JLabel label = new JLabel(summary.getProviderId().toString());
-          JLabel closeLabel = new JLabel("x");
+          final JLabel label = new JLabel(summary.getProviderId().toString());
+          final JLabel closeLabel = new JLabel("x");
           closeLabel.addMouseListener(new CloseMouseHandler(pnlTab, providerPanel));
           closeLabel.setFont(closeLabel.getFont().deriveFont(
               closeLabel.getFont().getStyle() | Font.BOLD));
 
-          GridBagConstraints gbc = new GridBagConstraints();
+          final GridBagConstraints gbc = new GridBagConstraints();
           gbc.gridx = 0;
           gbc.gridy = 0;
           gbc.weightx = 1;
@@ -429,30 +429,30 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel
       t1.start();
     }//GEN-LAST:event_connectButtonActionPerformed
 
-  public ProviderTabPanel createNewProviderTabPanel(final ProviderSummary providerSummary, Blob authenticationId, String localNamePrefix)
+  public ProviderTabPanel createNewProviderTabPanel(final ProviderSummary providerSummary, final Blob authenticationId, final String localNamePrefix)
   {
     return new ProviderTabPanel(providerSummary, authenticationId, localNamePrefix);
   }
 
-  private void errorConnectionProvider(String service, Throwable ex)
+  private void errorConnectionProvider(final String service, final Throwable ex)
   {
     JOptionPane.showMessageDialog(null, "Could not connect to " + service + " service provider!"
         + "\nException:\n" + ex + "\n" + ex.getMessage(), "Error!", JOptionPane.PLAIN_MESSAGE);
   }
 
-    private void uriServiceDirectoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uriServiceDirectoryActionPerformed
+    private void uriServiceDirectoryActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uriServiceDirectoryActionPerformed
       // TODO add your handling code here:
     }//GEN-LAST:event_uriServiceDirectoryActionPerformed
 
   @SuppressWarnings("unchecked")
-    private void load_URI_links1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_load_URI_links1ActionPerformed
+    private void load_URI_links1ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_load_URI_links1ActionPerformed
       try {
         summaryList = GroundMOAdapterImpl.retrieveProvidersFromDirectory(isS2G,
             this.getAddressToBeUsed());
 
-        DefaultListModel listOfProviders = new DefaultListModel();
+        final DefaultListModel listOfProviders = new DefaultListModel();
 
-        for (ProviderSummary summary : summaryList) {
+        for (final ProviderSummary summary : summaryList) {
           listOfProviders.addElement(summary.getProviderKey().getInstId().toString()
               + ". " + summary.getProviderId().toString());
         }
@@ -465,7 +465,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel
         prefs.put(LAST_USED_CONSUMER_PREF, uriServiceDirectory.getText());
 
         connectButton.setEnabled(true);
-      } catch (MalformedURLException | MALInteractionException | MALException ex) {
+      } catch (final MalformedURLException | MALInteractionException | MALException ex) {
         errorConnectionProvider("Directory", ex);
         providersList.setModel(new DefaultListModel());
         connectButton.setEnabled(false);
@@ -499,7 +499,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel
   private void initTextBoxAddress()
   {  // runs during the init of the app
     // Common services
-    SingleConnectionDetails details = connectionConsumer.getServicesDetails().get(
+    final SingleConnectionDetails details = connectionConsumer.getServicesDetails().get(
         DirectoryHelper.DIRECTORY_SERVICE_NAME);
 
     if (details != null) {
@@ -520,16 +520,16 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel
     }
 
     @Override
-    public void mouseClicked(MouseEvent evt)
+    public void mouseClicked(final MouseEvent evt)
     {
-      Thread t1 = new Thread()
+      final Thread t1 = new Thread()
       {
         @Override
         public void run()
         {
           this.setName("CloseButtonTabThread");
           for (int i = 0; i < tabs.getTabCount(); i++) {
-            Component component = tabs.getTabComponentAt(i);
+            final Component component = tabs.getTabComponentAt(i);
 
             if (component == panel) {
               tabs.remove(i);
@@ -542,13 +542,13 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel
                           Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName())
                                 .log(Level.INFO, "Logged out successfully");
 
-                      } catch (MALInteractionException | MALException e) {
+                      } catch (final MALInteractionException | MALException e) {
                           Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName())
                                 .log(Level.SEVERE, "Unexpected exception during logout!", e);
                       }
                   }
                 providerPanel.getServices().closeConnections();
-              } catch (Exception ex) {
+              } catch (final Exception ex) {
                 Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.WARNING,
                     "The connection was not closed correctly. Maybe the provider was unreachable!");
               }
@@ -563,22 +563,22 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel
     }
 
     @Override
-    public void mousePressed(MouseEvent me)
+    public void mousePressed(final MouseEvent me)
     {
     }
 
     @Override
-    public void mouseReleased(MouseEvent me)
+    public void mouseReleased(final MouseEvent me)
     {
     }
 
     @Override
-    public void mouseEntered(MouseEvent me)
+    public void mouseEntered(final MouseEvent me)
     {
     }
 
     @Override
-    public void mouseExited(MouseEvent me)
+    public void mouseExited(final MouseEvent me)
     {
     }
   }

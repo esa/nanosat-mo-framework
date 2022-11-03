@@ -45,14 +45,14 @@ public class MPRegistration {
     public final MPServiceOperationManager operationCallbackManager;
 
     public MPRegistration(
-        COMServicesProvider comServices,
-        MPServiceOperationManager operationCallbackManager
+            final COMServicesProvider comServices,
+            final MPServiceOperationManager operationCallbackManager
     ) {
         this.comServices = comServices;
         this.operationCallbackManager = operationCallbackManager;
     }
 
-    public void setMode(RegistrationMode mode) {
+    public void setMode(final RegistrationMode mode) {
         this.mode = mode;
     }
 
@@ -65,11 +65,11 @@ public class MPRegistration {
      * @return The request template object ids of the
      * RequestTemplate objects.
      */
-    public ObjectIdList registerRequestTemplates(RequestTemplateDetailsList requestTemplates) {
+    public ObjectIdList registerRequestTemplates(final RequestTemplateDetailsList requestTemplates) {
         return new ObjectIdList();
     }
 
-    public void registerOperation(MPServiceOperation operationName, MPServiceOperationCallback callback) {
+    public void registerOperation(final MPServiceOperation operationName, final MPServiceOperationCallback callback) {
         operationCallbackManager.register(operationName, callback);
     }
 }

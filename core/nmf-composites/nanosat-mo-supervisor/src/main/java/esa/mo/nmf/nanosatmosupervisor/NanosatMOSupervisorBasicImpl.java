@@ -49,21 +49,21 @@ public class NanosatMOSupervisorBasicImpl extends NanoSatMOSupervisor {
   private ConnectionConsumer connectionConsumer;
 
   @Override
-  public void initPlatformServices(COMServicesProvider comServices) {
+  public void initPlatformServices(final COMServicesProvider comServices) {
     try {
-      String platformProviderClass = System.getProperty("nmf.platform.impl", "esa.mo.platform.impl.util.PlatformServicesProviderSoftSim");
+      final String platformProviderClass = System.getProperty("nmf.platform.impl", "esa.mo.platform.impl.util.PlatformServicesProviderSoftSim");
       try {
         platformServicesProvider
             = (PlatformServicesProviderInterface) Class.forName(platformProviderClass).newInstance();
         platformServicesProvider.init(comServices);
-      } catch (NullPointerException | ClassNotFoundException | InstantiationException
+      } catch (final NullPointerException | ClassNotFoundException | InstantiationException
           | IllegalAccessException ex) {
         LOGGER.log(Level.SEVERE,
             "Something went wrong when initializing the platform services.",
             ex);
         System.exit(-1);
       }
-    } catch (MALException ex) {
+    } catch (final MALException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
     }
     // Now connect the platform services consumer loopback to it
@@ -71,7 +71,7 @@ public class NanosatMOSupervisorBasicImpl extends NanoSatMOSupervisor {
     try {
       connectionConsumer.setServicesDetails(ConnectionProvider.getGlobalProvidersDetailsPrimary());
       super.getPlatformServices().init(connectionConsumer, null);
-    } catch (NMFException ex) {
+    } catch (final NMFException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
     }
   }
@@ -82,7 +82,7 @@ public class NanosatMOSupervisorBasicImpl extends NanoSatMOSupervisor {
   }
 
   @Override
-  public void init(MonitorAndControlNMFAdapter mcAdapter) {
+  public void init(final MonitorAndControlNMFAdapter mcAdapter) {
     init(mcAdapter, new PlatformServicesConsumer(), new NMFPackagePMBackend("packages"));
   }
 
@@ -93,8 +93,8 @@ public class NanosatMOSupervisorBasicImpl extends NanoSatMOSupervisor {
    * @throws java.lang.Exception If there is an error
    */
   public static void main(final String[] args) throws Exception {
-    NanosatMOSupervisorBasicImpl supervisor = new NanosatMOSupervisorBasicImpl();
-    MCSupervisorBasicAdapter adapter = new MCSupervisorBasicAdapter();
+    final NanosatMOSupervisorBasicImpl supervisor = new NanosatMOSupervisorBasicImpl();
+    final MCSupervisorBasicAdapter adapter = new MCSupervisorBasicAdapter();
     adapter.setNmfSupervisor(supervisor);
     supervisor.init(adapter);
     adapter.startAdcsAttitudeMonitoring();

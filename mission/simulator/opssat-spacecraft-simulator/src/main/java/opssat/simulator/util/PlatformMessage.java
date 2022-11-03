@@ -6,7 +6,7 @@ public class PlatformMessage implements Serializable {
   private String key;
   private String value;
 
-  public PlatformMessage(String key, String value) {
+  public PlatformMessage(final String key, final String value) {
     super();
     this.key = key;
     this.value = value;
@@ -22,7 +22,7 @@ public class PlatformMessage implements Serializable {
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder("PlatformMessage { ");
+    final StringBuilder sb = new StringBuilder("PlatformMessage { ");
     sb.append("Key: ").append(this.key).append(", Value: ").append(this.value);
     sb.append("};");
     return sb.toString();

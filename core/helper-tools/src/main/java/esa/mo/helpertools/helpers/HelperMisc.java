@@ -160,14 +160,14 @@ public class HelperMisc {
     if (null != url) {
       try {
         final Properties myProps = new Properties();
-        InputStream stream = url.openStream();
+        final InputStream stream = url.openStream();
         myProps.load(stream);
         stream.close();
 
         final Properties subProps = loadProperties(myProps.getProperty(chainProperty),
             chainProperty);
 
-        String loadingString = (LOADED_PROPERTIES.contains(url.toString()))
+        final String loadingString = (LOADED_PROPERTIES.contains(url.toString()))
             ? "Reloading properties " + url.toString()
             : "Loading properties " + url.toString();
 
@@ -175,7 +175,7 @@ public class HelperMisc {
         topProps.putAll(subProps);
         topProps.putAll(myProps);
         LOADED_PROPERTIES.add(url.toString());
-      } catch (IOException ex) {
+      } catch (final IOException ex) {
         Logger.getLogger(HelperMisc.class.getName()).log(Level.WARNING,
             "Failed to load properties " + url, ex);
       }
@@ -218,10 +218,10 @@ public class HelperMisc {
    * @param useSharedBroker Flag that determines if the properties in the
    *                        SHARED_BROKER_PROPERTIES file will be read
    */
-  public static void loadPropertiesFile(Boolean useSharedBroker) {
+  public static void loadPropertiesFile(final Boolean useSharedBroker) {
 
     // Were they loaded already?
-    String propAreLoaded = System.getProperty("PropertiesLoadedFlag");
+    final String propAreLoaded = System.getProperty("PropertiesLoadedFlag");
     if (propAreLoaded != null) {
       if (System.getProperty("PropertiesLoadedFlag").equals("true")) {
         return;
@@ -258,7 +258,7 @@ public class HelperMisc {
       }
 
       String transport_file_path = TRANSPORT_PROPERTIES_FILE;
-      String trans_path_prop = System.getProperty(PROP_TRANSPORT_ID);
+      final String trans_path_prop = System.getProperty(PROP_TRANSPORT_ID);
 
       if (trans_path_prop != null) {
         transport_file_path = trans_path_prop;
@@ -289,7 +289,7 @@ public class HelperMisc {
       System.setProperties(sysProps);
       System.setProperty("PropertiesLoadedFlag", "true");
 
-    } catch (MalformedURLException ex) {
+    } catch (final MalformedURLException ex) {
       Logger.getLogger(HelperMisc.class.getName()).log(Level.SEVERE, null, ex);
     }
 
@@ -308,11 +308,11 @@ public class HelperMisc {
     }
     final java.util.Properties sysProps = System.getProperties();
 
-    File file = new File(propertiesFileName);
+    final File file = new File(propertiesFileName);
     if (file.exists()) {
       try {
         sysProps.putAll(HelperMisc.loadProperties(file.toURI().toURL(), PROVIDER_PROPERTIES_FILE));
-      } catch (MalformedURLException ex) {
+      } catch (final MalformedURLException ex) {
         Logger.getLogger(HelperMisc.class.getName()).log(Level.SEVERE, null, ex);
       }
     }
@@ -328,11 +328,11 @@ public class HelperMisc {
    * @return True if the object can be read as a string
    * @throws java.lang.IllegalArgumentException If obj == null
    */
-  public static boolean isStringAttribute(Attribute obj) throws IllegalArgumentException {
+  public static boolean isStringAttribute(final Attribute obj) throws IllegalArgumentException {
     if (obj == null) {
       throw new IllegalArgumentException("Obj must not be null");
     }
-    Integer shortFormPart = obj.getTypeShortForm();
+    final Integer shortFormPart = obj.getTypeShortForm();
 
     if (shortFormPart == 6) { // Identifier
       return true;
@@ -354,17 +354,17 @@ public class HelperMisc {
    * @return The MAL Element List
    * @throws org.ccsds.moims.mo.mal.MALException
    */
-  public static ElementList element2elementList(Object obj)
+  public static ElementList element2elementList(final Object obj)
       throws IllegalArgumentException, MALException {
     if (obj == null) {
       return null;
     }
 
     if (obj instanceof Element) {
-      long l = ((Element) obj).getShortForm();
-      long ll = (-((l) & 0xFFFFFFL)) & 0xFFFFFFL + (l & 0xFFFFFFFFFF000000L);
+      final long l = ((Element) obj).getShortForm();
+      final long ll = (-((l) & 0xFFFFFFL)) & 0xFFFFFFL + (l & 0xFFFFFFFFFF000000L);
 
-      MALElementFactory eleFact = MALContextFactory.getElementFactoryRegistry()
+      final MALElementFactory eleFact = MALContextFactory.getElementFactoryRegistry()
           .lookupElementFactory(ll);
 
       if (eleFact == null) {
@@ -389,14 +389,14 @@ public class HelperMisc {
    * @return The MAL Element
    * @throws java.lang.Exception
    */
-  public static Element elementList2element(ElementList obj) throws Exception {
+  public static Element elementList2element(final ElementList obj) throws Exception {
     if (obj == null) {
       return null;
     }
-    long l = obj.getShortForm();
-    long ll = (-((l) & 0xFFFFFFL)) & 0xFFFFFFL + (l & 0xFFFFFFFFFF000000L);
+    final long l = obj.getShortForm();
+    final long ll = (-((l) & 0xFFFFFFL)) & 0xFFFFFFL + (l & 0xFFFFFFFFFF000000L);
 
-    MALElementFactory eleFact = MALContextFactory.getElementFactoryRegistry()
+    final MALElementFactory eleFact = MALContextFactory.getElementFactoryRegistry()
         .lookupElementFactory(ll);
 
     if (eleFact == null) {
@@ -417,14 +417,14 @@ public class HelperMisc {
    * @return The domain as IdentifierList or an empty IdentifierList if domainId
    *         == null OR domainId.isEmpty
    */
-  public static IdentifierList domainId2domain(String domainId) {
+  public static IdentifierList domainId2domain(final String domainId) {
     if (domainId == null || domainId.isEmpty()) {
       return new IdentifierList();
     }
 
-    IdentifierList output = new IdentifierList();
-    String[] parts = domainId.split("\\.");
-    for (String part : parts) {
+    final IdentifierList output = new IdentifierList();
+    final String[] parts = domainId.split("\\.");
+    for (final String part : parts) {
       output.add(new Identifier(part));
     }
 
@@ -444,8 +444,8 @@ public class HelperMisc {
     if (domain.isEmpty()) {
       return "";
     }
-    StringBuilder domainId = new StringBuilder();
-    for (Identifier subdomain : domain) {
+    final StringBuilder domainId = new StringBuilder();
+    for (final Identifier subdomain : domain) {
       domainId.append(subdomain.getValue()).append(".");
     }
 
@@ -462,10 +462,10 @@ public class HelperMisc {
    * @return The name of the service
    * @throws org.ccsds.moims.mo.mal.MALException The area/service is Unknown
    */
-  public static String serviceKey2name(UShort area, UOctet areaVersion, UShort service)
+  public static String serviceKey2name(final UShort area, final UOctet areaVersion, final UShort service)
       throws MALException {
 
-    MALArea malArea = MALContextFactory.lookupArea(area, areaVersion);
+    final MALArea malArea = MALContextFactory.lookupArea(area, areaVersion);
 
     if (malArea == null) {
       throw new MALException(
@@ -473,7 +473,7 @@ public class HelperMisc {
               + "Unknown area to the MAL! Maybe the API was not initialized.");
     }
 
-    MALService malSer = malArea.getServiceByNumber(service);
+    final MALService malSer = malArea.getServiceByNumber(service);
 
     if (malSer == null) {
       throw new MALException(

@@ -60,7 +60,7 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
 
   private PowerControlAdapterInterface pcAdapter;
 
-  public AutonomousADCSSoftSimAdapter(ESASimulator instrumentsSimulator, PowerControlAdapterInterface pcAdapter)
+  public AutonomousADCSSoftSimAdapter(final ESASimulator instrumentsSimulator, final PowerControlAdapterInterface pcAdapter)
   {
     this.instrumentsSimulator = instrumentsSimulator;
     this.pcAdapter = pcAdapter;
@@ -80,8 +80,8 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
     if (att instanceof AttitudeModeBDot) {
       instrumentsSimulator.getpFineADCS().opModeDetumble((byte) 1, BEGIN_END_TIMES);
     } else if (att instanceof AttitudeModeSingleSpinning) {
-      AttitudeModeSingleSpinning singleSpinAtt = (AttitudeModeSingleSpinning) att;
-      VectorF3D body = singleSpinAtt.getBodyAxis();
+      final AttitudeModeSingleSpinning singleSpinAtt = (AttitudeModeSingleSpinning) att;
+      final VectorF3D body = singleSpinAtt.getBodyAxis();
       final float[] targetVector = new float[7];
       targetVector[0] = body.getX();
       targetVector[1] = body.getY();
@@ -105,9 +105,9 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
 
       instrumentsSimulator.getpFineADCS().opModeSunPointing(mode, BEGIN_END_TIMES, targetVector);
     } else if (att instanceof AttitudeModeTargetTracking) {
-      AttitudeModeTargetTracking targetTrackingAtt = (AttitudeModeTargetTracking) att;
+      final AttitudeModeTargetTracking targetTrackingAtt = (AttitudeModeTargetTracking) att;
 
-      float[] latitudeLongitude = new float[2];
+      final float[] latitudeLongitude = new float[2];
       latitudeLongitude[0] = targetTrackingAtt.getLatitude();
       latitudeLongitude[1] = targetTrackingAtt.getLongitude();
 
@@ -116,14 +116,14 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
     } else if (att instanceof AttitudeModeNadirPointing) {
       instrumentsSimulator.getpFineADCS().opModeSetNadirTargetTracking(MODE_START, BEGIN_END_TIMES);
     } else if (att instanceof AttitudeModeVectorPointing) {
-      AttitudeModeVectorPointing a = (AttitudeModeVectorPointing) att;
-      VectorF3D vec = a.getTarget();
+      final AttitudeModeVectorPointing a = (AttitudeModeVectorPointing) att;
+      final VectorF3D vec = a.getTarget();
       instrumentsSimulator.getpFineADCS().getSimulatorNode().runVectorTargetTracking(
           vec.getX(), vec.getY(),
           vec.getZ(), a.getMargin());
     } else if (att instanceof AttitudeModeInertialPointing) {
-      AttitudeModeInertialPointing a = (AttitudeModeInertialPointing) att;
-      VectorF3D vec = a.getTargetVector();
+      final AttitudeModeInertialPointing a = (AttitudeModeInertialPointing) att;
+      final VectorF3D vec = a.getTargetVector();
       instrumentsSimulator.getpFineADCS().getSimulatorNode().runVectorTargetTracking(
           vec.getX(), vec.getY(),
           vec.getZ(), 10.f);
@@ -141,13 +141,13 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
   @Override
   public AttitudeTelemetry getAttitudeTelemetry() throws IOException
   {
-    byte[] tmBuffer = instrumentsSimulator.getpFineADCS().GetSensorTelemetry();
-    AttitudeTelemetry ret = new AttitudeTelemetry();
+    final byte[] tmBuffer = instrumentsSimulator.getpFineADCS().GetSensorTelemetry();
+    final AttitudeTelemetry ret = new AttitudeTelemetry();
     ret.setAngularVelocity(HelperIADCS100.getAngularVelocityFromSensorTM(tmBuffer));
     ret.setAttitude(HelperIADCS100.getAttitudeFromSensorTM(tmBuffer));
     ret.setMagneticField(HelperIADCS100.getMagneticFieldFromSensorTM(tmBuffer));
     ret.setSunVector(new VectorF3D((float) 1, (float) 0, (float) 0)); // TODO provide real data
-    byte[] tmBufferPointingLoop = instrumentsSimulator.getpFineADCS().GetAttitudeTelemetry();
+    final byte[] tmBufferPointingLoop = instrumentsSimulator.getpFineADCS().GetAttitudeTelemetry();
     if(HelperIADCS100.getPointingLoopStateTarget(tmBufferPointingLoop) == 1)
     {
       ret.setStateTarget(true);
@@ -160,8 +160,8 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
   @Override
   public ActuatorsTelemetry getActuatorsTelemetry() throws IOException
   {
-    byte[] tmBuffer = instrumentsSimulator.getpFineADCS().GetActuatorTelemetry();
-    ActuatorsTelemetry ret = new ActuatorsTelemetry();
+    final byte[] tmBuffer = instrumentsSimulator.getpFineADCS().GetActuatorTelemetry();
+    final ActuatorsTelemetry ret = new ActuatorsTelemetry();
     ret.setMtqDipoleMoment(HelperIADCS100.getMTQFromActuatorTM(tmBuffer));
     ret.setMtqState(MagnetorquersState.ACTIVE); // TODO provide real data
     ret.setCurrentWheelSpeed(HelperIADCS100.getCurrentWheelSpeedFromActuatorTM(tmBuffer));
@@ -179,7 +179,7 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
   }
 
   @Override
-  public String validateAttitudeDescriptor(AttitudeMode attitude)
+  public String validateAttitudeDescriptor(final AttitudeMode attitude)
   {
     // TODO do some rudimentary checks (i.e. if the angles make sense)
     return null;
@@ -192,29 +192,29 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
   }
 
   @Override
-  public void setAllReactionWheelSpeeds(float wheelX, float wheelY, float wheelZ, float wheelU,
-      float wheelV, float wheelW)
+  public void setAllReactionWheelSpeeds(final float wheelX, final float wheelY, final float wheelZ, final float wheelU,
+                                        final float wheelV, final float wheelW)
   {
     Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,
         "Setting of Reaction wheels is not implemented in the Simulator yet!");
   }
 
   @Override
-  public void setReactionWheelSpeed(ReactionWheelIdentifier wheel, float Speed)
+  public void setReactionWheelSpeed(final ReactionWheelIdentifier wheel, final float Speed)
   {
     Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,
         "Setting of Reaction wheels is not implemented in the Simulator yet!");
   }
 
   @Override
-  public void setAllReactionWheelParameters(ReactionWheelParameters parameters)
+  public void setAllReactionWheelParameters(final ReactionWheelParameters parameters)
   {
     Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,
         "Setting of Reaction wheels is not implemented in the Simulator yet!");
   }
 
   @Override
-  public void setAllMagnetorquersDipoleMoments(Float dipoleX, Float dipoleY, Float dipoleZ)
+  public void setAllMagnetorquersDipoleMoments(final Float dipoleX, final Float dipoleY, final Float dipoleZ)
   {
     Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,
         "Setting of Magnetorquer dipole moments is not implemented in the Simulator yet!");

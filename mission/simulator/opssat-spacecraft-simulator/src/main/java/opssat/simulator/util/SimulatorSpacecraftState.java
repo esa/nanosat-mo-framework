@@ -43,7 +43,7 @@ public class SimulatorSpacecraftState {
         return modeOperation;
     }
 
-    public void setModeOperation(String modeOperation) {
+    public void setModeOperation(final String modeOperation) {
         this.modeOperation = modeOperation;
     }
 
@@ -52,21 +52,21 @@ public class SimulatorSpacecraftState {
         return satsInView;
     }
 
-    public void setSatsInView(int satsInView) {
+    public void setSatsInView(final int satsInView) {
         this.satsInView = satsInView;
     }
     
     
     private double[][] rotation;
     public float[] getR() {
-        float[] result=new float[3];
+        final float[] result=new float[3];
         result[0]=rv[0];
         result[1]=rv[1];
         result[2]=rv[2];
         return result;
     }
     public float[] getV() {
-        float[] result=new float[3];
+        final float[] result=new float[3];
         result[0]=rv[3];
         result[1]=rv[4];
         result[2]=rv[5];
@@ -77,7 +77,7 @@ public class SimulatorSpacecraftState {
         return rv;
     }
 
-    public void setRv(float[] rv) {
+    public void setRv(final float[] rv) {
         this.rv = rv;
     }
 
@@ -85,32 +85,32 @@ public class SimulatorSpacecraftState {
     
     
 
-    public void setSunVector(double[] sunVector) {
+    public void setSunVector(final double[] sunVector) {
         this.sunVector = sunVector;
     }
     
-    public void setMagField(double[] magField) {
+    public void setMagField(final double[] magField) {
         int i=0;
-        for (double d: magField)
+        for (final double d: magField)
         {
             this.magField[i++] = (float) d;
         }
     }
-    private String formatVector(String[] labels,float[] vector,String units) {
-        DecimalFormat formatter = new DecimalFormat("+#00000.00;-#00000.00");
+    private String formatVector(final String[] labels, final float[] vector, final String units) {
+        final DecimalFormat formatter = new DecimalFormat("+#00000.00;-#00000.00");
         return labels[0]+":["+formatter.format(vector[0])+"] ; "+labels[1]+":["+formatter.format(vector[1])+"] ; "+labels[2]+": ["+formatter.format(vector[2])+"] units "+units;
     }
-    private String formatVector(String[] labels,double[] vector,String units) {
-        DecimalFormat formatter = new DecimalFormat("+#00000.00;-#00000.00");
+    private String formatVector(final String[] labels, final double[] vector, final String units) {
+        final DecimalFormat formatter = new DecimalFormat("+#00000.00;-#00000.00");
         return labels[0]+":["+formatter.format(vector[0])+"] ; "+labels[1]+":["+formatter.format(vector[1])+"] ; "+labels[2]+": ["+formatter.format(vector[2])+"] units "+units;
     }
-    private String formatVectorDecimalsOnly(String[] labels,double[] vector,String units) {
-        DecimalFormat formatter = new DecimalFormat("+#.00000;-#.00000");
+    private String formatVectorDecimalsOnly(final String[] labels, final double[] vector, final String units) {
+        final DecimalFormat formatter = new DecimalFormat("+#.00000;-#.00000");
         return labels[0]+":["+formatter.format(vector[0])+"] ; "+labels[1]+":["+formatter.format(vector[1])+"] ; "+labels[2]+": ["+formatter.format(vector[2])+"] units "+units;
     }
     
     public String getMagField() {
-        String[] labels={"North","East","Vertical"};
+        final String[] labels={"North","East","Vertical"};
         return formatVector(labels,this.magField,"[nT]");//"North(X):["+formatter.format(magField[0])+"] ; East(Y):["+formatter.format(magField[1])+"] ; Vertical(Z): ["+formatter.format(magField[2])+"] units [nT]";
     }
 
@@ -124,24 +124,24 @@ public class SimulatorSpacecraftState {
     
     public String getSunVectorAsString()
     {
-        String[] labels={"X","Y","Z"};
+        final String[] labels={"X","Y","Z"};
         return formatVectorDecimalsOnly(labels,this.sunVector,"[N/A]");
     }
     public String getMagnetometerAsString() {
-        String[] labels={"X","Y","Z"};
+        final String[] labels={"X","Y","Z"};
         return formatVector(labels,this.magnetometer,"[nT]");
         //return magnetometer[0]+";"+magnetometer[1]+";"+magnetometer[2]+"[nT]";
     }
 
-    public void setMagnetometer(double[] magnetometer) {
+    public void setMagnetometer(final double[] magnetometer) {
         int i=0;
-        for (double d: magnetometer)
+        for (final double d: magnetometer)
         {
             this.magnetometer[i++] = (float) d;
         }
     }
     
-    public void setRv(Vector3D r,Vector3D v) {
+    public void setRv(final Vector3D r, final Vector3D v) {
         this.rv[0]=(float) (r.getX()/1000.0);
         this.rv[1]=(float) (r.getY()/1000.0);
         this.rv[2]=(float) (r.getZ()/1000.0);
@@ -154,7 +154,7 @@ public class SimulatorSpacecraftState {
         return q;
     }
 
-    public void setQ(float[] q) {
+    public void setQ(final float[] q) {
         this.q = q;
     }
 
@@ -163,7 +163,7 @@ public class SimulatorSpacecraftState {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
+    public void setLatitude(final double latitude) {
         this.latitude = latitude;
     }
 
@@ -171,7 +171,7 @@ public class SimulatorSpacecraftState {
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
+    public void setLongitude(final double longitude) {
         this.longitude = longitude;
     }
 
@@ -179,17 +179,17 @@ public class SimulatorSpacecraftState {
         return altitude;
     }
 
-    public void setAltitude(double altitude) {
+    public void setAltitude(final double altitude) {
         this.altitude = altitude;
     }
 
-    public void setRotation(double[][] rotation) {
+    public void setRotation(final double[][] rotation) {
         this.rotation = rotation;
     }
 
     
     
-    public SimulatorSpacecraftState(double latitude, double longitude, double altitude) {
+    public SimulatorSpacecraftState(final double latitude, final double longitude, final double altitude) {
         this.rv = new float[6];
         this.q = new float[4];
         this.magField = new float[3];

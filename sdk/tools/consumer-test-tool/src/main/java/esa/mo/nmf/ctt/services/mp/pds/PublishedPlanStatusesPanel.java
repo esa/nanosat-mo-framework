@@ -50,7 +50,7 @@ public class PublishedPlanStatusesPanel extends PublishedUpdatesPanel {
     private final PlanDistributionConsumerServiceImpl pdsService;
     private final PublishedPlanStatusesTable publishedPlanStatusesTable;
 
-    public PublishedPlanStatusesPanel(ArchiveConsumerServiceImpl archiveService, PlanDistributionConsumerServiceImpl pdsService) {
+    public PublishedPlanStatusesPanel(final ArchiveConsumerServiceImpl archiveService, final PlanDistributionConsumerServiceImpl pdsService) {
         super();
 
         this.archiveService = archiveService;
@@ -59,7 +59,7 @@ public class PublishedPlanStatusesPanel extends PublishedUpdatesPanel {
         this.publishedPlanStatusesTable = new PublishedPlanStatusesTable(archiveService, pdsService);
         try {
           this.publishedPlanStatusesTable.monitorPlanStatuses();
-        } catch (MALInteractionException | MALException e) {
+        } catch (final MALInteractionException | MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
 
@@ -68,20 +68,20 @@ public class PublishedPlanStatusesPanel extends PublishedUpdatesPanel {
         getRefreshButton().addActionListener(this::refreshButtonActionPerformed);
     }
 
-    private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {
+    private void refreshButtonActionPerformed(final java.awt.event.ActionEvent evt) {
 
         this.publishedPlanStatusesTable.removeAllEntries();
 
-        ObjectType updateObjectType = PlanDistributionHelper.PLANUPDATE_OBJECT_TYPE;
+        final ObjectType updateObjectType = PlanDistributionHelper.PLANUPDATE_OBJECT_TYPE;
 
-        FineTime startTime = TimeConverter.convert(getRefreshTime());
+        final FineTime startTime = TimeConverter.convert(getRefreshTime());
 
         if (startTime == null) {
             JOptionPane.showMessageDialog(null, "Please insert date using format: yyyy-MM-dd HH:mm:ss UTC" , "Unparseable date", JOptionPane.PLAIN_MESSAGE);
         }
 
-        ArchiveQueryList archiveQueryList = new ArchiveQueryList();
-        ArchiveQuery archiveQuery = new ArchiveQuery();
+        final ArchiveQueryList archiveQueryList = new ArchiveQueryList();
+        final ArchiveQuery archiveQuery = new ArchiveQuery();
 
         archiveQuery.setDomain(null);
         archiveQuery.setNetwork(null);
@@ -97,26 +97,26 @@ public class PublishedPlanStatusesPanel extends PublishedUpdatesPanel {
         try {
             archiveService.getArchiveStub().query(true, updateObjectType, archiveQueryList, null, new ArchiveAdapter() {
                 @Override
-                public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+                public void queryUpdateReceived(final MALMessageHeader msgHeader, final ObjectType objType, final IdentifierList domain, final ArchiveDetailsList objDetails, final ElementList objBodies, final Map qosProperties) {
                     addEntries(domain, objDetails, objBodies);
                 }
                 @Override
-                public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+                public void queryResponseReceived(final MALMessageHeader msgHeader, final ObjectType objType, final IdentifierList domain, final ArchiveDetailsList objDetails, final ElementList objBodies, final Map qosProperties) {
                     addEntries(domain, objDetails, objBodies);
                 }
           });
-        } catch (MALInteractionException | MALException e) {
+        } catch (final MALInteractionException | MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
     }
 
-    private void addEntries(IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies) {
+    private void addEntries(final IdentifierList domain, final ArchiveDetailsList objDetails, final ElementList objBodies) {
         if (objDetails == null) return;
         for (int index = 0; index < objDetails.size(); index++) {
-            ArchiveDetails details = objDetails.get(index);
-            PlanUpdateDetails update = (PlanUpdateDetails) objBodies.get(index);
+            final ArchiveDetails details = objDetails.get(index);
+            final PlanUpdateDetails update = (PlanUpdateDetails) objBodies.get(index);
 
-            Long instanceId = details.getDetails().getRelated();
+            final Long instanceId = details.getDetails().getRelated();
 
             publishedPlanStatusesTable.addEntry(domain, instanceId, update);
         }

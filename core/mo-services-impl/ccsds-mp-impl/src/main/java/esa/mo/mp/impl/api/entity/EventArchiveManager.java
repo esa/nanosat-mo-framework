@@ -46,7 +46,7 @@ import esa.mo.mp.impl.com.pattern.COMInstanceArchiveManager;
  */
 public class EventArchiveManager extends COMInstanceArchiveManager<EventIdentityDetails, EventIdentityDetailsList, EventDefinitionDetails, EventDefinitionDetailsList, EventInstanceDetails, EventDefinitionDetailsList, EventUpdateDetails, EventUpdateDetailsList> {
 
-    public EventArchiveManager(COMServicesProvider comServices, COMConfiguration configuration) {
+    public EventArchiveManager(final COMServicesProvider comServices, final COMConfiguration configuration) {
         super(comServices, configuration);
     }
 
@@ -66,19 +66,19 @@ public class EventArchiveManager extends COMInstanceArchiveManager<EventIdentity
         return super.listAllStatusIds(PlanEditHelper.EVENTINSTANCE_OBJECT_TYPE);
     }
 
-    public ObjectId getIdentityId(Identifier identity) {
+    public ObjectId getIdentityId(final Identifier identity) {
         return super.getIdentityId(identity, PlanInformationManagementHelper.EVENTIDENTITY_OBJECT_TYPE);
     }
 
-    public ObjectIdList getIdentityIds(IdentifierList identities) {
+    public ObjectIdList getIdentityIds(final IdentifierList identities) {
         return super.getIdentityIds(identities, PlanInformationManagementHelper.EVENTIDENTITY_OBJECT_TYPE);
     }
 
-    public EventDefinitionDetails getDefinition(Identifier identity) {
+    public EventDefinitionDetails getDefinition(final Identifier identity) {
         return super.getDefinition(identity, PlanInformationManagementHelper.EVENTIDENTITY_OBJECT_TYPE);
     }
 
-    public EventDefinitionDetailsList getDefinitions(IdentifierList identities) {
+    public EventDefinitionDetailsList getDefinitions(final IdentifierList identities) {
         return super.getDefinitions(identities, PlanInformationManagementHelper.EVENTIDENTITY_OBJECT_TYPE);
     }
 }

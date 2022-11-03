@@ -61,7 +61,7 @@ public class AlertTest2 {
     private final Random random = new Random();
 
     public AlertTest2() throws Throwable {
-        ProviderSummaryList summaryList = GroundMOAdapterImpl.retrieveProvidersFromDirectory(new URI(URL_DIRECTORY_SERVICE));
+        final ProviderSummaryList summaryList = GroundMOAdapterImpl.retrieveProvidersFromDirectory(new URI(URL_DIRECTORY_SERVICE));
 
         if (!summaryList.isEmpty()) {
             groundAdapter = new GroundMOAdapterImpl(summaryList.get(0));
@@ -71,23 +71,23 @@ public class AlertTest2 {
         }
 
         //----------------------------------------------------------------
-        Alert alertConsumer = groundAdapter.getMCServices().getAlertService().getAlertStub();
-        EventConsumerServiceImpl eventConsumer = groundAdapter.getCOMServices().getEventService();
+        final Alert alertConsumer = groundAdapter.getMCServices().getAlertService().getAlertStub();
+        final EventConsumerServiceImpl eventConsumer = groundAdapter.getCOMServices().getEventService();
 
         // get a list of identifiers for all Alert Definitions in the Archive
-        IdentifierList alertDefNames = new IdentifierList();
+        final IdentifierList alertDefNames = new IdentifierList();
         alertDefNames.add(new Identifier("*"));
 
-        ObjectInstancePairList moAlertDefIds = alertConsumer.listDefinition(alertDefNames);
+        final ObjectInstancePairList moAlertDefIds = alertConsumer.listDefinition(alertDefNames);
 
-        for (ObjectInstancePair pair : moAlertDefIds) {
-            Long moAlertDefId = pair.getObjIdentityInstanceId();
+        for (final ObjectInstancePair pair : moAlertDefIds) {
+            final Long moAlertDefId = pair.getObjIdentityInstanceId();
 
             // enable generation of this alert in the Alert Provider
-            InstanceBooleanPairList enableInstance = new InstanceBooleanPairList();
+            final InstanceBooleanPairList enableInstance = new InstanceBooleanPairList();
             enableInstance.add(new InstanceBooleanPair(moAlertDefId, true));
 
-            Boolean isGroupIds = false;
+            final Boolean isGroupIds = false;
             alertConsumer.enableGeneration(isGroupIds, enableInstance);
 
             System.out.println("Generation enabled for Alert Def Id: " + moAlertDefId);
@@ -97,7 +97,7 @@ public class AlertTest2 {
         //Get all object numbers from the Activity Tracking Service Events
         final Long secondEntityKey = 0xFFFFFFFFFF000000L & HelperCOM.generateSubKey(AlertHelper.ALERTDEFINITION_OBJECT_TYPE);
         this.subscriptionId = new Identifier("AlertEvent" + random.nextInt());  // Add some randomness in the subscriptionId to avoid collisions
-        Subscription eventSub = ConnectionConsumer.subscriptionKeys(this.subscriptionId, new Identifier("*"), secondEntityKey, 0L, 0L);
+        final Subscription eventSub = ConnectionConsumer.subscriptionKeys(this.subscriptionId, new Identifier("*"), secondEntityKey, 0L, 0L);
 
         eventConsumer.addEventReceivedListener(eventSub, new EventConsumerAdapter());
     }
@@ -105,29 +105,29 @@ public class AlertTest2 {
     public class EventConsumerAdapter extends EventReceivedListener {
 
         @Override
-        public void onDataReceived(EventCOMObject eventCOMObject) {
-            Date date = new Date(eventCOMObject.getTimestamp().getValue());
-            Format format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        public void onDataReceived(final EventCOMObject eventCOMObject) {
+            final Date date = new Date(eventCOMObject.getTimestamp().getValue());
+            final Format format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
-            IdentifierList domain = eventCOMObject.getDomain();
-            String domainName = HelperMisc.domain2domainId(domain);
+            final IdentifierList domain = eventCOMObject.getDomain();
+            final String domainName = HelperMisc.domain2domainId(domain);
 
-            ObjectType objTypeEvent = eventCOMObject.getObjType();
-            String eventName = HelperCOM.objType2COMObject(objTypeEvent).getObjectName().toString();
+            final ObjectType objTypeEvent = eventCOMObject.getObjType();
+            final String eventName = HelperCOM.objType2COMObject(objTypeEvent).getObjectName().toString();
 
-            Element body = eventCOMObject.getBody();
+            final Element body = eventCOMObject.getBody();
 
             if (body instanceof AlertEventDetails) {
-                AlertEventDetails receivedAlert = (AlertEventDetails) body;
+                final AlertEventDetails receivedAlert = (AlertEventDetails) body;
 
-                Long alertDefObjId = eventCOMObject.getRelated();
+                final Long alertDefObjId = eventCOMObject.getRelated();
 
-                AlertDefinitionDetails details = null;  // TBD - look this up in list of 
+                final AlertDefinitionDetails details = null;  // TBD - look this up in list of
                 //Severity severity = details.getSeverity();
                 //String messageToDisplay = details.getName().getValue() + " ";
                 final StringBuilder messageToDisplay = new StringBuilder("<TEST-MSG>" + " ");
 
-                AttributeValueList attValues = receivedAlert.getArgumentValues();
+                final AttributeValueList attValues = receivedAlert.getArgumentValues();
 
                 if (attValues != null) {
                     if (attValues.size() == 1) {
@@ -135,7 +135,7 @@ public class AlertTest2 {
                     }
                     if (attValues.size() > 1) {
                         for (int i = 0; i < attValues.size(); i++) {
-                            AttributeValue attValue = attValues.get(i);
+                            final AttributeValue attValue = attValues.get(i);
                             messageToDisplay.append("[").append(i).append("] ").append(attValue.getValue().toString()).append("\n");
                         }
                     }
@@ -160,6 +160,6 @@ public class AlertTest2 {
      * @throws java.lang.Exception If there is an error
      */
     public static void main(final String[] args) throws Throwable {
-        AlertTest2 demo = new AlertTest2();
+        final AlertTest2 demo = new AlertTest2();
     }
 }

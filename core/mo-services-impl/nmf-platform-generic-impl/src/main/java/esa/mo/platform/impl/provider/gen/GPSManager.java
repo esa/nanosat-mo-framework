@@ -48,7 +48,7 @@ public final class GPSManager extends DefinitionsManager {
     private Long uniqueObjIdDef; // Unique objId Definition (different for every Definition)
     private final HashMap<Long, Boolean> previousIsInsideStatus;
     
-    public GPSManager(COMServicesProvider comServices){
+    public GPSManager(final COMServicesProvider comServices){
         super(comServices);
 
         this.previousIsInsideStatus = new HashMap<>();
@@ -87,17 +87,17 @@ public final class GPSManager extends DefinitionsManager {
         return (NearbyPositionDefinitionList) this.getAllDefs();
     }
 
-    public Long add(final NearbyPositionDefinition definition, final ObjectId source, URI uri){
+    public Long add(final NearbyPositionDefinition definition, final ObjectId source, final URI uri){
         if (super.getArchiveService() == null) {
             uniqueObjIdDef++; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
             this.addDef(uniqueObjIdDef, definition);
             return uniqueObjIdDef;
         }else{
-            NearbyPositionDefinitionList defs = new NearbyPositionDefinitionList();
+            final NearbyPositionDefinitionList defs = new NearbyPositionDefinitionList();
             defs.add(definition);
 
             try {
-                LongList objIds = super.getArchiveService().store(
+                final LongList objIds = super.getArchiveService().store(
                         true,
                         GPSHelper.NEARBYPOSITION_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
@@ -110,7 +110,7 @@ public final class GPSManager extends DefinitionsManager {
                     return objIds.get(0);
                 }
 
-            } catch (MALException | MALInteractionException ex) {
+            } catch (final MALException | MALInteractionException ex) {
                 Logger.getLogger(GPSManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -125,11 +125,11 @@ public final class GPSManager extends DefinitionsManager {
     protected Long storeAndGenerateNearbyPositionAlertId(final Boolean inside, 
             final Long objId, final URI uri) {
         if (super.getArchiveService() != null) {
-            BooleanList isEnteringList = new BooleanList();
+            final BooleanList isEnteringList = new BooleanList();
             isEnteringList.add(inside);
 
             try {  // requirement: 3.3.4.2
-                LongList objIds = super.getArchiveService().store(
+                final LongList objIds = super.getArchiveService().store(
                         true,
                         GPSHelper.NEARBYPOSITIONALERT_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
@@ -141,7 +141,7 @@ public final class GPSManager extends DefinitionsManager {
                     return objIds.get(0);
                 }
 
-            } catch (MALException | MALInteractionException ex) {
+            } catch (final MALException | MALInteractionException ex) {
                 Logger.getLogger(GPSManager.class.getName()).log(Level.SEVERE, null, ex);
             }
 

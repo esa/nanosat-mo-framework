@@ -142,7 +142,7 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton
 
       connection.closeAll();
       running = false;
-    } catch (MALException ex) {
+    } catch (final MALException ex) {
       LOGGER.log(Level.WARNING,
           "Exception during close down of the provider {0}", ex);
     }
@@ -171,13 +171,13 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton
       );
 
       publisher.publish(hdrlst);
-    } catch (IllegalArgumentException | MALException | MALInteractionException ex) {
+    } catch (final IllegalArgumentException | MALException | MALInteractionException ex) {
       LOGGER.log(Level.WARNING, "Exception during publishing process on the provider", ex);
     }
   }
 
   @Override
-  public Duration getPeriod(MALInteraction interaction) throws MALInteractionException, MALException
+  public Duration getPeriod(final MALInteraction interaction) throws MALInteractionException, MALException
   {
     // Convert to seconds and return the value
     return new Duration(period / 1000);

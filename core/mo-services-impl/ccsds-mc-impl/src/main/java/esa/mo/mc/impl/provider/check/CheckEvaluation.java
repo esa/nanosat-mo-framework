@@ -52,11 +52,11 @@ public class CheckEvaluation {
      * @return if the evaluation was successfull then the
      * evaluationResult.result is null otherwise false
      */
-    public static EvaluationResult evaluateConstantCheck(ConstantCheckDefinition checkDef, Attribute value, EvaluationResult evaluationResult) {
+    public static EvaluationResult evaluateConstantCheck(final ConstantCheckDefinition checkDef, final Attribute value, final EvaluationResult evaluationResult) {
         //pass one of the evaluations req. 3.5.2.e.a 
         //requirement: 3.5.2.e.a
         Boolean result = false;
-        for (AttributeValue possibleValue : checkDef.getValues()) {
+        for (final AttributeValue possibleValue : checkDef.getValues()) {
             if (HelperCOM.evaluateExpression(possibleValue.getValue(), checkDef.getOperator(), value)) {
                 //requirement: 3.5.3.cc: the parameter value passed the check against the evaluation: return successful!
                 result = null;
@@ -78,7 +78,7 @@ public class CheckEvaluation {
      * lower limit exceeded: false; OR if violateInRange = true then if it
      * violates, it returns true
      */
-    public static EvaluationResult evaluateLimitCheck(LimitCheckDefinition checkDef, Attribute value, EvaluationResult evaluationResult) {
+    public static EvaluationResult evaluateLimitCheck(final LimitCheckDefinition checkDef, final Attribute value, final EvaluationResult evaluationResult) {
         //NULL = successful, true is violating upper limit, false violating lower limit
         Boolean result = null;
 
@@ -110,14 +110,14 @@ public class CheckEvaluation {
      * is null otherwise: false;
      * @throws MALInteractionException
      */
-    public static EvaluationResult evaluateReferenceCheck(ReferenceCheckDefinition referenceCheckDefinition, Attribute value, final CheckLinkEvaluation currCheckLinkEvaluation, EvaluationResult newEvaluationResult) throws MALInteractionException {
+    public static EvaluationResult evaluateReferenceCheck(final ReferenceCheckDefinition referenceCheckDefinition, final Attribute value, final CheckLinkEvaluation currCheckLinkEvaluation, final EvaluationResult newEvaluationResult) throws MALInteractionException {
         //requirement: 3.5.3.x, y
-        ReferenceValue reference = referenceCheckDefinition.getCheckReference();
-        HashMap<Long, Attribute> sampleTimes = reference.getDeltaTime().getValue() == 0 ? null : currCheckLinkEvaluation.getSampleTimes();
+        final ReferenceValue reference = referenceCheckDefinition.getCheckReference();
+        final HashMap<Long, Attribute> sampleTimes = reference.getDeltaTime().getValue() == 0 ? null : currCheckLinkEvaluation.getSampleTimes();
 
 //        manageBeforeRefCheck(referenceValue, checkLinkEvaluation, sampleTimes, useConverted);
         //evaluate param + refValue        
-        Boolean eval = HelperCOM.evaluateExpression(value, referenceCheckDefinition.getOperator(), currCheckLinkEvaluation.getRefParamValue());
+        final Boolean eval = HelperCOM.evaluateExpression(value, referenceCheckDefinition.getOperator(), currCheckLinkEvaluation.getRefParamValue());
         if (reference.getParameterId() == null) {
             manageAfterRefCheck(reference, currCheckLinkEvaluation, sampleTimes, value);
         }
@@ -139,19 +139,19 @@ public class CheckEvaluation {
      * violates, it returns true
      * @throws MALInteractionException
      */
-    public static EvaluationResult evaluateDeltaCheck(DeltaCheckDefinition deltaCheckDefinition, Attribute value, final CheckLinkEvaluation currCheckLinkEvaluation, EvaluationResult newEvaluationResult) throws MALInteractionException {
+    public static EvaluationResult evaluateDeltaCheck(final DeltaCheckDefinition deltaCheckDefinition, final Attribute value, final CheckLinkEvaluation currCheckLinkEvaluation, final EvaluationResult newEvaluationResult) throws MALInteractionException {
         //3.5.3.x, y
-        ReferenceValue referenceValue = deltaCheckDefinition.getCheckReference();
-        HashMap<Long, Attribute> sampleTimes = referenceValue.getDeltaTime().getValue() == 0 ? null : currCheckLinkEvaluation.getSampleTimes();
+        final ReferenceValue referenceValue = deltaCheckDefinition.getCheckReference();
+        final HashMap<Long, Attribute> sampleTimes = referenceValue.getDeltaTime().getValue() == 0 ? null : currCheckLinkEvaluation.getSampleTimes();
 
 //        manageBeforeRefCheck(referenceValue, checkLinkEvaluation, sampleTimes, useConverted);
-        Attribute refValue = currCheckLinkEvaluation.getRefParamValue();
+        final Attribute refValue = currCheckLinkEvaluation.getRefParamValue();
 
         //requirement: 3.5.3.z
-        Double delta = HelperAttributes.attribute2double(value) - HelperAttributes.attribute2double(refValue);
+        final Double delta = HelperAttributes.attribute2double(value) - HelperAttributes.attribute2double(refValue);
 
-        Attribute upperThreshold;
-        Attribute lowerThreshold;
+        final Attribute upperThreshold;
+        final Attribute lowerThreshold;
         if (deltaCheckDefinition.getValueDelta()) { // "If true then thresholds contain value deltas"
             upperThreshold = deltaCheckDefinition.getUpperThreshold();
             lowerThreshold = deltaCheckDefinition.getLowerThreshold();
@@ -199,17 +199,17 @@ public class CheckEvaluation {
      * @return if the evaluation was successful then the evaluationResult.result
      * is null otherwise: false;
      */
-    public static EvaluationResult evaluateCompoundCheck(CompoundCheckDefinition compoundCheckDefinition, final List<CheckLinkEvaluation> currCheckLinkEvaluations, EvaluationResult newEvaluationResult) {
+    public static EvaluationResult evaluateCompoundCheck(final CompoundCheckDefinition compoundCheckDefinition, final List<CheckLinkEvaluation> currCheckLinkEvaluations, final EvaluationResult newEvaluationResult) {
         final UInteger minChecksViolate = compoundCheckDefinition.getMinimumChecksInViolation();
         int countChecksViolate = 0;
         //count the checks that are currently in violation
-        for (CheckLinkEvaluation currCheckLinkEvaluation : currCheckLinkEvaluations) {
+        for (final CheckLinkEvaluation currCheckLinkEvaluation : currCheckLinkEvaluations) {
             final CheckState checkState = currCheckLinkEvaluation.getLastCheckResult().getCurrentCheckState();
             if (checkState == CheckState.NOT_OK) {
                 countChecksViolate++;
             }
         }
-        boolean result;
+        final boolean result;
         //wildcard check
         if (minChecksViolate.getValue() == 0) //requirement: 3.5.3.ee - true if any check is not currently in violation
         {
@@ -233,7 +233,7 @@ public class CheckEvaluation {
      * @param sampleTimes
      * @param value
      */
-    private static void manageAfterRefCheck(ReferenceValue referenceValue, final CheckLinkEvaluation checkLinkEvaluation, HashMap<Long, Attribute> sampleTimes, Attribute value) {
+    private static void manageAfterRefCheck(final ReferenceValue referenceValue, final CheckLinkEvaluation checkLinkEvaluation, final HashMap<Long, Attribute> sampleTimes, final Attribute value) {
         if (referenceValue.getDeltaTime().getValue() == 0) {
             checkLinkEvaluation.incRefValueCounter();
             //referencing itslf and refCounter is hit
@@ -242,7 +242,7 @@ public class CheckEvaluation {
                 checkLinkEvaluation.setRefParamValue(value);
             }
         } else {
-            Long now = (new Time()).getValue();
+            final Long now = (new Time()).getValue();
             removeExpiredSamples(now, referenceValue, sampleTimes);
 
             //set how many samples were checked in the deltaTime from now into the past (+1 for the current one set later)
@@ -257,12 +257,12 @@ public class CheckEvaluation {
         }
     }
 
-    private static Long removeExpiredSamples(Long now, ReferenceValue referenceValue, final HashMap<Long, Attribute> sampleTimes) {
+    private static Long removeExpiredSamples(final Long now, final ReferenceValue referenceValue, final HashMap<Long, Attribute> sampleTimes) {
         //check how many samples checked(= how many param exist in the hashmap) in the duration (now - deltaTime)
 
         //samples sampled before the deltaLimit are not important anymore
-        Long deltaLimit = now - Math.round(referenceValue.getDeltaTime().getValue());
-        for (Long sampleTime : sampleTimes.keySet()) {
+        final Long deltaLimit = now - Math.round(referenceValue.getDeltaTime().getValue());
+        for (final Long sampleTime : sampleTimes.keySet()) {
             if (sampleTime < deltaLimit) {
                 sampleTimes.remove(sampleTime);
             }

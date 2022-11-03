@@ -36,21 +36,21 @@ public class TimeConverter {
 
     private TimeConverter() {}
 
-    public static String convert(long timestamp) {
-        Date date = new Date(timestamp);
-        SimpleDateFormat format = new SimpleDateFormat(DATE_PATTERN);
+    public static String convert(final long timestamp) {
+        final Date date = new Date(timestamp);
+        final SimpleDateFormat format = new SimpleDateFormat(DATE_PATTERN);
         format.setTimeZone(TimeZone.getTimeZone("UTC"));
         return format.format(date);
     }
 
-    public static FineTime convert(String timeText) {
+    public static FineTime convert(final String timeText) {
         FineTime fineTime = null;
-        SimpleDateFormat format = new SimpleDateFormat(DATE_PATTERN);
+        final SimpleDateFormat format = new SimpleDateFormat(DATE_PATTERN);
         format.setTimeZone(TimeZone.getTimeZone("UTC"));
         try {
-            long millis = format.parse(timeText).getTime();
+            final long millis = format.parse(timeText).getTime();
             fineTime = new FineTime(millis * 1000000);
-        } catch (ParseException e) {
+        } catch (final ParseException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
         return fineTime;

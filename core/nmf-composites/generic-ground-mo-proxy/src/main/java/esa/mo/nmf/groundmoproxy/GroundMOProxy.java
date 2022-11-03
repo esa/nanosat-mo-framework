@@ -94,7 +94,7 @@ public abstract class GroundMOProxy
     try {
       localCOMServices.init();
       localDirectoryService.init(localCOMServices);
-    } catch (MALException ex) {
+    } catch (final MALException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
     }
 
@@ -109,7 +109,7 @@ public abstract class GroundMOProxy
 
   }
 
-  private SingleConnectionDetails cdFromService(COMService service)
+  private SingleConnectionDetails cdFromService(final COMService service)
   {
     final ServiceKey serviceKey = new ServiceKey(
         service.getArea().getNumber(),
@@ -118,12 +118,12 @@ public abstract class GroundMOProxy
     );
 
     try {
-      ProviderSummaryList list = getRemoteNMSProviderSpecificService(serviceKey);
+      final ProviderSummaryList list = getRemoteNMSProviderSpecificService(serviceKey);
       if (list.isEmpty() || list.get(0).getProviderDetails().getServiceCapabilities().isEmpty()) {
         return null;
       }
       return AppsLauncherManager.getSingleConnectionDetailsFromProviderSummaryList(list);
-    } catch (MALInteractionException | MALException | IOException ex) {
+    } catch (final MALInteractionException | MALException | IOException ex) {
       LOGGER.log(Level.SEVERE, "Cannot produce Connection Details for the service", ex);
     }
     return null;
@@ -135,13 +135,13 @@ public abstract class GroundMOProxy
         (short) 0), new UOctet((short) 0)));
   }
 
-  public ProviderSummaryList getRemoteNMSProviderSpecificService(ServiceKey key) throws
+  public ProviderSummaryList getRemoteNMSProviderSpecificService(final ServiceKey key) throws
       MALInteractionException, MALException
   {
-    IdentifierList wildcardList = new IdentifierList();
+    final IdentifierList wildcardList = new IdentifierList();
     wildcardList.add(new Identifier("*"));
 
-    ServiceFilter filter = new ServiceFilter();
+    final ServiceFilter filter = new ServiceFilter();
     filter.setDomain(wildcardList);
     filter.setNetwork(new Identifier("*"));
     filter.setSessionType(null);
@@ -149,11 +149,11 @@ public abstract class GroundMOProxy
     filter.setServiceKey(key);
     filter.setRequiredCapabilitySets(new UShortList());
     filter.setServiceProviderId(new Identifier("*"));
-    ProviderSummaryList list = localDirectoryService.lookupProvider(filter, null);
+    final ProviderSummaryList list = localDirectoryService.lookupProvider(filter, null);
     // Post-filter the list
-    Iterator itr = list.iterator();
+    final Iterator itr = list.iterator();
     while (itr.hasNext()) {
-      ProviderSummary ps = (ProviderSummary) itr.next();
+      final ProviderSummary ps = (ProviderSummary) itr.next();
       if (!ps.getProviderId().getValue().startsWith(Const.NANOSAT_MO_SUPERVISOR_NAME)) {
         itr.remove();
       }
@@ -189,7 +189,7 @@ public abstract class GroundMOProxy
   /**
    * @param nmsAliveStatus the nmsAliveStatus to set
    */
-  public void setNmsAliveStatus(Boolean nmsAliveStatus)
+  public void setNmsAliveStatus(final Boolean nmsAliveStatus)
   {
     this.nmsAliveStatus.set(nmsAliveStatus);
   }
@@ -199,7 +199,7 @@ public abstract class GroundMOProxy
     private final URI centralDirectoryServiceURI;
     private final URI routedURI;
 
-    public DirectoryScanTask(URI centralDirectoryServiceURI, URI routedURI)
+    public DirectoryScanTask(final URI centralDirectoryServiceURI, final URI routedURI)
     {
       this.centralDirectoryServiceURI = centralDirectoryServiceURI;
       this.routedURI = routedURI;
@@ -216,10 +216,10 @@ public abstract class GroundMOProxy
           localDirectoryService.syncLocalDirectoryServiceWithCentral(centralDirectoryServiceURI,
                                                                            routedURI);
           cdRemoteArchive = cdFromService(ArchiveHelper.ARCHIVE_SERVICE);
-        } catch (MALTransmitErrorException e) {
+        } catch (final MALTransmitErrorException e) {
           LOGGER.log(Level.WARNING,
                      "Failed to start directory service sync. Check the link to the spacecraft.");
-        } catch (MALException | MalformedURLException | MALInteractionException e) {
+        } catch (final MALException | MalformedURLException | MALInteractionException e) {
           LOGGER.log(Level.SEVERE, "Error when initialising link to the NMS.", e);
         }
       } else if (getNmsAliveStatus() && cdRemoteArchive != null) {
@@ -231,13 +231,13 @@ public abstract class GroundMOProxy
           }
 
           // Check the remote COM Archive for new objects! Use On-Board Timestamp.
-          FineTime currentOBT = providerStatusAdapter.getLastBeatOBT();
+          final FineTime currentOBT = providerStatusAdapter.getLastBeatOBT();
 
           if(currentOBT == null)
           {
             return;
           }
-          ArchiveQuery archiveQuery = new ArchiveQuery(
+          final ArchiveQuery archiveQuery = new ArchiveQuery(
               archiveService.getConnectionDetails().getDomain(),
               null,
               null,
@@ -249,15 +249,15 @@ public abstract class GroundMOProxy
               null
           );
 
-          ArchiveQueryList archiveQueryList = new ArchiveQueryList();
+          final ArchiveQueryList archiveQueryList = new ArchiveQueryList();
           archiveQueryList.add(archiveQuery);
 
-          long[] count = {0L}; // workaround to access the variable in the lambda below.
-          ArchiveAdapter adapter = new ArchiveAdapter()
+          final long[] count = {0L}; // workaround to access the variable in the lambda below.
+          final ArchiveAdapter adapter = new ArchiveAdapter()
           {
             @Override
-            public synchronized void countResponseReceived(MALMessageHeader msgHeader,
-                LongList countList, Map qosProperties)
+            public synchronized void countResponseReceived(final MALMessageHeader msgHeader,
+                                                           final LongList countList, final Map qosProperties)
             {
               count[0] += countList.get(0);
             }
@@ -281,20 +281,20 @@ public abstract class GroundMOProxy
                         centralDirectoryServiceURI, routedURI);
                 additionalHandling();
 
-            } catch (MALException | MALInteractionException | MalformedURLException ex) {
+            } catch (final MALException | MALInteractionException | MalformedURLException ex) {
               LOGGER.log(Level.SEVERE, null, ex);
             }
           }
 
           lastTime = currentOBT;
-        } catch (MALInteractionException | MALException | IOException ex) {
+        } catch (final MALInteractionException | MALException | IOException ex) {
           LOGGER.log(Level.SEVERE, null, ex);
         }
       }
     }
   }
 
-  protected void createProviderStatusAdapter(HeartbeatConsumerServiceImpl heartbeat) throws MALException, MALInteractionException {
+  protected void createProviderStatusAdapter(final HeartbeatConsumerServiceImpl heartbeat) throws MALException, MALInteractionException {
     providerStatusAdapter = new GroundHeartbeatAdapter(heartbeat,
                                                        esa.mo.nmf.groundmoproxy.GroundMOProxy.this);
   }
@@ -306,7 +306,7 @@ public abstract class GroundMOProxy
     private Subscription heartbeatSubscription;
     private HeartbeatConsumerServiceImpl heartbeatService;
 
-    public GroundProxyConnectorTask(URI centralDirectoryServiceURI, URI routedURI)
+    public GroundProxyConnectorTask(final URI centralDirectoryServiceURI, final URI routedURI)
     {
       this.centralDirectoryServiceURI = centralDirectoryServiceURI;
       this.routedURI = routedURI;
@@ -340,7 +340,7 @@ public abstract class GroundMOProxy
 
               // If it is first time, then we need to connect to the
               // heartbeat service and listen to the beat
-              SingleConnectionDetails connectionDetails = cdFromService(
+              final SingleConnectionDetails connectionDetails = cdFromService(
                   HeartbeatHelper.HEARTBEAT_SERVICE);
               heartbeatService = new HeartbeatConsumerServiceImpl(
                   connectionDetails, null);
@@ -351,7 +351,7 @@ public abstract class GroundMOProxy
                 firstTime = false;
                 heartbeatService.getHeartbeatStub().beatRegister(heartbeatSubscription,
                     providerStatusAdapter);
-              } catch (MALInteractionException | MALException ex) {
+              } catch (final MALInteractionException | MALException ex) {
                 LOGGER.log(Level.SEVERE, "Error when subscribing to the NMS heartbeat.", ex);
               }
             }
@@ -359,10 +359,10 @@ public abstract class GroundMOProxy
             additionalHandling();
             return;
           }
-        } catch (MALTransmitErrorException ex) {
+        } catch (final MALTransmitErrorException ex) {
           LOGGER.log(Level.WARNING,
               "Failed to start directory service sync. Check the link to the spacecraft.");
-        } catch (MALException | MalformedURLException | MALInteractionException ex) {
+        } catch (final MALException | MalformedURLException | MALInteractionException ex) {
           LOGGER.log(Level.SEVERE, "Error when initialising link to the NMS.", ex);
         }
       }

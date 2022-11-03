@@ -56,35 +56,35 @@ public class PublishedPlanStatusesTable extends SharedTablePanel {
     private final ArchiveConsumerServiceImpl archiveService;
     private final PlanDistributionConsumerServiceImpl pdsService;
 
-    public PublishedPlanStatusesTable(ArchiveConsumerServiceImpl archiveService, PlanDistributionConsumerServiceImpl pdsService) {
+    public PublishedPlanStatusesTable(final ArchiveConsumerServiceImpl archiveService, final PlanDistributionConsumerServiceImpl pdsService) {
         super(archiveService);
         this.archiveService = archiveService;
         this.pdsService = pdsService;
     }
 
     @Override
-    public void addEntry(Identifier identity, ArchivePersistenceObject comObject) {
+    public void addEntry(final Identifier identity, final ArchivePersistenceObject comObject) {
         // Not used
     }
 
-    public void addEntry(IdentifierList domain, Long instanceId, PlanUpdateDetails update) {
+    public void addEntry(final IdentifierList domain, final Long instanceId, final PlanUpdateDetails update) {
 
         try {
             semaphore.acquire();
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
-        ObjectType updateObjectType = PlanDistributionHelper.PLANUPDATE_OBJECT_TYPE;
-        LongList objectIds = new LongList();
+        final ObjectType updateObjectType = PlanDistributionHelper.PLANUPDATE_OBJECT_TYPE;
+        final LongList objectIds = new LongList();
         objectIds.add(0L);
-        List<ArchivePersistenceObject> updateObjects = HelperArchive
+        final List<ArchivePersistenceObject> updateObjects = HelperArchive
             .getArchiveCOMObjectList(this.archiveService.getArchiveStub(), updateObjectType, domain, objectIds);
 
         ArchivePersistenceObject comObject = null;
         if (updateObjects != null) {
-            for (ArchivePersistenceObject updateObject : updateObjects) {
-                PlanUpdateDetails archiveUpdate = (PlanUpdateDetails) updateObject.getObject();
+            for (final ArchivePersistenceObject updateObject : updateObjects) {
+                final PlanUpdateDetails archiveUpdate = (PlanUpdateDetails) updateObject.getObject();
                 if (Objects.equals(archiveUpdate, update)) {
                     comObject = updateObject;
                 }
@@ -105,7 +105,7 @@ public class PublishedPlanStatusesTable extends SharedTablePanel {
 
     @Override
     public void defineTableContent() {
-        String[] tableCol = new String[]{
+        final String[] tableCol = new String[]{
             "Timestamp", "Plan Version ID", "Is alternate",
             "Plan Status", "Termination info"
         };
@@ -118,12 +118,12 @@ public class PublishedPlanStatusesTable extends SharedTablePanel {
                 };
 
                 @Override               //all cells false
-                public boolean isCellEditable(int row, int column) {
+                public boolean isCellEditable(final int row, final int column) {
                     return false;
                 }
 
                 @Override
-                public Class getColumnClass(int columnIndex) {
+                public Class getColumnClass(final int columnIndex) {
                     return types[columnIndex];
                 }
         };
@@ -140,14 +140,14 @@ public class PublishedPlanStatusesTable extends SharedTablePanel {
     class PlanMonitor extends PlanDistributionAdapter {
 
         @Override
-        public void monitorPlanStatusNotifyReceived(MALMessageHeader msgHeader, Identifier identifier, UpdateHeaderList headerList, ObjectIdList planVersionIdList, PlanUpdateDetailsList updateList, Map qosProperties) {
+        public void monitorPlanStatusNotifyReceived(final MALMessageHeader msgHeader, final Identifier identifier, final UpdateHeaderList headerList, final ObjectIdList planVersionIdList, final PlanUpdateDetailsList updateList, final Map qosProperties) {
             for (int index = 0; index < headerList.size(); index++) {
-                ObjectId planVersionId = planVersionIdList.get(index);
-                PlanUpdateDetails update = updateList.get(index);
+                final ObjectId planVersionId = planVersionIdList.get(index);
+                final PlanUpdateDetails update = updateList.get(index);
 
-                IdentifierList domain = msgHeader.getDomain();
+                final IdentifierList domain = msgHeader.getDomain();
 
-                Long instanceId = COMObjectIdHelper.getInstanceId(planVersionId);
+                final Long instanceId = COMObjectIdHelper.getInstanceId(planVersionId);
 
                 addEntry(domain, instanceId, update);
             }

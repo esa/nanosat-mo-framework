@@ -41,7 +41,7 @@ public class AppShutdownGuard {
             public void run() {
                 try {
                     sleep(Const.APP_SHUTDOWN_GUARD_MS);
-                } catch (InterruptedException e) {
+                } catch (final InterruptedException e) {
                     // The thread was interrupted by the system exit
                     return;
                 }
@@ -52,10 +52,10 @@ public class AppShutdownGuard {
             }
         }).start();
     }
-    private static String threadDump(boolean lockedMonitors, boolean lockedSynchronizers) {
-        StringBuilder threadDump = new StringBuilder(System.lineSeparator());
-        ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
-        for(ThreadInfo threadInfo : threadMXBean.dumpAllThreads(lockedMonitors, lockedSynchronizers)) {
+    private static String threadDump(final boolean lockedMonitors, final boolean lockedSynchronizers) {
+        final StringBuilder threadDump = new StringBuilder(System.lineSeparator());
+        final ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
+        for(final ThreadInfo threadInfo : threadMXBean.dumpAllThreads(lockedMonitors, lockedSynchronizers)) {
             threadDump.append(threadInfo.toString());
         }
         return threadDump.toString();

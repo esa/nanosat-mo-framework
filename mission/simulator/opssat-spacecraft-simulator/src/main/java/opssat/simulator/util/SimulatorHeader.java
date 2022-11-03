@@ -60,7 +60,7 @@ public class SimulatorHeader implements Serializable
   private final int MIN_DATE_YEAR = 2016;
   private final int MAX_DATE_YEAR = 2030;
 
-  public Date parseStringIntoDate(String fieldValue)
+  public Date parseStringIntoDate(final String fieldValue)
   {
     Date result = null;
     Date originalResult = null;
@@ -69,12 +69,12 @@ public class SimulatorHeader implements Serializable
       try {
       result = dateFormat.parse(fieldValue);
       originalResult = dateFormat.parse(fieldValue);
-    } catch (ParseException ex) {
+    } catch (final ParseException ex) {
       Logger.getLogger(GuiSimulatorHeaderEdit.class.getName()).log(Level.SEVERE, null, ex);
     }
     if (result != null) {
-      DateFormat dateFormatYear = new SimpleDateFormat("yyyy");
-      String originalYear = dateFormatYear.format(result);
+      final DateFormat dateFormatYear = new SimpleDateFormat("yyyy");
+      final String originalYear = dateFormatYear.format(result);
       // System.out.println("Original year
       // "+originalYear+Integer.parseInt(originalYear));
 
@@ -82,7 +82,7 @@ public class SimulatorHeader implements Serializable
           && Integer.parseInt(originalYear) < MAX_DATE_YEAR) {
         // Input year is ok, shift it back so it can be accepted with FALSE lenient
         // System.out.println("Original year is ok");
-        String shiftedYear = String.valueOf(Integer.parseInt(originalYear) - 10);
+        final String shiftedYear = String.valueOf(Integer.parseInt(originalYear) - 10);
         // System.out.println("Shifted year "+shiftedYear);
         String shiftedText = fieldValue;
         shiftedText = shiftedText.replaceAll(originalYear, shiftedYear);
@@ -92,7 +92,7 @@ public class SimulatorHeader implements Serializable
         try {
           dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
           result = dateFormat.parse(shiftedText);
-        } catch (ParseException ex) {
+        } catch (final ParseException ex) {
           Logger.getLogger(GuiSimulatorHeaderEdit.class.getName()).log(Level.SEVERE, null, ex);
         }
         if (result != null) {
@@ -108,14 +108,14 @@ public class SimulatorHeader implements Serializable
     return result;
   }
 
-  public boolean validateTimeFactor(int newTimeFactor)
+  public boolean validateTimeFactor(final int newTimeFactor)
   {
     return newTimeFactor >= MIN_TIME_FACTOR && newTimeFactor <= MAX_TIME_FACTOR;
   }
 
   public String toFileString()
   {
-    SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
+    final SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
     return "#Run the processing of internal models\n" + "startModels=" + autoStartSystem + "\n"
         + "#Increment the simulated time (depends on startModels)\n" + "startTime=" + autoStartTime
         + "\n" + "#Speed up of time factor\n" + "timeFactor=" + timeFactor + "\n"
@@ -150,7 +150,7 @@ public class SimulatorHeader implements Serializable
     return autoStartSystem;
   }
 
-  public void setAutoStartSystem(boolean autoStartSystem)
+  public void setAutoStartSystem(final boolean autoStartSystem)
   {
     this.autoStartSystem = autoStartSystem;
   }
@@ -160,7 +160,7 @@ public class SimulatorHeader implements Serializable
     return autoStartTime;
   }
 
-  public void setAutoStartTime(boolean autoStartTime)
+  public void setAutoStartTime(final boolean autoStartTime)
   {
     this.autoStartTime = autoStartTime;
   }
@@ -170,7 +170,7 @@ public class SimulatorHeader implements Serializable
     return timeFactor;
   }
 
-  public void setTimeFactor(int timeFactor)
+  public void setTimeFactor(final int timeFactor)
   {
     this.timeFactor = timeFactor;
   }
@@ -182,11 +182,11 @@ public class SimulatorHeader implements Serializable
 
   public String getStartDateString()
   {
-    DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
+    final DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
     return dateFormat.format(startDate);
   }
 
-  public void setStartDate(Date startDate)
+  public void setStartDate(final Date startDate)
   {
     this.startDate = startDate;
   }
@@ -198,11 +198,11 @@ public class SimulatorHeader implements Serializable
 
   public String getEndDateString()
   {
-    DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
+    final DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
     return dateFormat.format(endDate);
   }
 
-  public void setEndDate(Date endDate)
+  public void setEndDate(final Date endDate)
   {
     this.endDate = endDate;
   }
@@ -224,7 +224,7 @@ public class SimulatorHeader implements Serializable
     this.useCelestia = true;
   }
 
-  public SimulatorHeader(boolean autoStart, Date startDate, Date endDate)
+  public SimulatorHeader(final boolean autoStart, final Date startDate, final Date endDate)
   {
     this.autoStartSystem = autoStart;
 
@@ -267,7 +267,7 @@ public class SimulatorHeader implements Serializable
     return useOrekitPropagator;
   }
 
-  public void setUseOrekitPropagator(boolean useOrekitPropagator)
+  public void setUseOrekitPropagator(final boolean useOrekitPropagator)
   {
     this.useOrekitPropagator = useOrekitPropagator;
   }
@@ -277,7 +277,7 @@ public class SimulatorHeader implements Serializable
     return useCelestia;
   }
 
-  public void setUseCelestia(boolean useCelestia)
+  public void setUseCelestia(final boolean useCelestia)
   {
     this.useCelestia = useCelestia;
   }
@@ -287,7 +287,7 @@ public class SimulatorHeader implements Serializable
     return celestiaPort;
   }
 
-  public void setCelestiaPort(int celestiaPort)
+  public void setCelestiaPort(final int celestiaPort)
   {
     this.celestiaPort = celestiaPort;
   }
@@ -297,7 +297,7 @@ public class SimulatorHeader implements Serializable
     return orekitPropagator;
   }
 
-  public void setOrekitPropagator(String orekitPropagator)
+  public void setOrekitPropagator(final String orekitPropagator)
   {
     this.orekitPropagator = orekitPropagator;
   }
@@ -307,7 +307,7 @@ public class SimulatorHeader implements Serializable
     return orekitTLE1;
   }
 
-  public void setOrekitTLE1(String orekitTLE1)
+  public void setOrekitTLE1(final String orekitTLE1)
   {
     this.orekitTLE1 = orekitTLE1;
   }
@@ -317,7 +317,7 @@ public class SimulatorHeader implements Serializable
     return orekitTLE2;
   }
 
-  public void setOrekitTLE2(String orekitTLE2)
+  public void setOrekitTLE2(final String orekitTLE2)
   {
     this.orekitTLE2 = orekitTLE2;
   }
@@ -327,7 +327,7 @@ public class SimulatorHeader implements Serializable
     return keplerElements;
   }
 
-  public void setKeplerElements(String keplerElements)
+  public void setKeplerElements(final String keplerElements)
   {
     this.keplerElements = keplerElements;
   }
@@ -337,7 +337,7 @@ public class SimulatorHeader implements Serializable
     return updateInternet;
   }
 
-  public void setUpdateInternet(boolean updateInternet)
+  public void setUpdateInternet(final boolean updateInternet)
   {
     this.updateInternet = updateInternet;
   }

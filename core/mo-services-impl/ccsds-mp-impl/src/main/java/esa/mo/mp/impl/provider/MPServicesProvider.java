@@ -43,7 +43,7 @@ public class MPServicesProvider {
     private final PlanEditProviderServiceImpl planEditService = new PlanEditProviderServiceImpl();
     private final PlanExecutionControlProviderServiceImpl planExecutionControlService = new PlanExecutionControlProviderServiceImpl();
 
-    public void init(COMServicesProvider comServices) throws MALException {
+    public void init(final COMServicesProvider comServices) throws MALException {
         archiveManager = new MPArchiveManager(comServices);
         activityExecutionEngine = new ActivityExecutionEngine();
         this.pimService.init(comServices, archiveManager, operationCallbackManager);

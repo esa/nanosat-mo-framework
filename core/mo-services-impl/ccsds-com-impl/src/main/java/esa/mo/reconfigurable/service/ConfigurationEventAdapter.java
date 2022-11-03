@@ -61,10 +61,10 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
     private final IdentifierList providerDomain;
     private final URI providerURI;
 
-    public ConfigurationEventAdapter(COMServicesProvider comServices,
-            ReconfigurableService serviceImpl,
-            IdentifierList providerDomain,
-            URI providerURI) {
+    public ConfigurationEventAdapter(final COMServicesProvider comServices,
+                                     final ReconfigurableService serviceImpl,
+                                     final IdentifierList providerDomain,
+                                     final URI providerURI) {
         this.comServices = comServices;
         this.serviceImpl = serviceImpl;
         this.providerDomain = providerDomain;
@@ -72,12 +72,12 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
     }
 
     @Override
-    public void monitorEventNotifyReceived(MALMessageHeader msgHeader, Identifier _Identifier0,
-            UpdateHeaderList updateHeaderList, ObjectDetailsList objectDetailsList,
-            ElementList objects, Map qosProperties) {
+    public void monitorEventNotifyReceived(final MALMessageHeader msgHeader, final Identifier _Identifier0,
+                                           final UpdateHeaderList updateHeaderList, final ObjectDetailsList objectDetailsList,
+                                           final ElementList objects, final Map qosProperties) {
         // Notification received from the Configuration serviceImpl...
         for (int i = 0; i < objectDetailsList.size(); i++) {
-            Identifier eventObjNumber = updateHeaderList.get(i).getKey().getFirstSubKey();
+            final Identifier eventObjNumber = updateHeaderList.get(i).getKey().getFirstSubKey();
 
             // Check if it is a "Configuration switch Request" or a "Current Configuration Store"
             if (!eventObjNumber.toString().equals(ConfigurationHelper.CONFIGURATIONSWITCH_OBJECT_NUMBER.toString())
@@ -96,7 +96,7 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
                 }
 
                 // Get the objId of the Configuration
-                ObjectId obj = (ObjectId) objects.get(0);
+                final ObjectId obj = (ObjectId) objects.get(0);
 
                 if (obj == null) {
                     return;
@@ -108,13 +108,13 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
                         && obj.getKey().getDomain().equals(providerDomain)) {
 
                     // Retrieve it from the Archive
-                    ConfigurationObjectDetails configurationObj = (ConfigurationObjectDetails) 
+                    final ConfigurationObjectDetails configurationObj = (ConfigurationObjectDetails)
                             HelperArchive.getObjectBodyFromArchive(
                             comServices.getArchiveService(), obj.getType(),
                             obj.getKey().getDomain(), obj.getKey().getInstId());
 
                     // Reload the retrieved configuration
-                    Boolean confChanged = serviceImpl.reloadConfiguration(configurationObj);
+                    final Boolean confChanged = serviceImpl.reloadConfiguration(configurationObj);
 
                     if (confChanged) {
                         // Todo: Publish success
@@ -127,26 +127,26 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
             // -----------------------------------------------------------
             // Check if it is a "Current Configuration Store"
             if (eventObjNumber.toString().equals(ConfigurationHelper.CONFIGURATIONSTORE_OBJECT_NUMBER.toString())) {
-                ConfigurationObjectDetails set = serviceImpl.getCurrentConfiguration();
-                ConfigurationObjectDetailsList bodies = new ConfigurationObjectDetailsList();
+                final ConfigurationObjectDetails set = serviceImpl.getCurrentConfiguration();
+                final ConfigurationObjectDetailsList bodies = new ConfigurationObjectDetailsList();
                 bodies.add(set);
 
                 // For the ConfigurationObjects:
-                ObjectType objType = ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE;
+                final ObjectType objType = ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE;
 
-                ArchiveDetails archiveDetails = new ArchiveDetails();
+                final ArchiveDetails archiveDetails = new ArchiveDetails();
                 archiveDetails.setInstId(0L);
                 archiveDetails.setDetails(new ObjectDetails(updateHeaderList.get(i).getKey().getThirdSubKey(), null));  // Event objId
                 archiveDetails.setNetwork(msgHeader.getNetworkZone());
                 archiveDetails.setTimestamp(HelperTime.getTimestamp());
                 archiveDetails.setProvider(msgHeader.getURIFrom());
 
-                ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
+                final ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
                 archiveDetailsList.add(archiveDetails);
 
                 try {
                     // Store the Configuration Object in the COM Archive
-                    LongList objIds = comServices.getArchiveService().store(
+                    final LongList objIds = comServices.getArchiveService().store(
                             true,
                             objType,
                             providerDomain,
@@ -154,11 +154,11 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
                             bodies,
                             null);
 
-                    Long objId = objIds.get(0);
+                    final Long objId = objIds.get(0);
 
                     // Publish event: Success with the objId of the Configuration stored
                     this.publishConfigurationStoredSuccess(objId, updateHeaderList.get(i).getKey().getThirdSubKey());
-                } catch (MALException | MALInteractionException ex) {
+                } catch (final MALException | MALInteractionException ex) {
                     // Publish event: Failure with the objId of the Configuration stored
                     this.publishConfigurationStoredFailure(updateHeaderList.get(i).getKey().getThirdSubKey());  // Event objId
                 }
@@ -166,12 +166,12 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
         }
     }
 
-    private void publishConfigurationStoredFailure(Long related) {
+    private void publishConfigurationStoredFailure(final Long related) {
         // Publish event: Failure with the objId of the Configuration stored
-        ObjectType objTypeEvent = ConfigurationHelper.CONFIGURATIONSTORED_OBJECT_TYPE;
-        BooleanList bool = new BooleanList();
+        final ObjectType objTypeEvent = ConfigurationHelper.CONFIGURATIONSTORED_OBJECT_TYPE;
+        final BooleanList bool = new BooleanList();
         bool.add(false);  // Failure
-        ObjectId eventSource = null;  // It was not stored...
+        final ObjectId eventSource = null;  // It was not stored...
 
         try {
             comServices.getEventService().publishEvent(
@@ -182,17 +182,17 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
                     eventSource,
                     bool
             );
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             Logger.getLogger(ConfigurationEventAdapter.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    private void publishConfigurationStoredSuccess(Long objId, Long related) {
+    private void publishConfigurationStoredSuccess(final Long objId, final Long related) {
         // Publish event: Success with the objId of the Configuration stored
-        ObjectType objTypeEvent = ConfigurationHelper.CONFIGURATIONSTORED_OBJECT_TYPE;
-        BooleanList bool = new BooleanList();
+        final ObjectType objTypeEvent = ConfigurationHelper.CONFIGURATIONSTORED_OBJECT_TYPE;
+        final BooleanList bool = new BooleanList();
         bool.add(true);  // Success
-        ObjectId eventSource = new ObjectId();
+        final ObjectId eventSource = new ObjectId();
         eventSource.setType(ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE);
         eventSource.setKey(new ObjectKey(providerDomain, objId));
 
@@ -205,7 +205,7 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
                     eventSource,
                     bool
             );
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             Logger.getLogger(ConfigurationEventAdapter.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

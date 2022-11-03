@@ -60,7 +60,7 @@ public class MPConfiguration implements COMConfiguration {
     private static BidirectionalMap<ObjectType, ObjectType> relatedConfigurationTypes = new BidirectionalMap<>();
 
     @Override
-    public ObjectType getObjectType(Element element) {
+    public ObjectType getObjectType(final Element element) {
         // Plan
         if (element instanceof PlanVersionDetails) {
             return PlanDistributionHelper.PLANVERSION_OBJECT_TYPE;
@@ -119,17 +119,17 @@ public class MPConfiguration implements COMConfiguration {
     }
 
     @Override
-    public ObjectType getConfigurationType(ObjectType relatedType) {
+    public ObjectType getConfigurationType(final ObjectType relatedType) {
         return relatedConfigurationTypes.get(relatedType);
     }
 
     @Override
-    public ObjectType getRelatedType(ObjectType objectType) {
+    public ObjectType getRelatedType(final ObjectType objectType) {
         return relatedTypes.getKey(objectType);
     }
 
     @Override
-    public ObjectType getInverseRelatedType(ObjectType objectType) {
+    public ObjectType getInverseRelatedType(final ObjectType objectType) {
         return relatedTypes.get(objectType);
     }
 

@@ -36,15 +36,15 @@ public class PictureFrame extends javax.swing.JFrame {
      * Creates new form NewJFrame
      * @param picture
      */
-    public PictureFrame(Blob picture) {
+    public PictureFrame(final Blob picture) {
         initComponents();
 
     
-        ImageIcon image;
+        final ImageIcon image;
         try {
             image = new ImageIcon(picture.getValue());
             jLabel1.setIcon(image);
-        } catch (MALException ex) {
+        } catch (final MALException ex) {
             Logger.getLogger(PictureFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -69,7 +69,7 @@ public class PictureFrame extends javax.swing.JFrame {
 
         jLabel1.setText("jLabel1");
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        final javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

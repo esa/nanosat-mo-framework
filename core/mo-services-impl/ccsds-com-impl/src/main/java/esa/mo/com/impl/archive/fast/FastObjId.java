@@ -79,7 +79,7 @@ public class FastObjId {
     }
 
     public synchronized void delete(final Integer objectTypeId, final Integer domain) {
-        Key key = new Key(objectTypeId, domain);
+        final Key key = new Key(objectTypeId, domain);
         this.fastID.remove(key);
     }
 
@@ -92,7 +92,7 @@ public class FastObjId {
 
     private synchronized Long generateUniqueObjId(final Integer objectTypeId, final Integer domain) {
         // Did we request this objType+domain combination before?! If so, return the next value
-        Long objId = this.newUniqueID(objectTypeId, domain);
+        final Long objId = this.newUniqueID(objectTypeId, domain);
         if (objId != null) {
             return objId;
         }
@@ -100,22 +100,22 @@ public class FastObjId {
         // Well, if not then we must check if this combination already exists in the PU...
         try {
             dbBackend.getAvailability().acquire();
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             Logger.getLogger(FastDomain.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         try {
-            PreparedStatement select = dbBackend.getPreparedStatements().getSelectMaxObjId();
+            final PreparedStatement select = dbBackend.getPreparedStatements().getSelectMaxObjId();
             select.setObject(1, objectTypeId);
             select.setObject(2, domain);
-            ResultSet rs = select.executeQuery();
+            final ResultSet rs = select.executeQuery();
 
             while (rs.next()) {
-                Long maxValue = TransactionsProcessor.convert2Long(rs.getObject(1));
-                long value = (maxValue == null) ? (long) 0 : maxValue;
+                final Long maxValue = TransactionsProcessor.convert2Long(rs.getObject(1));
+                final long value = (maxValue == null) ? (long) 0 : maxValue;
                 this.setUniqueID(objectTypeId, domain, value);
             }
-        } catch (SQLException ex) {
+        } catch (final SQLException ex) {
             Logger.getLogger(FastDomain.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -152,11 +152,11 @@ public class FastObjId {
         }
 
         @Override
-        public boolean equals(Object other) {
+        public boolean equals(final Object other) {
             if (!(other instanceof Key)) {
                 return false;
             }
-            Key input = (Key) other;
+            final Key input = (Key) other;
             if (!input.getObjTypeId().equals(objectTypeId)) {
                 return false;
             }

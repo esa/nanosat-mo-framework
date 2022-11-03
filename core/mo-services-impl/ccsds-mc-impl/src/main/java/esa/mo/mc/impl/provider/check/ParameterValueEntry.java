@@ -30,7 +30,7 @@ public class ParameterValueEntry{
     public ParameterValueEntry() {
     }
 
-    public ParameterValueEntry(ParameterValue value, Time creationTime) {
+    public ParameterValueEntry(final ParameterValue value, final Time creationTime) {
         this.value = value;
         this.creationTime = creationTime;
     }
@@ -39,7 +39,7 @@ public class ParameterValueEntry{
         return value;
     }
 
-    public void setValue(ParameterValue value) {
+    public void setValue(final ParameterValue value) {
         this.value = value;
     }
 
@@ -47,7 +47,7 @@ public class ParameterValueEntry{
         return creationTime;
     }
 
-    public void setCreationTime(Time creationTime) {
+    public void setCreationTime(final Time creationTime) {
         this.creationTime = creationTime;
     }
 

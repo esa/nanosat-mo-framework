@@ -56,7 +56,7 @@ public class HelperCOM {
      * @param rightHandSide The right hand side value of the expression
      * @return The boolean value of the evaluation. Null if not evaluated.
      */
-    public static Boolean evaluateExpression(Element leftHandSide, ExpressionOperator operator, Attribute rightHandSide) {
+    public static Boolean evaluateExpression(Element leftHandSide, final ExpressionOperator operator, Attribute rightHandSide) {
 
         if (operator == null) {
             return null; // Operator cannot be null
@@ -94,7 +94,7 @@ public class HelperCOM {
         }
 
         // if one of the sides is string, then we shall do a comparison between strings:
-        boolean stringComparison = HelperMisc.isStringAttribute(rightHandSide)
+        final boolean stringComparison = HelperMisc.isStringAttribute(rightHandSide)
                 || HelperMisc.isStringAttribute(rightHandSide);
 
         String rightHandSideString = null;
@@ -180,7 +180,7 @@ public class HelperCOM {
      * @param objType COM Object Type
      * @return COMObject object
      */
-    public static COMObject objType2COMObject(ObjectType objType) {
+    public static COMObject objType2COMObject(final ObjectType objType) {
 
         if (objType == null) {
             return null;
@@ -190,7 +190,7 @@ public class HelperCOM {
             return null;
         }
 
-        COMService service = (COMService) MALContextFactory.lookupArea(
+        final COMService service = (COMService) MALContextFactory.lookupArea(
                 objType.getArea(),
                 objType.getAreaVersion()
         ).getServiceByNumber(objType.getService());
@@ -210,7 +210,7 @@ public class HelperCOM {
      * @param serviceNumber Service number
      * @return COMService
      */
-    public static COMService findCOMService(UShort area, UOctet areaVersion, UShort serviceNumber) {
+    public static COMService findCOMService(final UShort area, final UOctet areaVersion, final UShort serviceNumber) {
         return (COMService) MALContextFactory.lookupArea(
                 area,
                 areaVersion
@@ -255,7 +255,7 @@ public class HelperCOM {
             return true;
         }
 
-        for (Identifier part : receivedDomain) {
+        for (final Identifier part : receivedDomain) {
             if ("*".equals(part.getValue())) {
                 return true;
             }
@@ -270,7 +270,7 @@ public class HelperCOM {
      * @param wilcardDomain Domain with wildcard
      * @return True if the domain matches the domain with the wildcard
      */
-    public static boolean domainMatchesWildcardDomain(IdentifierList domain, IdentifierList wilcardDomain) {
+    public static boolean domainMatchesWildcardDomain(final IdentifierList domain, final IdentifierList wilcardDomain) {
         // The domain of the wildcard can never be greater than the real domain
         if (wilcardDomain.size() > domain.size() + 1) {
             return false;
@@ -278,13 +278,13 @@ public class HelperCOM {
 
         // cycle through the parts of the domains
         for (int i = 0; i < wilcardDomain.size(); i++) {
-            Identifier domainPart1 = wilcardDomain.get(i);
+            final Identifier domainPart1 = wilcardDomain.get(i);
 
             if ("*".equals(domainPart1.toString())) {
                 return true;  // Wildcard found!
             }
 
-            Identifier domainPart2 = domain.get(i);
+            final Identifier domainPart2 = domain.get(i);
 
             // The parts are different, return false
             if (!domainPart1.toString().equals(domainPart2.toString())) {
@@ -302,7 +302,7 @@ public class HelperCOM {
      * @param objNumber Object number
      * @return The ObjectType object
      */
-    public static ObjectType generateCOMObjectType(MALService service, UShort objNumber) {
+    public static ObjectType generateCOMObjectType(final MALService service, final UShort objNumber) {
 
         if (service == null || objNumber == null) {
             return null;
@@ -329,7 +329,7 @@ public class HelperCOM {
      * @return The ObjectType object
      */
     @Deprecated
-    public static ObjectType generateCOMObjectType(int area, int service, int version, int number) {
+    public static ObjectType generateCOMObjectType(final int area, final int service, final int version, final int number) {
         return new ObjectType(
                 new UShort(area),
                 new UShort(service),
@@ -344,15 +344,15 @@ public class HelperCOM {
      * @param objectType Object type object
      * @return Subkey
      */
-    public static Long generateSubKey(ObjectType objectType) {
+    public static Long generateSubKey(final ObjectType objectType) {
         if (objectType == null) {
             return null;
         }
 
-        long areaVal = (long) objectType.getArea().getValue();
-        long serviceVal = (long) objectType.getService().getValue();
-        long versionVal = (long) objectType.getVersion().getValue();
-        long numberVal = (long) objectType.getNumber().getValue();
+        final long areaVal = (long) objectType.getArea().getValue();
+        final long serviceVal = (long) objectType.getService().getValue();
+        final long versionVal = (long) objectType.getVersion().getValue();
+        final long numberVal = (long) objectType.getNumber().getValue();
 
         return (numberVal
                 | (versionVal << 24)
@@ -367,7 +367,7 @@ public class HelperCOM {
      * @param subkey Subkey of the COM object
      * @return ObjectType object
      */
-    public static ObjectType objectTypeId2objectType(Long subkey) {
+    public static ObjectType objectTypeId2objectType(final Long subkey) {
         final long unwrap = subkey;
 
         return new ObjectType(new UShort((short) (unwrap >> 48)),
@@ -384,7 +384,7 @@ public class HelperCOM {
      * if exactly one argument is null, false is returned.
      * Otherwise, equality is determined by using the equals method of the first argument.
      */
-    private static boolean objectEquals(Object a, Object b) {
+    private static boolean objectEquals(final Object a, final Object b) {
         if (a == null && b == null) {
             return true;
         }
@@ -394,12 +394,12 @@ public class HelperCOM {
         return a.equals(b);
     }
 
-    public static Object getNestedObject(Object in, String fieldName) throws NoSuchFieldException {
+    public static Object getNestedObject(final Object in, final String fieldName) throws NoSuchFieldException {
         Object obj = in;
-        String[] parts = fieldName.split("\\.");
+        final String[] parts = fieldName.split("\\.");
 
         try {
-            for (String part : parts) {
+            for (final String part : parts) {
                 if (!part.equals("")) {
                     obj = HelperCOM.getObjectInsideObject(part, obj);
                 } else {
@@ -407,7 +407,7 @@ public class HelperCOM {
 //                            obj = ((Enumeration) obj).getNumericValue();
                 }
             }
-        } catch (IllegalArgumentException | IllegalAccessException ex) {
+        } catch (final IllegalArgumentException | IllegalAccessException ex) {
             throw new NoSuchFieldException();
         }
 
@@ -424,7 +424,7 @@ public class HelperCOM {
             throw new NoSuchFieldException();
         }
 
-        Field field = obj.getClass().getDeclaredField(fieldName);
+        final Field field = obj.getClass().getDeclaredField(fieldName);
         field.setAccessible(true);
         return field.get(obj);
     }
@@ -438,7 +438,7 @@ public class HelperCOM {
      * of the service to be selected.
      * @return
      */
-    public static Subscription generateSubscriptionCOMEvent(String identifier, ObjectType objType) {
+    public static Subscription generateSubscriptionCOMEvent(final String identifier, final ObjectType objType) {
         final Long secondEntityKey = 0xFFFFFFFFFF000000L & HelperCOM.generateSubKey(objType);
         final Random random = new Random();
         return ConnectionConsumer.subscriptionKeys(
@@ -455,7 +455,7 @@ public class HelperCOM {
      * of the source to be selected.
      * @return
      */
-    public static Subscription generateCOMEventSubscriptionBySourceType(String identifier, ObjectType sourceType) {
+    public static Subscription generateCOMEventSubscriptionBySourceType(final String identifier, final ObjectType sourceType) {
         final Long fourthEntityKey = 0xFFFFFFFFFFFFFFFFL & HelperCOM.generateSubKey(sourceType);
         final Random random = new Random();
         return ConnectionConsumer.subscriptionKeys(

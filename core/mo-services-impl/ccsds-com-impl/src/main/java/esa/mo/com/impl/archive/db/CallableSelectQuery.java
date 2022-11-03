@@ -16,19 +16,19 @@ import esa.mo.com.impl.archive.entities.COMObjectEntity;
 
 public class CallableSelectQuery extends CallableGenericQuery<ArrayList<COMObjectEntity>> {
 
-    public CallableSelectQuery(TransactionsProcessor transactionsProcessor, IntegerList objTypeIds,
-            ArchiveQuery archiveQuery, IntegerList domainIds, Integer providerURIId, Integer networkId,
-            SourceLinkContainer sourceLink, QueryFilter filter) {
+    public CallableSelectQuery(final TransactionsProcessor transactionsProcessor, final IntegerList objTypeIds,
+                               final ArchiveQuery archiveQuery, final IntegerList domainIds, final Integer providerURIId, final Integer networkId,
+                               final SourceLinkContainer sourceLink, final QueryFilter filter) {
         super(transactionsProcessor, objTypeIds, archiveQuery, domainIds, providerURIId, networkId, sourceLink, filter);
     }
 
     @Override
-    protected ArrayList<COMObjectEntity> innerCall(String queryString) {
-        ArrayList<COMObjectEntity> perObjs = new ArrayList<>();
+    protected ArrayList<COMObjectEntity> innerCall(final String queryString) {
+        final ArrayList<COMObjectEntity> perObjs = new ArrayList<>();
         try {
-            Connection c = this.transactionsProcessor.dbBackend.getConnection();
-            Statement query = c.createStatement();
-            ResultSet rs = query.executeQuery(queryString);
+            final Connection c = this.transactionsProcessor.dbBackend.getConnection();
+            final Statement query = c.createStatement();
+            final ResultSet rs = query.executeQuery(queryString);
 
             while (rs.next()) {
                 perObjs.add(new COMObjectEntity((Integer) rs.getObject(1), (Integer) rs.getObject(2),
@@ -39,14 +39,14 @@ public class CallableSelectQuery extends CallableGenericQuery<ArrayList<COMObjec
                                 TransactionsProcessor.convert2Long(rs.getObject(9))),
                         TransactionsProcessor.convert2Long(rs.getObject(10)), (byte[]) rs.getObject(11)));
             }
-        } catch (SQLException ex) {
+        } catch (final SQLException ex) {
             TransactionsProcessor.LOGGER.log(Level.SEVERE, null, ex);
         }
         return perObjs;
     }
 
     @Override
-    protected String assembleQueryPrefix(String fieldsList) {
+    protected String assembleQueryPrefix(final String fieldsList) {
         return "SELECT " + fieldsList + " FROM COMObjectEntity ";
     }
 

@@ -27,18 +27,18 @@ class HelperRemoteArchiveRetrieveAdapter extends ArchiveAdapter implements Helpe
     }
 
     @Override
-    public void retrieveAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
+    public void retrieveAckReceived(final MALMessageHeader msgHeader, final Map qosProperties) {
     }
 
     @Override
-    public void retrieveAckErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+    public void retrieveAckErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error, final Map qosProperties) {
         HelperArchive.LOGGER.log(Level.SEVERE, "The Archive returned the following error: {0}", error.toString());
         semaphore.release();
     }
 
     @Override
-    public void retrieveResponseReceived(MALMessageHeader msgHeader, ArchiveDetailsList objDetails,
-            ElementList objBodies, Map qosProperties) {
+    public void retrieveResponseReceived(final MALMessageHeader msgHeader, final ArchiveDetailsList objDetails,
+                                         final ElementList objBodies, final Map qosProperties) {
 
         if (objBodies != null) {
             if (!objBodies.isEmpty()) {
@@ -60,7 +60,7 @@ class HelperRemoteArchiveRetrieveAdapter extends ArchiveAdapter implements Helpe
     }
 
     @Override
-    public void retrieveResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+    public void retrieveResponseErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error, final Map qosProperties) {
         HelperArchive.LOGGER.log(Level.SEVERE, "The Archive returned the following error: {0}", error.toString());
 
         semaphore.release();
@@ -70,7 +70,7 @@ class HelperRemoteArchiveRetrieveAdapter extends ArchiveAdapter implements Helpe
     public void waitUntilReady() {
         try {
             semaphore.acquire();
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             HelperArchive.LOGGER.log(Level.SEVERE, null, ex);
         }
     }

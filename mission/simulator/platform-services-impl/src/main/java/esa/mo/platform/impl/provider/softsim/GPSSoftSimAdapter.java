@@ -39,7 +39,7 @@ public class GPSSoftSimAdapter extends GPSNMEAonlyAdapter implements SimulatorAd
   private final ESASimulator instrumentsSimulator;
   private PowerControlAdapterInterface pcAdapter;
 
-  public GPSSoftSimAdapter(ESASimulator instrumentsSimulator, PowerControlAdapterInterface pcAdapter)
+  public GPSSoftSimAdapter(final ESASimulator instrumentsSimulator, final PowerControlAdapterInterface pcAdapter)
   {
     this.instrumentsSimulator = instrumentsSimulator;
     this.pcAdapter = pcAdapter;
@@ -60,7 +60,7 @@ public class GPSSoftSimAdapter extends GPSNMEAonlyAdapter implements SimulatorAd
   @Override
   public synchronized String getBestXYZSentence() throws IOException
   {
-    String sentence = instrumentsSimulator.getpGPS().getBestXYZSentence();
+    final String sentence = instrumentsSimulator.getpGPS().getBestXYZSentence();
 
     if (sentence == null) {
       throw new IOException("The simulator returned a null object!");
@@ -72,7 +72,7 @@ public class GPSSoftSimAdapter extends GPSNMEAonlyAdapter implements SimulatorAd
   @Override
   public synchronized String getTIMEASentence() throws IOException
   {
-    String sentence = instrumentsSimulator.getpGPS().getTIMEASentence();
+    final String sentence = instrumentsSimulator.getpGPS().getTIMEASentence();
 
     if (sentence == null) {
       throw new IOException("The simulator returned a null object!");
@@ -90,7 +90,7 @@ public class GPSSoftSimAdapter extends GPSNMEAonlyAdapter implements SimulatorAd
   @Override
   public TLE getTLE()
   {
-    TLE tle = this.instrumentsSimulator.getSimulatorNode().getTLE();
+    final TLE tle = this.instrumentsSimulator.getSimulatorNode().getTLE();
 
     return tle;
   }

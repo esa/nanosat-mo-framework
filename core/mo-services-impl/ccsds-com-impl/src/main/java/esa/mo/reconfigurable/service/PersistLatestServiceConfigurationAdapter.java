@@ -70,7 +70,7 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
             {
                 ConfigurationHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
-            catch (MALException ex)
+            catch (final MALException ex)
             {
                 Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName())
                         .log(Level.SEVERE, "Unexpectedly ConfigurationHelper already initialized!?", ex);
@@ -85,7 +85,7 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
             {
                 DirectoryHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
-            catch (MALException ex)
+            catch (final MALException ex)
             {
                 Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName())
                         .log(Level.SEVERE, "Unexpectedly DirectoryHelper already initialized!?", ex);
@@ -111,7 +111,7 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
                              if (configObjectsObjId == null)
                              {
                                  // Retrieve the COM object of the service
-                                 ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(archiveService,
+                                 final ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(archiveService,
                                                                                                         ConfigurationHelper.SERVICECONFIGURATION_OBJECT_TYPE,
                                                                                                         ConfigurationProviderSingleton.getDomain(),
                                                                                                         serviceConfigObjId);
@@ -131,11 +131,11 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
                              }
 
                              // Stuff to feed the update operation from the Archive...
-                             ArchiveDetailsList details = HelperArchive.generateArchiveDetailsList(null, null,
+                             final ArchiveDetailsList details = HelperArchive.generateArchiveDetailsList(null, null,
                                                                                                    ConfigurationProviderSingleton.getNetwork(),
                                                                                                    new URI(""),
                                                                                                    configObjectsObjId);
-                             ConfigurationObjectDetailsList confObjsList = new ConfigurationObjectDetailsList();
+                             final ConfigurationObjectDetailsList confObjsList = new ConfigurationObjectDetailsList();
                              confObjsList.add(serviceImpl.getCurrentConfiguration());
 
                              try
@@ -144,12 +144,12 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
                                                        ConfigurationProviderSingleton.getDomain(), details,
                                                        confObjsList, null);
                              }
-                             catch (MALException ex)
+                             catch (final MALException ex)
                              {
                                  Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName())
                                          .log(Level.SEVERE, null, ex);
                              }
-                             catch (MALInteractionException ex)
+                             catch (final MALInteractionException ex)
                              {
                                  Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName())
                                          .log(Level.SEVERE, serviceImpl.getCOMService().getName()
@@ -164,10 +164,10 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
         try
         {
             // Store the Service Configuration objects
-            ConfigurationObjectDetailsList archObj1 = new ConfigurationObjectDetailsList();
+            final ConfigurationObjectDetailsList archObj1 = new ConfigurationObjectDetailsList();
             archObj1.add(service.getCurrentConfiguration());
 
-            LongList objIds1 = archiveService.store(true, ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE,
+            final LongList objIds1 = archiveService.store(true, ConfigurationHelper.CONFIGURATIONOBJECTS_OBJECT_TYPE,
                                                     ConfigurationProviderSingleton.getDomain(),
                                                     HelperArchive.generateArchiveDetailsList(null, null,
                                                                                              ConfigurationProviderSingleton.getNetwork(),
@@ -175,7 +175,7 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
                                                     null);
 
             // Store the Service Configuration
-            ServiceKeyList serviceKeyList = new ServiceKeyList();
+            final ServiceKeyList serviceKeyList = new ServiceKeyList();
             serviceKeyList.add(
                     new ServiceKey(service.getCOMService().getArea().getNumber(), service.getCOMService().getNumber(),
                                    service.getCOMService().getArea().getVersion()));
@@ -187,7 +187,7 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
                                                                           new URI(""), defaultObjId), serviceKeyList,
                                  null);
         }
-        catch (MALException | MALInteractionException ex)
+        catch (final MALException | MALInteractionException ex)
         {
             Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
         }

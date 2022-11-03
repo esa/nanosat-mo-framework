@@ -34,12 +34,12 @@ public class RequestDefTablePanel extends SharedTablePanel {
 
     private static final Logger LOGGER = Logger.getLogger(RequestDefTablePanel.class.getName());
 
-    public RequestDefTablePanel(ArchiveConsumerServiceImpl archiveService) {
+    public RequestDefTablePanel(final ArchiveConsumerServiceImpl archiveService) {
         super(archiveService);
     }
 
     @Override
-    public void addEntry(Identifier identity, ArchivePersistenceObject comObject) {
+    public void addEntry(final Identifier identity, final ArchivePersistenceObject comObject) {
         if (comObject == null) {
             LOGGER.log(Level.SEVERE, "The table cannot process a null COM Object.");
             return;
@@ -47,11 +47,11 @@ public class RequestDefTablePanel extends SharedTablePanel {
 
         try {
             semaphore.acquire();
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
-        RequestTemplateDetails requestDef = (RequestTemplateDetails) comObject.getObject();
+        final RequestTemplateDetails requestDef = (RequestTemplateDetails) comObject.getObject();
 
         tableData.addRow(new Object[]{
             identity,
@@ -65,7 +65,7 @@ public class RequestDefTablePanel extends SharedTablePanel {
 
     @Override
     public void defineTableContent() {
-        String[] tableCol = new String[]{
+        final String[] tableCol = new String[]{
             "Identity", "Definition ID", "Description"
         };
 
@@ -76,12 +76,12 @@ public class RequestDefTablePanel extends SharedTablePanel {
                 };
 
                 @Override               //all cells false
-                public boolean isCellEditable(int row, int column) {
+                public boolean isCellEditable(final int row, final int column) {
                     return false;
                 }
 
                 @Override
-                public Class getColumnClass(int columnIndex) {
+                public Class getColumnClass(final int columnIndex) {
                     return types[columnIndex];
                 }
         };

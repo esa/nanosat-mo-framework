@@ -35,9 +35,9 @@ public class Quota extends HashMap<Long, Integer> {
    * This method resets the quota to 0 for all provided IDs.
    * @param ids The entities for which to reset the quotas.
    */
-  public void clean(HashSet<Long> ids){
+  public void clean(final HashSet<Long> ids){
     synchronized(this){
-      for(Long id : ids){
+      for(final Long id : ids){
         this.put(id, 0);
       }
     }
@@ -48,9 +48,9 @@ public class Quota extends HashMap<Long, Integer> {
    * @param id The entity for which to increase the utilization.
    * @param increment The value by which the utilization should be incremented.
    */
-  public void increase(Long id, int increment){
+  public void increase(final Long id, final int increment){
     synchronized(this){
-      int current = retrieve(id);
+      final int current = retrieve(id);
       this.put(id, current + increment);
     }
   }
@@ -60,7 +60,7 @@ public class Quota extends HashMap<Long, Integer> {
    * @param id The ID for which the quota shall be retrieved.
    * @return The quota iff id is already a key in the quota and 0 otherwise.
    */
-  public int retrieve(Long id){
+  public int retrieve(final Long id){
     int ret = 0;
     synchronized(this){
       if(this.containsKey(id)){

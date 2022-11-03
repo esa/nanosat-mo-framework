@@ -90,7 +90,7 @@ public class COMServicesProvider
    *
    * @param eventService Event service provider
    */
-  public void setEventService(EventProviderServiceImpl eventService) {
+  public void setEventService(final EventProviderServiceImpl eventService) {
     this.eventService = eventService;
   }
 
@@ -99,7 +99,7 @@ public class COMServicesProvider
    *
    * @param archiveService Archive service provider
    */
-  public void setArchiveService(ArchiveProviderServiceImpl archiveService) {
+  public void setArchiveService(final ArchiveProviderServiceImpl archiveService) {
     this.archiveService = archiveService;
   }
 
@@ -108,7 +108,7 @@ public class COMServicesProvider
    *
    * @param activityTrackingService Activity Tracking service provider
    */
-  public void setActivityTrackingService(ActivityTrackingProviderServiceImpl activityTrackingService) {
+  public void setActivityTrackingService(final ActivityTrackingProviderServiceImpl activityTrackingService) {
     this.activityTrackingService = activityTrackingService;
   }
 

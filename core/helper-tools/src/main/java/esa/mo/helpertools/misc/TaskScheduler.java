@@ -40,7 +40,7 @@ public class TaskScheduler
   private final ArrayList<Integer> ids;
   private boolean daemon;
 
-  public TaskScheduler(int corePoolSize)
+  public TaskScheduler(final int corePoolSize)
   {
     scheduler = new ScheduledThreadPoolExecutor(corePoolSize);
     scheduled = new HashMap<>();
@@ -49,7 +49,7 @@ public class TaskScheduler
     daemon = false;
   }
 
-  public TaskScheduler(int corePoolSize, boolean isDaemon){
+  public TaskScheduler(final int corePoolSize, final boolean isDaemon){
     scheduler = new ScheduledThreadPoolExecutor(corePoolSize);
     scheduled = new HashMap<>();
     ids = new ArrayList<>();
@@ -71,14 +71,14 @@ public class TaskScheduler
    * @see ScheduledThreadPoolExecutor#scheduleAtFixedRate(java.lang.Runnable, long, long, java.util.concurrent.TimeUnit)
    * @see ScheduledThreadPoolExecutor#scheduleWithFixedDelay(java.lang.Runnable, long, long, java.util.concurrent.TimeUnit) 
    */
-  public int scheduleTask(Thread command, long startDelay, long taskDelay, TimeUnit
-      unit, boolean fixedRate) throws IllegalArgumentException
+  public int scheduleTask(final Thread command, final long startDelay, final long taskDelay, final TimeUnit
+      unit, final boolean fixedRate) throws IllegalArgumentException
   {
     if(command == null || unit == null) {
       throw new IllegalArgumentException("The provided thread must not be null.");
     }
     command.setDaemon(daemon);
-    ScheduledFuture<?> task;
+    final ScheduledFuture<?> task;
     if(fixedRate){
       task = this.scheduler.scheduleAtFixedRate(command, startDelay, taskDelay, unit);
     }
@@ -95,8 +95,8 @@ public class TaskScheduler
    */
   public void stopLast(){
     if(!scheduled.isEmpty()){
-      int last = ids.size()-1;
-      int index = ids.get(last);
+      final int last = ids.size()-1;
+      final int index = ids.get(last);
       scheduled.get(index).cancel(true);
       scheduled.remove(index);
       ids.remove(last);
@@ -108,7 +108,7 @@ public class TaskScheduler
    * nothing happens.
    * @param id The ID of the task which shall be canceled. The ID is obtained when scheduleTask is called.
    */
-  public void stopTask(int id){
+  public void stopTask(final int id){
     if(id >= 0 && id < nextId && scheduled.containsKey(id)){
       scheduled.get(id).cancel(true);
       scheduled.remove(id);
@@ -121,8 +121,8 @@ public class TaskScheduler
    * initial state.
    */
   public void resetScheduler(){
-    Set<Entry<Integer, ScheduledFuture<?>>> entries = scheduled.entrySet();
-    for(Entry<Integer, ScheduledFuture<?>> e : entries){
+    final Set<Entry<Integer, ScheduledFuture<?>>> entries = scheduled.entrySet();
+    for(final Entry<Integer, ScheduledFuture<?>> e : entries){
       e.getValue().cancel(true);
     }
     scheduled.clear();

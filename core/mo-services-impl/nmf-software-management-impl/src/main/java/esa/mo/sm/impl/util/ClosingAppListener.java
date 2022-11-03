@@ -55,7 +55,7 @@ public class ClosingAppListener extends EventReceivedListener {
     }
 
     @Override
-    public void onDataReceived(EventCOMObject eventCOMObject) {
+    public void onDataReceived(final EventCOMObject eventCOMObject) {
         if (eventCOMObject.getObjType().equals(AppsLauncherHelper.STOPPING_OBJECT_TYPE)) {
             // Is it the ack from the app?
             LOGGER.log(Level.INFO, "The app with objId {0} is stopping...", objId);
@@ -66,7 +66,7 @@ public class ClosingAppListener extends EventReceivedListener {
 
             try { // Send update to consumer stating that the app is stopped
                 interaction.sendUpdate(objId);
-            } catch (MALInteractionException | MALException ex) {
+            } catch (final MALInteractionException | MALException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
             }
 
@@ -84,7 +84,7 @@ public class ClosingAppListener extends EventReceivedListener {
         return this.appClosed;
     }
 
-    public void waitForAppClosing(long timeout) throws InterruptedException
+    public void waitForAppClosing(final long timeout) throws InterruptedException
     {
         synchronized (semaphore)
         {

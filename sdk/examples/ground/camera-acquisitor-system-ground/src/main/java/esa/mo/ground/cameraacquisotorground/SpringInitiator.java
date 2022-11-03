@@ -44,7 +44,7 @@ public class SpringInitiator
       System.err.println("e.g. maltcp://123.123.123.123:1024/nanosat-mo-supervisor-Directory 1050");
       System.exit(1);
     }
-    SpringApplication app = new SpringApplication(CameraAcquisitorGround.class);
+    final SpringApplication app = new SpringApplication(CameraAcquisitorGround.class);
 
     app.setDefaultProperties(Collections.singletonMap("server.port", args[1]));
     app.run(args);

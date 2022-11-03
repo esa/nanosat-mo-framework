@@ -45,27 +45,27 @@ public class DummyValuesProvider extends OBSWParameterValuesProvider {
    * 
    * @param parameterMap The map of OBSW parameters for which we have to provide values for
    */
-  public DummyValuesProvider(HashMap<Identifier, OBSWParameter> parameterMap) {
+  public DummyValuesProvider(final HashMap<Identifier, OBSWParameter> parameterMap) {
     super(parameterMap);
     parameterStorage = new HashMap<>();
   }
 
   /** {@inheritDoc} */
   @Override
-  public Attribute getValue(Identifier identifier) {
+  public Attribute getValue(final Identifier identifier) {
     if (!parameterMap.containsKey(identifier)) {
       return null;
     }
     if (parameterStorage.containsKey(identifier)){
       return parameterStorage.get(identifier);
     }else{
-      OBSWParameter param = parameterMap.get(identifier);
+      final OBSWParameter param = parameterMap.get(identifier);
       return HelperAttributes.attributeName2Attribute(param.getType());
     }
   }
 
   @Override
-  public Boolean setValue(Attribute rawValue, Identifier identifier){
+  public Boolean setValue(final Attribute rawValue, final Identifier identifier){
     if (!parameterMap.containsKey(identifier)) {
       return false;
     }

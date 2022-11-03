@@ -59,22 +59,22 @@ public class PublishedActivityUpdatesTable extends SharedTablePanel {
     private final ArchiveConsumerServiceImpl archiveService;
     private final PlanExecutionControlConsumerServiceImpl planExecutionControlService;
 
-    public PublishedActivityUpdatesTable(ArchiveConsumerServiceImpl archiveService, PlanExecutionControlConsumerServiceImpl planExecutionControlService) {
+    public PublishedActivityUpdatesTable(final ArchiveConsumerServiceImpl archiveService, final PlanExecutionControlConsumerServiceImpl planExecutionControlService) {
         super(archiveService);
         this.archiveService = archiveService;
         this.planExecutionControlService = planExecutionControlService;
     }
 
     @Override
-    public void addEntry(Identifier identity, ArchivePersistenceObject comObject) {
+    public void addEntry(final Identifier identity, final ArchivePersistenceObject comObject) {
         // Not used
     }
 
-    public void addEntry(IdentifierList domain, Identifier identity, Long instanceId, ActivityUpdateDetails update) {
+    public void addEntry(final IdentifierList domain, final Identifier identity, final Long instanceId, final ActivityUpdateDetails update) {
 
         try {
             semaphore.acquire();
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
@@ -82,39 +82,39 @@ public class PublishedActivityUpdatesTable extends SharedTablePanel {
         String plannedTrigger = null;
         String actualTime = null;
         if (update.getStart() != null) {
-            Trigger trigger = MPPolyFix.decode(update.getStart());
+            final Trigger trigger = MPPolyFix.decode(update.getStart());
             actualTime = HelperTime.time2readableString(trigger.getTime());
             if (trigger instanceof TimeTrigger) {
-                TimeTrigger timeTrigger = (TimeTrigger)trigger;
+                final TimeTrigger timeTrigger = (TimeTrigger)trigger;
                 plannedTrigger = HelperTime.time2readableString(timeTrigger.getTriggerTime());
             } else {
                 plannedTrigger = "Unsupported type";
             }
         }
 
-        ObjectType updateObjectType = PlanEditHelper.ACTIVITYUPDATE_OBJECT_TYPE;
-        LongList objectIds = new LongList();
+        final ObjectType updateObjectType = PlanEditHelper.ACTIVITYUPDATE_OBJECT_TYPE;
+        final LongList objectIds = new LongList();
         objectIds.add(0L);
-        List<ArchivePersistenceObject> updateObjects = HelperArchive
+        final List<ArchivePersistenceObject> updateObjects = HelperArchive
             .getArchiveCOMObjectList(this.archiveService.getArchiveStub(), updateObjectType, domain, objectIds);
 
         ArchivePersistenceObject comObject = null;
         if (updateObjects != null) {
-            for (ArchivePersistenceObject updateObject : updateObjects) {
-                ActivityUpdateDetails archiveUpdate = (ActivityUpdateDetails) updateObject.getObject();
+            for (final ArchivePersistenceObject updateObject : updateObjects) {
+                final ActivityUpdateDetails archiveUpdate = (ActivityUpdateDetails) updateObject.getObject();
                 if (Objects.equals(archiveUpdate, update)) {
                     comObject = updateObject;
                 }
             }
         }
 
-        ObjectType instanceObjectType = PlanEditHelper.ACTIVITYINSTANCE_OBJECT_TYPE;
-        ArchivePersistenceObject instanceComObject = HelperArchive
+        final ObjectType instanceObjectType = PlanEditHelper.ACTIVITYINSTANCE_OBJECT_TYPE;
+        final ArchivePersistenceObject instanceComObject = HelperArchive
             .getArchiveCOMObject(this.archiveService.getArchiveStub(), instanceObjectType, domain, instanceId);
 
         String info = "";
         if (instanceComObject != null) {
-            ActivityInstanceDetails activityInstance = (ActivityInstanceDetails) instanceComObject.getObject();
+            final ActivityInstanceDetails activityInstance = (ActivityInstanceDetails) instanceComObject.getObject();
             if (activityInstance.getComments() != null) {
                 info += activityInstance.getComments();
             }
@@ -142,7 +142,7 @@ public class PublishedActivityUpdatesTable extends SharedTablePanel {
 
     @Override
     public void defineTableContent() {
-        String[] tableCol = new String[]{
+        final String[] tableCol = new String[]{
             "Timestamp", "Activity Identity", "Plan Version Id",
             "Activity Id", "Activity Status", "Planned trigger",
             "Predicted or Actual time", "Error code", "Information"
@@ -157,12 +157,12 @@ public class PublishedActivityUpdatesTable extends SharedTablePanel {
                 };
 
                 @Override               //all cells false
-                public boolean isCellEditable(int row, int column) {
+                public boolean isCellEditable(final int row, final int column) {
                     return false;
                 }
 
                 @Override
-                public Class getColumnClass(int columnIndex) {
+                public Class getColumnClass(final int columnIndex) {
                     return types[columnIndex];
                 }
         };
@@ -179,15 +179,15 @@ public class PublishedActivityUpdatesTable extends SharedTablePanel {
     class ActivityUpdatesMonitor extends PlanExecutionControlAdapter {
 
         @Override
-        public void monitorActivitiesNotifyReceived(MALMessageHeader msgHeader, Identifier identifier, UpdateHeaderList headerList, ActivityUpdateDetailsList updateList, Map qosProperties) {
+        public void monitorActivitiesNotifyReceived(final MALMessageHeader msgHeader, final Identifier identifier, final UpdateHeaderList headerList, final ActivityUpdateDetailsList updateList, final Map qosProperties) {
             for (int index = 0; index < updateList.size(); index++) {
-                UpdateHeader updateHeader = headerList.get(index);
-                ActivityUpdateDetails update = updateList.get(index);
+                final UpdateHeader updateHeader = headerList.get(index);
+                final ActivityUpdateDetails update = updateList.get(index);
 
-                IdentifierList domain = msgHeader.getDomain();
+                final IdentifierList domain = msgHeader.getDomain();
 
-                Identifier identity = updateHeader.getKey().getFirstSubKey();
-                Long instanceId = updateHeader.getKey().getThirdSubKey();
+                final Identifier identity = updateHeader.getKey().getFirstSubKey();
+                final Long instanceId = updateHeader.getKey().getThirdSubKey();
 
                 addEntry(domain, identity, instanceId, update);
             }

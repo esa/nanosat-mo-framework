@@ -37,7 +37,7 @@ public class AttitudeStateProvider implements AdditionalStateProvider
   {
   }
 
-  public void setSwitched(boolean[] b)
+  public void setSwitched(final boolean[] b)
   {
     switched = b;
   }
@@ -49,9 +49,9 @@ public class AttitudeStateProvider implements AdditionalStateProvider
   }
 
   @Override
-  public double[] getAdditionalState(SpacecraftState state)
+  public double[] getAdditionalState(final SpacecraftState state)
   {
-    double[] additionalState = new double[8];
+    final double[] additionalState = new double[8];
 
     // Stays in its attitude if the transition button have not been pressed
     for (int i = 0; i < switched.length; i++) {
@@ -63,7 +63,7 @@ public class AttitudeStateProvider implements AdditionalStateProvider
         if (transitionDate[i] == null) {
           transitionDate[i] = state.getDate();
         }
-        double transition = 2 * state.getDate().durationFrom(transitionDate[i]) / transitionTime - 1.;
+        final double transition = 2 * state.getDate().durationFrom(transitionDate[i]) / transitionTime - 1.;
         if (transition < 1.) {
           additionalState[i] = transition;
         } else {

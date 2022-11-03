@@ -83,7 +83,7 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
    * @param adapter The SDR adapter
    * @throws MALException On initialisation error.
    */
-  public synchronized void init(SoftwareDefinedRadioAdapterInterface adapter) throws MALException
+  public synchronized void init(final SoftwareDefinedRadioAdapterInterface adapter) throws MALException
   {
     if (!initialiased) {
 
@@ -143,7 +143,7 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
 
       connection.closeAll();
       running = false;
-    } catch (MALException ex) {
+    } catch (final MALException ex) {
       Logger.getLogger(SoftwareDefinedRadioProviderServiceImpl.class.getName()).log(Level.WARNING,
           "Exception during close down of the provider {0}", ex);
     }
@@ -180,7 +180,7 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
 
       publisher.publish(hdrlst, iqComponentsList);
 
-    } catch (IllegalArgumentException | MALInteractionException | MALException ex) {
+    } catch (final IllegalArgumentException | MALInteractionException | MALException ex) {
       Logger.getLogger(SoftwareDefinedRadioProviderServiceImpl.class.getName()).log(Level.WARNING,
           "Exception during publishing process on the provider {0}", ex);
     }
@@ -205,7 +205,7 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
             null));
       }
       sdrInUse = true;
-      int period = (int) (publishingPeriod.getValue() * 1000); // In milliseconds
+      final int period = (int) (publishingPeriod.getValue() * 1000); // In milliseconds
 
       publishTimer = new Timer();
       publishTimer.schedule(new TimerTask()

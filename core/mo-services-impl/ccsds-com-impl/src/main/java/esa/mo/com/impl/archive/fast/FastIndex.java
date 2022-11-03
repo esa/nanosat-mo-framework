@@ -48,7 +48,7 @@ public abstract class FastIndex<T> {
     protected HashMap<T, Integer> fastID;
     protected HashMap<Integer, T> fastIDreverse;
 
-    public FastIndex(final DatabaseBackend dbBackend, String table) {
+    public FastIndex(final DatabaseBackend dbBackend, final String table) {
         this.fastID = new HashMap<>();
         this.fastIDreverse = new HashMap<>();
         this.dbBackend = dbBackend;
@@ -63,26 +63,26 @@ public abstract class FastIndex<T> {
         // Retrieve all the ids and providerURIs from the Database
         try {
             dbBackend.getAvailability().acquire();
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
         int max = 0;
         try {
-            Connection c = dbBackend.getConnection();
+            final Connection c = dbBackend.getConnection();
             c.createStatement().execute(CREATE_TABLE);
             insertStmt = c.prepareStatement(QUERY_INSERT);
-            ResultSet rs = c.createStatement().executeQuery(QUERY_SELECT);
+            final ResultSet rs = c.createStatement().executeQuery(QUERY_SELECT);
 
             while (rs.next()) {
-                Integer id = rs.getInt(1);
-                T value = (T) rs.getObject(2);
+                final Integer id = rs.getInt(1);
+                final T value = (T) rs.getObject(2);
                 this.fastID.put(value, id);
                 this.fastIDreverse.put(id, value);
 
                 max = (id > max) ? id : max;
             }
-        } catch (SQLException ex) {
+        } catch (final SQLException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
@@ -104,9 +104,9 @@ public abstract class FastIndex<T> {
         uniqueId = new AtomicInteger(0);
 
         try {
-            Connection c = dbBackend.getConnection();
+            final Connection c = dbBackend.getConnection();
             c.createStatement().execute(QUERY_DELETE);
-        } catch (SQLException ex) {
+        } catch (final SQLException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }
@@ -138,7 +138,7 @@ public abstract class FastIndex<T> {
 
         try {
             dbBackend.getAvailability().acquire();
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
@@ -146,7 +146,7 @@ public abstract class FastIndex<T> {
             insertStmt.setObject(1, key);
             insertStmt.setObject(2, value);
             insertStmt.execute();
-        } catch (SQLException ex) {
+        } catch (final SQLException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 

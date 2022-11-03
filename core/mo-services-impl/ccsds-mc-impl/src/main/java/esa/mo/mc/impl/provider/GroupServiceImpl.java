@@ -50,7 +50,7 @@ public class GroupServiceImpl extends ConversionInheritanceSkeleton {
      * @param archiveService
      * @throws org.ccsds.moims.mo.mal.MALException
      */
-    protected synchronized void init(ArchiveProviderServiceImpl archiveService) throws MALException {
+    protected synchronized void init(final ArchiveProviderServiceImpl archiveService) throws MALException {
         this.archiveService = archiveService;
 
         if (!initialiased) {
@@ -82,18 +82,18 @@ public class GroupServiceImpl extends ConversionInheritanceSkeleton {
      * @param groupIdentityId
      * @return
      */
-    protected Long retrieveLatestGroupDefinitionIdForIdentityFromArchive(IdentifierList domain, Long groupIdentityId) {
+    protected Long retrieveLatestGroupDefinitionIdForIdentityFromArchive(final IdentifierList domain, final Long groupIdentityId) {
         if (archiveService == null) { // If there's no archive...
             return null;
         }
         //get the latest group-definition, referencing the group-identity
-        LongList groupDefIds = new LongList();
+        final LongList groupDefIds = new LongList();
         groupDefIds.add(0L);
         final ArchiveDetailsList groupDetailsList = HelperArchive.getArchiveDetailsListFromArchive(archiveService, 
                 GroupHelper.GROUPDEFINITION_OBJECT_TYPE, domain, groupDefIds);
-        ArchiveDetailsList groupDefsReferencingGroupIdentity = new ArchiveDetailsList();
+        final ArchiveDetailsList groupDefsReferencingGroupIdentity = new ArchiveDetailsList();
         //get ALL group-definitions, referencing the current group-identity
-        for (ArchiveDetails groupDefDetails : groupDetailsList) {
+        for (final ArchiveDetails groupDefDetails : groupDetailsList) {
             if (groupIdentityId.equals(groupDefDetails.getDetails().getRelated())) {
                 groupDefsReferencingGroupIdentity.add(groupDefDetails);
             }
@@ -107,7 +107,7 @@ public class GroupServiceImpl extends ConversionInheritanceSkeleton {
         long latestTimestamp = 0;
         int latestDefIndex = 0;
         for (int i = 0; i < groupDefsReferencingGroupIdentity.size(); i++) {
-            ArchiveDetails groupDefDetails = groupDefsReferencingGroupIdentity.get(i);
+            final ArchiveDetails groupDefDetails = groupDefsReferencingGroupIdentity.get(i);
             if (groupDefDetails.getTimestamp().getValue() > latestTimestamp) {
                 latestDefIndex = i;
                 latestTimestamp = groupDefDetails.getTimestamp().getValue();
@@ -126,13 +126,13 @@ public class GroupServiceImpl extends ConversionInheritanceSkeleton {
      * @param groupIdentityId the id of the group-identity
      * @return
      */
-    protected GroupDetails retrieveGroupDetailsFromArchive(IdentifierList domain, Long groupIdentityId) {
+    protected GroupDetails retrieveGroupDetailsFromArchive(final IdentifierList domain, final Long groupIdentityId) {
 
         if (archiveService == null) { // If there's no archive...
             return null;
         }
 
-        Long latestGroupDefId = retrieveLatestGroupDefinitionIdForIdentityFromArchive(domain, groupIdentityId);
+        final Long latestGroupDefId = retrieveLatestGroupDefinitionIdForIdentityFromArchive(domain, groupIdentityId);
         if (latestGroupDefId == null) {
             return null;
         }
@@ -149,7 +149,7 @@ public class GroupServiceImpl extends ConversionInheritanceSkeleton {
      * @param groupDefId the id of the group-definition
      * @return
      */
-    protected GroupDetails retrieveGroupDetailsOfDefinitionFromArchive(IdentifierList domain, Long groupDefId) {
+    protected GroupDetails retrieveGroupDetailsOfDefinitionFromArchive(final IdentifierList domain, final Long groupDefId) {
 
         if (archiveService == null) { // If there's no archive...
             return null;
@@ -173,14 +173,14 @@ public class GroupServiceImpl extends ConversionInheritanceSkeleton {
      * @return the identity-ids of the other services objects (e.g.
      * parameter-identity-ids, action-identity-ids,...)
      */
-    protected IdObjectTypeList getGroupObjectIdsFromGroup(Long groupIdentityId, GroupDetails group, LongList previousGroupInstances) {
+    protected IdObjectTypeList getGroupObjectIdsFromGroup(final Long groupIdentityId, final GroupDetails group, final LongList previousGroupInstances) {
         //dont check the parent group later again
         previousGroupInstances.add(groupIdentityId);
         //get all referenced instances
         return getGroupObjectIdsFromGroupRecursive(group, previousGroupInstances);
     }
 
-    private IdObjectTypeList getGroupObjectIdsFromGroupRecursive(GroupDetails group, LongList previousGroupInstances) {
+    private IdObjectTypeList getGroupObjectIdsFromGroupRecursive(final GroupDetails group, final LongList previousGroupInstances) {
         if (archiveService == null || group == null) { // If there's no archive...
             return null;
         }
@@ -192,12 +192,12 @@ public class GroupServiceImpl extends ConversionInheritanceSkeleton {
             final LongList groupsGroupIdentityIds = group.getInstanceIds();
 
             //the recursive method-calls should not check the instances that will be checked during the iterations in this method call
-            LongList newPreviousGroupInstances = new LongList();
+            final LongList newPreviousGroupInstances = new LongList();
             newPreviousGroupInstances.addAll(previousGroupInstances);
             newPreviousGroupInstances.addAll(groupsGroupIdentityIds);
 
             //iterate through all new Groups and add all their instances to the final list
-            IdObjectTypeList idObjectTypeList = new IdObjectTypeList();
+            final IdObjectTypeList idObjectTypeList = new IdObjectTypeList();
             for (int i = 0; i < groupsGroupIdentityIds.size(); i++) {
                 final Long groupInstance = groupsGroupIdentityIds.get(i);
                 //this group wasnt checked yet?
@@ -205,7 +205,7 @@ public class GroupServiceImpl extends ConversionInheritanceSkeleton {
                     previousGroupInstances.add(groupInstance);
                     // Retrieve the groups group-ids from the archive
                     // requirement: 3.9.4.h
-                    GroupDetails nextGroupInstance = retrieveGroupDetailsFromArchive(group.getDomain(), groupInstance);
+                    final GroupDetails nextGroupInstance = retrieveGroupDetailsFromArchive(group.getDomain(), groupInstance);
                     idObjectTypeList.addAll(this.getGroupObjectIdsFromGroupRecursive(nextGroupInstance, newPreviousGroupInstances));
                 }
             }
@@ -223,8 +223,8 @@ public class GroupServiceImpl extends ConversionInheritanceSkeleton {
         public IdObjectTypeList() {
         }
 
-        public IdObjectTypeList(LongList ids, ObjectType objectType) {
-            for (Long id : ids) {
+        public IdObjectTypeList(final LongList ids, final ObjectType objectType) {
+            for (final Long id : ids) {
                 this.add(new IdObjectType(id, objectType));
             }
         }
@@ -236,7 +236,7 @@ public class GroupServiceImpl extends ConversionInheritanceSkeleton {
      */
     protected class IdObjectType {
 
-        public IdObjectType(Long id, ObjectType objectType) {
+        public IdObjectType(final Long id, final ObjectType objectType) {
             this.id = id;
             this.objectType = objectType;
         }
@@ -252,11 +252,11 @@ public class GroupServiceImpl extends ConversionInheritanceSkeleton {
             return objectType;
         }
 
-        public void setId(Long id) {
+        public void setId(final Long id) {
             this.id = id;
         }
 
-        public void setObjectType(ObjectType objectType) {
+        public void setObjectType(final ObjectType objectType) {
             this.objectType = objectType;
         }
     }

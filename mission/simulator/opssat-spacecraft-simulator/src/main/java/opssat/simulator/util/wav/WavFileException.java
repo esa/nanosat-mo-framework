@@ -32,17 +32,17 @@ public class WavFileException extends Exception
 		super();
 	}
 
-	public WavFileException(String message)
+	public WavFileException(final String message)
 	{
 		super(message);
 	}
 
-	public WavFileException(String message, Throwable cause)
+	public WavFileException(final String message, final Throwable cause)
 	{
 		super(message, cause);
 	}
 
-	public WavFileException(Throwable cause) 
+	public WavFileException(final Throwable cause)
 	{
 		super(cause);
 	}

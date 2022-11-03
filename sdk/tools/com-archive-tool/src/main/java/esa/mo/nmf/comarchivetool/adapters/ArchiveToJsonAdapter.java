@@ -85,7 +85,7 @@ public class ArchiveToJsonAdapter extends ArchiveAdapter implements QueryStatusP
    * 
    * @param jsonFilePath Path of destination JSON file where we dump the MAL elements
    */
-  public ArchiveToJsonAdapter(String jsonFilePath) {
+  public ArchiveToJsonAdapter(final String jsonFilePath) {
     gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
     archiveObjects = new HashMap<>();
     this.jsonFilePath = jsonFilePath;
@@ -96,25 +96,25 @@ public class ArchiveToJsonAdapter extends ArchiveAdapter implements QueryStatusP
    *
    * @param archiveObjectOutput the archive objects outputs
    */
-  private synchronized void dumpArchiveObjectsOutput(ArchiveCOMObjectsOutput archiveObjectOutput) {
+  private synchronized void dumpArchiveObjectsOutput(final ArchiveCOMObjectsOutput archiveObjectOutput) {
     // empty comType means query returned nothing
-    ObjectType comType = archiveObjectOutput.getObjectType();
+    final ObjectType comType = archiveObjectOutput.getObjectType();
     if (comType == null) {
       return;
     }
 
     // Group objects by domain ...
-    String domainKey = HelperMisc.domain2domainId(archiveObjectOutput.getDomain());
+    final String domainKey = HelperMisc.domain2domainId(archiveObjectOutput.getDomain());
     archiveObjects.computeIfAbsent(domainKey, k -> new HashMap<>());
 
     // ... and by COM object type
-    String comTypeKey = HelperCOM.objType2string(comType).replace(" - ", ".").replace(": ", ".");
+    final String comTypeKey = HelperCOM.objType2string(comType).replace(" - ", ".").replace(": ", ".");
     archiveObjects.get(domainKey).computeIfAbsent(comTypeKey, k -> new ArrayList<>());
 
     for (int i = 0; i < archiveObjectOutput.getArchiveDetailsList().size(); i++) {
-      Object malObject = archiveObjectOutput.getObjectBodies() == null ? null
+      final Object malObject = archiveObjectOutput.getObjectBodies() == null ? null
           : archiveObjectOutput.getObjectBodies().get(i);
-      CleanCOMArchiveObject comObject = new CleanCOMArchiveObject(comType,
+      final CleanCOMArchiveObject comObject = new CleanCOMArchiveObject(comType,
           archiveObjectOutput.getArchiveDetailsList().get(i), malObject);
       archiveObjects.get(domainKey).get(comTypeKey).add(comObject);
     }
@@ -127,13 +127,13 @@ public class ArchiveToJsonAdapter extends ArchiveAdapter implements QueryStatusP
     try {
       jsonFile = new FileWriter(jsonFilePath);
       gson.toJson(archiveObjects, jsonFile);
-    } catch (IOException e) {
+    } catch (final IOException e) {
       LOGGER.log(Level.SEVERE, String.format("Error writting to JSON file %s", jsonFilePath), e);
     } finally {
       if (jsonFile != null) {
         try {
           jsonFile.close();
-        } catch (IOException e) {
+        } catch (final IOException e) {
           LOGGER.log(Level.SEVERE, String.format("Error closing JSON file %s", jsonFilePath), e);
         }
       }
@@ -141,37 +141,37 @@ public class ArchiveToJsonAdapter extends ArchiveAdapter implements QueryStatusP
   }
 
   @Override
-  public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType,
-      IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies,
-      Map qosProperties) {
+  public void queryResponseReceived(final MALMessageHeader msgHeader, final ObjectType objType,
+                                    final IdentifierList domain, final ArchiveDetailsList objDetails, final ElementList objBodies,
+                                    final Map qosProperties) {
     dumpArchiveObjectsOutput(new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies));
     setIsQueryOver(true);
   }
 
   @Override
-  public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType,
-      IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies,
-      Map qosProperties) {
+  public void queryUpdateReceived(final MALMessageHeader msgHeader, final ObjectType objType,
+                                  final IdentifierList domain, final ArchiveDetailsList objDetails, final ElementList objBodies,
+                                  final Map qosProperties) {
     dumpArchiveObjectsOutput(new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies));
   }
 
   @Override
-  public void queryAckErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
-      Map qosProperties) {
+  public void queryAckErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error,
+                                    final Map qosProperties) {
     LOGGER.log(Level.SEVERE, "queryAckErrorReceived", error);
     setIsQueryOver(true);
   }
 
   @Override
-  public void queryUpdateErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
-      Map qosProperties) {
+  public void queryUpdateErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error,
+                                       final Map qosProperties) {
     LOGGER.log(Level.SEVERE, "queryUpdateErrorReceived", error);
     setIsQueryOver(true);
   }
 
   @Override
-  public void queryResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
-      Map qosProperties) {
+  public void queryResponseErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error,
+                                         final Map qosProperties) {
     LOGGER.log(Level.SEVERE, "queryResponseErrorReceived", error);
     setIsQueryOver(true);
   }
@@ -182,7 +182,7 @@ public class ArchiveToJsonAdapter extends ArchiveAdapter implements QueryStatusP
     return isQueryOver;
   }
 
-  private synchronized void setIsQueryOver(boolean isQueryOver) {
+  private synchronized void setIsQueryOver(final boolean isQueryOver) {
     if (isQueryOver) {
       // once response or error is received, we dump current content to JSON file
       dumpToJSON();
@@ -211,8 +211,8 @@ public class ArchiveToJsonAdapter extends ArchiveAdapter implements QueryStatusP
      */
     private HashMap<String, Object> object;
 
-    public CleanCOMArchiveObject(ObjectType objectType, ArchiveDetails archiveDetails,
-        Object object) {
+    public CleanCOMArchiveObject(final ObjectType objectType, final ArchiveDetails archiveDetails,
+                                 final Object object) {
       // archive details
       instanceId = archiveDetails.getInstId();
       objectDetails = archiveDetails.getDetails() == null ? null
@@ -232,7 +232,7 @@ public class ArchiveToJsonAdapter extends ArchiveAdapter implements QueryStatusP
       private Long relatedInstanceId;
       private CleanObjectId source;
 
-      public CleanObjectDetails(ObjectDetails objectDetails) {
+      public CleanObjectDetails(final ObjectDetails objectDetails) {
         relatedInstanceId = objectDetails.getRelated();
         source =
             objectDetails.getSource() == null ? null : new CleanObjectId(objectDetails.getSource());
@@ -243,7 +243,7 @@ public class ArchiveToJsonAdapter extends ArchiveAdapter implements QueryStatusP
         String domain;
         Long instanceId;
 
-        public CleanObjectId(ObjectId objectId) {
+        public CleanObjectId(final ObjectId objectId) {
           objectType =
               HelperCOM.objType2string(objectId.getType()).replace(" - ", ".").replace(": ", ".");
           domain = HelperMisc.domain2domainId(objectId.getKey().getDomain());

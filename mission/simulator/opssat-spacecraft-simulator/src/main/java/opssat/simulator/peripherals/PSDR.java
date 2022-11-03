@@ -37,13 +37,13 @@ import opssat.simulator.threading.SimulatorNode;
         "int:operatingBufferIndex"
     })
 public class PSDR extends GenericPeripheral implements ISDR{
-public PSDR(SimulatorNode simulatorNode,String name){
+public PSDR(final SimulatorNode simulatorNode, final String name){
 super(simulatorNode,name);
 }
     @Override
     @InternalData (internalID=6001,commandIDs={"",""},argNames={"cmdID","data"})
-    public byte[] runRawCommand(int cmdID,byte[] data) {
-        ArrayList<Object> argObject = new ArrayList<>();
+    public byte[] runRawCommand(final int cmdID, final byte[] data) {
+        final ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(cmdID);
         argObject.add(data);
         return (byte[]) super.getSimulatorNode().runGenericMethod(6001,argObject);
@@ -51,16 +51,16 @@ super(simulatorNode,name);
 
     @Override
     @InternalData (internalID=6002,commandIDs={"",""},argNames={"fileName"})
-    public void simPreloadFile(String fileName) {
-        ArrayList<Object> argObject = new ArrayList<>();
+    public void simPreloadFile(final String fileName) {
+        final ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(fileName);
         super.getSimulatorNode().runGenericMethod(6002,argObject);
     }
 
     @Override
     @InternalData (internalID=6003,commandIDs={"",""},argNames={"numberSamples"})
-    public double[] readFromBuffer(int numberSamples) {
-        ArrayList<Object> argObject = new ArrayList<>();
+    public double[] readFromBuffer(final int numberSamples) {
+        final ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(numberSamples);
         return (double[]) super.getSimulatorNode().runGenericMethod(6003,argObject);
     }

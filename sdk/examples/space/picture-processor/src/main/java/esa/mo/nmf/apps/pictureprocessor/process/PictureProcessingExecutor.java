@@ -51,7 +51,7 @@ public class PictureProcessingExecutor {
     private final Long maxDurationMillis;
     private final Long processRequestId;
 
-    public PictureProcessingExecutor(ProcessEventListener processEventListener, Long processRequestId, Integer minProcessDurationSeconds, Integer maxProcessDurationSeconds) {
+    public PictureProcessingExecutor(final ProcessEventListener processEventListener, final Long processRequestId, final Integer minProcessDurationSeconds, final Integer maxProcessDurationSeconds) {
         this.maxDurationMillis = toWatchdogTimeout(maxProcessDurationSeconds);
         this.minDurationSeconds = toMinDuration(minProcessDurationSeconds);
         this.executor = new DefaultExecutor();
@@ -60,27 +60,27 @@ public class PictureProcessingExecutor {
         this.executor.setWatchdog(new ExecuteWatchdog(maxDurationMillis));
     }
 
-    public boolean processPicture(Path picture) {
+    public boolean processPicture(final Path picture) {
 
         LOG.info("Process " + processRequestId + " is starting. It will last at least " + minDurationSeconds + "s and at most " + maxDurationMillis + "ms");
 
-        OutputStream outputStream = initLogStream(picture.getFileName());
+        final OutputStream outputStream = initLogStream(picture.getFileName());
         if (outputStream == null) {
             return false;
         }
 
-        CommandLine commandLine = new CommandLine("python")
+        final CommandLine commandLine = new CommandLine("python")
                 .addArgument("imageEditor.py")
                 .addArgument(picture.toAbsolutePath().toString());
 
         executor.setStreamHandler(new PumpStreamHandler(outputStream));
 
-        Map<String, String> environment = new HashMap<>();
+        final Map<String, String> environment = new HashMap<>();
         environment.put(ENV_PROCESS_DURATION, String.valueOf(minDurationSeconds));
 
         try {
             executor.execute(commandLine, environment, new LoggingExecuteResultHandler(processEventListener, processRequestId, outputStream));
-        } catch (IOException e) {
+        } catch (final IOException e) {
             LOG.log(Level.SEVERE, "Picture could not be processed", e);
             return false;
         }
@@ -92,27 +92,27 @@ public class PictureProcessingExecutor {
         executor.getWatchdog().destroyProcess();
     }
 
-    private static long toWatchdogTimeout(Integer timeoutSeconds) {
+    private static long toWatchdogTimeout(final Integer timeoutSeconds) {
         if (timeoutSeconds == null || timeoutSeconds <= 0) {
             return ExecuteWatchdog.INFINITE_TIMEOUT;
         }
         return timeoutSeconds * 1000L;
     }
 
-    private static int toMinDuration(Integer minDurationMillis) {
+    private static int toMinDuration(final Integer minDurationMillis) {
         if (minDurationMillis == null || minDurationMillis < 0) {
             return 0;
         }
         return minDurationMillis;
     }
 
-    private static OutputStream initLogStream(Path fileName) {
-        Path logFileName = createDirectoriesIfNotExist(Paths.get(LOG_PATH))
+    private static OutputStream initLogStream(final Path fileName) {
+        final Path logFileName = createDirectoriesIfNotExist(Paths.get(LOG_PATH))
                 .resolve(logFileName(stripFileNameExtension(fileName)));
         return newOutpuStreamSafe(logFileName);
     }
 
-    private static Path logFileName(Path processInputFile) {
+    private static Path logFileName(final Path processInputFile) {
         return processInputFile.resolveSibling("picture-processor-" + processInputFile.toString() + ".log");
     }
 

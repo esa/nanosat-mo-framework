@@ -34,7 +34,7 @@ public class PublishedUpdatesPanel extends javax.swing.JPanel {
         this.refreshButtonActionPerformed(null);
     }
 
-    public void setView(java.awt.Component view) {
+    public void setView(final java.awt.Component view) {
         jScrollPane2.setViewportView(view);
     }
 
@@ -85,7 +85,7 @@ public class PublishedUpdatesPanel extends javax.swing.JPanel {
 
         parameterTab.add(jPanel5);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        final javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -102,11 +102,11 @@ public class PublishedUpdatesPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
+    private void refreshButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
 
     }//GEN-LAST:event_refreshButtonActionPerformed
 
-    private void refreshTimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshTimeActionPerformed
+    private void refreshTimeActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshTimeActionPerformed
 
     }//GEN-LAST:event_refreshTimeActionPerformed
 

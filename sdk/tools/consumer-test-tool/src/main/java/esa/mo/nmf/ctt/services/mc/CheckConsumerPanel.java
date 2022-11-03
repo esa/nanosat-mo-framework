@@ -74,7 +74,7 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
      *
      * @param serviceMCCheck
      */
-    public CheckConsumerPanel(CheckConsumerServiceImpl serviceMCCheck) {
+    public CheckConsumerPanel(final CheckConsumerServiceImpl serviceMCCheck) {
         initComponents();
 
         checkDefsTable = new CheckDefinitionsTablePanel(serviceMCCheck.getCOMServices().getArchiveService());
@@ -145,7 +145,7 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
                 java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Float.class
             };
 
-            public Class getColumnClass(int columnIndex) {
+            public Class getColumnClass(final int columnIndex) {
                 return types [columnIndex];
             }
         });
@@ -154,7 +154,7 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
         actionDefinitionsTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         actionDefinitionsTable.setMinimumSize(new java.awt.Dimension(525, 32));
         actionDefinitionsTable.addContainerListener(new java.awt.event.ContainerAdapter() {
-            public void componentAdded(java.awt.event.ContainerEvent evt) {
+            public void componentAdded(final java.awt.event.ContainerEvent evt) {
                 actionDefinitionsTableComponentAdded(evt);
             }
         });
@@ -177,7 +177,7 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
                 java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Float.class
             };
 
-            public Class getColumnClass(int columnIndex) {
+            public Class getColumnClass(final int columnIndex) {
                 return types [columnIndex];
             }
         });
@@ -188,7 +188,7 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
         actionDefinitionsTable1.setMinimumSize(null);
         actionDefinitionsTable1.setPreferredSize(null);
         actionDefinitionsTable1.addContainerListener(new java.awt.event.ContainerAdapter() {
-            public void componentAdded(java.awt.event.ContainerEvent evt) {
+            public void componentAdded(final java.awt.event.ContainerEvent evt) {
                 actionDefinitionsTable1ComponentAdded(evt);
             }
         });
@@ -261,7 +261,7 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
 
         parameterTab.add(jPanel5);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        final javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -284,13 +284,13 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void addDefButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDefButtonActionPerformed
+    private void addDefButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDefButtonActionPerformed
 
         // User must pick a type of check...
-        Object[] possibilities = {"ConstantCheckDefinition", "ReferenceCheckDefinition", 
+        final Object[] possibilities = {"ConstantCheckDefinition", "ReferenceCheckDefinition",
             "DeltaCheckDefinition", "LimitCheckDefinition", "CompoundCheckDefinition" };
         
-        String s = (String)JOptionPane.showInputDialog(
+        final String s = (String)JOptionPane.showInputDialog(
                     null,
                     "Type of Check:\n",
                     "Check Type",
@@ -326,16 +326,16 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
          }
 
         // Display in a window
-        MOWindow checkDefinitionWindow = new MOWindow(checkDefinition, true);
-        CheckDefinitionDetailsList checkDefinitionList;
+        final MOWindow checkDefinitionWindow = new MOWindow(checkDefinition, true);
+        final CheckDefinitionDetailsList checkDefinitionList;
 
         try {
             checkDefinitionList = (CheckDefinitionDetailsList) HelperMisc.element2elementList(checkDefinition);
             checkDefinitionList.add(checkDefinitionWindow.getObject());
-            StringList checkNames = new StringList();
+            final StringList checkNames = new StringList();
             checkNames.add("AcheckDefinition");
 
-            ObjectInstancePairList objIds = this.serviceMCCheck.getCheckStub().addCheck(checkNames, checkDefinitionList);
+            final ObjectInstancePairList objIds = this.serviceMCCheck.getCheckStub().addCheck(checkNames, checkDefinitionList);
 
             if (objIds.isEmpty()) {
                 return;
@@ -343,7 +343,7 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
             
             Thread.sleep(500);
             // Get the stored Action Definition from the Archive
-            ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(
+            final ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(
                     this.serviceMCCheck.getCOMServices().getArchiveService().getArchiveStub(),
                     objTypeCheckDefinition, 
                     serviceMCCheck.getConnectionDetails().getDomain(), 
@@ -361,70 +361,70 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
 */            
             // Add the Statistic Link to the table
             checkDefsTable.addEntry(new Identifier(checkNames.get(0)), comObject);
-        } catch (InterruptedIOException ex) {
+        } catch (final InterruptedIOException ex) {
             return;
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             JOptionPane.showMessageDialog(null, "There was an error with the submitted check definition.", "Error", JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_addDefButtonActionPerformed
 
-    private void updateDefButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateDefButtonActionPerformed
+    private void updateDefButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateDefButtonActionPerformed
         if (checkDefsTable.getSelectedRow() == -1) { // The row is not selected?
             return;  // Well, then nothing to be done here folks!
         }
 
-        ArchivePersistenceObject obj = checkDefsTable.getSelectedCOMObject();
-        MOWindow moObject = new MOWindow(obj.getObject(), true);
+        final ArchivePersistenceObject obj = checkDefsTable.getSelectedCOMObject();
+        final MOWindow moObject = new MOWindow(obj.getObject(), true);
 
-        LongList objIds = new LongList();
+        final LongList objIds = new LongList();
         objIds.add(checkDefsTable.getSelectedIdentityObjId());
-        CheckDefinitionDetailsList checkDefinitionList;
+        final CheckDefinitionDetailsList checkDefinitionList;
 
         try {
             checkDefinitionList = (CheckDefinitionDetailsList) HelperMisc.element2elementList(moObject.getObject());
             checkDefinitionList.add(moObject.getObject());
             this.serviceMCCheck.getCheckStub().updateDefinition(objIds, checkDefinitionList);
             this.listDefinitionAllButtonActionPerformed(null);
-        } catch (InterruptedIOException ex) {
+        } catch (final InterruptedIOException ex) {
             return;
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_updateDefButtonActionPerformed
 
-    private void removeDefButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeDefButtonActionPerformed
+    private void removeDefButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeDefButtonActionPerformed
         if (checkDefsTable.getSelectedRow() == -1) { // The row is not selected?
             return;  // Well, then nothing to be done here folks!
         }
         
-        Long objId = checkDefsTable.getSelectedIdentityObjId();
-        LongList longlist = new LongList();
+        final Long objId = checkDefsTable.getSelectedIdentityObjId();
+        final LongList longlist = new LongList();
         longlist.add(objId);
 
         try {
             this.serviceMCCheck.getCheckStub().removeCheck(longlist);
             checkDefsTable.removeSelectedEntry();
-        } catch (MALInteractionException | MALException ex) {
+        } catch (final MALInteractionException | MALException ex) {
             Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_removeDefButtonActionPerformed
 
-    private void listDefinitionAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listDefinitionAllButtonActionPerformed
-        IdentifierList idList = new IdentifierList();
+    private void listDefinitionAllButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listDefinitionAllButtonActionPerformed
+        final IdentifierList idList = new IdentifierList();
         idList.add(new Identifier("*"));
 
-        CheckTypedInstanceList outputs;
+        final CheckTypedInstanceList outputs;
         try {
             outputs = this.serviceMCCheck.getCheckStub().listDefinition(idList);
-            ObjectInstancePairList objIds = new ObjectInstancePairList();
+            final ObjectInstancePairList objIds = new ObjectInstancePairList();
 
-            for(CheckTypedInstance output : outputs){
+            for(final CheckTypedInstance output : outputs){
                 objIds.add(output.getObjInstIds());
             }
                     
             checkDefsTable.refreshTableWithIds(objIds, serviceMCCheck.getConnectionDetails().getDomain(), objTypeCheckDefinition);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (final MALInteractionException | MALException ex) {
             JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.", "Error", JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
             return;
@@ -433,42 +433,42 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
         Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.INFO, "listDefinition(\"*\") returned {0} object instance identifiers.", outputs.size());
     }//GEN-LAST:event_listDefinitionAllButtonActionPerformed
 
-    private void removeDefAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeDefAllButtonActionPerformed
-        Long objId = (long) 0;
-        LongList longlist = new LongList();
+    private void removeDefAllButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeDefAllButtonActionPerformed
+        final Long objId = (long) 0;
+        final LongList longlist = new LongList();
         longlist.add(objId);
 
         try {
             this.serviceMCCheck.getCheckStub().removeCheck(longlist);
             checkDefsTable.removeAllEntries();
-        } catch (MALInteractionException | MALException ex) {
+        } catch (final MALInteractionException | MALException ex) {
             Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_removeDefAllButtonActionPerformed
 
-    private void getServiceStatusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getServiceStatusButtonActionPerformed
+    private void getServiceStatusButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getServiceStatusButtonActionPerformed
 
 
     }//GEN-LAST:event_getServiceStatusButtonActionPerformed
 
-    private void getCurrentTransitionListButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getCurrentTransitionListButtonActionPerformed
+    private void getCurrentTransitionListButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getCurrentTransitionListButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_getCurrentTransitionListButtonActionPerformed
 
-    private void getSummaryReportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getSummaryReportButtonActionPerformed
+    private void getSummaryReportButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getSummaryReportButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_getSummaryReportButtonActionPerformed
 
-    private void enableServiceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enableServiceButtonActionPerformed
+    private void enableServiceButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enableServiceButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_enableServiceButtonActionPerformed
 
-    private void enableCheckAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enableCheckAllButtonActionPerformed
+    private void enableCheckAllButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enableCheckAllButtonActionPerformed
 
-        Boolean curState;
+        final Boolean curState;
 
         if (checkLinksTable.getSelectedRow() == -1) {  // Used to avoid problems if no row is selected
-            CheckLinkDetails checkLink = (CheckLinkDetails) checkLinksTable.getSelectedCOMObject().getObject();
+            final CheckLinkDetails checkLink = (CheckLinkDetails) checkLinksTable.getSelectedCOMObject().getObject();
             if (checkLink != null) {
                 curState = checkLink.getCheckEnabled();
             } else {
@@ -478,23 +478,23 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
             curState = ((CheckLinkDetails) checkLinksTable.getSelectedCOMObject().getObject()).getCheckEnabled();
         }
 
-        InstanceBooleanPairList BoolPairList = new InstanceBooleanPairList();
+        final InstanceBooleanPairList BoolPairList = new InstanceBooleanPairList();
         BoolPairList.add(new InstanceBooleanPair((long) 0, !curState));  // Zero is the wildcard
 
         try {
             this.serviceMCCheck.getCheckStub().enableCheck(false, BoolPairList);
             checkLinksTable.removeSelectedEntry();
-        } catch (MALInteractionException | MALException ex) {
+        } catch (final MALInteractionException | MALException ex) {
             Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_enableCheckAllButtonActionPerformed
 
-    private void enableCheckButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enableCheckButtonActionPerformed
-        Boolean curState;
+    private void enableCheckButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enableCheckButtonActionPerformed
+        final Boolean curState;
 
         if (checkLinksTable.getSelectedRow() == -1) {  // Used to avoid problems if no row is selected
-            CheckLinkDetails checkLink = (CheckLinkDetails) checkLinksTable.getSelectedCOMObject().getObject();
+            final CheckLinkDetails checkLink = (CheckLinkDetails) checkLinksTable.getSelectedCOMObject().getObject();
             if (checkLink != null) {
                 curState = checkLink.getCheckEnabled();
             } else {
@@ -504,24 +504,24 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
             curState = ((CheckLinkDetails) checkLinksTable.getSelectedCOMObject().getObject()).getCheckEnabled();
         }
 
-        InstanceBooleanPairList BoolPairList = new InstanceBooleanPairList();
+        final InstanceBooleanPairList BoolPairList = new InstanceBooleanPairList();
         BoolPairList.add(new InstanceBooleanPair(checkLinksTable.getSelectedCOMObject().getObjectId(), !curState));  // Zero is the wildcard
 
         try {
             this.serviceMCCheck.getCheckStub().enableCheck(false, BoolPairList);
             checkLinksTable.removeSelectedEntry();
-        } catch (MALInteractionException | MALException ex) {
+        } catch (final MALInteractionException | MALException ex) {
             Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_enableCheckButtonActionPerformed
 
-    private void triggerCheckButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_triggerCheckButtonActionPerformed
+    private void triggerCheckButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_triggerCheckButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_triggerCheckButtonActionPerformed
 
-    private void addParameterCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addParameterCheckActionPerformed
+    private void addParameterCheckActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addParameterCheckActionPerformed
         
-        CheckLinkDetails checkLink = new CheckLinkDetails();
+        final CheckLinkDetails checkLink = new CheckLinkDetails();
         checkLink.setCheckEnabled(true);
         checkLink.setCheckInterval(new Duration(4));
         checkLink.setCheckOnChange(true);
@@ -530,11 +530,11 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
         
         // Display in a window
         try {
-            MOWindow checkLinkWindow = new MOWindow(checkLink, true);
-            CheckLinkDetailsList checkLinkList = new CheckLinkDetailsList();
+            final MOWindow checkLinkWindow = new MOWindow(checkLink, true);
+            final CheckLinkDetailsList checkLinkList = new CheckLinkDetailsList();
             checkLinkList.add((CheckLinkDetails) checkLinkWindow.getObject());
 
-            ObjectDetails details = new ObjectDetails();
+            final ObjectDetails details = new ObjectDetails();
 
             if (checkDefsTable.getSelectedCOMObject() == null){
                 JOptionPane.showMessageDialog(null, "Please select the check definition to be linked.", "Error", JOptionPane.PLAIN_MESSAGE);
@@ -545,11 +545,11 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
             details.setSource(new ObjectId(ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE, 
                     new ObjectKey(serviceMCCheck.getConnectionDetails().getDomain(), 1L)));
 
-            MOWindow linksWindow = new MOWindow(details, true);
-            ObjectDetailsList detailsList = new ObjectDetailsList();
+            final MOWindow linksWindow = new MOWindow(details, true);
+            final ObjectDetailsList detailsList = new ObjectDetailsList();
             detailsList.add((ObjectDetails) linksWindow.getObject());
             
-            ObjectInstancePairList objIds = this.serviceMCCheck.getCheckStub().addParameterCheck(checkLinkList, detailsList);
+            final ObjectInstancePairList objIds = this.serviceMCCheck.getCheckStub().addParameterCheck(checkLinkList, detailsList);
 
             if (objIds.isEmpty()) {
                 return;
@@ -557,44 +557,44 @@ public class CheckConsumerPanel extends javax.swing.JPanel {
             
             Thread.sleep(500);
             // Get the stored Action Definition from the Archive
-            ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(this.serviceMCCheck.getCOMServices().getArchiveService().getArchiveStub(),
+            final ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(this.serviceMCCheck.getCOMServices().getArchiveService().getArchiveStub(),
                     CheckHelper.CHECKLINK_OBJECT_TYPE, serviceMCCheck.getConnectionDetails().getDomain(), objIds.get(0).getObjDefInstanceId());
 
             // Add the Check Link to the table
             checkLinksTable.addEntry(new Identifier("A check!!"), comObject);
 
-        } catch (InterruptedIOException ex) {
+        } catch (final InterruptedIOException ex) {
             return;
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             JOptionPane.showMessageDialog(null, "There was an error with the submitted check definition.", "Error", JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_addParameterCheckActionPerformed
 
-    private void removeParameterCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeParameterCheckActionPerformed
+    private void removeParameterCheckActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeParameterCheckActionPerformed
 
         if (checkLinksTable.getSelectedRow() == -1) { // The row is not selected?
             return;  // Well, then nothing to be done here folks!
         }
         
-        Long objId = checkLinksTable.getSelectedDefinitionObjId();
-        LongList longlist = new LongList();
+        final Long objId = checkLinksTable.getSelectedDefinitionObjId();
+        final LongList longlist = new LongList();
         longlist.add(objId);
 
         try {
             this.serviceMCCheck.getCheckStub().removeParameterCheck(longlist);
             checkLinksTable.removeSelectedEntry();
-        } catch (MALInteractionException | MALException ex) {
+        } catch (final MALInteractionException | MALException ex) {
             Logger.getLogger(CheckConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_removeParameterCheckActionPerformed
 
-    private void actionDefinitionsTable1ComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_actionDefinitionsTable1ComponentAdded
+    private void actionDefinitionsTable1ComponentAdded(final java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_actionDefinitionsTable1ComponentAdded
         // TODO add your handling code here:
     }//GEN-LAST:event_actionDefinitionsTable1ComponentAdded
 
-    private void actionDefinitionsTableComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_actionDefinitionsTableComponentAdded
+    private void actionDefinitionsTableComponentAdded(final java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_actionDefinitionsTableComponentAdded
         // TODO add your handling code here:
     }//GEN-LAST:event_actionDefinitionsTableComponentAdded
 

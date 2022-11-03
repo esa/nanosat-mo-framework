@@ -30,7 +30,7 @@ public class MPSpaceDemo {
     private final NanoSatMOConnectorImpl connector;
 
     public MPSpaceDemo() {
-        MPSpaceDemoAdapter adapter = new MPSpaceDemoAdapter();
+        final MPSpaceDemoAdapter adapter = new MPSpaceDemoAdapter();
         connector = new NanoSatMOConnectorImpl();
         adapter.setNMF(connector);
         connector.init(adapter);
@@ -43,6 +43,6 @@ public class MPSpaceDemo {
      * @throws java.lang.Exception If there is an error
      */
     public static void main(final String args[]) throws Exception {
-        MPSpaceDemo test = new MPSpaceDemo();
+        final MPSpaceDemo test = new MPSpaceDemo();
     }
 }

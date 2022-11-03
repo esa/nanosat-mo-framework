@@ -64,13 +64,13 @@ public class PayloadsTestActionsHandler
 
   private final PayloadsTestMCAdapter payloadsTestMCAdapter;
 
-  public PayloadsTestActionsHandler(PayloadsTestMCAdapter payloadsTestMCAdapter)
+  public PayloadsTestActionsHandler(final PayloadsTestMCAdapter payloadsTestMCAdapter)
   {
     this.payloadsTestMCAdapter = payloadsTestMCAdapter;
   }
 
   public UInteger executeAdcsModeAction(Duration duration,
-      AttitudeMode attitudeMode, PayloadsTestMCAdapter payloadsTestMCAdapter)
+                                        final AttitudeMode attitudeMode, final PayloadsTestMCAdapter payloadsTestMCAdapter)
   {
     if (duration != null) {
       // Negative Durations are not allowed!
@@ -85,10 +85,10 @@ public class PayloadsTestActionsHandler
     try {
       payloadsTestMCAdapter.nmf.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(
           duration, attitudeMode);
-    } catch (MALInteractionException | MALException | NMFException ex) {
+    } catch (final MALInteractionException | MALException | NMFException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
       return new UInteger(3);
-    } catch (IOException ex) {
+    } catch (final IOException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
       return new UInteger(4);
     }
@@ -96,14 +96,14 @@ public class PayloadsTestActionsHandler
   }
   
   public UInteger scheduleTakePicture(
-      Long actionInstanceObjId,
-      boolean reportProgress,
-      MALInteraction interaction,
-      Duration scheduleDelay,
-      PictureFormat format,
-      boolean autoExposed)
+          final Long actionInstanceObjId,
+          final boolean reportProgress,
+          final MALInteraction interaction,
+          final Duration scheduleDelay,
+          final PictureFormat format,
+          final boolean autoExposed)
   {
-    Timer timer = new Timer();
+    final Timer timer = new Timer();
     long delay = (long)(scheduleDelay.getValue() * 1000L);
     if (delay < 0) {
       delay = 0;
@@ -112,7 +112,7 @@ public class PayloadsTestActionsHandler
     timer.schedule(new TimerTask(){
       @Override
       public void run() {
-        String actionName;
+        final String actionName;
         switch(format.getOrdinal()) {
           case PictureFormat._BMP_INDEX:
             if(autoExposed)
@@ -142,10 +142,10 @@ public class PayloadsTestActionsHandler
   }
 
   public UInteger takePicture(
-      Long actionInstanceObjId,
-      boolean reportProgress,
-      MALInteraction interaction,
-      PictureFormat format)
+          final Long actionInstanceObjId,
+          final boolean reportProgress,
+          final MALInteraction interaction,
+          final PictureFormat format)
   {
     try {
       payloadsTestMCAdapter.nmf.getPlatformServices().getCameraService().takePicture(
@@ -158,17 +158,17 @@ public class PayloadsTestActionsHandler
               payloadsTestMCAdapter.cameraGainB),
           new PayloadsTestCameraDataHandler(actionInstanceObjId, payloadsTestMCAdapter));
       return null; // Success!
-    } catch (MALInteractionException | MALException | IOException | NMFException ex) {
+    } catch (final MALInteractionException | MALException | IOException | NMFException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
       return new UInteger(1);
     }
   }
 
   public UInteger takeAutoExposedPicture(
-      Long actionInstanceObjId,
-      boolean reportProgress,
-      MALInteraction interaction,
-      PictureFormat format)
+          final Long actionInstanceObjId,
+          final boolean reportProgress,
+          final MALInteraction interaction,
+          final PictureFormat format)
   {
     try {
       payloadsTestMCAdapter.nmf.getPlatformServices().getCameraService().takeAutoExposedPicture(
@@ -181,35 +181,35 @@ public class PayloadsTestActionsHandler
               payloadsTestMCAdapter.cameraGainB),
           new PayloadsTestCameraDataHandler(actionInstanceObjId, payloadsTestMCAdapter));
       return null; // Success!
-    } catch (MALInteractionException | MALException | IOException | NMFException ex) {
+    } catch (final MALInteractionException | MALException | IOException | NMFException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
       return new UInteger(1);
     }
   }
 
   public UInteger setDeviceState(
-      Long actionInstanceObjId,
-      boolean reportProgress,
-      MALInteraction interaction,
-      UInteger deviceType,
-      boolean setOn)
+          final Long actionInstanceObjId,
+          final boolean reportProgress,
+          final MALInteraction interaction,
+          final UInteger deviceType,
+          final boolean setOn)
   {
     try {
-      DeviceList deviceList = new DeviceList();
+      final DeviceList deviceList = new DeviceList();
       deviceList.add(new Device(setOn, null, null, DeviceType.fromNumericValue(deviceType)));
       payloadsTestMCAdapter.nmf.getPlatformServices().getPowerControlService().enableDevices(
           deviceList);
       return null; // Success!
-    } catch (MALInteractionException | MALException | IOException | NMFException ex) {
+    } catch (final MALInteractionException | MALException | IOException | NMFException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
       return new UInteger(1);
     }
   }
 
   public UInteger recordSDRData(
-      Long actionInstanceObjId,
-      boolean reportProgress,
-      MALInteraction interaction)
+          final Long actionInstanceObjId,
+          final boolean reportProgress,
+          final MALInteraction interaction)
   {
     try {
       if (!sdrRegistered) {
@@ -218,11 +218,11 @@ public class PayloadsTestActionsHandler
                 new PayloadsTestSDRDataHandler());
         sdrRegistered = true;
       }
-      SDRConfiguration config = new SDRConfiguration(SDR_CENTER_FREQUENCY, SDR_RX_GAIN,
+      final SDRConfiguration config = new SDRConfiguration(SDR_CENTER_FREQUENCY, SDR_RX_GAIN,
           SDR_LPF_BW, SDR_SAMPLING_FREQUENCY);
       payloadsTestMCAdapter.nmf.getPlatformServices().getSoftwareDefinedRadioService().enableSDR(
           true, config, SDR_REPORTING_INTERVAL);
-      Timer timer = new Timer();
+      final Timer timer = new Timer();
       timer.schedule(new TimerTask()
       {
         @Override
@@ -231,13 +231,13 @@ public class PayloadsTestActionsHandler
           try {
             payloadsTestMCAdapter.nmf.getPlatformServices().getSoftwareDefinedRadioService().enableSDR(
                 false, config, SDR_REPORTING_INTERVAL);
-          } catch (MALInteractionException | MALException | IOException | NMFException ex) {
+          } catch (final MALInteractionException | MALException | IOException | NMFException ex) {
             LOGGER.log(Level.SEVERE, "Failed to stop the SDR", ex);
           }
         }
       }, SDR_RECORDING_DURATION);
       return null; // Success!
-    } catch (MALInteractionException | MALException | IOException | NMFException ex) {
+    } catch (final MALInteractionException | MALException | IOException | NMFException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
       return new UInteger(1);
     }

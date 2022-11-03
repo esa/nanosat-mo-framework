@@ -34,7 +34,7 @@ import org.ccsds.moims.mo.mc.check.structures.CheckLinkDetails;
  */
 public class CheckLinksTablePanel extends SharedTablePanel {
 
-    public CheckLinksTablePanel(ArchiveConsumerServiceImpl archiveService) {
+    public CheckLinksTablePanel(final ArchiveConsumerServiceImpl archiveService) {
         super(archiveService);
     }
 
@@ -47,11 +47,11 @@ public class CheckLinksTablePanel extends SharedTablePanel {
 
         try {
             semaphore.acquire();
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        CheckLinkDetails checkLink = (CheckLinkDetails) comObject.getObject();
+        final CheckLinkDetails checkLink = (CheckLinkDetails) comObject.getObject();
         
         tableData.addRow(new Object[]{
             comObject.getArchiveDetails().getInstId(),
@@ -70,7 +70,7 @@ public class CheckLinksTablePanel extends SharedTablePanel {
     @Override
     public void defineTableContent() {
     
-        String[] tableCol = new String[]{
+        final String[] tableCol = new String[]{
             "Obj Inst Id", "Enabled", "checkOnChange", 
             "useConverted", "checkInterval"  };
 
@@ -82,12 +82,12 @@ public class CheckLinksTablePanel extends SharedTablePanel {
                     };
 
                     @Override               //all cells false
-                    public boolean isCellEditable(int row, int column) {
+                    public boolean isCellEditable(final int row, final int column) {
                         return false;
                     }
 
                     @Override
-                    public Class getColumnClass(int columnIndex) {
+                    public Class getColumnClass(final int columnIndex) {
                         return types[columnIndex];
                     }
                 };

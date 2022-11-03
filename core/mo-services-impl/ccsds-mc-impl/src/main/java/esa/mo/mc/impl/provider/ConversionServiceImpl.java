@@ -70,7 +70,7 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
      * @param archiveService
      * @throws org.ccsds.moims.mo.mal.MALException
      */
-    protected synchronized void init(ArchiveProviderServiceImpl archiveService) throws MALException {
+    protected synchronized void init(final ArchiveProviderServiceImpl archiveService) throws MALException {
         this.archiveService = archiveService;
 
         if (!initialiased) {
@@ -103,11 +103,11 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
         Attribute finalValue = null;
 
         final ConditionalConversionList conditionalConversions = conversion.getConditionalConversions();
-        for (ConditionalConversion conditionalConversion : conditionalConversions) {
+        for (final ConditionalConversion conditionalConversion : conditionalConversions) {
             // Cycle through all the conditions until it gets one that works...
             try {
                 finalValue = applyConversion(rawValue, conditionalConversion);
-            } catch (MALInteractionException ex) {
+            } catch (final MALInteractionException ex) {
                 continue;
             }
         }
@@ -124,12 +124,12 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
      * the expression does not exist and therefore the state of the expression
      * could not be evaluated.
      */
-    protected Boolean evaluateParameterExpression(ParameterExpression expression) throws MALInteractionException {
+    protected Boolean evaluateParameterExpression(final ParameterExpression expression) throws MALInteractionException {
         if (expression == null) {
             return true;  // No test is required
         }
-        ParameterValue parameterValue = manager.getParameterValue(expression.getParameterId().getInstId());
-        Attribute param = expression.getUseConverted() ? parameterValue.getConvertedValue() : parameterValue.getRawValue();
+        final ParameterValue parameterValue = manager.getParameterValue(expression.getParameterId().getInstId());
+        final Attribute param = expression.getUseConverted() ? parameterValue.getConvertedValue() : parameterValue.getRawValue();
 
         return HelperCOM.evaluateExpression(param, expression.getOperator(), expression.getValue());
     }
@@ -145,7 +145,7 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
     */
 
     private Attribute applyConversion(final Attribute value, final ConditionalConversion conditionalRef) throws MALInteractionException {
-        Boolean eval = this.evaluateParameterExpression(conditionalRef.getCondition());
+        final Boolean eval = this.evaluateParameterExpression(conditionalRef.getCondition());
 
         if (!eval) {  // Is the Parameter Expression Invalid?
             throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, null));
@@ -159,7 +159,7 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
         //TODO: use a query method here
         final IdentifierList domain = conditionalRef.getConversionId().getDomain();
 
-        Element conversionDetails = this.getConversionDefinition(domain, conditionalRef.getConversionId().getInstId());
+        final Element conversionDetails = this.getConversionDefinition(domain, conditionalRef.getConversionId().getInstId());
 
         if (conversionDetails == null) {
             return null; // The Conversion object was not found in the Archive or Archive not available
@@ -244,9 +244,9 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
      * @return The DefinitionDetails-Object with the newest timestamp or null if
      * no object of the given objectType references the given identity.
      */
-    private Element getDefinitionDetailsFromIdentityIdFromArchive(ObjectType objType, final IdentifierList domain, Long identityId) {
+    private Element getDefinitionDetailsFromIdentityIdFromArchive(final ObjectType objType, final IdentifierList domain, final Long identityId) {
         //retrieve all existing conversion-objects
-        LongList defIds = new LongList();
+        final LongList defIds = new LongList();
         defIds.add(0L);
         final ArchiveDetailsList defarchiveDetailsListFromArchive = HelperArchive.getArchiveDetailsListFromArchive(archiveService, objType, domain, defIds);
         //look if there are conversionDetails, which reference the identity
@@ -255,7 +255,7 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
         if (defarchiveDetailsListFromArchive == null)
             return null;
         //iterate through all entries to check for the given identity as the source object
-        for (ArchiveDetails defArchiveDetails : defarchiveDetailsListFromArchive) {
+        for (final ArchiveDetails defArchiveDetails : defarchiveDetailsListFromArchive) {
             if (defArchiveDetails.getDetails().getRelated() == null)
                 continue;
             if (defArchiveDetails.getDetails().getRelated().equals(identityId)) {
@@ -275,7 +275,7 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
 
     private Attribute applyDiscreteConversion(final DiscreteConversionDetails conversionDetails, final Attribute value) {
         //requirement: 3.8.3.c => no entry in the points-list returns null
-        for (Pair mapping : conversionDetails.getMapping()) {
+        for (final Pair mapping : conversionDetails.getMapping()) {
             if (mapping.getFirst().equals(value)) {
                 return mapping.getSecond();
             }
@@ -286,7 +286,7 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
 
     private Attribute applyLineConversion(final LineConversionDetails conversionDetails, final Attribute value) {
 
-        PairList points = conversionDetails.getPoints();
+        final PairList points = conversionDetails.getPoints();
 
         if (points == null) // Should never happen because the object is not nullable
         {
@@ -302,7 +302,7 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
         Pair bottom = null;
 
         // Do we have a direct hit?
-        for (Pair point : points) {
+        for (final Pair point : points) {
             if (HelperCOM.evaluateExpression(point.getFirst(), ExpressionOperator.EQUAL, value)) { // If we get a hit, then return it right away
                 return point.getSecond();
             }
@@ -349,8 +349,8 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
         }
 
         double convertedValue = 0;
-        for (Pair point : points) {
-            double midStep = Math.pow(HelperAttributes.attribute2double(value), ((Union) point.getFirst()).getIntegerValue());
+        for (final Pair point : points) {
+            final double midStep = Math.pow(HelperAttributes.attribute2double(value), ((Union) point.getFirst()).getIntegerValue());
             convertedValue += HelperAttributes.attribute2double(point.getSecond()) * midStep;
         }
 
@@ -361,31 +361,31 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
         //requirement: 3.8.3.f => no entry in the points-list returns null
         // Do we have a direct hit?
         final PairList points = conversionDetails.getPoints();
-        for (Pair point : points) {
+        for (final Pair point : points) {
             if (HelperCOM.evaluateExpression(point.getFirst(), ExpressionOperator.EQUAL, value)) { // If we get a hit, then return it right away
                 return point.getSecond();
             }
         }
 
-        Pair bottom = findBottom(value, points);
+        final Pair bottom = findBottom(value, points);
         if (bottom == null) {
             return null;
         }
         return bottom.getSecond();
     }
 
-    private double linearInterpolation(double x, double x_0, double y_0, double x_1, double y_1) {
+    private double linearInterpolation(final double x, final double x_0, final double y_0, final double x_1, final double y_1) {
         // From wikipedia: http://en.wikipedia.org/wiki/Linear_interpolation
         return (y_0 + (y_1 - y_0) * (x - x_0) / (x_1 - x_0));
     }
 
     private Union linearInterpolation(final Attribute value, final Pair top, final Pair bottom) {
 
-        double x = HelperAttributes.attribute2double(value);
-        double x_0 = HelperAttributes.attribute2double(bottom.getFirst());
-        double y_0 = HelperAttributes.attribute2double(bottom.getSecond());
-        double x_1 = HelperAttributes.attribute2double(top.getFirst());
-        double y_1 = HelperAttributes.attribute2double(top.getSecond());
+        final double x = HelperAttributes.attribute2double(value);
+        final double x_0 = HelperAttributes.attribute2double(bottom.getFirst());
+        final double y_0 = HelperAttributes.attribute2double(bottom.getSecond());
+        final double x_1 = HelperAttributes.attribute2double(top.getFirst());
+        final double y_1 = HelperAttributes.attribute2double(top.getSecond());
 
         return new Union(this.linearInterpolation(x, x_0, y_0, x_1, y_1));
     }
@@ -394,7 +394,7 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
 
         Pair top = null;
 
-        for (Pair point : points) {
+        for (final Pair point : points) {
             // Check if the point is after the value
             if (HelperCOM.evaluateExpression(point.getFirst(), ExpressionOperator.GREATER, value)) {
                 if (top == null) {
@@ -415,7 +415,7 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
 
         Pair bottom = null;
 
-        for (Pair point : points) {
+        for (final Pair point : points) {
 
             // Check if the point is NOT after the value
             if (HelperCOM.evaluateExpression(point.getFirst(), ExpressionOperator.LESS, value)) {

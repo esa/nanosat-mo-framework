@@ -33,37 +33,37 @@ public final class FileUtils {
 
     private static final Logger LOG = Logger.getLogger(FileUtils.class.getName());
 
-    public static Path createDirectoriesIfNotExist(Path directory) {
+    public static Path createDirectoriesIfNotExist(final Path directory) {
         if (Files.exists(directory)) {
             return directory;
         }
         try {
             return Files.createDirectories(directory);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new UncheckedIOException(e);
         }
     }
 
-    public static OutputStream newOutpuStreamSafe(Path file) {
+    public static OutputStream newOutpuStreamSafe(final Path file) {
         try {
             return Files.newOutputStream(file);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             LOG.log(Level.SEVERE, "Failed to create output stream for file " + file, e);
             return null;
         }
     }
 
-    public static void closeSafe(OutputStream outputStream) {
+    public static void closeSafe(final OutputStream outputStream) {
         try {
             outputStream.close();
-        } catch (IOException e) {
+        } catch (final IOException e) {
             LOG.log(Level.SEVERE, "Failed to close output stream", e);
         }
     }
 
-    public static Path stripFileNameExtension(Path path) {
-        String fileName = path.getFileName().toString();
-        int extensionSeparatorIndex = fileName.lastIndexOf(".");
+    public static Path stripFileNameExtension(final Path path) {
+        final String fileName = path.getFileName().toString();
+        final int extensionSeparatorIndex = fileName.lastIndexOf(".");
         if (extensionSeparatorIndex == -1) {
             return path;
         }

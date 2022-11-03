@@ -78,7 +78,7 @@ public final class ActionManager extends MCManager {
             new ArrayBlockingQueue<>(MAXIMUM_NUMBER_OF_TASKS_IN_POOL, true),
             new ActionThreadFactory("ActionsExecutor"));
 
-    public ActionManager(COMServicesProvider comServices, ActionInvocationListener actions) {
+    public ActionManager(final COMServicesProvider comServices, final ActionInvocationListener actions) {
         super(comServices);
         this.actions = actions;
 
@@ -94,26 +94,26 @@ public final class ActionManager extends MCManager {
     }
 
     // We could use generics to avoid doing this...
-    public ActionDefinitionDetails getActionDefinitionFromIdentityId(Long identityId) {
+    public ActionDefinitionDetails getActionDefinitionFromIdentityId(final Long identityId) {
         return (ActionDefinitionDetails) this.getDefinition(identityId);
     }
 
-    public ActionDefinitionDetails getActionDefinitionFromDefId(Long defId) {
+    public ActionDefinitionDetails getActionDefinitionFromDefId(final Long defId) {
         return (ActionDefinitionDetails) this.getDefinitionFromObjId(defId);
     }
 
-    public Long storeAndGenerateAInsobjId(ActionInstanceDetails aIns, Long related, final URI uri) {
+    public Long storeAndGenerateAInsobjId(final ActionInstanceDetails aIns, final Long related, final URI uri) {
         if (super.getArchiveService() == null) {
             uniqueObjIdAIns++;
 ///            if (uniqueObjIdAIns % SAVING_PERIOD  == 0) // It is used to avoid constant saving every time we generate a new obj Inst identifier.
 //                this.save();
             return this.uniqueObjIdAIns;
         } else {
-            ActionInstanceDetailsList aValList = new ActionInstanceDetailsList(1);
+            final ActionInstanceDetailsList aValList = new ActionInstanceDetailsList(1);
             aValList.add(aIns);
 
             try {
-                LongList objIds = super.getArchiveService().store(
+                final LongList objIds = super.getArchiveService().store(
                         true,
                         ActionHelper.ACTIONINSTANCE_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
@@ -124,7 +124,7 @@ public final class ActionManager extends MCManager {
                 if (objIds.size() == 1) {
                     return objIds.get(0);
                 }
-            } catch (MALException | MALInteractionException ex) {
+            } catch (final MALException | MALInteractionException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
 
@@ -136,7 +136,7 @@ public final class ActionManager extends MCManager {
 //    public ActionDefinitionDetailsList getAll(){
 //        return (ActionDefinitionDetailsList) this.listgetAllDefs();
 //    }
-    public ObjectInstancePair add(ActionCreationRequest creationRequest, ObjectId source, URI uri) { // requirement: 3.3.2.5
+    public ObjectInstancePair add(final ActionCreationRequest creationRequest, final ObjectId source, final URI uri) { // requirement: 3.3.2.5
         ObjectInstancePair newIdPair = new ObjectInstancePair();
         final Identifier name = creationRequest.getName();
         final ActionDefinitionDetails actionDefDetails = creationRequest.getActionDefDetails();
@@ -155,11 +155,11 @@ public final class ActionManager extends MCManager {
 
                 //in case the ActionName never existed before, create a new identity
                 if (identityId == null) {
-                    IdentifierList names = new IdentifierList(1);
+                    final IdentifierList names = new IdentifierList(1);
                     //requirement: 3.2.4.b
                     names.add(name);
                     //add identity to the archive 3.2.7.a
-                    LongList identityIds = super.getArchiveService().store(true,
+                    final LongList identityIds = super.getArchiveService().store(true,
                             ActionHelper.ACTIONIDENTITY_OBJECT_TYPE, //requirement: 3.2.4.a
                             ConfigurationProviderSingleton.getDomain(),
                             HelperArchive.generateArchiveDetailsList(null, source, uri), //requirement: 3.2.4.e
@@ -169,10 +169,10 @@ public final class ActionManager extends MCManager {
                     //there is only one identity created, so get the id and set it as the related id
                     identityId = identityIds.get(0);
                 }
-                ActionDefinitionDetailsList defs = new ActionDefinitionDetailsList();
+                final ActionDefinitionDetailsList defs = new ActionDefinitionDetailsList();
                 defs.add(actionDefDetails);
                 //add definition to the archive requirement: 3.2.7.b
-                LongList defIds = super.getArchiveService().store(true,
+                final LongList defIds = super.getArchiveService().store(true,
                         ActionHelper.ACTIONDEFINITION_OBJECT_TYPE, //requirement: 3.2.4.c
                         ConfigurationProviderSingleton.getDomain(),
                         HelperArchive.generateArchiveDetailsList(identityId, source, uri), //requirement: 3.2.4.d, f
@@ -180,7 +180,7 @@ public final class ActionManager extends MCManager {
                         null);
 
                 newIdPair = new ObjectInstancePair(identityId, defIds.get(0));
-            } catch (MALException | MALInteractionException ex) {
+            } catch (final MALException | MALInteractionException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -190,7 +190,7 @@ public final class ActionManager extends MCManager {
         return newIdPair;
     }
 
-    public Long update(Long identityId, ActionDefinitionDetails definition, ObjectId source, URI uri) { // requirement: 3.3.2.5
+    public Long update(final Long identityId, final ActionDefinitionDetails definition, final ObjectId source, final URI uri) { // requirement: 3.3.2.5
         Long newDefId = null;
 
         if (super.getArchiveService() == null) { //only update locally
@@ -200,11 +200,11 @@ public final class ActionManager extends MCManager {
 
         } else {  // update in the COM Archive
             try {
-                ActionDefinitionDetailsList defs = new ActionDefinitionDetailsList();
+                final ActionDefinitionDetailsList defs = new ActionDefinitionDetailsList();
                 defs.add(definition);
 
                 //create a new ActionDefinition 
-                LongList defIds = super.getArchiveService().store(true,
+                final LongList defIds = super.getArchiveService().store(true,
                         ActionHelper.ACTIONDEFINITION_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
                         HelperArchive.generateArchiveDetailsList(identityId, source, uri),
@@ -212,7 +212,7 @@ public final class ActionManager extends MCManager {
                         null);
 
                 newDefId = defIds.get(0);
-            } catch (MALException | MALInteractionException ex) {
+            } catch (final MALException | MALInteractionException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -222,12 +222,12 @@ public final class ActionManager extends MCManager {
         return newDefId;
     }
 
-    public boolean delete(Long objId) {
+    public boolean delete(final Long objId) {
         // requirement: 3.2.14.2.e
         return this.deleteIdentity(objId);
     }
 
-    protected boolean isActionDefinitionValid(ActionDefinitionDetails oldDef, ActionDefinitionDetails newDef) {
+    protected boolean isActionDefinitionValid(final ActionDefinitionDetails oldDef, final ActionDefinitionDetails newDef) {
 
         if (//!oldDef.getName().equals(newDef.getName()) ||
                 !oldDef.getCategory().equals(newDef.getCategory())
@@ -243,8 +243,8 @@ public final class ActionManager extends MCManager {
         }
 
         for (int index = 0; index < oldArguments.size(); index++) {
-            ArgumentDefinitionDetails oldArgument = oldArguments.get(index);
-            ArgumentDefinitionDetails newArgument = newArguments.get(index);
+            final ArgumentDefinitionDetails oldArgument = oldArguments.get(index);
+            final ArgumentDefinitionDetails newArgument = newArguments.get(index);
 
             if (oldArgument == null || newArgument == null) {  // cannot compare, check next
                 continue;
@@ -294,9 +294,9 @@ public final class ActionManager extends MCManager {
 
     }
 
-    public boolean checkActionInstanceDetails(ActionInstanceDetails actionInstance, UIntegerList errorList) {
+    public boolean checkActionInstanceDetails(final ActionInstanceDetails actionInstance, UIntegerList errorList) {
         //TODO extend this method to support the external verification. create a new Interface -> actionservice
-        ActionDefinitionDetails actionDef = this.getActionDefinitionFromDefId(actionInstance.getDefInstId());
+        final ActionDefinitionDetails actionDef = this.getActionDefinitionFromDefId(actionInstance.getDefInstId());
 
         if (errorList != null) {
             errorList.clear();
@@ -321,8 +321,8 @@ public final class ActionManager extends MCManager {
 
         // So, first of all, are we even comparing things of the same size?
         if (sizeArgVal != sizeDef) {
-            int min = (sizeDef < sizeArgVal) ? sizeDef : sizeArgVal;
-            int max = (sizeDef > sizeArgVal) ? sizeDef : sizeArgVal;
+            final int min = (sizeDef < sizeArgVal) ? sizeDef : sizeArgVal;
+            final int max = (sizeDef > sizeArgVal) ? sizeDef : sizeArgVal;
 
             for (int i = min; i < max; i++) {
                 errorList.add(new UInteger(i));
@@ -333,11 +333,11 @@ public final class ActionManager extends MCManager {
         // Do the argument ids are not null? (it is optional)
         if (actionDef.getArguments() != null && actionInstance.getArgumentIds() != null) {
             // Ids must be of the same size as well
-            int sizeDefArgIds = actionDef.getArguments().size();
-            int sizeInstArgIds = actionInstance.getArgumentIds().size();
+            final int sizeDefArgIds = actionDef.getArguments().size();
+            final int sizeInstArgIds = actionInstance.getArgumentIds().size();
 
-            int min = (sizeDefArgIds < sizeInstArgIds) ? sizeDefArgIds : sizeInstArgIds;
-            int max = (sizeDefArgIds > sizeInstArgIds) ? sizeDefArgIds : sizeInstArgIds;
+            final int min = (sizeDefArgIds < sizeInstArgIds) ? sizeDefArgIds : sizeInstArgIds;
+            final int max = (sizeDefArgIds > sizeInstArgIds) ? sizeDefArgIds : sizeInstArgIds;
 
             if (sizeDefArgIds != sizeInstArgIds) {
                 for (int i = min; i < max; i++) {
@@ -356,10 +356,10 @@ public final class ActionManager extends MCManager {
             }
             // Are the argument types the same?
             for (int index = 0; index < sizeDefArgIds; index++) {
-                int defRawType = actionDef.getArguments().get(index).getRawType().intValue();
-                int defConvType = actionDef.getArguments().get(index).getConvertedType().intValue();
-                int instType = actionInstance.getArgumentValues().get(index).getValue().getTypeShortForm();
-                boolean isRawValue = (actionInstance.getIsRawValue() == null)
+                final int defRawType = actionDef.getArguments().get(index).getRawType().intValue();
+                final int defConvType = actionDef.getArguments().get(index).getConvertedType().intValue();
+                final int instType = actionInstance.getArgumentValues().get(index).getValue().getTypeShortForm();
+                final boolean isRawValue = (actionInstance.getIsRawValue() == null)
                         || (actionInstance.getIsRawValue().get(index) == null)
                         || (actionInstance.getIsRawValue().get(index));
                 if ((isRawValue && (defRawType != instType))
@@ -371,7 +371,7 @@ public final class ActionManager extends MCManager {
                 }
             }
         }
-        boolean preCheckResult = actions.preCheck(actionDef, actionInstance, errorList);
+        final boolean preCheckResult = actions.preCheck(actionDef, actionInstance, errorList);
         if (!errorList.isEmpty()) {
             return false;
         }
@@ -387,20 +387,20 @@ public final class ActionManager extends MCManager {
             try {
                 final ObjectKey key = new ObjectKey(ConfigurationProviderSingleton.getDomain(), actionInstId);
 
-                URI uriTo = interaction.getMessageHeader().getURITo();
+                final URI uriTo = interaction.getMessageHeader().getURITo();
                 URI uriNextDestination = null;
-                String[] nodes = uriTo.toString().split("@");
+                final String[] nodes = uriTo.toString().split("@");
 
                 if (nodes.length > 1) { // Remove the first characters until the '@'; +1 below for the '@'
                     uriNextDestination = new URI(uriTo.toString().substring(nodes[0].length() + 1));
                 }
 
                 // Reception
-                ObjectId sourceRec = new ObjectId(ActionHelper.ACTIONINSTANCE_OBJECT_TYPE, key);
+                final ObjectId sourceRec = new ObjectId(ActionHelper.ACTIONINSTANCE_OBJECT_TYPE, key);
                 getActivityTrackingService().publishReceptionEvent(new URI(nodes[0]),
                         interaction.getMessageHeader().getNetworkZone(), true, null, uriNextDestination, sourceRec);
 
-                UInteger errorNumber;
+                final UInteger errorNumber;
 
                 // Call the Action
                 if (actions != null) {
@@ -411,11 +411,11 @@ public final class ActionManager extends MCManager {
                 }
 
                 // Publish forward success
-                ObjectId sourceFor = new ObjectId(ActionHelper.ACTIONINSTANCE_OBJECT_TYPE, key);
+                final ObjectId sourceFor = new ObjectId(ActionHelper.ACTIONINSTANCE_OBJECT_TYPE, key);
                 getActivityTrackingService().publishForwardEvent(new URI(nodes[0]),
                         interaction.getMessageHeader().getNetworkZone(), (errorNumber == null),
                         null, uriNextDestination, sourceFor);
-            } catch (MALInteractionException | MALException ex) {
+            } catch (final MALInteractionException | MALException ex) {
                 Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
@@ -437,7 +437,7 @@ public final class ActionManager extends MCManager {
                         actionInstId, interaction, connectionDetails);
             }
 
-            UInteger errorNumber;
+            final UInteger errorNumber;
 
             // Call the Action
             if (actions != null) {
@@ -476,12 +476,12 @@ public final class ActionManager extends MCManager {
     protected void reportActivityExecutionEvent(final boolean success, final UInteger errorNumber,
             final int executionStage, final int stageCount, final Long actionInstId,
             final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
-        ObjectKey key = new ObjectKey(ConfigurationProviderSingleton.getDomain(), actionInstId);
-        ObjectId source = new ObjectId(ActionHelper.ACTIONINSTANCE_OBJECT_TYPE, key);
+        final ObjectKey key = new ObjectKey(ConfigurationProviderSingleton.getDomain(), actionInstId);
+        final ObjectId source = new ObjectId(ActionHelper.ACTIONINSTANCE_OBJECT_TYPE, key);
 
         try {
             if (this.getActivityTrackingService() != null) {
-                ObjectId executionEventLink;
+                final ObjectId executionEventLink;
                 try {
                     // requirement 3.2.5.a ,  3.2.7.d -> will be done in the "publishExecutionEventOperation"-method.
                     executionEventLink = this.getActivityTrackingService().publishExecutionEventOperation(connectionDetails.getProviderURI(),
@@ -491,11 +491,11 @@ public final class ActionManager extends MCManager {
                         //TODO: requirement 3.2.5.c is the source really the completionEvent? -> issue #189 
                         this.publishActionFailureEvent(errorNumber, actionInstId, executionEventLink, interaction, connectionDetails);
                     }
-                } catch (MALInteractionException ex) {
+                } catch (final MALInteractionException ex) {
                     Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-        } catch (MALException ex) {
+        } catch (final MALException ex) {
             Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -508,7 +508,7 @@ public final class ActionManager extends MCManager {
 
         // requirement: 3.2.5.c and 3.2.5.d and 3.2.5.e
         if (this.getEventService() != null) {
-            Long objId = this.getEventService().generateAndStoreEvent(
+            final Long objId = this.getEventService().generateAndStoreEvent(
                     ActionHelper.ACTIONFAILURE_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(),
                     errorNumber,
@@ -519,7 +519,7 @@ public final class ActionManager extends MCManager {
             try {
                 this.getEventService().publishEvent(new URI(""), objId,
                         ActionHelper.ACTIONFAILURE_OBJECT_TYPE, related, source, errorNumbers);
-            } catch (IOException ex) {
+            } catch (final IOException ex) {
                 Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -557,16 +557,16 @@ public final class ActionManager extends MCManager {
         private final AtomicInteger threadNumber = new AtomicInteger(1);
         private final String namePrefix;
 
-        ActionThreadFactory(String prefix) {
-            SecurityManager s = System.getSecurityManager();
+        ActionThreadFactory(final String prefix) {
+            final SecurityManager s = System.getSecurityManager();
             group = (s != null) ? s.getThreadGroup()
                     : Thread.currentThread().getThreadGroup();
             namePrefix = prefix + "-thread-";
         }
 
         @Override
-        public Thread newThread(Runnable r) {
-            Thread t = new Thread(group, r,
+        public Thread newThread(final Runnable r) {
+            final Thread t = new Thread(group, r,
                     namePrefix + threadNumber.getAndIncrement(),
                     0);
             if (t.isDaemon()) {

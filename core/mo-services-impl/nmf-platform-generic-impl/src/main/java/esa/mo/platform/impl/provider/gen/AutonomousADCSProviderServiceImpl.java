@@ -108,8 +108,8 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
    * @param adapter     The adapter for the ADCS unit interaction
    * @throws MALException On initialisation error.
    */
-  public synchronized void init(COMServicesProvider comServices,
-      AutonomousADCSAdapterInterface adapter) throws MALException
+  public synchronized void init(final COMServicesProvider comServices,
+                                final AutonomousADCSAdapterInterface adapter) throws MALException
   {
     if (!initialiased) {
 
@@ -169,7 +169,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
 
       connection.closeAll();
       stopGeneration();
-    } catch (MALException ex) {
+    } catch (final MALException ex) {
       LOGGER.log(Level.WARNING, "Exception during close down of the provider.", ex);
     }
   }
@@ -188,7 +188,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
         lst.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
         try {
           publisher.register(lst, new PublishInteractionListener());
-        } catch (IllegalArgumentException | MALException | MALInteractionException ex) {
+        } catch (final IllegalArgumentException | MALException | MALInteractionException ex) {
           LOGGER.log(Level.WARNING, "Error when registering the publisher!", ex);
           return;
         }
@@ -209,7 +209,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
 
       final AttitudeMode activeAttitudeMode = getActiveAttitudeMode();
 
-      AttitudeModeList attitudeModeList;
+      final AttitudeModeList attitudeModeList;
       if (activeAttitudeMode == null) {
         // Pick a dummy concrete type type just to fill it with a null value
         attitudeModeList = new AttitudeModeBDotList();
@@ -230,14 +230,14 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
 
       publisher.publish(hdrlst, attitudeTelemetryList, actuatorsTelemetryList, durationList,
           attitudeModeList);
-    } catch (IOException | IllegalArgumentException | MALException | MALInteractionException ex) {
+    } catch (final IOException | IllegalArgumentException | MALException | MALInteractionException ex) {
       LOGGER.log(Level.SEVERE, "Error when trying to publish data!", ex);
     }
   }
 
   @Override
-  public void enableMonitoring(Boolean enableGeneration, Duration monitoringInterval,
-      MALInteraction interaction) throws MALInteractionException, MALException
+  public void enableMonitoring(final Boolean enableGeneration, final Duration monitoringInterval,
+                               final MALInteraction interaction) throws MALInteractionException, MALException
   {
     if (!enableGeneration) {
       stopGeneration();
@@ -258,7 +258,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
   }
 
   @Override
-  public GetStatusResponse getStatus(MALInteraction interaction) throws MALInteractionException
+  public GetStatusResponse getStatus(final MALInteraction interaction) throws MALInteractionException
   {
     if (!adapter.isUnitAvailable()) {
       throw new MALInteractionException(new MALStandardError(
@@ -271,7 +271,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
       return new GetStatusResponse(attitudeTelemetry, actuatorsTelemetry,
           getAttitudeControlRemainingDuration(),
           generationEnabled, new Duration(monitoringPeriod / 1000.f), activeAttitudeMode);
-    } catch (IOException ex) {
+    } catch (final IOException ex) {
       Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).log(Level.SEVERE,
           "Error when producing getStatus response", ex);
       throw new MALInteractionException(new MALStandardError(
@@ -289,7 +289,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     }
     try {
       lastAttitudeTm = adapter.getAttitudeTelemetry();
-    } catch (IOException e) {
+    } catch (final IOException e) {
       // Cache the exception
       lastAttitudeTm = null;
       lastAttitudeTmException = e;
@@ -309,7 +309,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     }
     try {
       lastActuatorsTm = adapter.getActuatorsTelemetry();
-    } catch (IOException e) {
+    } catch (final IOException e) {
       // Cache the exception
       lastActuatorsTm = null;
       lastActuatorsTmException = e;
@@ -326,8 +326,8 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
   }
 
   @Override
-  public synchronized void setDesiredAttitude(final Duration duration, AttitudeMode desiredAttitude,
-      MALInteraction interaction) throws MALInteractionException, MALException
+  public synchronized void setDesiredAttitude(final Duration duration, final AttitudeMode desiredAttitude,
+                                              final MALInteraction interaction) throws MALInteractionException, MALException
   {
     if (!adapter.isUnitAvailable()) {
       throw new MALInteractionException(new MALStandardError(
@@ -348,7 +348,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
       }
 
       // Validate the attitude definition...
-      String validationResult = adapter.validateAttitudeDescriptor(desiredAttitude);
+      final String validationResult = adapter.validateAttitudeDescriptor(desiredAttitude);
 
       if (validationResult != null) {
         throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER,
@@ -358,7 +358,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
       try {
         // Now we can finally set the desiredAttitude!
         adapter.setDesiredAttitude(desiredAttitude);
-      } catch (IOException ex) {
+      } catch (final IOException ex) {
         LOGGER.log(Level.SEVERE, "Error when setting desired attitude.", ex);
         // Operation not supported by the implementation...
         throw new MALInteractionException(new MALStandardError(
@@ -376,7 +376,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     try {
       adapter.unset();
       adcsInUse = false;
-    } catch (IOException ex) {
+    } catch (final IOException ex) {
       LOGGER.log(Level.SEVERE,
           "Cannot disengage attitude control.", ex);
     }
@@ -420,7 +420,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
         Thread.sleep(remainingMillis);
         attitudeControlEndTime = 0;
         unsetAttitude();
-      } catch (InterruptedException ex) {
+      } catch (final InterruptedException ex) {
         // The unset operation was called manually, nothing wrong here, the automatic unset is disabled! :)
       }
 
@@ -439,8 +439,8 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
   }
 
   @Override
-  public void setReactionWheelSpeed(ReactionWheelIdentifier wheel, Float speed,
-      MALInteraction interaction) throws MALInteractionException, MALException
+  public void setReactionWheelSpeed(final ReactionWheelIdentifier wheel, final Float speed,
+                                    final MALInteraction interaction) throws MALInteractionException, MALException
   {
     if (!adapter.isUnitAvailable()) {
       throw new MALInteractionException(new MALStandardError(
@@ -452,8 +452,8 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
   }
 
   @Override
-  public void setAllReactionWheelSpeeds(Float speedX, Float speedY, Float speedZ, Float speedU,
-      Float speedV, Float speedW, MALInteraction interaction) throws MALInteractionException,
+  public void setAllReactionWheelSpeeds(final Float speedX, final Float speedY, final Float speedZ, final Float speedU,
+                                        final Float speedV, final Float speedW, final MALInteraction interaction) throws MALInteractionException,
       MALException
   {
     if (!adapter.isUnitAvailable()) {
@@ -464,15 +464,15 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
   }
 
   @Override
-  public void setAllReactionWheelParameters(ReactionWheelParameters parameters,
-      MALInteraction interaction) throws MALInteractionException, MALException
+  public void setAllReactionWheelParameters(final ReactionWheelParameters parameters,
+                                            final MALInteraction interaction) throws MALInteractionException, MALException
   {
     adapter.setAllReactionWheelParameters(parameters);
   }
 
   @Override
-  public void setAllMagnetorquersDipoleMoments(Float dipoleX, Float dipoleY, Float dipoleZ,
-      MALInteraction interaction) throws MALInteractionException, MALException
+  public void setAllMagnetorquersDipoleMoments(final Float dipoleX, final Float dipoleY, final Float dipoleZ,
+                                               final MALInteraction interaction) throws MALInteractionException, MALException
   {
     if (!adapter.isUnitAvailable()) {
       throw new MALInteractionException(new MALStandardError(
@@ -482,7 +482,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
   }
 
   @Override
-  public ReactionWheelParameters getAllReactionWheelParameters(MALInteraction interaction) throws
+  public ReactionWheelParameters getAllReactionWheelParameters(final MALInteraction interaction) throws
       MALInteractionException, MALException
   {
     if (!adapter.isUnitAvailable()) {

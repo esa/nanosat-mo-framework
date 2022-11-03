@@ -47,17 +47,17 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNMFAdapter implements SimpleMonitorAndControlListener {
 
     @Override
-    public UInteger actionArrived(Identifier identifier, AttributeValueList attributeValues, 
-            Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
-        Serializable[] values = new Serializable[attributeValues.size()];
+    public UInteger actionArrived(final Identifier identifier, final AttributeValueList attributeValues,
+                                  final Long actionInstanceObjId, final boolean reportProgress, final MALInteraction interaction) {
+        final Serializable[] values = new Serializable[attributeValues.size()];
 
         for (int i = 0; i < attributeValues.size(); i++) {
-            AttributeValue attributeValue = attributeValues.get(i);
+            final AttributeValue attributeValue = attributeValues.get(i);
 
             if (attributeValue.getValue() instanceof Blob) {
                 try {
                     values[i] = HelperAttributes.blobAttribute2serialObject((Blob) attributeValue.getValue());
-                } catch (IOException ex) {
+                } catch (final IOException ex) {
                     values[i] = attributeValue; // It didn't work? Maybe it really just a Blob (not a serialized object)
                 }
             } else {
@@ -75,14 +75,14 @@ public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNM
     }
 
     @Override
-    public Attribute onGetValue(Identifier identifier, Byte rawType) {
-        Serializable ret = this.onGetValueSimple(identifier.getValue());
+    public Attribute onGetValue(final Identifier identifier, final Byte rawType) {
+        final Serializable ret = this.onGetValueSimple(identifier.getValue());
 
         if (ret instanceof Attribute || ret == null) {
             return (Attribute) ret;
         } else {
             // First try to convert it into a MO type...
-            Object moType = HelperAttributes.javaType2Attribute(ret);
+            final Object moType = HelperAttributes.javaType2Attribute(ret);
 
             if (moType instanceof Attribute) { // Was it succcessfully converted from Java to Attribute?
                 return (Attribute) moType;
@@ -90,7 +90,7 @@ public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNM
 
             try { // Thy to serialize the object and put it inside a Blob
                 return HelperAttributes.serialObject2blobAttribute(ret);
-            } catch (IOException ex) {
+            } catch (final IOException ex) {
                 Logger.getLogger(SimpleMonitorAndControlAdapter.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -99,7 +99,7 @@ public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNM
     }
 
     @Override
-    public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
+    public Boolean onSetValue(final IdentifierList identifiers, final ParameterRawValueList values) {
         if(identifiers.isEmpty() || values.isEmpty()){ // Validation
             return false;
         }
@@ -113,7 +113,7 @@ public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNM
             try {
                 obj = HelperAttributes.blobAttribute2serialObject((Blob) value);
                 return this.onSetValueSimple(identifier.getValue(), obj); // Success!
-            } catch (IOException ex) {
+            } catch (final IOException ex) {
                 // It didn't work? Maybe it really just a Blob (not a serialized object)
             }
         }

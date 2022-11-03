@@ -34,7 +34,7 @@ import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails
  */
 public class AggregationTablePanel extends SharedTablePanel {
 
-    public AggregationTablePanel(ArchiveConsumerServiceImpl archiveService) {
+    public AggregationTablePanel(final ArchiveConsumerServiceImpl archiveService) {
         super(archiveService);
     }
 
@@ -48,11 +48,11 @@ public class AggregationTablePanel extends SharedTablePanel {
 
         try {
             semaphore.acquire();
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
             
-        AggregationDefinitionDetails pDef = (AggregationDefinitionDetails) comObject.getObject();
+        final AggregationDefinitionDetails pDef = (AggregationDefinitionDetails) comObject.getObject();
         
         tableData.addRow(new Object[]{
             comObject.getArchiveDetails().getDetails().getRelated(),
@@ -69,11 +69,11 @@ public class AggregationTablePanel extends SharedTablePanel {
         semaphore.release();
     }
 
-    public void switchEnabledstatus(boolean status){
+    public void switchEnabledstatus(final boolean status){
         
         try {
             semaphore.acquire();
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -85,11 +85,11 @@ public class AggregationTablePanel extends SharedTablePanel {
         
     }
 
-    public void switchEnabledstatusAll(boolean status){
+    public void switchEnabledstatusAll(final boolean status){
         
         try {
             semaphore.acquire();
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -106,11 +106,11 @@ public class AggregationTablePanel extends SharedTablePanel {
     }
 
     
-    public void switchFilterEnabledstatus(boolean status){
+    public void switchFilterEnabledstatus(final boolean status){
         
         try {
             semaphore.acquire();
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -122,11 +122,11 @@ public class AggregationTablePanel extends SharedTablePanel {
         
     }
 
-    public void switchFilterEnabledstatusAll(boolean status){
+    public void switchFilterEnabledstatusAll(final boolean status){
         
         try {
             semaphore.acquire();
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -143,7 +143,7 @@ public class AggregationTablePanel extends SharedTablePanel {
     @Override
     public void defineTableContent() {
     
-        String[] tableCol = new String[]{
+        final String[] tableCol = new String[]{
             "Identity", "name", "description", "category", "generationEnabled", "updateInterval", "filterEnabled" };
 
         tableData = new javax.swing.table.DefaultTableModel(
@@ -154,12 +154,12 @@ public class AggregationTablePanel extends SharedTablePanel {
                     };
 
                     @Override               //all cells false
-                    public boolean isCellEditable(int row, int column) {
+                    public boolean isCellEditable(final int row, final int column) {
                         return false;
                     }
 
                     @Override
-                    public Class getColumnClass(int columnIndex) {
+                    public Class getColumnClass(final int columnIndex) {
                         return types[columnIndex];
                     }
                 };

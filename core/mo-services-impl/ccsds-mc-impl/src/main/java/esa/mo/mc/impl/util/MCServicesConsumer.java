@@ -61,7 +61,7 @@ public class MCServicesConsumer {
      * @param connectionConsumer Connection details
      * @param comServices COM services
      */
-    public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices) {
+    public void init(final ConnectionConsumer connectionConsumer, final COMServicesConsumer comServices) {
         init(connectionConsumer, comServices, null, null);
     }
 
@@ -72,10 +72,10 @@ public class MCServicesConsumer {
      * @param comServices COM services
      * @param authenticationId authenticationId of the logged in user
      */
-    public void init(ConnectionConsumer connectionConsumer,
-                     COMServicesConsumer comServices,
-                     Blob authenticationId,
-                     String localNamePrefix) {
+    public void init(final ConnectionConsumer connectionConsumer,
+                     final COMServicesConsumer comServices,
+                     final Blob authenticationId,
+                     final String localNamePrefix) {
         SingleConnectionDetails details;
 
         try {
@@ -114,7 +114,7 @@ public class MCServicesConsumer {
             if (details != null) {
                 aggregationService = new AggregationConsumerServiceImpl(details, comServices, authenticationId, localNamePrefix);
             }
-        } catch (MALException | MALInteractionException | MalformedURLException ex) {
+        } catch (final MALException | MALInteractionException | MalformedURLException ex) {
             Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -144,12 +144,12 @@ public class MCServicesConsumer {
     }
 
     public void setServices(
-            ActionConsumerServiceImpl actionService,
-            ParameterConsumerServiceImpl parameterService,
-            AlertConsumerServiceImpl alertService,
-            CheckConsumerServiceImpl checkService,
-            StatisticConsumerServiceImpl statisticService,
-            AggregationConsumerServiceImpl aggregationService) {
+            final ActionConsumerServiceImpl actionService,
+            final ParameterConsumerServiceImpl parameterService,
+            final AlertConsumerServiceImpl alertService,
+            final CheckConsumerServiceImpl checkService,
+            final StatisticConsumerServiceImpl statisticService,
+            final AggregationConsumerServiceImpl aggregationService) {
         this.actionService = actionService;
         this.parameterService = parameterService;
         this.alertService = alertService;
@@ -158,27 +158,27 @@ public class MCServicesConsumer {
         this.aggregationService = aggregationService;
     }
 
-    public void setActionService(ActionConsumerServiceImpl actionService) {
+    public void setActionService(final ActionConsumerServiceImpl actionService) {
         this.actionService = actionService;
     }
 
-    public void setParameterService(ParameterConsumerServiceImpl parameterService) {
+    public void setParameterService(final ParameterConsumerServiceImpl parameterService) {
         this.parameterService = parameterService;
     }
 
-    public void setAlertService(AlertConsumerServiceImpl alertService) {
+    public void setAlertService(final AlertConsumerServiceImpl alertService) {
         this.alertService = alertService;
     }
 
-    public void setCheckService(CheckConsumerServiceImpl checkService) {
+    public void setCheckService(final CheckConsumerServiceImpl checkService) {
         this.checkService = checkService;
     }
 
-    public void setStatisticService(StatisticConsumerServiceImpl statisticService) {
+    public void setStatisticService(final StatisticConsumerServiceImpl statisticService) {
         this.statisticService = statisticService;
     }
 
-    public void setAggregationService(AggregationConsumerServiceImpl aggregationService) {
+    public void setAggregationService(final AggregationConsumerServiceImpl aggregationService) {
         this.aggregationService = aggregationService;
     }
 
@@ -212,7 +212,7 @@ public class MCServicesConsumer {
         }
     }
 
-    public void setAuthenticationId(Blob authenticationId) {
+    public void setAuthenticationId(final Blob authenticationId) {
         if (this.actionService != null) {
             this.actionService.setAuthenticationId(authenticationId);
         }

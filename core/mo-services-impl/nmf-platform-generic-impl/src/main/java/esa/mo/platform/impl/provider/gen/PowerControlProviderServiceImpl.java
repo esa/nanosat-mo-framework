@@ -64,7 +64,7 @@ public class PowerControlProviderServiceImpl extends PowerControlInheritanceSkel
    * @param adapter The Power Control adapter
    * @throws MALException On initialisation error.
    */
-  public synchronized void init(PowerControlAdapterInterface adapter) throws MALException
+  public synchronized void init(final PowerControlAdapterInterface adapter) throws MALException
   {
     if (!initialiased) {
 
@@ -115,30 +115,30 @@ public class PowerControlProviderServiceImpl extends PowerControlInheritanceSkel
 
       connection.closeAll();
       running = false;
-    } catch (MALException ex) {
+    } catch (final MALException ex) {
       LOGGER.log(Level.WARNING, "Exception during close down of the provider", ex);
     }
   }
 
   @Override
-  public DeviceList listDevices(IdentifierList names, MALInteraction interaction) throws
+  public DeviceList listDevices(final IdentifierList names, final MALInteraction interaction) throws
       MALInteractionException, MALException
   {
     if (names == null) {
       throw new MALException("IdentifierList cannot be empty.");
     }
     final Map<Identifier, Device> devices = adapter.getDeviceMap();
-    UIntegerList unkIndexList = new UIntegerList();
-    DeviceList ret = new DeviceList();
+    final UIntegerList unkIndexList = new UIntegerList();
+    final DeviceList ret = new DeviceList();
     for (int index = 0; index < names.size(); index++) {
-      Identifier name = names.get(index);
+      final Identifier name = names.get(index);
       if (name.toString().equals("*")) {
         ret.clear();  // if the wildcard is in the middle of the input list, we clear the output list and...
         ret.addAll(devices.values()); // ... add all in a row
         ret.clear();
         break;
       }
-      Device matchedDevice = devices.get(name);
+      final Device matchedDevice = devices.get(name);
       if (matchedDevice != null) {
         ret.add(matchedDevice);
       }
@@ -151,12 +151,12 @@ public class PowerControlProviderServiceImpl extends PowerControlInheritanceSkel
   }
 
   @Override
-  public void enableDevices(DeviceList devices, MALInteraction interaction) throws
+  public void enableDevices(final DeviceList devices, final MALInteraction interaction) throws
       MALInteractionException, MALException
   {
     try {
       adapter.enableDevices(devices);
-    } catch (IOException ex) {
+    } catch (final IOException ex) {
       LOGGER.log(Level.SEVERE, "adapter.enableDevices failed", ex);
       throw new MALInteractionException(new MALStandardError(
           PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER, null));

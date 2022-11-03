@@ -55,13 +55,13 @@ public class NanoSatMOMonolithicSim extends NanoSatMOMonolithic
    *                  and variables of a specific entity.
    */
   @Override
-  public void init(MonitorAndControlNMFAdapter mcAdapter)
+  public void init(final MonitorAndControlNMFAdapter mcAdapter)
   {
     super.init(mcAdapter, new PlatformServicesConsumer());
   }
 
   @Override
-  public void initPlatformServices(COMServicesProvider comServices)
+  public void initPlatformServices(final COMServicesProvider comServices)
   {
     // We need to do a bypass here because it's a Monolithic implementation
     // of the Software Simulator. Basically, we initialize the Platform
@@ -71,16 +71,16 @@ public class NanoSatMOMonolithicSim extends NanoSatMOMonolithic
     try {
       provider = new PlatformServicesProviderSoftSim();
       provider.init(comServices);
-    } catch (MALException ex) {
+    } catch (final MALException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
     }
 
-    ConnectionConsumer connectionConsumer = new ConnectionConsumer();
+    final ConnectionConsumer connectionConsumer = new ConnectionConsumer();
 
     try {
       connectionConsumer.loadURIs();
       super.getPlatformServices().init(connectionConsumer, null);
-    } catch (MalformedURLException | NMFException ex) {
+    } catch (final MalformedURLException | NMFException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
     }
   }

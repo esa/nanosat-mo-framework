@@ -76,7 +76,7 @@ public class OBSWParameter {
    * @param description
    * @param type
    */
-  public OBSWParameter(Long id, String name, String description, String type) {
+  public OBSWParameter(final Long id, final String name, final String description, final String type) {
     super();
     this.id = id;
     this.name = name;
@@ -116,7 +116,7 @@ public class OBSWParameter {
    * 
    * @param aggregation The aggregation to add
    */
-  public void setAggregation(OBSWAggregation aggregation) {
+  public void setAggregation(final OBSWAggregation aggregation) {
     this.aggregation = aggregation;
   }
 

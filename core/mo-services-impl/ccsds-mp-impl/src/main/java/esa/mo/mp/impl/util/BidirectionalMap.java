@@ -29,7 +29,7 @@ public class BidirectionalMap<K, V> extends HashMap<K, V> {
     private HashMap<V, K> reverseMap = new HashMap<>();
 
     @Override
-    public V put(K key, V value) {
+    public V put(final K key, final V value) {
         reverseMap.put(value, key);
         return super.put(key, value);
     }
@@ -41,7 +41,7 @@ public class BidirectionalMap<K, V> extends HashMap<K, V> {
     }
 
     @Override
-    public V remove(Object key) {
+    public V remove(final Object key) {
         reverseMap.remove(get(key));
         return super.remove(key);
     }
@@ -51,7 +51,7 @@ public class BidirectionalMap<K, V> extends HashMap<K, V> {
      * @param value - the value whose associated key is to be returned
      * @return the key to which the specified value is mapped, or null if this map contains no mapping for the value
      */
-    public K getKey(V value) {
+    public K getKey(final V value) {
         return this.reverseMap.get(value);
     }
 }

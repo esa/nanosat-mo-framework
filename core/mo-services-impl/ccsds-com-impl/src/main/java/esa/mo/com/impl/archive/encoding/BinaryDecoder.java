@@ -159,7 +159,7 @@ public class BinaryDecoder extends GENDecoder
   @Override
   public byte[] getRemainingEncodedData() throws MALException
   {
-    BinaryBufferHolder dSourceBuffer = (BinaryBufferHolder)sourceBuffer;
+    final BinaryBufferHolder dSourceBuffer = (BinaryBufferHolder)sourceBuffer;
     return Arrays.copyOfRange(dSourceBuffer.buf.buf, dSourceBuffer.buf.offset, dSourceBuffer.buf.contentLength);
   }
 
@@ -365,7 +365,7 @@ public class BinaryDecoder extends GENDecoder
       this.contentLength = length;
     }
 
-    public void setForceRealloc(boolean forceRealloc)
+    public void setForceRealloc(final boolean forceRealloc)
     {
       this.forceRealloc = forceRealloc;
     }
@@ -454,7 +454,7 @@ public class BinaryDecoder extends GENDecoder
             }
             this.contentLength += read;
           }
-          catch (IOException ex)
+          catch (final IOException ex)
           {
             throw new MALException("Unable to read required amount from source stream", ex);
           }
@@ -483,9 +483,9 @@ public class BinaryDecoder extends GENDecoder
      * @param delta the delta to apply
      * @return the previous offset
      */
-    public int shiftOffsetAndReturnPrevious(int delta)
+    public int shiftOffsetAndReturnPrevious(final int delta)
     {
-      int i = offset;
+      final int i = offset;
       offset += delta;
       return i;
     }
@@ -496,7 +496,7 @@ public class BinaryDecoder extends GENDecoder
      *
      * @param oldSize the old buffer size
      */
-    public void bufferRealloced(int oldSize)
+    public void bufferRealloced(final int oldSize)
     {
       // no implementation for standard decoder
     }

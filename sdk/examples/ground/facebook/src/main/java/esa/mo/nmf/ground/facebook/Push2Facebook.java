@@ -53,7 +53,7 @@ public class Push2Facebook
   private static final String TOKEN_FILENAME = "token.properties";
   private final String ACCESS_TOKEN;
 
-  public Push2Facebook(String directoryURI, String providerName) {
+  public Push2Facebook(final String directoryURI, final String providerName) {
 
     try {
       registerDataListener(directoryURI, providerName);
@@ -61,12 +61,12 @@ public class Push2Facebook
       final java.util.Properties sysProps = System.getProperties();
 
       // Load the properties out of the file
-      File file = new File(System.getProperty(TOKEN_FILENAME, TOKEN_FILENAME));
+      final File file = new File(System.getProperty(TOKEN_FILENAME, TOKEN_FILENAME));
       if (file.exists()) {
         sysProps.putAll(HelperMisc.loadProperties(file.toURI().toURL(), TOKEN_FILENAME));
       }
     }
-    catch (MalformedURLException | MALInteractionException | MALException e) {
+    catch (final MalformedURLException | MALInteractionException | MALException e) {
       LOGGER.log(Level.SEVERE, null, e);
     }
 
@@ -87,7 +87,7 @@ public class Push2Facebook
       System.err.println("e.g. maltcp://123.123.123.123:1024/nanosat-mo-supervisor-Directory publish-clock");
       System.exit(1);
     }
-    Push2Facebook demo = new Push2Facebook(args[0], args[1]);
+    final Push2Facebook demo = new Push2Facebook(args[0], args[1]);
   }
 
   /**
@@ -99,15 +99,15 @@ public class Push2Facebook
    * @throws MALInteractionException
    * @throws MALException
    */
-  private void registerDataListener(String directoryURI, String providerName) throws MalformedURLException,
+  private void registerDataListener(final String directoryURI, final String providerName) throws MalformedURLException,
           MALInteractionException, MALException {
 
-    ProviderSummaryList providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(
+    final ProviderSummaryList providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(
             new URI(directoryURI));
 
     GroundMOAdapterImpl gma = null;
     if (!providers.isEmpty()) {
-      for (ProviderSummary provider : providers) {
+      for (final ProviderSummary provider : providers) {
         if (provider.getProviderId().toString().equals(APP_PREFIX + providerName)) {
           gma = new GroundMOAdapterImpl(provider);
           gma.addDataReceivedListener(new DataReceivedAdapter());
@@ -126,7 +126,7 @@ public class Push2Facebook
   {
 
     @Override
-    public void onDataReceived(String parameterName, Serializable data)
+    public void onDataReceived(final String parameterName, final Serializable data)
     {
 
       LOGGER.log(Level.INFO,
@@ -135,7 +135,7 @@ public class Push2Facebook
           new Object[]{parameterName, data.toString()});
 
       // Get the Token here: https://developers.facebook.com/tools/explorer/
-      FacebookClient facebookClient = new DefaultFacebookClient(ACCESS_TOKEN, Version.VERSION_2_4);
+      final FacebookClient facebookClient = new DefaultFacebookClient(ACCESS_TOKEN, Version.VERSION_2_4);
 
       if (facebookClient == null) {
         LOGGER.log(Level.INFO,
@@ -145,7 +145,7 @@ public class Push2Facebook
             "The facebookClient is connected!\n");
       }
 
-      FacebookType publishMessageResponse = facebookClient.publish(
+      final FacebookType publishMessageResponse = facebookClient.publish(
           "me/feed",
           FacebookType.class,
           Parameter.with("message", data.toString())

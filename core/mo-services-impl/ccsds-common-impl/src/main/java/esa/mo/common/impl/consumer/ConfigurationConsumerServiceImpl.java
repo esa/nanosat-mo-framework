@@ -47,14 +47,14 @@ public class ConfigurationConsumerServiceImpl extends ConsumerServiceImpl
 
     private COMServicesConsumer comServices;
 
-    public ConfigurationConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices)
+    public ConfigurationConsumerServiceImpl(final SingleConnectionDetails connectionDetails, final COMServicesConsumer comServices)
             throws MALException, MalformedURLException, MALInteractionException
     {
         this(connectionDetails, comServices, null, null);
     }
 
-    public ConfigurationConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices,
-                                            Blob authenticationId, String localNamePrefix)
+    public ConfigurationConsumerServiceImpl(final SingleConnectionDetails connectionDetails, final COMServicesConsumer comServices,
+                                            final Blob authenticationId, final String localNamePrefix)
             throws MALException, MalformedURLException, MALInteractionException
     {
 
@@ -88,7 +88,7 @@ public class ConfigurationConsumerServiceImpl extends ConsumerServiceImpl
             {
                 tmConsumer.close();
             }
-            catch (MALException ex)
+            catch (final MALException ex)
             {
                 Logger.getLogger(ConfigurationConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -108,7 +108,7 @@ public class ConfigurationConsumerServiceImpl extends ConsumerServiceImpl
     }
 
     @Override
-    public Object generateServiceStub(MALConsumer tmConsumer)
+    public Object generateServiceStub(final MALConsumer tmConsumer)
     {
         return new ConfigurationStub(tmConsumer);
     }

@@ -34,7 +34,7 @@ public class SimulatorDeviceData implements Serializable {
 
     String name;
 
-    public SimulatorDeviceData(String name) {
+    public SimulatorDeviceData(final String name) {
         this.name = name;
         this.dataList = new LinkedList<>();
     }

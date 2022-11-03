@@ -45,15 +45,15 @@ public class DemoSetAndCommand
    * @param directoryURI - supervisor directory URI
    *                     - e.g. "maltcp://123.123.123.123:1024/nanosat-mo-supervisor-Directory"
    */
-  public DemoSetAndCommand(String directoryURI)
+  public DemoSetAndCommand(final String directoryURI)
   {
     try {
       GroundMOAdapterImpl gma = null;
-      ProviderSummaryList providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(
+      final ProviderSummaryList providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(
               new URI(directoryURI));
 
       if (!providers.isEmpty()) {
-        for (ProviderSummary provider : providers) {
+        for (final ProviderSummary provider : providers) {
           if(provider.getProviderId().toString().equals(PROVIDER_HELLO_WORLD))
           {
             gma = new GroundMOAdapterImpl(provider);
@@ -67,12 +67,12 @@ public class DemoSetAndCommand
 
       if(gma != null) {
         // Set a parameter with a string value
-        String parameterValue = "The parameter was set!";
+        final String parameterValue = "The parameter was set!";
         gma.setParameter("A_Parameter", parameterValue);
 
         // Send a command with a Double argument
-        double value = 1.35565;
-        Double[] values = new Double[1];
+        final double value = 1.35565;
+        final Double[] values = new Double[1];
         values[0] = value;
         gma.launchAction("Go", values);
       }
@@ -80,7 +80,7 @@ public class DemoSetAndCommand
         LOGGER.log(Level.SEVERE, "Failed to connect to the provider. No such provider found - " +
                 PROVIDER_HELLO_WORLD);
       }
-    } catch (MALException | MalformedURLException | MALInteractionException ex) {
+    } catch (final MALException | MalformedURLException | MALInteractionException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
     }
   }
@@ -99,7 +99,7 @@ public class DemoSetAndCommand
       System.err.println("e.g. maltcp://123.123.123.123:1024/nanosat-mo-supervisor-Directory");
       System.exit(1);
     }
-    DemoSetAndCommand demo = new DemoSetAndCommand(args[0]);
+    final DemoSetAndCommand demo = new DemoSetAndCommand(args[0]);
     return;
   }
 }

@@ -51,12 +51,12 @@ public class ClockConsumerServiceImpl extends ConsumerServiceImpl {
     }
 
     @Override
-    public Object generateServiceStub(MALConsumer tmConsumer) {
+    public Object generateServiceStub(final MALConsumer tmConsumer) {
         return new ClockStub(tmConsumer);
     }
 
-    public ClockConsumerServiceImpl(SingleConnectionDetails connectionDetails,
-            COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
+    public ClockConsumerServiceImpl(final SingleConnectionDetails connectionDetails,
+                                    final COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
         this.connectionDetails = connectionDetails;
         this.comServices = comServices;
 
@@ -64,7 +64,7 @@ public class ClockConsumerServiceImpl extends ConsumerServiceImpl {
         if (tmConsumer != null) {
             try {
                 tmConsumer.close();
-            } catch (MALException ex) {
+            } catch (final MALException ex) {
                 Logger.getLogger(ClockConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

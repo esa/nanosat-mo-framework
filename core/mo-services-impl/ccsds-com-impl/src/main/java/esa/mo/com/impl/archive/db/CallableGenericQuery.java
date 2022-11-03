@@ -21,9 +21,9 @@ abstract class CallableGenericQuery<T> implements Callable<T> {
     private final SourceLinkContainer sourceLink;
     private final QueryFilter filter;
 
-    public CallableGenericQuery(TransactionsProcessor transactionsProcessor, final IntegerList objTypeIds,
-            final ArchiveQuery archiveQuery, final IntegerList domainIds, final Integer providerURIId,
-            final Integer networkId, final SourceLinkContainer sourceLink, final QueryFilter filter) {
+    public CallableGenericQuery(final TransactionsProcessor transactionsProcessor, final IntegerList objTypeIds,
+                                final ArchiveQuery archiveQuery, final IntegerList domainIds, final Integer providerURIId,
+                                final Integer networkId, final SourceLinkContainer sourceLink, final QueryFilter filter) {
         this.transactionsProcessor = transactionsProcessor;
         this.objTypeIds = objTypeIds;
         this.archiveQuery = archiveQuery;
@@ -56,7 +56,7 @@ abstract class CallableGenericQuery<T> implements Callable<T> {
         }
 
         // Generate the query string
-        String fieldsList = "objectTypeId, domainId, objId, timestampArchiveDetails, providerURI, "
+        final String fieldsList = "objectTypeId, domainId, objId, timestampArchiveDetails, providerURI, "
                 + "network, sourceLinkObjectTypeId, sourceLinkDomainId, sourceLinkObjId, relatedLink, objBody";
         String queryString = assembleQueryPrefix(fieldsList);
 
@@ -87,7 +87,7 @@ abstract class CallableGenericQuery<T> implements Callable<T> {
         // was created and implemented
         if (filter != null) {
             if (filter instanceof PaginationFilter) {
-                PaginationFilter pfilter = (PaginationFilter) filter;
+                final PaginationFilter pfilter = (PaginationFilter) filter;
 
                 // Double check if the filter fields are really not null
                 if (pfilter.getLimit() != null && pfilter.getOffset() != null) {
@@ -104,11 +104,11 @@ abstract class CallableGenericQuery<T> implements Callable<T> {
 
         try {
             this.transactionsProcessor.dbBackend.getAvailability().acquire();
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
-        T ret = innerCall(queryString);
+        final T ret = innerCall(queryString);
         this.transactionsProcessor.dbBackend.getAvailability().release();
         return ret;
         // return perObjs;
@@ -125,7 +125,7 @@ abstract class CallableGenericQuery<T> implements Callable<T> {
     
       StringBuilder stringForWildcards = new StringBuilder("(");
     
-      for (Integer id : list) {
+      for (final Integer id : list) {
         stringForWildcards.append(field).append("=").append(id).append(" OR ");
       }
     

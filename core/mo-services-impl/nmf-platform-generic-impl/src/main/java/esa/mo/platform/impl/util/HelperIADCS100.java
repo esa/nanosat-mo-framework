@@ -166,95 +166,95 @@ public class HelperIADCS100
       public final static int POINTING_LOOP_STATE = 0*4;
     }
 
-    public static byte[] long2ByteArray(long value)
+    public static byte[] long2ByteArray(final long value)
     {
       return ByteBuffer.allocate(8).putLong(value).array();
     }
 
-    public static byte[] int2ByteArray(int value)
+    public static byte[] int2ByteArray(final int value)
     {
       return ByteBuffer.allocate(4).putInt(value).array();
     }
 
-    public static byte[] int16_2ByteArray(int value)
+    public static byte[] int16_2ByteArray(final int value)
     {
-      byte[] temp = ByteBuffer.allocate(4).putInt(value).array();
-      byte[] result = new byte[2];
+      final byte[] temp = ByteBuffer.allocate(4).putInt(value).array();
+      final byte[] result = new byte[2];
       result[0] = temp[2];
       result[1] = temp[3];
       return result;
     }
 
-    public static byte[] float2ByteArray(float value)
+    public static byte[] float2ByteArray(final float value)
     {
       return ByteBuffer.allocate(4).putFloat(value).array();
     }
 
-    public static byte[] double2ByteArray(double value)
+    public static byte[] double2ByteArray(final double value)
     {
       return ByteBuffer.allocate(8).putDouble(value).array();
     }
 
-    public static void putFloatInByteArray(float value, int byteOffset, byte[] target)
+    public static void putFloatInByteArray(final float value, final int byteOffset, final byte[] target)
     {
-      byte[] tempByte = float2ByteArray(value);
+      final byte[] tempByte = float2ByteArray(value);
       System.arraycopy(tempByte, 0, target, byteOffset + 0, 4 - 1 + 1);
     }
 
-    public static void putByteInByteArray(byte value, int byteOffset, byte[] target)
+    public static void putByteInByteArray(final byte value, final int byteOffset, final byte[] target)
     {
         target[byteOffset]=value;
     }
-    public static byte getByteFromByteArray(byte[] source, int byteOffset)
+    public static byte getByteFromByteArray(final byte[] source, final int byteOffset)
     {
         return source[byteOffset];
     }
-    public static float getFloatFromByteArray(byte[] source, int byteOffset)
+    public static float getFloatFromByteArray(final byte[] source, final int byteOffset)
     {
       return ByteBuffer.wrap(source, byteOffset, 4).order(ByteOrder.BIG_ENDIAN).getFloat();
     }
 
-    public static void putDoubleInByteArray(double value, int byteOffset, byte[] target)
+    public static void putDoubleInByteArray(final double value, final int byteOffset, final byte[] target)
     {
-      byte[] tempByte = double2ByteArray(value);
+      final byte[] tempByte = double2ByteArray(value);
       System.arraycopy(tempByte, 0, target, byteOffset + 0, 8 - 1 + 1);
     }
 
-    public static double getDoubleFromByteArray(byte[] source, int byteOffset)
+    public static double getDoubleFromByteArray(final byte[] source, final int byteOffset)
     {
       return ByteBuffer.wrap(source, byteOffset, 8).order(ByteOrder.BIG_ENDIAN).getDouble();
     }
 
-    public static void putIntInByteArray(int value, int byteOffset, byte[] target)
+    public static void putIntInByteArray(final int value, final int byteOffset, final byte[] target)
     {
-      byte[] tempByte = int2ByteArray(value);
+      final byte[] tempByte = int2ByteArray(value);
       System.arraycopy(tempByte, 0, target, byteOffset + 0, 4 - 1 + 1);
     }
 
-    public static int getIntFromByteArray(byte[] source, int byteOffset)
+    public static int getIntFromByteArray(final byte[] source, final int byteOffset)
     {
       return ByteBuffer.wrap(source, byteOffset, 4).order(ByteOrder.BIG_ENDIAN).getInt();
     }
 
-    public static short getInt16FromByteArray(byte[] source, int byteOffset)
+    public static short getInt16FromByteArray(final byte[] source, final int byteOffset)
     {
       return ByteBuffer.wrap(source, byteOffset, 2).order(ByteOrder.BIG_ENDIAN).getShort();
     }
 
-    public static void putLongInByteArray(long value, int byteOffset, byte[] target)
+    public static void putLongInByteArray(final long value, final int byteOffset, final byte[] target)
     {
-      byte[] tempByte = long2ByteArray(value);
+      final byte[] tempByte = long2ByteArray(value);
       System.arraycopy(tempByte, 0, target, byteOffset + 0, 8 - 1 + 1);
     }
 
-    public static long getLongFromByteArray(byte[] source, int byteOffset)
+    public static long getLongFromByteArray(final byte[] source, final int byteOffset)
     {
       return ByteBuffer.wrap(source, byteOffset, 8).order(ByteOrder.BIG_ENDIAN).getLong();
     }
 
   }
 
-  public static VectorF3D getAngularVelocityFromSensorTM(byte[] sensorTM)
+  public static VectorF3D getAngularVelocityFromSensorTM(final byte[] sensorTM)
   {
     return new VectorF3D(
         FWRefFineADCS.getFloatFromByteArray(sensorTM, FWRefFineADCS.SENSORTM_IDX.GYRO1_X),
@@ -262,7 +262,7 @@ public class HelperIADCS100
         FWRefFineADCS.getFloatFromByteArray(sensorTM, FWRefFineADCS.SENSORTM_IDX.GYRO1_Z));
   }
 
-  public static Quaternion getAttitudeFromSensorTM(byte[] sensorTM)
+  public static Quaternion getAttitudeFromSensorTM(final byte[] sensorTM)
   {
     return new Quaternion(
         FWRefFineADCS.getFloatFromByteArray(sensorTM, FWRefFineADCS.SENSORTM_IDX.QUATERNION1),
@@ -271,7 +271,7 @@ public class HelperIADCS100
         FWRefFineADCS.getFloatFromByteArray(sensorTM, FWRefFineADCS.SENSORTM_IDX.QUATERNION4));
   }
 
-  public static VectorF3D getMagneticFieldFromSensorTM(byte[] sensorTM)
+  public static VectorF3D getMagneticFieldFromSensorTM(final byte[] sensorTM)
   {
     return new VectorF3D(
         FWRefFineADCS.getFloatFromByteArray(sensorTM, FWRefFineADCS.SENSORTM_IDX.MAG_FIELD_X),
@@ -279,7 +279,7 @@ public class HelperIADCS100
         FWRefFineADCS.getFloatFromByteArray(sensorTM, FWRefFineADCS.SENSORTM_IDX.MAG_FIELD_Z));
   }
 
-  public static VectorF3D getMTQFromActuatorTM(byte[] actuatorTM)
+  public static VectorF3D getMTQFromActuatorTM(final byte[] actuatorTM)
   {
     return new VectorF3D(
         (float) FWRefFineADCS.getInt16FromByteArray(actuatorTM,
@@ -290,9 +290,9 @@ public class HelperIADCS100
             FWRefFineADCS.ACTUATORTM_IDX.MTQ_TARGET_Z));
   }
 
-  public static WheelsSpeed getCurrentWheelSpeedFromActuatorTM(byte[] actuatorTM)
+  public static WheelsSpeed getCurrentWheelSpeedFromActuatorTM(final byte[] actuatorTM)
   {
-    FloatList velocity = new FloatList();
+    final FloatList velocity = new FloatList();
     velocity.add((float) FWRefFineADCS.getInt16FromByteArray(actuatorTM,
         FWRefFineADCS.ACTUATORTM_IDX.RW_CURRENT_SPEED_X));
     velocity.add((float) FWRefFineADCS.getInt16FromByteArray(actuatorTM,
@@ -302,9 +302,9 @@ public class HelperIADCS100
     return new WheelsSpeed(velocity);
   }
 
-  public static WheelsSpeed getTargetWheelSpeedFromActuatorTM(byte[] actuatorTM)
+  public static WheelsSpeed getTargetWheelSpeedFromActuatorTM(final byte[] actuatorTM)
   {
-    FloatList velocity = new FloatList();
+    final FloatList velocity = new FloatList();
     velocity.add((float) FWRefFineADCS.getInt16FromByteArray(actuatorTM,
         FWRefFineADCS.ACTUATORTM_IDX.RW_LAST_TARGET_X));
     velocity.add((float) FWRefFineADCS.getInt16FromByteArray(actuatorTM,
@@ -314,7 +314,7 @@ public class HelperIADCS100
     return new WheelsSpeed(velocity);
   }
 
-  public static VectorF3D getSunVectorFromSpinModeStatus(byte[] status)
+  public static VectorF3D getSunVectorFromSpinModeStatus(final byte[] status)
   {
     return new VectorF3D(
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SPINMODESTAT_IDX.SUN_VECTOR_X),
@@ -322,7 +322,7 @@ public class HelperIADCS100
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SPINMODESTAT_IDX.SUN_VECTOR_Z));
   }
 
-  public static VectorF3D getMagneticFieldFromSpinModeStatus(byte[] status)
+  public static VectorF3D getMagneticFieldFromSpinModeStatus(final byte[] status)
   {
     return new VectorF3D(
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SPINMODESTAT_IDX.MAGNETOMETER_X),
@@ -330,7 +330,7 @@ public class HelperIADCS100
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SPINMODESTAT_IDX.MAGNETOMETER_Z));
   }
 
-  public static Quaternion getQuaternionsFromSpinModeStatus(byte[] status)
+  public static Quaternion getQuaternionsFromSpinModeStatus(final byte[] status)
   {
     return new Quaternion(
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SPINMODESTAT_IDX.Q1),
@@ -339,7 +339,7 @@ public class HelperIADCS100
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SPINMODESTAT_IDX.Q4));
   }
 
-  public static VectorF3D getAngularMomentumFromSpinModeStatus(byte[] status)
+  public static VectorF3D getAngularMomentumFromSpinModeStatus(final byte[] status)
   {
     return new VectorF3D(
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SPINMODESTAT_IDX.ANG_MOM_X),
@@ -347,7 +347,7 @@ public class HelperIADCS100
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SPINMODESTAT_IDX.ANG_MOM_Z));
   }
 
-  public static VectorF3D getMTQFromSpinModeStatus(byte[] status)
+  public static VectorF3D getMTQFromSpinModeStatus(final byte[] status)
   {
     return new VectorF3D(
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SPINMODESTAT_IDX.MTQ_DIP_MOMENT_X),
@@ -355,7 +355,7 @@ public class HelperIADCS100
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SPINMODESTAT_IDX.MTQ_DIP_MOMENT_Z));
   }
 
-  public static VectorF3D getSunVectorFromSunPointingStatus(byte[] status)
+  public static VectorF3D getSunVectorFromSunPointingStatus(final byte[] status)
   {
     return new VectorF3D(
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SUNPOINTSTAT_IDX.SUN_VECTOR_X),
@@ -363,7 +363,7 @@ public class HelperIADCS100
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SUNPOINTSTAT_IDX.SUN_VECTOR_Z));
   }
 
-  public static VectorF3D getMTQFromSunPointingStatus(byte[] status)
+  public static VectorF3D getMTQFromSunPointingStatus(final byte[] status)
   {
     return new VectorF3D(
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SUNPOINTSTAT_IDX.ACTUATOR_X),
@@ -371,9 +371,9 @@ public class HelperIADCS100
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.SUNPOINTSTAT_IDX.ACTUATOR_Z));
   }
 
-  public static WheelsSpeed getWheelSpeedFromSunPointingStatus(byte[] status)
+  public static WheelsSpeed getWheelSpeedFromSunPointingStatus(final byte[] status)
   {
-    FloatList velocity = new FloatList();
+    final FloatList velocity = new FloatList();
     velocity.add(FWRefFineADCS.getFloatFromByteArray(status,
         FWRefFineADCS.SUNPOINTSTAT_IDX.ACTUATOR_X));
     velocity.add(FWRefFineADCS.getFloatFromByteArray(status,
@@ -383,7 +383,7 @@ public class HelperIADCS100
     return new WheelsSpeed(velocity);
   }
 
-  public static VectorF3D getPositionFromFixWGS84TargetTrackingStatus(byte[] status)
+  public static VectorF3D getPositionFromFixWGS84TargetTrackingStatus(final byte[] status)
   {
     return new VectorF3D(
         FWRefFineADCS.getFloatFromByteArray(status,
@@ -394,7 +394,7 @@ public class HelperIADCS100
             FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.POSITION_VECTOR_Z));
   }
 
-  public static VectorF3D getAngularVelocityFromFixWGS84TargetTrackingStatus(byte[] status)
+  public static VectorF3D getAngularVelocityFromFixWGS84TargetTrackingStatus(final byte[] status)
   {
     return new VectorF3D(
         FWRefFineADCS.getFloatFromByteArray(status,
@@ -405,9 +405,9 @@ public class HelperIADCS100
             FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.ANG_VEL_Z));
   }
 
-  public static WheelsSpeed getWheelSpeedFromFixWGS84TargetTrackingStatus(byte[] status)
+  public static WheelsSpeed getWheelSpeedFromFixWGS84TargetTrackingStatus(final byte[] status)
   {
-    FloatList velocity = new FloatList();
+    final FloatList velocity = new FloatList();
     velocity.add(FWRefFineADCS.getFloatFromByteArray(status,
         FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.RW_SPEED_X));
     velocity.add(FWRefFineADCS.getFloatFromByteArray(status,
@@ -417,7 +417,7 @@ public class HelperIADCS100
     return new WheelsSpeed(velocity);
   }
 
-  public static Quaternion getCurrentQuaternionsFromFixWGS84TargetTrackingStatus(byte[] status)
+  public static Quaternion getCurrentQuaternionsFromFixWGS84TargetTrackingStatus(final byte[] status)
   {
     return new Quaternion(
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.Q1),
@@ -426,7 +426,7 @@ public class HelperIADCS100
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.Q4));
   }
 
-  public static Quaternion getTargetQuaternionsFromFixWGS84TargetTrackingStatus(byte[] status)
+  public static Quaternion getTargetQuaternionsFromFixWGS84TargetTrackingStatus(final byte[] status)
   {
     return new Quaternion(
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.TGT_Q1),
@@ -435,7 +435,7 @@ public class HelperIADCS100
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.FIXWGS84_TGTTRACKSTAT_IDX.TGT_Q4));
   }
 
-  public static VectorF3D getPositionFromNadirTargetTrackingStatus(byte[] status)
+  public static VectorF3D getPositionFromNadirTargetTrackingStatus(final byte[] status)
   {
     return new VectorF3D(
         FWRefFineADCS.getFloatFromByteArray(status,
@@ -446,7 +446,7 @@ public class HelperIADCS100
             FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.POSITION_VECTOR_Z));
   }
 
-  public static VectorF3D getAngularVelocityFromNadirTargetTrackingStatus(byte[] status)
+  public static VectorF3D getAngularVelocityFromNadirTargetTrackingStatus(final byte[] status)
   {
     return new VectorF3D(
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.ANG_VEL_X),
@@ -454,7 +454,7 @@ public class HelperIADCS100
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.ANG_VEL_Z));
   }
 
-  public static Quaternion getCurrentQuaternionsFromNadirTargetTrackingStatus(byte[] status)
+  public static Quaternion getCurrentQuaternionsFromNadirTargetTrackingStatus(final byte[] status)
   {
     return new Quaternion(
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.Q1),
@@ -463,7 +463,7 @@ public class HelperIADCS100
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.Q4));
   }
 
-  public static Quaternion getTargetQuaternionsFromNadirTargetTrackingStatus(byte[] status)
+  public static Quaternion getTargetQuaternionsFromNadirTargetTrackingStatus(final byte[] status)
   {
     return new Quaternion(
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.TGT_Q1),
@@ -472,9 +472,9 @@ public class HelperIADCS100
         FWRefFineADCS.getFloatFromByteArray(status, FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.TGT_Q4));
   }
 
-  public static WheelsSpeed getWheelSpeedFromNadirTargetTrackingStatus(byte[] status)
+  public static WheelsSpeed getWheelSpeedFromNadirTargetTrackingStatus(final byte[] status)
   {
-    FloatList velocity = new FloatList();
+    final FloatList velocity = new FloatList();
     velocity.add(FWRefFineADCS.getFloatFromByteArray(status,
         FWRefFineADCS.NADIR_TGTTRACKSTAT_IDX.RW_SPEED_X));
     velocity.add(FWRefFineADCS.getFloatFromByteArray(status,
@@ -484,9 +484,9 @@ public class HelperIADCS100
     return new WheelsSpeed(velocity);
   }
   
-  public static byte getPointingLoopStateTarget(byte[] status)
+  public static byte getPointingLoopStateTarget(final byte[] status)
   {
-    byte stateTarget;
+    final byte stateTarget;
     stateTarget = FWRefFineADCS.getByteFromByteArray(status,
         FWRefFineADCS.POINTING_LOOP_IDX.POINTING_LOOP_STATE);
     return stateTarget;

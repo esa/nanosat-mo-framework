@@ -38,15 +38,15 @@ public class GPSSatInView {
         return prn;
     }
 
-    public void setPrn(int prn) {
+    public void setPrn(final int prn) {
         this.prn = prn;
     }
 
-    public void setAzimuth(double azimuth) {
+    public void setAzimuth(final double azimuth) {
         this.azimuth = azimuth;
     }
 
-    public void setElevation(double elevation) {
+    public void setElevation(final double elevation) {
         this.elevation = elevation;
     }
 
@@ -59,11 +59,11 @@ public class GPSSatInView {
     }
 
     
-    public GPSSatInView(String name, double distance) {
+    public GPSSatInView(final String name, final double distance) {
         this.name = name;
         this.distance = distance;
-        String prn = name.substring(name.indexOf("(")+1,name.indexOf(")"));
-        String[] prnWords=prn.split(" ");
+        final String prn = name.substring(name.indexOf("(")+1,name.indexOf(")"));
+        final String[] prnWords=prn.split(" ");
         this.prn=Integer.parseInt(prnWords[1]);
     }
 

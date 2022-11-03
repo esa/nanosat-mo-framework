@@ -28,7 +28,7 @@ public class TimestampedAggregationValue {
     private final AggregationValue aggregationValue;
     private final FineTime timestamp;
 
-    public TimestampedAggregationValue(AggregationValue value, FineTime timestamp) {
+    public TimestampedAggregationValue(final AggregationValue value, final FineTime timestamp) {
         this.aggregationValue = value;
         this.timestamp = timestamp;
     }

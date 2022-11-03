@@ -48,8 +48,8 @@ public class CentralNode extends TaskNode {
   CelestiaIf celestiaInterfaceServer;
   boolean celestiaInitDone;
 
-  public CentralNode(ConcurrentLinkedQueue<Object> queueIn, ConcurrentLinkedQueue<Object> queueOut,
-      String name, int delay, Level logLevel, Level consoleLogLevel, ESASimulator sim) {
+  public CentralNode(final ConcurrentLinkedQueue<Object> queueIn, final ConcurrentLinkedQueue<Object> queueOut,
+                     final String name, final int delay, final Level logLevel, final Level consoleLogLevel, final ESASimulator sim) {
     super(queueIn, queueOut, name, delay, logLevel, consoleLogLevel);
     this.qFromGUI = new ConcurrentLinkedQueue<>();
     this.qToCelestia = new ConcurrentLinkedQueue<>();
@@ -60,14 +60,14 @@ public class CentralNode extends TaskNode {
     return parent;
   }
   
-  public void callBackLogMessage(String data) {
+  public void callBackLogMessage(final String data) {
     super.getLogObject().log(Level.INFO, data);
   }
 
   // Overloaded constructor, operation with TCP server
-  public CentralNode(ConcurrentLinkedQueue<Object> queueIn, ConcurrentLinkedQueue<Object> queueOut,
-      String listenURL, String name, int delay, Level logLevel, Level consoleLogLevel,
-      ESASimulator sim) {
+  public CentralNode(final ConcurrentLinkedQueue<Object> queueIn, final ConcurrentLinkedQueue<Object> queueOut,
+                     final String listenURL, final String name, final int delay, final Level logLevel, final Level consoleLogLevel,
+                     final ESASimulator sim) {
     super(queueIn, queueOut, name, delay, logLevel, consoleLogLevel);
     this.qFromGUI = new ConcurrentLinkedQueue<>();
     this.qToCelestia = new ConcurrentLinkedQueue<>();
@@ -78,7 +78,7 @@ public class CentralNode extends TaskNode {
     this.parent = sim;
   }
 
-  private void initCelestia(SimulatorHeader header) {
+  private void initCelestia(final SimulatorHeader header) {
     super.getLogObject().log(Level.FINE, "Creating Celestia provider");
     this.celestiaInterfaceServer = new CelestiaIf(this.qToCelestia, header.getCelestiaPort(),
         "OPS-SAT", super.getLogObject());
@@ -87,13 +87,13 @@ public class CentralNode extends TaskNode {
   }
 
   @Override
-  void dataIn(Object obj) {
+  void dataIn(final Object obj) {
     if (obj instanceof CelestiaData && this.celestiaInterfaceServer != null) {
       this.celestiaInterfaceServer.putDataInBuffer(obj);
     } else if (this.multiThreadedSocketServer == null) {
     } else {
       if (obj instanceof SimulatorHeader && !this.celestiaInitDone) {
-        SimulatorHeader centralHeader = (SimulatorHeader) obj;
+        final SimulatorHeader centralHeader = (SimulatorHeader) obj;
         if (centralHeader.isUseCelestia()) {
           this.celestiaInitDone = true;
           initCelestia(centralHeader);
@@ -112,7 +112,7 @@ public class CentralNode extends TaskNode {
   @Override
   Object dataOut() {
     if (this.qFromGUI != null) {
-      Object data = this.qFromGUI.poll();
+      final Object data = this.qFromGUI.poll();
       if (data != null) {
         if (data instanceof Integer) {
           return null;

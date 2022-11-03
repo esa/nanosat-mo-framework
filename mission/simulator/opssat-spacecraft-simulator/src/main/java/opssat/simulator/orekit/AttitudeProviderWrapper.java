@@ -47,25 +47,25 @@ public class AttitudeProviderWrapper implements AttitudeProvider
     return provider;
   }
 
-  public void setProvider(AttitudeProvider provider)
+  public void setProvider(final AttitudeProvider provider)
   {
     this.provider = provider;
   }
 
-  public AttitudeProviderWrapper(AttitudeProvider provider)
+  public AttitudeProviderWrapper(final AttitudeProvider provider)
   {
     this.provider = provider;
   }
 
   @Override
-  public Attitude getAttitude(PVCoordinatesProvider pvProv, AbsoluteDate date, Frame frame)
+  public Attitude getAttitude(final PVCoordinatesProvider pvProv, final AbsoluteDate date, final Frame frame)
   {
     return this.provider.getAttitude(pvProv, date, frame);
   }
 
   @Override
   public <T extends RealFieldElement<T>> FieldAttitude<T> getAttitude(
-      FieldPVCoordinatesProvider<T> pvProv, FieldAbsoluteDate<T> date, Frame frame)
+          final FieldPVCoordinatesProvider<T> pvProv, final FieldAbsoluteDate<T> date, final Frame frame)
   {
     return this.provider.getAttitude(pvProv, date, frame);
   }

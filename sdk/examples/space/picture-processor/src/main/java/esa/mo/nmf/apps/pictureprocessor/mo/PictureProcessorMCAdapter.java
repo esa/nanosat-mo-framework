@@ -72,18 +72,18 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
     private final NMFInterface connector;
     private final Path outputFolder;
 
-    public PictureProcessorMCAdapter(NMFProvider connector, Path outputFolder) {
+    public PictureProcessorMCAdapter(final NMFProvider connector, final Path outputFolder) {
         this.connector = connector;
         this.outputFolder = outputFolder;
     }
 
     @Override
-    public void initialRegistrations(MCRegistration registration) {
+    public void initialRegistrations(final MCRegistration registration) {
         registration.setMode(MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS);
 
         // ------------------ Actions ------------------
-        ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
-        IdentifierList actionNames = new IdentifierList();
+        final ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
+        final IdentifierList actionNames = new IdentifierList();
 
         regiserActionTakeAndProcessPicture(actionDefs, actionNames);
         regiserActionDestroyProcess(actionDefs, actionNames);
@@ -94,8 +94,8 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
     }
 
     @Override
-    public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
-            Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
+    public UInteger actionArrived(final Identifier name, final AttributeValueList attributeValues,
+                                  final Long actionInstanceObjId, final boolean reportProgress, final MALInteraction interaction) {
 
         if (ACTION_TAKE_AND_PROCESS_PICTURE.equals(name.getValue())) {
             takeAndProcessPicture(actionInstanceObjId, attributeValues);
@@ -109,21 +109,21 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
     }
 
     @Override
-    public void onProcessCompleted(Long id, int exitCode) {
+    public void onProcessCompleted(final Long id, final int exitCode) {
         processMap.remove(id);
         LOG.info("Process with Request Id: " + id + " exited with code: " + exitCode);
         publishParameter(id.toString(), exitCode);
     }
 
-    private void regiserActionTakeAndProcessPicture(ActionDefinitionDetailsList actionDefs, IdentifierList actionNames) {
-        ArgumentDefinitionDetailsList arguments = new ArgumentDefinitionDetailsList();
+    private void regiserActionTakeAndProcessPicture(final ActionDefinitionDetailsList actionDefs, final IdentifierList actionNames) {
+        final ArgumentDefinitionDetailsList arguments = new ArgumentDefinitionDetailsList();
         {
-            Byte rawType = Attribute._INTEGER_TYPE_SHORT_FORM;
+            final Byte rawType = Attribute._INTEGER_TYPE_SHORT_FORM;
             arguments.add(new ArgumentDefinitionDetails(new Identifier("min process duration"), "minimum picture processing duration",
                     rawType, "seconds", null, null, null));
         }
         {
-            Byte rawType = Attribute._INTEGER_TYPE_SHORT_FORM;
+            final Byte rawType = Attribute._INTEGER_TYPE_SHORT_FORM;
             arguments.add(new ArgumentDefinitionDetails(new Identifier("max process duration"), "max picture processing duration",
                     rawType, "seconds", null, null, null));
         }
@@ -136,10 +136,10 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
         actionNames.add(new Identifier(ACTION_TAKE_AND_PROCESS_PICTURE));
     }
 
-    private void regiserActionDestroyProcess(ActionDefinitionDetailsList actionDefs, IdentifierList actionNames) {
-        ArgumentDefinitionDetailsList arguments = new ArgumentDefinitionDetailsList();
+    private void regiserActionDestroyProcess(final ActionDefinitionDetailsList actionDefs, final IdentifierList actionNames) {
+        final ArgumentDefinitionDetailsList arguments = new ArgumentDefinitionDetailsList();
         {
-            Byte rawType = Attribute._LONG_TYPE_SHORT_FORM;
+            final Byte rawType = Attribute._LONG_TYPE_SHORT_FORM;
             arguments.add(new ArgumentDefinitionDetails(new Identifier("process id"), "process id",
                     rawType, "", null, null, null));
         }
@@ -152,17 +152,17 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
         actionNames.add(new Identifier(ACTION_DESTROY_PROCESS));
     }
 
-    private void takeAndProcessPicture(Long actionInstanceObjId, AttributeValueList attributeValues) {
+    private void takeAndProcessPicture(final Long actionInstanceObjId, final AttributeValueList attributeValues) {
 
-        int minProcessingDurationSeconds = getAs(attributeValues.get(0));
-        int maxProcessingDurationSeconds = getAs(attributeValues.get(1));
+        final int minProcessingDurationSeconds = getAs(attributeValues.get(0));
+        final int maxProcessingDurationSeconds = getAs(attributeValues.get(1));
 
         LOG.info("Requested take and process picture");
         LOG.info("Process Min duration " + minProcessingDurationSeconds);
         LOG.info("Process Max duration " + maxProcessingDurationSeconds);
         LOG.info("Process Request Id " + actionInstanceObjId);
 
-        PictureReceivedAdapter adapter = new PictureReceivedAdapter(this,
+        final PictureReceivedAdapter adapter = new PictureReceivedAdapter(this,
                 actionInstanceObjId,
                 outputFolder,
                 minProcessingDurationSeconds,
@@ -173,16 +173,16 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
                     adapter);
             processMap.put(actionInstanceObjId, adapter);
 
-        } catch (MALInteractionException | MALException | IOException | NMFException ex) {
+        } catch (final MALInteractionException | MALException | IOException | NMFException ex) {
             LOG.log(Level.SEVERE, null, ex);
         }
     }
 
-    private void destroyProcess(AttributeValueList attributeValues) {
-        Long processRequestId = getAs(attributeValues.get(0));
+    private void destroyProcess(final AttributeValueList attributeValues) {
+        final Long processRequestId = getAs(attributeValues.get(0));
         LOG.info("Requested destroy process matching Process Request Id" + processRequestId);
 
-        PictureReceivedAdapter adapter = processMap.remove(processRequestId);
+        final PictureReceivedAdapter adapter = processMap.remove(processRequestId);
         if (adapter != null) {
             LOG.info("Killing process matching Process Request Id " + processRequestId);
             adapter.stopProcess();
@@ -191,10 +191,10 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
         }
     }
 
-    private void publishParameter(String id, int exitCode) {
+    private void publishParameter(final String id, final int exitCode) {
         try {
             connector.pushParameterValue("Process Request ID: " + id + " exitCode: " + exitCode, exitCode);
-        } catch (NMFException e) {
+        } catch (final NMFException e) {
             LOG.log(Level.SEVERE, "Failed to publish parameter", e);
         }
     }
@@ -210,7 +210,7 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
                 gainG, gainB);
     }
 
-    private static <T> T getAs(AttributeValue attributeValue) {
+    private static <T> T getAs(final AttributeValue attributeValue) {
         if (attributeValue == null) {
             return null;
         }

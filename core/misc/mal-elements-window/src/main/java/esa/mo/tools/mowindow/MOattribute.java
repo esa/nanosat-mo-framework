@@ -34,7 +34,7 @@ public class MOattribute extends MOelement {
 
     private final javax.swing.JTextField fieldValue;
 
-    public MOattribute(String fieldName, Object obj, boolean editable, boolean objIsNull) {
+    public MOattribute(final String fieldName, final Object obj, final boolean editable, final boolean objIsNull) {
         super(fieldName, obj, editable, objIsNull);
         
         fieldValue = new javax.swing.JTextField();
@@ -60,7 +60,7 @@ public class MOattribute extends MOelement {
                 index = Attribute.STRING_TYPE_SHORT_FORM;  // If nothing was selected, then just consider it as a String
             }
             
-            Long shortForm = Attribute.ABSOLUTE_AREA_SERVICE_NUMBER + index;
+            final Long shortForm = Attribute.ABSOLUTE_AREA_SERVICE_NUMBER + index;
             super.object = MALContextFactory.getElementFactoryRegistry().lookupElementFactory(shortForm).createElement();
         }
         
@@ -73,7 +73,7 @@ public class MOattribute extends MOelement {
             
             return out;
 
-        } catch (NumberFormatException ex) {
+        } catch (final NumberFormatException ex) {
             JOptionPane.showMessageDialog(null,"The field value: '" + fieldValue.getText() + "' could not be converted into " + super.object.getClass().getSimpleName() , "NumberFormatException",JOptionPane.ERROR_MESSAGE);
         }
         

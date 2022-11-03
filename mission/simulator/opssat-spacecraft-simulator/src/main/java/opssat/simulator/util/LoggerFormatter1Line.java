@@ -36,14 +36,14 @@ public class LoggerFormatter1Line extends Formatter {
     //
     String nodeName;
     public final static String SIMULATOR_PRE_LOG="OPS-SAT SoftSim:";
-    public LoggerFormatter1Line(String nodeName) {
+    public LoggerFormatter1Line(final String nodeName) {
         this.nodeName = nodeName;
     }
     
     
 
-    public String format(LogRecord record) {
-        StringBuilder builder = new StringBuilder(1000);
+    public String format(final LogRecord record) {
+        final StringBuilder builder = new StringBuilder(1000);
         builder.append(SIMULATOR_PRE_LOG);
         builder.append(nodeName).append(";");
         builder.append(record.getLevel()).append(";");
@@ -54,11 +54,11 @@ public class LoggerFormatter1Line extends Formatter {
         return builder.toString();
     }
 
-    public String getHead(Handler h) {
+    public String getHead(final Handler h) {
         return super.getHead(h);
     }
 
-    public String getTail(Handler h) {
+    public String getTail(final Handler h) {
         return super.getTail(h);
     }
 }

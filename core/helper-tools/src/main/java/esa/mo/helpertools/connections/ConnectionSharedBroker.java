@@ -54,7 +54,7 @@ public class ConnectionSharedBroker {
      * @return
      * @throws MALException On error.
      */
-    public MALBrokerBinding startBroker(String brokerName) throws MALException {
+    public MALBrokerBinding startBroker(final String brokerName) throws MALException {
         return startBroker(brokerName, null);
     }
 
@@ -66,13 +66,13 @@ public class ConnectionSharedBroker {
      * @return
      * @throws MALException On error.
      */
-    public MALBrokerBinding startBroker(String brokerName, Blob authenticationId) throws MALException {
+    public MALBrokerBinding startBroker(final String brokerName, final Blob authenticationId) throws MALException {
         malFactory = MALContextFactory.newFactory();
         mal = malFactory.createMALContext(System.getProperties());
         brokerMgr = mal.createBrokerManager();
 
-        MALBroker sharedBroker = brokerMgr.createBroker();
-        MALBrokerBinding brokerBinding = brokerMgr.createBrokerBinding(
+        final MALBroker sharedBroker = brokerMgr.createBroker();
+        final MALBrokerBinding brokerBinding = brokerMgr.createBrokerBinding(
                 sharedBroker,
                 brokerName,
                 System.getProperties().getProperty("org.ccsds.moims.mo.mal.transport.default.protocol"),
@@ -85,10 +85,10 @@ public class ConnectionSharedBroker {
 
         if (ConnectionProvider.shouldInitUriFiles()) {
             // Write the URIs on a text file
-            try (BufferedWriter wrt = new BufferedWriter(new FileWriter(HelperMisc.SHARED_BROKER_URI, true))) {
+            try (final BufferedWriter wrt = new BufferedWriter(new FileWriter(HelperMisc.SHARED_BROKER_URI, true))) {
                 wrt.append(HelperConnections.PROPERTY_SHARED_BROKER + "=" + brokerBinding.getURI());
                 wrt.newLine();
-            } catch (IOException ex) {
+            } catch (final IOException ex) {
                 Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING, "Unable to write URI information to properties file {0}", ex);
             }
         }
@@ -109,7 +109,7 @@ public class ConnectionSharedBroker {
                 mal.close();
             }
 
-        } catch (MALException ex) {
+        } catch (final MALException ex) {
             Logger.getLogger(ConnectionSharedBroker.class.getName()).log(Level.WARNING, "Exception during close down of the broker {0}", ex);
         }
     }
@@ -119,8 +119,8 @@ public class ConnectionSharedBroker {
      */
     public static void resetURILinks() {
         if (ConnectionProvider.shouldInitUriFiles()) {
-            try (BufferedWriter wrt = new BufferedWriter(new FileWriter(HelperMisc.SHARED_BROKER_URI, false))) {
-            } catch (IOException ex) {
+            try (final BufferedWriter wrt = new BufferedWriter(new FileWriter(HelperMisc.SHARED_BROKER_URI, false))) {
+            } catch (final IOException ex) {
                 Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING, "Unable to reset URI information from properties file {0}", ex);
             }
         }

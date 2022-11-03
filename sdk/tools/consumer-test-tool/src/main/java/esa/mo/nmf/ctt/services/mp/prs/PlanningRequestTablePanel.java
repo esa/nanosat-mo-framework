@@ -37,12 +37,12 @@ public class PlanningRequestTablePanel extends SharedTablePanel {
 
     private static final Logger LOGGER = Logger.getLogger(PlanningRequestTablePanel.class.getName());
 
-    public PlanningRequestTablePanel(ArchiveConsumerServiceImpl archiveService) {
+    public PlanningRequestTablePanel(final ArchiveConsumerServiceImpl archiveService) {
         super(archiveService);
     }
 
     @Override
-    public void addEntry(Identifier identity, ArchivePersistenceObject comObject) {
+    public void addEntry(final Identifier identity, final ArchivePersistenceObject comObject) {
         if (comObject == null) {
             LOGGER.log(Level.SEVERE, "The table cannot process a null COM Object.");
             return;
@@ -50,19 +50,19 @@ public class PlanningRequestTablePanel extends SharedTablePanel {
 
         try {
             semaphore.acquire();
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
-        RequestVersionDetails requestVersion = (RequestVersionDetails) comObject.getObject();
-        Long templateInstanceId = COMObjectIdHelper.getInstanceId(requestVersion.getTemplate());
+        final RequestVersionDetails requestVersion = (RequestVersionDetails) comObject.getObject();
+        final Long templateInstanceId = COMObjectIdHelper.getInstanceId(requestVersion.getTemplate());
 
         String validityPeriod = "Unknown";
-        TimeWindowList validityWindows = requestVersion.getValidityTime();
+        final TimeWindowList validityWindows = requestVersion.getValidityTime();
         if (!validityWindows.isEmpty()) {
-            TimeWindow validityWindow = validityWindows.get(0);
-            Time validityStart = validityWindow.getStart() != null ? (Time)validityWindow.getStart().getValue() : null;
-            Time validityEnd = validityWindow.getEnd() != null ? (Time)validityWindow.getEnd().getValue() : null;
+            final TimeWindow validityWindow = validityWindows.get(0);
+            final Time validityStart = validityWindow.getStart() != null ? (Time)validityWindow.getStart().getValue() : null;
+            final Time validityEnd = validityWindow.getEnd() != null ? (Time)validityWindow.getEnd().getValue() : null;
             validityPeriod = String.format("%s - %s", HelperTime.time2readableString(validityStart), HelperTime.time2readableString(validityEnd));
         }
 
@@ -82,7 +82,7 @@ public class PlanningRequestTablePanel extends SharedTablePanel {
 
     @Override
     public void defineTableContent() {
-        String[] tableCol = new String[]{
+        final String[] tableCol = new String[]{
             "Request Identity", "Request Version ID", "Request Template ID", "Validity period", "Description", "User", "Comments"
         };
 
@@ -95,12 +95,12 @@ public class PlanningRequestTablePanel extends SharedTablePanel {
                 };
 
                 @Override               //all cells false
-                public boolean isCellEditable(int row, int column) {
+                public boolean isCellEditable(final int row, final int column) {
                     return false;
                 }
 
                 @Override
-                public Class getColumnClass(int columnIndex) {
+                public Class getColumnClass(final int columnIndex) {
                     return types[columnIndex];
                 }
         };

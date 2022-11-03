@@ -90,24 +90,24 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
     private final Map<IdentifierList, Map<Identifier, List<TimestampedParameterValue>>> parameterValues = new HashMap<>();
 
     @Override
-    public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType,
-                                      IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies,
-                                      Map qosProperties) {
+    public void queryResponseReceived(final MALMessageHeader msgHeader, final ObjectType objType,
+                                      final IdentifierList domain, final ArchiveDetailsList objDetails, final ElementList objBodies,
+                                      final Map qosProperties) {
         if(objDetails == null) {
             setIsQueryOver(true);
             return;
         }
         processObjects(objType, objDetails, objBodies, domain);
 
-        for(IdentifierList domainKey : valuesMap.keySet())
+        for(final IdentifierList domainKey : valuesMap.keySet())
         {
             if(!parameterValues.containsKey(domainKey)) {
                 parameterValues.put(domainKey, new HashMap<>());
             }
 
-            Map<Long, List<TimestampedParameterValue>> parameters = valuesMap.get(domainKey);
-            for(Map.Entry<Long, List<TimestampedParameterValue>> entry : parameters.entrySet()) {
-                Identifier identity = identitiesMap.get(domainKey).get(definitionsMap.get(domainKey).get(entry.getKey()));
+            final Map<Long, List<TimestampedParameterValue>> parameters = valuesMap.get(domainKey);
+            for(final Map.Entry<Long, List<TimestampedParameterValue>> entry : parameters.entrySet()) {
+                final Identifier identity = identitiesMap.get(domainKey).get(definitionsMap.get(domainKey).get(entry.getKey()));
                 parameterValues.get(domainKey).put(identity, entry.getValue());
             }
         }
@@ -116,9 +116,9 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
     }
 
     @Override
-    public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType,
-                                    IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies,
-                                    Map qosProperties) {
+    public void queryUpdateReceived(final MALMessageHeader msgHeader, final ObjectType objType,
+                                    final IdentifierList domain, final ArchiveDetailsList objDetails, final ElementList objBodies,
+                                    final Map qosProperties) {
         processObjects(objType, objDetails, objBodies, domain);
     }
 
@@ -128,7 +128,7 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
      * @param detailsList Archive details of the objects
      * @param bodiesList Bodies of the objects
      */
-    private void processObjects(ObjectType type, ArchiveDetailsList detailsList, ElementList bodiesList, IdentifierList domain) {
+    private void processObjects(final ObjectType type, final ArchiveDetailsList detailsList, final ElementList bodiesList, final IdentifierList domain) {
 
         if(!parameterIdentities.containsKey(domain)) {
             parameterIdentities.put(domain, new ArrayList<>());
@@ -152,7 +152,7 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
                 parameterIdentities.get(domain).add((Identifier) bodiesList.get(i));
             }
         } else if(type.equals(parameterDefinitionType)) {
-            for (ArchiveDetails archiveDetails : detailsList) {
+            for (final ArchiveDetails archiveDetails : detailsList) {
                 definitionsMap.get(domain).put(archiveDetails.getInstId(), archiveDetails.getDetails().getRelated());
             }
         } else if(type.equals(parameterValueType)) {
@@ -161,7 +161,7 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
                     valuesMap.get(domain).get(detailsList.get(i).getDetails().getRelated())
                              .add(new TimestampedParameterValue((ParameterValue) bodiesList.get(i), detailsList.get(i).getTimestamp()));
                 } else {
-                    List<TimestampedParameterValue> values = new ArrayList<>();
+                    final List<TimestampedParameterValue> values = new ArrayList<>();
                     values.add(new TimestampedParameterValue((ParameterValue) bodiesList.get(i), detailsList.get(i).getTimestamp()));
                     valuesMap.get(domain).put(detailsList.get(i).getDetails().getRelated(), values);
                 }
@@ -170,22 +170,22 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
     }
 
     @Override
-    public void queryAckErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
-                                      Map qosProperties) {
+    public void queryAckErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error,
+                                      final Map qosProperties) {
         LOGGER.log(Level.SEVERE, "queryAckErrorReceived", error);
         setIsQueryOver(true);
     }
 
     @Override
-    public void queryUpdateErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
-                                         Map qosProperties) {
+    public void queryUpdateErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error,
+                                         final Map qosProperties) {
         LOGGER.log(Level.SEVERE, "queryUpdateErrorReceived", error);
         setIsQueryOver(true);
     }
 
     @Override
-    public void queryResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
-                                           Map qosProperties) {
+    public void queryResponseErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error,
+                                           final Map qosProperties) {
         LOGGER.log(Level.SEVERE, "queryResponseErrorReceived", error);
         setIsQueryOver(true);
     }
@@ -195,7 +195,7 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
         return isQueryOver;
     }
 
-    private synchronized void setIsQueryOver(boolean isQueryOver) {
+    private synchronized void setIsQueryOver(final boolean isQueryOver) {
         this.isQueryOver = isQueryOver;
     }
 

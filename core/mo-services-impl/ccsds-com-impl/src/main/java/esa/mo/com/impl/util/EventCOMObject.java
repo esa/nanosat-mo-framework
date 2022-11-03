@@ -105,39 +105,39 @@ public class EventCOMObject {
         return sourceURI;
     }
 
-    public void setDomain(IdentifierList domain) {
+    public void setDomain(final IdentifierList domain) {
         this.domain = domain;
     }
 
-    public void setObjType(ObjectType objType) {
+    public void setObjType(final ObjectType objType) {
         this.objType = objType;
     }
 
-    public void setObjId(Long objId) {
+    public void setObjId(final Long objId) {
         this.objId = objId;
     }
 
-    public void setSource(ObjectId source) {
+    public void setSource(final ObjectId source) {
         this.source = source;
     }
 
-    public void setRelated(Long related) {
+    public void setRelated(final Long related) {
         this.related = related;
     }
 
-    public void setBody(Element body) {
+    public void setBody(final Element body) {
         this.body = body;
     }
 
-    public void setTimestamp(Time timestamp) {
+    public void setTimestamp(final Time timestamp) {
         this.timestamp = timestamp;
     }
 
-    public void setNetworkZone(Identifier networkZone) {
+    public void setNetworkZone(final Identifier networkZone) {
         this.networkZone = networkZone;
     }
 
-    public void setSourceURI(URI sourceURI) {
+    public void setSourceURI(final URI sourceURI) {
         this.sourceURI = sourceURI;
     }
 

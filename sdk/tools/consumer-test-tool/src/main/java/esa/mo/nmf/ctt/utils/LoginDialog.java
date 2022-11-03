@@ -70,9 +70,9 @@ public class LoginDialog extends JDialog {
     private JButton cancelButton;
     private JButton rolesButton;
 
-    public LoginDialog(ServiceCapability loginCapability, ServiceCapability archiveCapability,
-                       IdentifierList providerDomain, IdentifierList domainForArchive,
-                       String localNamePrefix) {
+    public LoginDialog(final ServiceCapability loginCapability, final ServiceCapability archiveCapability,
+                       final IdentifierList providerDomain, final IdentifierList domainForArchive,
+                       final String localNamePrefix) {
         createLoginDialog();
 
         loginConnection = new SingleConnectionDetails();
@@ -97,8 +97,8 @@ public class LoginDialog extends JDialog {
     {
         this.setModalityType(ModalityType.APPLICATION_MODAL);
         this.setTitle("Login required");
-        JPanel panel = new JPanel(new GridBagLayout());
-        GridBagConstraints constraints = new GridBagConstraints();
+        final JPanel panel = new JPanel(new GridBagLayout());
+        final GridBagConstraints constraints = new GridBagConstraints();
 
         constraints.fill = GridBagConstraints.HORIZONTAL;
 
@@ -155,9 +155,9 @@ public class LoginDialog extends JDialog {
 
         loginButton.addActionListener(event -> {
             try {
-                LoginConsumerServiceImpl loginConsumer = getLoginConsumer();
-                Long role = roleNameToId.get(rolesComboBox.getSelectedItem());
-                LoginResponse response = loginConsumer.getLoginStub()
+                final LoginConsumerServiceImpl loginConsumer = getLoginConsumer();
+                final Long role = roleNameToId.get(rolesComboBox.getSelectedItem());
+                final LoginResponse response = loginConsumer.getLoginStub()
                                                       .login(new Profile(new Identifier(userTextField.getText()), role),
                                                              new String(passwordTextField.getPassword()));
                 authenticationId = response.getBodyElement0();
@@ -165,7 +165,7 @@ public class LoginDialog extends JDialog {
                 loginSuccessful = true;
                 Logger.getLogger(LoginDialog.class.getName())
                       .log(Level.INFO,"Logged in successfully!");
-            } catch (MALException | MalformedURLException | MALInteractionException e) {
+            } catch (final MALException | MalformedURLException | MALInteractionException e) {
                 loginSuccessful = false;
                 loginError = e;
             }
@@ -176,28 +176,28 @@ public class LoginDialog extends JDialog {
 
         rolesButton.addActionListener(event -> {
             try {
-                LoginConsumerServiceImpl loginConsumer = getLoginConsumer();
-                LongList roles = loginConsumer.getLoginStub().listRoles(new Identifier(userTextField.getText()),
+                final LoginConsumerServiceImpl loginConsumer = getLoginConsumer();
+                final LongList roles = loginConsumer.getLoginStub().listRoles(new Identifier(userTextField.getText()),
                                                                         new String(passwordTextField.getPassword()));
 
-                ArchiveConsumerServiceImpl archiveConsumer = new ArchiveConsumerServiceImpl(archiveConnection, null, localNamePrefix);
-                RolesArchiveAdapter archiveAdapter = new RolesArchiveAdapter();
+                final ArchiveConsumerServiceImpl archiveConsumer = new ArchiveConsumerServiceImpl(archiveConnection, null, localNamePrefix);
+                final RolesArchiveAdapter archiveAdapter = new RolesArchiveAdapter();
                 archiveConsumer.getArchiveStub().retrieve(LoginHelper.LOGINROLE_OBJECT_TYPE, domainForArchive, roles, archiveAdapter);
                 while(!archiveAdapter.isFinished()) {
                     try {
                         Thread.sleep(100);
-                    } catch (InterruptedException ignored) {
+                    } catch (final InterruptedException ignored) {
 
                     }
                 }
                 archiveConsumer.close();
                 rolesComboBox.setModel(new DefaultComboBoxModel<>(roleNameToId.keySet().toArray(new String[0])));
-            } catch (MALException | MALInteractionException | MalformedURLException e) {
+            } catch (final MALException | MALInteractionException | MalformedURLException e) {
                 Logger.getLogger(LoginDialog.class.getName())
                       .log(Level.SEVERE,"Unexpected exception during listRoles", e);
             }
         });
-        JPanel buttonPanel = new JPanel();
+        final JPanel buttonPanel = new JPanel();
         buttonPanel.add(rolesButton);
         buttonPanel.add(loginButton);
         buttonPanel.add(cancelButton);
@@ -240,7 +240,7 @@ public class LoginDialog extends JDialog {
     private class RolesArchiveAdapter extends ArchiveAdapter {
         boolean finished = false;
         @Override
-        public void retrieveResponseReceived(MALMessageHeader msgHeader, ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+        public void retrieveResponseReceived(final MALMessageHeader msgHeader, final ArchiveDetailsList objDetails, final ElementList objBodies, final Map qosProperties) {
             for(int i = 0; i < objDetails.size(); ++i) {
                 roleNameToId.put(((Identifier)objBodies.get(i)).getValue(),
                                  objDetails.get(i).getInstId());
@@ -249,7 +249,7 @@ public class LoginDialog extends JDialog {
         }
 
         @Override
-        public void retrieveResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+        public void retrieveResponseErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error, final Map qosProperties) {
             Logger.getLogger(LoginDialog.class.getName())
                   .log(Level.SEVERE, "Unexpected error during roles retrieval: " + error.getErrorName());
             finished = true;

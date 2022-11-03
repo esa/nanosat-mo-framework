@@ -62,14 +62,14 @@ public class DemoHelloWorldFull
    */
   public static void main(final String[] args) throws Exception
   {
-    DemoHelloWorldFull demo = new DemoHelloWorldFull();
+    final DemoHelloWorldFull demo = new DemoHelloWorldFull();
   }
 
   public class MCAdapter extends MonitorAndControlNMFAdapter
   {
 
     @Override
-    public void initialRegistrations(MCRegistration registrationObject)
+    public void initialRegistrations(final MCRegistration registrationObject)
     {
       registrationObject.setMode(RegistrationMode.DONT_UPDATE_IF_EXISTS);
 
@@ -91,7 +91,7 @@ public class DemoHelloWorldFull
     }
 
     @Override
-    public Attribute onGetValue(Identifier identifier, Byte rawType)
+    public Attribute onGetValue(final Identifier identifier, final Byte rawType)
     {
       if (PARAMETER_NAME.equals(identifier.getValue())) {
         return (Attribute) HelperAttributes.javaType2Attribute(var);
@@ -101,7 +101,7 @@ public class DemoHelloWorldFull
     }
 
     @Override
-    public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values)
+    public Boolean onSetValue(final IdentifierList identifiers, final ParameterRawValueList values)
     {
       if (PARAMETER_NAME.equals(identifiers.get(0).getValue())) {
         var = values.get(0).getRawValue().toString();
@@ -112,8 +112,8 @@ public class DemoHelloWorldFull
     }
 
     @Override
-    public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
-        Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction)
+    public UInteger actionArrived(final Identifier name, final AttributeValueList attributeValues,
+                                  final Long actionInstanceObjId, final boolean reportProgress, final MALInteraction interaction)
     {
       return null;  // Action service not integrated
     }

@@ -44,7 +44,7 @@ public abstract class GENDecoder implements MALDecoder
 {
   protected final BufferHolder sourceBuffer;
 
-  protected GENDecoder(BufferHolder sourceBuffer)
+  protected GENDecoder(final BufferHolder sourceBuffer)
   {
     this.sourceBuffer = sourceBuffer;
   }
@@ -441,7 +441,7 @@ public abstract class GENDecoder implements MALDecoder
    * @return The type to decode
    * @throws MALException if there is an error
    */
-  public Long decodeAbstractElementType(boolean withNull) throws MALException
+  public Long decodeAbstractElementType(final boolean withNull) throws MALException
   {
     if (withNull)
     {
@@ -451,7 +451,7 @@ public abstract class GENDecoder implements MALDecoder
     return decodeLong();
   }
 
-  public int internalDecodeAttributeType(byte value) throws MALException
+  public int internalDecodeAttributeType(final byte value) throws MALException
   {
     return value;
   }

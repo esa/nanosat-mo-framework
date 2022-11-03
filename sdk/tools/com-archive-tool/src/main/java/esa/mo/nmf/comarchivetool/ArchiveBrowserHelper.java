@@ -85,21 +85,21 @@ public class ArchiveBrowserHelper {
    * @param domain Restricts the search to objects in a specific domain ID
    * @return the ObjectId of the found App or null if not found
    */
-  public static ObjectId getAppObjectId(String appName,
-      IdentifierList domain, ArchiveConsumerServiceImpl consumer) {
+  public static ObjectId getAppObjectId(final String appName,
+                                        final IdentifierList domain, final ArchiveConsumerServiceImpl consumer) {
     // SoftwareManagement.AppsLaunch.App object type
-    ObjectType appType = new ObjectType(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER,
+    final ObjectType appType = new ObjectType(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER,
         AppsLauncherHelper.APPSLAUNCHER_SERVICE_NUMBER, new UOctet((short) 0),
         AppsLauncherHelper.APP_OBJECT_NUMBER);
 
     // prepare domain filter
-    ArchiveQueryList archiveQueryList = new ArchiveQueryList();
-    ArchiveQuery archiveQuery =
+    final ArchiveQueryList archiveQueryList = new ArchiveQueryList();
+    final ArchiveQuery archiveQuery =
         new ArchiveQuery(domain, null, null, 0L, null, null, null, null, null);
     archiveQueryList.add(archiveQuery);
 
     // execute query
-    ArchiveToAppAdapter adapter = new ArchiveToAppAdapter(appName);
+    final ArchiveToAppAdapter adapter = new ArchiveToAppAdapter(appName);
     queryArchive(appType, archiveQueryList, adapter, adapter, consumer);
     return adapter.getAppObjectId();
   }
@@ -112,13 +112,13 @@ public class ArchiveBrowserHelper {
    * @param adapter Archive adapter receiving the query answer messages
    * @param queryStatusProvider Interface providing the status of the query
    */
-  public static void queryArchive(ObjectType objectsTypes,
-    ArchiveQueryList archiveQueryList, ArchiveAdapter adapter,
-    QueryStatusProvider queryStatusProvider, ArchiveConsumerServiceImpl consumer) {
+  public static void queryArchive(final ObjectType objectsTypes,
+                                  final ArchiveQueryList archiveQueryList, final ArchiveAdapter adapter,
+                                  final QueryStatusProvider queryStatusProvider, final ArchiveConsumerServiceImpl consumer) {
     // run the query
     try {
       consumer.getArchiveStub().query(true, objectsTypes, archiveQueryList, null, adapter);
-    } catch (MALInteractionException | MALException e) {
+    } catch (final MALInteractionException | MALException e) {
       LOGGER.log(Level.SEVERE, "Error when querying archive", e);
       return;
     }
@@ -127,7 +127,7 @@ public class ArchiveBrowserHelper {
     while (!queryStatusProvider.isQueryOver()) {
       try {
         Thread.sleep(500);
-      } catch (InterruptedException ignored) {
+      } catch (final InterruptedException ignored) {
       }
     }
   }
@@ -141,7 +141,7 @@ public class ArchiveBrowserHelper {
     }
   }
 
-  public static LocalOrRemoteConsumer createConsumer(String providerURI, String databaseFile) {
+  public static LocalOrRemoteConsumer createConsumer(final String providerURI, final String databaseFile) {
     return createConsumer(providerURI, databaseFile, null);
   }
 
@@ -152,7 +152,7 @@ public class ArchiveBrowserHelper {
    * @param databaseFile If provided a local consumer wil be created
    * @return A wrapper class that contains one of the created consumers or null in case of an error.
    */
-  public static LocalOrRemoteConsumer createConsumer(String providerURI, String databaseFile, String providerName) {
+  public static LocalOrRemoteConsumer createConsumer(final String providerURI, final String databaseFile, final String providerName) {
     // spawn our local provider on top of the given database file if needed
     ArchiveConsumerServiceImpl localConsumer = null;
     NMFConsumer remoteConsumer = null;
@@ -162,7 +162,7 @@ public class ArchiveBrowserHelper {
           System.out.println("\n--provider option is ignored in local mode.\n");
         }
         localConsumer = createLocalConsumer(databaseFile);
-      } catch (MalformedURLException | MALException e) {
+      } catch (final MalformedURLException | MALException e) {
         LOGGER.log(Level.SEVERE,
                    String.format("Error when connecting to local archive at %s", databaseFile), e);
         return null;
@@ -188,13 +188,13 @@ public class ArchiveBrowserHelper {
    * @throws MalformedURLException in case of an error during consumer creation
    * @throws MALException in case of an error during consumer creation
    */
-  private static ArchiveConsumerServiceImpl createLocalConsumer(String databaseFile) throws MalformedURLException, MALException {
+  private static ArchiveConsumerServiceImpl createLocalConsumer(final String databaseFile) throws MalformedURLException, MALException {
     localProvider = spawnLocalArchiveProvider(databaseFile);
-    String providerURI = localProvider.getConnection().getConnectionDetails().getProviderURI().getValue();
-    SingleConnectionDetails connectionDetails = new SingleConnectionDetails();
+    final String providerURI = localProvider.getConnection().getConnectionDetails().getProviderURI().getValue();
+    final SingleConnectionDetails connectionDetails = new SingleConnectionDetails();
     connectionDetails.setProviderURI(providerURI);
-    IdentifierList domain = new IdentifierList();
-    Identifier wildCard = new Identifier("*");
+    final IdentifierList domain = new IdentifierList();
+    final Identifier wildCard = new Identifier("*");
     domain.add(wildCard);
     connectionDetails.setDomain(domain);
     return new ArchiveConsumerServiceImpl(connectionDetails);
@@ -206,14 +206,14 @@ public class ArchiveBrowserHelper {
    * @param providerURI URI of the remote provider
    * @return New instance of NMFConsumer or null in case of an error.
    */
-  private static NMFConsumer createRemoteConsumer(String providerURI, String providerName) {
+  private static NMFConsumer createRemoteConsumer(final String providerURI, final String providerName) {
     NMFConsumer consumer = null;
     try {
       // URI provider in the command parameter is for the archive but we need the directory URI
       // to get the correct provider summary.
-      String tempURI = providerURI.contains("Archive") ?
+      final String tempURI = providerURI.contains("Archive") ?
                     providerURI.replace("Archive", "Directory") : providerURI;
-      ProviderSummaryList providerSummaryList = NMFConsumer.retrieveProvidersFromDirectory(new URI(tempURI));
+      final ProviderSummaryList providerSummaryList = NMFConsumer.retrieveProvidersFromDirectory(new URI(tempURI));
       ProviderSummary provider = null;
       if(providerSummaryList.size() == 1) {
         if(providerName != null) {
@@ -224,14 +224,14 @@ public class ArchiveBrowserHelper {
         if(providerName == null) {
           System.out.println("\nThere's more than one provider in directory. In this case the --provider option is required");
           System.out.println("Available providers at this uri: " + tempURI);
-          for(ProviderSummary summary : providerSummaryList) {
+          for(final ProviderSummary summary : providerSummaryList) {
             System.out.println(" - " + summary.getProviderId());
           }
           System.out.println();
           return null;
         }
 
-        for(ProviderSummary summary : providerSummaryList) {
+        for(final ProviderSummary summary : providerSummaryList) {
           if(summary.getProviderId().getValue().equals(providerName)) {
             provider = summary;
             break;
@@ -243,7 +243,7 @@ public class ArchiveBrowserHelper {
         System.out.println("\nProvider not found!");
         if(!providerSummaryList.isEmpty()) {
           System.out.println("Available providers at this uri: " + tempURI);
-          for(ProviderSummary summary : providerSummaryList) {
+          for(final ProviderSummary summary : providerSummaryList) {
             System.out.println(" - " + summary.getProviderId());
           }
         } else {
@@ -260,13 +260,13 @@ public class ArchiveBrowserHelper {
          consumer.getCommonServices().getLoginService().getLoginStub() != null) {
         System.out.println("\nLogin required for " + provider.getProviderId());
 
-        String login = System.console().readLine("Login: ");
-        char[] password = System.console().readPassword("Password: ");
+        final String login = System.console().readLine("Login: ");
+        final char[] password = System.console().readPassword("Password: ");
         System.out.println();
 
-        LongList rolesIds = consumer.getCommonServices().getLoginService().getLoginStub().listRoles(new Identifier(login), String.valueOf(password));
+        final LongList rolesIds = consumer.getCommonServices().getLoginService().getLoginStub().listRoles(new Identifier(login), String.valueOf(password));
 
-        ArchiveToRolesAdapter adapter = new ArchiveToRolesAdapter();
+        final ArchiveToRolesAdapter adapter = new ArchiveToRolesAdapter();
         consumer.getCOMServices()
                 .getArchiveService()
                 .getArchiveStub()
@@ -278,7 +278,7 @@ public class ArchiveBrowserHelper {
         while (!adapter.isQueryOver()) {
           try {
             Thread.sleep(500);
-          } catch (InterruptedException ignored) {
+          } catch (final InterruptedException ignored) {
           }
         }
 
@@ -288,19 +288,19 @@ public class ArchiveBrowserHelper {
           for(int i = 0; i < adapter.getRolesIds().size(); ++i) {
             System.out.println((i + 1) + " - " + adapter.getRolesNames().get(i));
           }
-          int index = Integer.parseInt(System.console().readLine("Select role id: ")) - 1;
+          final int index = Integer.parseInt(System.console().readLine("Select role id: ")) - 1;
           if(index >= 0 && index < adapter.getRolesIds().size()) {
             roleId = adapter.getRolesIds().get(index);
           }
         }
 
-        LoginResponse response = consumer.getCommonServices().getLoginService().getLoginStub()
+        final LoginResponse response = consumer.getCommonServices().getLoginService().getLoginStub()
                                          .login(new Profile(new Identifier(login), roleId), String.valueOf(password));
         consumer.setAuthenticationId(response.getBodyElement0());
         System.out.println("Login successful!");
       }
       return consumer;
-    } catch (MALException | MalformedURLException | MALInteractionException e) {
+    } catch (final MALException | MalformedURLException | MALInteractionException e) {
       LOGGER.log(Level.SEVERE, "Error when creating consumer", e);
       closeConsumer(new LocalOrRemoteConsumer(consumer, null));
       return null;
@@ -312,9 +312,9 @@ public class ArchiveBrowserHelper {
    *
    * @param consumer Consumer to be closed.
    */
-  public static void closeConsumer(LocalOrRemoteConsumer consumer) {
+  public static void closeConsumer(final LocalOrRemoteConsumer consumer) {
     if(consumer.getRemoteConsumer() != null) {
-      NMFConsumer remoteConsumer = consumer.getRemoteConsumer();
+      final NMFConsumer remoteConsumer = consumer.getRemoteConsumer();
       remoteConsumer.getCommonServices().closeConnections();
       remoteConsumer.getCOMServices().closeConnections();
       remoteConsumer.getMCServices().closeConnections();
@@ -332,24 +332,24 @@ public class ArchiveBrowserHelper {
    * @param databaseFile Local SQLite database file
    * @return the ArchiveProviderServiceImpl
    */
-  public static ArchiveProviderServiceImpl spawnLocalArchiveProvider(String databaseFile) {
+  public static ArchiveProviderServiceImpl spawnLocalArchiveProvider(final String databaseFile) {
     HelperMisc.loadPropertiesFile();
     System.setProperty(HelperMisc.PROP_MO_APP_NAME, COMArchiveTool.APP_NAME);
     System.setProperty("esa.nmf.archive.persistence.jdbc.url", "jdbc:sqlite:" + databaseFile);
 
-    ArchiveProviderServiceImpl archiveProvider = new ArchiveProviderServiceImpl();
+    final ArchiveProviderServiceImpl archiveProvider = new ArchiveProviderServiceImpl();
     try {
       archiveProvider.init(null);
       LOGGER.log(Level.INFO, String.format("ArchiveProvider initialized at %s with file %s",
           archiveProvider.getConnection().getConnectionDetails().getProviderURI(), databaseFile));
-    } catch (MALException e) {
+    } catch (final MALException e) {
       LOGGER.log(Level.SEVERE, "Error initializing archiveProdiver", e);
     }
 
     // give it time to initialize
     try {
       Thread.sleep(2000);
-    } catch (InterruptedException ignored) {
+    } catch (final InterruptedException ignored) {
     }
 
     return archiveProvider;
@@ -359,7 +359,7 @@ public class ArchiveBrowserHelper {
     NMFConsumer remoteConsumer;
     ArchiveConsumerServiceImpl localConsumer;
 
-    public LocalOrRemoteConsumer(NMFConsumer remoteConsumer, ArchiveConsumerServiceImpl localConsumer) {
+    public LocalOrRemoteConsumer(final NMFConsumer remoteConsumer, final ArchiveConsumerServiceImpl localConsumer) {
       this.remoteConsumer = remoteConsumer;
       this.localConsumer = localConsumer;
     }

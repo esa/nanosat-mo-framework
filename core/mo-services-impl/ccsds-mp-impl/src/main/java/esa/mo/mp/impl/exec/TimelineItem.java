@@ -36,7 +36,7 @@ public class TimelineItem implements Comparable<TimelineItem> {
     private String itemId;
     private ItemCallback callback;
 
-    public TimelineItem(long earliestStartTime, long latestStartTime, String itemId, ItemCallback callback) {
+    public TimelineItem(final long earliestStartTime, final long latestStartTime, final String itemId, final ItemCallback callback) {
         this.earliestStartTime = earliestStartTime;
         this.latestStartTime = latestStartTime;
         this.itemId = itemId;
@@ -60,7 +60,7 @@ public class TimelineItem implements Comparable<TimelineItem> {
     }
 
     @Override
-    public int compareTo(TimelineItem item) {
+    public int compareTo(final TimelineItem item) {
         return Long.compare(item.earliestStartTime, this.earliestStartTime);
     }
 
@@ -69,9 +69,9 @@ public class TimelineItem implements Comparable<TimelineItem> {
         return this.formatTime(this.earliestStartTime) + " | " + this.formatTime(this.latestStartTime) + " | " + this.itemId;
     }
 
-    private String formatTime(long timestamp) {
-        Date date = new Date(timestamp);
-        SimpleDateFormat format = new SimpleDateFormat(DATE_PATTERN);
+    private String formatTime(final long timestamp) {
+        final Date date = new Date(timestamp);
+        final SimpleDateFormat format = new SimpleDateFormat(DATE_PATTERN);
         format.setTimeZone(TimeZone.getTimeZone("UTC"));
         return format.format(date);
     }

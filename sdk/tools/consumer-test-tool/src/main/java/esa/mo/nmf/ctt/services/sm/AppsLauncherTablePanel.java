@@ -36,7 +36,7 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetails;
 public class AppsLauncherTablePanel extends SharedTablePanel {
 
     private static final Logger LOGGER = Logger.getLogger(AppsLauncherTablePanel.class.getName());
-    public AppsLauncherTablePanel(ArchiveConsumerServiceImpl archiveService) {
+    public AppsLauncherTablePanel(final ArchiveConsumerServiceImpl archiveService) {
         super(archiveService);
     }
 
@@ -50,11 +50,11 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
 
         try {
             semaphore.acquire();
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
             
-        AppDetails appDetails = (AppDetails) comObject.getObject();
+        final AppDetails appDetails = (AppDetails) comObject.getObject();
         
         tableData.addRow(new Object[]{
             comObject.getArchiveDetails().getInstId(),
@@ -70,14 +70,14 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
         semaphore.release();
     }
 
-    public void switchEnabledstatus(boolean status){
+    public void switchEnabledstatus(final boolean status){
         switchEnabledstatus(status, this.getSelectedRow());
     }
 
-    public void switchEnabledstatus(boolean status, int rowId){
+    public void switchEnabledstatus(final boolean status, final int rowId){
         try {
             semaphore.acquire();
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
@@ -88,10 +88,10 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
         semaphore.release();
     }
 
-    public void switchEnabledstatusAll(boolean status){
+    public void switchEnabledstatusAll(final boolean status){
         try {
             semaphore.acquire();
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
@@ -107,30 +107,30 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
     public void reportStatus(final String text, final int appId){
         try {
             semaphore.acquire();
-        } catch (InterruptedException ex) {
+        } catch (final InterruptedException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
         LOGGER.log(Level.INFO, "Updating test for appId {0}: ''{1}''", new Object[]{appId, text});
         
-        int index;
+        final int index;
         try {
             index = this.findIndex(appId);
             
             // 6 because it is where the status field is!
             tableData.setValueAt(text, index, 6);
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
         
         semaphore.release();
     }
     
-    public int findIndex(int appId) throws Exception{
+    public int findIndex(final int appId) throws Exception{
         
         final int max = tableData.getRowCount();
         
         for(int i=0; i < max; i++){
-            Long value = (Long) tableData.getValueAt(i, 0);
+            final Long value = (Long) tableData.getValueAt(i, 0);
             
             if(value.intValue() == appId){
                 return i;
@@ -143,7 +143,7 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
     @Override
     public void defineTableContent() {
     
-        String[] tableCol = new String[]{
+        final String[] tableCol = new String[]{
             "Obj Inst Id", "name", "description", "category", "runAtStartup", "running", "Status" };
 
         tableData = new javax.swing.table.DefaultTableModel(
@@ -155,12 +155,12 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
                     };
 
                     @Override               //all cells false
-                    public boolean isCellEditable(int row, int column) {
+                    public boolean isCellEditable(final int row, final int column) {
                         return false;
                     }
 
                     @Override
-                    public Class getColumnClass(int columnIndex) {
+                    public Class getColumnClass(final int columnIndex) {
                         return types[columnIndex];
                     }
                 };

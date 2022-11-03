@@ -77,7 +77,7 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
    * 
    * @param logFilePath Path of destination LOG file where we dump the String objects
    */
-  public ArchiveToLogAdapter(String logFilePath, boolean addTimestamps) {
+  public ArchiveToLogAdapter(final String logFilePath, final boolean addTimestamps) {
     this.addTimestamps = addTimestamps;
     this.logFilePath = logFilePath;
 
@@ -102,10 +102,10 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
 
     queryResults.sort(Comparator.comparingLong(com -> com.getArchiveDetailsList() != null ? com.getArchiveDetailsList().get(0).getTimestamp().getValue() : 0));
 
-    for(ArchiveCOMObjectsOutput archiveObjectOutput : queryResults)
+    for(final ArchiveCOMObjectsOutput archiveObjectOutput : queryResults)
     {
       // empty comType means query returned nothing
-      ObjectType comType = archiveObjectOutput.getObjectType();
+      final ObjectType comType = archiveObjectOutput.getObjectType();
       if (comType == null) {
         return;
       }
@@ -120,7 +120,7 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
         return;
       }
 
-      String lineOffset = "                        "; // 24 is the length of the timestamp
+      final String lineOffset = "                        "; // 24 is the length of the timestamp
       for(int i = 0; i < archiveObjectOutput.getArchiveDetailsList().size(); ++i) {
         String logObject;
         if(comType.getService().equals(CommandExecutorHelper.COMMANDEXECUTOR_SERVICE_NUMBER))
@@ -138,8 +138,8 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
         }
         try {
           if(addTimestamps) {
-            FineTime timestamp = archiveObjectOutput.getArchiveDetailsList().get(i).getTimestamp();
-            String[] logLines = logObject.split("\n");
+            final FineTime timestamp = archiveObjectOutput.getArchiveDetailsList().get(i).getTimestamp();
+            final String[] logLines = logObject.split("\n");
             logLines[0] = HelperTime.time2readableString(timestamp) + " " + logLines[0];
             if(logLines.length > 1) {
               for(int j = 1; j < logLines.length; ++j) {
@@ -147,13 +147,13 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
               }
             }
 
-            for(String line : logLines) {
+            for(final String line : logLines) {
               logFile.write(line + "\n");
             }
           } else {
             logFile.write(logObject);
           }
-        } catch (IOException e) {
+        } catch (final IOException e) {
           LOGGER.log(Level.SEVERE, "Error writting LOG object", e);
         }
       }
@@ -166,10 +166,10 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
    * 
    * @param logFilePath to the LOG file to open/create
    */
-  private void openLogFile(String logFilePath) {
+  private void openLogFile(final String logFilePath) {
     try {
       logFile = new FileWriter(logFilePath);
-    } catch (IOException e) {
+    } catch (final IOException e) {
       LOGGER.log(Level.SEVERE, String.format("Error opening the LOG file", logFilePath), e);
       logFile = null;
     }
@@ -182,44 +182,44 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
     if (logFile != null) {
       try {
         logFile.close();
-      } catch (IOException e) {
+      } catch (final IOException e) {
         LOGGER.log(Level.SEVERE, "Error closing the LOG file", e);
       }
     }
   }
 
   @Override
-  public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType,
-      IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies,
-      Map qosProperties) {
+  public void queryResponseReceived(final MALMessageHeader msgHeader, final ObjectType objType,
+                                    final IdentifierList domain, final ArchiveDetailsList objDetails, final ElementList objBodies,
+                                    final Map qosProperties) {
     queryResults.add(new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies));
     setIsQueryOver(true);
   }
 
   @Override
-  public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType,
-      IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies,
-      Map qosProperties) {
+  public void queryUpdateReceived(final MALMessageHeader msgHeader, final ObjectType objType,
+                                  final IdentifierList domain, final ArchiveDetailsList objDetails, final ElementList objBodies,
+                                  final Map qosProperties) {
     queryResults.add(new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies));
   }
 
   @Override
-  public void queryAckErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
-      Map qosProperties) {
+  public void queryAckErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error,
+                                    final Map qosProperties) {
     LOGGER.log(Level.SEVERE, "queryAckErrorReceived", error);
     setIsQueryOver(true);
   }
 
   @Override
-  public void queryUpdateErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
-      Map qosProperties) {
+  public void queryUpdateErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error,
+                                       final Map qosProperties) {
     LOGGER.log(Level.SEVERE, "queryUpdateErrorReceived", error);
     setIsQueryOver(true);
   }
 
   @Override
-  public void queryResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
-      Map qosProperties) {
+  public void queryResponseErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error,
+                                         final Map qosProperties) {
     LOGGER.log(Level.SEVERE, "queryResponseErrorReceived", error);
     setIsQueryOver(true);
   }
@@ -237,7 +237,7 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
     return isQueryOver;
   }
 
-  private synchronized void setIsQueryOver(boolean isQueryOver) {
+  private synchronized void setIsQueryOver(final boolean isQueryOver) {
     this.isQueryOver = isQueryOver;
   }
 }

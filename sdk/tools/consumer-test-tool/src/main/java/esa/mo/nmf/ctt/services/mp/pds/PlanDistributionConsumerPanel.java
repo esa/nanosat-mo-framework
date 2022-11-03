@@ -49,7 +49,7 @@ public class PlanDistributionConsumerPanel extends javax.swing.JPanel {
     private final PlanVersionTablePanel planVersionTable;
 
 
-    public PlanDistributionConsumerPanel(PlanDistributionConsumerServiceImpl planDistributionService) {
+    public PlanDistributionConsumerPanel(final PlanDistributionConsumerServiceImpl planDistributionService) {
         initComponents();
 
         this.planDistributionService = planDistributionService;
@@ -126,7 +126,7 @@ public class PlanDistributionConsumerPanel extends javax.swing.JPanel {
 
         parameterTab.add(jPanel5);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        final javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -146,15 +146,15 @@ public class PlanDistributionConsumerPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void listPlansButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listPlansButtonActionPerformed
-        PlanFilter filter = new PlanFilter();
+    private void listPlansButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listPlansButtonActionPerformed
+        final PlanFilter filter = new PlanFilter();
         filter.setReturnAll(true);
 
         try {
             this.planDistributionService.getPlanDistributionStub().asyncListPlans(filter, new PlanDistributionAdapter() {
                 @Override
-                public void listPlansResponseReceived(MALMessageHeader msgHeader, LongList planIdentityIds, LongList planVersionIds, PlanInformationList planInformation, PlanStatusList status, Map qosProperties) {
-                    org.ccsds.moims.mo.mc.structures.ObjectInstancePairList ids = new org.ccsds.moims.mo.mc.structures.ObjectInstancePairList();
+                public void listPlansResponseReceived(final MALMessageHeader msgHeader, final LongList planIdentityIds, final LongList planVersionIds, final PlanInformationList planInformation, final PlanStatusList status, final Map qosProperties) {
+                    final org.ccsds.moims.mo.mc.structures.ObjectInstancePairList ids = new org.ccsds.moims.mo.mc.structures.ObjectInstancePairList();
                     for (int index = 0; index < planIdentityIds.size(); index++) {
                         ids.add(new org.ccsds.moims.mo.mc.structures.ObjectInstancePair(
                             planIdentityIds.get(index),
@@ -168,89 +168,89 @@ public class PlanDistributionConsumerPanel extends javax.swing.JPanel {
                 }
 
                 @Override
-                public void listPlansErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                public void listPlansErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error, final Map qosProperties) {
                     JOptionPane.showMessageDialog(null, "There was an error during the listPlans operation.\n" + error.toString(), "Error", JOptionPane.PLAIN_MESSAGE);
                     LOGGER.log(Level.SEVERE, null, error);
                 }
             });
-        } catch (MALInteractionException e) {
+        } catch (final MALInteractionException e) {
             LOGGER.log(Level.SEVERE, null, e);
-        } catch (MALException e) {
+        } catch (final MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_listPlansButtonActionPerformed
 
-    private void getPlanButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getPlanButtonActionPerformed
-        LongList identityIds = new LongList();
+    private void getPlanButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getPlanButtonActionPerformed
+        final LongList identityIds = new LongList();
         identityIds.add(0L);
         try {
             this.planDistributionService.getPlanDistributionStub().asyncGetPlan(identityIds, new PlanDistributionAdapter() {
                 @Override
-                public void getPlanResponseReceived(MALMessageHeader msgHeader, LongList planVersionId, PlanVersionDetailsList planVersion, Map qosProperties) {
+                public void getPlanResponseReceived(final MALMessageHeader msgHeader, final LongList planVersionId, final PlanVersionDetailsList planVersion, final Map qosProperties) {
                     // TODO
                     JOptionPane.showMessageDialog(null, "Operation getPlan is not currently implemented", "Info", JOptionPane.PLAIN_MESSAGE);
                     LOGGER.log(Level.INFO, "getPlan(\"*\") returned {0} object instance identifiers", planVersionId.size());
                 }
 
                 @Override
-                public void getPlanErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                public void getPlanErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error, final Map qosProperties) {
                     JOptionPane.showMessageDialog(null, "There was an error during the getPlan operation.\n" + error.toString(), "Error", JOptionPane.PLAIN_MESSAGE);
                     LOGGER.log(Level.SEVERE, null, error);
                 }
             });
-        } catch (MALInteractionException e) {
+        } catch (final MALInteractionException e) {
             LOGGER.log(Level.SEVERE, null, e);
-        } catch (MALException e) {
+        } catch (final MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_getPlanButtonActionPerformed
 
-    private void getPlanStatusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getPlanStatusButtonActionPerformed
-        LongList identityIds = new LongList();
+    private void getPlanStatusButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getPlanStatusButtonActionPerformed
+        final LongList identityIds = new LongList();
         identityIds.add(0L);
         try {
             this.planDistributionService.getPlanDistributionStub().asyncGetPlanStatus(identityIds, new PlanDistributionAdapter() {
                 @Override
-                public void getPlanStatusResponseReceived(MALMessageHeader msgHeader, LongList planIdentityId, PlanStatusList planStatus, Map qosProperties) {
+                public void getPlanStatusResponseReceived(final MALMessageHeader msgHeader, final LongList planIdentityId, final PlanStatusList planStatus, final Map qosProperties) {
                     // TODO
                     JOptionPane.showMessageDialog(null, "Operation getPlanStatus is not currently implemented", "Info", JOptionPane.PLAIN_MESSAGE);
                     LOGGER.log(Level.INFO, "getPlanStatus(\"*\") returned {0} object instance identifiers", planIdentityId.size());
                 }
 
                 @Override
-                public void getPlanStatusErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                public void getPlanStatusErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error, final Map qosProperties) {
                     JOptionPane.showMessageDialog(null, "There was an error during the getPlanStatus operation.\n" + error.toString(), "Error", JOptionPane.PLAIN_MESSAGE);
                     LOGGER.log(Level.SEVERE, null, error);
                 }
             });
-        } catch (MALInteractionException e) {
+        } catch (final MALInteractionException e) {
             LOGGER.log(Level.SEVERE, null, e);
-        } catch (MALException e) {
+        } catch (final MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_getPlanStatusButtonActionPerformed
 
-    private void queryPlanButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_queryPlanButtonActionPerformed
-        PlanFilter filter = new PlanFilter();
+    private void queryPlanButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_queryPlanButtonActionPerformed
+        final PlanFilter filter = new PlanFilter();
         filter.setReturnAll(true);
         try {
             this.planDistributionService.getPlanDistributionStub().asyncQueryPlan(filter, new PlanDistributionAdapter() {
                 @Override
-                public void queryPlanResponseReceived(MALMessageHeader msgHeader, LongList planVersionId, PlanVersionDetailsList planVersion, Map qosProperties) {
+                public void queryPlanResponseReceived(final MALMessageHeader msgHeader, final LongList planVersionId, final PlanVersionDetailsList planVersion, final Map qosProperties) {
                     // TODO
                     JOptionPane.showMessageDialog(null, "Operation queryPlan is not currently implemented", "Info", JOptionPane.PLAIN_MESSAGE);
                     LOGGER.log(Level.INFO, "queryPlan returned {0} object instance identifiers", planVersionId.size());
                 }
 
                 @Override
-                public void queryPlanResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                public void queryPlanResponseErrorReceived(final MALMessageHeader msgHeader, final MALStandardError error, final Map qosProperties) {
                     JOptionPane.showMessageDialog(null, "There was an error during the queryPlan operation.\n" + error.toString(), "Error", JOptionPane.PLAIN_MESSAGE);
                     LOGGER.log(Level.SEVERE, null, error);
                 }
             });
-        } catch (MALInteractionException e) {
+        } catch (final MALInteractionException e) {
             LOGGER.log(Level.SEVERE, null, e);
-        } catch (MALException e) {
+        } catch (final MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_queryPlanButtonActionPerformed

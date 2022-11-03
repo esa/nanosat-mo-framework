@@ -48,33 +48,33 @@ public class SimulatorData implements Serializable {
      * @param timeUnit the unit in which you want the diff
      * @return the diff value, in the provided unit
      */
-    public static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
-        long diffInMillies = date2.getTime() - date1.getTime();
+    public static long getDateDiff(final Date date1, final Date date2, final TimeUnit timeUnit) {
+        final long diffInMillies = date2.getTime() - date1.getTime();
         return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
     }
-    public static Map<TimeUnit,Long> computeTimeUnit(long date1)
+    public static Map<TimeUnit,Long> computeTimeUnit(final long date1)
     {
-        List<TimeUnit> units = new ArrayList<>(EnumSet.allOf(TimeUnit.class));
+        final List<TimeUnit> units = new ArrayList<>(EnumSet.allOf(TimeUnit.class));
         Collections.reverse(units);
-        Map<TimeUnit,Long> result = new LinkedHashMap<>();
+        final Map<TimeUnit,Long> result = new LinkedHashMap<>();
         long milliesRest = date1;
-        for ( TimeUnit unit : units ) {
-            long diff = unit.convert(milliesRest,TimeUnit.MILLISECONDS);
-            long diffInMilliesForUnit = unit.toMillis(diff);
+        for ( final TimeUnit unit : units ) {
+            final long diff = unit.convert(milliesRest,TimeUnit.MILLISECONDS);
+            final long diffInMilliesForUnit = unit.toMillis(diff);
             milliesRest = milliesRest - diffInMilliesForUnit;
             result.put(unit,diff);
         }
         return result; 
     }
-    public static Map<TimeUnit,Long> computeDiff(Date date1, Date date2) {
-        long diffInMillies = date2.getTime() - date1.getTime();
-        List<TimeUnit> units = new ArrayList<>(EnumSet.allOf(TimeUnit.class));
+    public static Map<TimeUnit,Long> computeDiff(final Date date1, final Date date2) {
+        final long diffInMillies = date2.getTime() - date1.getTime();
+        final List<TimeUnit> units = new ArrayList<>(EnumSet.allOf(TimeUnit.class));
         Collections.reverse(units);
-        Map<TimeUnit,Long> result = new LinkedHashMap<>();
+        final Map<TimeUnit,Long> result = new LinkedHashMap<>();
         long milliesRest = diffInMillies;
-        for ( TimeUnit unit : units ) {
-            long diff = unit.convert(milliesRest,TimeUnit.MILLISECONDS);
-            long diffInMilliesForUnit = unit.toMillis(diff);
+        for ( final TimeUnit unit : units ) {
+            final long diff = unit.convert(milliesRest,TimeUnit.MILLISECONDS);
+            final long diffInMilliesForUnit = unit.toMillis(diff);
             milliesRest = milliesRest - diffInMilliesForUnit;
             result.put(unit,diff);
         }
@@ -89,7 +89,7 @@ public class SimulatorData implements Serializable {
     private long currentTimeLong;
     private long utcOffsetInMillis = -18000;
 
-    public void setMethodsExecuted(int methodsExecuted) {
+    public void setMethodsExecuted(final int methodsExecuted) {
         this.methodsExecuted = methodsExecuted;
     }
 
@@ -106,22 +106,22 @@ public class SimulatorData implements Serializable {
         return counter;
     }
 
-    public void setCounter(int counter) {
+    public void setCounter(final int counter) {
         this.counter = counter;
     }
 
-    public SimulatorData(int counter) {
+    public SimulatorData(final int counter) {
         this.counter = counter;
         this.currentTime = new Date();
         this.simulatorRunning = true;
     }
 
-    public void feedTimeElapsed(long timeElapsed) {
+    public void feedTimeElapsed(final long timeElapsed) {
         this.currentTime.setTime(this.currentTime.getTime() + timeElapsed * timeFactor);
         this.currentTimeLong=this.currentTimeLong+timeElapsed;
     }
 
-    public SimulatorData(int counter, Date currentTime) {
+    public SimulatorData(final int counter, final Date currentTime) {
         this.counter = counter;
         this.currentTime = currentTime;
     }
@@ -142,7 +142,7 @@ public class SimulatorData implements Serializable {
         this.simulatorRunning = !this.simulatorRunning;
     }
 
-    public void initFromHeader(SimulatorHeader data) {
+    public void initFromHeader(final SimulatorHeader data) {
         this.simulatorRunning = data.isAutoStartSystem();
         this.timeRunning = data.isAutoStartTime();
         this.timeFactor = data.getTimeFactor();
@@ -154,7 +154,7 @@ public class SimulatorData implements Serializable {
         return timeFactor;
     }
 
-    public void setTimeFactor(int timeFactor) {
+    public void setTimeFactor(final int timeFactor) {
         this.timeFactor = timeFactor;
     }
 
@@ -166,39 +166,39 @@ public class SimulatorData implements Serializable {
         return currentTimeLong;
     }
     public String getUTCCurrentTime() {
-        DateFormat df = new SimpleDateFormat("HHmmss.SS");
+        final DateFormat df = new SimpleDateFormat("HHmmss.SS");
         return df.format(currentTime);
     }
     public String getUTCCurrentTime2() {
-        DateFormat df = new SimpleDateFormat("HHmm");
+        final DateFormat df = new SimpleDateFormat("HHmm");
         return df.format(currentTime);
     }
     public String getUTCCurrentHour() {
-        DateFormat df = new SimpleDateFormat("H");
+        final DateFormat df = new SimpleDateFormat("H");
         return df.format(currentTime);
     }
     public String getUTCCurrentMinute() {
-        DateFormat df = new SimpleDateFormat("m");
+        final DateFormat df = new SimpleDateFormat("m");
         return df.format(currentTime);
     }
     public String getUTCCurrentSecond() {
-        DateFormat df = new SimpleDateFormat("s");
+        final DateFormat df = new SimpleDateFormat("s");
         return df.format(currentTime);
     }
     public String getUTCCurrentMillis() {
-        DateFormat df = new SimpleDateFormat("SSS");
+        final DateFormat df = new SimpleDateFormat("SSS");
         return df.format(currentTime);
     }
     public String getCurrentDay() {
-        DateFormat df = new SimpleDateFormat("dd");
+        final DateFormat df = new SimpleDateFormat("dd");
         return df.format(currentTime);
     }
     public String getCurrentMonth() {
-        DateFormat df = new SimpleDateFormat("MM");
+        final DateFormat df = new SimpleDateFormat("MM");
         return df.format(currentTime);
     }
     public String getCurrentYear() {
-        DateFormat df = new SimpleDateFormat("yyyy");
+        final DateFormat df = new SimpleDateFormat("yyyy");
         return df.format(currentTime);
     }
 

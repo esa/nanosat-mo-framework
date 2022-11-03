@@ -59,8 +59,8 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
         }
 
         // To do: Get the ranges from the properties file
-        int apidStart = Integer.parseInt(System.getProperty(PROPERTY_APID_RANGE_START));
-        int apidEnd = Integer.parseInt(System.getProperty(PROPERTY_APID_RANGE_END));
+        final int apidStart = Integer.parseInt(System.getProperty(PROPERTY_APID_RANGE_START));
+        final int apidEnd = Integer.parseInt(System.getProperty(PROPERTY_APID_RANGE_END));
 
         virtualSPPURI = new VirtualSPPURIsManager(apidStart, apidEnd);
 
@@ -82,45 +82,45 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
         private final MALEndpoint epSPP;
         private final MALEndpoint epOther;
 
-        public BridgeMessageHandlerSPP(MALEndpoint epSPP, MALEndpoint epOther) {
+        public BridgeMessageHandlerSPP(final MALEndpoint epSPP, final MALEndpoint epOther) {
             this.epSPP = epSPP;
             this.epOther = epOther;
         }
 
         @Override
-        public void onInternalError(MALEndpoint callingEndpoint, Throwable err) {
+        public void onInternalError(final MALEndpoint callingEndpoint, final Throwable err) {
             throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
-        public void onTransmitError(MALEndpoint callingEndpoint, MALMessageHeader srcMessageHeader, MALStandardError err, Map qosMap) {
+        public void onTransmitError(final MALEndpoint callingEndpoint, final MALMessageHeader srcMessageHeader, final MALStandardError err, final Map qosMap) {
             throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
-        public void onMessage(MALEndpoint callingEndpoint, MALMessage srcMessage) {
+        public void onMessage(final MALEndpoint callingEndpoint, final MALMessage srcMessage) {
             try {
-                String uriFrom = srcMessage.getHeader().getURIFrom().getValue();
+                final String uriFrom = srcMessage.getHeader().getURIFrom().getValue();
                 LOGGER.log(Level.FINER, "Received message from: {0}", uriFrom);
 
-                MALMessage dMsg;
+                final MALMessage dMsg;
 
                 if (this.isSPP(uriFrom)) {
-                    String uriTrans = virtualSPPURI.getURI(srcMessage.getHeader().getURITo().getValue());
+                    final String uriTrans = virtualSPPURI.getURI(srcMessage.getHeader().getURITo().getValue());
 
                     // copy source message into destination message format
                     dMsg = cloneForwardMessageFromSPP(epOther, srcMessage, new URI(uriTrans));
                     LOGGER.log(Level.FINE, "Injecting message... Ground<-Space");
                     epOther.sendMessage(dMsg);
                 } else {
-                    String virtualURIs = virtualSPPURI.getVirtualSPPURI(uriFrom);
+                    final String virtualURIs = virtualSPPURI.getVirtualSPPURI(uriFrom);
 
                     // copy source message into destination message format
                     MALEndpoint ep = transportA.getEndpoint(virtualURIs);
 
                     if (ep == null) {
-                        Properties props = new Properties(System.getProperties());
-                        int apid = VirtualSPPURIsManager.getAPIDFromVirtualSPPURI(virtualURIs);
+                        final Properties props = new Properties(System.getProperties());
+                        final int apid = VirtualSPPURIsManager.getAPIDFromVirtualSPPURI(virtualURIs);
                         props.put("org.ccsds.moims.mo.malspp.apid", apid);
                         ep = transportA.createEndpoint(virtualURIs, props);
                         ep.setMessageListener(new BridgeMessageHandlerSPP(ep, epOther));
@@ -131,11 +131,11 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
                     LOGGER.log(Level.FINE, "Injecting message... Ground->Space");
                     ep.sendMessage(dMsg);
                 }
-            } catch (MALException ex) {
+            } catch (final MALException ex) {
                 LOGGER.log(Level.SEVERE,
                         "MALException", ex);
                 // To do: needs to bounce this back to source?
-            } catch (MALTransmitErrorException ex) {
+            } catch (final MALTransmitErrorException ex) {
                 LOGGER.log(Level.SEVERE,
                         "MALTransmitErrorException: Maybe the consumer was disconnected?", ex);
                 // To do: needs to bounce this back to source?
@@ -143,20 +143,20 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
         }
 
         @Override
-        public void onMessages(MALEndpoint callingEndpoint, MALMessage[] srcMessageList) {
+        public void onMessages(final MALEndpoint callingEndpoint, final MALMessage[] srcMessageList) {
             try {
-                MALMessage[] dMsgList = new MALMessage[srcMessageList.length];
+                final MALMessage[] dMsgList = new MALMessage[srcMessageList.length];
                 for (int i = 0; i < srcMessageList.length; i++) {
                     dMsgList[i] = cloneForwardMessage(epSPP, srcMessageList[i]);
                 }
 
                 epSPP.sendMessages(dMsgList);
-            } catch (MALException ex) {
+            } catch (final MALException ex) {
                 // ToDo need to bounce this back to source
             }
         }
 
-        private boolean isSPP(String value) {
+        private boolean isSPP(final String value) {
             return value.startsWith(PROTOCOL_SPP);
         }
 
@@ -164,13 +164,13 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
 
     protected static MALMessage cloneForwardMessageToSPP(final MALEndpoint destination,
             final MALMessage srcMessage, final String virtualURI) throws MALException {
-        MALMessageHeader sourceHdr = srcMessage.getHeader();
-        MALMessageBody body = srcMessage.getBody();
-        int size = body.getElementCount();
+        final MALMessageHeader sourceHdr = srcMessage.getHeader();
+        final MALMessageBody body = srcMessage.getBody();
+        final int size = body.getElementCount();
         LOGGER.log(Level.FINER, "Body size: {0}", size);
         LOGGER.log(Level.FINER, "Local URI: {0}", destination.getURI());
 
-        Object[] objList = new Object[size];
+        final Object[] objList = new Object[size];
 
         for (int i = 0; i < body.getElementCount(); i++) {
             objList[i] = body.getBodyElement(i, null);
@@ -181,13 +181,13 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
         String endpointUriPart = sourceHdr.getURITo().getValue();
         final int iSecond = endpointUriPart.indexOf("@");
         endpointUriPart = endpointUriPart.substring(iSecond + 1);
-        URI to = new URI(endpointUriPart);
-        URI from = new URI(virtualURI);
+        final URI to = new URI(endpointUriPart);
+        final URI from = new URI(virtualURI);
 
         LOGGER.log(Level.FINER, "cloneForwardMessage from: {0} to: {1}", new Object[]{from,
           to});
 
-        MALMessage destMessage = destination.createMessage(
+        final MALMessage destMessage = destination.createMessage(
                 sourceHdr.getAuthenticationId(),
                 to,
                 sourceHdr.getTimestamp(),
@@ -215,13 +215,13 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
 
     protected static MALMessage cloneForwardMessageFromSPP(final MALEndpoint destination,
             final MALMessage srcMessage, final URI reverse) throws MALException {
-        MALMessageHeader sourceHdr = srcMessage.getHeader();
-        MALMessageBody body = srcMessage.getBody();
-        int size = body.getElementCount();
+        final MALMessageHeader sourceHdr = srcMessage.getHeader();
+        final MALMessageBody body = srcMessage.getBody();
+        final int size = body.getElementCount();
         LOGGER.log(Level.FINER, "Body size: {0}", size);
         LOGGER.log(Level.FINER, "Local URI: {0}", destination.getURI());
 
-        Object[] objList = new Object[size];
+        final Object[] objList = new Object[size];
 
         for (int i = 0; i < body.getElementCount(); i++) {
             objList[i] = body.getBodyElement(i, null);
@@ -229,11 +229,11 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
 
         LOGGER.log(Level.FINER, "cloneForwardMessage from : {0} to: {1}", new Object[]{sourceHdr.getURIFrom(),
           sourceHdr.getURITo()});
-        URI from = new URI(destination.getURI().getValue() + "@" + sourceHdr.getURIFrom().getValue());
+        final URI from = new URI(destination.getURI().getValue() + "@" + sourceHdr.getURIFrom().getValue());
 
         LOGGER.log(Level.FINER, "cloneForwardMessage from: {0} to: {1}", new Object[]{from, reverse});
 
-        MALMessage destMessage = destination.createMessage(
+        final MALMessage destMessage = destination.createMessage(
                 sourceHdr.getAuthenticationId(),
                 reverse,
                 sourceHdr.getTimestamp(),

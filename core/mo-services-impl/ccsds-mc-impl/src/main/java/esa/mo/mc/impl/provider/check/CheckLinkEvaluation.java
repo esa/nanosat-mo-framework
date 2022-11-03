@@ -32,7 +32,7 @@ import org.ccsds.moims.mo.mc.check.structures.CheckResult;
  */
 public class CheckLinkEvaluation {
 
-    public CheckLinkEvaluation(CheckResult lastCheckResult) {
+    public CheckLinkEvaluation(final CheckResult lastCheckResult) {
         this.evaluationResults = new ArrayList<>();
         this.lastCheckResult = lastCheckResult;
         this.lastCheckResultTime = new Time(System.currentTimeMillis());
@@ -49,7 +49,7 @@ public class CheckLinkEvaluation {
         return lastCheckResultTime;
     }
 
-    public void setLastCheckResultTime(Time lastCheckResultTime) {
+    public void setLastCheckResultTime(final Time lastCheckResultTime) {
         this.lastCheckResultTime = lastCheckResultTime;
     }
 
@@ -57,7 +57,7 @@ public class CheckLinkEvaluation {
         return lastCheckResult;
     }
 
-    public void setLastCheckResult(CheckResult lastCheckResult) {
+    public void setLastCheckResult(final CheckResult lastCheckResult) {
         this.lastCheckResult = lastCheckResult;
     }
 
@@ -65,11 +65,11 @@ public class CheckLinkEvaluation {
         return evaluationResults;
     }
 
-    public void setEvaluationResults(List<EvaluationResult> evaluationResults) {
+    public void setEvaluationResults(final List<EvaluationResult> evaluationResults) {
         this.evaluationResults = evaluationResults;
     }
 
-    public void addEvaluationResult(EvaluationResult evaluationResult){
+    public void addEvaluationResult(final EvaluationResult evaluationResult){
         this.evaluationResults.add(evaluationResult);
     }
     
@@ -77,7 +77,7 @@ public class CheckLinkEvaluation {
         return this.evaluationResults.get(evaluationResults.size()-1);
     }
 
-    public void setLastEvaluationResult(EvaluationResult evaluationResult) {
+    public void setLastEvaluationResult(final EvaluationResult evaluationResult) {
         this.evaluationResults.set(evaluationResults.size()-1, evaluationResult);
     }
     public int getRefValueCounter() {
@@ -88,7 +88,7 @@ public class CheckLinkEvaluation {
         this.refValueCounter++;
     }
 
-    public void setRefValueCounter(int refValueCounter) {
+    public void setRefValueCounter(final int refValueCounter) {
         this.refValueCounter = refValueCounter;
     }
 
@@ -96,7 +96,7 @@ public class CheckLinkEvaluation {
         return refParamValue;
     }
 
-    public void setRefParamValue(Attribute refParamValue) {
+    public void setRefParamValue(final Attribute refParamValue) {
         this.refParamValue = refParamValue;
     }
 
@@ -104,7 +104,7 @@ public class CheckLinkEvaluation {
         return sampleTimes;
     }
 
-    public void setSampleTimes(HashMap<Long, Attribute> sampleTimes) {
+    public void setSampleTimes(final HashMap<Long, Attribute> sampleTimes) {
         this.sampleTimes = sampleTimes;
     }
 

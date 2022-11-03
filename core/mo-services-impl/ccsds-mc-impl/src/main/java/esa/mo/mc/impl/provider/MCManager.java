@@ -71,7 +71,7 @@ public abstract class MCManager {
     private final COMServicesProvider comServices;
     private final GroupServiceImpl groupService = new GroupServiceImpl();
 
-    protected MCManager(COMServicesProvider comServices) {
+    protected MCManager(final COMServicesProvider comServices) {
 
         this.identitiesToNamesMap = new HashMap<>();
         this.namesToPairsMap = new HashMap<>();
@@ -91,7 +91,7 @@ public abstract class MCManager {
         }
         try {
             groupService.init(archiveService);
-        } catch (MALException ex) {
+        } catch (final MALException ex) {
             Logger.getLogger(MCManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -120,7 +120,7 @@ public abstract class MCManager {
      * @param identityId The object instance identifier of the identity
      * @return True if exists. False otherwise.
      */
-    protected synchronized boolean existsIdentity(Long identityId) {
+    protected synchronized boolean existsIdentity(final Long identityId) {
         return this.identitiesToNamesMap.containsKey(identityId);
     }
 
@@ -141,7 +141,7 @@ public abstract class MCManager {
      * @return The object instance identifier of the identity. Null if not
      * found.
      */
-    public synchronized Long getIdentity(Identifier name) {
+    public synchronized Long getIdentity(final Identifier name) {
         // Todo: This one can go slow... BUT, the publishing of Alerts has to change 
         // to use the getIdentityDefinition() and check for null, like it is done for parameters
         final ObjectInstancePair pair = this.namesToPairsMap.get(name);
@@ -156,7 +156,7 @@ public abstract class MCManager {
      * @return The object instance identifier of the identity. Null if not
      * found.
      */
-    public synchronized ObjectInstancePair getIdentityDefinition(Identifier name) {
+    public synchronized ObjectInstancePair getIdentityDefinition(final Identifier name) {
         return this.namesToPairsMap.get(name);
     }
 
@@ -166,7 +166,7 @@ public abstract class MCManager {
      * @param identityId the id of the identity you want the details from
      * @return the definition-details. Or Null if not found.
      */
-    public synchronized Element getDefinition(Long identityId) {
+    public synchronized Element getDefinition(final Long identityId) {
         // This must be fast!
 
         // Needs further optimization...
@@ -185,7 +185,7 @@ public abstract class MCManager {
      * @param objId the id of the identity you want the details from
      * @return the definition-details. Or Null if not found.
      */
-    public synchronized Element getDefinitionFromObjId(Long objId) {
+    public synchronized Element getDefinitionFromObjId(final Long objId) {
         return this.objIdToDefMap.get(objId);
     }
 
@@ -196,7 +196,7 @@ public abstract class MCManager {
      * @param identityId the id of the identity you want the details from
      * @return the definition-details. Or Null if not found.
      */
-    public synchronized Long getDefinitionId(Long identityId) {
+    public synchronized Long getDefinitionId(final Long identityId) {
         final Identifier name = this.identitiesToNamesMap.get(identityId);
 
         if (name == null) {
@@ -212,7 +212,7 @@ public abstract class MCManager {
      * @param identityId the id of the definitions identity
      * @return the name-field of the definitions identity
      */
-    public synchronized Identifier getName(Long identityId) {
+    public synchronized Identifier getName(final Long identityId) {
         // Todo: Make it fast!
 
         return this.identitiesToNamesMap.get(identityId);
@@ -224,7 +224,7 @@ public abstract class MCManager {
      * @return The object instance identifiers of the identities.
      */
     public synchronized ObjectInstancePairList listAllIdentityDefinitions() {
-        ObjectInstancePairList list = new ObjectInstancePairList();
+        final ObjectInstancePairList list = new ObjectInstancePairList();
         list.addAll(this.namesToPairsMap.values());
         return list;
     }
@@ -235,7 +235,7 @@ public abstract class MCManager {
      * @return The object instance identifiers of the identities.
      */
     public synchronized LongList listAllIdentities() {
-        LongList list = new LongList();
+        final LongList list = new LongList();
         list.addAll(this.identitiesToNamesMap.keySet());
         return list;
     }
@@ -246,7 +246,7 @@ public abstract class MCManager {
      * @return The object instance identifiers of the identities.
      */
     public synchronized LongList listAllDefinitions() {
-        LongList list = new LongList();
+        final LongList list = new LongList();
         list.addAll(this.objIdToDefMap.keySet());
         return list;
     }
@@ -277,7 +277,7 @@ public abstract class MCManager {
      * @return True if successful. False if the object instance identifier does
      * not exist in the manager, in this case, the definition is not added.
      */
-    protected synchronized boolean updateDef(Long identityId, Long newDefId, Element newDefDetails) {
+    protected synchronized boolean updateDef(final Long identityId, final Long newDefId, final Element newDefDetails) {
         final Identifier name = this.identitiesToNamesMap.get(identityId);
 
         if (name == null) {
@@ -335,25 +335,25 @@ public abstract class MCManager {
      * identifiers.
      */
     public synchronized ConfigurationObjectSetList getCurrentConfiguration() {
-        LongList idObjIds = new LongList();
-        LongList defObjIds = new LongList();
+        final LongList idObjIds = new LongList();
+        final LongList defObjIds = new LongList();
 
-        for (ObjectInstancePair pair : this.namesToPairsMap.values()) {
+        for (final ObjectInstancePair pair : this.namesToPairsMap.values()) {
             idObjIds.add(pair.getObjIdentityInstanceId());
             defObjIds.add(pair.getObjDefInstanceId());
         }
 
-        ConfigurationObjectSet idents = new ConfigurationObjectSet();
+        final ConfigurationObjectSet idents = new ConfigurationObjectSet();
         idents.setDomain(ConfigurationProviderSingleton.getDomain());
         idents.setObjInstIds(idObjIds);
 
-        LongList currentObjIds1 = new LongList();
+        final LongList currentObjIds1 = new LongList();
         currentObjIds1.addAll(defObjIds);
-        ConfigurationObjectSet defis = new ConfigurationObjectSet();
+        final ConfigurationObjectSet defis = new ConfigurationObjectSet();
         defis.setDomain(ConfigurationProviderSingleton.getDomain());
         defis.setObjInstIds(currentObjIds1);
 
-        ConfigurationObjectSetList list = new ConfigurationObjectSetList();
+        final ConfigurationObjectSetList list = new ConfigurationObjectSetList();
         list.add(idents);
         list.add(defis);
 
@@ -422,8 +422,8 @@ public abstract class MCManager {
      * @return The id of the Identity-Object with the given name if it exists in
      * the archive. NULL otherwise.
      */
-    protected synchronized Long retrieveIdentityIdByNameFromArchive(IdentifierList domain,
-            Identifier name, ObjectType identitysObjectType) {
+    protected synchronized Long retrieveIdentityIdByNameFromArchive(final IdentifierList domain,
+                                                                    final Identifier name, final ObjectType identitysObjectType) {
         // We never queried the archive -> do it once
         if(storedNamesToIdMap == null)
         {
@@ -432,7 +432,7 @@ public abstract class MCManager {
                 return null;
             }
             // Get all identity-objects with the given objectType
-            LongList identityIds = new LongList();
+            final LongList identityIds = new LongList();
             identityIds.add(0L);
             final List<ArchivePersistenceObject> identityArchiveObjs
                     = HelperArchive.getArchiveCOMObjectList(archive, identitysObjectType, domain, identityIds);
@@ -441,7 +441,7 @@ public abstract class MCManager {
             storedNamesToIdMap = new HashMap<>();
 
             if (identityArchiveObjs != null) {
-                for (ArchivePersistenceObject identityArchiveObj : identityArchiveObjs) {
+                for (final ArchivePersistenceObject identityArchiveObj : identityArchiveObjs) {
                     storedNamesToIdMap.put((Identifier) identityArchiveObj.getObject(), identityArchiveObj.getObjectId());
                 }
             }
@@ -473,28 +473,28 @@ public abstract class MCManager {
      * contains all available ParameterIdentities.
      * @return
      */
-    public GroupRetrieval getGroupInstancesForServiceOperation(InstanceBooleanPairList enableInstances,
-            GroupRetrieval groupRetrievalInformation, ObjectType identyObjectType, IdentifierList domain, LongList allIdentities) {
+    public GroupRetrieval getGroupInstancesForServiceOperation(final InstanceBooleanPairList enableInstances,
+                                                               final GroupRetrieval groupRetrievalInformation, final ObjectType identyObjectType, final IdentifierList domain, final LongList allIdentities) {
         //in the next for loop, ignore the other group identities, those will be checked in other iterations.
-        LongList ignoreList = new LongList();
-        for (InstanceBooleanPair instance : enableInstances) {
+        final LongList ignoreList = new LongList();
+        for (final InstanceBooleanPair instance : enableInstances) {
             ignoreList.add(instance.getId());
         }
         for (int index = 0; index < enableInstances.size(); index++) {
             //these are Group-Identity-ids req: 3.9.4.g,h
-            InstanceBooleanPair enableInstance = enableInstances.get(index);
+            final InstanceBooleanPair enableInstance = enableInstances.get(index);
             final Long groupIdentityId = enableInstance.getId();
-            GroupDetails group = groupService.retrieveGroupDetailsFromArchive(domain, groupIdentityId);
+            final GroupDetails group = groupService.retrieveGroupDetailsFromArchive(domain, groupIdentityId);
             if (group == null) { //group wasnt found
                 groupRetrievalInformation.addUnkIndex(new UInteger(index)); // requirement: 3.3.10.2.g
             } else { //if group was found, then get the instances of it and its groups
                 ignoreList.remove(groupIdentityId);
-                GroupServiceImpl.IdObjectTypeList idObjectTypes
+                final GroupServiceImpl.IdObjectTypeList idObjectTypes
                         = groupService.getGroupObjectIdsFromGroup(groupIdentityId, group, ignoreList);
                 ignoreList.add(groupIdentityId);
                 //checks if the given identityId is found in the internal Identity-list of the specific 
                 //service, if not then the object doesnt belong to the service and is invalid
-                for (GroupServiceImpl.IdObjectType idObjectType : idObjectTypes) {
+                for (final GroupServiceImpl.IdObjectType idObjectType : idObjectTypes) {
                     if (idObjectType.getObjectType().equals(identyObjectType)) {
                         final Long identityId = idObjectType.getId();
                         //checks if the identityId referenced in the group is known
@@ -532,12 +532,12 @@ public abstract class MCManager {
      * @param allIdentities
      * @return
      */
-    public GroupRetrieval getGroupInstancesForServiceOperation(LongList groupIds,
-            GroupRetrieval groupRetrievalInformation, ObjectType identyObjectType,
-            IdentifierList domain, LongList allIdentities) {
+    public GroupRetrieval getGroupInstancesForServiceOperation(final LongList groupIds,
+                                                               final GroupRetrieval groupRetrievalInformation, final ObjectType identyObjectType,
+                                                               final IdentifierList domain, final LongList allIdentities) {
         //if you cont care about the values and just want to get the identities referenced by the groups:
-        InstanceBooleanPairList instBoolPairList = new InstanceBooleanPairList(groupIds.size());
-        for (Long enableInstance : groupIds) {
+        final InstanceBooleanPairList instBoolPairList = new InstanceBooleanPairList(groupIds.size());
+        for (final Long enableInstance : groupIds) {
             instBoolPairList.add(new InstanceBooleanPair(enableInstance, Boolean.TRUE));
         }
 

@@ -72,15 +72,15 @@ public class EchoSpace {
      * @throws java.lang.Exception If there is an error
      */
     public static void main(final String[] args) throws Exception {
-        EchoSpace demo = new EchoSpace();
+        final EchoSpace demo = new EchoSpace();
     }
 
     public class MCAdapter extends MonitorAndControlNMFAdapter {
 
         @Override
-        public void initialRegistrations(MCRegistration registrationObject) {
-            ParameterDefinitionDetailsList pddl = new ParameterDefinitionDetailsList();
-            IdentifierList names = new IdentifierList();
+        public void initialRegistrations(final MCRegistration registrationObject) {
+            final ParameterDefinitionDetailsList pddl = new ParameterDefinitionDetailsList();
+            final IdentifierList names = new IdentifierList();
 
             pddl.add(new ParameterDefinitionDetails(
                 "The sent data", (byte)1, null, true, new Duration(), null, null
@@ -90,23 +90,23 @@ public class EchoSpace {
         }
 
         @Override
-        public UInteger actionArrived(Identifier idntfr, AttributeValueList avl,
-                Long l, boolean bln, MALInteraction mali) {
+        public UInteger actionArrived(final Identifier idntfr, final AttributeValueList avl,
+                                      final Long l, final boolean bln, final MALInteraction mali) {
             throw new UnsupportedOperationException("Not supported.");
         }
 
         @Override
-        public Attribute onGetValue(Identifier idntfr, Byte b) {
+        public Attribute onGetValue(final Identifier idntfr, final Byte b) {
             throw new UnsupportedOperationException("Not supported.");
         }
 
         @Override
-        public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
+        public Boolean onSetValue(final IdentifierList identifiers, final ParameterRawValueList values) {
             if(identifiers.get(0).getValue().equals("Data")){
               data = (Blob)values.get(0).getRawValue();
               try {
                 pushBlob();
-              } catch (NMFException ex) {
+              } catch (final NMFException ex) {
                 Logger.getLogger(EchoSpace.class.getName()).log(Level.SEVERE, "NMF Exception", ex);
                 return false;
               }

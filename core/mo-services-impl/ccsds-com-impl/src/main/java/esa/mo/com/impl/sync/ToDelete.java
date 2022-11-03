@@ -20,7 +20,7 @@ public enum ToDelete
   STDERR_VALUE(new UShort(7), new UShort(3), new UOctet((short)1), new UShort(3));
   private ObjectType type;
 
-  ToDelete(UShort area, UShort service, UOctet version, UShort number){
+  ToDelete(final UShort area, final UShort service, final UOctet version, final UShort number){
     this.type = new ObjectType(area, service, version, number);
   }
 

@@ -48,7 +48,7 @@ public class NMFPackagePMBackend implements PMBackend {
      *
      * @param folder The folder to look for packages
      */
-    public NMFPackagePMBackend(String folder) {
+    public NMFPackagePMBackend(final String folder) {
         folderWithPackages = new File(folder);
     }
 
@@ -81,13 +81,13 @@ public class NMFPackagePMBackend implements PMBackend {
             folderWithPackages.mkdir();
         }
 
-        File[] files = folderWithPackages.listFiles();
+        final File[] files = folderWithPackages.listFiles();
 
-        StringList packageNames = new StringList(files.length);
+        final StringList packageNames = new StringList(files.length);
 
         // Cycle them and find the ones with the .nmfpack extension
-        for (File file : files) {
-            String name = file.getName();
+        for (final File file : files) {
+            final String name = file.getName();
 
             // Check if the package ends with the expected suffix
             if (name.endsWith(Const.NMF_PACKAGE_SUFFIX)) {
@@ -101,8 +101,8 @@ public class NMFPackagePMBackend implements PMBackend {
 
     @Override
     public void install(final String packageName) {
-        String packageLocation = this.getFolderLocation(packageName);
-        File destination = getNMFDir();
+        final String packageLocation = this.getFolderLocation(packageName);
+        final File destination = getNMFDir();
 
         Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.INFO,
                 "Installing the package...\nPackage name: " + packageName
@@ -111,7 +111,7 @@ public class NMFPackagePMBackend implements PMBackend {
 
         try {
             NMFPackageManager.install(packageLocation, destination);
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.SEVERE, 
                     "The package '" + packageName + "' could not be installed!", ex);
         }
@@ -119,13 +119,13 @@ public class NMFPackagePMBackend implements PMBackend {
 
     @Override
     public void uninstall(final String packageName, final boolean keepUserData) {
-        String folderLocation = this.getFolderLocation(packageName);
+        final String folderLocation = this.getFolderLocation(packageName);
         Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.INFO,
                 "Uninstalling the package from: {0}", folderLocation);
 
         try {
             NMFPackageManager.uninstall(folderLocation, keepUserData);
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.SEVERE, 
                     "The package '" + packageName + "' could not be uninstalled!", ex);
         }
@@ -133,29 +133,29 @@ public class NMFPackagePMBackend implements PMBackend {
 
     @Override
     public void upgrade(final String packageName) {
-        String folderLocation = this.getFolderLocation(packageName);
+        final String folderLocation = this.getFolderLocation(packageName);
         Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.INFO,
                 "Upgrading the package from: {0}", folderLocation);
 
         // Define the location to be installed!
-        File destination = getNMFDir();
+        final File destination = getNMFDir();
 
         try {
             NMFPackageManager.upgrade(folderLocation, destination);
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     @Override
     public String getPublicKey(final String packageName) {
-        String folderLocation = this.getFolderLocation(packageName);
+        final String folderLocation = this.getFolderLocation(packageName);
         return NMFPackageManager.getPublicKey(folderLocation);
     }
 
     @Override
     public boolean isPackageInstalled(final String packageName) {
-        String folderLocation = this.getFolderLocation(packageName);
+        final String folderLocation = this.getFolderLocation(packageName);
         return NMFPackageManager.isPackageInstalled(folderLocation);
     }
 

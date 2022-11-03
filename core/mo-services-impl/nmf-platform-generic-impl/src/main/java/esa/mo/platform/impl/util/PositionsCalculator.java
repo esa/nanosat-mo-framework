@@ -38,7 +38,7 @@ public class PositionsCalculator {
         public final double y;
         public final double z;
 
-        public ECEFVector(double x, double y, double z) {
+        public ECEFVector(final double x, final double y, final double z) {
             this.x = x;
             this.y = y;
             this.z = z;
@@ -55,16 +55,16 @@ public class PositionsCalculator {
      * @return
      * @throws IOException
      */
-    public static double deltaDistanceFrom2Points(Position p1, Position p2) throws IOException {
+    public static double deltaDistanceFrom2Points(final Position p1, final Position p2) throws IOException {
         if (p1 == null || p2 == null) {
             throw new IOException("Not a valid position. Neither p1 nor p2 can be null");
         }
 
-        ECEFVector p1ECEF = PositionsCalculator.LLA2ECEF(p1);
-        ECEFVector p2ECEF = PositionsCalculator.LLA2ECEF(p2);
+        final ECEFVector p1ECEF = PositionsCalculator.LLA2ECEF(p1);
+        final ECEFVector p2ECEF = PositionsCalculator.LLA2ECEF(p2);
 
-        double dx = Math.abs(p1ECEF.x - p2ECEF.x);
-        double dy = Math.abs(p1ECEF.y - p2ECEF.y);
+        final double dx = Math.abs(p1ECEF.x - p2ECEF.x);
+        final double dy = Math.abs(p1ECEF.y - p2ECEF.y);
         double dz = Math.abs(p1ECEF.z - p2ECEF.z);
 
         if (p1.getAltitude() == 0 || p2.getAltitude() == 0) {
@@ -74,16 +74,16 @@ public class PositionsCalculator {
         return Math.sqrt(dx * dx + dy * dy + dz * dz);
     }
 
-    public static ECEFVector LLA2ECEF(Position p) {
+    public static ECEFVector LLA2ECEF(final Position p) {
         // Information taken from the website:
         // http://nl.mathworks.com/help/aeroblks/llatoecefposition.html?requestedDomain=nl.mathworks.com
 
-        double lat = p.getLatitude();
-        double lon = p.getLongitude();
-        double alt = p.getAltitude();
+        final double lat = p.getLatitude();
+        final double lon = p.getLongitude();
+        final double alt = p.getAltitude();
 
-        double meanSeaLevel = Math.atan((1 - f) * (1 - f) * Math.tan(lat));
-        double rs = Math.sqrt(R * R / ((1 + (1 / ((1 - f) * (1 - f)) - 1) * Math.sin(meanSeaLevel) * Math.sin(meanSeaLevel))));
+        final double meanSeaLevel = Math.atan((1 - f) * (1 - f) * Math.tan(lat));
+        final double rs = Math.sqrt(R * R / ((1 + (1 / ((1 - f) * (1 - f)) - 1) * Math.sin(meanSeaLevel) * Math.sin(meanSeaLevel))));
 
         return new ECEFVector(
                 rs * Math.cos(meanSeaLevel) * Math.cos(lon) + alt * Math.cos(lat) * Math.cos(lon),

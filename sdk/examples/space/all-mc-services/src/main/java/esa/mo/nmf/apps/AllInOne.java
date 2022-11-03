@@ -35,7 +35,7 @@ public class AllInOne {
      */
     public static void main(final String[] args) throws Exception {
         final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
-        MCAllInOneAdapter adapter = new MCAllInOneAdapter(connector);
+        final MCAllInOneAdapter adapter = new MCAllInOneAdapter(connector);
         connector.init(adapter);
         adapter.startAdcsAttitudeMonitoring();
         adapter.startPeriodicAlertsPublishing();

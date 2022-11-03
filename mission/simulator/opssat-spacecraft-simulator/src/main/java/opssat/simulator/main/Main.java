@@ -29,7 +29,7 @@ public class Main {
 
     private static ESASimulator esaSimulator;
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         esaSimulator = new ESASimulator();
     }
 }

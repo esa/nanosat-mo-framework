@@ -56,14 +56,14 @@ public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface
     String nmeaLog = "";
     try {
       lastPosition = null;
-      String fullNmeaResponse = this.getNMEASentence("LOG GPGGALONG\r\n");
+      final String fullNmeaResponse = this.getNMEASentence("LOG GPGGALONG\r\n");
       nmeaLog = HelperGPS.sanitizeNMEALog(fullNmeaResponse.trim());
       if (!nmeaLog.startsWith("$GPGGA")) {
         LOGGER.log(Level.SEVERE, "Unexpected response format: {0}", nmeaLog);
       } else {
         lastPosition = HelperGPS.gpggalong2Position(nmeaLog);
       }
-    } catch (IOException ex) {
+    } catch (final IOException ex) {
       LOGGER.log(Level.FINE,
           "The current position could not be retrieved! The receiver is likely offline or not returning proper position.", ex);
     }
@@ -78,13 +78,13 @@ public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface
       return lastSatInfo;
     try {
       lastSatInfo = null;
-      String nmeaLog = HelperGPS.sanitizeNMEALog(this.getNMEASentence("LOG GPGSV\r\n").trim());
+      final String nmeaLog = HelperGPS.sanitizeNMEALog(this.getNMEASentence("LOG GPGSV\r\n").trim());
       if (!nmeaLog.startsWith("$GPGSV")) {
         LOGGER.log(Level.SEVERE, "Unexpected response format: {0}", nmeaLog);
       } else {
         return HelperGPS.gpgsv2SatelliteInfoList(nmeaLog);
       }
-    } catch (IOException ex) {
+    } catch (final IOException ex) {
       LOGGER.log(Level.SEVERE, null, ex);
     }
     lastSatInfoTime = System.currentTimeMillis();
