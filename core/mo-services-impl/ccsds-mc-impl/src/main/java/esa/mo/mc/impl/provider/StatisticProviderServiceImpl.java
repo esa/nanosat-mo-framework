@@ -793,8 +793,8 @@ public class StatisticProviderServiceImpl extends StatisticInheritanceSkeleton {
         }
 
         if (objInstIds.size() != newDetails.size()) { // requirement: 3.6.1.5.2.g
-            int min = (objInstIds.size() < newDetails.size()) ? objInstIds.size() : newDetails.size();
-            int max = (objInstIds.size() > newDetails.size()) ? objInstIds.size() : newDetails.size();
+            int min = Math.min(objInstIds.size(), newDetails.size());
+            int max = Math.max(objInstIds.size(), newDetails.size());
 
             for (int i = min; i < max; i++) {
                 invIndexList.add(new UInteger(i));

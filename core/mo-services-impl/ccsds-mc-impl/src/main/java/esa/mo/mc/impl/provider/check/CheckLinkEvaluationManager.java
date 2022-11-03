@@ -282,10 +282,10 @@ public class CheckLinkEvaluationManager {
                 //count successive passed sample
                 expired = false;
                 if (evaluationResults.get(i).getEvaluationResult() == null) {
-                    maxViolationCount = maxViolationCount < violationCounter ? violationCounter : maxViolationCount;
+                    maxViolationCount = Math.max(maxViolationCount, violationCounter);
                     violationCounter = 0;
                     nominalCounter++;
-                    maxNominalCount = maxNominalCount < nominalCounter ? nominalCounter : maxNominalCount;
+                    maxNominalCount = Math.max(maxNominalCount, nominalCounter);
                 }
             }
             //requirement: 3.5.3.v,w
@@ -293,10 +293,10 @@ public class CheckLinkEvaluationManager {
                 //count successive failed samples
                 expired = false;
                 if (evaluationResults.get(i).getEvaluationResult() != null) {
-                    maxNominalCount = maxNominalCount < nominalCounter ? nominalCounter : maxNominalCount;
+                    maxNominalCount = Math.max(maxNominalCount, nominalCounter);
                     nominalCounter = 0;
                     violationCounter++;
-                    maxViolationCount = maxViolationCount < violationCounter ? violationCounter : maxViolationCount;
+                    maxViolationCount = Math.max(maxViolationCount, violationCounter);
                 }
             }
             if (expired) {

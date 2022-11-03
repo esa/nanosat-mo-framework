@@ -113,11 +113,9 @@ public class GPS {
             return low_limit;
         }
 
-        if (input > top_limit) {
-            return top_limit;
-        }
+        return Math.min(input, top_limit);
 
-        return input;  // nothing to be fixed
+        // nothing to be fixed
     }
 
     // k is the constant and it's the error in meters
