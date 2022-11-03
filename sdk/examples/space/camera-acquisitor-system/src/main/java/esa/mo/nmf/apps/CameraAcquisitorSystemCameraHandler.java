@@ -184,8 +184,7 @@ public class CameraAcquisitorSystemCameraHandler
       try {
         GeodeticPoint position = this.casMCAdapter.getGpsHandler().getCurrentPosition();
 
-        posString = String.valueOf(FastMath.toDegrees(position.getLatitude())) + "_" + String.valueOf(
-          FastMath.toDegrees(position.getLongitude()));
+        posString = FastMath.toDegrees(position.getLatitude()) + "_" + FastMath.toDegrees(position.getLongitude());
       } catch (Exception ex) {
         LOGGER.log(Level.SEVERE, "getCurrentPosition Failed!/n {0}", ex);
       }

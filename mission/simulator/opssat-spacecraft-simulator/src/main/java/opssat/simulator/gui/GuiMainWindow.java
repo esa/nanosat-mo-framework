@@ -385,7 +385,7 @@ public class GuiMainWindow implements Runnable {
       if (newTimeFactor > 1000) {
         newTimeFactor = 1000;
       }
-      parent.addGUIInteraction("TimeFactor:" + String.valueOf(newTimeFactor));
+      parent.addGUIInteraction("TimeFactor:" + newTimeFactor);
     });
     chkBoxShowAll.addItemListener(e -> putManualCommandsInCombo(e.getStateChange() == ItemEvent.SELECTED));
     chkBoxPeriodicSending.addItemListener(e -> isEnduranceTest = (e.getStateChange() == ItemEvent.SELECTED));
@@ -1055,11 +1055,11 @@ public class GuiMainWindow implements Runnable {
         Object result = this.parent.getFromServerQueue().poll();
         if (result instanceof CommandResult) {
           CommandResult convertedResult = (CommandResult) result;
-          showMessageConsole(preamble + ";Result;" + convertedResult.toString());
+          showMessageConsole(preamble + ";Result;" + convertedResult);
           showCommandResult(convertedResult);
         } else if (result instanceof SimulatorHeader) {
           SimulatorHeader convertedResult = (SimulatorHeader) result;
-          showMessageConsole(preamble + ";Result;" + convertedResult.toString());
+          showMessageConsole(preamble + ";Result;" + convertedResult);
           simulatorHeader = ((SimulatorHeader) result);
           if (editForm != null) {
             editForm.makeFormColor(Color.green);

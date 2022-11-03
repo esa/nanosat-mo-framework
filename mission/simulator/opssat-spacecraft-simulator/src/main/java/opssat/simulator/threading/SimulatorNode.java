@@ -820,7 +820,7 @@ public class SimulatorNode extends TaskNode
 
           CommandDescriptor commandDescriptor = new CommandDescriptor(name, body,
               internalData.description(), internalData.internalID(), super.getLogObject());
-          this.logger.log(Level.FINE, "Added method [" + commandDescriptor.toString() + "]");
+          this.logger.log(Level.FINE, "Added method [" + commandDescriptor + "]");
           // System.out.println(commandDescriptor.toCustomFormat1());
 
           commandsList.add(commandDescriptor);
@@ -879,7 +879,7 @@ public class SimulatorNode extends TaskNode
   {
     File filterFile = getCommandsFilterFile();
     if (filterFile.exists()) {
-      this.logger.log(Level.FINE, "Filter [" + filterFile.toString() + "] found!");
+      this.logger.log(Level.FINE, "Filter [" + filterFile + "] found!");
       boolean dataOk = true;
 
       try {
@@ -935,7 +935,7 @@ public class SimulatorNode extends TaskNode
     // found or reading from it
     File headerFile = getHeaderFile();
     if (headerFile.exists()) {
-      this.logger.log(Level.FINE, "Header [" + headerFile.toString() + "] found!");
+      this.logger.log(Level.FINE, "Header [" + headerFile + "] found!");
       boolean dataOk = true;
       simulatorHeader = new SimulatorHeader();
       try {
@@ -1168,7 +1168,7 @@ public class SimulatorNode extends TaskNode
       if (c.getInternalID() == internalID) {
         found = true;
         this.logger.finer(
-            "Adding template [" + template.toString() + "] to command [" + c.toString() + "]");
+            "Adding template [" + template.toString() + "] to command [" + c + "]");
         c.addNewTemplate(template);
       }
     }
@@ -1434,7 +1434,7 @@ public class SimulatorNode extends TaskNode
       for (CommandDescriptor c : castedObj) {
         for (ArgumentTemplate t : c.getTemplateList()) {
           if (!t.getDescription().equals(CommandDescriptor.KEYWORD_DEFAULT)) {
-            writeTemplate(c.getInternalID() + CommandDescriptor.SEPARATOR_DATAFILES + t.toString(),
+            writeTemplate(c.getInternalID() + CommandDescriptor.SEPARATOR_DATAFILES + t,
                 outTemplates);
           }
         }
@@ -1496,7 +1496,7 @@ public class SimulatorNode extends TaskNode
       makeSimulatorDeviceBindings();
       sendList = true;
     } else if (obj instanceof SimulatorHeader) {
-      this.logger.log(Level.FINE, "SimulatorNode Received " + obj.toString());
+      this.logger.log(Level.FINE, "SimulatorNode Received " + obj);
       simulatorHeader = (SimulatorHeader) obj;
       simulatorData.initFromHeader(simulatorHeader);
       sendHeader = true;
@@ -1517,7 +1517,7 @@ public class SimulatorNode extends TaskNode
     Class oClass = o.getClass();
     if (oClass.isArray()) {
       buffer.append("\n");
-      buffer.append(tabs.toString());
+      buffer.append(tabs);
       buffer.append("[");
       for (int i = 0; i < Array.getLength(o); i++) {
         if (i < 0) {
@@ -1533,16 +1533,16 @@ public class SimulatorNode extends TaskNode
           buffer.append(dump(value, callCount));
         }
       }
-      buffer.append(tabs.toString());
+      buffer.append(tabs);
       buffer.append("]\n");
     } else {
       buffer.append("\n");
-      buffer.append(tabs.toString());
+      buffer.append(tabs);
       buffer.append("{\n");
       while (oClass != null) {
         Field[] fields = oClass.getDeclaredFields();
         for (int i = 0; i < fields.length; i++) {
-          buffer.append(tabs.toString());
+          buffer.append(tabs);
           fields[i].setAccessible(true);
           buffer.append(fields[i].getName());
           buffer.append("=");
@@ -1565,7 +1565,7 @@ public class SimulatorNode extends TaskNode
         }
         oClass = oClass.getSuperclass();
       }
-      buffer.append(tabs.toString());
+      buffer.append(tabs);
       buffer.append("}\n");
     }
     return buffer.toString();

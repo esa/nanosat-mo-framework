@@ -17,13 +17,13 @@ import esa.mo.com.impl.provider.ArchivePersistenceObject;
  */
 public interface HelperArchiveRetrieveAdapterInterface {
     
-    public ObjectType getObjType();
-    public IdentifierList getDomain();
-    public ElementList getObjectBodyList();
-    public ArchiveDetailsList getArchiveDetailsList();
-    public void waitUntilReady();
+    ObjectType getObjType();
+    IdentifierList getDomain();
+    ElementList getObjectBodyList();
+    ArchiveDetailsList getArchiveDetailsList();
+    void waitUntilReady();
     
-    public default List<ArchivePersistenceObject> getPersistenceObjectList() {
+    default List<ArchivePersistenceObject> getPersistenceObjectList() {
         ElementList obj = getObjectBodyList();
         ArchiveDetailsList objDetails = getArchiveDetailsList();
         if (objDetails == null || obj == null) {

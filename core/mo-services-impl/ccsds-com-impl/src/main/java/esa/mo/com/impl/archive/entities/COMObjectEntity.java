@@ -184,15 +184,15 @@ public class COMObjectEntity implements Serializable {
             } catch (MALException ex) {
                 Logger.getLogger(COMObjectEntity.class.getName()).log(Level.SEVERE,
                         "The object body could not be decoded! Usually happens when there's "
-                        + "an update in the APIs. (1) " + this.toString(), ex);
+                        + "an update in the APIs. (1) " + this, ex);
             } catch (IllegalArgumentException ex) {
                 Logger.getLogger(COMObjectEntity.class.getName()).log(Level.SEVERE,
                         "The object body could not be decoded! Usually happens when there's "
-                        + "an update in the APIs. (2) " + this.toString(), ex);
+                        + "an update in the APIs. (2) " + this, ex);
             } catch (Exception ex) {
                 Logger.getLogger(COMObjectEntity.class.getName()).log(Level.SEVERE,
                         "The object body could not be decoded! Usually happens when there's "
-                        + "an update in the APIs. (3) " + this.toString(), ex);
+                        + "an update in the APIs. (3) " + this, ex);
             }
         }
 

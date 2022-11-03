@@ -255,9 +255,9 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel
       if (objType.equals(CommandExecutorHelper.EXECUTIONFINISHED_OBJECT_TYPE)) {
         recentCommandsTable.updateExitCode(sourceObjId, ((Union) object).getIntegerValue());
       } else if (objType.equals(CommandExecutorHelper.STANDARDOUTPUT_OBJECT_TYPE)) {
-        addCommandOutput(sourceObjId, time + " stdout:\n" + object.toString());
+        addCommandOutput(sourceObjId, time + " stdout:\n" + object);
       } else if (objType.equals(CommandExecutorHelper.STANDARDERROR_OBJECT_TYPE)) {
-        addCommandOutput(sourceObjId, time + " stderr:\n" + object.toString());
+        addCommandOutput(sourceObjId, time + " stderr:\n" + object);
       } else {
         LOGGER.log(Level.SEVERE, "Received an unsupported object type. {0}", objType.toString());
       }

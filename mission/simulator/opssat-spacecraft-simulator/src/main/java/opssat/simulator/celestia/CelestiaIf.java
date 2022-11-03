@@ -136,7 +136,7 @@ public class CelestiaIf implements Runnable {
 
                 } while (!inMsg.equals(this.STOP_MESSAGE)); // keep connection until STOP_MESSAGE received from Celestia
             } catch (Exception e) {
-                System.err.println(e.toString());
+                System.err.println(e);
                 outMsg = this.STOP_MESSAGE;
             } finally {
 
@@ -147,7 +147,7 @@ public class CelestiaIf implements Runnable {
                     this.socket.close();
                     logger.log(Level.FINE, "All connections closed.");
                 } catch (IOException ioException) {
-                    System.err.println(ioException.toString());
+                    System.err.println(ioException);
                 }
             }
         }
@@ -224,7 +224,7 @@ public class CelestiaIf implements Runnable {
             retries = 0;
 
         } catch (IOException e) {
-            logger.log(Level.SEVERE, "Error establishing connection1" + e.toString());
+            logger.log(Level.SEVERE, "Error establishing connection1" + e);
             return false;
         }
         return true;
