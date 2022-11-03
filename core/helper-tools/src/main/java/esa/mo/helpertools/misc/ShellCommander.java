@@ -117,19 +117,18 @@ public class ShellCommander {
      */
     public Process runCommand(String cmd, File dirPath) {
         try {
-            Process proc;
-
             if (osValidator.isUnix()) {
-                proc = Runtime.getRuntime().exec(new String[]{"sh", "-c", cmd}, null, dirPath);
+                return Runtime.getRuntime().exec(new String[]{"sh", "-c", cmd}, null, dirPath);
+            } else if (osValidator.isMac()) {
+                return Runtime.getRuntime().exec(new String[]{"sh", "-c", cmd}, null, dirPath);
             } else if (osValidator.isWindows()) {
-                proc = Runtime.getRuntime().exec(new String[]{"cmd", "/c", cmd}, null, dirPath);
+                return Runtime.getRuntime().exec(new String[]{"cmd", "/c", cmd}, null, dirPath);
             } else {
-                Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE,
-                        "The command could not executed due to an Unknown OS!");
+                Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE, 
+                        "The command could not be executed! Unknown OS: {0}", 
+                        osValidator.getOS());
                 return null;
             }
-
-            return proc;
         } catch (IOException ex) {
             Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE,
                     "The command could not be executed!", ex);
