@@ -24,7 +24,6 @@ import esa.mo.helpertools.helpers.HelperAttributes;
 import javax.swing.JOptionPane;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.structures.Attribute;
-import org.ccsds.moims.mo.mal.structures.Element;
 
 /**
  *

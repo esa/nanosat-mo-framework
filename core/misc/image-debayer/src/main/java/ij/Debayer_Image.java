@@ -1,6 +1,5 @@
 package ij;
 
-import ij.plugin.ContrastEnhancerOpt;
 import ij.plugin.RGBStackConverterOpt;
 import ij.plugin.filter.*;
 import ij.process.*;

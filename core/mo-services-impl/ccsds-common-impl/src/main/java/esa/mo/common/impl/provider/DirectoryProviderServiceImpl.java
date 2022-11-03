@@ -29,9 +29,7 @@ import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
 import esa.mo.helpertools.connections.ServicesConnectionDetails;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
-import esa.mo.helpertools.helpers.HelperMisc;
-import java.io.FileNotFoundException;
-import java.net.MalformedURLException;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

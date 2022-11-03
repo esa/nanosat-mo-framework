@@ -24,7 +24,6 @@ import esa.mo.com.impl.archive.encoding.BinaryDecoder;
 import esa.mo.com.impl.archive.encoding.BinaryEncoder;
 import esa.mo.com.impl.archive.entities.COMObjectEntity;
 import esa.mo.com.impl.provider.ArchiveManager;
-import esa.mo.com.impl.provider.ArchiveSyncProviderServiceImpl;
 import esa.mo.com.impl.util.COMObjectStructure;
 import esa.mo.helpertools.helpers.HelperMisc;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;

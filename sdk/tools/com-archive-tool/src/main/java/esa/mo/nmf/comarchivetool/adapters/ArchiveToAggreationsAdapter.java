@@ -1,7 +1,6 @@
 package esa.mo.nmf.comarchivetool.adapters;
 
 import esa.mo.nmf.comarchivetool.TimestampedAggregationValue;
-import esa.mo.nmf.comarchivetool.TimestampedParameterValue;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectType;

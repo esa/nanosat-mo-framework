@@ -36,7 +36,6 @@ import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mc.MCHelper;
 import org.ccsds.moims.mo.mc.action.ActionHelper;
 import org.ccsds.moims.mo.mc.action.consumer.ActionStub;
-import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
 
 /**
  *

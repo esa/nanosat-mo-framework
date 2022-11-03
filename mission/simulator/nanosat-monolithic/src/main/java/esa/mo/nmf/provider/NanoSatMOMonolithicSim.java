@@ -27,7 +27,7 @@ import esa.mo.nmf.NMFException;
 import esa.mo.nmf.nanosatmomonolithic.NanoSatMOMonolithic;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.platform.impl.util.PlatformServicesProviderSoftSim;
-import java.io.FileNotFoundException;
+
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
