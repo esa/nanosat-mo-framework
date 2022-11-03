@@ -92,9 +92,9 @@ public class AppsLauncherManager extends DefinitionsManager {
     /**
      * Location of the apps folder, relative to the MO Supervisor
      */
-    private ArrayList<File> foldersWithApps = new ArrayList<>();
-    private final HashMap<Long, ProcessExecutionHandler> handlers
-            = new HashMap<>();
+    private final ArrayList<File> foldersWithApps = new ArrayList<>();
+    
+    private final HashMap<Long, ProcessExecutionHandler> handlers = new HashMap<>();
 
     private AtomicLong uniqueObjIdDef; // Counter
 
@@ -321,8 +321,7 @@ public class AppsLauncherManager extends DefinitionsManager {
             File[] list = appsFolderPath.listFiles();
 
             if (list != null) {
-                for (int i = 0; i < list.length; i++) {
-                    File appFolder = list[i];
+                for (File appFolder : list) {
                     if ((appFolder != null) && appFolder.isDirectory()) {
                         fList.add(appFolder);
                     }
@@ -330,17 +329,6 @@ public class AppsLauncherManager extends DefinitionsManager {
             }
         }
 
-        // Go to all the "apps folder" and check if there are new folders
-        // get all the files from a directory
-        //File[] fList = appsFolderPath.listFiles();
-/*
-            if (fList == null) {
-                LOGGER.log(Level.SEVERE, "The directory could not be found: {0} (full path: {1})",
-                        new Object[]{appsFolderPath.toString(), appsFolderPath.getAbsolutePath()});
-
-                return false;
-            }
-         */
         AppDetailsList apps = new AppDetailsList();
 
         for (File folder : fList) { // Roll all the apps inside the apps folder
@@ -402,8 +390,7 @@ public class AppsLauncherManager extends DefinitionsManager {
                         for (File file : folder.listFiles()) { // Roll all the files inside each app folder
                             // Check if the folder contains the provider properties
                             if (HelperMisc.PROVIDER_PROPERTIES_FILE.equals(file.getName())) {
-                                // All Good!
-                                appStillIntact = true;
+                                appStillIntact = true; // All Good!
                                 break;
                             }
                         }
@@ -441,13 +428,12 @@ public class AppsLauncherManager extends DefinitionsManager {
             final String runAs, final String prefix, final String[] env) {
         ArrayList<String> ret = new ArrayList<>();
         String trimmedAppName = appName.replaceAll("space-app-", "");
+        
         if (osValidator.isWindows()) {
             ret.add("cmd");
             ret.add("/c");
             StringBuilder str = new StringBuilder();
-            str.append(prefix);
-            str.append(trimmedAppName);
-            str.append(".bat");
+            str.append(prefix).append(trimmedAppName).append(".bat");
             ret.add(str.toString());
         } else {
             if (runAs != null) {
@@ -464,11 +450,11 @@ public class AppsLauncherManager extends DefinitionsManager {
             }
             StringBuilder envString = new StringBuilder();
             for (String envVar : env) {
-                envString.append(envVar);
-                envString.append(" ");
+                envString.append(envVar).append(" ");
             }
 
-            ret.add("cd " + workDir + ";" + envString.toString() + "./" + prefix + trimmedAppName + ".sh");
+            String script = prefix + trimmedAppName + ".sh";
+            ret.add("cd " + workDir + ";" + envString.toString() + "./" + script);
         }
         return ret.toArray(new String[0]);
     }
