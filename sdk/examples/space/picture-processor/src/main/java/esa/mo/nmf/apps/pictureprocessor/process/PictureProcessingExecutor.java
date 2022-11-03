@@ -113,7 +113,7 @@ public class PictureProcessingExecutor {
     }
 
     private static Path logFileName(Path processInputFile) {
-        return processInputFile.resolveSibling("picture-processor-" + processInputFile.toString() + ".log");
+        return processInputFile.resolveSibling("picture-processor-" + processInputFile + ".log");
     }
 
 }
