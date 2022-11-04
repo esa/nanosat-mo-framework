@@ -52,7 +52,7 @@ public class OSValidator {
         if (isWindows()) {
             return "win";
         } else if (isMac()) {
-            return "osx";
+            return "mac";
         } else if (isUnix()) {
             return "uni";
         } else if (isSolaris()) {
