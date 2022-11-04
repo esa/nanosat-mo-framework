@@ -79,7 +79,7 @@ public class NMFPackage {
     }
 
     public void verifyPackageIntegrity() throws IOException {
-        ArrayList<NMFPackageFile> files = metadata.getFiles();
+        ArrayList<NMFPackageFile> files = this.getMetadata().getFiles();
 
         for (int i = 0; i < files.size(); i++) {
             NMFPackageFile filepack = files.get(i);
