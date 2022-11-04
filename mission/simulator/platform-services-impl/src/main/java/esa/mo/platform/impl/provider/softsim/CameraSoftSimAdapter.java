@@ -191,4 +191,9 @@ public class CameraSoftSimAdapter implements CameraAdapterInterface, SimulatorAd
     return pcAdapter.isDeviceEnabled(DeviceType.CAMERA);
   }
 
+  @Override
+  public boolean hasFixedResolutions()
+  {
+    return true;
+  }
 }

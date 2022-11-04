@@ -100,7 +100,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
     public synchronized void init(COMServicesProvider comServices,
             CameraAdapterInterface adapter) throws MALException {
         long timestamp = System.currentTimeMillis();
-        
+
         if (!initialiased) {
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -216,20 +216,23 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
                     PlatformHelper.DEVICE_IN_USE_ERROR_NUMBER, null));
         }
         final PixelResolutionList availableResolutions = adapter.getAvailableResolutions();
-        boolean isResolutionAvailable = false;
 
-        // Do we have the resolution requested?
-        for (PixelResolution availableResolution : availableResolutions) {
-            if (settings.getResolution().equals(availableResolution)) {
-                isResolutionAvailable = true;
-                break;
+        if (adapter.hasFixedResolutions()) {
+            boolean isResolutionAvailable = false;
+
+            // Do we have the resolution requested?
+            for (PixelResolution availableResolution : availableResolutions) {
+                if (settings.getResolution().equals(availableResolution)) {
+                    isResolutionAvailable = true;
+                    break;
+                }
             }
-        }
 
-        // If not, then send the available resolutions to the consumer so they can pick...
-        if (!isResolutionAvailable) {
-            throw new MALInteractionException(new MALStandardError(
-                    COMHelper.INVALID_ERROR_NUMBER, availableResolutions));
+            // If not, then send the available resolutions to the consumer so they can pick...
+            if (!isResolutionAvailable) {
+                throw new MALInteractionException(new MALStandardError(
+                        COMHelper.INVALID_ERROR_NUMBER, availableResolutions));
+            }
         }
 
         boolean isFormatsAvailable = false;
@@ -360,7 +363,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
     }
 
     @Override
-    public void preprocessPicture(Picture inputPicture, CameraSettings settings, 
+    public void preprocessPicture(Picture inputPicture, CameraSettings settings,
             PreprocessPictureInteraction interaction) throws MALInteractionException, MALException {
         throw new UnsupportedOperationException("Not supported yet.");
     }

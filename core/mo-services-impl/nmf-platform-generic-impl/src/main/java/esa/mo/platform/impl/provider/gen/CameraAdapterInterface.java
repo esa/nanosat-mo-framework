@@ -42,6 +42,12 @@ public interface CameraAdapterInterface {
     boolean isUnitAvailable();
 
     /**
+     * @return true if the camera has only a fixed set of resolutions. They can
+     * then be retrieved with the getAvailableResolutions() method.
+     */
+    boolean hasFixedResolutions();
+
+    /**
      * @return The resolutions supported by the Camera Adapter
      */
     PixelResolutionList getAvailableResolutions();
