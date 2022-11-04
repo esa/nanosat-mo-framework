@@ -109,7 +109,7 @@ public class NMFPackage {
         byte[] buffer = new byte[1024];
 
         // Iterate through the files, unpack them into the right folders
-        ArrayList<NMFPackageFile> files = metadata.getFiles();
+        ArrayList<NMFPackageFile> files = this.getMetadata().getFiles();
 
         for (int i = 0; i < files.size(); i++) {
             NMFPackageFile file = files.get(i);
