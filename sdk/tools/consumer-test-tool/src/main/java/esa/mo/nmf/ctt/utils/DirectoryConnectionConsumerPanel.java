@@ -24,9 +24,6 @@ import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
-
-import java.util.Random;
-import java.util.prefs.Preferences;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -35,14 +32,14 @@ import java.awt.event.MouseListener;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.prefs.Preferences;
+import java.util.Random;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
-import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-
 import org.ccsds.moims.mo.com.archive.ArchiveHelper;
 import org.ccsds.moims.mo.common.directory.DirectoryHelper;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
@@ -61,11 +58,10 @@ import org.ccsds.moims.mo.mal.structures.URI;
  *
  * @author Cesar Coelho
  */
-public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel
-{
+public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
 
+  private final javax.swing.JTabbedPane tabs;
   private ConnectionConsumer connectionConsumer;
-  private javax.swing.JTabbedPane tabs;
   private ProviderSummaryList summaryList;
   private DefaultTableModel tableData;
   private final boolean isS2G;
@@ -167,7 +163,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel
   }
 
   /**
-   * Cleans the table data that contains the list of services provided by the currently selected prodiver.
+   * Cleans the table data that contains the list of services provided by the currently selected provider.
    */
   private void cleanTableData() {
     while (tableData.getRowCount() != 0) {
@@ -520,46 +516,44 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel
     }
 
     @Override
-    public void mouseClicked(MouseEvent evt)
-    {
-      Thread t1 = new Thread()
-      {
-        @Override
-        public void run()
-        {
-          this.setName("CloseButtonTabThread");
-          for (int i = 0; i < tabs.getTabCount(); i++) {
-            Component component = tabs.getTabComponentAt(i);
+    public void mouseClicked(MouseEvent evt) {
+        for (int i = 0; i < tabs.getTabCount(); i++) {
+          final Component component = tabs.getTabComponentAt(i);
 
-            if (component == panel) {
-              tabs.remove(i);
+          if (component == panel) {
+            tabs.remove(i);
+            tabs.revalidate();
+            tabs.repaint();
 
-              try {
-                  if(providerPanel.getServices().getAuthenticationId() != null) {
+            Thread t1 = new Thread() {
+                @Override
+                public void run() {
+                  this.setName("CloseButtonTabThread");
+
                       try {
-                          providerPanel.getServices().getCommonServices().getLoginService().getLoginStub().logout();
-                          providerPanel.getServices().setAuthenticationId(null);
-                          Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName())
-                                .log(Level.INFO, "Logged out successfully");
-
-                      } catch (MALInteractionException | MALException e) {
-                          Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName())
-                                .log(Level.SEVERE, "Unexpected exception during logout!", e);
+                          if(providerPanel.getServices().getAuthenticationId() != null) {
+                              try {
+                                  providerPanel.getServices().getCommonServices().getLoginService().getLoginStub().logout();
+                                  providerPanel.getServices().setAuthenticationId(null);
+                                  Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName())
+                                        .log(Level.INFO, "Logged out successfully");
+                              } catch (MALInteractionException | MALException e) {
+                                  Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName())
+                                        .log(Level.SEVERE, "Unexpected exception during logout!", e);
+                              }
+                          }
+                          providerPanel.getServices().closeConnections();
+                      } catch (Exception ex) {
+                        Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.WARNING,
+                            "The connection was not closed correctly. Maybe the provider was unreachable!");
                       }
                   }
-                providerPanel.getServices().closeConnections();
-              } catch (Exception ex) {
-                Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.WARNING,
-                    "The connection was not closed correctly. Maybe the provider was unreachable!");
-              }
-
-              return;
-            }
+                };
+            
+            t1.start();
+            return;
           }
         }
-      };
-
-      t1.start();
     }
 
     @Override
