@@ -61,7 +61,7 @@ public class AIMovidiusAdapter implements AIAdapterInterface {
                     + " The command returned: " + out);
         }
 
-        LOGGER.log(Level.FINE, "The Python3 version is: " + splits[1]);
+        LOGGER.log(Level.FINE, "The Python3 version is: {0}", splits[1]);
         String[] subVersions = splits[1].split("\\.");
 
         if (Integer.valueOf(subVersions[1]) < 6) {
@@ -69,21 +69,21 @@ public class AIMovidiusAdapter implements AIAdapterInterface {
                     + "\n>>>> Please update your Python version!");
         }
 
-        // Is it Linux or Windows?
-        if (os.isUnix()) {
+        // Is it Linux or Mac?
+        if (os.isUnix() || os.isMac()) {
             // Find the folder where the Intel Movidius software is installed
             String[] options = {
                 "/opt/intel"
             };
 
             File file;
-            try{
+            try {
                 file = this.crawlOptions(options, "setupvars.sh");
-            }catch(IOException ex){
+            } catch (IOException ex) {
                 LOGGER.log(Level.WARNING, "The setupvars.sh was not found!");
                 file = new File("");
             }
-            
+
             setupVarsPath = file;
             return;
         }
@@ -172,7 +172,7 @@ public class AIMovidiusAdapter implements AIAdapterInterface {
         String pythonCmd = buildPythonCommand(modelPath, weightsPath, inputPath, outputPath);
         String cmd = null;
 
-        if (os.isUnix()) {
+        if (os.isUnix() || os.isMac()) {
             cmd = this.generateScriptSH(pathIntelVar, pythonCmd);
         }
         if (os.isWindows()) {
