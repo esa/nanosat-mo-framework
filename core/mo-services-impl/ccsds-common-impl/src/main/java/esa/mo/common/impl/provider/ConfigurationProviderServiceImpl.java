@@ -31,7 +31,6 @@ import esa.mo.helpertools.connections.ConnectionProvider;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;

@@ -21,11 +21,9 @@
 package esa.mo.platform.impl.util;
 
 import java.io.IOException;
-import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.TimeZone;
 import org.ccsds.moims.mo.mal.structures.Time;
-import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.platform.gps.structures.*;
 
 /**

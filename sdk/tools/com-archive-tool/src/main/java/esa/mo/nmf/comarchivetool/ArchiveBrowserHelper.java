@@ -36,7 +36,6 @@ import org.ccsds.moims.mo.com.structures.ObjectId;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
-import org.ccsds.moims.mo.common.directory.structures.ServiceCapability;
 import org.ccsds.moims.mo.common.login.LoginHelper;
 import org.ccsds.moims.mo.common.login.body.LoginResponse;
 import org.ccsds.moims.mo.common.login.structures.Profile;

@@ -26,7 +26,7 @@ import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.SingleConnectionDetails;
 import esa.mo.mc.impl.interfaces.ParameterStatusListener;
-import esa.mo.reconfigurable.service.PersistLatestServiceConfigurationAdapter;
+
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;

@@ -21,7 +21,6 @@
 package esa.opssat.camera.processing;
 
 import java.io.IOException;
-import java.io.RandomAccessFile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
