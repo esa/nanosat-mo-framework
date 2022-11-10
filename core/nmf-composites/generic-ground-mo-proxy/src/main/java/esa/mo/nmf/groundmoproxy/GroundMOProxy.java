@@ -168,6 +168,22 @@ public abstract class GroundMOProxy
     return localDirectoryService.getConnection().getPrimaryConnectionDetails().getProviderURI();
   }
 
+  public URI getRemoteCentralDirectoryServiceURI()
+  {
+    if (directoryScanTask != null) {
+      return directoryScanTask.getCentralDirectoryServiceURI();
+    }
+    return new URI("not-initialized");
+  }
+
+  public URI getRoutedURI()
+  {
+    if (directoryScanTask != null) {
+      return directoryScanTask.getRoutedURI();
+    }
+    return new URI("not-initialized");
+  }
+
   public URI getCOMArchiveServiceURI()
   {
     return localCOMServices.getArchiveService().getConnection().getPrimaryConnectionDetails().getProviderURI();
@@ -198,15 +214,25 @@ public abstract class GroundMOProxy
   {
     private final URI centralDirectoryServiceURI;
     private final URI routedURI;
+    private boolean firstRun = true;
+    private ArchiveConsumerServiceImpl archiveService;
+    private FineTime lastTime = new FineTime(0);
 
     public DirectoryScanTask(URI centralDirectoryServiceURI, URI routedURI)
     {
       this.centralDirectoryServiceURI = centralDirectoryServiceURI;
       this.routedURI = routedURI;
     }
-    private boolean firstRun = true;
-    private ArchiveConsumerServiceImpl archiveService;
-    private FineTime lastTime = new FineTime(0);
+
+    public URI getCentralDirectoryServiceURI()
+    {
+      return centralDirectoryServiceURI;
+    }
+
+    public URI getRoutedURI()
+    {
+      return routedURI;
+    }
 
     @Override
     public void run()

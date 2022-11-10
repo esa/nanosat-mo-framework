@@ -102,15 +102,17 @@ public class GroundHeartbeatAdapter extends HeartbeatAdapter
   private class HeartbeatRefreshTask extends Thread
   {
 
+    private static final int LAG_MEASUREMENT_INTERVAL = 3;
     private final GroundMOProxy moProxy;
     private final HeartbeatConsumerServiceImpl heartbeat;
+    private boolean lostHeartbeat = false;
 
     public HeartbeatRefreshTask(GroundMOProxy moProxy, HeartbeatConsumerServiceImpl heartbeat)
     {
       this.moProxy = moProxy;
       this.heartbeat = heartbeat;
     }
-    int tryNumber = 0;
+    int attemptCounter = 0;
 
     @Override
     public void run()
@@ -122,12 +124,21 @@ public class GroundHeartbeatAdapter extends HeartbeatAdapter
         if (currentTime.getValue() > threshold) {
           // Then the provider is unresponsive
           moProxy.setNmsAliveStatus(false);
-          LOGGER.log(Level.INFO, "The heartbeat message from the provider was not received.");
+          LOGGER.log(Level.FINE, "The heartbeat message from the provider was not received.");
+          if (!lostHeartbeat) {
+            LOGGER.log(Level.INFO, "Lost heartbeat from remote provider. Remote URI: {}, Routed URI: {}.",
+              new Object[] {moProxy.getRemoteCentralDirectoryServiceURI(), moProxy.getRoutedURI()});
+            lostHeartbeat = true;
+          }
           // Next time the heartbeat comes, trigger the lag measurement
-          tryNumber = 3;
+          attemptCounter = LAG_MEASUREMENT_INTERVAL;
         } else {
-          if (tryNumber >= 3) {
-            // Every third try...
+          if (lostHeartbeat) {
+            LOGGER.log(Level.INFO, "The heartbeat has recovered. Remote URI: {}, Routed URI: {}.",
+              new Object[] {moProxy.getRemoteCentralDirectoryServiceURI(), moProxy.getRoutedURI()});
+            lostHeartbeat = false;
+          }
+          if (attemptCounter >= LAG_MEASUREMENT_INTERVAL) {
             try {
               long timestamp = System.currentTimeMillis();
               heartbeat.getHeartbeatStub().getPeriod();
@@ -135,9 +146,9 @@ public class GroundHeartbeatAdapter extends HeartbeatAdapter
             } catch (MALInteractionException | MALException ex) {
               LOGGER.log(Level.SEVERE, null, ex);
             }
-            tryNumber = 0;
+            attemptCounter = 0;
           }
-          tryNumber++;
+          attemptCounter++;
         }
       }
     }
