@@ -84,16 +84,6 @@ public class ProviderTabPanel extends javax.swing.JPanel {
         initComponents();
     }
 
-    /**
-     * Creates a new tab for a Provider and populates it.
-     *
-     * @param connection
-     */
-    public ProviderTabPanel(final ConnectionConsumer connection) {
-        services = new GroundMOAdapterImpl(connection);
-        initComponents();
-    }
-
     public GroundMOAdapterImpl getServices() {
         return this.services;
     }
