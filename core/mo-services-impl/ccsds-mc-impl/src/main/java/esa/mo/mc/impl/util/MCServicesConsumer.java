@@ -72,9 +72,7 @@ public class MCServicesConsumer {
      * @param comServices COM services
      * @param authenticationId authenticationId of the logged in user
      */
-    public void init(ConnectionConsumer connectionConsumer,
-                     COMServicesConsumer comServices,
-                     Blob authenticationId,
+    public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices, Blob authenticationId,
                      String localNamePrefix) {
         SingleConnectionDetails details;
 
@@ -88,7 +86,8 @@ public class MCServicesConsumer {
             // Initialize the Parameter service
             details = connectionConsumer.getServicesDetails().get(ParameterHelper.PARAMETER_SERVICE_NAME);
             if (details != null) {
-                parameterService = new ParameterConsumerServiceImpl(details, comServices, authenticationId, localNamePrefix);
+                parameterService = new ParameterConsumerServiceImpl(details, comServices, authenticationId,
+                                                                    localNamePrefix);
             }
 
             // Initialize the Alert service
@@ -106,13 +105,15 @@ public class MCServicesConsumer {
             // Initialize the Statistic service
             details = connectionConsumer.getServicesDetails().get(StatisticHelper.STATISTIC_SERVICE_NAME);
             if (details != null) {
-                statisticService = new StatisticConsumerServiceImpl(details, comServices, authenticationId, localNamePrefix);
+                statisticService = new StatisticConsumerServiceImpl(details, comServices, authenticationId,
+                                                                    localNamePrefix);
             }
 
             // Initialize the Aggregation service
             details = connectionConsumer.getServicesDetails().get(AggregationHelper.AGGREGATION_SERVICE_NAME);
             if (details != null) {
-                aggregationService = new AggregationConsumerServiceImpl(details, comServices, authenticationId, localNamePrefix);
+                aggregationService = new AggregationConsumerServiceImpl(details, comServices, authenticationId,
+                                                                        localNamePrefix);
             }
         } catch (MALException | MALInteractionException | MalformedURLException ex) {
             Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
@@ -143,13 +144,10 @@ public class MCServicesConsumer {
         return this.aggregationService;
     }
 
-    public void setServices(
-            ActionConsumerServiceImpl actionService,
-            ParameterConsumerServiceImpl parameterService,
-            AlertConsumerServiceImpl alertService,
-            CheckConsumerServiceImpl checkService,
-            StatisticConsumerServiceImpl statisticService,
-            AggregationConsumerServiceImpl aggregationService) {
+    public void setServices(ActionConsumerServiceImpl actionService, ParameterConsumerServiceImpl parameterService,
+                            AlertConsumerServiceImpl alertService, CheckConsumerServiceImpl checkService,
+                            StatisticConsumerServiceImpl statisticService,
+                            AggregationConsumerServiceImpl aggregationService) {
         this.actionService = actionService;
         this.parameterService = parameterService;
         this.alertService = alertService;

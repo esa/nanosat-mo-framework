@@ -37,7 +37,7 @@ import java.util.logging.Logger;
  *
  * @author Marcel Mikołajko
  */
-public class ArchiveToRolesAdapter extends ArchiveAdapter implements QueryStatusProvider{
+public class ArchiveToRolesAdapter extends ArchiveAdapter implements QueryStatusProvider {
 
     private static final Logger LOGGER = Logger.getLogger(ArchiveToRolesAdapter.class.getName());
 
@@ -56,8 +56,9 @@ public class ArchiveToRolesAdapter extends ArchiveAdapter implements QueryStatus
      */
     private final List<String> rolesNames = new ArrayList<>();
 
-    public void retrieveResponseReceived(MALMessageHeader msgHeader, ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
-        for(int i = 0; i < objDetails.size(); ++i) {
+    public void retrieveResponseReceived(MALMessageHeader msgHeader, ArchiveDetailsList objDetails,
+                                         ElementList objBodies, Map qosProperties) {
+        for (int i = 0; i < objDetails.size(); ++i) {
             rolesIds.add(objDetails.get(i).getInstId());
             rolesNames.add(objBodies.get(i).toString());
         }

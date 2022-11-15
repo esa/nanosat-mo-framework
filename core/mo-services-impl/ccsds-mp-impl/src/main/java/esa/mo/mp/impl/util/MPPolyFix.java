@@ -218,15 +218,18 @@ public class MPPolyFix {
     }
 
     public static c_Constraint encodeConstraint(TimeConstraint timeConstraint) {
-        return (c_Constraint) encode(timeConstraint, c_TemporalConstraint.class, c_ConditionalConstraint.class, c_Constraint.class);
+        return (c_Constraint) encode(timeConstraint, c_TemporalConstraint.class, c_ConditionalConstraint.class,
+                                     c_Constraint.class);
     }
 
     public static c_Constraint encodeConstraint(TimeWindowConstraint timeWindowConstraint) {
-        return (c_Constraint) encode(timeWindowConstraint, c_TemporalConstraint.class, c_ConditionalConstraint.class, c_Constraint.class);
+        return (c_Constraint) encode(timeWindowConstraint, c_TemporalConstraint.class, c_ConditionalConstraint.class,
+                                     c_Constraint.class);
     }
 
     public static c_Constraint encodeConstraint(DurationConstraint durationConstraint) {
-        return (c_Constraint) encode(durationConstraint, c_TemporalConstraint.class, c_ConditionalConstraint.class, c_Constraint.class);
+        return (c_Constraint) encode(durationConstraint, c_TemporalConstraint.class, c_ConditionalConstraint.class,
+                                     c_Constraint.class);
     }
 
     public static c_Constraint encodeConstraint(SequentialConstraint sequentialConstraint) {
@@ -238,11 +241,13 @@ public class MPPolyFix {
     }
 
     public static c_Constraint encodeConstraint(b_ResourceConstraint resourceConstraint) {
-        return (c_Constraint) encode(resourceConstraint, c_ResourceConstraint.class, c_ConditionalConstraint.class, c_Constraint.class);
+        return (c_Constraint) encode(resourceConstraint, c_ResourceConstraint.class, c_ConditionalConstraint.class,
+                                     c_Constraint.class);
     }
 
     public static c_Constraint encodeConstraint(ComplexResourceConstraint complexResourceConstraint) {
-        return (c_Constraint) encode(complexResourceConstraint, c_ResourceConstraint.class, c_ConditionalConstraint.class, c_Constraint.class);
+        return (c_Constraint) encode(complexResourceConstraint, c_ResourceConstraint.class,
+                                     c_ConditionalConstraint.class, c_Constraint.class);
     }
 
     public static c_Constraint encodeConstraint(ArgumentConstraint argumentConstraint) {
@@ -254,63 +259,78 @@ public class MPPolyFix {
     }
 
     public static c_Constraint encodeConstraint(DistanceConstraint distanceConstraint) {
-        return (c_Constraint) encode(distanceConstraint, c_GeometricConstraint.class, c_ConditionalConstraint.class, c_Constraint.class);
+        return (c_Constraint) encode(distanceConstraint, c_GeometricConstraint.class, c_ConditionalConstraint.class,
+                                     c_Constraint.class);
     }
 
     public static c_Constraint encodeConstraint(AngleConstraint angleConstraint) {
-        return (c_Constraint) encode(angleConstraint, c_GeometricConstraint.class, c_ConditionalConstraint.class, c_Constraint.class);
+        return (c_Constraint) encode(angleConstraint, c_GeometricConstraint.class, c_ConditionalConstraint.class,
+                                     c_Constraint.class);
     }
 
     public static c_Constraint encodeConstraint(OrbitalConstraint orbitalConstraint) {
-        return (c_Constraint) encode(orbitalConstraint, c_GeometricConstraint.class, c_ConditionalConstraint.class, c_Constraint.class);
+        return (c_Constraint) encode(orbitalConstraint, c_GeometricConstraint.class, c_ConditionalConstraint.class,
+                                     c_Constraint.class);
     }
 
     public static c_Constraint encodeConstraint(RevolutionConstraint revolutionConstraint) {
-        return (c_Constraint) encode(revolutionConstraint, c_GeometricConstraint.class, c_ConditionalConstraint.class, c_Constraint.class);
+        return (c_Constraint) encode(revolutionConstraint, c_GeometricConstraint.class, c_ConditionalConstraint.class,
+                                     c_Constraint.class);
     }
 
     public static c_Constraint encodeConstraint(b_PointingConstraint pointingConstraint) {
-        return (c_Constraint) encode(pointingConstraint, c_PointingConstraint.class, c_GeometricConstraint.class, c_ConditionalConstraint.class, c_Constraint.class);
+        return (c_Constraint) encode(pointingConstraint, c_PointingConstraint.class, c_GeometricConstraint.class,
+                                     c_ConditionalConstraint.class, c_Constraint.class);
     }
 
     public static c_Constraint encodeConstraint(InertialPointingConstraint pointingConstraint) {
-        return (c_Constraint) encode(pointingConstraint, c_PointingConstraint.class, c_GeometricConstraint.class, c_ConditionalConstraint.class, c_Constraint.class);
+        return (c_Constraint) encode(pointingConstraint, c_PointingConstraint.class, c_GeometricConstraint.class,
+                                     c_ConditionalConstraint.class, c_Constraint.class);
     }
 
     public static c_Constraint encodeConstraint(SunPointingConstraint pointingConstraint) {
-        return (c_Constraint) encode(pointingConstraint, c_PointingConstraint.class, c_GeometricConstraint.class, c_ConditionalConstraint.class, c_Constraint.class);
+        return (c_Constraint) encode(pointingConstraint, c_PointingConstraint.class, c_GeometricConstraint.class,
+                                     c_ConditionalConstraint.class, c_Constraint.class);
     }
 
     public static c_Constraint encodeConstraint(TrackWithInertialDirectionYawSteeringConstraint pointingConstraint) {
-        return (c_Constraint) encode(pointingConstraint, c_PointingConstraint.class, c_GeometricConstraint.class, c_ConditionalConstraint.class, c_Constraint.class);
+        return (c_Constraint) encode(pointingConstraint, c_PointingConstraint.class, c_GeometricConstraint.class,
+                                     c_ConditionalConstraint.class, c_Constraint.class);
     }
 
     public static c_Constraint encodeConstraint(TrackWithPowerOptimizedYawSteeringConstraint pointingConstraint) {
-        return (c_Constraint) encode(pointingConstraint, c_PointingConstraint.class, c_GeometricConstraint.class, c_ConditionalConstraint.class, c_Constraint.class);
+        return (c_Constraint) encode(pointingConstraint, c_PointingConstraint.class, c_GeometricConstraint.class,
+                                     c_ConditionalConstraint.class, c_Constraint.class);
     }
 
     public static c_Constraint encodeConstraint(NadirWithPowerOptimizedYawSteeringConstraint pointingConstraint) {
-        return (c_Constraint) encode(pointingConstraint, c_PointingConstraint.class, c_GeometricConstraint.class, c_ConditionalConstraint.class, c_Constraint.class);
+        return (c_Constraint) encode(pointingConstraint, c_PointingConstraint.class, c_GeometricConstraint.class,
+                                     c_ConditionalConstraint.class, c_Constraint.class);
     }
 
     public static c_Constraint encodeConstraint(NadirWithGroundTrackAlignedYawSteeringConstraint pointingConstraint) {
-        return (c_Constraint) encode(pointingConstraint, c_PointingConstraint.class, c_GeometricConstraint.class, c_ConditionalConstraint.class, c_Constraint.class);
+        return (c_Constraint) encode(pointingConstraint, c_PointingConstraint.class, c_GeometricConstraint.class,
+                                     c_ConditionalConstraint.class, c_Constraint.class);
     }
 
     public static c_Constraint encodeConstraint(NadirWithOrbitalPoleAlignedYawSteeringConstraint pointingConstraint) {
-        return (c_Constraint) encode(pointingConstraint, c_PointingConstraint.class, c_GeometricConstraint.class, c_ConditionalConstraint.class, c_Constraint.class);
+        return (c_Constraint) encode(pointingConstraint, c_PointingConstraint.class, c_GeometricConstraint.class,
+                                     c_ConditionalConstraint.class, c_Constraint.class);
     }
 
     public static c_Constraint encodeConstraint(LimbPointingWithPowerOptimizedYawSteeringConstraint pointingConstraint) {
-        return (c_Constraint) encode(pointingConstraint, c_PointingConstraint.class, c_GeometricConstraint.class, c_ConditionalConstraint.class, c_Constraint.class);
+        return (c_Constraint) encode(pointingConstraint, c_PointingConstraint.class, c_GeometricConstraint.class,
+                                     c_ConditionalConstraint.class, c_Constraint.class);
     }
 
     public static c_Constraint encodeConstraint(LimbPointingWithInertialDirectionYawSteeringConstraint pointingConstraint) {
-        return (c_Constraint) encode(pointingConstraint, c_PointingConstraint.class, c_GeometricConstraint.class, c_ConditionalConstraint.class, c_Constraint.class);
+        return (c_Constraint) encode(pointingConstraint, c_PointingConstraint.class, c_GeometricConstraint.class,
+                                     c_ConditionalConstraint.class, c_Constraint.class);
     }
 
     public static c_Constraint encodeConstraint(VelocityPointingWithOrbitalPoleYawSteeringConstraint pointingConstraint) {
-        return (c_Constraint) encode(pointingConstraint, c_PointingConstraint.class, c_GeometricConstraint.class, c_ConditionalConstraint.class, c_Constraint.class);
+        return (c_Constraint) encode(pointingConstraint, c_PointingConstraint.class, c_GeometricConstraint.class,
+                                     c_ConditionalConstraint.class, c_Constraint.class);
     }
 
     public static c_ConstraintList encodeConstraints(List<Constraint> constraints) {
@@ -556,14 +576,18 @@ public class MPPolyFix {
      * @param clazz of polymorphism fix class to be applied (e.g. c_ArgDef.class). Classes are applied recursively from left to right
      * @return The encoded object with polymorphism fix applied
      */
-    public static Object encode(Object object, Class ...clazz) {
+    public static Object encode(Object object, Class... clazz) {
         if (clazz.length == 0) {
             return object;
         }
         Object encodedObject = null;
         try {
             encodedObject = clazz[0].getConstructor().newInstance();
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+        } catch (InstantiationException |
+                 IllegalAccessException |
+                 InvocationTargetException |
+                 NoSuchMethodException |
+                 SecurityException e) {
             LOGGER.log(Level.WARNING, null, e);
             return null;
         }
@@ -594,7 +618,11 @@ public class MPPolyFix {
         ArrayList<Object> encodedObjectList = null;
         try {
             encodedObjectList = (ArrayList<Object>) clazz.getConstructor().newInstance();
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+        } catch (InstantiationException |
+                 IllegalAccessException |
+                 InvocationTargetException |
+                 NoSuchMethodException |
+                 SecurityException e) {
             LOGGER.log(Level.WARNING, null, e);
             return null;
         }

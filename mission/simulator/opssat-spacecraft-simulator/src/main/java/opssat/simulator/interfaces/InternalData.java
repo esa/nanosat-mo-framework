@@ -32,9 +32,12 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface InternalData{
+public @interface InternalData {
     int internalID();
+
     String[] commandIDs();
+
     String[] argNames();
+
     String description() default "Empty";
 }

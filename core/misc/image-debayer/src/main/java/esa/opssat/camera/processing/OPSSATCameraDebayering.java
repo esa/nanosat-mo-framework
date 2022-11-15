@@ -86,7 +86,7 @@ public class OPSSATCameraDebayering {
         ImagePlus imp = new ImagePlus("", processor);
 
         ImagePlus outImage = OPSSATCameraDebayering.processImage(imp, algorithm);
-//        outImage.show();
+        //        outImage.show();
 
         return outImage.getBufferedImage();
     }

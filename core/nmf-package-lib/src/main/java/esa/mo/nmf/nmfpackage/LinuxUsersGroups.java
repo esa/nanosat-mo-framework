@@ -34,7 +34,7 @@ import java.util.logging.Logger;
 public class LinuxUsersGroups {
 
     private static final String NOT_FOUND = "command not found";
-    
+
     private static final String PERMISSION_DENIED = "Permission denied";
 
     private static final String MSG_NOT_FOUND = "The command was not found.\n";
@@ -54,8 +54,8 @@ public class LinuxUsersGroups {
      * with no intervening whitespace.
      * @throws IOException if the user could not be created.
      */
-    public static void createUser(String username, String password,
-            boolean withGroup, String extraGroups) throws IOException {
+    public static void createUser(String username, String password, boolean withGroup,
+                                  String extraGroups) throws IOException {
         ShellCommander shell = new ShellCommander();
         final String defaultShell = "/bin/bash";
 
@@ -73,11 +73,14 @@ public class LinuxUsersGroups {
         // Second, we need to check if we have permissions to run the commands
         StringBuilder useradd = new StringBuilder();
         useradd.append("sudo ");
-        useradd.append("useradd ").append(username)
-                .append(" --create-home")
-                .append(" --shell ").append(defaultShell)
-                .append(withGroup ? " --user-group" : "")
-                .append(" --groups ").append(extraGroups);
+        useradd.append("useradd ")
+               .append(username)
+               .append(" --create-home")
+               .append(" --shell ")
+               .append(defaultShell)
+               .append(withGroup ? " --user-group" : "")
+               .append(" --groups ")
+               .append(extraGroups);
         //String cmd = "useradd $user_nmf_admin -m -s /bin/bash --user-group";
         //String cmd = "useradd $user_nmf_admin --create-home --shell /bin/bash --user-group";
 
@@ -100,10 +103,7 @@ public class LinuxUsersGroups {
             }
 
             StringBuilder chpasswd = new StringBuilder();
-            chpasswd.append("echo ")
-                    .append(username).append(":").append(password)
-                    .append(" | ")
-                    .append("chpasswd");
+            chpasswd.append("echo ").append(username).append(":").append(password).append(" | ").append("chpasswd");
             // echo $user_nmf_admin:$user_nmf_admin_password | chpasswd
 
             String cmd4 = chpasswd.toString();
@@ -116,8 +116,7 @@ public class LinuxUsersGroups {
         }
 
         // Change permissions on the home directories
-        Logger.getLogger(LinuxUsersGroups.class.getName()).log(Level.INFO,
-                " Running command: " + cmd3 + "\n" + out3);
+        Logger.getLogger(LinuxUsersGroups.class.getName()).log(Level.INFO, " Running command: " + cmd3 + "\n" + out3);
     }
 
     /**
@@ -147,8 +146,7 @@ public class LinuxUsersGroups {
             throw new IOException(msg);
         }
 
-        Logger.getLogger(LinuxUsersGroups.class.getName()).log(Level.INFO,
-                " Running command: " + cmd + "\n" + out);
+        Logger.getLogger(LinuxUsersGroups.class.getName()).log(Level.INFO, " Running command: " + cmd + "\n" + out);
     }
 
     /**
@@ -182,8 +180,7 @@ public class LinuxUsersGroups {
             throw new IOException(msg);
         }
 
-        Logger.getLogger(LinuxUsersGroups.class.getName()).log(Level.INFO,
-                " Running command: " + cmd + "\n" + out);
+        Logger.getLogger(LinuxUsersGroups.class.getName()).log(Level.INFO, " Running command: " + cmd + "\n" + out);
     }
 
     public static void chgrp(boolean recursive, String newGroup, String path) throws IOException {
@@ -208,8 +205,7 @@ public class LinuxUsersGroups {
             throw new IOException(msg);
         }
 
-        Logger.getLogger(LinuxUsersGroups.class.getName()).log(Level.INFO,
-                " Running command: " + cmd + "\n" + out);
+        Logger.getLogger(LinuxUsersGroups.class.getName()).log(Level.INFO, " Running command: " + cmd + "\n" + out);
     }
 
     static String findHomeDir(String username) throws IOException {
@@ -231,10 +227,9 @@ public class LinuxUsersGroups {
             throw new IOException(msg);
         }
 
-        Logger.getLogger(LinuxUsersGroups.class.getName()).log(Level.INFO,
-                " Running command: " + cmd + "\n" + out);
-        
+        Logger.getLogger(LinuxUsersGroups.class.getName()).log(Level.INFO, " Running command: " + cmd + "\n" + out);
+
         return out;
     }
-    
+
 }

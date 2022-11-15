@@ -47,176 +47,160 @@ import org.ccsds.moims.mo.platform.structures.VectorF3D;
  *
  * @author Cesar Coelho
  */
-public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterface, SimulatorAdapter
-{
+public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterface, SimulatorAdapter {
 
-  private final ESASimulator instrumentsSimulator;
-  private AttitudeMode activeAttitudeMode;
+    private final ESASimulator instrumentsSimulator;
+    private AttitudeMode activeAttitudeMode;
 
-  // Time from Epoch in milliseconds
-  private final static long[] BEGIN_END_TIMES = {0, Long.MAX_VALUE}; // StartTime, StopTime in (milliseconds)
-  private final static byte MODE_STOP = 0;  // Zero means stop; One means start
-  private final static byte MODE_START = 1;  // Zero means stop; One means start
+    // Time from Epoch in milliseconds
+    private final static long[] BEGIN_END_TIMES = {0, Long.MAX_VALUE}; // StartTime, StopTime in (milliseconds)
+    private final static byte MODE_STOP = 0;  // Zero means stop; One means start
+    private final static byte MODE_START = 1;  // Zero means stop; One means start
 
-  private PowerControlAdapterInterface pcAdapter;
+    private PowerControlAdapterInterface pcAdapter;
 
-  public AutonomousADCSSoftSimAdapter(ESASimulator instrumentsSimulator, PowerControlAdapterInterface pcAdapter)
-  {
-    this.instrumentsSimulator = instrumentsSimulator;
-    this.pcAdapter = pcAdapter;
-  }
-
-  @Override
-  public synchronized boolean isUnitAvailable()
-  {
-    return pcAdapter.isDeviceEnabled(DeviceType.ADCS);
-  }
-
-  @Override
-  public synchronized void setDesiredAttitude(final AttitudeMode att) throws IOException
-  {
-    this.activeAttitudeMode = att;
-
-    if (att instanceof AttitudeModeBDot) {
-      instrumentsSimulator.getpFineADCS().opModeDetumble((byte) 1, BEGIN_END_TIMES);
-    } else if (att instanceof AttitudeModeSingleSpinning) {
-      AttitudeModeSingleSpinning singleSpinAtt = (AttitudeModeSingleSpinning) att;
-      VectorF3D body = singleSpinAtt.getBodyAxis();
-      final float[] targetVector = new float[7];
-      targetVector[0] = body.getX();
-      targetVector[1] = body.getY();
-      targetVector[2] = body.getZ();
-
-      // Maybe we need stuff here...
-      targetVector[6] = singleSpinAtt.getAngularVelocity();
-
-      instrumentsSimulator.getpFineADCS().opModeSetModeSpin(MODE_START, BEGIN_END_TIMES,
-          targetVector);
-    } else if (att instanceof AttitudeModeSunPointing) {
-      final byte actuatorMode = 0; // Zero because it is dummy and only RW is available
-      // [0]: Mode Zero means stop; One means start
-      // [1]: Actuator mode
-      final byte[] mode = {MODE_START, actuatorMode};
-
-      final float[] targetVector = new float[3];
-      targetVector[0] = 0;
-      targetVector[1] = 0;
-      targetVector[2] = 0;
-
-      instrumentsSimulator.getpFineADCS().opModeSunPointing(mode, BEGIN_END_TIMES, targetVector);
-    } else if (att instanceof AttitudeModeTargetTracking) {
-      AttitudeModeTargetTracking targetTrackingAtt = (AttitudeModeTargetTracking) att;
-
-      float[] latitudeLongitude = new float[2];
-      latitudeLongitude[0] = targetTrackingAtt.getLatitude();
-      latitudeLongitude[1] = targetTrackingAtt.getLongitude();
-
-      instrumentsSimulator.getpFineADCS().opModeSetFixWGS84TargetTracking(MODE_START,
-          BEGIN_END_TIMES, latitudeLongitude);
-    } else if (att instanceof AttitudeModeNadirPointing) {
-      instrumentsSimulator.getpFineADCS().opModeSetNadirTargetTracking(MODE_START, BEGIN_END_TIMES);
-    } else if (att instanceof AttitudeModeVectorPointing) {
-      AttitudeModeVectorPointing a = (AttitudeModeVectorPointing) att;
-      VectorF3D vec = a.getTarget();
-      instrumentsSimulator.getpFineADCS().getSimulatorNode().runVectorTargetTracking(
-          vec.getX(), vec.getY(),
-          vec.getZ(), a.getMargin());
-    } else if (att instanceof AttitudeModeInertialPointing) {
-      AttitudeModeInertialPointing a = (AttitudeModeInertialPointing) att;
-      VectorF3D vec = a.getTargetVector();
-      instrumentsSimulator.getpFineADCS().getSimulatorNode().runVectorTargetTracking(
-          vec.getX(), vec.getY(),
-          vec.getZ(), 10.f);
+    public AutonomousADCSSoftSimAdapter(ESASimulator instrumentsSimulator, PowerControlAdapterInterface pcAdapter) {
+        this.instrumentsSimulator = instrumentsSimulator;
+        this.pcAdapter = pcAdapter;
     }
-  }
 
-  @Override
-  public synchronized void unset() throws IOException
-  {
-    // Set the ADCS to Idle mode
-    instrumentsSimulator.getpFineADCS().opModeIdle();
-    this.activeAttitudeMode = null;
-  }
-
-  @Override
-  public AttitudeTelemetry getAttitudeTelemetry() throws IOException
-  {
-    byte[] tmBuffer = instrumentsSimulator.getpFineADCS().GetSensorTelemetry();
-    AttitudeTelemetry ret = new AttitudeTelemetry();
-    ret.setAngularVelocity(HelperIADCS100.getAngularVelocityFromSensorTM(tmBuffer));
-    ret.setAttitude(HelperIADCS100.getAttitudeFromSensorTM(tmBuffer));
-    ret.setMagneticField(HelperIADCS100.getMagneticFieldFromSensorTM(tmBuffer));
-    ret.setSunVector(new VectorF3D((float) 1, (float) 0, (float) 0)); // TODO provide real data
-    byte[] tmBufferPointingLoop = instrumentsSimulator.getpFineADCS().GetAttitudeTelemetry();
-    if(HelperIADCS100.getPointingLoopStateTarget(tmBufferPointingLoop) == 1)
-    {
-      ret.setStateTarget(true);
-    } else {
-      ret.setStateTarget(false);
+    @Override
+    public synchronized boolean isUnitAvailable() {
+        return pcAdapter.isDeviceEnabled(DeviceType.ADCS);
     }
-    return ret;
-  }
 
-  @Override
-  public ActuatorsTelemetry getActuatorsTelemetry() throws IOException
-  {
-    byte[] tmBuffer = instrumentsSimulator.getpFineADCS().GetActuatorTelemetry();
-    ActuatorsTelemetry ret = new ActuatorsTelemetry();
-    ret.setMtqDipoleMoment(HelperIADCS100.getMTQFromActuatorTM(tmBuffer));
-    ret.setMtqState(MagnetorquersState.ACTIVE); // TODO provide real data
-    ret.setCurrentWheelSpeed(HelperIADCS100.getCurrentWheelSpeedFromActuatorTM(tmBuffer));
-    ret.setTargetWheelSpeed(HelperIADCS100.getTargetWheelSpeedFromActuatorTM(tmBuffer));
-    return ret;
-  }
+    @Override
+    public synchronized void setDesiredAttitude(final AttitudeMode att) throws IOException {
+        this.activeAttitudeMode = att;
 
-  @Override
-  public ReactionWheelParameters getAllReactionWheelParameters()
-  {
+        if (att instanceof AttitudeModeBDot) {
+            instrumentsSimulator.getpFineADCS().opModeDetumble((byte) 1, BEGIN_END_TIMES);
+        } else if (att instanceof AttitudeModeSingleSpinning) {
+            AttitudeModeSingleSpinning singleSpinAtt = (AttitudeModeSingleSpinning) att;
+            VectorF3D body = singleSpinAtt.getBodyAxis();
+            final float[] targetVector = new float[7];
+            targetVector[0] = body.getX();
+            targetVector[1] = body.getY();
+            targetVector[2] = body.getZ();
 
-    Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,
-        "Reaction wheel parameters are not implemented in the Simulator yet!");
-    return null;
-  }
+            // Maybe we need stuff here...
+            targetVector[6] = singleSpinAtt.getAngularVelocity();
 
-  @Override
-  public String validateAttitudeDescriptor(AttitudeMode attitude)
-  {
-    // TODO do some rudimentary checks (i.e. if the angles make sense)
-    return null;
-  }
+            instrumentsSimulator.getpFineADCS().opModeSetModeSpin(MODE_START, BEGIN_END_TIMES, targetVector);
+        } else if (att instanceof AttitudeModeSunPointing) {
+            final byte actuatorMode = 0; // Zero because it is dummy and only RW is available
+            // [0]: Mode Zero means stop; One means start
+            // [1]: Actuator mode
+            final byte[] mode = {MODE_START, actuatorMode};
 
-  @Override
-  public AttitudeMode getActiveAttitudeMode()
-  {
-    return activeAttitudeMode;
-  }
+            final float[] targetVector = new float[3];
+            targetVector[0] = 0;
+            targetVector[1] = 0;
+            targetVector[2] = 0;
 
-  @Override
-  public void setAllReactionWheelSpeeds(float wheelX, float wheelY, float wheelZ, float wheelU,
-      float wheelV, float wheelW)
-  {
-    Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,
-        "Setting of Reaction wheels is not implemented in the Simulator yet!");
-  }
+            instrumentsSimulator.getpFineADCS().opModeSunPointing(mode, BEGIN_END_TIMES, targetVector);
+        } else if (att instanceof AttitudeModeTargetTracking) {
+            AttitudeModeTargetTracking targetTrackingAtt = (AttitudeModeTargetTracking) att;
 
-  @Override
-  public void setReactionWheelSpeed(ReactionWheelIdentifier wheel, float Speed)
-  {
-    Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,
-        "Setting of Reaction wheels is not implemented in the Simulator yet!");
-  }
+            float[] latitudeLongitude = new float[2];
+            latitudeLongitude[0] = targetTrackingAtt.getLatitude();
+            latitudeLongitude[1] = targetTrackingAtt.getLongitude();
 
-  @Override
-  public void setAllReactionWheelParameters(ReactionWheelParameters parameters)
-  {
-    Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,
-        "Setting of Reaction wheels is not implemented in the Simulator yet!");
-  }
+            instrumentsSimulator.getpFineADCS()
+                                .opModeSetFixWGS84TargetTracking(MODE_START, BEGIN_END_TIMES, latitudeLongitude);
+        } else if (att instanceof AttitudeModeNadirPointing) {
+            instrumentsSimulator.getpFineADCS().opModeSetNadirTargetTracking(MODE_START, BEGIN_END_TIMES);
+        } else if (att instanceof AttitudeModeVectorPointing) {
+            AttitudeModeVectorPointing a = (AttitudeModeVectorPointing) att;
+            VectorF3D vec = a.getTarget();
+            instrumentsSimulator.getpFineADCS()
+                                .getSimulatorNode()
+                                .runVectorTargetTracking(vec.getX(), vec.getY(), vec.getZ(), a.getMargin());
+        } else if (att instanceof AttitudeModeInertialPointing) {
+            AttitudeModeInertialPointing a = (AttitudeModeInertialPointing) att;
+            VectorF3D vec = a.getTargetVector();
+            instrumentsSimulator.getpFineADCS()
+                                .getSimulatorNode()
+                                .runVectorTargetTracking(vec.getX(), vec.getY(), vec.getZ(), 10.f);
+        }
+    }
 
-  @Override
-  public void setAllMagnetorquersDipoleMoments(Float dipoleX, Float dipoleY, Float dipoleZ)
-  {
-    Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,
-        "Setting of Magnetorquer dipole moments is not implemented in the Simulator yet!");
-  }
+    @Override
+    public synchronized void unset() throws IOException {
+        // Set the ADCS to Idle mode
+        instrumentsSimulator.getpFineADCS().opModeIdle();
+        this.activeAttitudeMode = null;
+    }
+
+    @Override
+    public AttitudeTelemetry getAttitudeTelemetry() throws IOException {
+        byte[] tmBuffer = instrumentsSimulator.getpFineADCS().GetSensorTelemetry();
+        AttitudeTelemetry ret = new AttitudeTelemetry();
+        ret.setAngularVelocity(HelperIADCS100.getAngularVelocityFromSensorTM(tmBuffer));
+        ret.setAttitude(HelperIADCS100.getAttitudeFromSensorTM(tmBuffer));
+        ret.setMagneticField(HelperIADCS100.getMagneticFieldFromSensorTM(tmBuffer));
+        ret.setSunVector(new VectorF3D((float) 1, (float) 0, (float) 0)); // TODO provide real data
+        byte[] tmBufferPointingLoop = instrumentsSimulator.getpFineADCS().GetAttitudeTelemetry();
+        if (HelperIADCS100.getPointingLoopStateTarget(tmBufferPointingLoop) == 1) {
+            ret.setStateTarget(true);
+        } else {
+            ret.setStateTarget(false);
+        }
+        return ret;
+    }
+
+    @Override
+    public ActuatorsTelemetry getActuatorsTelemetry() throws IOException {
+        byte[] tmBuffer = instrumentsSimulator.getpFineADCS().GetActuatorTelemetry();
+        ActuatorsTelemetry ret = new ActuatorsTelemetry();
+        ret.setMtqDipoleMoment(HelperIADCS100.getMTQFromActuatorTM(tmBuffer));
+        ret.setMtqState(MagnetorquersState.ACTIVE); // TODO provide real data
+        ret.setCurrentWheelSpeed(HelperIADCS100.getCurrentWheelSpeedFromActuatorTM(tmBuffer));
+        ret.setTargetWheelSpeed(HelperIADCS100.getTargetWheelSpeedFromActuatorTM(tmBuffer));
+        return ret;
+    }
+
+    @Override
+    public ReactionWheelParameters getAllReactionWheelParameters() {
+
+        Logger.getLogger(this.getClass().getName())
+              .log(Level.SEVERE, "Reaction wheel parameters are not implemented in the Simulator yet!");
+        return null;
+    }
+
+    @Override
+    public String validateAttitudeDescriptor(AttitudeMode attitude) {
+        // TODO do some rudimentary checks (i.e. if the angles make sense)
+        return null;
+    }
+
+    @Override
+    public AttitudeMode getActiveAttitudeMode() {
+        return activeAttitudeMode;
+    }
+
+    @Override
+    public void setAllReactionWheelSpeeds(float wheelX, float wheelY, float wheelZ, float wheelU, float wheelV,
+                                          float wheelW) {
+        Logger.getLogger(this.getClass().getName())
+              .log(Level.SEVERE, "Setting of Reaction wheels is not implemented in the Simulator yet!");
+    }
+
+    @Override
+    public void setReactionWheelSpeed(ReactionWheelIdentifier wheel, float Speed) {
+        Logger.getLogger(this.getClass().getName())
+              .log(Level.SEVERE, "Setting of Reaction wheels is not implemented in the Simulator yet!");
+    }
+
+    @Override
+    public void setAllReactionWheelParameters(ReactionWheelParameters parameters) {
+        Logger.getLogger(this.getClass().getName())
+              .log(Level.SEVERE, "Setting of Reaction wheels is not implemented in the Simulator yet!");
+    }
+
+    @Override
+    public void setAllMagnetorquersDipoleMoments(Float dipoleX, Float dipoleY, Float dipoleZ) {
+        Logger.getLogger(this.getClass().getName())
+              .log(Level.SEVERE, "Setting of Magnetorquer dipole moments is not implemented in the Simulator yet!");
+    }
 }

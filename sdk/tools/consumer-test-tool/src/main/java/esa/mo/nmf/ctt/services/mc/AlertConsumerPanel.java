@@ -71,10 +71,10 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         jScrollPane2.setViewportView(alertTable);
     }
 
-    public void init(){
+    public void init() {
         this.listDefinitionAllButtonActionPerformed(null);
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the
      * formAddModifyParameter. WARNING: Do NOT modify this code. The content of
@@ -108,21 +108,23 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         jScrollPane2.setPreferredSize(new java.awt.Dimension(796, 380));
         jScrollPane2.setRequestFocusEnabled(false);
 
-        actionDefinitionsTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, Boolean.TRUE, null},
-                {null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "Obj Inst Id", "name", "description", "rawType", "rawUnit", "generationEnabled", "updateInterval"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Float.class
-            };
+        actionDefinitionsTable.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{{null, null, null, null,
+                                                                                                null, Boolean.TRUE,
+                                                                                                null}, {null, null,
+                                                                                                        null, null,
+                                                                                                        null, null,
+                                                                                                        null}},
+                                                                                new String[]{"Obj Inst Id", "name",
+                                                                                             "description", "rawType",
+                                                                                             "rawUnit",
+                                                                                             "generationEnabled",
+                                                                                             "updateInterval"}) {
+            Class[] types = new Class[]{java.lang.Integer.class, java.lang.String.class, java.lang.String.class,
+                                        java.lang.Object.class, java.lang.String.class, java.lang.Boolean.class,
+                                        java.lang.Float.class};
 
             public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
+                return types[columnIndex];
             }
         });
         actionDefinitionsTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
@@ -178,22 +180,25 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(parameterTab, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 882, Short.MAX_VALUE)
-            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel6)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(parameterTab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(parameterTab, javax.swing.GroupLayout.PREFERRED_SIZE, 0,
+                                                      Short.MAX_VALUE)
+                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING,
+                                                      javax.swing.GroupLayout.DEFAULT_SIZE, 882, Short.MAX_VALUE)
+                                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                      javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
+        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                      .addGroup(layout.createSequentialGroup()
+                                                      .addContainerGap()
+                                                      .addComponent(jLabel6)
+                                                      .addGap(18, 18, 18)
+                                                      .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                    253, Short.MAX_VALUE)
+                                                      .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                      .addComponent(parameterTab,
+                                                                    javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                    javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                    javax.swing.GroupLayout.PREFERRED_SIZE)));
     }// </editor-fold>//GEN-END:initComponents
 
     private void listDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listDefinitionButtonActionPerformed
@@ -203,17 +208,23 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         try {
             ObjectInstancePairList objIds;
             try {
-                objIds = this.serviceMCAlert.getAlertStub().listDefinition((IdentifierList) actionNamesWindow.getObject());
+                objIds = this.serviceMCAlert.getAlertStub()
+                                            .listDefinition((IdentifierList) actionNamesWindow.getObject());
             } catch (InterruptedIOException ex) {
                 return;
             }
 
             StringBuilder str = new StringBuilder("Object instance identifiers on the provider: \n");
             for (ObjectInstancePair objId : objIds) {
-                    str.append("ObjId Def: ").append(objId.getObjDefInstanceId().toString()).append(" Identity: ").append(objId.getObjIdentityInstanceId().toString()).append("\n");
+                str.append("ObjId Def: ")
+                   .append(objId.getObjDefInstanceId().toString())
+                   .append(" Identity: ")
+                   .append(objId.getObjIdentityInstanceId().toString())
+                   .append("\n");
             }
 
-            JOptionPane.showMessageDialog(null, str.toString(), "Returned List from the Provider", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null, str.toString(), "Returned List from the Provider",
+                                          JOptionPane.PLAIN_MESSAGE);
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -233,11 +244,11 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         ArgumentDefinitionDetailsList detailsList = new ArgumentDefinitionDetailsList();
         detailsList.add(null);
         alertDefinition.setArguments(detailsList);
-        
+
         AlertCreationRequest request = new AlertCreationRequest();
         request.setAlertDefDetails(alertDefinition);
         request.setName(new Identifier("Alert1"));
-        
+
         MOWindow alertDefinitionWindow = new MOWindow(request, true);
 
         AlertCreationRequestList requestList = new AlertCreationRequestList();
@@ -255,19 +266,23 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
             }
 
             Thread.sleep(500);
-            
+
             // Get the stored Action Definition from the Archive
-            ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(
-                    this.serviceMCAlert.getCOMServices().getArchiveService().getArchiveStub(),
-                    AlertHelper.ALERTDEFINITION_OBJECT_TYPE, 
-                    serviceMCAlert.getConnectionDetails().getDomain(), 
-                    objIds.get(0).getObjDefInstanceId());
+            ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(this.serviceMCAlert.getCOMServices()
+                                                                                                      .getArchiveService()
+                                                                                                      .getArchiveStub(),
+                                                                                   AlertHelper.ALERTDEFINITION_OBJECT_TYPE,
+                                                                                   serviceMCAlert.getConnectionDetails()
+                                                                                                 .getDomain(), objIds
+                                                                                                                     .get(0)
+                                                                                                                     .getObjDefInstanceId());
 
             // Add the Action Definition to the table
             alertTable.addEntry(requestList.get(0).getName(), comObject);
 
         } catch (MALInteractionException | MALException ex) {
-            JOptionPane.showMessageDialog(null, "There was an error with the submitted alert instance.", "Error", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null, "There was an error with the submitted alert instance.", "Error",
+                                          JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InterruptedException ex) {
             Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -335,25 +350,30 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
             Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
             return;
         }
-
+        
         Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.INFO, "listDefinition(\"*\") returned {0} object instance identifiers", output.size());
         */
-        
+
         try {
             this.serviceMCAlert.getAlertStub().asyncListDefinition(idList, new AlertAdapter() {
                 @Override
-                public void listDefinitionResponseReceived(MALMessageHeader msgHeader, ObjectInstancePairList alertObjInstIds, Map qosProperties) {
-                    alertTable.refreshTableWithIds(alertObjInstIds, serviceMCAlert.getConnectionDetails().getDomain(), AlertHelper.ALERTDEFINITION_OBJECT_TYPE);
-                    Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.INFO, "listDefinition(\"*\") returned {0} object instance identifiers", alertObjInstIds.size());
+                public void listDefinitionResponseReceived(MALMessageHeader msgHeader,
+                                                           ObjectInstancePairList alertObjInstIds, Map qosProperties) {
+                    alertTable.refreshTableWithIds(alertObjInstIds, serviceMCAlert.getConnectionDetails().getDomain(),
+                                                   AlertHelper.ALERTDEFINITION_OBJECT_TYPE);
+                    Logger.getLogger(AlertConsumerPanel.class.getName())
+                          .log(Level.INFO, "listDefinition(\"*\") returned {0} object instance identifiers",
+                               alertObjInstIds.size());
                 }
 
                 @Override
-                public void listDefinitionErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
-                    JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.", "Error", JOptionPane.PLAIN_MESSAGE);
+                public void listDefinitionErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                                                        Map qosProperties) {
+                    JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.",
+                                                  "Error", JOptionPane.PLAIN_MESSAGE);
                     Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, error);
                 }
-            }
-            );
+            });
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -381,7 +401,8 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
 
         String str;
         if (alertTable.getSelectedRow() == -1) {  // Used to avoid problems if no row is selected
-            AlertDefinitionDetails alertDefinition = (AlertDefinitionDetails) alertTable.getFirstCOMObject().getObject();
+            AlertDefinitionDetails alertDefinition = (AlertDefinitionDetails) alertTable.getFirstCOMObject()
+                                                                                        .getObject();
             if (alertDefinition != null) {
                 curState = alertDefinition.getGenerationEnabled();
             } else {
@@ -406,12 +427,13 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         if (alertTable.getSelectedRow() == -1) { // The row is not selected?
             return;  // Well, then nothing to be done here folks!
         }
-/*
+        /*
         Long objId = alertTable.getSelectedObjId();
         LongList longlist = new LongList();
         longlist.add(objId);
-*/
-        Boolean curState = ((AlertDefinitionDetails) alertTable.getSelectedCOMObject().getObject()).getGenerationEnabled();
+        */
+        Boolean curState = ((AlertDefinitionDetails) alertTable.getSelectedCOMObject().getObject())
+                                                                                                   .getGenerationEnabled();
         InstanceBooleanPairList BoolPairList = new InstanceBooleanPairList();
         BoolPairList.add(new InstanceBooleanPair((long) 0, !curState));  // Zero is the wildcard
 
@@ -422,7 +444,6 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
             Logger.getLogger(AlertConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_enableDefinitionButtonAggActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable actionDefinitionsTable;

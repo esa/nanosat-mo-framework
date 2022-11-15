@@ -31,6 +31,5 @@ public class AbstractModel {
     public AbstractModel(String name) {
         this.name = name;
     }
-    
-    
+
 }

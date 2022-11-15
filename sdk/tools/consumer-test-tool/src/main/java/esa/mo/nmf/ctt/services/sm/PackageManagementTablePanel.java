@@ -62,10 +62,7 @@ public class PackageManagementTablePanel extends SharedTablePanel {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        tableData.addRow(new Object[]{
-            name,
-            isInstalled
-        });
+        tableData.addRow(new Object[]{name, isInstalled});
 
         semaphore.release();
     }
@@ -86,14 +83,10 @@ public class PackageManagementTablePanel extends SharedTablePanel {
     @Override
     public void defineTableContent() {
 
-        String[] tableCol = new String[]{
-            "Package name", "isInstalled"};
+        String[] tableCol = new String[]{"Package name", "isInstalled"};
 
-        tableData = new javax.swing.table.DefaultTableModel(
-                new Object[][]{}, tableCol) {
-            Class[] types = new Class[]{
-                java.lang.String.class, java.lang.Boolean.class
-            };
+        tableData = new javax.swing.table.DefaultTableModel(new Object[][]{}, tableCol) {
+            Class[] types = new Class[]{java.lang.String.class, java.lang.Boolean.class};
 
             @Override               //all cells false
             public boolean isCellEditable(int row, int column) {

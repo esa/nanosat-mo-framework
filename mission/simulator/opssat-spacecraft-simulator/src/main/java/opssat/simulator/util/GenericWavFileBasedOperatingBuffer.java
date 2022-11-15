@@ -62,7 +62,7 @@ public abstract class GenericWavFileBasedOperatingBuffer implements SimulatorOpe
                 ClassLoader classLoader;
                 classLoader = getClass().getClassLoader();
                 final URL url2 = classLoader.getSystemResource(path);
-
+            
                 final InputStream inputStream = classLoader.getSystemResourceAsStream(path);
                 try {
                     File newFile = new File(absolutePath);
@@ -84,9 +84,9 @@ public abstract class GenericWavFileBasedOperatingBuffer implements SimulatorOpe
             }
             */
 
-//            this.dataFilePath = Paths.get(absolutePath).toString();
+            //            this.dataFilePath = Paths.get(absolutePath).toString();
             this.dataFilePath = SimulatorNode.handleResourcePath(path, logger, getClass().getClassLoader(), false);
-            
+
             WavFile wavFile;
             try {
                 wavFile = WavFile.openWavFile(new File(this.dataFilePath));
@@ -113,7 +113,7 @@ public abstract class GenericWavFileBasedOperatingBuffer implements SimulatorOpe
     @Override
     public boolean preparePath(String path) {
         boolean fileExists = true;
-        
+
         try {
             RandomAccessFile f = new RandomAccessFile(SimulatorNode.getResourcesPath() + path, "r");
             f.close();
@@ -123,7 +123,6 @@ public abstract class GenericWavFileBasedOperatingBuffer implements SimulatorOpe
             Logger.getLogger(GenericFileBasedOperatingBuffer.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        
         if (fileExists) {
             this.dataFilePath = path;
             return true;
@@ -164,7 +163,11 @@ public abstract class GenericWavFileBasedOperatingBuffer implements SimulatorOpe
                     result.append(",");
                 }
                 if (k > 10) {
-                    result.append(" and [" + (tempCast.length - k) + "] more , total [" + tempCast.length + "] doubles.");
+                    result.append(" and [" +
+                                  (tempCast.length - k) +
+                                  "] more , total [" +
+                                  tempCast.length +
+                                  "] doubles.");
                     break;
                 }
             }

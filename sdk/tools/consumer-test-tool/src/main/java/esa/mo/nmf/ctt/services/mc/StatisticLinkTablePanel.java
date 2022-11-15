@@ -42,8 +42,9 @@ public class StatisticLinkTablePanel extends SharedTablePanel {
 
     @Override
     public void addEntry(final Identifier name, final ArchivePersistenceObject comObject) {
-        if (comObject == null){
-            Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, "The table cannot process a null COM Object.");
+        if (comObject == null) {
+            Logger.getLogger(SharedTablePanel.class.getName())
+                  .log(Level.SEVERE, "The table cannot process a null COM Object.");
             return;
         }
 
@@ -54,23 +55,34 @@ public class StatisticLinkTablePanel extends SharedTablePanel {
         }
 
         StatisticLinkDetails statLink = (StatisticLinkDetails) comObject.getObject();
-        
+
         // Get the parameter definition from the source link
-        ParameterDefinitionDetails pDef = (ParameterDefinitionDetails) HelperArchive.getObjectBodyFromArchive(
-                this.getArchiveService().getArchiveStub(), 
-                comObject.getArchiveDetails().getDetails().getSource().getType(), 
-                comObject.getArchiveDetails().getDetails().getSource().getKey().getDomain(), 
-                comObject.getArchiveDetails().getDetails().getSource().getKey().getInstId());
-        
-        tableData.addRow(new Object[]{
-            comObject.getArchiveDetails().getInstId(),
-            comObject.getArchiveDetails().getDetails().getRelated().toString(),
-            name.toString(),
-            statLink.getCollectionInterval().toString(),
-            statLink.getReportingInterval().toString(),
-            statLink.getSamplingInterval().toString(),
-            statLink.getReportingEnabled()
-        });
+        ParameterDefinitionDetails pDef = (ParameterDefinitionDetails) HelperArchive.getObjectBodyFromArchive(this.getArchiveService()
+                                                                                                                  .getArchiveStub(),
+                                                                                                              comObject.getArchiveDetails()
+                                                                                                                       .getDetails()
+                                                                                                                       .getSource()
+                                                                                                                       .getType(),
+                                                                                                              comObject.getArchiveDetails()
+                                                                                                                       .getDetails()
+                                                                                                                       .getSource()
+                                                                                                                       .getKey()
+                                                                                                                       .getDomain(),
+                                                                                                              comObject.getArchiveDetails()
+                                                                                                                       .getDetails()
+                                                                                                                       .getSource()
+                                                                                                                       .getKey()
+                                                                                                                       .getInstId());
+
+        tableData.addRow(new Object[]{comObject.getArchiveDetails().getInstId(), comObject.getArchiveDetails()
+                                                                                          .getDetails()
+                                                                                          .getRelated()
+                                                                                          .toString(), name.toString(),
+                                      statLink.getCollectionInterval().toString(), statLink.getReportingInterval()
+                                                                                           .toString(), statLink
+                                                                                                                .getSamplingInterval()
+                                                                                                                .toString(),
+                                      statLink.getReportingEnabled()});
 
         comObjects.add(comObject);
 
@@ -78,8 +90,8 @@ public class StatisticLinkTablePanel extends SharedTablePanel {
 
     }
 
-    public void switchEnabledstatus(boolean status){
-        
+    public void switchEnabledstatus(boolean status) {
+
         try {
             semaphore.acquire();
         } catch (InterruptedException ex) {
@@ -89,56 +101,53 @@ public class StatisticLinkTablePanel extends SharedTablePanel {
         // 6 because it is where generationEnabled is!
         tableData.setValueAt(status, this.getSelectedRow(), 6);
         ((StatisticLinkDetails) this.getSelectedCOMObject().getObject()).setReportingEnabled(status);
-        
+
         semaphore.release();
-        
+
     }
-    
-    public void switchEnabledstatusAll(boolean status){
-        
+
+    public void switchEnabledstatusAll(boolean status) {
+
         try {
             semaphore.acquire();
         } catch (InterruptedException ex) {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         // 6 because it is where generationEnabled is!
-        for (int i = 0; i < this.getTable().getRowCount() ; i++){
+        for (int i = 0; i < this.getTable().getRowCount(); i++) {
             tableData.setValueAt(status, i, 6);
             ((StatisticLinkDetails) this.getCOMObjects().get(i).getObject()).setReportingEnabled(status);
         }
-        
+
         semaphore.release();
-        
+
     }
-    
-    
+
     @Override
     public void defineTableContent() {
-    
-        String[] tableCol = new String[]{
-            "Obj Inst Id", "Stat Function Id", "Parameter Name", "collection interval", "reporting interval", "sampling interval", "reporting Enabled" };
 
-        tableData = new javax.swing.table.DefaultTableModel(
-                new Object[][]{}, tableCol) {
-                    Class[] types = new Class[]{
-                        java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class,
-                        java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
-                    };
+        String[] tableCol = new String[]{"Obj Inst Id", "Stat Function Id", "Parameter Name", "collection interval",
+                                         "reporting interval", "sampling interval", "reporting Enabled"};
 
-                    @Override               //all cells false
-                    public boolean isCellEditable(int row, int column) {
-                        return false;
-                    }
+        tableData = new javax.swing.table.DefaultTableModel(new Object[][]{}, tableCol) {
+            Class[] types = new Class[]{java.lang.Integer.class, java.lang.String.class, java.lang.String.class,
+                                        java.lang.String.class, java.lang.String.class, java.lang.String.class,
+                                        java.lang.Boolean.class};
 
-                    @Override
-                    public Class getColumnClass(int columnIndex) {
-                        return types[columnIndex];
-                    }
-                };
+            @Override               //all cells false
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+
+            @Override
+            public Class getColumnClass(int columnIndex) {
+                return types[columnIndex];
+            }
+        };
 
         super.getTable().setModel(tableData);
 
     }
-    
+
 }

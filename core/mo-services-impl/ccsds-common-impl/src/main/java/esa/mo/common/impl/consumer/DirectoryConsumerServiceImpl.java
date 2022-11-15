@@ -41,42 +41,33 @@ import org.ccsds.moims.mo.mal.structures.URI;
 /**
  * @author Cesar Coelho
  */
-public class DirectoryConsumerServiceImpl extends ConsumerServiceImpl
-{
+public class DirectoryConsumerServiceImpl extends ConsumerServiceImpl {
 
     private final URI providerURI;
 
     private DirectoryStub directoryService = null;
 
-    public DirectoryConsumerServiceImpl(final URI providerURI)
-            throws MALException, MalformedURLException, MALInteractionException
-    {
+    public DirectoryConsumerServiceImpl(final URI providerURI) throws MALException, MalformedURLException, MALInteractionException {
         this(providerURI, null, null);
     }
 
     public DirectoryConsumerServiceImpl(final URI providerURI, final Blob authenticationId,
-                                        final String localNamePrefix)
-            throws MALException, MalformedURLException, MALInteractionException
-    {
+                                        final String localNamePrefix) throws MALException, MalformedURLException, MALInteractionException {
 
-        if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null)
-        {
+        if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
             MALHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
-        if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null)
-        {
+        if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null) {
             COMHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
         }
 
-        if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION) == null)
-        {
+        if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION) == null) {
             CommonHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
         if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION)
-                    .getServiceByName(DirectoryHelper.DIRECTORY_SERVICE_NAME) == null)
-        {
+                             .getServiceByName(DirectoryHelper.DIRECTORY_SERVICE_NAME) == null) {
             DirectoryHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
@@ -84,14 +75,10 @@ public class DirectoryConsumerServiceImpl extends ConsumerServiceImpl
         this.providerURI = providerURI;
 
         // Close old connection
-        if (tmConsumer != null)
-        {
-            try
-            {
+        if (tmConsumer != null) {
+            try {
                 tmConsumer.close();
-            }
-            catch (MALException ex)
-            {
+            } catch (MALException ex) {
                 Logger.getLogger(DirectoryConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -99,32 +86,27 @@ public class DirectoryConsumerServiceImpl extends ConsumerServiceImpl
         IdentifierList domain = new IdentifierList();
         domain.add(new Identifier("*"));
 
-        tmConsumer =
-                connection.startService(providerURI, null, domain, DirectoryHelper.DIRECTORY_SERVICE, authenticationId,
-                                        localNamePrefix);
+        tmConsumer = connection.startService(providerURI, null, domain, DirectoryHelper.DIRECTORY_SERVICE,
+                                             authenticationId, localNamePrefix);
 
         this.directoryService = new DirectoryStub(tmConsumer);
     }
 
-    public URI getProviderURI()
-    {
+    public URI getProviderURI() {
         return this.providerURI;
     }
 
     @Override
-    public Object generateServiceStub(MALConsumer tmConsumer)
-    {
+    public Object generateServiceStub(MALConsumer tmConsumer) {
         return new DirectoryStub(tmConsumer);
     }
 
     @Override
-    public Object getStub()
-    {
+    public Object getStub() {
         return this.getDirectoryStub();
     }
 
-    public DirectoryStub getDirectoryStub()
-    {
+    public DirectoryStub getDirectoryStub() {
         return this.directoryService;
     }
 }

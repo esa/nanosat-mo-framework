@@ -49,9 +49,9 @@ public class COMObjectEntityPK implements Serializable {
         }
         COMObjectEntityPK input = (COMObjectEntityPK) other;
 
-        return (input.objectTypeId.equals(objectTypeId)
-                && input.domainId.equals(domainId)
-                && input.objId.equals(objId));
+        return (input.objectTypeId.equals(objectTypeId) &&
+                input.domainId.equals(domainId) &&
+                input.objId.equals(objId));
     }
 
     @Override

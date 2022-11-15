@@ -36,29 +36,29 @@ public abstract class MOelement extends javax.swing.JPanel {
     boolean editable;
 
     @SuppressWarnings("unchecked")
-    public MOelement(String fieldName, Object obj, boolean editable, boolean objIsNull){
+    public MOelement(String fieldName, Object obj, boolean editable, boolean objIsNull) {
         initComponents();
-        
+
         this.fieldName.setText(fieldName);
         String className = "--";
 
-        if (obj != null){
+        if (obj != null) {
             className = obj.getClass().getSimpleName();
             mainPanel.remove(this.fieldSelectableAttribute);
-        }else{
+        } else {
             mainPanel.remove(this.fieldType);
             this.fieldSelectableAttribute.removeAllItems();
-            
-            for (int index = 0; index < 18 ; index++ ){
+
+            for (int index = 0; index < 18; index++) {
                 this.fieldSelectableAttribute.addItem(HelperAttributes.typeShortForm2attributeName(index));
             }
-            
-//            String asfgsf = (String)  this.fieldSelectableAttribute.getItemAt(1);
-//            asfgsf = "dsdcs";
+
+            //            String asfgsf = (String)  this.fieldSelectableAttribute.getItemAt(1);
+            //            asfgsf = "dsdcs";
 
         }
 
-        if (obj instanceof Union){
+        if (obj instanceof Union) {
             try {
                 Field field = obj.getClass().getDeclaredField("value");
                 Field fieldTypeShortForm = obj.getClass().getDeclaredField("typeShortForm");
@@ -72,23 +72,23 @@ public abstract class MOelement extends javax.swing.JPanel {
                 Logger.getLogger(MOelement.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
-        if (className.endsWith("List")){
-            className = "List<" + className.substring(0, className.length()-4) + ">";
+
+        if (className.endsWith("List")) {
+            className = "List<" + className.substring(0, className.length() - 4) + ">";
         }
-        
-        if (objIsNull){
+
+        if (objIsNull) {
             this.makeFieldNull();
         }
-        
-        if (!editable){
+
+        if (!editable) {
             this.nullCB.setEnabled(false);
         }
-        
+
         this.fieldType.setText(className);
         this.editable = editable;
         this.object = obj;
-        
+
     }
 
     /**
@@ -120,7 +120,8 @@ public abstract class MOelement extends javax.swing.JPanel {
         fieldType.setText("jLabel1");
         mainPanel.add(fieldType);
 
-        fieldSelectableAttribute.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        fieldSelectableAttribute.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Item 1", "Item 2",
+                                                                                            "Item 3", "Item 4"}));
         fieldSelectableAttribute.addActionListener(this::fieldSelectableAttributeActionPerformed);
         mainPanel.add(fieldSelectableAttribute);
 
@@ -133,26 +134,27 @@ public abstract class MOelement extends javax.swing.JPanel {
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 580, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                                        .addContainerGap()
+                                                        .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                      580, Short.MAX_VALUE)
+                                                        .addContainerGap()));
+        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                      .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout
+                                                                                                  .createSequentialGroup()
+                                                                                                  .addGap(0, 0, 0)
+                                                                                                  .addComponent(mainPanel,
+                                                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                                                                Short.MAX_VALUE)));
     }// </editor-fold>//GEN-END:initComponents
 
     private void nullCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nullCBActionPerformed
-        for (int i = 0 ; i < this.middlePanel.getComponentCount(); i++){
+        for (int i = 0; i < this.middlePanel.getComponentCount(); i++) {
             this.middlePanel.getComponent(i).setEnabled(!this.middlePanel.getComponent(i).isEnabled());
         }
-        
+
         this.fieldSelectableAttribute.setEnabled(!this.fieldSelectableAttribute.isEnabled());
     }//GEN-LAST:event_nullCBActionPerformed
 
@@ -160,23 +162,23 @@ public abstract class MOelement extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_fieldSelectableAttributeActionPerformed
 
-    public final void makeFieldNull(){
-        for (int i = 0 ; i < this.middlePanel.getComponentCount(); i++){
+    public final void makeFieldNull() {
+        for (int i = 0; i < this.middlePanel.getComponentCount(); i++) {
             this.middlePanel.getComponent(i).setEnabled(false);
             this.nullCB.setSelected(true);
         }
 
         this.fieldSelectableAttribute.setEnabled(false);
     }
-    
-    public javax.swing.JLabel getFieldNameLabel(){
+
+    public javax.swing.JLabel getFieldNameLabel() {
         return fieldName;
     }
-    
-    public String getFieldTypeString(){
+
+    public String getFieldTypeString() {
         return this.fieldType.getText();
     }
-    
+
     /**
      *
      * @return

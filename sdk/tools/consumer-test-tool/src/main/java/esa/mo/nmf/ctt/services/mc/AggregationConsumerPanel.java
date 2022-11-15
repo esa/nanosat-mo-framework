@@ -87,14 +87,14 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         // Subscribe to ParametersValues
         subscription = ConnectionConsumer.subscriptionWildcard();
         try {
-            serviceMCAggregation.getAggregationStub().monitorValueRegister(subscription, new AggregationConsumerAdapter());
+            serviceMCAggregation.getAggregationStub()
+                                .monitorValueRegister(subscription, new AggregationConsumerAdapter());
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public void removeNotify()
-    {
+    public void removeNotify() {
         super.removeNotify();
         IdentifierList ids = new IdentifierList();
         ids.add(subscription.getSubscriptionId());
@@ -104,7 +104,6 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
             Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
 
     /**
      * This method is called from within the constructor to initialize the
@@ -144,21 +143,23 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         jScrollPane2.setPreferredSize(new java.awt.Dimension(796, 380));
         jScrollPane2.setRequestFocusEnabled(false);
 
-        actionDefinitionsTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, Boolean.TRUE, null},
-                {null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "Obj Inst Id", "name", "description", "rawType", "rawUnit", "generationEnabled", "updateInterval"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Float.class
-            };
+        actionDefinitionsTable.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{{null, null, null, null,
+                                                                                                null, Boolean.TRUE,
+                                                                                                null}, {null, null,
+                                                                                                        null, null,
+                                                                                                        null, null,
+                                                                                                        null}},
+                                                                                new String[]{"Obj Inst Id", "name",
+                                                                                             "description", "rawType",
+                                                                                             "rawUnit",
+                                                                                             "generationEnabled",
+                                                                                             "updateInterval"}) {
+            Class[] types = new Class[]{java.lang.Integer.class, java.lang.String.class, java.lang.String.class,
+                                        java.lang.Object.class, java.lang.String.class, java.lang.Boolean.class,
+                                        java.lang.Float.class};
 
             public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
+                return types[columnIndex];
             }
         });
         actionDefinitionsTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
@@ -234,22 +235,25 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(parameterTab, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 963, Short.MAX_VALUE)
-            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel6)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(parameterTab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(parameterTab, javax.swing.GroupLayout.PREFERRED_SIZE, 0,
+                                                      Short.MAX_VALUE)
+                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING,
+                                                      javax.swing.GroupLayout.DEFAULT_SIZE, 963, Short.MAX_VALUE)
+                                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                      javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
+        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                      .addGroup(layout.createSequentialGroup()
+                                                      .addContainerGap()
+                                                      .addComponent(jLabel6)
+                                                      .addGap(18, 18, 18)
+                                                      .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                    300, Short.MAX_VALUE)
+                                                      .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                      .addComponent(parameterTab,
+                                                                    javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                    javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                    javax.swing.GroupLayout.PREFERRED_SIZE)));
     }// </editor-fold>//GEN-END:initComponents
 
     private void listDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listDefinitionButtonActionPerformed
@@ -268,10 +272,15 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
 
             StringBuilder str = new StringBuilder("Object instance identifiers on the provider: \n");
             for (ObjectInstancePair objId : objIds) {
-                str.append("ObjId Def: ").append(objId.getObjDefInstanceId().toString()).append(" Identity: ").append(objId.getObjIdentityInstanceId().toString()).append("\n");
+                str.append("ObjId Def: ")
+                   .append(objId.getObjDefInstanceId().toString())
+                   .append(" Identity: ")
+                   .append(objId.getObjIdentityInstanceId().toString())
+                   .append("\n");
             }
 
-            JOptionPane.showMessageDialog(null, str.toString(), "Returned List from the Provider", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null, str.toString(), "Returned List from the Provider",
+                                          JOptionPane.PLAIN_MESSAGE);
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -320,16 +329,19 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
             }
 
             // Get the stored Parameter Definition from the Archive
-            ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(
-                    this.serviceMCAggregation.getCOMServices().getArchiveService().getArchiveStub(),
-                    AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE,
-                    serviceMCAggregation.getConnectionDetails().getDomain(),
-                    objIds.get(0).getObjDefInstanceId());
+            ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(this.serviceMCAggregation.getCOMServices()
+                                                                                                            .getArchiveService()
+                                                                                                            .getArchiveStub(),
+                                                                                   AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE,
+                                                                                   serviceMCAggregation.getConnectionDetails()
+                                                                                                       .getDomain(),
+                                                                                   objIds.get(0).getObjDefInstanceId());
 
             // Add the Action Definition to the table
             aggregationTable.addEntry(requestList.get(0).getName(), comObject);
         } catch (MALInteractionException | MALException ex) {
-            JOptionPane.showMessageDialog(null, "There was an error with the submitted Aggregation Definition.", "Error", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null, "There was an error with the submitted Aggregation Definition.",
+                                          "Error", JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_addDefinitionButtonActionPerformed
@@ -400,18 +412,24 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCAggregation.getAggregationStub().asyncListDefinition(idList, new AggregationAdapter() {
                 @Override
-                public void listDefinitionResponseReceived(MALMessageHeader msgHeader, ObjectInstancePairList objInstIds, Map qosProperties) {
-                    aggregationTable.refreshTableWithIds(objInstIds, serviceMCAggregation.getConnectionDetails().getDomain(), AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE);
-                    Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.INFO, "listDefinition(\"*\") returned {0} object instance identifiers", objInstIds.size());
+                public void listDefinitionResponseReceived(MALMessageHeader msgHeader,
+                                                           ObjectInstancePairList objInstIds, Map qosProperties) {
+                    aggregationTable.refreshTableWithIds(objInstIds, serviceMCAggregation.getConnectionDetails()
+                                                                                         .getDomain(),
+                                                         AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE);
+                    Logger.getLogger(AggregationConsumerPanel.class.getName())
+                          .log(Level.INFO, "listDefinition(\"*\") returned {0} object instance identifiers", objInstIds
+                                                                                                                       .size());
                 }
 
                 @Override
-                public void listDefinitionErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
-                    JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.", "Error", JOptionPane.PLAIN_MESSAGE);
+                public void listDefinitionErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                                                        Map qosProperties) {
+                    JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.",
+                                                  "Error", JOptionPane.PLAIN_MESSAGE);
                     Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, error);
                 }
-            }
-            );
+            });
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -439,14 +457,16 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         Boolean curState;
 
         if (aggregationTable.getSelectedRow() == -1) {  // Used to avoid problems if no row is selected
-            AggregationDefinitionDetails aggregationDefinition = (AggregationDefinitionDetails) aggregationTable.getFirstCOMObject().getObject();
+            AggregationDefinitionDetails aggregationDefinition = (AggregationDefinitionDetails) aggregationTable.getFirstCOMObject()
+                                                                                                                .getObject();
             if (aggregationDefinition != null) {
                 curState = aggregationDefinition.getGenerationEnabled();
             } else {
                 curState = true;
             }
         } else {
-            curState = ((AggregationDefinitionDetails) aggregationTable.getSelectedCOMObject().getObject()).getGenerationEnabled();
+            curState = ((AggregationDefinitionDetails) aggregationTable.getSelectedCOMObject().getObject())
+                                                                                                           .getGenerationEnabled();
         }
 
         InstanceBooleanPairList BoolPairList = new InstanceBooleanPairList();
@@ -466,7 +486,8 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
             return;  // Well, then nothing to be done here folks!
         }
 
-        Boolean curState = ((AggregationDefinitionDetails) aggregationTable.getSelectedCOMObject().getObject()).getGenerationEnabled();
+        Boolean curState = ((AggregationDefinitionDetails) aggregationTable.getSelectedCOMObject().getObject())
+                                                                                                               .getGenerationEnabled();
         InstanceBooleanPairList BoolPairList = new InstanceBooleanPairList();
         BoolPairList.add(new InstanceBooleanPair(aggregationTable.getSelectedIdentityObjId(), !curState));  // Zero is the wildcard
 
@@ -479,7 +500,6 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_enableDefinitionButtonAggActionPerformed
 
     private void msgBoxOnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_msgBoxOnActionPerformed
-
 
     }//GEN-LAST:event_msgBoxOnActionPerformed
 
@@ -495,21 +515,46 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
             for (int h = 0; h < values.size(); h++) {
                 AggregationValueDetails value = values.get(h);
 
-                str.append("The value for objId ").append(value.getAggId().toString()).append(" (AggregationValue index: ").append(h).append(") is:").append("\n");
+                str.append("The value for objId ")
+                   .append(value.getAggId().toString())
+                   .append(" (AggregationValue index: ")
+                   .append(h)
+                   .append(") is:")
+                   .append("\n");
                 for (int i = 0; i < value.getValue().getParameterSetValues().size(); i++) {
                     for (int j = 0; j < value.getValue().getParameterSetValues().get(i).getValues().size(); j++) {
                         if (value.getValue().getParameterSetValues().get(i).getValues().get(j) == null) {
                             continue;
                         }
 
-                        ParameterValue paramValue = value.getValue().getParameterSetValues().get(i).getValues().get(j).getValue();
-                        str.append("(parameterSetValue index: ").append(i).append(") ").append("validityState: ").append(paramValue.getValidityState().toString()).append("\n");
+                        ParameterValue paramValue = value.getValue()
+                                                         .getParameterSetValues()
+                                                         .get(i)
+                                                         .getValues()
+                                                         .get(j)
+                                                         .getValue();
+                        str.append("(parameterSetValue index: ")
+                           .append(i)
+                           .append(") ")
+                           .append("validityState: ")
+                           .append(paramValue.getValidityState().toString())
+                           .append("\n");
 
                         if (paramValue.getRawValue() != null) {
-                            str.append("(parameterSetValue index: ").append(i).append(") ").append("rawValue: ").append(paramValue.getRawValue().toString()).append("\n");
+                            str.append("(parameterSetValue index: ")
+                               .append(i)
+                               .append(") ")
+                               .append("rawValue: ")
+                               .append(paramValue.getRawValue().toString())
+                               .append("\n");
                         }
                         if (paramValue.getConvertedValue() != null) {
-                            str.append("(parameterSetValue index: ").append(i).append(") ").append("convertedValue: ").append(paramValue.getConvertedValue().toString()).append("\n");
+                            str.append("(parameterSetValue index: ")
+                               .append(i)
+                               .append(") ")
+                               .append("convertedValue: ")
+                               .append(paramValue.getConvertedValue().toString())
+                               .append("\n");
                         }
                         str.append("\n");
                     }
@@ -517,7 +562,8 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
                 str.append("---------------------------------------\n");
             }
 
-            JOptionPane.showMessageDialog(null, str.toString(), "Returned List from the Provider", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null, str.toString(), "Returned List from the Provider",
+                                          JOptionPane.PLAIN_MESSAGE);
 
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -528,7 +574,9 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
 
         String str;
         if (aggregationTable.getSelectedRow() == -1) {  // Used to avoid problems if no row is selected
-            str = ((AggregationDefinitionDetails) aggregationTable.getSelectedCOMObject().getObject()).getFilterEnabled().toString(); // Get the status from selection
+            str = ((AggregationDefinitionDetails) aggregationTable.getSelectedCOMObject().getObject())
+                                                                                                      .getFilterEnabled()
+                                                                                                      .toString(); // Get the status from selection
         } else {
             str = "true";
         }
@@ -550,7 +598,8 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         }
 
         Long objId = aggregationTable.getSelectedCOMObject().getArchiveDetails().getInstId();
-        Boolean curState = ((AggregationDefinitionDetails) aggregationTable.getSelectedCOMObject().getObject()).getFilterEnabled(); // String to Boolean conversion
+        Boolean curState = ((AggregationDefinitionDetails) aggregationTable.getSelectedCOMObject().getObject())
+                                                                                                               .getFilterEnabled(); // String to Boolean conversion
         InstanceBooleanPairList boolPairList = new InstanceBooleanPairList();
         boolPairList.add(new InstanceBooleanPair(objId, !curState));
 
@@ -579,21 +628,46 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
             for (int h = 0; h < values.size(); h++) {
                 AggregationValueDetails value = values.get(h);
 
-                str.append("The value for objId ").append(value.getAggId().toString()).append(" (AggregationValue index: ").append(h).append(") is:").append("\n");
+                str.append("The value for objId ")
+                   .append(value.getAggId().toString())
+                   .append(" (AggregationValue index: ")
+                   .append(h)
+                   .append(") is:")
+                   .append("\n");
                 for (int i = 0; i < value.getValue().getParameterSetValues().size(); i++) {
                     for (int j = 0; j < value.getValue().getParameterSetValues().get(i).getValues().size(); j++) {
                         if (value.getValue().getParameterSetValues().get(i).getValues().get(j) == null) {
                             continue;
                         }
 
-                        ParameterValue paramValue = value.getValue().getParameterSetValues().get(i).getValues().get(j).getValue();
-                        str.append("(parameterSetValue index: ").append(i).append(") ").append("validityState: ").append(paramValue.getValidityState().toString()).append("\n");
+                        ParameterValue paramValue = value.getValue()
+                                                         .getParameterSetValues()
+                                                         .get(i)
+                                                         .getValues()
+                                                         .get(j)
+                                                         .getValue();
+                        str.append("(parameterSetValue index: ")
+                           .append(i)
+                           .append(") ")
+                           .append("validityState: ")
+                           .append(paramValue.getValidityState().toString())
+                           .append("\n");
 
                         if (paramValue.getRawValue() != null) {
-                            str.append("(parameterSetValue index: ").append(i).append(") ").append("rawValue: ").append(paramValue.getRawValue().toString()).append("\n");
+                            str.append("(parameterSetValue index: ")
+                               .append(i)
+                               .append(") ")
+                               .append("rawValue: ")
+                               .append(paramValue.getRawValue().toString())
+                               .append("\n");
                         }
                         if (paramValue.getConvertedValue() != null) {
-                            str.append("(parameterSetValue index: ").append(i).append(") ").append("convertedValue: ").append(paramValue.getConvertedValue().toString()).append("\n");
+                            str.append("(parameterSetValue index: ")
+                               .append(i)
+                               .append(") ")
+                               .append("convertedValue: ")
+                               .append(paramValue.getConvertedValue().toString())
+                               .append("\n");
                         }
                         str.append("\n");
                     }
@@ -601,7 +675,8 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
                 str.append("---------------------------------------\n");
             }
 
-            JOptionPane.showMessageDialog(null, str.toString(), "Returned List from the Provider", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null, str.toString(), "Returned List from the Provider",
+                                          JOptionPane.PLAIN_MESSAGE);
 
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AggregationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -612,11 +687,11 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
 
         @Override
         public void monitorValueNotifyReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-                org.ccsds.moims.mo.mal.structures.Identifier identifier,
-                org.ccsds.moims.mo.mal.structures.UpdateHeaderList lUpdateHeaderList,
-                org.ccsds.moims.mo.com.structures.ObjectIdList _ObjectIdList2,
-                org.ccsds.moims.mo.mc.aggregation.structures.AggregationValueList lAggregationValueList,
-                java.util.Map qosProperties) {
+                                               org.ccsds.moims.mo.mal.structures.Identifier identifier,
+                                               org.ccsds.moims.mo.mal.structures.UpdateHeaderList lUpdateHeaderList,
+                                               org.ccsds.moims.mo.com.structures.ObjectIdList _ObjectIdList2,
+                                               org.ccsds.moims.mo.mc.aggregation.structures.AggregationValueList lAggregationValueList,
+                                               java.util.Map qosProperties) {
 
             final long iDiff = System.currentTimeMillis() - msgHeader.getTimestamp().getValue();
 
@@ -628,14 +703,27 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
                 if (msgBoxOn.isSelected() && !lUpdateHeaderList.isEmpty() && lAggregationValueList.size() != 0) {
                     StringBuilder str = new StringBuilder();
                     final AggregationValue aggregationValue = lAggregationValueList.get(0);
-                    str.append("AggregationValue generationMode: ").append(aggregationValue.getGenerationMode().toString()).append(" (filtered: ").append(aggregationValue.getFiltered().toString()).append(")").append("\n");
+                    str.append("AggregationValue generationMode: ")
+                       .append(aggregationValue.getGenerationMode().toString())
+                       .append(" (filtered: ")
+                       .append(aggregationValue.getFiltered().toString())
+                       .append(")")
+                       .append("\n");
 
-                    str.append("Aggregation objId ").append(objId).append(" (name: ").append(Aggname).append("):").append("\n");
+                    str.append("Aggregation objId ")
+                       .append(objId)
+                       .append(" (name: ")
+                       .append(Aggname)
+                       .append("):")
+                       .append("\n");
 
                     for (int i = 0; i < aggregationValue.getParameterSetValues().size(); i++) {  // Cycle through parameterSetValues
                         str.append("- AggregationParameterSet values index: ").append(i).append("\n");
-                        str.append("deltaTime: ").append(aggregationValue.getParameterSetValues().get(i).getDeltaTime());
-                        str.append(" and intervalTime: ").append(aggregationValue.getParameterSetValues().get(i).getIntervalTime()).append("\n");
+                        str.append("deltaTime: ")
+                           .append(aggregationValue.getParameterSetValues().get(i).getDeltaTime());
+                        str.append(" and intervalTime: ")
+                           .append(aggregationValue.getParameterSetValues().get(i).getIntervalTime())
+                           .append("\n");
                         AggregationSetValue parameterSetsValue = aggregationValue.getParameterSetValues().get(i);
 
                         for (int j = 0; j < parameterSetsValue.getValues().size(); j++) { // Cycle through the values
@@ -651,13 +739,16 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
                                 str.append("rawValue: ").append(paramValue.getRawValue().toString()).append("\n");
                             }
                             if (paramValue.getConvertedValue() != null) {
-                                str.append("convertedValue: ").append(paramValue.getConvertedValue().toString()).append("\n");
+                                str.append("convertedValue: ")
+                                   .append(paramValue.getConvertedValue().toString())
+                                   .append("\n");
                             }
                             str.append("\n");
                         }
                     }
 
-                    JOptionPane.showMessageDialog(null, str.toString(), "Returned Values from the Provider", JOptionPane.PLAIN_MESSAGE);
+                    JOptionPane.showMessageDialog(null, str.toString(), "Returned Values from the Provider",
+                                                  JOptionPane.PLAIN_MESSAGE);
                 }
 
             } catch (NumberFormatException ex) {

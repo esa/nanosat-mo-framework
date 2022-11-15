@@ -69,21 +69,22 @@ public class CheckLinkEvaluation {
         this.evaluationResults = evaluationResults;
     }
 
-    public void addEvaluationResult(EvaluationResult evaluationResult){
+    public void addEvaluationResult(EvaluationResult evaluationResult) {
         this.evaluationResults.add(evaluationResult);
     }
-    
-    public EvaluationResult getLastEvaluationResult(){
-        return this.evaluationResults.get(evaluationResults.size()-1);
+
+    public EvaluationResult getLastEvaluationResult() {
+        return this.evaluationResults.get(evaluationResults.size() - 1);
     }
 
     public void setLastEvaluationResult(EvaluationResult evaluationResult) {
-        this.evaluationResults.set(evaluationResults.size()-1, evaluationResult);
+        this.evaluationResults.set(evaluationResults.size() - 1, evaluationResult);
     }
+
     public int getRefValueCounter() {
         return refValueCounter;
     }
-    
+
     public void incRefValueCounter() {
         this.refValueCounter++;
     }
@@ -108,6 +109,4 @@ public class CheckLinkEvaluation {
         this.sampleTimes = sampleTimes;
     }
 
-    
-    
 }

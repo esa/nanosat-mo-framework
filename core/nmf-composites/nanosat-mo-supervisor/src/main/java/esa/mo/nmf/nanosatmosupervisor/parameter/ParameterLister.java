@@ -42,67 +42,65 @@ import java.util.logging.Logger;
  * @author Tanguy Soto
  */
 public class ParameterLister {
-  private static final Logger LOGGER = Logger.getLogger(MCSupervisorBasicAdapter.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(MCSupervisorBasicAdapter.class.getName());
 
-  /**
-   * The map of OBSW parameters defined in datapool so they can be accessed by parameter name.
-   */
-  private final HashMap<Identifier, OBSWParameter> parameterMap;
+    /**
+     * The map of OBSW parameters defined in datapool so they can be accessed by parameter name.
+     */
+    private final HashMap<Identifier, OBSWParameter> parameterMap;
 
-  /**
-   * Initializes this object using the contents of the provided datapool XML file.
-   *
-   * @param datapool Stream to read the datapool.
-   * @throws ParserConfigurationException
-   * @throws SAXException
-   * @throws IOException
-   */
-  public ParameterLister(InputStream datapool)
-      throws IOException, JAXBException, XMLStreamException {
-    LOGGER.log(Level.INFO, "Loading OBSW parameters from datapool");
-    this.parameterMap = readParameters(datapool);
-  }
-
-  /**
-   * Returns the OBSW parameters in the datapool, mapped by OBSW parameter name.
-   *
-   * @return The parameters in the datapool.
-   */
-  public HashMap<Identifier, OBSWParameter> getParameters() {
-    return this.parameterMap;
-  }
-
-  /**
-   * Reads the OBSW parameters in the datapool XML file and returns them in a map by OBSW parameter
-   * ID.
-   *
-   * @param datapool The input stream to read the XML file.
-   * @return The parameters read from the XML.
-   * @throws IOException
-   * @throws SAXException
-   * @throws ParserConfigurationException
-   */
-  private HashMap<Identifier, OBSWParameter> readParameters(InputStream datapool)
-      throws IOException, JAXBException, XMLStreamException {
-    HashMap<Identifier, OBSWParameter> map = new HashMap<>();
-
-    XMLInputFactory xif = XMLInputFactory.newFactory();
-    XMLStreamReader xsr = xif.createXMLStreamReader(datapool);
-
-    JAXBContext jc = JAXBContext.newInstance(OBSWParameter.class);
-    Unmarshaller unmarshaller = jc.createUnmarshaller();
-
-    xsr.nextTag();
-    while (xsr.hasNext()) {
-      xsr.next();
-
-      if (xsr.isStartElement() && xsr.getLocalName().equals("parameter")) {
-        OBSWParameter parameter = unmarshaller.unmarshal(xsr, OBSWParameter.class).getValue();
-        map.put(new Identifier(parameter.getName()), parameter);
-      }
+    /**
+     * Initializes this object using the contents of the provided datapool XML file.
+     *
+     * @param datapool Stream to read the datapool.
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws IOException
+     */
+    public ParameterLister(InputStream datapool) throws IOException, JAXBException, XMLStreamException {
+        LOGGER.log(Level.INFO, "Loading OBSW parameters from datapool");
+        this.parameterMap = readParameters(datapool);
     }
-    xsr.close();
 
-    return map;
-  }
+    /**
+     * Returns the OBSW parameters in the datapool, mapped by OBSW parameter name.
+     *
+     * @return The parameters in the datapool.
+     */
+    public HashMap<Identifier, OBSWParameter> getParameters() {
+        return this.parameterMap;
+    }
+
+    /**
+     * Reads the OBSW parameters in the datapool XML file and returns them in a map by OBSW parameter
+     * ID.
+     *
+     * @param datapool The input stream to read the XML file.
+     * @return The parameters read from the XML.
+     * @throws IOException
+     * @throws SAXException
+     * @throws ParserConfigurationException
+     */
+    private HashMap<Identifier, OBSWParameter> readParameters(InputStream datapool) throws IOException, JAXBException, XMLStreamException {
+        HashMap<Identifier, OBSWParameter> map = new HashMap<>();
+
+        XMLInputFactory xif = XMLInputFactory.newFactory();
+        XMLStreamReader xsr = xif.createXMLStreamReader(datapool);
+
+        JAXBContext jc = JAXBContext.newInstance(OBSWParameter.class);
+        Unmarshaller unmarshaller = jc.createUnmarshaller();
+
+        xsr.nextTag();
+        while (xsr.hasNext()) {
+            xsr.next();
+
+            if (xsr.isStartElement() && xsr.getLocalName().equals("parameter")) {
+                OBSWParameter parameter = unmarshaller.unmarshal(xsr, OBSWParameter.class).getValue();
+                map.put(new Identifier(parameter.getName()), parameter);
+            }
+        }
+        xsr.close();
+
+        return map;
+    }
 }

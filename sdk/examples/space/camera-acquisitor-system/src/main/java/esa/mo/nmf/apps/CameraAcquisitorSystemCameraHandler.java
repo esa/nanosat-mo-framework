@@ -51,273 +51,245 @@ import org.orekit.bodies.GeodeticPoint;
  *
  * @author Kevin Otto
  */
-public class CameraAcquisitorSystemCameraHandler
-{
+public class CameraAcquisitorSystemCameraHandler {
 
-  private static final Logger LOGGER = Logger.getLogger(
-      CameraAcquisitorSystemCameraHandler.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(CameraAcquisitorSystemCameraHandler.class.getName());
 
-  // photographNow action name
-  public static final String ACTION_PHOTOGRAPH_NOW = "photographNow";
-  // photographNow number of stages
-  public static final int PHOTOGRAPH_NOW_STAGES = 2;
+    // photographNow action name
+    public static final String ACTION_PHOTOGRAPH_NOW = "photographNow";
+    // photographNow number of stages
+    public static final int PHOTOGRAPH_NOW_STAGES = 2;
 
-  // stage numbers
-  private final int STAGE_RECIVED = 1;
-  private final int STAGE_FIN = 2;
-
-  private final CameraAcquisitorSystemMCAdapter casMCAdapter;
-
-  // Camera settings:
-  private final int defaultPictureWidth = 2048;
-  private final int defaultPictureHeight = 1944;
-  public final PixelResolution defaultCameraResolution;
-
-  public CameraAcquisitorSystemCameraHandler(CameraAcquisitorSystemMCAdapter casMCAdapter)
-  {
-    this.casMCAdapter = casMCAdapter;
-    this.defaultCameraResolution =
-        new PixelResolution(new UInteger(defaultPictureWidth), new UInteger(
-            defaultPictureHeight));
-  }
-
-  /**
-   * Action that immediately takes a photograph.
-   *
-   * @see takePhotograph
-   * @param attributeValues
-   * @param actionInstanceObjId
-   * @param reportProgress
-   * @param interaction
-   * @return
-   */
-  UInteger photographNow(Long actionInstanceObjId,
-      boolean reportProgress, MALInteraction interaction)
-  {
-
-    class AdapterImpl extends GPSAdapter
-    {
-
-      @Override
-      public void getTLEResponseReceived(MALMessageHeader msgHeader, TwoLineElementSet tle,
-          Map qosProperties)
-      {
-        LOGGER.log(Level.INFO, "TLE: {0}", tle);
-      }
-
-      @Override
-      public void getTLEAckErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
-          Map qosProperties)
-      {
-        LOGGER.log(Level.INFO, "TLE ERROR: {0}", error.toString());
-      }
-
-    }
-
-    try {
-      this.casMCAdapter.getConnector().getPlatformServices().getGPSService().getTLE(
-          new AdapterImpl());
-
-    } catch (Exception e) {
-      LOGGER.log(Level.SEVERE, "[TLE TEST]", e);
-    }
-    try {
-      takePhotograph(actionInstanceObjId, 0, PHOTOGRAPH_NOW_STAGES, "_INSTANT");
-    } catch (MALInteractionException | MALException | IOException | NMFException ex) {
-      LOGGER.log(Level.SEVERE, "[take photograph now]", ex);
-      return new UInteger(0);
-    }
-    return new UInteger(1);
-  }
-
-  /**
-   * Inner Class for handling camera events
-   */
-  private class CameraDataHandler extends CameraAdapter
-  {
-
-    private Long actionInstanceObjId;
-    private final int stageOffset;
-    private final int totalStage;
+    // stage numbers
+    private final int STAGE_RECIVED = 1;
+    private final int STAGE_FIN = 2;
 
     private final CameraAcquisitorSystemMCAdapter casMCAdapter;
-    private final String fileName;
 
-    CameraDataHandler(Long actionInstanceObjId, int stageOffset, int totalStages, String fileName,
-        CameraAcquisitorSystemMCAdapter casMCAdapter)
-    {
-      this.actionInstanceObjId = actionInstanceObjId;
-      this.stageOffset = stageOffset;
-      this.totalStage = totalStages + PHOTOGRAPH_NOW_STAGES;
-      this.fileName = fileName;
-      this.casMCAdapter = casMCAdapter;
+    // Camera settings:
+    private final int defaultPictureWidth = 2048;
+    private final int defaultPictureHeight = 1944;
+    public final PixelResolution defaultCameraResolution;
+
+    public CameraAcquisitorSystemCameraHandler(CameraAcquisitorSystemMCAdapter casMCAdapter) {
+        this.casMCAdapter = casMCAdapter;
+        this.defaultCameraResolution = new PixelResolution(new UInteger(defaultPictureWidth), new UInteger(
+                                                                                                           defaultPictureHeight));
     }
 
-    @Override
-    public void takePictureResponseReceived(
-        org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-        org.ccsds.moims.mo.platform.camera.structures.Picture picture,
-        java.util.Map qosProperties)
-    {
-      // report action progress
-      try {
-        this.casMCAdapter.getConnector().reportActionExecutionProgress(true, 0,
-            STAGE_RECIVED + this.stageOffset,
-            this.totalStage, this.actionInstanceObjId);
-      } catch (NMFException ex) {
-        LOGGER.log(Level.SEVERE, null,
-            ex);
-      }
-      //
+    /**
+     * Action that immediately takes a photograph.
+     *
+     * @see takePhotograph
+     * @param attributeValues
+     * @param actionInstanceObjId
+     * @param reportProgress
+     * @param interaction
+     * @return
+     */
+    UInteger photographNow(Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
 
-      // create photos folder
-      final String folder = "toGround";
-      File dir = new File(folder);
-      dir.mkdirs();
+        class AdapterImpl extends GPSAdapter {
 
-      // get date for filename
-      Date date = new Date(System.currentTimeMillis());
-      Format format = new SimpleDateFormat("yyyyMMdd_HHmmss_");
-      final String timeNow = format.format(date);
+            @Override
+            public void getTLEResponseReceived(MALMessageHeader msgHeader, TwoLineElementSet tle, Map qosProperties) {
+                LOGGER.log(Level.INFO, "TLE: {0}", tle);
+            }
 
-      String posString = "NO_POSITION";
-      try {
-        GeodeticPoint position = this.casMCAdapter.getGpsHandler().getCurrentPosition();
+            @Override
+            public void getTLEAckErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                LOGGER.log(Level.INFO, "TLE ERROR: {0}", error.toString());
+            }
 
-        posString = String.valueOf(FastMath.toDegrees(position.getLatitude())) + "_" + String.valueOf(
-          FastMath.toDegrees(position.getLongitude()));
-      } catch (Exception ex) {
-        LOGGER.log(Level.SEVERE, "getCurrentPosition Failed!/n {0}", ex);
-      }
-
-      // create filename
-      final String filenamePrefix =
-          folder + File.separator + timeNow + "_" + posString + "_" + this.fileName + "_" + this.actionInstanceObjId;
-      try {
-        // Store it in a file!
-        if (picture.getSettings().getFormat().equals(PictureFormat.RAW)) {
-          FileOutputStream fos = new FileOutputStream(filenamePrefix + ".raw");
-          fos.write(picture.getContent().getValue());
-          fos.flush();
-          fos.close();
-        } else if (picture.getSettings().getFormat().equals(PictureFormat.PNG)) {
-          FileOutputStream fos = new FileOutputStream(filenamePrefix + ".png");
-          fos.write(picture.getContent().getValue());
-          fos.flush();
-          fos.close();
-        } else if (picture.getSettings().getFormat().equals(PictureFormat.BMP)) {
-          FileOutputStream fos = new FileOutputStream(filenamePrefix + ".bmp");
-          fos.write(picture.getContent().getValue());
-          fos.flush();
-          fos.close();
-        } else if (picture.getSettings().getFormat().equals(PictureFormat.JPG)) {
-          FileOutputStream fos = new FileOutputStream(filenamePrefix + ".jpg");
-          fos.write(picture.getContent().getValue());
-          fos.flush();
-          fos.close();
         }
-        LOGGER.log(Level.INFO, "Photograph was taken at {0}", posString);
-      } catch (IOException | MALException ex) {
-        LOGGER.log(Level.SEVERE, "Saving of Photograph Failed!/n{0}", ex);
-      }
 
-      // report action progress
-      try {
-        this.casMCAdapter.getConnector().reportActionExecutionProgress(true, 0,
-            STAGE_FIN + this.stageOffset,
-            this.totalStage, this.actionInstanceObjId);
-      } catch (NMFException ex) {
-        LOGGER.log(Level.SEVERE,
-            "The action progress could not be reported!", ex);
-      }
-      //
+        try {
+            this.casMCAdapter.getConnector().getPlatformServices().getGPSService().getTLE(new AdapterImpl());
+
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "[TLE TEST]", e);
+        }
+        try {
+            takePhotograph(actionInstanceObjId, 0, PHOTOGRAPH_NOW_STAGES, "_INSTANT");
+        } catch (MALInteractionException | MALException | IOException | NMFException ex) {
+            LOGGER.log(Level.SEVERE, "[take photograph now]", ex);
+            return new UInteger(0);
+        }
+        return new UInteger(1);
     }
 
-    @Override
-    public void takePictureAckErrorReceived(
-        org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-        org.ccsds.moims.mo.mal.MALStandardError error,
-        java.util.Map qosProperties)
-    {
-      try {
-        this.casMCAdapter.getConnector().reportActionExecutionProgress(false, 1,
-            STAGE_RECIVED + this.stageOffset,
-            this.totalStage, this.actionInstanceObjId);
-        LOGGER.log(Level.WARNING,
-            "takePicture ack error received {0}", error.toString());
-      } catch (NMFException ex) {
-        LOGGER.log(Level.SEVERE,
-            "takePicture ack error " + error.toString() + " could not be reported!",
-            ex);
-      }
+    /**
+     * Inner Class for handling camera events
+     */
+    private class CameraDataHandler extends CameraAdapter {
+
+        private Long actionInstanceObjId;
+        private final int stageOffset;
+        private final int totalStage;
+
+        private final CameraAcquisitorSystemMCAdapter casMCAdapter;
+        private final String fileName;
+
+        CameraDataHandler(Long actionInstanceObjId, int stageOffset, int totalStages, String fileName,
+                          CameraAcquisitorSystemMCAdapter casMCAdapter) {
+            this.actionInstanceObjId = actionInstanceObjId;
+            this.stageOffset = stageOffset;
+            this.totalStage = totalStages + PHOTOGRAPH_NOW_STAGES;
+            this.fileName = fileName;
+            this.casMCAdapter = casMCAdapter;
+        }
+
+        @Override
+        public void takePictureResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+                                                org.ccsds.moims.mo.platform.camera.structures.Picture picture,
+                                                java.util.Map qosProperties) {
+            // report action progress
+            try {
+                this.casMCAdapter.getConnector()
+                                 .reportActionExecutionProgress(true, 0, STAGE_RECIVED + this.stageOffset,
+                                                                this.totalStage, this.actionInstanceObjId);
+            } catch (NMFException ex) {
+                LOGGER.log(Level.SEVERE, null, ex);
+            }
+            //
+
+            // create photos folder
+            final String folder = "toGround";
+            File dir = new File(folder);
+            dir.mkdirs();
+
+            // get date for filename
+            Date date = new Date(System.currentTimeMillis());
+            Format format = new SimpleDateFormat("yyyyMMdd_HHmmss_");
+            final String timeNow = format.format(date);
+
+            String posString = "NO_POSITION";
+            try {
+                GeodeticPoint position = this.casMCAdapter.getGpsHandler().getCurrentPosition();
+
+                posString = String.valueOf(FastMath.toDegrees(position.getLatitude())) +
+                            "_" +
+                            String.valueOf(FastMath.toDegrees(position.getLongitude()));
+            } catch (Exception ex) {
+                LOGGER.log(Level.SEVERE, "getCurrentPosition Failed!/n {0}", ex);
+            }
+
+            // create filename
+            final String filenamePrefix = folder +
+                                          File.separator +
+                                          timeNow +
+                                          "_" +
+                                          posString +
+                                          "_" +
+                                          this.fileName +
+                                          "_" +
+                                          this.actionInstanceObjId;
+            try {
+                // Store it in a file!
+                if (picture.getSettings().getFormat().equals(PictureFormat.RAW)) {
+                    FileOutputStream fos = new FileOutputStream(filenamePrefix + ".raw");
+                    fos.write(picture.getContent().getValue());
+                    fos.flush();
+                    fos.close();
+                } else if (picture.getSettings().getFormat().equals(PictureFormat.PNG)) {
+                    FileOutputStream fos = new FileOutputStream(filenamePrefix + ".png");
+                    fos.write(picture.getContent().getValue());
+                    fos.flush();
+                    fos.close();
+                } else if (picture.getSettings().getFormat().equals(PictureFormat.BMP)) {
+                    FileOutputStream fos = new FileOutputStream(filenamePrefix + ".bmp");
+                    fos.write(picture.getContent().getValue());
+                    fos.flush();
+                    fos.close();
+                } else if (picture.getSettings().getFormat().equals(PictureFormat.JPG)) {
+                    FileOutputStream fos = new FileOutputStream(filenamePrefix + ".jpg");
+                    fos.write(picture.getContent().getValue());
+                    fos.flush();
+                    fos.close();
+                }
+                LOGGER.log(Level.INFO, "Photograph was taken at {0}", posString);
+            } catch (IOException | MALException ex) {
+                LOGGER.log(Level.SEVERE, "Saving of Photograph Failed!/n{0}", ex);
+            }
+
+            // report action progress
+            try {
+                this.casMCAdapter.getConnector()
+                                 .reportActionExecutionProgress(true, 0, STAGE_FIN + this.stageOffset, this.totalStage,
+                                                                this.actionInstanceObjId);
+            } catch (NMFException ex) {
+                LOGGER.log(Level.SEVERE, "The action progress could not be reported!", ex);
+            }
+            //
+        }
+
+        @Override
+        public void takePictureAckErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+                                                org.ccsds.moims.mo.mal.MALStandardError error,
+                                                java.util.Map qosProperties) {
+            try {
+                this.casMCAdapter.getConnector()
+                                 .reportActionExecutionProgress(false, 1, STAGE_RECIVED + this.stageOffset,
+                                                                this.totalStage, this.actionInstanceObjId);
+                LOGGER.log(Level.WARNING, "takePicture ack error received {0}", error.toString());
+            } catch (NMFException ex) {
+                LOGGER.log(Level.SEVERE, "takePicture ack error " + error.toString() + " could not be reported!", ex);
+            }
+        }
+
+        @Override
+        public void takePictureResponseErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+                                                     org.ccsds.moims.mo.mal.MALStandardError error,
+                                                     java.util.Map qosProperties) {
+            try {
+                this.casMCAdapter.getConnector()
+                                 .reportActionExecutionProgress(false, 1, STAGE_RECIVED + this.stageOffset,
+                                                                this.totalStage, this.actionInstanceObjId);
+                LOGGER.log(Level.WARNING, "takePicture response error received {0}", error.toString());
+            } catch (NMFException ex) {
+                LOGGER.log(Level.SEVERE, "takePicture response error " + error.toString() + " could not be reported!",
+                           ex);
+            }
+        }
     }
 
-    @Override
-    public void takePictureResponseErrorReceived(
-        org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-        org.ccsds.moims.mo.mal.MALStandardError error,
-        java.util.Map qosProperties)
-    {
-      try {
-        this.casMCAdapter.getConnector().reportActionExecutionProgress(false, 1,
-            STAGE_RECIVED + this.stageOffset,
-            this.totalStage, this.actionInstanceObjId);
-        LOGGER.log(Level.WARNING,
-            "takePicture response error received {0}", error.toString());
-      } catch (NMFException ex) {
-        LOGGER.log(Level.SEVERE,
-            "takePicture response error " + error.toString() + " could not be reported!",
-            ex);
-      }
+    /**
+     * Takes a photograph (instantly)
+     *
+     * @param actionInstanceObjId the Instance ID of the action that triggers the Photograph
+     * @param stageOffset         number of states that where already executed before taking a
+     *                            photograph
+     * @param totalStages         total number of Stages (including all stages needed for a
+     *                            photograph)
+     * @param fileName            a text that is added at the end of the filename (before the file
+     *                            ending)
+     * @throws NMFException
+     * @throws IOException
+     * @throws MALInteractionException
+     * @throws MALException
+     */
+    public void takePhotograph(long actionInstanceObjId, int stageOffset, int totalStages,
+                               String fileName) throws NMFException, IOException, MALInteractionException, MALException {
+        PixelResolution resolution = new PixelResolution(new UInteger(casMCAdapter.getPictureWidth()), new UInteger(
+                                                                                                                    casMCAdapter.getPictureHeight()));
+
+        CameraAdapter adapter = new CameraDataHandler(actionInstanceObjId, stageOffset, totalStages, fileName,
+                                                      this.casMCAdapter);
+
+        CameraSettings settings = new CameraSettings(resolution, casMCAdapter.getPictureType(), new Duration(
+                                                                                                             casMCAdapter.getExposureTime()),
+                                                     casMCAdapter.getGainRed(), casMCAdapter.getGainGreen(),
+                                                     casMCAdapter.getGainBlue());
+
+        if (casMCAdapter.getExposureType() == CameraAcquisitorSystemMCAdapter.ExposureTypeModeEnum.AUTOMATIC) {
+            LOGGER.log(Level.INFO, "Taking Photograph with automatic exposure");
+            this.casMCAdapter.getConnector()
+                             .getPlatformServices()
+                             .getCameraService()
+                             .takeAutoExposedPicture(settings, adapter);
+        } else {
+            LOGGER.log(Level.INFO, "Taking Photograph with manual exposure");
+            this.casMCAdapter.getConnector().getPlatformServices().getCameraService().takePicture(settings, adapter);
+        }
     }
-  }
-
-  /**
-   * Takes a photograph (instantly)
-   *
-   * @param actionInstanceObjId the Instance ID of the action that triggers the Photograph
-   * @param stageOffset         number of states that where already executed before taking a
-   *                            photograph
-   * @param totalStages         total number of Stages (including all stages needed for a
-   *                            photograph)
-   * @param fileName            a text that is added at the end of the filename (before the file
-   *                            ending)
-   * @throws NMFException
-   * @throws IOException
-   * @throws MALInteractionException
-   * @throws MALException
-   */
-  public void takePhotograph(long actionInstanceObjId, int stageOffset, int totalStages,
-      String fileName) throws
-      NMFException,
-      IOException,
-      MALInteractionException,
-      MALException
-  {
-    PixelResolution resolution = new PixelResolution(
-        new UInteger(casMCAdapter.getPictureWidth()),
-        new UInteger(casMCAdapter.getPictureHeight()));
-
-    CameraAdapter adapter = new CameraDataHandler(actionInstanceObjId, stageOffset, totalStages,
-        fileName,
-        this.casMCAdapter);
-
-    CameraSettings settings = new CameraSettings(
-        resolution,
-        casMCAdapter.getPictureType(),
-        new Duration(casMCAdapter.getExposureTime()),
-        casMCAdapter.getGainRed(),
-        casMCAdapter.getGainGreen(),
-        casMCAdapter.getGainBlue());
-
-    if (casMCAdapter.getExposureType() == CameraAcquisitorSystemMCAdapter.ExposureTypeModeEnum.AUTOMATIC) {
-      LOGGER.log(Level.INFO, "Taking Photograph with automatic exposure");
-      this.casMCAdapter.getConnector().getPlatformServices().getCameraService()
-          .takeAutoExposedPicture(settings, adapter);
-    } else {
-      LOGGER.log(Level.INFO, "Taking Photograph with manual exposure");
-      this.casMCAdapter.getConnector().getPlatformServices().getCameraService()
-          .takePicture(settings, adapter);
-    }
-  }
 }

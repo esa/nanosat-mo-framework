@@ -24,25 +24,23 @@ import esa.mo.helpertools.connections.ConnectionConsumer;
 import esa.mo.nmf.commonmoadapter.CommonMOAdapterImpl;
 import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
 
-public class PayloadsTestApp
-{
+public class PayloadsTestApp {
 
-  /**
-   * Main command line entry point.
-   *
-   * @param args the command line arguments
-   * @throws java.lang.Exception If there is an error
-   */
-  public static void main(final String[] args) throws Exception
-  {
-    final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
-    PayloadsTestMCAdapter adapter = new PayloadsTestMCAdapter(connector);
-    connector.init(adapter);
-    adapter.startAdcsAttitudeMonitoring();
-    // Initialize the loopback connection to consume own interfaces easily
-    ConnectionConsumer connectionConsumer = new ConnectionConsumer();
-    connectionConsumer.loadURIs();
-    adapter.setSimpleCommandingInterface(new CommonMOAdapterImpl(connectionConsumer));
-  }
+    /**
+     * Main command line entry point.
+     *
+     * @param args the command line arguments
+     * @throws java.lang.Exception If there is an error
+     */
+    public static void main(final String[] args) throws Exception {
+        final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
+        PayloadsTestMCAdapter adapter = new PayloadsTestMCAdapter(connector);
+        connector.init(adapter);
+        adapter.startAdcsAttitudeMonitoring();
+        // Initialize the loopback connection to consume own interfaces easily
+        ConnectionConsumer connectionConsumer = new ConnectionConsumer();
+        connectionConsumer.loadURIs();
+        adapter.setSimpleCommandingInterface(new CommonMOAdapterImpl(connectionConsumer));
+    }
 
 }

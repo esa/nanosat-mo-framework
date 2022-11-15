@@ -78,7 +78,8 @@ public class PlanEditProviderServiceImpl extends PlanEditInheritanceSkeleton {
      * @param comServices
      * @throws MALException On initialisation error.
      */
-    public synchronized void init(COMServicesProvider comServices, MPArchiveManager archiveManager, MPServiceOperationManager registration) throws MALException {
+    public synchronized void init(COMServicesProvider comServices, MPArchiveManager archiveManager,
+                                  MPServiceOperationManager registration) throws MALException {
         if (!this.initialised) {
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -104,7 +105,8 @@ public class PlanEditProviderServiceImpl extends PlanEditInheritanceSkeleton {
             this.connection.closeAll();
         }
 
-        this.provider = this.connection.startService(PlanEditHelper.PLANEDIT_SERVICE_NAME.toString(), PlanEditHelper.PLANEDIT_SERVICE, true, this);
+        this.provider = this.connection.startService(PlanEditHelper.PLANEDIT_SERVICE_NAME.toString(),
+                                                     PlanEditHelper.PLANEDIT_SERVICE, true, this);
 
         this.archiveManager = archiveManager;
         this.operationCallbackManager = registration;
@@ -133,141 +135,144 @@ public class PlanEditProviderServiceImpl extends PlanEditInheritanceSkeleton {
     }
 
     @Override
-    public void insertActivity(Long planIdentityInstanceId, Long activityDefInstanceId, ActivityInstanceDetails activityInstance, MALInteraction interaction) throws MALInteractionException, MALException {
-        ObjectId planIdentityId = COMObjectIdHelper.getObjectId(planIdentityInstanceId, PlanDistributionHelper.PLANIDENTITY_OBJECT_TYPE);
+    public void insertActivity(Long planIdentityInstanceId, Long activityDefInstanceId,
+                               ActivityInstanceDetails activityInstance,
+                               MALInteraction interaction) throws MALInteractionException, MALException {
+        ObjectId planIdentityId = COMObjectIdHelper.getObjectId(planIdentityInstanceId,
+                                                                PlanDistributionHelper.PLANIDENTITY_OBJECT_TYPE);
         ObjectId planVersionId = this.getLatestPlanVersion(planIdentityId);
-        ObjectId activityDefId = COMObjectIdHelper.getObjectId(activityDefInstanceId, PlanInformationManagementHelper.ACTIVITYDEFINITION_OBJECT_TYPE);
+        ObjectId activityDefId = COMObjectIdHelper.getObjectId(activityDefInstanceId,
+                                                               PlanInformationManagementHelper.ACTIVITYDEFINITION_OBJECT_TYPE);
 
         PlanVersionDetails planVersion = archiveManager.PLAN.getInstance(planVersionId);
 
         if (existsActivity(planVersion, activityInstance)) {
-            throw new MALInteractionException(new MALStandardError(COMHelper.DUPLICATE_ERROR_NUMBER, new Union("Given Activity already exists in the plan")));
+            throw new MALInteractionException(new MALStandardError(COMHelper.DUPLICATE_ERROR_NUMBER, new Union(
+                                                                                                               "Given Activity already exists in the plan")));
         }
 
         // Validation callback
-        operationCallbackManager.notifyActivityValidation(MPServiceOperation.INSERT_ACTIVITY, planVersion, activityInstance);
+        operationCallbackManager.notifyActivityValidation(MPServiceOperation.INSERT_ACTIVITY, planVersion,
+                                                          activityInstance);
 
         // Add Activity
         ObjectId activityId = archiveManager.ACTIVITY.addInstance(activityDefId, activityInstance, null, interaction);
 
         // Operation callback
-        operationCallbackManager.notify(
-            MPServiceOperation.INSERT_ACTIVITY,
-            Arrays.asList(
-                new MPServiceOperationArguments(
-                    planIdentityId,        // Identity
-                    null,                  // Definition
-                    planVersionId,         // Instance
-                    null,                  // Status
-                    interaction,
-                    null                   // Source
-                ),
-                new MPServiceOperationArguments(
-                    null,                  // Identity
-                    activityDefId,         // Definition
-                    activityId,            // Instance
-                    null,                  // Status
-                    interaction,
-                    null                   // Source
-                )
-            )
-        );
+        operationCallbackManager.notify(MPServiceOperation.INSERT_ACTIVITY, Arrays.asList(
+                                                                                          new MPServiceOperationArguments(planIdentityId,        // Identity
+                                                                                                                          null,                  // Definition
+                                                                                                                          planVersionId,         // Instance
+                                                                                                                          null,                  // Status
+                                                                                                                          interaction,
+                                                                                                                          null                   // Source
+                                                                                          ),
+                                                                                          new MPServiceOperationArguments(null,                  // Identity
+                                                                                                                          activityDefId,         // Definition
+                                                                                                                          activityId,            // Instance
+                                                                                                                          null,                  // Status
+                                                                                                                          interaction,
+                                                                                                                          null                   // Source
+                                                                                          )));
     }
 
     @Override
-    public void updateActivity(Long planIdentityInstanceId, Long activityInstanceId, ActivityInstanceDetails activityInstance, MALInteraction interaction) throws MALInteractionException, MALException {
-        ObjectId planIdentityId = COMObjectIdHelper.getObjectId(planIdentityInstanceId, PlanDistributionHelper.PLANIDENTITY_OBJECT_TYPE);
+    public void updateActivity(Long planIdentityInstanceId, Long activityInstanceId,
+                               ActivityInstanceDetails activityInstance,
+                               MALInteraction interaction) throws MALInteractionException, MALException {
+        ObjectId planIdentityId = COMObjectIdHelper.getObjectId(planIdentityInstanceId,
+                                                                PlanDistributionHelper.PLANIDENTITY_OBJECT_TYPE);
         ObjectId planVersionId = this.getLatestPlanVersion(planIdentityId);
-        ObjectId activityId = COMObjectIdHelper.getObjectId(activityInstanceId, PlanEditHelper.ACTIVITYINSTANCE_OBJECT_TYPE);
+        ObjectId activityId = COMObjectIdHelper.getObjectId(activityInstanceId,
+                                                            PlanEditHelper.ACTIVITYINSTANCE_OBJECT_TYPE);
 
         PlanVersionDetails planVersion = archiveManager.PLAN.getInstance(planVersionId);
 
         // Check validity
         ActivityInstanceDetails activity = archiveManager.ACTIVITY.getInstance(activityId);
         if (activity == null || !existsActivity(planVersion, activity)) {
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, new Union("Given Activity does not exist in the plan")));
+            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, new Union(
+                                                                                                             "Given Activity does not exist in the plan")));
         }
 
         // Validation callback
-        operationCallbackManager.notifyActivityValidation(MPServiceOperation.INSERT_ACTIVITY, planVersion, activityInstance);
+        operationCallbackManager.notifyActivityValidation(MPServiceOperation.INSERT_ACTIVITY, planVersion,
+                                                          activityInstance);
 
         // Update Activity
         ObjectId activityDefinitionId = archiveManager.ACTIVITY.getDefinitionIdByInstanceId(activityId);
-        ObjectId updatedActivityId = archiveManager.ACTIVITY.updateInstance(activityDefinitionId, activityInstance, null, interaction);
+        ObjectId updatedActivityId = archiveManager.ACTIVITY.updateInstance(activityDefinitionId, activityInstance,
+                                                                            null, interaction);
 
         // Operation callback
-        operationCallbackManager.notify(
-            MPServiceOperation.UPDATE_ACTIVITY,
-            Arrays.asList(
-                new MPServiceOperationArguments(
-                    planIdentityId,        // Identity
-                    null,                  // Definition
-                    planVersionId,         // Instance
-                    null,                  // Status
-                    interaction,
-                    null                   // Source
-                ),
-                new MPServiceOperationArguments(
-                    null,                  // Identity
-                    activityDefinitionId,  // Definition
-                    updatedActivityId,     // Instance
-                    null,                  // Status
-                    interaction,
-                    null                   // Source
-                )
-            )
-        );
+        operationCallbackManager.notify(MPServiceOperation.UPDATE_ACTIVITY, Arrays.asList(
+                                                                                          new MPServiceOperationArguments(planIdentityId,        // Identity
+                                                                                                                          null,                  // Definition
+                                                                                                                          planVersionId,         // Instance
+                                                                                                                          null,                  // Status
+                                                                                                                          interaction,
+                                                                                                                          null                   // Source
+                                                                                          ),
+                                                                                          new MPServiceOperationArguments(null,                  // Identity
+                                                                                                                          activityDefinitionId,  // Definition
+                                                                                                                          updatedActivityId,     // Instance
+                                                                                                                          null,                  // Status
+                                                                                                                          interaction,
+                                                                                                                          null                   // Source
+                                                                                          )));
     }
 
     @Override
-    public void deleteActivity(Long planIdentityInstanceId, Long activityInstanceId, MALInteraction interaction) throws MALInteractionException, MALException {
-        ObjectId planIdentityId = COMObjectIdHelper.getObjectId(planIdentityInstanceId, PlanDistributionHelper.PLANIDENTITY_OBJECT_TYPE);
+    public void deleteActivity(Long planIdentityInstanceId, Long activityInstanceId,
+                               MALInteraction interaction) throws MALInteractionException, MALException {
+        ObjectId planIdentityId = COMObjectIdHelper.getObjectId(planIdentityInstanceId,
+                                                                PlanDistributionHelper.PLANIDENTITY_OBJECT_TYPE);
         ObjectId planVersionId = this.getLatestPlanVersion(planIdentityId);
-        ObjectId activityId = COMObjectIdHelper.getObjectId(activityInstanceId, PlanEditHelper.ACTIVITYINSTANCE_OBJECT_TYPE);
+        ObjectId activityId = COMObjectIdHelper.getObjectId(activityInstanceId,
+                                                            PlanEditHelper.ACTIVITYINSTANCE_OBJECT_TYPE);
 
         PlanVersionDetails planVersion = archiveManager.PLAN.getInstance(planVersionId);
 
         // Check validity
         ActivityInstanceDetails activity = archiveManager.ACTIVITY.getInstance(activityId);
         if (activity == null || !existsActivity(planVersion, activity)) {
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, new Union("Given Activity does not exist in the plan")));
+            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, new Union(
+                                                                                                             "Given Activity does not exist in the plan")));
         }
 
         // Operation callback
-        operationCallbackManager.notify(
-            MPServiceOperation.DELETE_ACTIVITY,
-            Arrays.asList(
-                new MPServiceOperationArguments(
-                    planIdentityId,        // Identity
-                    null,                  // Definition
-                    planVersionId,         // Instance
-                    null,                  // Status
-                    interaction,
-                    null                   // Source
-                ),
-                new MPServiceOperationArguments(
-                    null,                  // Identity
-                    null,                  // Definition
-                    activityId,            // Instance
-                    null,                  // Status
-                    interaction,
-                    null                   // Source
-                )
-            )
-        );
+        operationCallbackManager.notify(MPServiceOperation.DELETE_ACTIVITY, Arrays.asList(
+                                                                                          new MPServiceOperationArguments(planIdentityId,        // Identity
+                                                                                                                          null,                  // Definition
+                                                                                                                          planVersionId,         // Instance
+                                                                                                                          null,                  // Status
+                                                                                                                          interaction,
+                                                                                                                          null                   // Source
+                                                                                          ),
+                                                                                          new MPServiceOperationArguments(null,                  // Identity
+                                                                                                                          null,                  // Definition
+                                                                                                                          activityId,            // Instance
+                                                                                                                          null,                  // Status
+                                                                                                                          interaction,
+                                                                                                                          null                   // Source
+                                                                                          )));
     }
 
     @Override
-    public void insertEvent(Long planIdentityInstanceId, Long eventDefInstanceId, EventInstanceDetails eventInstance, MALInteraction interaction) throws MALInteractionException, MALException {
-        ObjectId planIdentityId = COMObjectIdHelper.getObjectId(planIdentityInstanceId, PlanDistributionHelper.PLANIDENTITY_OBJECT_TYPE);
+    public void insertEvent(Long planIdentityInstanceId, Long eventDefInstanceId, EventInstanceDetails eventInstance,
+                            MALInteraction interaction) throws MALInteractionException, MALException {
+        ObjectId planIdentityId = COMObjectIdHelper.getObjectId(planIdentityInstanceId,
+                                                                PlanDistributionHelper.PLANIDENTITY_OBJECT_TYPE);
         ObjectId planVersionId = this.getLatestPlanVersion(planIdentityId);
-        ObjectId eventDefId = COMObjectIdHelper.getObjectId(eventDefInstanceId, PlanInformationManagementHelper.EVENTDEFINITION_OBJECT_TYPE);
+        ObjectId eventDefId = COMObjectIdHelper.getObjectId(eventDefInstanceId,
+                                                            PlanInformationManagementHelper.EVENTDEFINITION_OBJECT_TYPE);
 
         PlanVersionDetails planVersion = archiveManager.PLAN.getInstance(planVersionId);
 
         // Check for duplicate
         if (existsEvent(planVersion, eventInstance)) {
-            throw new MALInteractionException(new MALStandardError(COMHelper.DUPLICATE_ERROR_NUMBER, new Union("Given Event already exists in the plan")));
+            throw new MALInteractionException(new MALStandardError(COMHelper.DUPLICATE_ERROR_NUMBER, new Union(
+                                                                                                               "Given Event already exists in the plan")));
         }
 
         // Validation callback
@@ -277,32 +282,26 @@ public class PlanEditProviderServiceImpl extends PlanEditInheritanceSkeleton {
         ObjectId eventId = archiveManager.EVENT.addInstance(eventDefId, eventInstance, null, interaction);
 
         // Operation callback
-        operationCallbackManager.notify(
-            MPServiceOperation.INSERT_EVENT,
-            Arrays.asList(
-                new MPServiceOperationArguments(
-                    planIdentityId,        // Identity
-                    null,                  // Definition
-                    planVersionId,         // Instance
-                    null,                  // Status
-                    interaction,
-                    null                   // Source
-                ),
-                new MPServiceOperationArguments(
-                    null,                  // Identity
-                    eventDefId,            // Definition
-                    eventId,               // Instance
-                    null,                  // Status
-                    interaction,
-                    null                   // Source
-                )
-            )
-        );
+        operationCallbackManager.notify(MPServiceOperation.INSERT_EVENT, Arrays.asList(new MPServiceOperationArguments(
+                                                                                                                       planIdentityId,        // Identity
+                                                                                                                       null,                  // Definition
+                                                                                                                       planVersionId,         // Instance
+                                                                                                                       null,                  // Status
+                                                                                                                       interaction,
+                                                                                                                       null                   // Source
+        ), new MPServiceOperationArguments(null,                  // Identity
+                                           eventDefId,            // Definition
+                                           eventId,               // Instance
+                                           null,                  // Status
+                                           interaction, null                   // Source
+        )));
     }
 
     @Override
-    public void updateEvent(Long planIdentityInstanceId, Long eventInstanceId, EventInstanceDetails eventInstance, MALInteraction interaction) throws MALInteractionException, MALException {
-        ObjectId planIdentityId = COMObjectIdHelper.getObjectId(planIdentityInstanceId, PlanDistributionHelper.PLANIDENTITY_OBJECT_TYPE);
+    public void updateEvent(Long planIdentityInstanceId, Long eventInstanceId, EventInstanceDetails eventInstance,
+                            MALInteraction interaction) throws MALInteractionException, MALException {
+        ObjectId planIdentityId = COMObjectIdHelper.getObjectId(planIdentityInstanceId,
+                                                                PlanDistributionHelper.PLANIDENTITY_OBJECT_TYPE);
         ObjectId planVersionId = this.getLatestPlanVersion(planIdentityId);
         ObjectId eventId = COMObjectIdHelper.getObjectId(eventInstanceId, PlanEditHelper.EVENTINSTANCE_OBJECT_TYPE);
 
@@ -311,7 +310,8 @@ public class PlanEditProviderServiceImpl extends PlanEditInheritanceSkeleton {
         // Check validity
         EventInstanceDetails event = archiveManager.EVENT.getInstance(eventId);
         if (event == null || !existsEvent(planVersion, event)) {
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, new Union("Given Event does not exist in the plan")));
+            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, new Union(
+                                                                                                             "Given Event does not exist in the plan")));
         }
 
         // Validation callback
@@ -319,35 +319,30 @@ public class PlanEditProviderServiceImpl extends PlanEditInheritanceSkeleton {
 
         // Update Event
         ObjectId eventDefinitionId = archiveManager.EVENT.getDefinitionIdByInstanceId(eventId);
-        ObjectId updatedEventId = archiveManager.EVENT.updateInstance(eventDefinitionId, eventInstance, null, interaction);
+        ObjectId updatedEventId = archiveManager.EVENT.updateInstance(eventDefinitionId, eventInstance, null,
+                                                                      interaction);
 
         // Operation callback
-        operationCallbackManager.notify(
-            MPServiceOperation.UPDATE_EVENT,
-            Arrays.asList(
-                new MPServiceOperationArguments(
-                    planIdentityId,        // Identity
-                    null,                  // Definition
-                    planVersionId,         // Instance
-                    null,                  // Status
-                    interaction,
-                    null                   // Source
-                ),
-                new MPServiceOperationArguments(
-                    null,                  // Identity
-                    eventDefinitionId,     // Definition
-                    updatedEventId,        // Instance
-                    null,                  // Status
-                    interaction,
-                    null                   // Source
-                )
-            )
-        );
+        operationCallbackManager.notify(MPServiceOperation.UPDATE_EVENT, Arrays.asList(new MPServiceOperationArguments(
+                                                                                                                       planIdentityId,        // Identity
+                                                                                                                       null,                  // Definition
+                                                                                                                       planVersionId,         // Instance
+                                                                                                                       null,                  // Status
+                                                                                                                       interaction,
+                                                                                                                       null                   // Source
+        ), new MPServiceOperationArguments(null,                  // Identity
+                                           eventDefinitionId,     // Definition
+                                           updatedEventId,        // Instance
+                                           null,                  // Status
+                                           interaction, null                   // Source
+        )));
     }
 
     @Override
-    public void deleteEvent(Long planIdentityInstanceId, Long eventInstanceId, MALInteraction interaction) throws MALInteractionException, MALException {
-        ObjectId planIdentityId = COMObjectIdHelper.getObjectId(planIdentityInstanceId, PlanDistributionHelper.PLANIDENTITY_OBJECT_TYPE);
+    public void deleteEvent(Long planIdentityInstanceId, Long eventInstanceId,
+                            MALInteraction interaction) throws MALInteractionException, MALException {
+        ObjectId planIdentityId = COMObjectIdHelper.getObjectId(planIdentityInstanceId,
+                                                                PlanDistributionHelper.PLANIDENTITY_OBJECT_TYPE);
         ObjectId planVersionId = this.getLatestPlanVersion(planIdentityId);
         ObjectId eventId = COMObjectIdHelper.getObjectId(eventInstanceId, PlanEditHelper.EVENTINSTANCE_OBJECT_TYPE);
 
@@ -356,36 +351,31 @@ public class PlanEditProviderServiceImpl extends PlanEditInheritanceSkeleton {
         // Check validity
         EventInstanceDetails event = archiveManager.EVENT.getInstance(eventId);
         if (event == null || !existsEvent(planVersion, event)) {
-            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, new Union("Given Event does not exist in the plan")));
+            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, new Union(
+                                                                                                             "Given Event does not exist in the plan")));
         }
 
         // Operation callback
-        operationCallbackManager.notify(
-            MPServiceOperation.DELETE_EVENT,
-            Arrays.asList(
-                new MPServiceOperationArguments(
-                    planIdentityId,        // Identity
-                    null,                  // Definition
-                    planVersionId,         // Instance
-                    null,                  // Status
-                    interaction,
-                    null                   // Source
-                ),
-                new MPServiceOperationArguments(
-                    null,                  // Identity
-                    null,                  // Definition
-                    eventId,               // Instance
-                    null,                  // Status
-                    interaction,
-                    null                   // Source
-                )
-            )
-        );
+        operationCallbackManager.notify(MPServiceOperation.DELETE_EVENT, Arrays.asList(new MPServiceOperationArguments(
+                                                                                                                       planIdentityId,        // Identity
+                                                                                                                       null,                  // Definition
+                                                                                                                       planVersionId,         // Instance
+                                                                                                                       null,                  // Status
+                                                                                                                       interaction,
+                                                                                                                       null                   // Source
+        ), new MPServiceOperationArguments(null,                  // Identity
+                                           null,                  // Definition
+                                           eventId,               // Instance
+                                           null,                  // Status
+                                           interaction, null                   // Source
+        )));
     }
 
     @Override
-    public void updatePlanStatus(Long planIdentityInstanceId, PlanStatus planStatus, MALInteraction interaction) throws MALInteractionException, MALException {
-        ObjectId planIdentityId = COMObjectIdHelper.getObjectId(planIdentityInstanceId, PlanDistributionHelper.PLANIDENTITY_OBJECT_TYPE);
+    public void updatePlanStatus(Long planIdentityInstanceId, PlanStatus planStatus,
+                                 MALInteraction interaction) throws MALInteractionException, MALException {
+        ObjectId planIdentityId = COMObjectIdHelper.getObjectId(planIdentityInstanceId,
+                                                                PlanDistributionHelper.PLANIDENTITY_OBJECT_TYPE);
         ObjectId planVersionId = this.getLatestPlanVersion(planIdentityId);
 
         // Update plan
@@ -393,24 +383,22 @@ public class PlanEditProviderServiceImpl extends PlanEditInheritanceSkeleton {
         ObjectId planUpdateId = archiveManager.PLAN.updateStatus(planVersionId, planUpdate, null, interaction);
 
         // Operation callback
-        operationCallbackManager.notify(
-            MPServiceOperation.UPDATE_PLAN_STATUS,
-            MPServiceOperationHelper.asArgumentsList(
-                planIdentityId,        // Identity
-                null,                  // Definition
-                planVersionId,         // Instance
-                planUpdateId,          // Status
-                interaction,
-                null                   // Source
-            )
-        );
+        operationCallbackManager.notify(MPServiceOperation.UPDATE_PLAN_STATUS, MPServiceOperationHelper.asArgumentsList(
+                                                                                                                        planIdentityId,        // Identity
+                                                                                                                        null,                  // Definition
+                                                                                                                        planVersionId,         // Instance
+                                                                                                                        planUpdateId,          // Status
+                                                                                                                        interaction,
+                                                                                                                        null                   // Source
+        ));
     }
 
     private ObjectId getLatestPlanVersion(ObjectId planIdentityId) throws MALInteractionException {
         ObjectId latestPlanVersionId = archiveManager.PLAN.getInstanceIdByIdentityId(planIdentityId);
 
         if (latestPlanVersionId == null) {
-            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, new Union("Unknown Plan Identity Id")));
+            throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, new Union(
+                                                                                                             "Unknown Plan Identity Id")));
         }
 
         return latestPlanVersionId;
@@ -422,12 +410,15 @@ public class PlanEditProviderServiceImpl extends PlanEditInheritanceSkeleton {
     }
 
     private int getActivityIndex(PlanVersionDetails planVersion, ActivityInstanceDetails activity) {
-        if (planVersion == null || activity == null) return -1;
-        if (planVersion.getItems() == null || planVersion.getItems().getPlannedActivities() == null) return -1;
+        if (planVersion == null || activity == null)
+            return -1;
+        if (planVersion.getItems() == null || planVersion.getItems().getPlannedActivities() == null)
+            return -1;
         PlannedActivityList plannedActivities = planVersion.getItems().getPlannedActivities();
         return IntStream.range(0, plannedActivities.size())
-            .filter(index -> Objects.equals(plannedActivities.get(index).getInstance(), activity))
-            .findFirst().orElse(-1);
+                        .filter(index -> Objects.equals(plannedActivities.get(index).getInstance(), activity))
+                        .findFirst()
+                        .orElse(-1);
     }
 
     private boolean existsEvent(PlanVersionDetails planVersion, EventInstanceDetails event) {
@@ -436,11 +427,14 @@ public class PlanEditProviderServiceImpl extends PlanEditInheritanceSkeleton {
     }
 
     private int getEventIndex(PlanVersionDetails planVersion, EventInstanceDetails event) {
-        if (planVersion == null || event == null) return -1;
-        if (planVersion.getItems() == null || planVersion.getItems().getPlannedEvents() == null) return -1;
+        if (planVersion == null || event == null)
+            return -1;
+        if (planVersion.getItems() == null || planVersion.getItems().getPlannedEvents() == null)
+            return -1;
         PlannedEventList plannedEvents = planVersion.getItems().getPlannedEvents();
         return IntStream.range(0, plannedEvents.size())
-            .filter(index -> Objects.equals(plannedEvents.get(index).getInstance(), event))
-            .findFirst().orElse(-1);
+                        .filter(index -> Objects.equals(plannedEvents.get(index).getInstance(), event))
+                        .findFirst()
+                        .orElse(-1);
     }
 }

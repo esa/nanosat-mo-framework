@@ -30,18 +30,17 @@ import opssat.simulator.threading.SimulatorNode;
  *
  * @author Cezar Suteu
  */
-public class PCCSDSEngine extends GenericPeripheral implements ICCSDSEngine{
-public PCCSDSEngine(SimulatorNode simulatorNode,String name){
-super(simulatorNode,name);
-}
+public class PCCSDSEngine extends GenericPeripheral implements ICCSDSEngine {
+    public PCCSDSEngine(SimulatorNode simulatorNode, String name) {
+        super(simulatorNode, name);
+    }
+
     @Override
-    @InternalData (internalID=8001,commandIDs={"",""},argNames={"cmdID","data"})
-    public byte[] runRawCommand(int cmdID,byte[] data) {
+    @InternalData(internalID = 8001, commandIDs = {"", ""}, argNames = {"cmdID", "data"})
+    public byte[] runRawCommand(int cmdID, byte[] data) {
         ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(cmdID);
         argObject.add(data);
-        return (byte[]) super.getSimulatorNode().runGenericMethod(8001,argObject);
+        return (byte[]) super.getSimulatorNode().runGenericMethod(8001, argObject);
     }
 }
-
-

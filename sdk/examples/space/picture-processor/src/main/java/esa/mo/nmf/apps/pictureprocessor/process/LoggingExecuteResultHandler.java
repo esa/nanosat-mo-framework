@@ -37,7 +37,8 @@ public class LoggingExecuteResultHandler extends DefaultExecuteResultHandler {
     private final ProcessEventListener processEventListener;
     private final Long processRequestId;
 
-    public LoggingExecuteResultHandler(ProcessEventListener processEventListener, Long processRequestId, OutputStream processOutputStream) {
+    public LoggingExecuteResultHandler(ProcessEventListener processEventListener, Long processRequestId,
+                                       OutputStream processOutputStream) {
         this.processOutputStream = processOutputStream;
         this.processEventListener = processEventListener;
         this.processRequestId = processRequestId;

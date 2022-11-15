@@ -51,16 +51,18 @@ public class FastObjectType extends FastIndex<Long> {
     public synchronized void init() {
         // Retrieve all the ids and objectTypes from the Database
         try {
-          dbBackend.getAvailability().acquire();
+            dbBackend.getAvailability().acquire();
         } catch (InterruptedException ex) {
-          Logger.getLogger(FastObjectType.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FastObjectType.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         int max = 0;
         try {
             Connection c = dbBackend.getConnection();
             Statement query = c.createStatement();
-            query.execute("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (id INTEGER NOT NULL, value BIGINT, PRIMARY KEY (id))");
+            query.execute("CREATE TABLE IF NOT EXISTS " +
+                          TABLE_NAME +
+                          " (id INTEGER NOT NULL, value BIGINT, PRIMARY KEY (id))");
             insertStmt = c.prepareStatement(QUERY_INSERT);
             ResultSet rs = query.executeQuery(QUERY_SELECT);
 
@@ -111,7 +113,7 @@ public class FastObjectType extends FastIndex<Long> {
             final Integer id = this.fastID.get(longObjType);
             ids.add((id == null) ? this.addNewEntry(longObjType) : id);
         }
-        
+
         return ids;
     }
 
@@ -124,17 +126,14 @@ public class FastObjectType extends FastIndex<Long> {
 
         return HelperCOM.objectTypeId2objectType(objectType);
     }
-    
+
     private static Long objectType2Mask(final ObjectType objType) {
         long areaVal = (objType.getArea().getValue() == 0) ? (long) 0 : (long) 0xFFFF;
         long serviceVal = (objType.getService().getValue() == 0) ? (long) 0 : (long) 0xFFFF;
         long versionVal = (objType.getVersion().getValue() == 0) ? (long) 0 : (long) 0xFF;
         long numberVal = (objType.getNumber().getValue() == 0) ? (long) 0 : (long) 0xFFFF;
 
-        return (areaVal << 48
-                | serviceVal << 32
-                | versionVal << 24
-                | numberVal);
-    }    
+        return (areaVal << 48 | serviceVal << 32 | versionVal << 24 | numberVal);
+    }
 
 }

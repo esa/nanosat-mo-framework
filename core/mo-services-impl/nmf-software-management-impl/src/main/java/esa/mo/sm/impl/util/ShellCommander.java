@@ -37,8 +37,8 @@ public class ShellCommander {
 
     private final OSValidator osValidator = new OSValidator();
     private final static int DEATH_TIMEOUT = 2000;
-    
-    public ShellCommander(){
+
+    public ShellCommander() {
     }
 
     public Process runCommand(String cmd) {
@@ -52,19 +52,19 @@ public class ShellCommander {
             StreamWrapper output = new StreamWrapper(proc.getInputStream(), "OUTPUT");
             error.start();
             output.start();
-            
+
             error.join(DEATH_TIMEOUT);
             output.join(DEATH_TIMEOUT);
             proc.destroyForcibly();
-            
+
             return output.getMessage();
         } catch (InterruptedException ex) {
             Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return "";
     }
-   
+
     public String runCommandAndGetOutputMessageAndError(String cmd) {
         try {
             Process proc = this.runCommand(cmd, null);
@@ -72,20 +72,20 @@ public class ShellCommander {
             StreamWrapper output = new StreamWrapper(proc.getInputStream(), "OUTPUT");
             error.start();
             output.start();
-            
+
             error.join(DEATH_TIMEOUT);
             output.join(DEATH_TIMEOUT);
             proc.destroyForcibly();
-            
+
             return output.getMessage() + error.getMessage();
         } catch (InterruptedException ex) {
-            Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE, 
-                    "The command could not be executed!", ex);
+            Logger.getLogger(ShellCommander.class.getName())
+                  .log(Level.SEVERE, "The command could not be executed!", ex);
         }
-        
+
         return "";
     }
-   
+
     public Process runCommand(String cmd, File dirPath) {
         try {
             Process proc;
@@ -95,15 +95,15 @@ public class ShellCommander {
             } else if (osValidator.isWindows()) {
                 proc = Runtime.getRuntime().exec(new String[]{"cmd", "/c", cmd}, null, dirPath);
             } else {
-                Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE, 
-                        "The command could not executed due to an Unknown OS!");
+                Logger.getLogger(ShellCommander.class.getName())
+                      .log(Level.SEVERE, "The command could not executed due to an Unknown OS!");
                 return null;
             }
 
             return proc;
         } catch (IOException ex) {
-            Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE, 
-                    "The command could not be executed!", ex);
+            Logger.getLogger(ShellCommander.class.getName())
+                  .log(Level.SEVERE, "The command could not be executed!", ex);
         }
 
         return null;
@@ -137,8 +137,7 @@ public class ShellCommander {
                 }
                 message = buffer.toString();
             } catch (IOException ioe) {
-                Logger.getLogger(ShellCommander.class.getName()).log(Level.INFO, 
-                        "Error: ", ioe);
+                Logger.getLogger(ShellCommander.class.getName()).log(Level.INFO, "Error: ", ioe);
             }
         }
     }

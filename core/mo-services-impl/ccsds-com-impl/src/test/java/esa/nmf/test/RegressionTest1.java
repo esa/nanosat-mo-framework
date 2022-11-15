@@ -13,7 +13,7 @@ public class RegressionTest1 {
     public void test0501() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0501");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         java.lang.Integer int6 = binaryDecoder5.decodeInteger();
@@ -85,7 +85,7 @@ public class RegressionTest1 {
     public void test0504() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0504");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         java.lang.Double double5 = binaryDecoder4.decodeNullableDouble();
         try {
@@ -101,7 +101,7 @@ public class RegressionTest1 {
     public void test0505() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0505");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         org.ccsds.moims.mo.mal.structures.Blob blob6 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray3);
@@ -178,28 +178,33 @@ public class RegressionTest1 {
         int int2 = floatList0.lastIndexOf((java.lang.Object) 10);
         java.lang.Integer int3 = floatList0.getTypeShortForm();
         boolean boolean4 = floatList0.isEmpty();
-        java.lang.Long[] longArray12 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        java.lang.Long[] longArray12 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList13 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList13, longArray12);
+        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList13,
+                                                         longArray12);
         java.lang.Object obj15 = longList13.clone();
-        java.lang.Boolean[] booleanArray17 = new java.lang.Boolean[] { false };
+        java.lang.Boolean[] booleanArray17 = new java.lang.Boolean[]{false};
         java.util.ArrayList<java.lang.Boolean> booleanList18 = new java.util.ArrayList<java.lang.Boolean>();
-        boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList18, booleanArray17);
-        java.lang.Byte[] byteArray24 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList18,
+                                                         booleanArray17);
+        java.lang.Byte[] byteArray24 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList25 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean26 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList25, byteArray24);
+        boolean boolean26 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList25,
+                                                         byteArray24);
         boolean boolean28 = byteList25.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray33 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray33 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList34 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean35 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList34, byteArray33);
+        boolean boolean35 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList34,
+                                                         byteArray33);
         boolean boolean37 = byteList34.add((java.lang.Byte) (byte) 100);
         boolean boolean38 = byteList25.addAll((java.util.Collection<java.lang.Byte>) byteList34);
         java.lang.Object obj39 = byteList25.clone();
         boolean boolean40 = booleanList18.contains((java.lang.Object) byteList25);
         boolean boolean41 = longList13.remove((java.lang.Object) boolean40);
-        java.lang.Byte[] byteArray46 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray46 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList47 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean48 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList47, byteArray46);
+        boolean boolean48 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList47,
+                                                         byteArray46);
         boolean boolean50 = byteList47.add((java.lang.Byte) (byte) 100);
         int int51 = longList13.lastIndexOf((java.lang.Object) byteList47);
         org.ccsds.moims.mo.mal.structures.OctetList octetList52 = new org.ccsds.moims.mo.mal.structures.OctetList();
@@ -211,7 +216,7 @@ public class RegressionTest1 {
         java.lang.Integer int58 = uRIList57.getTypeShortForm();
         java.lang.Integer int59 = uRIList57.getTypeShortForm();
         java.lang.Object obj60 = uRIList57.clone();
-        byte[] byteArray64 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray64 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder65 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray64);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder66 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray64);
         int int67 = uRIList57.lastIndexOf((java.lang.Object) binaryDecoder66);
@@ -262,7 +267,7 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0510");
         org.ccsds.moims.mo.mal.structures.Union union1 = new org.ccsds.moims.mo.mal.structures.Union((java.lang.Double) (-1.0d));
-        byte[] byteArray5 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray5 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder6 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray5);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder7 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray5);
         boolean boolean8 = union1.equals((java.lang.Object) byteArray5);
@@ -320,12 +325,13 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.com.structures.ObjectId objectId1 = eventCOMObject0.getSource();
         org.ccsds.moims.mo.com.structures.ObjectType objectType3 = esa.mo.com.impl.util.HelperCOM.objectTypeId2objectType((java.lang.Long) 281474993487885L);
         eventCOMObject0.setObjType(objectType3);
-        java.lang.String[] strArray7 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray7 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList8 = new java.util.ArrayList<java.lang.String>();
         boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList8, strArray7);
-        java.lang.Long[] longArray17 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        java.lang.Long[] longArray17 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList18 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList18, longArray17);
+        boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList18,
+                                                         longArray17);
         java.lang.Object obj20 = longList18.clone();
         int int21 = strList8.indexOf((java.lang.Object) longList18);
         java.util.stream.Stream<java.lang.Long> longStream22 = longList18.parallelStream();
@@ -335,7 +341,7 @@ public class RegressionTest1 {
         java.lang.String str29 = uRI28.toString();
         int int30 = longList18.indexOf((java.lang.Object) uRI28);
         eventCOMObject0.setSourceURI(uRI28);
-        byte[] byteArray35 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray35 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder36 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray35);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder37 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray35);
         org.ccsds.moims.mo.mal.structures.UInteger uInteger38 = binaryDecoder37.decodeUInteger();
@@ -348,7 +354,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort46 = floatList40.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort47 = floatList40.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort48 = floatList40.getServiceNumber();
-        byte[] byteArray52 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray52 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder53 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray52);
         org.ccsds.moims.mo.mal.structures.Element element54 = uShort48.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder53);
         org.ccsds.moims.mo.mal.structures.Element element55 = uInteger38.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder53);
@@ -387,29 +393,34 @@ public class RegressionTest1 {
         java.io.OutputStream outputStream0 = null;
         esa.mo.com.impl.archive.encoding.BinaryEncoder binaryEncoder1 = new esa.mo.com.impl.archive.encoding.BinaryEncoder(outputStream0);
         byte byte3 = binaryEncoder1.internalEncodeAttributeType((byte) 100);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray4 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray4 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList5 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList5, uRIArray4);
-        java.lang.Byte[] byteArray11 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList5,
+                                                        uRIArray4);
+        java.lang.Byte[] byteArray11 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList12 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList12, byteArray11);
+        boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList12,
+                                                         byteArray11);
         boolean boolean15 = byteList12.add((java.lang.Byte) (byte) 100);
         boolean boolean16 = uRIList5.containsAll((java.util.Collection<java.lang.Byte>) byteList12);
         int int18 = uRIList5.lastIndexOf((java.lang.Object) 0.0d);
-        java.lang.Byte[] byteArray23 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray23 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList24 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean25 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList24, byteArray23);
+        boolean boolean25 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList24,
+                                                         byteArray23);
         boolean boolean27 = byteList24.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray32 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray32 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList33 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean34 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList33, byteArray32);
+        boolean boolean34 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList33,
+                                                         byteArray32);
         boolean boolean36 = byteList33.add((java.lang.Byte) (byte) 100);
         boolean boolean37 = byteList24.addAll((java.util.Collection<java.lang.Byte>) byteList33);
         int int39 = byteList33.lastIndexOf((java.lang.Object) 0.0f);
         boolean boolean40 = uRIList5.removeAll((java.util.Collection<java.lang.Byte>) byteList33);
-        java.lang.Double[] doubleArray46 = new java.lang.Double[] { 100.0d, (-1.0d), Double.NaN, 0.0d, 100.0d };
+        java.lang.Double[] doubleArray46 = new java.lang.Double[]{100.0d, (-1.0d), Double.NaN, 0.0d, 100.0d};
         java.util.ArrayList<java.lang.Double> doubleList47 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean48 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList47, doubleArray46);
+        boolean boolean48 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList47,
+                                                         doubleArray46);
         org.ccsds.moims.mo.mal.structures.OctetList octetList49 = new org.ccsds.moims.mo.mal.structures.OctetList();
         org.ccsds.moims.mo.mal.structures.UShort uShort50 = octetList49.getServiceNumber();
         boolean boolean51 = doubleList47.containsAll((java.util.Collection<java.lang.Byte>) octetList49);
@@ -457,52 +468,61 @@ public class RegressionTest1 {
         java.io.OutputStream outputStream0 = null;
         esa.mo.com.impl.archive.encoding.BinaryEncoder binaryEncoder1 = new esa.mo.com.impl.archive.encoding.BinaryEncoder(outputStream0);
         byte byte3 = binaryEncoder1.internalEncodeAttributeType((byte) 100);
-        java.lang.Long[] longArray11 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        java.lang.Long[] longArray11 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList12 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList12, longArray11);
+        boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList12,
+                                                         longArray11);
         java.lang.Object obj14 = longList12.clone();
-        java.lang.Boolean[] booleanArray16 = new java.lang.Boolean[] { false };
+        java.lang.Boolean[] booleanArray16 = new java.lang.Boolean[]{false};
         java.util.ArrayList<java.lang.Boolean> booleanList17 = new java.util.ArrayList<java.lang.Boolean>();
-        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList17, booleanArray16);
-        java.lang.Byte[] byteArray23 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList17,
+                                                         booleanArray16);
+        java.lang.Byte[] byteArray23 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList24 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean25 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList24, byteArray23);
+        boolean boolean25 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList24,
+                                                         byteArray23);
         boolean boolean27 = byteList24.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray32 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray32 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList33 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean34 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList33, byteArray32);
+        boolean boolean34 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList33,
+                                                         byteArray32);
         boolean boolean36 = byteList33.add((java.lang.Byte) (byte) 100);
         boolean boolean37 = byteList24.addAll((java.util.Collection<java.lang.Byte>) byteList33);
         java.lang.Object obj38 = byteList24.clone();
         boolean boolean39 = booleanList17.contains((java.lang.Object) byteList24);
         boolean boolean40 = longList12.remove((java.lang.Object) boolean39);
-        java.lang.Byte[] byteArray45 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray45 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList46 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean47 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList46, byteArray45);
+        boolean boolean47 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList46,
+                                                         byteArray45);
         boolean boolean49 = byteList46.add((java.lang.Byte) (byte) 100);
         int int50 = longList12.lastIndexOf((java.lang.Object) byteList46);
         int int51 = longList12.size();
-        byte[] byteArray55 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray55 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder56 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray55);
         java.lang.Double double57 = binaryDecoder56.decodeNullableDouble();
         byte[] byteArray58 = binaryDecoder56.getRemainingEncodedData();
         org.ccsds.moims.mo.mal.structures.Blob blob59 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray58);
-        java.lang.String[] strArray62 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray62 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList63 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean64 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList63, strArray62);
-        java.lang.Long[] longArray72 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        boolean boolean64 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList63,
+                                                         strArray62);
+        java.lang.Long[] longArray72 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList73 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean74 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList73, longArray72);
+        boolean boolean74 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList73,
+                                                         longArray72);
         java.lang.Object obj75 = longList73.clone();
         int int76 = strList63.indexOf((java.lang.Object) longList73);
         java.util.ListIterator<java.lang.String> strItor77 = strList63.listIterator();
         java.lang.String str78 = strList63.toString();
-        java.lang.Double[] doubleArray81 = new java.lang.Double[] { 0.0d, 1.0d };
+        java.lang.Double[] doubleArray81 = new java.lang.Double[]{0.0d, 1.0d};
         java.util.ArrayList<java.lang.Double> doubleList82 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean83 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList82, doubleArray81);
-        java.lang.String[] strArray86 = new java.lang.String[] { "", "hi!" };
+        boolean boolean83 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList82,
+                                                         doubleArray81);
+        java.lang.String[] strArray86 = new java.lang.String[]{"", "hi!"};
         java.util.ArrayList<java.lang.String> strList87 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean88 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList87, strArray86);
+        boolean boolean88 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList87,
+                                                         strArray86);
         int int89 = strList87.size();
         boolean boolean90 = doubleList82.equals((java.lang.Object) strList87);
         boolean boolean91 = strList63.remove((java.lang.Object) strList87);
@@ -581,7 +601,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.IntegerList integerList1 = new org.ccsds.moims.mo.mal.structures.IntegerList(2);
         org.ccsds.moims.mo.mal.structures.Blob blob2 = new org.ccsds.moims.mo.mal.structures.Blob();
         boolean boolean3 = blob2.isURLBased();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         org.ccsds.moims.mo.mal.structures.Element element9 = blob2.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder8);
         boolean boolean10 = integerList1.equals((java.lang.Object) binaryDecoder8);
@@ -590,7 +610,7 @@ public class RegressionTest1 {
         java.lang.Integer int13 = uRIList12.getTypeShortForm();
         java.lang.Integer int14 = uRIList12.getTypeShortForm();
         java.lang.Object obj15 = uRIList12.clone();
-        byte[] byteArray19 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray19 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder20 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray19);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder21 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray19);
         int int22 = uRIList12.lastIndexOf((java.lang.Object) binaryDecoder21);
@@ -644,7 +664,7 @@ public class RegressionTest1 {
         byte byte5 = binaryEncoder1.internalEncodeAttributeType((byte) 10);
         org.ccsds.moims.mo.mal.structures.FineTime fineTime6 = new org.ccsds.moims.mo.mal.structures.FineTime();
         org.ccsds.moims.mo.mal.structures.UShort uShort7 = fineTime6.getServiceNumber();
-        byte[] byteArray11 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray11 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder12 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray11);
         java.lang.Double double13 = binaryDecoder12.decodeNullableDouble();
         byte[] byteArray14 = binaryDecoder12.getRemainingEncodedData();
@@ -684,29 +704,33 @@ public class RegressionTest1 {
     public void test0521() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0521");
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1, uRIArray0);
-        java.lang.Byte[] byteArray7 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1,
+                                                        uRIArray0);
+        java.lang.Byte[] byteArray7 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList8 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList8, byteArray7);
         boolean boolean11 = byteList8.add((java.lang.Byte) (byte) 100);
         boolean boolean12 = uRIList1.containsAll((java.util.Collection<java.lang.Byte>) byteList8);
         int int14 = uRIList1.lastIndexOf((java.lang.Object) 0.0d);
-        java.lang.Byte[] byteArray19 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray19 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList20 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20, byteArray19);
+        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20,
+                                                         byteArray19);
         boolean boolean23 = byteList20.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray28 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray28 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList29 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList29, byteArray28);
+        boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList29,
+                                                         byteArray28);
         boolean boolean32 = byteList29.add((java.lang.Byte) (byte) 100);
         boolean boolean33 = byteList20.addAll((java.util.Collection<java.lang.Byte>) byteList29);
         int int35 = byteList29.lastIndexOf((java.lang.Object) 0.0f);
         boolean boolean36 = uRIList1.removeAll((java.util.Collection<java.lang.Byte>) byteList29);
-        java.lang.Double[] doubleArray42 = new java.lang.Double[] { 100.0d, (-1.0d), Double.NaN, 0.0d, 100.0d };
+        java.lang.Double[] doubleArray42 = new java.lang.Double[]{100.0d, (-1.0d), Double.NaN, 0.0d, 100.0d};
         java.util.ArrayList<java.lang.Double> doubleList43 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean44 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList43, doubleArray42);
+        boolean boolean44 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList43,
+                                                         doubleArray42);
         org.ccsds.moims.mo.mal.structures.OctetList octetList45 = new org.ccsds.moims.mo.mal.structures.OctetList();
         org.ccsds.moims.mo.mal.structures.UShort uShort46 = octetList45.getServiceNumber();
         boolean boolean47 = doubleList43.containsAll((java.util.Collection<java.lang.Byte>) octetList45);
@@ -756,12 +780,15 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test0522");
         java.io.OutputStream outputStream0 = null;
         esa.mo.com.impl.archive.encoding.BinaryEncoder binaryEncoder1 = new esa.mo.com.impl.archive.encoding.BinaryEncoder(outputStream0);
-        byte[] byteArray5 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray5 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder6 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray5);
         java.lang.Double double7 = binaryDecoder6.decodeNullableDouble();
         byte[] byteArray8 = binaryDecoder6.getRemainingEncodedData();
-        org.ccsds.moims.mo.mal.structures.Blob blob11 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray8, 18, (int) ' ');
-        org.ccsds.moims.mo.mal.structures.Blob blob14 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray8, (int) (short) 10, (int) (byte) -1);
+        org.ccsds.moims.mo.mal.structures.Blob blob11 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray8, 18,
+                                                                                                   (int) ' ');
+        org.ccsds.moims.mo.mal.structures.Blob blob14 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray8,
+                                                                                                   (int) (short) 10,
+                                                                                                   (int) (byte) -1);
         org.ccsds.moims.mo.mal.structures.UShort uShort15 = blob14.getAreaNumber();
         try {
             binaryEncoder1.encodeNullableBlob(blob14);
@@ -847,25 +874,28 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort3 = doubleList1.getAreaNumber();
         java.lang.Long long4 = doubleList1.getShortForm();
         java.util.stream.Stream<java.lang.Double> doubleStream5 = doubleList1.parallelStream();
-        java.lang.Double[] doubleArray7 = new java.lang.Double[] { 0.0d };
+        java.lang.Double[] doubleArray7 = new java.lang.Double[]{0.0d};
         java.util.ArrayList<java.lang.Double> doubleList8 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList8, doubleArray7);
-        java.lang.Short[] shortArray12 = new java.lang.Short[] { (short) 0, (short) 10 };
+        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList8,
+                                                        doubleArray7);
+        java.lang.Short[] shortArray12 = new java.lang.Short[]{(short) 0, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList13 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList13, shortArray12);
+        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList13,
+                                                         shortArray12);
         java.util.ListIterator<java.lang.Short> shortItor15 = shortList13.listIterator();
         int int16 = doubleList8.indexOf((java.lang.Object) shortList13);
         org.ccsds.moims.mo.mal.structures.Blob blob17 = new org.ccsds.moims.mo.mal.structures.Blob();
         boolean boolean18 = blob17.isURLBased();
-        byte[] byteArray22 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray22 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder23 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray22);
         org.ccsds.moims.mo.mal.structures.Element element24 = blob17.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder23);
         boolean boolean25 = doubleList8.contains((java.lang.Object) blob17);
         java.util.ListIterator<java.lang.Double> doubleItor27 = doubleList8.listIterator(1);
         doubleList8.trimToSize();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray29 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray29 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList30 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean31 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList30, uShortArray29);
+        boolean boolean31 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList30,
+                                                         uShortArray29);
         uShortList30.trimToSize();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet33 = org.ccsds.moims.mo.mal.structures.ShortList.AREA_VERSION;
         org.ccsds.moims.mo.mal.structures.Element element34 = uOctet33.createElement();
@@ -874,13 +904,15 @@ public class RegressionTest1 {
         java.util.Iterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor38 = uShortList30.iterator();
         org.ccsds.moims.mo.mal.structures.UShort uShort39 = org.ccsds.moims.mo.mal.structures.ShortList.SERVICE_SHORT_FORM;
         boolean boolean40 = uShortList30.add(uShort39);
-        java.lang.Byte[] byteArray45 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray45 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList46 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean47 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList46, byteArray45);
+        boolean boolean47 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList46,
+                                                         byteArray45);
         boolean boolean49 = byteList46.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray54 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray54 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList55 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean56 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList55, byteArray54);
+        boolean boolean56 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList55,
+                                                         byteArray54);
         boolean boolean58 = byteList55.add((java.lang.Byte) (byte) 100);
         boolean boolean59 = byteList46.addAll((java.util.Collection<java.lang.Byte>) byteList55);
         java.lang.Object obj60 = byteList46.clone();
@@ -972,7 +1004,8 @@ public class RegressionTest1 {
         esa.mo.com.impl.util.EventCOMObject eventCOMObject0 = new esa.mo.com.impl.util.EventCOMObject();
         eventCOMObject0.setObjId((java.lang.Long) 4294967295L);
         org.ccsds.moims.mo.com.structures.ObjectType objectType5 = esa.mo.com.impl.util.HelperCOM.objectTypeId2objectType((java.lang.Long) 281474993487885L);
-        org.ccsds.moims.mo.mal.structures.Subscription subscription6 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("", objectType5);
+        org.ccsds.moims.mo.mal.structures.Subscription subscription6 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("",
+                                                                                                                                   objectType5);
         eventCOMObject0.setObjType(objectType5);
         org.ccsds.moims.mo.com.structures.ObjectType objectType8 = eventCOMObject0.getObjType();
         org.junit.Assert.assertNotNull(objectType5);
@@ -988,16 +1021,19 @@ public class RegressionTest1 {
         int int2 = floatList0.lastIndexOf((java.lang.Object) 10);
         boolean boolean3 = floatList0.isEmpty();
         org.ccsds.moims.mo.mal.structures.Element element4 = floatList0.createElement();
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray5 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray5 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList6 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList6, uRIArray5);
-        java.lang.Byte[] byteArray12 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList6,
+                                                        uRIArray5);
+        java.lang.Byte[] byteArray12 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList13 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList13, byteArray12);
+        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList13,
+                                                         byteArray12);
         boolean boolean16 = byteList13.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray21 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray21 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList22 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList22, byteArray21);
+        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList22,
+                                                         byteArray21);
         boolean boolean25 = byteList22.add((java.lang.Byte) (byte) 100);
         boolean boolean26 = byteList13.addAll((java.util.Collection<java.lang.Byte>) byteList22);
         int int28 = byteList22.lastIndexOf((java.lang.Object) 0.0f);
@@ -1007,7 +1043,7 @@ public class RegressionTest1 {
         java.lang.Integer int32 = uRIList31.getTypeShortForm();
         java.lang.Integer int33 = uRIList31.getTypeShortForm();
         java.lang.Object obj34 = uRIList31.clone();
-        byte[] byteArray38 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray38 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder39 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray38);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder40 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray38);
         int int41 = uRIList31.lastIndexOf((java.lang.Object) binaryDecoder40);
@@ -1057,7 +1093,7 @@ public class RegressionTest1 {
         java.lang.Integer int5 = uRIList4.getTypeShortForm();
         java.lang.Integer int6 = uRIList4.getTypeShortForm();
         java.lang.Object obj7 = uRIList4.clone();
-        byte[] byteArray11 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray11 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder12 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray11);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder13 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray11);
         int int14 = uRIList4.lastIndexOf((java.lang.Object) binaryDecoder13);
@@ -1088,7 +1124,9 @@ public class RegressionTest1 {
     public void test0532() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0532");
-        esa.mo.com.impl.archive.db.COMObjectEntityPK cOMObjectEntityPK3 = esa.mo.com.impl.archive.entities.COMObjectEntity.generatePK((java.lang.Integer) 2, (java.lang.Integer) 3, (java.lang.Long) 281474993487879L);
+        esa.mo.com.impl.archive.db.COMObjectEntityPK cOMObjectEntityPK3 = esa.mo.com.impl.archive.entities.COMObjectEntity.generatePK((java.lang.Integer) 2,
+                                                                                                                                      (java.lang.Integer) 3,
+                                                                                                                                      (java.lang.Long) 281474993487879L);
         org.junit.Assert.assertNotNull(cOMObjectEntityPK3);
     }
 
@@ -1096,7 +1134,7 @@ public class RegressionTest1 {
     public void test0534() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0534");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         org.ccsds.moims.mo.mal.structures.UInteger uInteger6 = binaryDecoder5.decodeUInteger();
@@ -1174,7 +1212,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort6 = floatList0.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort7 = floatList0.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort8 = floatList0.getServiceNumber();
-        byte[] byteArray12 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray12 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder13 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray12);
         org.ccsds.moims.mo.mal.structures.Element element14 = uShort8.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder13);
         try {
@@ -1303,7 +1341,7 @@ public class RegressionTest1 {
     public void test0543() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0543");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         org.ccsds.moims.mo.mal.structures.Duration duration7 = new org.ccsds.moims.mo.mal.structures.Duration((double) 0.0f);
@@ -1348,7 +1386,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.IntegerList integerList1 = new org.ccsds.moims.mo.mal.structures.IntegerList(2);
         boolean boolean2 = integerList1.isEmpty();
         org.ccsds.moims.mo.mal.structures.Element element3 = integerList1.createElement();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         java.lang.Integer int10 = binaryDecoder9.decodeInteger();
@@ -1372,7 +1410,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.URIList uRIList0 = new org.ccsds.moims.mo.mal.structures.URIList();
         java.lang.Integer int1 = uRIList0.getTypeShortForm();
         java.lang.Integer int2 = uRIList0.getTypeShortForm();
-        byte[] byteArray6 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray6 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder7 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray6);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray6);
         org.ccsds.moims.mo.mal.structures.UInteger uInteger9 = binaryDecoder8.decodeUInteger();
@@ -1408,7 +1446,8 @@ public class RegressionTest1 {
         esa.mo.com.impl.util.EventCOMObject eventCOMObject11 = new esa.mo.com.impl.util.EventCOMObject();
         eventCOMObject11.setObjId((java.lang.Long) 4294967295L);
         org.ccsds.moims.mo.com.structures.ObjectType objectType16 = esa.mo.com.impl.util.HelperCOM.objectTypeId2objectType((java.lang.Long) 281474993487885L);
-        org.ccsds.moims.mo.mal.structures.Subscription subscription17 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("", objectType16);
+        org.ccsds.moims.mo.mal.structures.Subscription subscription17 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("",
+                                                                                                                                    objectType16);
         eventCOMObject11.setObjType(objectType16);
         java.lang.Long long19 = eventCOMObject11.getObjId();
         org.ccsds.moims.mo.com.structures.ObjectId objectId20 = eventCOMObject11.getObjectId();
@@ -1437,7 +1476,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.IntegerList integerList1 = new org.ccsds.moims.mo.mal.structures.IntegerList(2);
         org.ccsds.moims.mo.mal.structures.Blob blob2 = new org.ccsds.moims.mo.mal.structures.Blob();
         boolean boolean3 = blob2.isURLBased();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         org.ccsds.moims.mo.mal.structures.Element element9 = blob2.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder8);
         boolean boolean10 = integerList1.equals((java.lang.Object) binaryDecoder8);
@@ -1453,7 +1492,7 @@ public class RegressionTest1 {
     public void test0549() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0549");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         java.lang.Integer int6 = binaryDecoder5.decodeInteger();
@@ -1475,7 +1514,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.ShortList shortList0 = new org.ccsds.moims.mo.mal.structures.ShortList();
         org.ccsds.moims.mo.mal.structures.UShort uShort1 = shortList0.getAreaNumber();
         java.lang.Object[] objArray2 = shortList0.toArray();
-        byte[] byteArray6 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray6 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder7 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray6);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray6);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet9 = binaryDecoder8.decodeNullableUOctet();
@@ -1485,7 +1524,7 @@ public class RegressionTest1 {
         java.lang.Integer int13 = uRIList12.getTypeShortForm();
         java.lang.Integer int14 = uRIList12.getTypeShortForm();
         java.lang.Object obj15 = uRIList12.clone();
-        byte[] byteArray19 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray19 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder20 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray19);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder21 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray19);
         int int22 = uRIList12.lastIndexOf((java.lang.Object) binaryDecoder21);
@@ -1520,7 +1559,7 @@ public class RegressionTest1 {
         java.io.OutputStream outputStream0 = null;
         esa.mo.com.impl.archive.encoding.BinaryEncoder binaryEncoder1 = new esa.mo.com.impl.archive.encoding.BinaryEncoder(outputStream0);
         byte byte3 = binaryEncoder1.internalEncodeAttributeType((byte) -1);
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         org.ccsds.moims.mo.mal.structures.Blob blob10 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray7);
@@ -1543,7 +1582,9 @@ public class RegressionTest1 {
     public void test0552() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0552");
-        esa.mo.com.impl.archive.db.COMObjectEntityPK cOMObjectEntityPK3 = esa.mo.com.impl.archive.entities.COMObjectEntity.generatePK((java.lang.Integer) 65535, (java.lang.Integer) 0, (java.lang.Long) 281475010265079L);
+        esa.mo.com.impl.archive.db.COMObjectEntityPK cOMObjectEntityPK3 = esa.mo.com.impl.archive.entities.COMObjectEntity.generatePK((java.lang.Integer) 65535,
+                                                                                                                                      (java.lang.Integer) 0,
+                                                                                                                                      (java.lang.Long) 281475010265079L);
         org.junit.Assert.assertNotNull(cOMObjectEntityPK3);
     }
 
@@ -1573,15 +1614,16 @@ public class RegressionTest1 {
     public void test0554() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0554");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         org.ccsds.moims.mo.mal.structures.UInteger uInteger5 = binaryDecoder4.decodeNullableUInteger();
-        java.lang.String[] strArray8 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray8 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList9 = new java.util.ArrayList<java.lang.String>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList9, strArray8);
-        java.lang.Long[] longArray18 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        java.lang.Long[] longArray18 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList19 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean20 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList19, longArray18);
+        boolean boolean20 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList19,
+                                                         longArray18);
         java.lang.Object obj21 = longList19.clone();
         int int22 = strList9.indexOf((java.lang.Object) longList19);
         try {
@@ -1609,7 +1651,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.Identifier identifier4 = new org.ccsds.moims.mo.mal.structures.Identifier();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet5 = identifier4.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet6 = identifier4.getAreaVersion();
-        byte[] byteArray10 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray10 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder11 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray10);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder12 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray10);
         org.ccsds.moims.mo.mal.structures.Blob blob13 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray10);
@@ -1637,7 +1679,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.DoubleList doubleList1 = new org.ccsds.moims.mo.mal.structures.DoubleList((int) (short) 100);
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = doubleList1.getAreaNumber();
         java.lang.Object obj3 = doubleList1.clone();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet10 = binaryDecoder9.decodeNullableUOctet();
@@ -1721,34 +1763,41 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = shortList1.getAreaNumber();
         java.lang.Object[] objArray3 = shortList1.toArray();
         boolean boolean4 = floatList0.remove((java.lang.Object) shortList1);
-        java.lang.Long[] longArray12 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        java.lang.Long[] longArray12 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList13 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList13, longArray12);
+        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList13,
+                                                         longArray12);
         java.lang.Object obj15 = longList13.clone();
-        java.lang.Boolean[] booleanArray17 = new java.lang.Boolean[] { false };
+        java.lang.Boolean[] booleanArray17 = new java.lang.Boolean[]{false};
         java.util.ArrayList<java.lang.Boolean> booleanList18 = new java.util.ArrayList<java.lang.Boolean>();
-        boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList18, booleanArray17);
-        java.lang.Byte[] byteArray24 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList18,
+                                                         booleanArray17);
+        java.lang.Byte[] byteArray24 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList25 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean26 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList25, byteArray24);
+        boolean boolean26 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList25,
+                                                         byteArray24);
         boolean boolean28 = byteList25.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray33 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray33 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList34 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean35 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList34, byteArray33);
+        boolean boolean35 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList34,
+                                                         byteArray33);
         boolean boolean37 = byteList34.add((java.lang.Byte) (byte) 100);
         boolean boolean38 = byteList25.addAll((java.util.Collection<java.lang.Byte>) byteList34);
         java.lang.Object obj39 = byteList25.clone();
         boolean boolean40 = booleanList18.contains((java.lang.Object) byteList25);
         boolean boolean41 = longList13.remove((java.lang.Object) boolean40);
-        java.lang.String[] strArray44 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray44 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList45 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean46 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList45, strArray44);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray47 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean46 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList45,
+                                                         strArray44);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray47 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList48 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean49 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList48, uRIArray47);
-        java.lang.Byte[] byteArray54 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean49 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList48,
+                                                         uRIArray47);
+        java.lang.Byte[] byteArray54 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList55 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean56 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList55, byteArray54);
+        boolean boolean56 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList55,
+                                                         byteArray54);
         boolean boolean58 = byteList55.add((java.lang.Byte) (byte) 100);
         boolean boolean59 = uRIList48.containsAll((java.util.Collection<java.lang.Byte>) byteList55);
         boolean boolean60 = strList45.containsAll((java.util.Collection<java.lang.Byte>) byteList55);
@@ -1758,7 +1807,7 @@ public class RegressionTest1 {
         java.lang.Integer int64 = uRIList63.getTypeShortForm();
         java.lang.Integer int65 = uRIList63.getTypeShortForm();
         java.lang.Object obj66 = uRIList63.clone();
-        byte[] byteArray70 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray70 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder71 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray70);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder72 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray70);
         int int73 = uRIList63.lastIndexOf((java.lang.Object) binaryDecoder72);
@@ -1822,7 +1871,7 @@ public class RegressionTest1 {
         java.lang.Integer int4 = uRIList3.getTypeShortForm();
         java.lang.Integer int5 = uRIList3.getTypeShortForm();
         java.lang.Object obj6 = uRIList3.clone();
-        byte[] byteArray10 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray10 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder11 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray10);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder12 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray10);
         int int13 = uRIList3.lastIndexOf((java.lang.Object) binaryDecoder12);
@@ -1893,7 +1942,7 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0564");
         org.ccsds.moims.mo.mal.structures.Blob blob0 = new org.ccsds.moims.mo.mal.structures.Blob();
-        byte[] byteArray4 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray4 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray4);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder6 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray4);
         org.ccsds.moims.mo.mal.structures.Element element7 = blob0.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder6);
@@ -1949,7 +1998,7 @@ public class RegressionTest1 {
     public void test0567() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0567");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         org.ccsds.moims.mo.mal.structures.FineTime fineTime5 = binaryDecoder4.decodeFineTime();
         java.lang.Long long6 = binaryDecoder4.decodeLong();
@@ -1972,9 +2021,9 @@ public class RegressionTest1 {
         long long3 = archiveSyncGenAdapter1.noUpdatesReceivedForThisDuration();
         long long4 = archiveSyncGenAdapter1.noUpdatesReceivedForThisDuration();
         java.util.ArrayList<byte[]> byteArrayList5 = archiveSyncGenAdapter1.getReceivedChunks();
-// flaky:         org.junit.Assert.assertTrue("'" + long2 + "' != '" + 1558616178307L + "'", long2 == 1558616178307L);
-// flaky:         org.junit.Assert.assertTrue("'" + long3 + "' != '" + 1558616178308L + "'", long3 == 1558616178308L);
-// flaky:         org.junit.Assert.assertTrue("'" + long4 + "' != '" + 1558616178308L + "'", long4 == 1558616178308L);
+        // flaky:         org.junit.Assert.assertTrue("'" + long2 + "' != '" + 1558616178307L + "'", long2 == 1558616178307L);
+        // flaky:         org.junit.Assert.assertTrue("'" + long3 + "' != '" + 1558616178308L + "'", long3 == 1558616178308L);
+        // flaky:         org.junit.Assert.assertTrue("'" + long4 + "' != '" + 1558616178308L + "'", long4 == 1558616178308L);
         org.junit.Assert.assertNotNull(byteArrayList5);
     }
 
@@ -1987,7 +2036,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = booleanList0.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.Blob blob3 = new org.ccsds.moims.mo.mal.structures.Blob();
         boolean boolean4 = blob3.isURLBased();
-        byte[] byteArray8 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray8 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray8);
         org.ccsds.moims.mo.mal.structures.Element element10 = blob3.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder9);
         try {
@@ -2010,7 +2059,7 @@ public class RegressionTest1 {
         java.lang.Integer int1 = uRIList0.getTypeShortForm();
         java.lang.Integer int2 = uRIList0.getTypeShortForm();
         java.lang.Object obj3 = uRIList0.clone();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         int int10 = uRIList0.lastIndexOf((java.lang.Object) binaryDecoder9);
@@ -2036,7 +2085,7 @@ public class RegressionTest1 {
     public void test0571() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0571");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet6 = binaryDecoder5.decodeNullableUOctet();
@@ -2044,37 +2093,45 @@ public class RegressionTest1 {
         short short8 = uOctet6.getValue();
         org.ccsds.moims.mo.mal.structures.UShort uShort9 = uOctet6.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort10 = uOctet6.getServiceNumber();
-        java.lang.Byte[] byteArray15 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray15 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList16 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList16, byteArray15);
+        boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList16,
+                                                         byteArray15);
         boolean boolean19 = byteList16.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray24 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray24 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList25 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean26 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList25, byteArray24);
+        boolean boolean26 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList25,
+                                                         byteArray24);
         boolean boolean28 = byteList25.add((java.lang.Byte) (byte) 100);
         boolean boolean29 = byteList16.addAll((java.util.Collection<java.lang.Byte>) byteList25);
-        java.lang.Short[] shortArray33 = new java.lang.Short[] { (short) -1, (short) 0, (short) 100 };
+        java.lang.Short[] shortArray33 = new java.lang.Short[]{(short) -1, (short) 0, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList34 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean35 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList34, shortArray33);
-        java.lang.String[] strArray38 = new java.lang.String[] { "hi!", "" };
+        boolean boolean35 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList34,
+                                                         shortArray33);
+        java.lang.String[] strArray38 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList39 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean40 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList39, strArray38);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray41 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean40 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList39,
+                                                         strArray38);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray41 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList42 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean43 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList42, uRIArray41);
-        java.lang.Byte[] byteArray48 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean43 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList42,
+                                                         uRIArray41);
+        java.lang.Byte[] byteArray48 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList49 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean50 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList49, byteArray48);
+        boolean boolean50 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList49,
+                                                         byteArray48);
         boolean boolean52 = byteList49.add((java.lang.Byte) (byte) 100);
         boolean boolean53 = uRIList42.containsAll((java.util.Collection<java.lang.Byte>) byteList49);
         boolean boolean54 = strList39.containsAll((java.util.Collection<java.lang.Byte>) byteList49);
         boolean boolean55 = shortList34.contains((java.lang.Object) byteList49);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray56 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray56 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList57 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean58 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList57, uRIArray56);
-        java.lang.Byte[] byteArray63 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean58 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList57,
+                                                         uRIArray56);
+        java.lang.Byte[] byteArray63 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList64 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean65 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList64, byteArray63);
+        boolean boolean65 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList64,
+                                                         byteArray63);
         boolean boolean67 = byteList64.add((java.lang.Byte) (byte) 100);
         boolean boolean68 = uRIList57.containsAll((java.util.Collection<java.lang.Byte>) byteList64);
         boolean boolean69 = byteList64.isEmpty();
@@ -2082,13 +2139,15 @@ public class RegressionTest1 {
         boolean boolean71 = byteList25.removeAll((java.util.Collection<java.lang.Byte>) byteList64);
         org.ccsds.moims.mo.mal.structures.LongList longList73 = new org.ccsds.moims.mo.mal.structures.LongList(4);
         boolean boolean75 = longList73.equals((java.lang.Object) 6);
-        java.lang.Byte[] byteArray80 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray80 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList81 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean82 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList81, byteArray80);
+        boolean boolean82 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList81,
+                                                         byteArray80);
         boolean boolean84 = byteList81.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray89 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray89 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList90 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean91 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList90, byteArray89);
+        boolean boolean91 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList90,
+                                                         byteArray89);
         boolean boolean93 = byteList90.add((java.lang.Byte) (byte) 100);
         boolean boolean94 = byteList81.addAll((java.util.Collection<java.lang.Byte>) byteList90);
         java.lang.Object obj95 = byteList81.clone();
@@ -2151,7 +2210,7 @@ public class RegressionTest1 {
         java.lang.Integer int1 = uRIList0.getTypeShortForm();
         java.lang.Integer int2 = uRIList0.getTypeShortForm();
         java.lang.Object obj3 = uRIList0.clone();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         int int10 = uRIList0.lastIndexOf((java.lang.Object) binaryDecoder9);
@@ -2179,12 +2238,13 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.com.structures.ObjectId objectId1 = eventCOMObject0.getSource();
         org.ccsds.moims.mo.com.structures.ObjectType objectType3 = esa.mo.com.impl.util.HelperCOM.objectTypeId2objectType((java.lang.Long) 281474993487885L);
         eventCOMObject0.setObjType(objectType3);
-        java.lang.String[] strArray7 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray7 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList8 = new java.util.ArrayList<java.lang.String>();
         boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList8, strArray7);
-        java.lang.Long[] longArray17 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        java.lang.Long[] longArray17 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList18 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList18, longArray17);
+        boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList18,
+                                                         longArray17);
         java.lang.Object obj20 = longList18.clone();
         int int21 = strList8.indexOf((java.lang.Object) longList18);
         java.util.stream.Stream<java.lang.Long> longStream22 = longList18.parallelStream();
@@ -2223,39 +2283,47 @@ public class RegressionTest1 {
     public void test0574() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0574");
-        java.lang.Short[] shortArray5 = new java.lang.Short[] { (short) -64, (short) 1, (short) 127, (short) -1, (short) 10 };
+        java.lang.Short[] shortArray5 = new java.lang.Short[]{(short) -64, (short) 1, (short) 127, (short) -1,
+                                                              (short) 10};
         java.util.ArrayList<java.lang.Short> shortList6 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList6, shortArray5);
-        java.lang.Long[] longArray15 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList6,
+                                                        shortArray5);
+        java.lang.Long[] longArray15 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList16 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList16, longArray15);
+        boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList16,
+                                                         longArray15);
         java.lang.Object obj18 = longList16.clone();
-        java.lang.Boolean[] booleanArray20 = new java.lang.Boolean[] { false };
+        java.lang.Boolean[] booleanArray20 = new java.lang.Boolean[]{false};
         java.util.ArrayList<java.lang.Boolean> booleanList21 = new java.util.ArrayList<java.lang.Boolean>();
-        boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList21, booleanArray20);
-        java.lang.Byte[] byteArray27 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList21,
+                                                         booleanArray20);
+        java.lang.Byte[] byteArray27 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList28 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean29 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList28, byteArray27);
+        boolean boolean29 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList28,
+                                                         byteArray27);
         boolean boolean31 = byteList28.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray36 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray36 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList37 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean38 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList37, byteArray36);
+        boolean boolean38 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList37,
+                                                         byteArray36);
         boolean boolean40 = byteList37.add((java.lang.Byte) (byte) 100);
         boolean boolean41 = byteList28.addAll((java.util.Collection<java.lang.Byte>) byteList37);
         java.lang.Object obj42 = byteList28.clone();
         boolean boolean43 = booleanList21.contains((java.lang.Object) byteList28);
         boolean boolean44 = longList16.remove((java.lang.Object) boolean43);
-        java.lang.Byte[] byteArray49 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray49 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList50 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean51 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList50, byteArray49);
+        boolean boolean51 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList50,
+                                                         byteArray49);
         boolean boolean53 = byteList50.add((java.lang.Byte) (byte) 100);
         int int54 = longList16.lastIndexOf((java.lang.Object) byteList50);
         org.ccsds.moims.mo.mal.structures.OctetList octetList55 = new org.ccsds.moims.mo.mal.structures.OctetList();
         org.ccsds.moims.mo.mal.structures.UShort uShort56 = octetList55.getServiceNumber();
         boolean boolean57 = longList16.removeAll((java.util.Collection<java.lang.Byte>) octetList55);
-        java.lang.Double[] doubleArray64 = new java.lang.Double[] { 100.0d, (-1.0d), Double.NaN, 0.0d, 100.0d };
+        java.lang.Double[] doubleArray64 = new java.lang.Double[]{100.0d, (-1.0d), Double.NaN, 0.0d, 100.0d};
         java.util.ArrayList<java.lang.Double> doubleList65 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean66 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList65, doubleArray64);
+        boolean boolean66 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList65,
+                                                         doubleArray64);
         org.ccsds.moims.mo.mal.structures.OctetList octetList67 = new org.ccsds.moims.mo.mal.structures.OctetList();
         org.ccsds.moims.mo.mal.structures.UShort uShort68 = octetList67.getServiceNumber();
         boolean boolean69 = doubleList65.containsAll((java.util.Collection<java.lang.Byte>) octetList67);
@@ -2328,7 +2396,8 @@ public class RegressionTest1 {
         esa.mo.com.impl.util.EventCOMObject eventCOMObject10 = new esa.mo.com.impl.util.EventCOMObject();
         eventCOMObject10.setObjId((java.lang.Long) 4294967295L);
         org.ccsds.moims.mo.com.structures.ObjectType objectType15 = esa.mo.com.impl.util.HelperCOM.objectTypeId2objectType((java.lang.Long) 281474993487885L);
-        org.ccsds.moims.mo.mal.structures.Subscription subscription16 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("", objectType15);
+        org.ccsds.moims.mo.mal.structures.Subscription subscription16 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("",
+                                                                                                                                    objectType15);
         eventCOMObject10.setObjType(objectType15);
         java.lang.Long long18 = eventCOMObject10.getObjId();
         org.ccsds.moims.mo.com.structures.ObjectId objectId19 = eventCOMObject10.getObjectId();
@@ -2350,12 +2419,14 @@ public class RegressionTest1 {
     public void test0576() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0576");
-        java.lang.Double[] doubleArray1 = new java.lang.Double[] { 0.0d };
+        java.lang.Double[] doubleArray1 = new java.lang.Double[]{0.0d};
         java.util.ArrayList<java.lang.Double> doubleList2 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList2, doubleArray1);
-        java.lang.Short[] shortArray6 = new java.lang.Short[] { (short) 0, (short) 10 };
+        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList2,
+                                                        doubleArray1);
+        java.lang.Short[] shortArray6 = new java.lang.Short[]{(short) 0, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList7 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean8 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList7, shortArray6);
+        boolean boolean8 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList7,
+                                                        shortArray6);
         java.util.ListIterator<java.lang.Short> shortItor9 = shortList7.listIterator();
         int int10 = doubleList2.indexOf((java.lang.Object) shortList7);
         doubleList2.trimToSize();
@@ -2487,25 +2558,28 @@ public class RegressionTest1 {
         java.io.OutputStream outputStream0 = null;
         esa.mo.com.impl.archive.encoding.BinaryEncoder binaryEncoder1 = new esa.mo.com.impl.archive.encoding.BinaryEncoder(outputStream0);
         byte byte3 = binaryEncoder1.internalEncodeAttributeType((byte) -1);
-        java.lang.Double[] doubleArray5 = new java.lang.Double[] { 0.0d };
+        java.lang.Double[] doubleArray5 = new java.lang.Double[]{0.0d};
         java.util.ArrayList<java.lang.Double> doubleList6 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList6, doubleArray5);
-        java.lang.Short[] shortArray10 = new java.lang.Short[] { (short) 0, (short) 10 };
+        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList6,
+                                                        doubleArray5);
+        java.lang.Short[] shortArray10 = new java.lang.Short[]{(short) 0, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList11 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean12 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList11, shortArray10);
+        boolean boolean12 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList11,
+                                                         shortArray10);
         java.util.ListIterator<java.lang.Short> shortItor13 = shortList11.listIterator();
         int int14 = doubleList6.indexOf((java.lang.Object) shortList11);
         org.ccsds.moims.mo.mal.structures.Blob blob15 = new org.ccsds.moims.mo.mal.structures.Blob();
         boolean boolean16 = blob15.isURLBased();
-        byte[] byteArray20 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray20 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder21 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray20);
         org.ccsds.moims.mo.mal.structures.Element element22 = blob15.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder21);
         boolean boolean23 = doubleList6.contains((java.lang.Object) blob15);
         java.util.ListIterator<java.lang.Double> doubleItor25 = doubleList6.listIterator(1);
         doubleList6.trimToSize();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray27 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray27 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList28 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean29 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList28, uShortArray27);
+        boolean boolean29 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList28,
+                                                         uShortArray27);
         uShortList28.trimToSize();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet31 = org.ccsds.moims.mo.mal.structures.ShortList.AREA_VERSION;
         org.ccsds.moims.mo.mal.structures.Element element32 = uOctet31.createElement();
@@ -2514,13 +2588,15 @@ public class RegressionTest1 {
         java.util.Iterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor36 = uShortList28.iterator();
         org.ccsds.moims.mo.mal.structures.UShort uShort37 = org.ccsds.moims.mo.mal.structures.ShortList.SERVICE_SHORT_FORM;
         boolean boolean38 = uShortList28.add(uShort37);
-        java.lang.Byte[] byteArray43 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray43 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList44 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean45 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList44, byteArray43);
+        boolean boolean45 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList44,
+                                                         byteArray43);
         boolean boolean47 = byteList44.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray52 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray52 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList53 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean54 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList53, byteArray52);
+        boolean boolean54 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList53,
+                                                         byteArray52);
         boolean boolean56 = byteList53.add((java.lang.Byte) (byte) 100);
         boolean boolean57 = byteList44.addAll((java.util.Collection<java.lang.Byte>) byteList53);
         java.lang.Object obj58 = byteList44.clone();
@@ -2595,43 +2671,52 @@ public class RegressionTest1 {
         eventCOMObject0.setSourceURI(uRI2);
         org.ccsds.moims.mo.mal.structures.URI uRI5 = new org.ccsds.moims.mo.mal.structures.URI("hi!");
         org.ccsds.moims.mo.mal.structures.Element element6 = uRI5.createElement();
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray7 = new org.ccsds.moims.mo.mal.structures.URI[] { uRI2, uRI5 };
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray7 = new org.ccsds.moims.mo.mal.structures.URI[]{uRI2, uRI5};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList8 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList8, uRIArray7);
-        java.lang.Double[] doubleArray15 = new java.lang.Double[] { 100.0d, (-1.0d), Double.NaN, 0.0d, 100.0d };
+        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList8,
+                                                        uRIArray7);
+        java.lang.Double[] doubleArray15 = new java.lang.Double[]{100.0d, (-1.0d), Double.NaN, 0.0d, 100.0d};
         java.util.ArrayList<java.lang.Double> doubleList16 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList16, doubleArray15);
+        boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList16,
+                                                         doubleArray15);
         org.ccsds.moims.mo.mal.structures.OctetList octetList18 = new org.ccsds.moims.mo.mal.structures.OctetList();
         org.ccsds.moims.mo.mal.structures.UShort uShort19 = octetList18.getServiceNumber();
         boolean boolean20 = doubleList16.containsAll((java.util.Collection<java.lang.Byte>) octetList18);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray21 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray21 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList22 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList22, uShortArray21);
+        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList22,
+                                                         uShortArray21);
         uShortList22.trimToSize();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet25 = org.ccsds.moims.mo.mal.structures.ShortList.AREA_VERSION;
         org.ccsds.moims.mo.mal.structures.Element element26 = uOctet25.createElement();
         int int27 = uShortList22.indexOf((java.lang.Object) element26);
-        java.lang.String[] strArray30 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray30 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList31 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean32 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList31, strArray30);
-        java.lang.Long[] longArray40 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        boolean boolean32 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList31,
+                                                         strArray30);
+        java.lang.Long[] longArray40 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList41 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList41, longArray40);
+        boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList41,
+                                                         longArray40);
         java.lang.Object obj43 = longList41.clone();
         int int44 = strList31.indexOf((java.lang.Object) longList41);
         java.util.ListIterator<java.lang.String> strItor45 = strList31.listIterator();
-        java.lang.Short[] shortArray49 = new java.lang.Short[] { (short) -1, (short) 0, (short) 100 };
+        java.lang.Short[] shortArray49 = new java.lang.Short[]{(short) -1, (short) 0, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList50 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean51 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList50, shortArray49);
-        java.lang.String[] strArray54 = new java.lang.String[] { "hi!", "" };
+        boolean boolean51 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList50,
+                                                         shortArray49);
+        java.lang.String[] strArray54 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList55 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean56 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList55, strArray54);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray57 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean56 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList55,
+                                                         strArray54);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray57 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList58 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean59 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList58, uRIArray57);
-        java.lang.Byte[] byteArray64 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean59 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList58,
+                                                         uRIArray57);
+        java.lang.Byte[] byteArray64 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList65 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean66 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList65, byteArray64);
+        boolean boolean66 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList65,
+                                                         byteArray64);
         boolean boolean68 = byteList65.add((java.lang.Byte) (byte) 100);
         boolean boolean69 = uRIList58.containsAll((java.util.Collection<java.lang.Byte>) byteList65);
         boolean boolean70 = strList55.containsAll((java.util.Collection<java.lang.Byte>) byteList65);
@@ -2723,10 +2808,11 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.OctetList octetList6 = new org.ccsds.moims.mo.mal.structures.OctetList();
         java.lang.Integer int7 = octetList6.getTypeShortForm();
         boolean boolean8 = uShortList1.removeAll((java.util.Collection<java.lang.Byte>) octetList6);
-        byte[] byteArray12 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray12 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder13 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray12);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder14 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray12);
-        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder16 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray12, 18);
+        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder16 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray12,
+                                                                                                                            18);
         try {
             org.ccsds.moims.mo.mal.structures.Element element17 = uShortList1.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder16);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 18");
@@ -2754,23 +2840,27 @@ public class RegressionTest1 {
     public void test0588() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0588");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         org.ccsds.moims.mo.mal.structures.UInteger uInteger6 = binaryDecoder5.decodeUInteger();
-        java.lang.Float[] floatArray12 = new java.lang.Float[] { 100.0f, (-1.0f), (-1.0f), 10.0f, (-1.0f) };
+        java.lang.Float[] floatArray12 = new java.lang.Float[]{100.0f, (-1.0f), (-1.0f), 10.0f, (-1.0f)};
         java.util.ArrayList<java.lang.Float> floatList13 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList13, floatArray12);
-        java.lang.Boolean[] booleanArray16 = new java.lang.Boolean[] { false };
+        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList13,
+                                                         floatArray12);
+        java.lang.Boolean[] booleanArray16 = new java.lang.Boolean[]{false};
         java.util.ArrayList<java.lang.Boolean> booleanList17 = new java.util.ArrayList<java.lang.Boolean>();
-        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList17, booleanArray16);
-        java.lang.Byte[] byteArray23 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList17,
+                                                         booleanArray16);
+        java.lang.Byte[] byteArray23 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList24 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean25 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList24, byteArray23);
+        boolean boolean25 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList24,
+                                                         byteArray23);
         boolean boolean27 = byteList24.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray32 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray32 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList33 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean34 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList33, byteArray32);
+        boolean boolean34 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList33,
+                                                         byteArray32);
         boolean boolean36 = byteList33.add((java.lang.Byte) (byte) 100);
         boolean boolean37 = byteList24.addAll((java.util.Collection<java.lang.Byte>) byteList33);
         java.lang.Object obj38 = byteList24.clone();
@@ -2822,12 +2912,14 @@ public class RegressionTest1 {
         java.util.Spliterator<java.lang.Float> floatSpliterator5 = floatList0.spliterator();
         java.lang.Integer int6 = floatList0.getTypeShortForm();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet7 = floatList0.getAreaVersion();
-        byte[] byteArray11 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray11 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder12 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray11);
         java.lang.Double double13 = binaryDecoder12.decodeNullableDouble();
         byte[] byteArray14 = binaryDecoder12.getRemainingEncodedData();
-        org.ccsds.moims.mo.mal.structures.Blob blob17 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray14, 18, (int) ' ');
-        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder19 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray14, (int) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.Blob blob17 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray14, 18,
+                                                                                                   (int) ' ');
+        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder19 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray14,
+                                                                                                                            (int) (byte) 1);
         try {
             org.ccsds.moims.mo.mal.structures.Element element20 = floatList0.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder19);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 1");
@@ -2884,7 +2976,7 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test0592");
         java.io.OutputStream outputStream0 = null;
         esa.mo.com.impl.archive.encoding.BinaryEncoder binaryEncoder1 = new esa.mo.com.impl.archive.encoding.BinaryEncoder(outputStream0);
-        byte[] byteArray5 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray5 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder6 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray5);
         java.lang.Double double7 = binaryDecoder6.decodeNullableDouble();
         byte[] byteArray8 = binaryDecoder6.getRemainingEncodedData();
@@ -2906,35 +2998,39 @@ public class RegressionTest1 {
     public void test0593() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0593");
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1, uRIArray0);
-        java.lang.Byte[] byteArray7 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1,
+                                                        uRIArray0);
+        java.lang.Byte[] byteArray7 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList8 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList8, byteArray7);
         boolean boolean11 = byteList8.add((java.lang.Byte) (byte) 100);
         boolean boolean12 = uRIList1.containsAll((java.util.Collection<java.lang.Byte>) byteList8);
         int int13 = uRIList1.size();
         java.lang.Object obj14 = uRIList1.clone();
-        java.lang.Double[] doubleArray16 = new java.lang.Double[] { 0.0d };
+        java.lang.Double[] doubleArray16 = new java.lang.Double[]{0.0d};
         java.util.ArrayList<java.lang.Double> doubleList17 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList17, doubleArray16);
-        java.lang.Short[] shortArray21 = new java.lang.Short[] { (short) 0, (short) 10 };
+        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList17,
+                                                         doubleArray16);
+        java.lang.Short[] shortArray21 = new java.lang.Short[]{(short) 0, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList22 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList22, shortArray21);
+        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList22,
+                                                         shortArray21);
         java.util.ListIterator<java.lang.Short> shortItor24 = shortList22.listIterator();
         int int25 = doubleList17.indexOf((java.lang.Object) shortList22);
         org.ccsds.moims.mo.mal.structures.Blob blob26 = new org.ccsds.moims.mo.mal.structures.Blob();
         boolean boolean27 = blob26.isURLBased();
-        byte[] byteArray31 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray31 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder32 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray31);
         org.ccsds.moims.mo.mal.structures.Element element33 = blob26.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder32);
         boolean boolean34 = doubleList17.contains((java.lang.Object) blob26);
         java.util.ListIterator<java.lang.Double> doubleItor36 = doubleList17.listIterator(1);
         doubleList17.trimToSize();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray38 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray38 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList39 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean40 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList39, uShortArray38);
+        boolean boolean40 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList39,
+                                                         uShortArray38);
         uShortList39.trimToSize();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet42 = org.ccsds.moims.mo.mal.structures.ShortList.AREA_VERSION;
         org.ccsds.moims.mo.mal.structures.Element element43 = uOctet42.createElement();
@@ -2943,13 +3039,15 @@ public class RegressionTest1 {
         java.util.Iterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor47 = uShortList39.iterator();
         org.ccsds.moims.mo.mal.structures.UShort uShort48 = org.ccsds.moims.mo.mal.structures.ShortList.SERVICE_SHORT_FORM;
         boolean boolean49 = uShortList39.add(uShort48);
-        java.lang.Byte[] byteArray54 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray54 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList55 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean56 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList55, byteArray54);
+        boolean boolean56 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList55,
+                                                         byteArray54);
         boolean boolean58 = byteList55.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray63 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray63 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList64 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean65 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList64, byteArray63);
+        boolean boolean65 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList64,
+                                                         byteArray63);
         boolean boolean67 = byteList64.add((java.lang.Byte) (byte) 100);
         boolean boolean68 = byteList55.addAll((java.util.Collection<java.lang.Byte>) byteList64);
         java.lang.Object obj69 = byteList55.clone();
@@ -3035,7 +3133,7 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test0595");
         org.ccsds.moims.mo.mal.structures.Blob blob0 = new org.ccsds.moims.mo.mal.structures.Blob();
         boolean boolean1 = blob0.isURLBased();
-        byte[] byteArray5 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray5 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder6 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray5);
         org.ccsds.moims.mo.mal.structures.Element element7 = blob0.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder6);
         int int9 = binaryDecoder6.internalDecodeAttributeType((byte) 0);
@@ -3058,7 +3156,8 @@ public class RegressionTest1 {
         boolean boolean2 = integerList1.isEmpty();
         org.ccsds.moims.mo.mal.structures.Element element3 = integerList1.createElement();
         try {
-            java.lang.Object obj5 = esa.mo.com.impl.util.HelperCOM.getNestedObject((java.lang.Object) integerList1, "18446744073709551615");
+            java.lang.Object obj5 = esa.mo.com.impl.util.HelperCOM.getNestedObject((java.lang.Object) integerList1,
+                                                                                   "18446744073709551615");
             org.junit.Assert.fail("Expected exception of type java.lang.NoSuchFieldException; message: 18446744073709551615");
         } catch (java.lang.NoSuchFieldException e) {
         }
@@ -3070,28 +3169,32 @@ public class RegressionTest1 {
     public void test0597() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0597");
-        java.lang.Long[] longArray7 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        java.lang.Long[] longArray7 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList8 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList8, longArray7);
         java.lang.Object obj10 = longList8.clone();
-        java.lang.Boolean[] booleanArray12 = new java.lang.Boolean[] { false };
+        java.lang.Boolean[] booleanArray12 = new java.lang.Boolean[]{false};
         java.util.ArrayList<java.lang.Boolean> booleanList13 = new java.util.ArrayList<java.lang.Boolean>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList13, booleanArray12);
-        java.lang.Byte[] byteArray19 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList13,
+                                                         booleanArray12);
+        java.lang.Byte[] byteArray19 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList20 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20, byteArray19);
+        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20,
+                                                         byteArray19);
         boolean boolean23 = byteList20.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray28 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray28 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList29 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList29, byteArray28);
+        boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList29,
+                                                         byteArray28);
         boolean boolean32 = byteList29.add((java.lang.Byte) (byte) 100);
         boolean boolean33 = byteList20.addAll((java.util.Collection<java.lang.Byte>) byteList29);
         java.lang.Object obj34 = byteList20.clone();
         boolean boolean35 = booleanList13.contains((java.lang.Object) byteList20);
         boolean boolean36 = longList8.remove((java.lang.Object) boolean35);
-        java.lang.Byte[] byteArray41 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray41 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList42 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean43 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList42, byteArray41);
+        boolean boolean43 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList42,
+                                                         byteArray41);
         boolean boolean45 = byteList42.add((java.lang.Byte) (byte) 100);
         int int46 = longList8.lastIndexOf((java.lang.Object) byteList42);
         int int47 = longList8.size();
@@ -3101,12 +3204,15 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort51 = uLong49.getAreaNumber();
         boolean boolean52 = longList8.contains((java.lang.Object) uLong49);
         java.lang.Long long53 = uLong49.getShortForm();
-        byte[] byteArray57 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray57 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder58 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray57);
         java.lang.Double double59 = binaryDecoder58.decodeNullableDouble();
         byte[] byteArray60 = binaryDecoder58.getRemainingEncodedData();
-        org.ccsds.moims.mo.mal.structures.Blob blob63 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray60, 18, (int) ' ');
-        org.ccsds.moims.mo.mal.structures.Blob blob66 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray60, (int) (short) 10, (int) (byte) -1);
+        org.ccsds.moims.mo.mal.structures.Blob blob63 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray60, 18,
+                                                                                                   (int) ' ');
+        org.ccsds.moims.mo.mal.structures.Blob blob66 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray60,
+                                                                                                   (int) (short) 10,
+                                                                                                   (int) (byte) -1);
         org.ccsds.moims.mo.mal.structures.Element element67 = blob66.createElement();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet68 = blob66.getAreaVersion();
         boolean boolean69 = uLong49.equals((java.lang.Object) uOctet68);
@@ -3173,7 +3279,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet3 = uRIList0.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.URI uRI5 = new org.ccsds.moims.mo.mal.structures.URI("hi!");
         java.lang.String str6 = uRI5.toString();
-        byte[] byteArray10 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray10 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder11 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray10);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder12 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray10);
         java.lang.Integer int13 = binaryDecoder12.decodeInteger();
@@ -3201,7 +3307,7 @@ public class RegressionTest1 {
         java.io.OutputStream outputStream0 = null;
         esa.mo.com.impl.archive.encoding.BinaryEncoder binaryEncoder1 = new esa.mo.com.impl.archive.encoding.BinaryEncoder(outputStream0);
         byte byte3 = binaryEncoder1.internalEncodeAttributeType((byte) -1);
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         org.ccsds.moims.mo.mal.structures.UInteger uInteger9 = binaryDecoder8.decodeNullableUInteger();
         try {
@@ -3228,7 +3334,7 @@ public class RegressionTest1 {
         java.lang.Integer int8 = uRIList7.getTypeShortForm();
         java.lang.Integer int9 = uRIList7.getTypeShortForm();
         java.lang.Object obj10 = uRIList7.clone();
-        byte[] byteArray14 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray14 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder15 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray14);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder16 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray14);
         int int17 = uRIList7.lastIndexOf((java.lang.Object) binaryDecoder16);
@@ -3240,7 +3346,7 @@ public class RegressionTest1 {
         java.lang.Integer int23 = uRIList22.getTypeShortForm();
         java.lang.Integer int24 = uRIList22.getTypeShortForm();
         java.lang.Object obj25 = uRIList22.clone();
-        byte[] byteArray29 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray29 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder30 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray29);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder31 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray29);
         int int32 = uRIList22.lastIndexOf((java.lang.Object) binaryDecoder31);
@@ -3276,7 +3382,7 @@ public class RegressionTest1 {
     public void test0603() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0603");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         org.ccsds.moims.mo.mal.structures.UInteger uInteger6 = binaryDecoder5.decodeUInteger();
@@ -3289,7 +3395,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort14 = floatList8.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort15 = floatList8.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort16 = floatList8.getServiceNumber();
-        byte[] byteArray20 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray20 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder21 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray20);
         org.ccsds.moims.mo.mal.structures.Element element22 = uShort16.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder21);
         org.ccsds.moims.mo.mal.structures.Element element23 = uInteger6.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder21);
@@ -3338,12 +3444,13 @@ public class RegressionTest1 {
     public void test0605() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0605");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         java.lang.Double double5 = binaryDecoder4.decodeNullableDouble();
         byte[] byteArray6 = binaryDecoder4.getRemainingEncodedData();
         org.ccsds.moims.mo.mal.structures.Blob blob7 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray6);
-        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray6, (int) (short) 1);
+        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray6,
+                                                                                                                           (int) (short) 1);
         try {
             org.ccsds.moims.mo.mal.structures.UOctet uOctet10 = binaryDecoder9.decodeNullableUOctet();
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 1");
@@ -3379,12 +3486,14 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = duration1.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet3 = duration1.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.LongList longList4 = new org.ccsds.moims.mo.mal.structures.LongList();
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray5 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray5 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList6 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList6, uRIArray5);
-        java.lang.Byte[] byteArray12 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList6,
+                                                        uRIArray5);
+        java.lang.Byte[] byteArray12 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList13 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList13, byteArray12);
+        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList13,
+                                                         byteArray12);
         boolean boolean16 = byteList13.add((java.lang.Byte) (byte) 100);
         boolean boolean17 = uRIList6.containsAll((java.util.Collection<java.lang.Byte>) byteList13);
         byteList13.add(0, (java.lang.Byte) (byte) -1);
@@ -3453,7 +3562,7 @@ public class RegressionTest1 {
     public void test0609() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0609");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         java.lang.Double double5 = binaryDecoder4.decodeNullableDouble();
         byte[] byteArray6 = binaryDecoder4.getRemainingEncodedData();
@@ -3532,9 +3641,10 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0614");
         org.ccsds.moims.mo.mal.structures.BooleanList booleanList0 = new org.ccsds.moims.mo.mal.structures.BooleanList();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray1 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray1 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList2 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList2, uShortArray1);
+        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList2,
+                                                        uShortArray1);
         uShortList2.trimToSize();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet5 = org.ccsds.moims.mo.mal.structures.ShortList.AREA_VERSION;
         org.ccsds.moims.mo.mal.structures.Element element6 = uOctet5.createElement();
@@ -3584,11 +3694,12 @@ public class RegressionTest1 {
     public void test0616() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0616");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         java.lang.Double double5 = binaryDecoder4.decodeNullableDouble();
         byte[] byteArray6 = binaryDecoder4.getRemainingEncodedData();
-        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray6, 15);
+        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray6,
+                                                                                                                           15);
         try {
             java.lang.Boolean boolean9 = binaryDecoder8.decodeNullableBoolean();
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 15");
@@ -3603,7 +3714,7 @@ public class RegressionTest1 {
     public void test0617() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0617");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         java.lang.Long long5 = binaryDecoder4.decodeNullableLong();
         try {
@@ -3619,14 +3730,16 @@ public class RegressionTest1 {
     public void test0618() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0618");
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1, uRIArray0);
+        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1,
+                                                        uRIArray0);
         java.util.Spliterator<org.ccsds.moims.mo.mal.structures.URI> uRISpliterator3 = uRIList1.spliterator();
         esa.mo.com.impl.util.EventCOMObject eventCOMObject4 = new esa.mo.com.impl.util.EventCOMObject();
         eventCOMObject4.setObjId((java.lang.Long) 4294967295L);
         org.ccsds.moims.mo.com.structures.ObjectType objectType9 = esa.mo.com.impl.util.HelperCOM.objectTypeId2objectType((java.lang.Long) 281474993487885L);
-        org.ccsds.moims.mo.mal.structures.Subscription subscription10 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("", objectType9);
+        org.ccsds.moims.mo.mal.structures.Subscription subscription10 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("",
+                                                                                                                                    objectType9);
         eventCOMObject4.setObjType(objectType9);
         int int12 = uRIList1.indexOf((java.lang.Object) eventCOMObject4);
         eventCOMObject4.setRelated((java.lang.Long) 281474993487883L);
@@ -3642,7 +3755,7 @@ public class RegressionTest1 {
     public void test0619() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0619");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         org.ccsds.moims.mo.mal.structures.UInteger uInteger6 = binaryDecoder5.decodeUInteger();
@@ -3660,7 +3773,7 @@ public class RegressionTest1 {
     public void test0620() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0620");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         org.ccsds.moims.mo.mal.structures.FineTime fineTime5 = binaryDecoder4.decodeFineTime();
         org.ccsds.moims.mo.mal.structures.URI uRI6 = binaryDecoder4.decodeURI();
@@ -3678,7 +3791,7 @@ public class RegressionTest1 {
     public void test0621() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0621");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         org.ccsds.moims.mo.mal.structures.Blob blob6 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray3);
@@ -3706,22 +3819,25 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList((int) (short) 100);
         java.lang.Integer int2 = stringList1.getTypeShortForm();
         org.ccsds.moims.mo.mal.structures.UShort uShort3 = stringList1.getServiceNumber();
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray4 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray4 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList5 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList5, uRIArray4);
-        java.lang.Byte[] byteArray11 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList5,
+                                                        uRIArray4);
+        java.lang.Byte[] byteArray11 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList12 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList12, byteArray11);
+        boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList12,
+                                                         byteArray11);
         boolean boolean15 = byteList12.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray20 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray20 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList21 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList21, byteArray20);
+        boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList21,
+                                                         byteArray20);
         boolean boolean24 = byteList21.add((java.lang.Byte) (byte) 100);
         boolean boolean25 = byteList12.addAll((java.util.Collection<java.lang.Byte>) byteList21);
         int int27 = byteList21.lastIndexOf((java.lang.Object) 0.0f);
         boolean boolean28 = uRIList5.retainAll((java.util.Collection<java.lang.Byte>) byteList21);
         int int29 = stringList1.lastIndexOf((java.lang.Object) uRIList5);
-        byte[] byteArray33 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray33 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder34 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray33);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder35 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray33);
         boolean boolean36 = stringList1.remove((java.lang.Object) binaryDecoder35);
@@ -3786,7 +3902,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.Identifier identifier6 = new org.ccsds.moims.mo.mal.structures.Identifier();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet7 = identifier6.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet8 = identifier6.getAreaVersion();
-        byte[] byteArray12 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray12 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder13 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray12);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder14 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray12);
         org.ccsds.moims.mo.mal.structures.Blob blob15 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray12);
@@ -3831,17 +3947,19 @@ public class RegressionTest1 {
         java.lang.Integer int1 = uRIList0.getTypeShortForm();
         java.lang.Integer int2 = uRIList0.getTypeShortForm();
         java.lang.Object obj3 = uRIList0.clone();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         int int10 = uRIList0.lastIndexOf((java.lang.Object) binaryDecoder9);
         int int11 = uRIList0.size();
-        java.lang.Double[] doubleArray13 = new java.lang.Double[] { 0.0d };
+        java.lang.Double[] doubleArray13 = new java.lang.Double[]{0.0d};
         java.util.ArrayList<java.lang.Double> doubleList14 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean15 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList14, doubleArray13);
-        java.lang.Short[] shortArray18 = new java.lang.Short[] { (short) 0, (short) 10 };
+        boolean boolean15 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList14,
+                                                         doubleArray13);
+        java.lang.Short[] shortArray18 = new java.lang.Short[]{(short) 0, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList19 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean20 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList19, shortArray18);
+        boolean boolean20 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList19,
+                                                         shortArray18);
         java.util.ListIterator<java.lang.Short> shortItor21 = shortList19.listIterator();
         int int22 = doubleList14.indexOf((java.lang.Object) shortList19);
         doubleList14.ensureCapacity((-1));
@@ -3882,7 +4000,7 @@ public class RegressionTest1 {
     public void test0628() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0628");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         java.lang.Byte byte6 = binaryDecoder5.decodeOctet();
@@ -3905,7 +4023,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = union1.getAreaNumber();
         org.ccsds.moims.mo.mal.structures.Blob blob3 = new org.ccsds.moims.mo.mal.structures.Blob();
         boolean boolean4 = blob3.isURLBased();
-        byte[] byteArray8 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray8 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray8);
         org.ccsds.moims.mo.mal.structures.Element element10 = blob3.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder9);
         int int12 = binaryDecoder9.internalDecodeAttributeType((byte) 0);
@@ -3930,50 +4048,60 @@ public class RegressionTest1 {
         byte byte3 = binaryEncoder1.internalEncodeAttributeType((byte) 100);
         byte byte5 = binaryEncoder1.internalEncodeAttributeType((byte) -1);
         byte byte7 = binaryEncoder1.internalEncodeAttributeType((byte) 1);
-        java.lang.Double[] doubleArray11 = new java.lang.Double[] { Double.NaN, 1.0d, (-1.0d) };
+        java.lang.Double[] doubleArray11 = new java.lang.Double[]{Double.NaN, 1.0d, (-1.0d)};
         java.util.ArrayList<java.lang.Double> doubleList12 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList12, doubleArray11);
+        boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList12,
+                                                         doubleArray11);
         doubleList12.ensureCapacity((int) ' ');
-        java.lang.String[] strArray18 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray18 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList19 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean20 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList19, strArray18);
-        java.lang.Long[] longArray28 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        boolean boolean20 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList19,
+                                                         strArray18);
+        java.lang.Long[] longArray28 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList29 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29, longArray28);
+        boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList29,
+                                                         longArray28);
         java.lang.Object obj31 = longList29.clone();
         int int32 = strList19.indexOf((java.lang.Object) longList29);
         java.util.ListIterator<java.lang.String> strItor33 = strList19.listIterator();
-        java.lang.Short[] shortArray37 = new java.lang.Short[] { (short) -1, (short) 0, (short) 100 };
+        java.lang.Short[] shortArray37 = new java.lang.Short[]{(short) -1, (short) 0, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList38 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38, shortArray37);
-        java.lang.String[] strArray42 = new java.lang.String[] { "hi!", "" };
+        boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList38,
+                                                         shortArray37);
+        java.lang.String[] strArray42 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList43 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean44 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList43, strArray42);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray45 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean44 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList43,
+                                                         strArray42);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray45 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList46 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean47 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList46, uRIArray45);
-        java.lang.Byte[] byteArray52 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean47 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList46,
+                                                         uRIArray45);
+        java.lang.Byte[] byteArray52 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList53 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean54 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList53, byteArray52);
+        boolean boolean54 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList53,
+                                                         byteArray52);
         boolean boolean56 = byteList53.add((java.lang.Byte) (byte) 100);
         boolean boolean57 = uRIList46.containsAll((java.util.Collection<java.lang.Byte>) byteList53);
         boolean boolean58 = strList43.containsAll((java.util.Collection<java.lang.Byte>) byteList53);
         boolean boolean59 = shortList38.contains((java.lang.Object) byteList53);
         boolean boolean60 = strList19.removeAll((java.util.Collection<java.lang.Byte>) byteList53);
-        java.lang.Byte[] byteArray65 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray65 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList66 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean67 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList66, byteArray65);
+        boolean boolean67 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList66,
+                                                         byteArray65);
         boolean boolean69 = byteList66.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray74 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray74 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList75 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean76 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList75, byteArray74);
+        boolean boolean76 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList75,
+                                                         byteArray74);
         boolean boolean78 = byteList75.add((java.lang.Byte) (byte) 100);
         boolean boolean79 = byteList66.addAll((java.util.Collection<java.lang.Byte>) byteList75);
         boolean boolean80 = byteList53.containsAll((java.util.Collection<java.lang.Byte>) byteList75);
         boolean boolean81 = doubleList12.equals((java.lang.Object) byteList75);
-        java.lang.Double[] doubleArray87 = new java.lang.Double[] { 100.0d, (-1.0d), Double.NaN, 0.0d, 100.0d };
+        java.lang.Double[] doubleArray87 = new java.lang.Double[]{100.0d, (-1.0d), Double.NaN, 0.0d, 100.0d};
         java.util.ArrayList<java.lang.Double> doubleList88 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean89 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList88, doubleArray87);
+        boolean boolean89 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList88,
+                                                         doubleArray87);
         org.ccsds.moims.mo.mal.structures.OctetList octetList90 = new org.ccsds.moims.mo.mal.structures.OctetList();
         org.ccsds.moims.mo.mal.structures.UShort uShort91 = octetList90.getServiceNumber();
         boolean boolean92 = doubleList88.containsAll((java.util.Collection<java.lang.Byte>) octetList90);
@@ -4028,11 +4156,12 @@ public class RegressionTest1 {
     public void test0631() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0631");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         java.lang.Double double5 = binaryDecoder4.decodeNullableDouble();
         byte[] byteArray6 = binaryDecoder4.getRemainingEncodedData();
-        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray6, 15);
+        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray6,
+                                                                                                                           15);
         try {
             org.ccsds.moims.mo.mal.structures.Identifier identifier9 = binaryDecoder8.decodeNullableIdentifier();
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 15");
@@ -4051,9 +4180,10 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.URI uRI3 = new org.ccsds.moims.mo.mal.structures.URI("hi!");
         org.ccsds.moims.mo.mal.structures.UOctet uOctet4 = uRI3.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UShort uShort5 = uRI3.getServiceNumber();
-        byte[] byteArray9 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray9 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder10 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray9);
-        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder12 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray9, 6);
+        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder12 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray9,
+                                                                                                                            6);
         boolean boolean13 = uShort5.equals((java.lang.Object) binaryDecoder12);
         try {
             org.ccsds.moims.mo.mal.structures.Element element14 = time1.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder12);
@@ -4073,15 +4203,17 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.DoubleList doubleList1 = new org.ccsds.moims.mo.mal.structures.DoubleList((int) (short) 100);
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = doubleList1.getAreaNumber();
         java.lang.Object obj3 = doubleList1.clone();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet10 = binaryDecoder9.decodeNullableUOctet();
         int int11 = doubleList1.lastIndexOf((java.lang.Object) binaryDecoder9);
         byte[] byteArray12 = binaryDecoder9.getRemainingEncodedData();
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder13 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray12);
-        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder15 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray12, (int) (short) 100);
-        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder17 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray12, 13);
+        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder15 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray12,
+                                                                                                                            (int) (short) 100);
+        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder17 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray12,
+                                                                                                                            13);
         try {
             java.lang.Boolean boolean18 = binaryDecoder17.decodeBoolean();
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 13");
@@ -4144,7 +4276,7 @@ public class RegressionTest1 {
     public void test0636() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0636");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         java.lang.Byte byte6 = binaryDecoder5.decodeOctet();
@@ -4163,14 +4295,16 @@ public class RegressionTest1 {
     public void test0637() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0637");
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1, uRIArray0);
+        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1,
+                                                        uRIArray0);
         java.util.Spliterator<org.ccsds.moims.mo.mal.structures.URI> uRISpliterator3 = uRIList1.spliterator();
         esa.mo.com.impl.util.EventCOMObject eventCOMObject4 = new esa.mo.com.impl.util.EventCOMObject();
         eventCOMObject4.setObjId((java.lang.Long) 4294967295L);
         org.ccsds.moims.mo.com.structures.ObjectType objectType9 = esa.mo.com.impl.util.HelperCOM.objectTypeId2objectType((java.lang.Long) 281474993487885L);
-        org.ccsds.moims.mo.mal.structures.Subscription subscription10 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("", objectType9);
+        org.ccsds.moims.mo.mal.structures.Subscription subscription10 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("",
+                                                                                                                                    objectType9);
         eventCOMObject4.setObjType(objectType9);
         int int12 = uRIList1.indexOf((java.lang.Object) eventCOMObject4);
         eventCOMObject4.setRelated((java.lang.Long) 281474993487887L);
@@ -4188,21 +4322,25 @@ public class RegressionTest1 {
     public void test0638() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0638");
-        java.lang.Double[] doubleArray1 = new java.lang.Double[] { 0.0d };
+        java.lang.Double[] doubleArray1 = new java.lang.Double[]{0.0d};
         java.util.ArrayList<java.lang.Double> doubleList2 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList2, doubleArray1);
-        java.lang.Short[] shortArray6 = new java.lang.Short[] { (short) 0, (short) 10 };
+        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList2,
+                                                        doubleArray1);
+        java.lang.Short[] shortArray6 = new java.lang.Short[]{(short) 0, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList7 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean8 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList7, shortArray6);
+        boolean boolean8 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList7,
+                                                        shortArray6);
         java.util.ListIterator<java.lang.Short> shortItor9 = shortList7.listIterator();
         int int10 = doubleList2.indexOf((java.lang.Object) shortList7);
         doubleList2.ensureCapacity((-1));
-        java.lang.Double[] doubleArray14 = new java.lang.Double[] { 0.0d };
+        java.lang.Double[] doubleArray14 = new java.lang.Double[]{0.0d};
         java.util.ArrayList<java.lang.Double> doubleList15 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList15, doubleArray14);
-        java.lang.Short[] shortArray19 = new java.lang.Short[] { (short) 0, (short) 10 };
+        boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList15,
+                                                         doubleArray14);
+        java.lang.Short[] shortArray19 = new java.lang.Short[]{(short) 0, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList20 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList20, shortArray19);
+        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList20,
+                                                         shortArray19);
         java.util.ListIterator<java.lang.Short> shortItor22 = shortList20.listIterator();
         int int23 = doubleList15.indexOf((java.lang.Object) shortList20);
         int int24 = doubleList2.lastIndexOf((java.lang.Object) shortList20);
@@ -4248,17 +4386,19 @@ public class RegressionTest1 {
         java.util.stream.Stream<java.lang.Float> floatStream10 = floatList0.stream();
         java.util.Iterator<java.lang.Float> floatItor11 = floatList0.iterator();
         java.lang.Integer int12 = floatList0.getTypeShortForm();
-        java.lang.String[] strArray15 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray15 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList16 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList16, strArray15);
-        java.lang.Long[] longArray25 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList16,
+                                                         strArray15);
+        java.lang.Long[] longArray25 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList26 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList26, longArray25);
+        boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList26,
+                                                         longArray25);
         java.lang.Object obj28 = longList26.clone();
         int int29 = strList16.indexOf((java.lang.Object) longList26);
         java.util.ListIterator<java.lang.String> strItor30 = strList16.listIterator();
         java.lang.String str31 = strList16.toString();
-        byte[] byteArray35 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray35 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder36 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray35);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder37 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray35);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet38 = binaryDecoder37.decodeNullableUOctet();
@@ -4266,22 +4406,26 @@ public class RegressionTest1 {
         short short40 = uOctet38.getValue();
         org.ccsds.moims.mo.mal.structures.UShort uShort41 = uOctet38.getServiceNumber();
         boolean boolean42 = strList16.remove((java.lang.Object) uShort41);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray43 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray43 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList44 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean45 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList44, uRIArray43);
-        java.lang.Byte[] byteArray50 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean45 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList44,
+                                                         uRIArray43);
+        java.lang.Byte[] byteArray50 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList51 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean52 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList51, byteArray50);
+        boolean boolean52 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList51,
+                                                         byteArray50);
         boolean boolean54 = byteList51.add((java.lang.Byte) (byte) 100);
         boolean boolean55 = uRIList44.containsAll((java.util.Collection<java.lang.Byte>) byteList51);
         int int57 = uRIList44.lastIndexOf((java.lang.Object) 0.0d);
-        java.lang.Byte[] byteArray62 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray62 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList63 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean64 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList63, byteArray62);
+        boolean boolean64 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList63,
+                                                         byteArray62);
         boolean boolean66 = byteList63.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray71 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray71 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList72 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean73 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList72, byteArray71);
+        boolean boolean73 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList72,
+                                                         byteArray71);
         boolean boolean75 = byteList72.add((java.lang.Byte) (byte) 100);
         boolean boolean76 = byteList63.addAll((java.util.Collection<java.lang.Byte>) byteList72);
         int int78 = byteList72.lastIndexOf((java.lang.Object) 0.0f);
@@ -4344,10 +4488,11 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0641");
         org.ccsds.moims.mo.mal.structures.LongList longList0 = new org.ccsds.moims.mo.mal.structures.LongList();
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray1 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray1 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList2 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList2, uRIArray1);
-        java.lang.Byte[] byteArray8 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList2,
+                                                        uRIArray1);
+        java.lang.Byte[] byteArray8 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList9 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList9, byteArray8);
         boolean boolean12 = byteList9.add((java.lang.Byte) (byte) 100);
@@ -4355,13 +4500,15 @@ public class RegressionTest1 {
         byteList9.add(0, (java.lang.Byte) (byte) -1);
         boolean boolean17 = longList0.removeAll((java.util.Collection<java.lang.Byte>) byteList9);
         org.ccsds.moims.mo.mal.structures.FloatList floatList18 = new org.ccsds.moims.mo.mal.structures.FloatList();
-        java.lang.Byte[] byteArray23 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray23 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList24 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean25 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList24, byteArray23);
+        boolean boolean25 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList24,
+                                                         byteArray23);
         boolean boolean27 = byteList24.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray32 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray32 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList33 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean34 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList33, byteArray32);
+        boolean boolean34 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList33,
+                                                         byteArray32);
         boolean boolean36 = byteList33.add((java.lang.Byte) (byte) 100);
         boolean boolean37 = byteList24.addAll((java.util.Collection<java.lang.Byte>) byteList33);
         java.lang.Object obj38 = byteList24.clone();
@@ -4434,7 +4581,7 @@ public class RegressionTest1 {
         java.lang.Integer int3 = time0.getTypeShortForm();
         java.lang.Integer int4 = time0.getTypeShortForm();
         org.ccsds.moims.mo.mal.structures.Element element5 = time0.createElement();
-        byte[] byteArray9 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray9 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder10 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray9);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder11 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray9);
         org.ccsds.moims.mo.mal.structures.Duration duration13 = new org.ccsds.moims.mo.mal.structures.Duration((double) 0.0f);
@@ -4463,17 +4610,19 @@ public class RegressionTest1 {
         java.lang.Integer int1 = uRIList0.getTypeShortForm();
         java.lang.Integer int2 = uRIList0.getTypeShortForm();
         java.lang.Object obj3 = uRIList0.clone();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         int int10 = uRIList0.lastIndexOf((java.lang.Object) binaryDecoder9);
         int int11 = uRIList0.size();
-        java.lang.Double[] doubleArray13 = new java.lang.Double[] { 0.0d };
+        java.lang.Double[] doubleArray13 = new java.lang.Double[]{0.0d};
         java.util.ArrayList<java.lang.Double> doubleList14 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean15 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList14, doubleArray13);
-        java.lang.Short[] shortArray18 = new java.lang.Short[] { (short) 0, (short) 10 };
+        boolean boolean15 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList14,
+                                                         doubleArray13);
+        java.lang.Short[] shortArray18 = new java.lang.Short[]{(short) 0, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList19 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean20 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList19, shortArray18);
+        boolean boolean20 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList19,
+                                                         shortArray18);
         java.util.ListIterator<java.lang.Short> shortItor21 = shortList19.listIterator();
         int int22 = doubleList14.indexOf((java.lang.Object) shortList19);
         doubleList14.ensureCapacity((-1));
@@ -4487,12 +4636,14 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.com.structures.ObjectId objectId34 = eventCOMObject33.getSource();
         org.ccsds.moims.mo.com.structures.ObjectType objectType36 = esa.mo.com.impl.util.HelperCOM.objectTypeId2objectType((java.lang.Long) 281474993487885L);
         eventCOMObject33.setObjType(objectType36);
-        java.lang.String[] strArray40 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray40 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList41 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList41, strArray40);
-        java.lang.Long[] longArray50 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList41,
+                                                         strArray40);
+        java.lang.Long[] longArray50 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList51 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean52 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList51, longArray50);
+        boolean boolean52 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList51,
+                                                         longArray50);
         java.lang.Object obj53 = longList51.clone();
         int int54 = strList41.indexOf((java.lang.Object) longList51);
         java.util.stream.Stream<java.lang.Long> longStream55 = longList51.parallelStream();
@@ -4591,16 +4742,19 @@ public class RegressionTest1 {
         java.lang.Object[] objArray8 = shortList6.toArray();
         java.lang.Long long9 = shortList6.getShortForm();
         shortList6.ensureCapacity((int) (byte) 0);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray12 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray12 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList13 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList13, uRIArray12);
-        java.lang.Byte[] byteArray19 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList13,
+                                                         uRIArray12);
+        java.lang.Byte[] byteArray19 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList20 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20, byteArray19);
+        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20,
+                                                         byteArray19);
         boolean boolean23 = byteList20.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray28 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray28 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList29 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList29, byteArray28);
+        boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList29,
+                                                         byteArray28);
         boolean boolean32 = byteList29.add((java.lang.Byte) (byte) 100);
         boolean boolean33 = byteList20.addAll((java.util.Collection<java.lang.Byte>) byteList29);
         int int35 = byteList29.lastIndexOf((java.lang.Object) 0.0f);
@@ -4636,7 +4790,7 @@ public class RegressionTest1 {
     public void test0649() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0649");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         java.lang.Integer int6 = binaryDecoder5.decodeInteger();
@@ -4672,7 +4826,7 @@ public class RegressionTest1 {
     public void test0651() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0651");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         java.lang.Integer int6 = binaryDecoder5.decodeInteger();
@@ -4697,7 +4851,7 @@ public class RegressionTest1 {
         java.lang.Integer int1 = uRIList0.getTypeShortForm();
         java.lang.Integer int2 = uRIList0.getTypeShortForm();
         java.lang.Object obj3 = uRIList0.clone();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         int int10 = uRIList0.lastIndexOf((java.lang.Object) binaryDecoder9);
@@ -4730,12 +4884,14 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort5 = duration4.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet6 = duration4.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.LongList longList7 = new org.ccsds.moims.mo.mal.structures.LongList();
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray8 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray8 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList9 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean10 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList9, uRIArray8);
-        java.lang.Byte[] byteArray15 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean10 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList9,
+                                                         uRIArray8);
+        java.lang.Byte[] byteArray15 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList16 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList16, byteArray15);
+        boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList16,
+                                                         byteArray15);
         boolean boolean19 = byteList16.add((java.lang.Byte) (byte) 100);
         boolean boolean20 = uRIList9.containsAll((java.util.Collection<java.lang.Byte>) byteList16);
         byteList16.add(0, (java.lang.Byte) (byte) -1);
@@ -4745,7 +4901,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort28 = stringList27.getAreaNumber();
         java.lang.Integer int29 = stringList27.getTypeShortForm();
         boolean boolean30 = duration4.equals((java.lang.Object) stringList27);
-        byte[] byteArray34 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray34 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder35 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray34);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder36 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray34);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet37 = binaryDecoder36.decodeNullableUOctet();
@@ -4755,7 +4911,7 @@ public class RegressionTest1 {
         java.lang.Integer int41 = uRIList40.getTypeShortForm();
         java.lang.Integer int42 = uRIList40.getTypeShortForm();
         java.lang.Object obj43 = uRIList40.clone();
-        byte[] byteArray47 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray47 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder48 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray47);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder49 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray47);
         int int50 = uRIList40.lastIndexOf((java.lang.Object) binaryDecoder49);
@@ -4809,7 +4965,8 @@ public class RegressionTest1 {
         esa.mo.com.impl.util.EventCOMObject eventCOMObject3 = new esa.mo.com.impl.util.EventCOMObject();
         eventCOMObject3.setObjId((java.lang.Long) 4294967295L);
         org.ccsds.moims.mo.com.structures.ObjectType objectType8 = esa.mo.com.impl.util.HelperCOM.objectTypeId2objectType((java.lang.Long) 281474993487885L);
-        org.ccsds.moims.mo.mal.structures.Subscription subscription9 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("", objectType8);
+        org.ccsds.moims.mo.mal.structures.Subscription subscription9 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("",
+                                                                                                                                   objectType8);
         eventCOMObject3.setObjType(objectType8);
         java.lang.Long long11 = eventCOMObject3.getObjId();
         org.ccsds.moims.mo.com.structures.ObjectId objectId12 = eventCOMObject3.getObjectId();
@@ -4817,7 +4974,8 @@ public class RegressionTest1 {
         esa.mo.com.impl.util.EventCOMObject eventCOMObject14 = new esa.mo.com.impl.util.EventCOMObject();
         eventCOMObject14.setObjId((java.lang.Long) 4294967295L);
         org.ccsds.moims.mo.com.structures.ObjectType objectType19 = esa.mo.com.impl.util.HelperCOM.objectTypeId2objectType((java.lang.Long) 281474993487885L);
-        org.ccsds.moims.mo.mal.structures.Subscription subscription20 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("", objectType19);
+        org.ccsds.moims.mo.mal.structures.Subscription subscription20 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("",
+                                                                                                                                    objectType19);
         eventCOMObject14.setObjType(objectType19);
         java.lang.Long long22 = eventCOMObject14.getObjId();
         org.ccsds.moims.mo.com.structures.ObjectId objectId23 = eventCOMObject14.getObjectId();
@@ -4832,7 +4990,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.Identifier identifier33 = new org.ccsds.moims.mo.mal.structures.Identifier();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet34 = identifier33.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet35 = identifier33.getAreaVersion();
-        byte[] byteArray39 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray39 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder40 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray39);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder41 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray39);
         org.ccsds.moims.mo.mal.structures.Blob blob42 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray39);
@@ -4870,7 +5028,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.DoubleList doubleList1 = new org.ccsds.moims.mo.mal.structures.DoubleList((int) (short) 100);
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = doubleList1.getAreaNumber();
         java.lang.Object obj3 = doubleList1.clone();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet10 = binaryDecoder9.decodeNullableUOctet();
@@ -4897,7 +5055,8 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.DoubleList doubleList0 = new org.ccsds.moims.mo.mal.structures.DoubleList();
         esa.mo.com.impl.archive.encoding.GENDecoder.BufferHolder bufferHolder1 = null;
         try {
-            esa.mo.com.impl.archive.encoding.BinaryListDecoder binaryListDecoder2 = new esa.mo.com.impl.archive.encoding.BinaryListDecoder((java.util.List) doubleList0, bufferHolder1);
+            esa.mo.com.impl.archive.encoding.BinaryListDecoder binaryListDecoder2 = new esa.mo.com.impl.archive.encoding.BinaryListDecoder((java.util.List) doubleList0,
+                                                                                                                                           bufferHolder1);
             org.junit.Assert.fail("Expected exception of type java.lang.NullPointerException; message: null");
         } catch (java.lang.NullPointerException e) {
         }
@@ -4929,18 +5088,20 @@ public class RegressionTest1 {
     public void test0659() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0659");
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray0 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray0 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList1, uShortArray0);
+        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList1,
+                                                        uShortArray0);
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream3 = uShortList1.parallelStream();
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream4 = uShortList1.stream();
         uShortList1.trimToSize();
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream6 = uShortList1.stream();
-        byte[] byteArray10 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray10 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder11 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray10);
         java.lang.Double double12 = binaryDecoder11.decodeNullableDouble();
         byte[] byteArray13 = binaryDecoder11.getRemainingEncodedData();
-        org.ccsds.moims.mo.mal.structures.Blob blob16 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray13, 18, (int) ' ');
+        org.ccsds.moims.mo.mal.structures.Blob blob16 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray13, 18,
+                                                                                                   (int) ' ');
         org.ccsds.moims.mo.mal.structures.UOctet uOctet17 = blob16.getAreaVersion();
         int int18 = uShortList1.indexOf((java.lang.Object) blob16);
         java.lang.Integer int19 = blob16.getTypeShortForm();
@@ -4968,43 +5129,52 @@ public class RegressionTest1 {
         eventCOMObject0.setSourceURI(uRI2);
         org.ccsds.moims.mo.mal.structures.URI uRI5 = new org.ccsds.moims.mo.mal.structures.URI("hi!");
         org.ccsds.moims.mo.mal.structures.Element element6 = uRI5.createElement();
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray7 = new org.ccsds.moims.mo.mal.structures.URI[] { uRI2, uRI5 };
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray7 = new org.ccsds.moims.mo.mal.structures.URI[]{uRI2, uRI5};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList8 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList8, uRIArray7);
-        java.lang.Double[] doubleArray15 = new java.lang.Double[] { 100.0d, (-1.0d), Double.NaN, 0.0d, 100.0d };
+        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList8,
+                                                        uRIArray7);
+        java.lang.Double[] doubleArray15 = new java.lang.Double[]{100.0d, (-1.0d), Double.NaN, 0.0d, 100.0d};
         java.util.ArrayList<java.lang.Double> doubleList16 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList16, doubleArray15);
+        boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList16,
+                                                         doubleArray15);
         org.ccsds.moims.mo.mal.structures.OctetList octetList18 = new org.ccsds.moims.mo.mal.structures.OctetList();
         org.ccsds.moims.mo.mal.structures.UShort uShort19 = octetList18.getServiceNumber();
         boolean boolean20 = doubleList16.containsAll((java.util.Collection<java.lang.Byte>) octetList18);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray21 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray21 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList22 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList22, uShortArray21);
+        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList22,
+                                                         uShortArray21);
         uShortList22.trimToSize();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet25 = org.ccsds.moims.mo.mal.structures.ShortList.AREA_VERSION;
         org.ccsds.moims.mo.mal.structures.Element element26 = uOctet25.createElement();
         int int27 = uShortList22.indexOf((java.lang.Object) element26);
-        java.lang.String[] strArray30 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray30 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList31 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean32 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList31, strArray30);
-        java.lang.Long[] longArray40 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        boolean boolean32 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList31,
+                                                         strArray30);
+        java.lang.Long[] longArray40 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList41 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList41, longArray40);
+        boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList41,
+                                                         longArray40);
         java.lang.Object obj43 = longList41.clone();
         int int44 = strList31.indexOf((java.lang.Object) longList41);
         java.util.ListIterator<java.lang.String> strItor45 = strList31.listIterator();
-        java.lang.Short[] shortArray49 = new java.lang.Short[] { (short) -1, (short) 0, (short) 100 };
+        java.lang.Short[] shortArray49 = new java.lang.Short[]{(short) -1, (short) 0, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList50 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean51 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList50, shortArray49);
-        java.lang.String[] strArray54 = new java.lang.String[] { "hi!", "" };
+        boolean boolean51 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList50,
+                                                         shortArray49);
+        java.lang.String[] strArray54 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList55 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean56 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList55, strArray54);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray57 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean56 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList55,
+                                                         strArray54);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray57 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList58 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean59 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList58, uRIArray57);
-        java.lang.Byte[] byteArray64 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean59 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList58,
+                                                         uRIArray57);
+        java.lang.Byte[] byteArray64 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList65 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean66 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList65, byteArray64);
+        boolean boolean66 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList65,
+                                                         byteArray64);
         boolean boolean68 = byteList65.add((java.lang.Byte) (byte) 100);
         boolean boolean69 = uRIList58.containsAll((java.util.Collection<java.lang.Byte>) byteList65);
         boolean boolean70 = strList55.containsAll((java.util.Collection<java.lang.Byte>) byteList65);
@@ -5062,14 +5232,17 @@ public class RegressionTest1 {
     public void test0661() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0661");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         java.lang.Double double5 = binaryDecoder4.decodeNullableDouble();
         byte[] byteArray6 = binaryDecoder4.getRemainingEncodedData();
-        org.ccsds.moims.mo.mal.structures.Blob blob9 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray6, 18, (int) ' ');
-        org.ccsds.moims.mo.mal.structures.Blob blob12 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray6, (int) (short) 10, (int) (byte) -1);
+        org.ccsds.moims.mo.mal.structures.Blob blob9 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray6, 18,
+                                                                                                  (int) ' ');
+        org.ccsds.moims.mo.mal.structures.Blob blob12 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray6,
+                                                                                                   (int) (short) 10,
+                                                                                                   (int) (byte) -1);
         org.ccsds.moims.mo.mal.structures.UShort uShort13 = blob12.getAreaNumber();
-        byte[] byteArray17 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray17 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder18 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray17);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder19 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray17);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet20 = binaryDecoder19.decodeNullableUOctet();
@@ -5079,7 +5252,7 @@ public class RegressionTest1 {
         java.lang.Integer int24 = uRIList23.getTypeShortForm();
         java.lang.Integer int25 = uRIList23.getTypeShortForm();
         java.lang.Object obj26 = uRIList23.clone();
-        byte[] byteArray30 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray30 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder31 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray30);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder32 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray30);
         int int33 = uRIList23.lastIndexOf((java.lang.Object) binaryDecoder32);
@@ -5119,25 +5292,28 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort3 = doubleList1.getAreaNumber();
         java.lang.Long long4 = doubleList1.getShortForm();
         java.util.stream.Stream<java.lang.Double> doubleStream5 = doubleList1.parallelStream();
-        java.lang.Double[] doubleArray7 = new java.lang.Double[] { 0.0d };
+        java.lang.Double[] doubleArray7 = new java.lang.Double[]{0.0d};
         java.util.ArrayList<java.lang.Double> doubleList8 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList8, doubleArray7);
-        java.lang.Short[] shortArray12 = new java.lang.Short[] { (short) 0, (short) 10 };
+        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList8,
+                                                        doubleArray7);
+        java.lang.Short[] shortArray12 = new java.lang.Short[]{(short) 0, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList13 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList13, shortArray12);
+        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList13,
+                                                         shortArray12);
         java.util.ListIterator<java.lang.Short> shortItor15 = shortList13.listIterator();
         int int16 = doubleList8.indexOf((java.lang.Object) shortList13);
         org.ccsds.moims.mo.mal.structures.Blob blob17 = new org.ccsds.moims.mo.mal.structures.Blob();
         boolean boolean18 = blob17.isURLBased();
-        byte[] byteArray22 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray22 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder23 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray22);
         org.ccsds.moims.mo.mal.structures.Element element24 = blob17.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder23);
         boolean boolean25 = doubleList8.contains((java.lang.Object) blob17);
         java.util.ListIterator<java.lang.Double> doubleItor27 = doubleList8.listIterator(1);
         doubleList8.trimToSize();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray29 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray29 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList30 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean31 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList30, uShortArray29);
+        boolean boolean31 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList30,
+                                                         uShortArray29);
         uShortList30.trimToSize();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet33 = org.ccsds.moims.mo.mal.structures.ShortList.AREA_VERSION;
         org.ccsds.moims.mo.mal.structures.Element element34 = uOctet33.createElement();
@@ -5146,13 +5322,15 @@ public class RegressionTest1 {
         java.util.Iterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor38 = uShortList30.iterator();
         org.ccsds.moims.mo.mal.structures.UShort uShort39 = org.ccsds.moims.mo.mal.structures.ShortList.SERVICE_SHORT_FORM;
         boolean boolean40 = uShortList30.add(uShort39);
-        java.lang.Byte[] byteArray45 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray45 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList46 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean47 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList46, byteArray45);
+        boolean boolean47 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList46,
+                                                         byteArray45);
         boolean boolean49 = byteList46.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray54 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray54 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList55 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean56 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList55, byteArray54);
+        boolean boolean56 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList55,
+                                                         byteArray54);
         boolean boolean58 = byteList55.add((java.lang.Byte) (byte) 100);
         boolean boolean59 = byteList46.addAll((java.util.Collection<java.lang.Byte>) byteList55);
         java.lang.Object obj60 = byteList46.clone();
@@ -5209,7 +5387,8 @@ public class RegressionTest1 {
         esa.mo.com.impl.util.EventCOMObject eventCOMObject2 = new esa.mo.com.impl.util.EventCOMObject();
         eventCOMObject2.setObjId((java.lang.Long) 4294967295L);
         org.ccsds.moims.mo.com.structures.ObjectType objectType7 = esa.mo.com.impl.util.HelperCOM.objectTypeId2objectType((java.lang.Long) 281474993487885L);
-        org.ccsds.moims.mo.mal.structures.Subscription subscription8 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("", objectType7);
+        org.ccsds.moims.mo.mal.structures.Subscription subscription8 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("",
+                                                                                                                                   objectType7);
         eventCOMObject2.setObjType(objectType7);
         org.ccsds.moims.mo.com.structures.ObjectId objectId10 = eventCOMObject2.getSource();
         org.ccsds.moims.mo.mal.structures.Identifier identifier11 = new org.ccsds.moims.mo.mal.structures.Identifier();
@@ -5242,7 +5421,7 @@ public class RegressionTest1 {
         java.util.stream.Stream<java.lang.Double> doubleStream9 = doubleList5.parallelStream();
         org.ccsds.moims.mo.mal.structures.Blob blob10 = new org.ccsds.moims.mo.mal.structures.Blob();
         boolean boolean11 = blob10.isURLBased();
-        byte[] byteArray15 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray15 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder16 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray15);
         org.ccsds.moims.mo.mal.structures.Element element17 = blob10.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder16);
         boolean boolean18 = doubleList5.equals((java.lang.Object) element17);
@@ -5326,7 +5505,7 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test0668");
         org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList((int) (short) 100);
         java.lang.Integer int2 = stringList1.getTypeShortForm();
-        byte[] byteArray6 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray6 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder7 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray6);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray6);
         org.ccsds.moims.mo.mal.structures.Duration duration10 = new org.ccsds.moims.mo.mal.structures.Duration((double) 0.0f);
@@ -5350,7 +5529,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.IntegerList integerList0 = new org.ccsds.moims.mo.mal.structures.IntegerList();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet1 = integerList0.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = integerList0.getAreaNumber();
-        byte[] byteArray6 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray6 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder7 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray6);
         org.ccsds.moims.mo.mal.structures.Element element8 = uShort2.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder7);
         java.lang.Double double9 = binaryDecoder7.decodeNullableDouble();
@@ -5447,7 +5626,7 @@ public class RegressionTest1 {
     public void test0675() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0675");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         org.ccsds.moims.mo.mal.structures.FineTime fineTime5 = binaryDecoder4.decodeFineTime();
         org.ccsds.moims.mo.mal.structures.URI uRI6 = binaryDecoder4.decodeURI();
@@ -5465,7 +5644,7 @@ public class RegressionTest1 {
     public void test0676() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0676");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         java.lang.Float float6 = binaryDecoder5.decodeFloat();
@@ -5491,22 +5670,26 @@ public class RegressionTest1 {
         shortList0.ensureCapacity((int) (byte) 0);
         java.lang.Object[] objArray6 = shortList0.toArray();
         org.ccsds.moims.mo.mal.structures.UShort uShort7 = shortList0.getServiceNumber();
-        java.lang.String[] strArray10 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray10 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList11 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean12 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList11, strArray10);
-        java.lang.Long[] longArray20 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        boolean boolean12 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList11,
+                                                         strArray10);
+        java.lang.Long[] longArray20 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList21 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList21, longArray20);
+        boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList21,
+                                                         longArray20);
         java.lang.Object obj23 = longList21.clone();
         int int24 = strList11.indexOf((java.lang.Object) longList21);
         java.util.ListIterator<java.lang.String> strItor25 = strList11.listIterator();
         java.lang.String str26 = strList11.toString();
-        java.lang.Double[] doubleArray29 = new java.lang.Double[] { 0.0d, 1.0d };
+        java.lang.Double[] doubleArray29 = new java.lang.Double[]{0.0d, 1.0d};
         java.util.ArrayList<java.lang.Double> doubleList30 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean31 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList30, doubleArray29);
-        java.lang.String[] strArray34 = new java.lang.String[] { "", "hi!" };
+        boolean boolean31 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList30,
+                                                         doubleArray29);
+        java.lang.String[] strArray34 = new java.lang.String[]{"", "hi!"};
         java.util.ArrayList<java.lang.String> strList35 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean36 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList35, strArray34);
+        boolean boolean36 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList35,
+                                                         strArray34);
         int int37 = strList35.size();
         boolean boolean38 = doubleList30.equals((java.lang.Object) strList35);
         boolean boolean39 = strList11.remove((java.lang.Object) strList35);
@@ -5555,9 +5738,10 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test0678");
         java.io.OutputStream outputStream0 = null;
         esa.mo.com.impl.archive.encoding.BinaryEncoder binaryEncoder1 = new esa.mo.com.impl.archive.encoding.BinaryEncoder(outputStream0);
-        java.lang.Short[] shortArray4 = new java.lang.Short[] { (short) 0, (short) 10 };
+        java.lang.Short[] shortArray4 = new java.lang.Short[]{(short) 0, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList5 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList5, shortArray4);
+        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList5,
+                                                        shortArray4);
         java.util.ListIterator<java.lang.Short> shortItor7 = shortList5.listIterator();
         java.util.stream.Stream<java.lang.Short> shortStream8 = shortList5.parallelStream();
         try {
@@ -5575,7 +5759,7 @@ public class RegressionTest1 {
     public void test0679() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0679");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         java.lang.Integer int6 = binaryDecoder5.decodeInteger();
@@ -5611,11 +5795,12 @@ public class RegressionTest1 {
     public void test0681() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0681");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         java.lang.Double double5 = binaryDecoder4.decodeNullableDouble();
         byte[] byteArray6 = binaryDecoder4.getRemainingEncodedData();
-        org.ccsds.moims.mo.mal.structures.Blob blob9 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray6, 18, (int) ' ');
+        org.ccsds.moims.mo.mal.structures.Blob blob9 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray6, 18,
+                                                                                                  (int) ' ');
         int int10 = blob9.getOffset();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet11 = blob9.getAreaVersion();
         org.junit.Assert.assertNotNull(byteArray3);
@@ -5678,7 +5863,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.IntegerList integerList2 = new org.ccsds.moims.mo.mal.structures.IntegerList();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet3 = integerList2.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UShort uShort4 = integerList2.getAreaNumber();
-        byte[] byteArray8 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray8 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray8);
         org.ccsds.moims.mo.mal.structures.Element element10 = uShort4.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder9);
         org.ccsds.moims.mo.mal.structures.Time time11 = binaryDecoder9.decodeNullableTime();
@@ -5716,14 +5901,15 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.DoubleList doubleList9 = new org.ccsds.moims.mo.mal.structures.DoubleList((int) (short) 100);
         org.ccsds.moims.mo.mal.structures.UShort uShort10 = doubleList9.getAreaNumber();
         java.lang.Object obj11 = doubleList9.clone();
-        byte[] byteArray15 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray15 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder16 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray15);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder17 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray15);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet18 = binaryDecoder17.decodeNullableUOctet();
         int int19 = doubleList9.lastIndexOf((java.lang.Object) binaryDecoder17);
         byte[] byteArray20 = binaryDecoder17.getRemainingEncodedData();
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder21 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray20);
-        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder23 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray20, (int) (short) 100);
+        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder23 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray20,
+                                                                                                                            (int) (short) 100);
         org.ccsds.moims.mo.mal.structures.Blob blob26 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray20, 2, 18);
         blob26.detach();
         boolean boolean28 = blob26.isURLBased();
@@ -5748,7 +5934,7 @@ public class RegressionTest1 {
     public void test0687() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0687");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         java.lang.Byte byte6 = binaryDecoder5.decodeOctet();
@@ -5790,7 +5976,7 @@ public class RegressionTest1 {
         java.lang.Integer int1 = uRIList0.getTypeShortForm();
         java.lang.Integer int2 = uRIList0.getTypeShortForm();
         java.lang.Object obj3 = uRIList0.clone();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         int int10 = uRIList0.lastIndexOf((java.lang.Object) binaryDecoder9);
@@ -5843,7 +6029,7 @@ public class RegressionTest1 {
         java.lang.Integer int2 = uRIList1.getTypeShortForm();
         java.lang.Integer int3 = uRIList1.getTypeShortForm();
         java.lang.Object obj4 = uRIList1.clone();
-        byte[] byteArray8 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray8 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray8);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder10 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray8);
         int int11 = uRIList1.lastIndexOf((java.lang.Object) binaryDecoder10);
@@ -5876,7 +6062,8 @@ public class RegressionTest1 {
         esa.mo.com.impl.util.EventCOMObject eventCOMObject11 = new esa.mo.com.impl.util.EventCOMObject();
         eventCOMObject11.setObjId((java.lang.Long) 4294967295L);
         org.ccsds.moims.mo.com.structures.ObjectType objectType16 = esa.mo.com.impl.util.HelperCOM.objectTypeId2objectType((java.lang.Long) 281474993487885L);
-        org.ccsds.moims.mo.mal.structures.Subscription subscription17 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("", objectType16);
+        org.ccsds.moims.mo.mal.structures.Subscription subscription17 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("",
+                                                                                                                                    objectType16);
         eventCOMObject11.setObjType(objectType16);
         java.lang.Long long19 = eventCOMObject11.getObjId();
         org.ccsds.moims.mo.com.structures.ObjectId objectId20 = eventCOMObject11.getObjectId();
@@ -5903,17 +6090,19 @@ public class RegressionTest1 {
     public void test0695() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0695");
-        java.lang.Double[] doubleArray1 = new java.lang.Double[] { 0.0d };
+        java.lang.Double[] doubleArray1 = new java.lang.Double[]{0.0d};
         java.util.ArrayList<java.lang.Double> doubleList2 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList2, doubleArray1);
-        java.lang.Short[] shortArray6 = new java.lang.Short[] { (short) 0, (short) 10 };
+        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList2,
+                                                        doubleArray1);
+        java.lang.Short[] shortArray6 = new java.lang.Short[]{(short) 0, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList7 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean8 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList7, shortArray6);
+        boolean boolean8 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList7,
+                                                        shortArray6);
         java.util.ListIterator<java.lang.Short> shortItor9 = shortList7.listIterator();
         int int10 = doubleList2.indexOf((java.lang.Object) shortList7);
         org.ccsds.moims.mo.mal.structures.Blob blob11 = new org.ccsds.moims.mo.mal.structures.Blob();
         boolean boolean12 = blob11.isURLBased();
-        byte[] byteArray16 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray16 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder17 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray16);
         org.ccsds.moims.mo.mal.structures.Element element18 = blob11.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder17);
         boolean boolean19 = doubleList2.contains((java.lang.Object) blob11);
@@ -5945,12 +6134,14 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = duration1.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet3 = duration1.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.LongList longList4 = new org.ccsds.moims.mo.mal.structures.LongList();
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray5 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray5 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList6 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList6, uRIArray5);
-        java.lang.Byte[] byteArray12 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList6,
+                                                        uRIArray5);
+        java.lang.Byte[] byteArray12 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList13 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList13, byteArray12);
+        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList13,
+                                                         byteArray12);
         boolean boolean16 = byteList13.add((java.lang.Byte) (byte) 100);
         boolean boolean17 = uRIList6.containsAll((java.util.Collection<java.lang.Byte>) byteList13);
         byteList13.add(0, (java.lang.Byte) (byte) -1);
@@ -5964,7 +6155,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort28 = octetList27.getServiceNumber();
         java.lang.Integer int29 = octetList27.getTypeShortForm();
         boolean boolean30 = floatList24.equals((java.lang.Object) int29);
-        byte[] byteArray34 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray34 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder35 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray34);
         org.ccsds.moims.mo.mal.structures.FineTime fineTime36 = binaryDecoder35.decodeFineTime();
         java.lang.Long long37 = binaryDecoder35.decodeLong();
@@ -6041,7 +6232,7 @@ public class RegressionTest1 {
         java.lang.Integer int1 = uRIList0.getTypeShortForm();
         java.lang.Integer int2 = uRIList0.getTypeShortForm();
         java.lang.Object obj3 = uRIList0.clone();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         int int10 = uRIList0.lastIndexOf((java.lang.Object) binaryDecoder9);
@@ -6067,11 +6258,12 @@ public class RegressionTest1 {
     public void test0701() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0701");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         java.lang.Double double5 = binaryDecoder4.decodeNullableDouble();
         byte[] byteArray6 = binaryDecoder4.getRemainingEncodedData();
-        org.ccsds.moims.mo.mal.structures.Blob blob9 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray6, 18, (int) ' ');
+        org.ccsds.moims.mo.mal.structures.Blob blob9 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray6, 18,
+                                                                                                  (int) ' ');
         org.ccsds.moims.mo.mal.structures.UOctet uOctet10 = blob9.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.FloatList floatList11 = new org.ccsds.moims.mo.mal.structures.FloatList();
         int int13 = floatList11.lastIndexOf((java.lang.Object) 10);
@@ -6081,7 +6273,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort17 = floatList11.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort18 = floatList11.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort19 = floatList11.getServiceNumber();
-        byte[] byteArray23 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray23 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder24 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray23);
         org.ccsds.moims.mo.mal.structures.Element element25 = uShort19.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder24);
         org.ccsds.moims.mo.mal.structures.Element element26 = uOctet10.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder24);
@@ -6129,7 +6321,7 @@ public class RegressionTest1 {
     public void test0703() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0703");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         org.ccsds.moims.mo.mal.structures.Blob blob6 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray3);
@@ -6154,11 +6346,12 @@ public class RegressionTest1 {
     public void test0704() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0704");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         java.lang.Double double5 = binaryDecoder4.decodeNullableDouble();
         byte[] byteArray6 = binaryDecoder4.getRemainingEncodedData();
-        org.ccsds.moims.mo.mal.structures.Blob blob9 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray6, 18, (int) ' ');
+        org.ccsds.moims.mo.mal.structures.Blob blob9 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray6, 18,
+                                                                                                  (int) ' ');
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder10 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray6);
         try {
             java.lang.Boolean boolean11 = binaryDecoder10.decodeNullableBoolean();
@@ -6178,17 +6371,19 @@ public class RegressionTest1 {
         esa.mo.com.impl.archive.encoding.BinaryEncoder binaryEncoder1 = new esa.mo.com.impl.archive.encoding.BinaryEncoder(outputStream0);
         byte byte3 = binaryEncoder1.internalEncodeAttributeType((byte) 100);
         byte byte5 = binaryEncoder1.internalEncodeAttributeType((byte) -1);
-        java.lang.Double[] doubleArray7 = new java.lang.Double[] { 0.0d };
+        java.lang.Double[] doubleArray7 = new java.lang.Double[]{0.0d};
         java.util.ArrayList<java.lang.Double> doubleList8 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList8, doubleArray7);
-        java.lang.Short[] shortArray12 = new java.lang.Short[] { (short) 0, (short) 10 };
+        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList8,
+                                                        doubleArray7);
+        java.lang.Short[] shortArray12 = new java.lang.Short[]{(short) 0, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList13 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList13, shortArray12);
+        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList13,
+                                                         shortArray12);
         java.util.ListIterator<java.lang.Short> shortItor15 = shortList13.listIterator();
         int int16 = doubleList8.indexOf((java.lang.Object) shortList13);
         org.ccsds.moims.mo.mal.structures.Blob blob17 = new org.ccsds.moims.mo.mal.structures.Blob();
         boolean boolean18 = blob17.isURLBased();
-        byte[] byteArray22 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray22 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder23 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray22);
         org.ccsds.moims.mo.mal.structures.Element element24 = blob17.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder23);
         boolean boolean25 = doubleList8.contains((java.lang.Object) blob17);
@@ -6217,7 +6412,7 @@ public class RegressionTest1 {
     public void test0706() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0706");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         java.lang.Short short5 = binaryDecoder4.decodeNullableShort();
         try {
@@ -6233,39 +6428,46 @@ public class RegressionTest1 {
     public void test0707() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0707");
-        java.lang.String[] strArray2 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray2 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList3 = new java.util.ArrayList<java.lang.String>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList3, strArray2);
-        java.lang.Long[] longArray12 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        java.lang.Long[] longArray12 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList13 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList13, longArray12);
+        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList13,
+                                                         longArray12);
         java.lang.Object obj15 = longList13.clone();
         int int16 = strList3.indexOf((java.lang.Object) longList13);
         java.util.ListIterator<java.lang.String> strItor17 = strList3.listIterator();
-        java.lang.Short[] shortArray21 = new java.lang.Short[] { (short) -1, (short) 0, (short) 100 };
+        java.lang.Short[] shortArray21 = new java.lang.Short[]{(short) -1, (short) 0, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList22 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList22, shortArray21);
-        java.lang.String[] strArray26 = new java.lang.String[] { "hi!", "" };
+        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList22,
+                                                         shortArray21);
+        java.lang.String[] strArray26 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList27 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean28 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList27, strArray26);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray29 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean28 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList27,
+                                                         strArray26);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray29 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList30 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean31 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList30, uRIArray29);
-        java.lang.Byte[] byteArray36 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean31 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList30,
+                                                         uRIArray29);
+        java.lang.Byte[] byteArray36 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList37 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean38 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList37, byteArray36);
+        boolean boolean38 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList37,
+                                                         byteArray36);
         boolean boolean40 = byteList37.add((java.lang.Byte) (byte) 100);
         boolean boolean41 = uRIList30.containsAll((java.util.Collection<java.lang.Byte>) byteList37);
         boolean boolean42 = strList27.containsAll((java.util.Collection<java.lang.Byte>) byteList37);
         boolean boolean43 = shortList22.contains((java.lang.Object) byteList37);
         boolean boolean44 = strList3.removeAll((java.util.Collection<java.lang.Byte>) byteList37);
-        java.lang.Byte[] byteArray49 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray49 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList50 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean51 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList50, byteArray49);
+        boolean boolean51 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList50,
+                                                         byteArray49);
         boolean boolean53 = byteList50.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray58 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray58 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList59 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean60 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList59, byteArray58);
+        boolean boolean60 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList59,
+                                                         byteArray58);
         boolean boolean62 = byteList59.add((java.lang.Byte) (byte) 100);
         boolean boolean63 = byteList50.addAll((java.util.Collection<java.lang.Byte>) byteList59);
         boolean boolean64 = byteList37.containsAll((java.util.Collection<java.lang.Byte>) byteList59);
@@ -6275,12 +6477,14 @@ public class RegressionTest1 {
         boolean boolean68 = byteList37.equals((java.lang.Object) uRIList65);
         org.ccsds.moims.mo.mal.structures.UShort uShort69 = uRIList65.getAreaNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort70 = uRIList65.getAreaNumber();
-        java.lang.String[] strArray73 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray73 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList74 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean75 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList74, strArray73);
-        java.lang.Long[] longArray83 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        boolean boolean75 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList74,
+                                                         strArray73);
+        java.lang.Long[] longArray83 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList84 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean85 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList84, longArray83);
+        boolean boolean85 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList84,
+                                                         longArray83);
         java.lang.Object obj86 = longList84.clone();
         int int87 = strList74.indexOf((java.lang.Object) longList84);
         java.util.ListIterator<java.lang.String> strItor88 = strList74.listIterator();
@@ -6348,7 +6552,7 @@ public class RegressionTest1 {
         java.lang.Integer int1 = uRIList0.getTypeShortForm();
         java.lang.Integer int2 = uRIList0.getTypeShortForm();
         java.lang.Object obj3 = uRIList0.clone();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         int int10 = uRIList0.lastIndexOf((java.lang.Object) binaryDecoder9);
@@ -6385,11 +6589,12 @@ public class RegressionTest1 {
         byte byte3 = binaryEncoder1.internalEncodeAttributeType((byte) 100);
         byte byte5 = binaryEncoder1.internalEncodeAttributeType((byte) -1);
         byte byte7 = binaryEncoder1.internalEncodeAttributeType((byte) 1);
-        byte[] byteArray11 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray11 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder12 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray11);
         java.lang.Double double13 = binaryDecoder12.decodeNullableDouble();
         byte[] byteArray14 = binaryDecoder12.getRemainingEncodedData();
-        org.ccsds.moims.mo.mal.structures.Blob blob17 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray14, 18, (int) ' ');
+        org.ccsds.moims.mo.mal.structures.Blob blob17 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray14, 18,
+                                                                                                   (int) ' ');
         int int18 = blob17.getLength();
         java.lang.String str19 = blob17.getURL();
         try {
@@ -6412,7 +6617,7 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0711");
         org.ccsds.moims.mo.mal.structures.Union union1 = new org.ccsds.moims.mo.mal.structures.Union((java.lang.Boolean) true);
-        byte[] byteArray5 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray5 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder6 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray5);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder7 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray5);
         org.ccsds.moims.mo.mal.structures.Blob blob8 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray5);
@@ -6441,12 +6646,14 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = duration1.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet3 = duration1.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.LongList longList4 = new org.ccsds.moims.mo.mal.structures.LongList();
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray5 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray5 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList6 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList6, uRIArray5);
-        java.lang.Byte[] byteArray12 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList6,
+                                                        uRIArray5);
+        java.lang.Byte[] byteArray12 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList13 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList13, byteArray12);
+        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList13,
+                                                         byteArray12);
         boolean boolean16 = byteList13.add((java.lang.Byte) (byte) 100);
         boolean boolean17 = uRIList6.containsAll((java.util.Collection<java.lang.Byte>) byteList13);
         byteList13.add(0, (java.lang.Byte) (byte) -1);
@@ -6456,7 +6663,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort25 = stringList24.getAreaNumber();
         java.lang.Integer int26 = stringList24.getTypeShortForm();
         boolean boolean27 = duration1.equals((java.lang.Object) stringList24);
-        byte[] byteArray31 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray31 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder32 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray31);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder33 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray31);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet34 = binaryDecoder33.decodeNullableUOctet();
@@ -6466,7 +6673,7 @@ public class RegressionTest1 {
         java.lang.Integer int38 = uRIList37.getTypeShortForm();
         java.lang.Integer int39 = uRIList37.getTypeShortForm();
         java.lang.Object obj40 = uRIList37.clone();
-        byte[] byteArray44 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray44 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder45 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray44);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder46 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray44);
         int int47 = uRIList37.lastIndexOf((java.lang.Object) binaryDecoder46);
@@ -6517,43 +6724,51 @@ public class RegressionTest1 {
         byte byte3 = binaryEncoder1.internalEncodeAttributeType((byte) 100);
         byte byte5 = binaryEncoder1.internalEncodeAttributeType((byte) -1);
         byte byte7 = binaryEncoder1.internalEncodeAttributeType((byte) 1);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray8 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray8 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList9 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean10 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList9, uShortArray8);
+        boolean boolean10 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList9,
+                                                         uShortArray8);
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream11 = uShortList9.parallelStream();
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream12 = uShortList9.stream();
         uShortList9.trimToSize();
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream14 = uShortList9.stream();
-        byte[] byteArray18 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray18 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder19 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray18);
         java.lang.Double double20 = binaryDecoder19.decodeNullableDouble();
         byte[] byteArray21 = binaryDecoder19.getRemainingEncodedData();
-        org.ccsds.moims.mo.mal.structures.Blob blob24 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray21, 18, (int) ' ');
+        org.ccsds.moims.mo.mal.structures.Blob blob24 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray21, 18,
+                                                                                                   (int) ' ');
         org.ccsds.moims.mo.mal.structures.UOctet uOctet25 = blob24.getAreaVersion();
         int int26 = uShortList9.indexOf((java.lang.Object) blob24);
-        java.lang.Short[] shortArray30 = new java.lang.Short[] { (short) -1, (short) 0, (short) 100 };
+        java.lang.Short[] shortArray30 = new java.lang.Short[]{(short) -1, (short) 0, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList31 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean32 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList31, shortArray30);
-        java.lang.String[] strArray35 = new java.lang.String[] { "hi!", "" };
+        boolean boolean32 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList31,
+                                                         shortArray30);
+        java.lang.String[] strArray35 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList36 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean37 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList36, strArray35);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray38 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean37 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList36,
+                                                         strArray35);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray38 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList39 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean40 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList39, uRIArray38);
-        java.lang.Byte[] byteArray45 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean40 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList39,
+                                                         uRIArray38);
+        java.lang.Byte[] byteArray45 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList46 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean47 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList46, byteArray45);
+        boolean boolean47 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList46,
+                                                         byteArray45);
         boolean boolean49 = byteList46.add((java.lang.Byte) (byte) 100);
         boolean boolean50 = uRIList39.containsAll((java.util.Collection<java.lang.Byte>) byteList46);
         boolean boolean51 = strList36.containsAll((java.util.Collection<java.lang.Byte>) byteList46);
         boolean boolean52 = shortList31.contains((java.lang.Object) byteList46);
-        java.lang.Byte[] byteArray57 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray57 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList58 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean59 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList58, byteArray57);
+        boolean boolean59 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList58,
+                                                         byteArray57);
         boolean boolean61 = byteList58.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray66 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray66 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList67 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean68 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList67, byteArray66);
+        boolean boolean68 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList67,
+                                                         byteArray66);
         boolean boolean70 = byteList67.add((java.lang.Byte) (byte) 100);
         boolean boolean71 = byteList58.addAll((java.util.Collection<java.lang.Byte>) byteList67);
         java.lang.Object obj72 = byteList58.clone();
@@ -6627,7 +6842,7 @@ public class RegressionTest1 {
         java.lang.Integer int1 = uRIList0.getTypeShortForm();
         java.lang.Integer int2 = uRIList0.getTypeShortForm();
         java.lang.Object obj3 = uRIList0.clone();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         int int10 = uRIList0.lastIndexOf((java.lang.Object) binaryDecoder9);
@@ -6666,7 +6881,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.Identifier identifier0 = new org.ccsds.moims.mo.mal.structures.Identifier();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet1 = identifier0.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = identifier0.getAreaVersion();
-        byte[] byteArray6 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray6 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder7 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray6);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray6);
         org.ccsds.moims.mo.mal.structures.Blob blob9 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray6);
@@ -6700,9 +6915,10 @@ public class RegressionTest1 {
         int int4 = uShortList1.size();
         java.lang.Long long5 = uShortList1.getShortForm();
         java.util.Iterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor6 = uShortList1.iterator();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray7 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray7 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList8 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList8, uShortArray7);
+        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList8,
+                                                        uShortArray7);
         uShortList8.trimToSize();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet11 = org.ccsds.moims.mo.mal.structures.ShortList.AREA_VERSION;
         org.ccsds.moims.mo.mal.structures.Element element12 = uOctet11.createElement();
@@ -6711,7 +6927,7 @@ public class RegressionTest1 {
         uShortList8.clear();
         org.ccsds.moims.mo.mal.structures.ShortList shortList16 = new org.ccsds.moims.mo.mal.structures.ShortList();
         java.lang.Integer int17 = shortList16.getTypeShortForm();
-        byte[] byteArray21 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray21 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder22 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray21);
         org.ccsds.moims.mo.mal.structures.Blob blob23 = binaryDecoder22.decodeBlob();
         boolean boolean24 = shortList16.equals((java.lang.Object) blob23);
@@ -6720,7 +6936,8 @@ public class RegressionTest1 {
         java.lang.Object[] objArray27 = shortList25.toArray();
         java.lang.Long long28 = shortList25.getShortForm();
         shortList25.ensureCapacity((int) (byte) 0);
-        org.ccsds.moims.mo.mal.structures.ShortList[] shortListArray31 = new org.ccsds.moims.mo.mal.structures.ShortList[] { shortList16, shortList25 };
+        org.ccsds.moims.mo.mal.structures.ShortList[] shortListArray31 = new org.ccsds.moims.mo.mal.structures.ShortList[]{shortList16,
+                                                                                                                           shortList25};
         org.ccsds.moims.mo.mal.structures.ShortList[] shortListArray32 = uShortList8.toArray(shortListArray31);
         org.ccsds.moims.mo.mal.structures.ShortList[] shortListArray33 = uShortList1.toArray(shortListArray32);
         org.junit.Assert.assertNotNull(uShort2);
@@ -6750,29 +6967,34 @@ public class RegressionTest1 {
     public void test0719() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0719");
-        java.lang.Double[] doubleArray1 = new java.lang.Double[] { 0.0d };
+        java.lang.Double[] doubleArray1 = new java.lang.Double[]{0.0d};
         java.util.ArrayList<java.lang.Double> doubleList2 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList2, doubleArray1);
-        java.lang.Short[] shortArray6 = new java.lang.Short[] { (short) 0, (short) 10 };
+        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList2,
+                                                        doubleArray1);
+        java.lang.Short[] shortArray6 = new java.lang.Short[]{(short) 0, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList7 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean8 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList7, shortArray6);
+        boolean boolean8 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList7,
+                                                        shortArray6);
         java.util.ListIterator<java.lang.Short> shortItor9 = shortList7.listIterator();
         int int10 = doubleList2.indexOf((java.lang.Object) shortList7);
         org.ccsds.moims.mo.mal.structures.Blob blob11 = new org.ccsds.moims.mo.mal.structures.Blob();
         boolean boolean12 = blob11.isURLBased();
-        byte[] byteArray16 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray16 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder17 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray16);
         org.ccsds.moims.mo.mal.structures.Element element18 = blob11.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder17);
         boolean boolean19 = doubleList2.contains((java.lang.Object) blob11);
-        java.lang.String[] strArray22 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray22 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList23 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean24 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList23, strArray22);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray25 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean24 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList23,
+                                                         strArray22);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray25 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList26 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean27 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList26, uRIArray25);
-        java.lang.Byte[] byteArray32 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean27 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList26,
+                                                         uRIArray25);
+        java.lang.Byte[] byteArray32 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList33 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean34 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList33, byteArray32);
+        boolean boolean34 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList33,
+                                                         byteArray32);
         boolean boolean36 = byteList33.add((java.lang.Byte) (byte) 100);
         boolean boolean37 = uRIList26.containsAll((java.util.Collection<java.lang.Byte>) byteList33);
         boolean boolean38 = strList23.containsAll((java.util.Collection<java.lang.Byte>) byteList33);
@@ -6860,12 +7082,12 @@ public class RegressionTest1 {
     public void test0722() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0722");
-        java.lang.Integer[] intArray8 = new java.lang.Integer[] { 2, 10, (-11), (-7), 100, 8, 6, (-7) };
+        java.lang.Integer[] intArray8 = new java.lang.Integer[]{2, 10, (-11), (-7), 100, 8, 6, (-7)};
         java.util.ArrayList<java.lang.Integer> intList9 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList9, intArray8);
         int int12 = intList9.lastIndexOf((java.lang.Object) (short) 0);
         java.util.stream.Stream<java.lang.Integer> intStream13 = intList9.parallelStream();
-        byte[] byteArray17 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray17 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder18 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray17);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder19 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray17);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet20 = binaryDecoder19.decodeNullableUOctet();
@@ -6891,34 +7113,40 @@ public class RegressionTest1 {
     public void test0723() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0723");
-        java.lang.Long[] longArray7 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        java.lang.Long[] longArray7 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList8 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList8, longArray7);
         java.lang.Object obj10 = longList8.clone();
-        java.lang.Boolean[] booleanArray12 = new java.lang.Boolean[] { false };
+        java.lang.Boolean[] booleanArray12 = new java.lang.Boolean[]{false};
         java.util.ArrayList<java.lang.Boolean> booleanList13 = new java.util.ArrayList<java.lang.Boolean>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList13, booleanArray12);
-        java.lang.Byte[] byteArray19 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList13,
+                                                         booleanArray12);
+        java.lang.Byte[] byteArray19 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList20 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20, byteArray19);
+        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20,
+                                                         byteArray19);
         boolean boolean23 = byteList20.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray28 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray28 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList29 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList29, byteArray28);
+        boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList29,
+                                                         byteArray28);
         boolean boolean32 = byteList29.add((java.lang.Byte) (byte) 100);
         boolean boolean33 = byteList20.addAll((java.util.Collection<java.lang.Byte>) byteList29);
         java.lang.Object obj34 = byteList20.clone();
         boolean boolean35 = booleanList13.contains((java.lang.Object) byteList20);
         boolean boolean36 = longList8.remove((java.lang.Object) boolean35);
-        java.lang.String[] strArray39 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray39 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList40 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean41 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList40, strArray39);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray42 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean41 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList40,
+                                                         strArray39);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray42 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList43 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean44 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList43, uRIArray42);
-        java.lang.Byte[] byteArray49 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean44 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList43,
+                                                         uRIArray42);
+        java.lang.Byte[] byteArray49 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList50 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean51 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList50, byteArray49);
+        boolean boolean51 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList50,
+                                                         byteArray49);
         boolean boolean53 = byteList50.add((java.lang.Byte) (byte) 100);
         boolean boolean54 = uRIList43.containsAll((java.util.Collection<java.lang.Byte>) byteList50);
         boolean boolean55 = strList40.containsAll((java.util.Collection<java.lang.Byte>) byteList50);
@@ -6928,21 +7156,22 @@ public class RegressionTest1 {
         java.lang.Integer int59 = uRIList58.getTypeShortForm();
         java.lang.Integer int60 = uRIList58.getTypeShortForm();
         java.lang.Object obj61 = uRIList58.clone();
-        byte[] byteArray65 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray65 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder66 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray65);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder67 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray65);
         int int68 = uRIList58.lastIndexOf((java.lang.Object) binaryDecoder67);
         boolean boolean69 = longList8.remove((java.lang.Object) uRIList58);
         org.ccsds.moims.mo.mal.structures.UShort uShort70 = uRIList58.getAreaNumber();
         boolean boolean71 = uRIList58.isEmpty();
-        byte[] byteArray75 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray75 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder76 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray75);
         org.ccsds.moims.mo.mal.structures.FineTime fineTime77 = binaryDecoder76.decodeFineTime();
         org.ccsds.moims.mo.mal.structures.URI uRI78 = binaryDecoder76.decodeURI();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet79 = uRI78.getAreaVersion();
-        java.lang.Integer[] intArray88 = new java.lang.Integer[] { 2, 10, (-11), (-7), 100, 8, 6, (-7) };
+        java.lang.Integer[] intArray88 = new java.lang.Integer[]{2, 10, (-11), (-7), 100, 8, 6, (-7)};
         java.util.ArrayList<java.lang.Integer> intList89 = new java.util.ArrayList<java.lang.Integer>();
-        boolean boolean90 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList89, intArray88);
+        boolean boolean90 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList89,
+                                                         intArray88);
         int int92 = intList89.lastIndexOf((java.lang.Object) (short) 0);
         java.util.stream.Stream<java.lang.Integer> intStream93 = intList89.stream();
         java.util.Iterator<java.lang.Integer> intItor94 = intList89.iterator();
@@ -7006,7 +7235,7 @@ public class RegressionTest1 {
         java.lang.Integer int1 = uRIList0.getTypeShortForm();
         java.lang.Integer int2 = uRIList0.getTypeShortForm();
         java.lang.Object obj3 = uRIList0.clone();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         int int10 = uRIList0.lastIndexOf((java.lang.Object) binaryDecoder9);
@@ -7041,7 +7270,7 @@ public class RegressionTest1 {
         java.lang.Integer int8 = uRIList7.getTypeShortForm();
         java.lang.Integer int9 = uRIList7.getTypeShortForm();
         java.lang.Object obj10 = uRIList7.clone();
-        byte[] byteArray14 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray14 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder15 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray14);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder16 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray14);
         int int17 = uRIList7.lastIndexOf((java.lang.Object) binaryDecoder16);
@@ -7074,7 +7303,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.IntegerList integerList0 = new org.ccsds.moims.mo.mal.structures.IntegerList();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet1 = integerList0.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = integerList0.getAreaNumber();
-        byte[] byteArray6 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray6 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder7 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray6);
         org.ccsds.moims.mo.mal.structures.Element element8 = uShort2.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder7);
         org.ccsds.moims.mo.mal.structures.Time time9 = binaryDecoder7.decodeNullableTime();
@@ -7103,12 +7332,13 @@ public class RegressionTest1 {
         java.util.Iterator<org.ccsds.moims.mo.mal.structures.URI> uRIItor2 = uRIList0.iterator();
         org.ccsds.moims.mo.mal.structures.UShort uShort3 = uRIList0.getServiceNumber();
         int int4 = uRIList0.size();
-        byte[] byteArray8 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray8 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray8);
         java.lang.Double double10 = binaryDecoder9.decodeNullableDouble();
         byte[] byteArray11 = binaryDecoder9.getRemainingEncodedData();
         org.ccsds.moims.mo.mal.structures.Blob blob12 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray11);
-        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder14 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray11, (int) (short) 1);
+        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder14 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray11,
+                                                                                                                            (int) (short) 1);
         try {
             org.ccsds.moims.mo.mal.structures.Element element15 = uRIList0.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder14);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 1");
@@ -7144,17 +7374,18 @@ public class RegressionTest1 {
     public void test0730() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0730");
-        java.lang.String[] strArray2 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray2 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList3 = new java.util.ArrayList<java.lang.String>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList3, strArray2);
-        java.lang.Long[] longArray12 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        java.lang.Long[] longArray12 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList13 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList13, longArray12);
+        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList13,
+                                                         longArray12);
         java.lang.Object obj15 = longList13.clone();
         int int16 = strList3.indexOf((java.lang.Object) longList13);
         java.util.ListIterator<java.lang.String> strItor17 = strList3.listIterator();
         java.lang.String str18 = strList3.toString();
-        byte[] byteArray22 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray22 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder23 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray22);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder24 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray22);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet25 = binaryDecoder24.decodeNullableUOctet();
@@ -7162,22 +7393,26 @@ public class RegressionTest1 {
         short short27 = uOctet25.getValue();
         org.ccsds.moims.mo.mal.structures.UShort uShort28 = uOctet25.getServiceNumber();
         boolean boolean29 = strList3.remove((java.lang.Object) uShort28);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray30 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray30 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList31 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean32 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList31, uRIArray30);
-        java.lang.Byte[] byteArray37 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean32 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList31,
+                                                         uRIArray30);
+        java.lang.Byte[] byteArray37 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList38 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList38, byteArray37);
+        boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList38,
+                                                         byteArray37);
         boolean boolean41 = byteList38.add((java.lang.Byte) (byte) 100);
         boolean boolean42 = uRIList31.containsAll((java.util.Collection<java.lang.Byte>) byteList38);
         int int44 = uRIList31.lastIndexOf((java.lang.Object) 0.0d);
-        java.lang.Byte[] byteArray49 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray49 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList50 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean51 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList50, byteArray49);
+        boolean boolean51 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList50,
+                                                         byteArray49);
         boolean boolean53 = byteList50.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray58 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray58 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList59 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean60 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList59, byteArray58);
+        boolean boolean60 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList59,
+                                                         byteArray58);
         boolean boolean62 = byteList59.add((java.lang.Byte) (byte) 100);
         boolean boolean63 = byteList50.addAll((java.util.Collection<java.lang.Byte>) byteList59);
         int int65 = byteList59.lastIndexOf((java.lang.Object) 0.0f);
@@ -7229,7 +7464,7 @@ public class RegressionTest1 {
         java.lang.Integer int1 = uRIList0.getTypeShortForm();
         java.lang.Integer int2 = uRIList0.getTypeShortForm();
         java.lang.Object obj3 = uRIList0.clone();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         int int10 = uRIList0.lastIndexOf((java.lang.Object) binaryDecoder9);
@@ -7262,9 +7497,10 @@ public class RegressionTest1 {
         java.util.Spliterator<java.lang.Float> floatSpliterator5 = floatList0.spliterator();
         java.lang.Integer int6 = floatList0.getTypeShortForm();
         boolean boolean8 = floatList0.add((java.lang.Float) (-1.0f));
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray9 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray9 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList10 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean11 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList10, uShortArray9);
+        boolean boolean11 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList10,
+                                                         uShortArray9);
         uShortList10.trimToSize();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet13 = org.ccsds.moims.mo.mal.structures.ShortList.AREA_VERSION;
         org.ccsds.moims.mo.mal.structures.Element element14 = uOctet13.createElement();
@@ -7273,7 +7509,7 @@ public class RegressionTest1 {
         uShortList10.clear();
         org.ccsds.moims.mo.mal.structures.ShortList shortList18 = new org.ccsds.moims.mo.mal.structures.ShortList();
         java.lang.Integer int19 = shortList18.getTypeShortForm();
-        byte[] byteArray23 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray23 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder24 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray23);
         org.ccsds.moims.mo.mal.structures.Blob blob25 = binaryDecoder24.decodeBlob();
         boolean boolean26 = shortList18.equals((java.lang.Object) blob25);
@@ -7282,9 +7518,10 @@ public class RegressionTest1 {
         java.lang.Object[] objArray29 = shortList27.toArray();
         java.lang.Long long30 = shortList27.getShortForm();
         shortList27.ensureCapacity((int) (byte) 0);
-        org.ccsds.moims.mo.mal.structures.ShortList[] shortListArray33 = new org.ccsds.moims.mo.mal.structures.ShortList[] { shortList18, shortList27 };
+        org.ccsds.moims.mo.mal.structures.ShortList[] shortListArray33 = new org.ccsds.moims.mo.mal.structures.ShortList[]{shortList18,
+                                                                                                                           shortList27};
         org.ccsds.moims.mo.mal.structures.ShortList[] shortListArray34 = uShortList10.toArray(shortListArray33);
-        byte[] byteArray38 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray38 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder39 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray38);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder40 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray38);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet41 = binaryDecoder40.decodeNullableUOctet();
@@ -7339,7 +7576,8 @@ public class RegressionTest1 {
         esa.mo.com.impl.util.EventCOMObject eventCOMObject9 = new esa.mo.com.impl.util.EventCOMObject();
         eventCOMObject9.setObjId((java.lang.Long) 4294967295L);
         org.ccsds.moims.mo.com.structures.ObjectType objectType14 = esa.mo.com.impl.util.HelperCOM.objectTypeId2objectType((java.lang.Long) 281474993487885L);
-        org.ccsds.moims.mo.mal.structures.Subscription subscription15 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("", objectType14);
+        org.ccsds.moims.mo.mal.structures.Subscription subscription15 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("",
+                                                                                                                                    objectType14);
         eventCOMObject9.setObjType(objectType14);
         java.lang.Long long17 = eventCOMObject9.getObjId();
         org.ccsds.moims.mo.com.structures.ObjectId objectId18 = eventCOMObject9.getObjectId();
@@ -7370,27 +7608,31 @@ public class RegressionTest1 {
     public void test0734() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0734");
-        java.lang.Double[] doubleArray1 = new java.lang.Double[] { 0.0d };
+        java.lang.Double[] doubleArray1 = new java.lang.Double[]{0.0d};
         java.util.ArrayList<java.lang.Double> doubleList2 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList2, doubleArray1);
-        java.lang.Short[] shortArray6 = new java.lang.Short[] { (short) 0, (short) 10 };
+        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList2,
+                                                        doubleArray1);
+        java.lang.Short[] shortArray6 = new java.lang.Short[]{(short) 0, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList7 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean8 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList7, shortArray6);
+        boolean boolean8 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList7,
+                                                        shortArray6);
         java.util.ListIterator<java.lang.Short> shortItor9 = shortList7.listIterator();
         int int10 = doubleList2.indexOf((java.lang.Object) shortList7);
         org.ccsds.moims.mo.mal.structures.Blob blob11 = new org.ccsds.moims.mo.mal.structures.Blob();
         boolean boolean12 = blob11.isURLBased();
-        byte[] byteArray16 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray16 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder17 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray16);
         org.ccsds.moims.mo.mal.structures.Element element18 = blob11.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder17);
         boolean boolean19 = doubleList2.contains((java.lang.Object) blob11);
         java.lang.Object obj20 = doubleList2.clone();
-        java.lang.String[] strArray23 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray23 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList24 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean25 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList24, strArray23);
-        java.lang.Long[] longArray33 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        boolean boolean25 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList24,
+                                                         strArray23);
+        java.lang.Long[] longArray33 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList34 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean35 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList34, longArray33);
+        boolean boolean35 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList34,
+                                                         longArray33);
         java.lang.Object obj36 = longList34.clone();
         int int37 = strList24.indexOf((java.lang.Object) longList34);
         java.util.ListIterator<java.lang.String> strItor38 = strList24.listIterator();
@@ -7433,44 +7675,52 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.DoubleList doubleList1 = new org.ccsds.moims.mo.mal.structures.DoubleList((int) (short) 100);
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = doubleList1.getAreaNumber();
         java.lang.Object obj3 = doubleList1.clone();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet10 = binaryDecoder9.decodeNullableUOctet();
         int int11 = doubleList1.lastIndexOf((java.lang.Object) binaryDecoder9);
-        java.lang.String[] strArray14 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray14 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList15 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList15, strArray14);
-        java.lang.Long[] longArray24 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList15,
+                                                         strArray14);
+        java.lang.Long[] longArray24 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList25 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean26 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList25, longArray24);
+        boolean boolean26 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList25,
+                                                         longArray24);
         java.lang.Object obj27 = longList25.clone();
         int int28 = strList15.indexOf((java.lang.Object) longList25);
         java.util.ListIterator<java.lang.String> strItor29 = strList15.listIterator();
-        java.lang.Short[] shortArray33 = new java.lang.Short[] { (short) -1, (short) 0, (short) 100 };
+        java.lang.Short[] shortArray33 = new java.lang.Short[]{(short) -1, (short) 0, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList34 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean35 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList34, shortArray33);
-        java.lang.String[] strArray38 = new java.lang.String[] { "hi!", "" };
+        boolean boolean35 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList34,
+                                                         shortArray33);
+        java.lang.String[] strArray38 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList39 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean40 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList39, strArray38);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray41 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean40 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList39,
+                                                         strArray38);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray41 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList42 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean43 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList42, uRIArray41);
-        java.lang.Byte[] byteArray48 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean43 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList42,
+                                                         uRIArray41);
+        java.lang.Byte[] byteArray48 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList49 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean50 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList49, byteArray48);
+        boolean boolean50 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList49,
+                                                         byteArray48);
         boolean boolean52 = byteList49.add((java.lang.Byte) (byte) 100);
         boolean boolean53 = uRIList42.containsAll((java.util.Collection<java.lang.Byte>) byteList49);
         boolean boolean54 = strList39.containsAll((java.util.Collection<java.lang.Byte>) byteList49);
         boolean boolean55 = shortList34.contains((java.lang.Object) byteList49);
         boolean boolean56 = strList15.removeAll((java.util.Collection<java.lang.Byte>) byteList49);
-        java.lang.Byte[] byteArray61 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray61 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList62 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean63 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList62, byteArray61);
+        boolean boolean63 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList62,
+                                                         byteArray61);
         boolean boolean65 = byteList62.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray70 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray70 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList71 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean72 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList71, byteArray70);
+        boolean boolean72 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList71,
+                                                         byteArray70);
         boolean boolean74 = byteList71.add((java.lang.Byte) (byte) 100);
         boolean boolean75 = byteList62.addAll((java.util.Collection<java.lang.Byte>) byteList71);
         boolean boolean76 = byteList49.containsAll((java.util.Collection<java.lang.Byte>) byteList71);
@@ -7577,34 +7827,40 @@ public class RegressionTest1 {
     public void test0738() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0738");
-        java.lang.Long[] longArray7 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        java.lang.Long[] longArray7 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList8 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList8, longArray7);
         java.lang.Object obj10 = longList8.clone();
-        java.lang.Boolean[] booleanArray12 = new java.lang.Boolean[] { false };
+        java.lang.Boolean[] booleanArray12 = new java.lang.Boolean[]{false};
         java.util.ArrayList<java.lang.Boolean> booleanList13 = new java.util.ArrayList<java.lang.Boolean>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList13, booleanArray12);
-        java.lang.Byte[] byteArray19 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList13,
+                                                         booleanArray12);
+        java.lang.Byte[] byteArray19 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList20 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20, byteArray19);
+        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20,
+                                                         byteArray19);
         boolean boolean23 = byteList20.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray28 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray28 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList29 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList29, byteArray28);
+        boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList29,
+                                                         byteArray28);
         boolean boolean32 = byteList29.add((java.lang.Byte) (byte) 100);
         boolean boolean33 = byteList20.addAll((java.util.Collection<java.lang.Byte>) byteList29);
         java.lang.Object obj34 = byteList20.clone();
         boolean boolean35 = booleanList13.contains((java.lang.Object) byteList20);
         boolean boolean36 = longList8.remove((java.lang.Object) boolean35);
-        java.lang.String[] strArray39 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray39 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList40 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean41 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList40, strArray39);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray42 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean41 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList40,
+                                                         strArray39);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray42 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList43 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean44 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList43, uRIArray42);
-        java.lang.Byte[] byteArray49 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean44 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList43,
+                                                         uRIArray42);
+        java.lang.Byte[] byteArray49 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList50 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean51 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList50, byteArray49);
+        boolean boolean51 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList50,
+                                                         byteArray49);
         boolean boolean53 = byteList50.add((java.lang.Byte) (byte) 100);
         boolean boolean54 = uRIList43.containsAll((java.util.Collection<java.lang.Byte>) byteList50);
         boolean boolean55 = strList40.containsAll((java.util.Collection<java.lang.Byte>) byteList50);
@@ -7614,7 +7870,7 @@ public class RegressionTest1 {
         java.lang.Integer int59 = uRIList58.getTypeShortForm();
         java.lang.Integer int60 = uRIList58.getTypeShortForm();
         java.lang.Object obj61 = uRIList58.clone();
-        byte[] byteArray65 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray65 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder66 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray65);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder67 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray65);
         int int68 = uRIList58.lastIndexOf((java.lang.Object) binaryDecoder67);
@@ -7664,7 +7920,7 @@ public class RegressionTest1 {
         java.lang.String str3 = union1.toString();
         java.lang.Long long4 = union1.getShortForm();
         org.ccsds.moims.mo.mal.structures.UShort uShort5 = union1.getAreaNumber();
-        byte[] byteArray9 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray9 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder10 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray9);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder11 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray9);
         org.ccsds.moims.mo.mal.structures.UInteger uInteger12 = binaryDecoder11.decodeUInteger();
@@ -7687,19 +7943,23 @@ public class RegressionTest1 {
     public void test0740() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0740");
-        java.lang.Float[] floatArray5 = new java.lang.Float[] { 100.0f, (-1.0f), (-1.0f), 10.0f, (-1.0f) };
+        java.lang.Float[] floatArray5 = new java.lang.Float[]{100.0f, (-1.0f), (-1.0f), 10.0f, (-1.0f)};
         java.util.ArrayList<java.lang.Float> floatList6 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList6, floatArray5);
-        java.lang.Boolean[] booleanArray9 = new java.lang.Boolean[] { false };
+        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList6,
+                                                        floatArray5);
+        java.lang.Boolean[] booleanArray9 = new java.lang.Boolean[]{false};
         java.util.ArrayList<java.lang.Boolean> booleanList10 = new java.util.ArrayList<java.lang.Boolean>();
-        boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList10, booleanArray9);
-        java.lang.Byte[] byteArray16 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList10,
+                                                         booleanArray9);
+        java.lang.Byte[] byteArray16 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList17 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList17, byteArray16);
+        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList17,
+                                                         byteArray16);
         boolean boolean20 = byteList17.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray25 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray25 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList26 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList26, byteArray25);
+        boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList26,
+                                                         byteArray25);
         boolean boolean29 = byteList26.add((java.lang.Byte) (byte) 100);
         boolean boolean30 = byteList17.addAll((java.util.Collection<java.lang.Byte>) byteList26);
         java.lang.Object obj31 = byteList17.clone();
@@ -7710,7 +7970,7 @@ public class RegressionTest1 {
         boolean boolean36 = booleanList10.containsAll((java.util.Collection<java.lang.Byte>) octetList34);
         java.util.stream.Stream<java.lang.Byte> byteStream37 = octetList34.stream();
         octetList34.clear();
-        byte[] byteArray42 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray42 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder43 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray42);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder44 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray42);
         org.ccsds.moims.mo.mal.structures.UInteger uInteger45 = binaryDecoder44.decodeUInteger();
@@ -7769,7 +8029,7 @@ public class RegressionTest1 {
         boolean boolean5 = booleanList0.remove((java.lang.Object) 281474993487884L);
         org.ccsds.moims.mo.mal.structures.OctetList octetList7 = new org.ccsds.moims.mo.mal.structures.OctetList(12);
         org.ccsds.moims.mo.mal.structures.UShort uShort8 = octetList7.getAreaNumber();
-        byte[] byteArray12 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray12 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder13 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray12);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder14 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray12);
         java.lang.Integer int15 = binaryDecoder14.decodeInteger();
@@ -7834,9 +8094,10 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.URI uRI1 = new org.ccsds.moims.mo.mal.structures.URI("hi!");
         org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = uRI1.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UShort uShort3 = uRI1.getServiceNumber();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
-        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder10 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7, 6);
+        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder10 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7,
+                                                                                                                            6);
         boolean boolean11 = uShort3.equals((java.lang.Object) binaryDecoder10);
         try {
             org.ccsds.moims.mo.mal.structures.Attribute attribute12 = binaryDecoder10.decodeAttribute();
@@ -7869,7 +8130,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.IntegerList integerList17 = new org.ccsds.moims.mo.mal.structures.IntegerList(2);
         org.ccsds.moims.mo.mal.structures.Blob blob18 = new org.ccsds.moims.mo.mal.structures.Blob();
         boolean boolean19 = blob18.isURLBased();
-        byte[] byteArray23 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray23 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder24 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray23);
         org.ccsds.moims.mo.mal.structures.Element element25 = blob18.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder24);
         boolean boolean26 = integerList17.equals((java.lang.Object) binaryDecoder24);
@@ -7878,7 +8139,7 @@ public class RegressionTest1 {
         java.lang.Integer int29 = uRIList28.getTypeShortForm();
         java.lang.Integer int30 = uRIList28.getTypeShortForm();
         java.lang.Object obj31 = uRIList28.clone();
-        byte[] byteArray35 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray35 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder36 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray35);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder37 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray35);
         int int38 = uRIList28.lastIndexOf((java.lang.Object) binaryDecoder37);
@@ -7927,7 +8188,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = uLong1.getAreaVersion();
         java.math.BigInteger bigInteger3 = uLong1.getValue();
         org.ccsds.moims.mo.mal.structures.ULong uLong4 = new org.ccsds.moims.mo.mal.structures.ULong(bigInteger3);
-        byte[] byteArray8 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray8 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray8);
         org.ccsds.moims.mo.mal.structures.Blob blob10 = binaryDecoder9.decodeBlob();
         try {
@@ -7950,12 +8211,14 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = duration1.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet3 = duration1.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.LongList longList4 = new org.ccsds.moims.mo.mal.structures.LongList();
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray5 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray5 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList6 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList6, uRIArray5);
-        java.lang.Byte[] byteArray12 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList6,
+                                                        uRIArray5);
+        java.lang.Byte[] byteArray12 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList13 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList13, byteArray12);
+        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList13,
+                                                         byteArray12);
         boolean boolean16 = byteList13.add((java.lang.Byte) (byte) 100);
         boolean boolean17 = uRIList6.containsAll((java.util.Collection<java.lang.Byte>) byteList13);
         byteList13.add(0, (java.lang.Byte) (byte) -1);
@@ -7965,7 +8228,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort25 = stringList24.getAreaNumber();
         java.lang.Integer int26 = stringList24.getTypeShortForm();
         boolean boolean27 = duration1.equals((java.lang.Object) stringList24);
-        byte[] byteArray31 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray31 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder32 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray31);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder33 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray31);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet34 = binaryDecoder33.decodeNullableUOctet();
@@ -7975,7 +8238,7 @@ public class RegressionTest1 {
         java.lang.Integer int38 = uRIList37.getTypeShortForm();
         java.lang.Integer int39 = uRIList37.getTypeShortForm();
         java.lang.Object obj40 = uRIList37.clone();
-        byte[] byteArray44 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray44 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder45 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray44);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder46 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray44);
         int int47 = uRIList37.lastIndexOf((java.lang.Object) binaryDecoder46);
@@ -8024,7 +8287,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.IntegerList integerList1 = new org.ccsds.moims.mo.mal.structures.IntegerList(2);
         org.ccsds.moims.mo.mal.structures.Blob blob2 = new org.ccsds.moims.mo.mal.structures.Blob();
         boolean boolean3 = blob2.isURLBased();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         org.ccsds.moims.mo.mal.structures.Element element9 = blob2.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder8);
         boolean boolean10 = integerList1.equals((java.lang.Object) binaryDecoder8);
@@ -8043,39 +8306,47 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0751");
         org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList((int) (short) 100);
-        java.lang.Short[] shortArray7 = new java.lang.Short[] { (short) -64, (short) 1, (short) 127, (short) -1, (short) 10 };
+        java.lang.Short[] shortArray7 = new java.lang.Short[]{(short) -64, (short) 1, (short) 127, (short) -1,
+                                                              (short) 10};
         java.util.ArrayList<java.lang.Short> shortList8 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList8, shortArray7);
-        java.lang.Long[] longArray17 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList8,
+                                                        shortArray7);
+        java.lang.Long[] longArray17 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList18 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList18, longArray17);
+        boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList18,
+                                                         longArray17);
         java.lang.Object obj20 = longList18.clone();
-        java.lang.Boolean[] booleanArray22 = new java.lang.Boolean[] { false };
+        java.lang.Boolean[] booleanArray22 = new java.lang.Boolean[]{false};
         java.util.ArrayList<java.lang.Boolean> booleanList23 = new java.util.ArrayList<java.lang.Boolean>();
-        boolean boolean24 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList23, booleanArray22);
-        java.lang.Byte[] byteArray29 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean24 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList23,
+                                                         booleanArray22);
+        java.lang.Byte[] byteArray29 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList30 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean31 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList30, byteArray29);
+        boolean boolean31 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList30,
+                                                         byteArray29);
         boolean boolean33 = byteList30.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray38 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray38 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList39 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean40 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList39, byteArray38);
+        boolean boolean40 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList39,
+                                                         byteArray38);
         boolean boolean42 = byteList39.add((java.lang.Byte) (byte) 100);
         boolean boolean43 = byteList30.addAll((java.util.Collection<java.lang.Byte>) byteList39);
         java.lang.Object obj44 = byteList30.clone();
         boolean boolean45 = booleanList23.contains((java.lang.Object) byteList30);
         boolean boolean46 = longList18.remove((java.lang.Object) boolean45);
-        java.lang.Byte[] byteArray51 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray51 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList52 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean53 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList52, byteArray51);
+        boolean boolean53 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList52,
+                                                         byteArray51);
         boolean boolean55 = byteList52.add((java.lang.Byte) (byte) 100);
         int int56 = longList18.lastIndexOf((java.lang.Object) byteList52);
         org.ccsds.moims.mo.mal.structures.OctetList octetList57 = new org.ccsds.moims.mo.mal.structures.OctetList();
         org.ccsds.moims.mo.mal.structures.UShort uShort58 = octetList57.getServiceNumber();
         boolean boolean59 = longList18.removeAll((java.util.Collection<java.lang.Byte>) octetList57);
-        java.lang.Double[] doubleArray66 = new java.lang.Double[] { 100.0d, (-1.0d), Double.NaN, 0.0d, 100.0d };
+        java.lang.Double[] doubleArray66 = new java.lang.Double[]{100.0d, (-1.0d), Double.NaN, 0.0d, 100.0d};
         java.util.ArrayList<java.lang.Double> doubleList67 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean68 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList67, doubleArray66);
+        boolean boolean68 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList67,
+                                                         doubleArray66);
         org.ccsds.moims.mo.mal.structures.OctetList octetList69 = new org.ccsds.moims.mo.mal.structures.OctetList();
         org.ccsds.moims.mo.mal.structures.UShort uShort70 = octetList69.getServiceNumber();
         boolean boolean71 = doubleList67.containsAll((java.util.Collection<java.lang.Byte>) octetList69);
@@ -8142,22 +8413,26 @@ public class RegressionTest1 {
         shortList0.ensureCapacity((int) (byte) 0);
         java.lang.Object[] objArray6 = shortList0.toArray();
         org.ccsds.moims.mo.mal.structures.UShort uShort7 = shortList0.getServiceNumber();
-        java.lang.String[] strArray10 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray10 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList11 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean12 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList11, strArray10);
-        java.lang.Long[] longArray20 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        boolean boolean12 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList11,
+                                                         strArray10);
+        java.lang.Long[] longArray20 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList21 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList21, longArray20);
+        boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList21,
+                                                         longArray20);
         java.lang.Object obj23 = longList21.clone();
         int int24 = strList11.indexOf((java.lang.Object) longList21);
         java.util.ListIterator<java.lang.String> strItor25 = strList11.listIterator();
         java.lang.String str26 = strList11.toString();
-        java.lang.Double[] doubleArray29 = new java.lang.Double[] { 0.0d, 1.0d };
+        java.lang.Double[] doubleArray29 = new java.lang.Double[]{0.0d, 1.0d};
         java.util.ArrayList<java.lang.Double> doubleList30 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean31 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList30, doubleArray29);
-        java.lang.String[] strArray34 = new java.lang.String[] { "", "hi!" };
+        boolean boolean31 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList30,
+                                                         doubleArray29);
+        java.lang.String[] strArray34 = new java.lang.String[]{"", "hi!"};
         java.util.ArrayList<java.lang.String> strList35 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean36 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList35, strArray34);
+        boolean boolean36 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList35,
+                                                         strArray34);
         int int37 = strList35.size();
         boolean boolean38 = doubleList30.equals((java.lang.Object) strList35);
         boolean boolean39 = strList11.remove((java.lang.Object) strList35);
@@ -8168,7 +8443,7 @@ public class RegressionTest1 {
         java.lang.Integer int44 = uRIList43.getTypeShortForm();
         java.lang.Integer int45 = uRIList43.getTypeShortForm();
         java.lang.Object obj46 = uRIList43.clone();
-        byte[] byteArray50 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray50 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder51 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray50);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder52 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray50);
         int int53 = uRIList43.lastIndexOf((java.lang.Object) binaryDecoder52);
@@ -8212,11 +8487,12 @@ public class RegressionTest1 {
     public void test0753() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0753");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         java.lang.Double double5 = binaryDecoder4.decodeNullableDouble();
         byte[] byteArray6 = binaryDecoder4.getRemainingEncodedData();
-        org.ccsds.moims.mo.mal.structures.Blob blob9 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray6, 18, (int) ' ');
+        org.ccsds.moims.mo.mal.structures.Blob blob9 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray6, 18,
+                                                                                                  (int) ' ');
         org.ccsds.moims.mo.mal.structures.UOctet uOctet10 = blob9.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.FloatList floatList11 = new org.ccsds.moims.mo.mal.structures.FloatList();
         int int13 = floatList11.lastIndexOf((java.lang.Object) 10);
@@ -8226,7 +8502,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort17 = floatList11.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort18 = floatList11.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort19 = floatList11.getServiceNumber();
-        byte[] byteArray23 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray23 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder24 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray23);
         org.ccsds.moims.mo.mal.structures.Element element25 = uShort19.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder24);
         org.ccsds.moims.mo.mal.structures.Element element26 = uOctet10.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder24);
@@ -8255,11 +8531,12 @@ public class RegressionTest1 {
     public void test0754() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0754");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         java.lang.Double double5 = binaryDecoder4.decodeNullableDouble();
         byte[] byteArray6 = binaryDecoder4.getRemainingEncodedData();
-        org.ccsds.moims.mo.mal.structures.Blob blob9 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray6, 18, (int) ' ');
+        org.ccsds.moims.mo.mal.structures.Blob blob9 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray6, 18,
+                                                                                                  (int) ' ');
         org.ccsds.moims.mo.mal.structures.UOctet uOctet10 = blob9.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.FloatList floatList11 = new org.ccsds.moims.mo.mal.structures.FloatList();
         int int13 = floatList11.lastIndexOf((java.lang.Object) 10);
@@ -8269,7 +8546,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort17 = floatList11.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort18 = floatList11.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort19 = floatList11.getServiceNumber();
-        byte[] byteArray23 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray23 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder24 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray23);
         org.ccsds.moims.mo.mal.structures.Element element25 = uShort19.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder24);
         org.ccsds.moims.mo.mal.structures.Element element26 = uOctet10.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder24);
@@ -8299,7 +8576,10 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0755");
         try {
-            org.ccsds.moims.mo.com.structures.ObjectType objectType4 = esa.mo.com.impl.util.HelperCOM.generateCOMObjectType(9, (int) (short) 0, 17, (-18));
+            org.ccsds.moims.mo.com.structures.ObjectType objectType4 = esa.mo.com.impl.util.HelperCOM.generateCOMObjectType(9,
+                                                                                                                            (int) (short) 0,
+                                                                                                                            17,
+                                                                                                                            (-18));
             org.junit.Assert.fail("Expected exception of type java.lang.IllegalArgumentException; message: UShort argument must not be negative");
         } catch (java.lang.IllegalArgumentException e) {
         }
@@ -8309,27 +8589,31 @@ public class RegressionTest1 {
     public void test0756() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0756");
-        java.lang.Double[] doubleArray1 = new java.lang.Double[] { 0.0d };
+        java.lang.Double[] doubleArray1 = new java.lang.Double[]{0.0d};
         java.util.ArrayList<java.lang.Double> doubleList2 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList2, doubleArray1);
-        java.lang.Short[] shortArray6 = new java.lang.Short[] { (short) 0, (short) 10 };
+        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList2,
+                                                        doubleArray1);
+        java.lang.Short[] shortArray6 = new java.lang.Short[]{(short) 0, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList7 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean8 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList7, shortArray6);
+        boolean boolean8 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList7,
+                                                        shortArray6);
         java.util.ListIterator<java.lang.Short> shortItor9 = shortList7.listIterator();
         int int10 = doubleList2.indexOf((java.lang.Object) shortList7);
         org.ccsds.moims.mo.mal.structures.Blob blob11 = new org.ccsds.moims.mo.mal.structures.Blob();
         boolean boolean12 = blob11.isURLBased();
-        byte[] byteArray16 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray16 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder17 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray16);
         org.ccsds.moims.mo.mal.structures.Element element18 = blob11.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder17);
         boolean boolean19 = doubleList2.contains((java.lang.Object) blob11);
         java.lang.Object obj20 = doubleList2.clone();
-        java.lang.String[] strArray23 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray23 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList24 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean25 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList24, strArray23);
-        java.lang.Long[] longArray33 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        boolean boolean25 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList24,
+                                                         strArray23);
+        java.lang.Long[] longArray33 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList34 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean35 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList34, longArray33);
+        boolean boolean35 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList34,
+                                                         longArray33);
         java.lang.Object obj36 = longList34.clone();
         int int37 = strList24.indexOf((java.lang.Object) longList34);
         java.util.ListIterator<java.lang.String> strItor38 = strList24.listIterator();
@@ -8338,16 +8622,19 @@ public class RegressionTest1 {
         boolean boolean41 = doubleList2.contains((java.lang.Object) strList24);
         java.lang.String str42 = strList24.toString();
         int int43 = strList24.size();
-        java.lang.Boolean[] booleanArray45 = new java.lang.Boolean[] { false };
+        java.lang.Boolean[] booleanArray45 = new java.lang.Boolean[]{false};
         java.util.ArrayList<java.lang.Boolean> booleanList46 = new java.util.ArrayList<java.lang.Boolean>();
-        boolean boolean47 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList46, booleanArray45);
-        java.lang.Byte[] byteArray52 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean47 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList46,
+                                                         booleanArray45);
+        java.lang.Byte[] byteArray52 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList53 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean54 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList53, byteArray52);
+        boolean boolean54 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList53,
+                                                         byteArray52);
         boolean boolean56 = byteList53.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray61 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray61 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList62 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean63 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList62, byteArray61);
+        boolean boolean63 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList62,
+                                                         byteArray61);
         boolean boolean65 = byteList62.add((java.lang.Byte) (byte) 100);
         boolean boolean66 = byteList53.addAll((java.util.Collection<java.lang.Byte>) byteList62);
         java.lang.Object obj67 = byteList53.clone();
@@ -8389,7 +8676,8 @@ public class RegressionTest1 {
         org.junit.Assert.assertNotNull(obj67);
         org.junit.Assert.assertTrue("'" + boolean68 + "' != '" + false + "'", !boolean68);
         org.junit.Assert.assertTrue("'" + boolean69 + "' != '" + false + "'", !boolean69);
-        org.junit.Assert.assertTrue("'" + str70 + "' != '" + "[-1, -1, -1, -1, 100, -1, -1, -1, -1, 100]" + "'", str70.equals("[-1, -1, -1, -1, 100, -1, -1, -1, -1, 100]"));
+        org.junit.Assert.assertTrue("'" + str70 + "' != '" + "[-1, -1, -1, -1, 100, -1, -1, -1, -1, 100]" + "'", str70
+                                                                                                                      .equals("[-1, -1, -1, -1, 100, -1, -1, -1, -1, 100]"));
     }
 
     @Test
@@ -8416,14 +8704,15 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.DoubleList doubleList1 = new org.ccsds.moims.mo.mal.structures.DoubleList((int) (short) 100);
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = doubleList1.getAreaNumber();
         java.lang.Object obj3 = doubleList1.clone();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet10 = binaryDecoder9.decodeNullableUOctet();
         int int11 = doubleList1.lastIndexOf((java.lang.Object) binaryDecoder9);
         byte[] byteArray12 = binaryDecoder9.getRemainingEncodedData();
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder13 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray12);
-        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder15 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray12, (int) (short) 100);
+        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder15 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray12,
+                                                                                                                            (int) (short) 100);
         org.ccsds.moims.mo.mal.structures.Blob blob18 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray12, 2, 18);
         blob18.detach();
         int int20 = blob18.getLength();
@@ -8449,13 +8738,15 @@ public class RegressionTest1 {
         java.lang.Long long7 = shortList3.getShortForm();
         java.lang.Object[] objArray8 = shortList3.toArray();
         org.ccsds.moims.mo.mal.structures.FloatList floatList9 = new org.ccsds.moims.mo.mal.structures.FloatList();
-        java.lang.Byte[] byteArray14 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray14 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList15 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList15, byteArray14);
+        boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList15,
+                                                         byteArray14);
         boolean boolean18 = byteList15.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray23 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray23 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList24 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean25 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList24, byteArray23);
+        boolean boolean25 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList24,
+                                                         byteArray23);
         boolean boolean27 = byteList24.add((java.lang.Byte) (byte) 100);
         boolean boolean28 = byteList15.addAll((java.util.Collection<java.lang.Byte>) byteList24);
         java.lang.Object obj29 = byteList15.clone();
@@ -8469,7 +8760,7 @@ public class RegressionTest1 {
         java.lang.Integer int38 = uRIList37.getTypeShortForm();
         java.lang.Integer int39 = uRIList37.getTypeShortForm();
         java.lang.Object obj40 = uRIList37.clone();
-        byte[] byteArray44 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray44 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder45 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray44);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder46 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray44);
         int int47 = uRIList37.lastIndexOf((java.lang.Object) binaryDecoder46);
@@ -8514,48 +8805,56 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.FloatList floatList0 = new org.ccsds.moims.mo.mal.structures.FloatList();
         int int2 = floatList0.lastIndexOf((java.lang.Object) 10);
         boolean boolean3 = floatList0.isEmpty();
-        java.lang.String[] strArray6 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray6 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList7 = new java.util.ArrayList<java.lang.String>();
         boolean boolean8 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList7, strArray6);
-        java.lang.Long[] longArray16 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        java.lang.Long[] longArray16 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList17 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList17, longArray16);
+        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList17,
+                                                         longArray16);
         java.lang.Object obj19 = longList17.clone();
         int int20 = strList7.indexOf((java.lang.Object) longList17);
         java.util.ListIterator<java.lang.String> strItor21 = strList7.listIterator();
-        java.lang.Short[] shortArray25 = new java.lang.Short[] { (short) -1, (short) 0, (short) 100 };
+        java.lang.Short[] shortArray25 = new java.lang.Short[]{(short) -1, (short) 0, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList26 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList26, shortArray25);
-        java.lang.String[] strArray30 = new java.lang.String[] { "hi!", "" };
+        boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList26,
+                                                         shortArray25);
+        java.lang.String[] strArray30 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList31 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean32 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList31, strArray30);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray33 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean32 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList31,
+                                                         strArray30);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray33 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList34 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean35 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList34, uRIArray33);
-        java.lang.Byte[] byteArray40 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean35 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList34,
+                                                         uRIArray33);
+        java.lang.Byte[] byteArray40 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList41 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList41, byteArray40);
+        boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList41,
+                                                         byteArray40);
         boolean boolean44 = byteList41.add((java.lang.Byte) (byte) 100);
         boolean boolean45 = uRIList34.containsAll((java.util.Collection<java.lang.Byte>) byteList41);
         boolean boolean46 = strList31.containsAll((java.util.Collection<java.lang.Byte>) byteList41);
         boolean boolean47 = shortList26.contains((java.lang.Object) byteList41);
         boolean boolean48 = strList7.removeAll((java.util.Collection<java.lang.Byte>) byteList41);
-        java.lang.Byte[] byteArray53 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray53 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList54 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean55 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList54, byteArray53);
+        boolean boolean55 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList54,
+                                                         byteArray53);
         boolean boolean57 = byteList54.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray62 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray62 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList63 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean64 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList63, byteArray62);
+        boolean boolean64 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList63,
+                                                         byteArray62);
         boolean boolean66 = byteList63.add((java.lang.Byte) (byte) 100);
         boolean boolean67 = byteList54.addAll((java.util.Collection<java.lang.Byte>) byteList63);
         boolean boolean68 = byteList41.containsAll((java.util.Collection<java.lang.Byte>) byteList63);
         org.ccsds.moims.mo.mal.structures.URI uRI70 = new org.ccsds.moims.mo.mal.structures.URI("hi!");
         org.ccsds.moims.mo.mal.structures.UOctet uOctet71 = uRI70.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UShort uShort72 = uRI70.getServiceNumber();
-        byte[] byteArray76 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray76 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder77 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray76);
-        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder79 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray76, 6);
+        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder79 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray76,
+                                                                                                                            6);
         boolean boolean80 = uShort72.equals((java.lang.Object) binaryDecoder79);
         int int81 = byteList63.indexOf((java.lang.Object) boolean80);
         boolean boolean82 = floatList0.containsAll((java.util.Collection<java.lang.Byte>) byteList63);
@@ -8607,7 +8906,7 @@ public class RegressionTest1 {
         java.lang.Integer int1 = uRIList0.getTypeShortForm();
         java.lang.Integer int2 = uRIList0.getTypeShortForm();
         java.lang.Object obj3 = uRIList0.clone();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         int int10 = uRIList0.lastIndexOf((java.lang.Object) binaryDecoder9);
@@ -8635,34 +8934,39 @@ public class RegressionTest1 {
         java.lang.Integer int1 = uRIList0.getTypeShortForm();
         java.lang.Integer int2 = uRIList0.getTypeShortForm();
         java.lang.Object obj3 = uRIList0.clone();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         int int10 = uRIList0.lastIndexOf((java.lang.Object) binaryDecoder9);
         java.lang.Boolean boolean11 = binaryDecoder9.decodeBoolean();
         org.ccsds.moims.mo.mal.structures.Duration duration12 = binaryDecoder9.decodeNullableDuration();
-        java.lang.Long[] longArray20 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        java.lang.Long[] longArray20 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList21 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList21, longArray20);
+        boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList21,
+                                                         longArray20);
         java.lang.Object obj23 = longList21.clone();
-        java.lang.Boolean[] booleanArray25 = new java.lang.Boolean[] { false };
+        java.lang.Boolean[] booleanArray25 = new java.lang.Boolean[]{false};
         java.util.ArrayList<java.lang.Boolean> booleanList26 = new java.util.ArrayList<java.lang.Boolean>();
-        boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList26, booleanArray25);
-        java.lang.Byte[] byteArray32 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList26,
+                                                         booleanArray25);
+        java.lang.Byte[] byteArray32 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList33 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean34 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList33, byteArray32);
+        boolean boolean34 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList33,
+                                                         byteArray32);
         boolean boolean36 = byteList33.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray41 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray41 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList42 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean43 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList42, byteArray41);
+        boolean boolean43 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList42,
+                                                         byteArray41);
         boolean boolean45 = byteList42.add((java.lang.Byte) (byte) 100);
         boolean boolean46 = byteList33.addAll((java.util.Collection<java.lang.Byte>) byteList42);
         java.lang.Object obj47 = byteList33.clone();
         boolean boolean48 = booleanList26.contains((java.lang.Object) byteList33);
         boolean boolean49 = longList21.remove((java.lang.Object) boolean48);
-        java.lang.Byte[] byteArray54 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray54 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList55 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean56 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList55, byteArray54);
+        boolean boolean56 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList55,
+                                                         byteArray54);
         boolean boolean58 = byteList55.add((java.lang.Byte) (byte) 100);
         int int59 = longList21.lastIndexOf((java.lang.Object) byteList55);
         int int60 = longList21.size();
@@ -8712,16 +9016,19 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList((int) (short) 100);
         java.lang.Integer int2 = stringList1.getTypeShortForm();
         org.ccsds.moims.mo.mal.structures.UShort uShort3 = stringList1.getServiceNumber();
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray4 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray4 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList5 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList5, uRIArray4);
-        java.lang.Byte[] byteArray11 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList5,
+                                                        uRIArray4);
+        java.lang.Byte[] byteArray11 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList12 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList12, byteArray11);
+        boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList12,
+                                                         byteArray11);
         boolean boolean15 = byteList12.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray20 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray20 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList21 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList21, byteArray20);
+        boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList21,
+                                                         byteArray20);
         boolean boolean24 = byteList21.add((java.lang.Byte) (byte) 100);
         boolean boolean25 = byteList12.addAll((java.util.Collection<java.lang.Byte>) byteList21);
         int int27 = byteList21.lastIndexOf((java.lang.Object) 0.0f);
@@ -8731,7 +9038,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.DoubleList doubleList32 = new org.ccsds.moims.mo.mal.structures.DoubleList((int) (short) 100);
         org.ccsds.moims.mo.mal.structures.UShort uShort33 = doubleList32.getAreaNumber();
         java.lang.Object obj34 = doubleList32.clone();
-        byte[] byteArray38 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray38 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder39 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray38);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder40 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray38);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet41 = binaryDecoder40.decodeNullableUOctet();
@@ -8778,7 +9085,7 @@ public class RegressionTest1 {
         java.io.OutputStream outputStream0 = null;
         esa.mo.com.impl.archive.encoding.BinaryEncoder binaryEncoder1 = new esa.mo.com.impl.archive.encoding.BinaryEncoder(outputStream0);
         byte byte3 = binaryEncoder1.internalEncodeAttributeType((byte) 100);
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         org.ccsds.moims.mo.mal.structures.FineTime fineTime9 = binaryDecoder8.decodeFineTime();
         java.lang.Integer int10 = fineTime9.getTypeShortForm();
@@ -8802,7 +9109,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.IntegerList integerList1 = new org.ccsds.moims.mo.mal.structures.IntegerList(2);
         org.ccsds.moims.mo.mal.structures.Blob blob2 = new org.ccsds.moims.mo.mal.structures.Blob();
         boolean boolean3 = blob2.isURLBased();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         org.ccsds.moims.mo.mal.structures.Element element9 = blob2.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder8);
         boolean boolean10 = integerList1.equals((java.lang.Object) binaryDecoder8);
@@ -8811,7 +9118,7 @@ public class RegressionTest1 {
         java.lang.Integer int13 = uRIList12.getTypeShortForm();
         java.lang.Integer int14 = uRIList12.getTypeShortForm();
         java.lang.Object obj15 = uRIList12.clone();
-        byte[] byteArray19 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray19 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder20 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray19);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder21 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray19);
         int int22 = uRIList12.lastIndexOf((java.lang.Object) binaryDecoder21);
@@ -8844,18 +9151,20 @@ public class RegressionTest1 {
     public void test0766() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0766");
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray0 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray0 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList1, uShortArray0);
+        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList1,
+                                                        uShortArray0);
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream3 = uShortList1.parallelStream();
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream4 = uShortList1.stream();
         uShortList1.trimToSize();
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream6 = uShortList1.stream();
-        byte[] byteArray10 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray10 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder11 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray10);
         java.lang.Double double12 = binaryDecoder11.decodeNullableDouble();
         byte[] byteArray13 = binaryDecoder11.getRemainingEncodedData();
-        org.ccsds.moims.mo.mal.structures.Blob blob16 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray13, 18, (int) ' ');
+        org.ccsds.moims.mo.mal.structures.Blob blob16 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray13, 18,
+                                                                                                   (int) ' ');
         org.ccsds.moims.mo.mal.structures.UOctet uOctet17 = blob16.getAreaVersion();
         int int18 = uShortList1.indexOf((java.lang.Object) blob16);
         java.io.OutputStream outputStream19 = null;
@@ -8883,11 +9192,12 @@ public class RegressionTest1 {
     public void test0767() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0767");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         java.lang.Double double5 = binaryDecoder4.decodeNullableDouble();
         byte[] byteArray6 = binaryDecoder4.getRemainingEncodedData();
-        org.ccsds.moims.mo.mal.structures.Blob blob9 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray6, 18, (int) ' ');
+        org.ccsds.moims.mo.mal.structures.Blob blob9 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray6, 18,
+                                                                                                  (int) ' ');
         org.ccsds.moims.mo.mal.structures.UOctet uOctet10 = blob9.getAreaVersion();
         java.lang.Long long11 = blob9.getShortForm();
         org.ccsds.moims.mo.mal.structures.UShort uShort12 = blob9.getServiceNumber();
@@ -8931,7 +9241,7 @@ public class RegressionTest1 {
         java.lang.Integer int1 = uRIList0.getTypeShortForm();
         java.lang.Integer int2 = uRIList0.getTypeShortForm();
         java.lang.Object obj3 = uRIList0.clone();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         int int10 = uRIList0.lastIndexOf((java.lang.Object) binaryDecoder9);
@@ -8953,7 +9263,7 @@ public class RegressionTest1 {
     public void test0770() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0770");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         org.ccsds.moims.mo.mal.structures.Duration duration7 = new org.ccsds.moims.mo.mal.structures.Duration((double) 0.0f);
@@ -8980,7 +9290,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.IntegerList integerList4 = new org.ccsds.moims.mo.mal.structures.IntegerList();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet5 = integerList4.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UShort uShort6 = integerList4.getAreaNumber();
-        byte[] byteArray10 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray10 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder11 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray10);
         org.ccsds.moims.mo.mal.structures.Element element12 = uShort6.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder11);
         org.ccsds.moims.mo.mal.structures.Time time13 = binaryDecoder11.decodeTime();
@@ -9045,7 +9355,7 @@ public class RegressionTest1 {
     public void test0773() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0773");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet6 = binaryDecoder5.decodeNullableUOctet();
@@ -9055,7 +9365,7 @@ public class RegressionTest1 {
         java.lang.Integer int10 = uRIList9.getTypeShortForm();
         java.lang.Integer int11 = uRIList9.getTypeShortForm();
         java.lang.Object obj12 = uRIList9.clone();
-        byte[] byteArray16 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray16 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder17 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray16);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder18 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray16);
         int int19 = uRIList9.lastIndexOf((java.lang.Object) binaryDecoder18);
@@ -9087,27 +9397,32 @@ public class RegressionTest1 {
         esa.mo.com.impl.archive.encoding.BinaryEncoder binaryEncoder1 = new esa.mo.com.impl.archive.encoding.BinaryEncoder(outputStream0);
         byte byte3 = binaryEncoder1.internalEncodeAttributeType((byte) 100);
         byte byte5 = binaryEncoder1.internalEncodeAttributeType((byte) 10);
-        java.lang.String[] strArray8 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray8 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList9 = new java.util.ArrayList<java.lang.String>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList9, strArray8);
-        java.lang.Long[] longArray18 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        java.lang.Long[] longArray18 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList19 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean20 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList19, longArray18);
+        boolean boolean20 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList19,
+                                                         longArray18);
         java.lang.Object obj21 = longList19.clone();
         int int22 = strList9.indexOf((java.lang.Object) longList19);
         java.util.ListIterator<java.lang.String> strItor23 = strList9.listIterator();
-        java.lang.Short[] shortArray27 = new java.lang.Short[] { (short) -1, (short) 0, (short) 100 };
+        java.lang.Short[] shortArray27 = new java.lang.Short[]{(short) -1, (short) 0, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList28 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean29 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList28, shortArray27);
-        java.lang.String[] strArray32 = new java.lang.String[] { "hi!", "" };
+        boolean boolean29 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList28,
+                                                         shortArray27);
+        java.lang.String[] strArray32 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList33 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean34 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList33, strArray32);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray35 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean34 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList33,
+                                                         strArray32);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray35 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList36 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean37 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList36, uRIArray35);
-        java.lang.Byte[] byteArray42 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean37 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList36,
+                                                         uRIArray35);
+        java.lang.Byte[] byteArray42 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList43 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean44 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList43, byteArray42);
+        boolean boolean44 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList43,
+                                                         byteArray42);
         boolean boolean46 = byteList43.add((java.lang.Byte) (byte) 100);
         boolean boolean47 = uRIList36.containsAll((java.util.Collection<java.lang.Byte>) byteList43);
         boolean boolean48 = strList33.containsAll((java.util.Collection<java.lang.Byte>) byteList43);
@@ -9118,7 +9433,7 @@ public class RegressionTest1 {
         java.lang.Integer int53 = uRIList52.getTypeShortForm();
         java.lang.Integer int54 = uRIList52.getTypeShortForm();
         java.lang.Object obj55 = uRIList52.clone();
-        byte[] byteArray59 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray59 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder60 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray59);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder61 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray59);
         int int62 = uRIList52.lastIndexOf((java.lang.Object) binaryDecoder61);
@@ -9187,7 +9502,7 @@ public class RegressionTest1 {
     public void test0776() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0776");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         java.lang.Float float6 = binaryDecoder5.decodeFloat();
@@ -9215,12 +9530,12 @@ public class RegressionTest1 {
     public void test0777() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0777");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         org.ccsds.moims.mo.mal.structures.FineTime fineTime5 = binaryDecoder4.decodeFineTime();
         java.lang.Integer int6 = fineTime5.getTypeShortForm();
         java.lang.Long long7 = fineTime5.getShortForm();
-        byte[] byteArray11 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray11 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder12 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray11);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder13 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray11);
         java.lang.Byte byte14 = binaryDecoder13.decodeOctet();
@@ -9253,12 +9568,13 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet8 = booleanList4.getAreaVersion();
         boolean boolean9 = floatList0.contains((java.lang.Object) booleanList4);
         boolean boolean11 = booleanList4.add((java.lang.Boolean) false);
-        java.lang.Integer[] intArray20 = new java.lang.Integer[] { 2, 10, (-11), (-7), 100, 8, 6, (-7) };
+        java.lang.Integer[] intArray20 = new java.lang.Integer[]{2, 10, (-11), (-7), 100, 8, 6, (-7)};
         java.util.ArrayList<java.lang.Integer> intList21 = new java.util.ArrayList<java.lang.Integer>();
-        boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList21, intArray20);
+        boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList21,
+                                                         intArray20);
         int int24 = intList21.lastIndexOf((java.lang.Object) (short) 0);
         java.util.stream.Stream<java.lang.Integer> intStream25 = intList21.parallelStream();
-        byte[] byteArray29 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray29 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder30 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray29);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder31 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray29);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet32 = binaryDecoder31.decodeNullableUOctet();
@@ -9306,7 +9622,7 @@ public class RegressionTest1 {
         java.io.OutputStream outputStream0 = null;
         esa.mo.com.impl.archive.encoding.BinaryEncoder binaryEncoder1 = new esa.mo.com.impl.archive.encoding.BinaryEncoder(outputStream0);
         byte byte3 = binaryEncoder1.internalEncodeAttributeType((byte) -1);
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         org.ccsds.moims.mo.mal.structures.FineTime fineTime9 = binaryDecoder8.decodeFineTime();
         try {
@@ -9324,7 +9640,7 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0781");
         org.ccsds.moims.mo.mal.structures.Blob blob0 = new org.ccsds.moims.mo.mal.structures.Blob();
-        byte[] byteArray4 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray4 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray4);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder6 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray4);
         org.ccsds.moims.mo.mal.structures.Element element7 = blob0.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder6);
@@ -9341,7 +9657,7 @@ public class RegressionTest1 {
     public void test0782() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0782");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         org.ccsds.moims.mo.mal.structures.FineTime fineTime5 = binaryDecoder4.decodeFineTime();
         org.ccsds.moims.mo.mal.structures.URI uRI6 = binaryDecoder4.decodeURI();
@@ -9362,34 +9678,40 @@ public class RegressionTest1 {
     public void test0783() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0783");
-        java.lang.Long[] longArray7 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        java.lang.Long[] longArray7 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList8 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList8, longArray7);
         java.lang.Object obj10 = longList8.clone();
-        java.lang.Boolean[] booleanArray12 = new java.lang.Boolean[] { false };
+        java.lang.Boolean[] booleanArray12 = new java.lang.Boolean[]{false};
         java.util.ArrayList<java.lang.Boolean> booleanList13 = new java.util.ArrayList<java.lang.Boolean>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList13, booleanArray12);
-        java.lang.Byte[] byteArray19 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList13,
+                                                         booleanArray12);
+        java.lang.Byte[] byteArray19 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList20 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20, byteArray19);
+        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20,
+                                                         byteArray19);
         boolean boolean23 = byteList20.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray28 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray28 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList29 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList29, byteArray28);
+        boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList29,
+                                                         byteArray28);
         boolean boolean32 = byteList29.add((java.lang.Byte) (byte) 100);
         boolean boolean33 = byteList20.addAll((java.util.Collection<java.lang.Byte>) byteList29);
         java.lang.Object obj34 = byteList20.clone();
         boolean boolean35 = booleanList13.contains((java.lang.Object) byteList20);
         boolean boolean36 = longList8.remove((java.lang.Object) boolean35);
-        java.lang.String[] strArray39 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray39 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList40 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean41 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList40, strArray39);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray42 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean41 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList40,
+                                                         strArray39);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray42 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList43 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean44 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList43, uRIArray42);
-        java.lang.Byte[] byteArray49 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean44 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList43,
+                                                         uRIArray42);
+        java.lang.Byte[] byteArray49 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList50 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean51 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList50, byteArray49);
+        boolean boolean51 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList50,
+                                                         byteArray49);
         boolean boolean53 = byteList50.add((java.lang.Byte) (byte) 100);
         boolean boolean54 = uRIList43.containsAll((java.util.Collection<java.lang.Byte>) byteList50);
         boolean boolean55 = strList40.containsAll((java.util.Collection<java.lang.Byte>) byteList50);
@@ -9399,7 +9721,7 @@ public class RegressionTest1 {
         java.lang.Integer int59 = uRIList58.getTypeShortForm();
         java.lang.Integer int60 = uRIList58.getTypeShortForm();
         java.lang.Object obj61 = uRIList58.clone();
-        byte[] byteArray65 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray65 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder66 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray65);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder67 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray65);
         int int68 = uRIList58.lastIndexOf((java.lang.Object) binaryDecoder67);
@@ -9456,13 +9778,14 @@ public class RegressionTest1 {
         java.lang.Object[] objArray2 = shortList0.toArray();
         java.lang.Object obj3 = null;
         int int4 = shortList0.indexOf(obj3);
-        java.lang.Byte[] byteArray9 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray9 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList10 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList10, byteArray9);
         boolean boolean13 = byteList10.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray18 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray18 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList19 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean20 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList19, byteArray18);
+        boolean boolean20 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList19,
+                                                         byteArray18);
         boolean boolean22 = byteList19.add((java.lang.Byte) (byte) 100);
         boolean boolean23 = byteList10.addAll((java.util.Collection<java.lang.Byte>) byteList19);
         java.lang.Object obj24 = byteList10.clone();
@@ -9502,24 +9825,30 @@ public class RegressionTest1 {
     public void test0785() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0785");
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray0 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray0 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList1, uShortArray0);
+        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList1,
+                                                        uShortArray0);
         uShortList1.trimToSize();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet4 = org.ccsds.moims.mo.mal.structures.ShortList.AREA_VERSION;
         org.ccsds.moims.mo.mal.structures.Element element5 = uOctet4.createElement();
         int int6 = uShortList1.indexOf((java.lang.Object) element5);
         boolean boolean8 = uShortList1.contains((java.lang.Object) 100.0d);
         boolean boolean9 = uShortList1.isEmpty();
-        java.lang.Integer[] intArray18 = new java.lang.Integer[] { 2, 10, (-11), (-7), 100, 8, 6, (-7) };
+        java.lang.Integer[] intArray18 = new java.lang.Integer[]{2, 10, (-11), (-7), 100, 8, 6, (-7)};
         java.util.ArrayList<java.lang.Integer> intList19 = new java.util.ArrayList<java.lang.Integer>();
-        boolean boolean20 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList19, intArray18);
+        boolean boolean20 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList19,
+                                                         intArray18);
         int int22 = intList19.lastIndexOf((java.lang.Object) (short) 0);
         java.util.stream.Stream<java.lang.Integer> intStream23 = intList19.stream();
         java.util.Iterator<java.lang.Integer> intItor24 = intList19.iterator();
         int int25 = uShortList1.lastIndexOf((java.lang.Object) intList19);
-        org.ccsds.moims.mo.com.structures.ObjectType objectType31 = esa.mo.com.impl.util.HelperCOM.generateCOMObjectType(18, (int) 'a', (int) ' ', 8);
-        org.ccsds.moims.mo.mal.structures.Subscription subscription32 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("true", objectType31);
+        org.ccsds.moims.mo.com.structures.ObjectType objectType31 = esa.mo.com.impl.util.HelperCOM.generateCOMObjectType(18,
+                                                                                                                         (int) 'a',
+                                                                                                                         (int) ' ',
+                                                                                                                         8);
+        org.ccsds.moims.mo.mal.structures.Subscription subscription32 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("true",
+                                                                                                                                    objectType31);
         boolean boolean33 = uShortList1.contains((java.lang.Object) subscription32);
         boolean boolean35 = uShortList1.contains((java.lang.Object) 281474993487874L);
         java.util.ListIterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor36 = uShortList1.listIterator();
@@ -9551,7 +9880,7 @@ public class RegressionTest1 {
         java.lang.Integer int1 = uRIList0.getTypeShortForm();
         java.lang.Integer int2 = uRIList0.getTypeShortForm();
         java.lang.Object obj3 = uRIList0.clone();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         int int10 = uRIList0.lastIndexOf((java.lang.Object) binaryDecoder9);
@@ -9584,7 +9913,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.IntegerList integerList1 = new org.ccsds.moims.mo.mal.structures.IntegerList(2);
         org.ccsds.moims.mo.mal.structures.Blob blob2 = new org.ccsds.moims.mo.mal.structures.Blob();
         boolean boolean3 = blob2.isURLBased();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         org.ccsds.moims.mo.mal.structures.Element element9 = blob2.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder8);
         boolean boolean10 = integerList1.equals((java.lang.Object) binaryDecoder8);
@@ -9603,7 +9932,7 @@ public class RegressionTest1 {
         java.io.OutputStream outputStream0 = null;
         esa.mo.com.impl.archive.encoding.BinaryEncoder binaryEncoder1 = new esa.mo.com.impl.archive.encoding.BinaryEncoder(outputStream0);
         byte byte3 = binaryEncoder1.internalEncodeAttributeType((byte) 100);
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         java.math.BigInteger bigInteger10 = org.ccsds.moims.mo.mal.structures.ULong.MAX_VALUE;
@@ -9637,62 +9966,72 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.DoubleList doubleList1 = new org.ccsds.moims.mo.mal.structures.DoubleList((int) (short) 100);
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = doubleList1.getAreaNumber();
         java.lang.Object obj3 = doubleList1.clone();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet10 = binaryDecoder9.decodeNullableUOctet();
         int int11 = doubleList1.lastIndexOf((java.lang.Object) binaryDecoder9);
         java.util.stream.Stream<java.lang.Double> doubleStream12 = doubleList1.stream();
-        java.lang.Double[] doubleArray14 = new java.lang.Double[] { 0.0d };
+        java.lang.Double[] doubleArray14 = new java.lang.Double[]{0.0d};
         java.util.ArrayList<java.lang.Double> doubleList15 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList15, doubleArray14);
-        java.lang.Short[] shortArray19 = new java.lang.Short[] { (short) 0, (short) 10 };
+        boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList15,
+                                                         doubleArray14);
+        java.lang.Short[] shortArray19 = new java.lang.Short[]{(short) 0, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList20 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList20, shortArray19);
+        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList20,
+                                                         shortArray19);
         java.util.ListIterator<java.lang.Short> shortItor22 = shortList20.listIterator();
         int int23 = doubleList15.indexOf((java.lang.Object) shortList20);
         org.ccsds.moims.mo.mal.structures.Blob blob24 = new org.ccsds.moims.mo.mal.structures.Blob();
         boolean boolean25 = blob24.isURLBased();
-        byte[] byteArray29 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray29 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder30 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray29);
         org.ccsds.moims.mo.mal.structures.Element element31 = blob24.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder30);
         boolean boolean32 = doubleList15.contains((java.lang.Object) blob24);
-        java.lang.String[] strArray35 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray35 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList36 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean37 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList36, strArray35);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray38 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean37 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList36,
+                                                         strArray35);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray38 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList39 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean40 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList39, uRIArray38);
-        java.lang.Byte[] byteArray45 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean40 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList39,
+                                                         uRIArray38);
+        java.lang.Byte[] byteArray45 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList46 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean47 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList46, byteArray45);
+        boolean boolean47 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList46,
+                                                         byteArray45);
         boolean boolean49 = byteList46.add((java.lang.Byte) (byte) 100);
         boolean boolean50 = uRIList39.containsAll((java.util.Collection<java.lang.Byte>) byteList46);
         boolean boolean51 = strList36.containsAll((java.util.Collection<java.lang.Byte>) byteList46);
         boolean boolean52 = doubleList15.containsAll((java.util.Collection<java.lang.Byte>) byteList46);
-        java.lang.Double[] doubleArray54 = new java.lang.Double[] { 0.0d };
+        java.lang.Double[] doubleArray54 = new java.lang.Double[]{0.0d};
         java.util.ArrayList<java.lang.Double> doubleList55 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean56 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList55, doubleArray54);
-        java.lang.Short[] shortArray59 = new java.lang.Short[] { (short) 0, (short) 10 };
+        boolean boolean56 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList55,
+                                                         doubleArray54);
+        java.lang.Short[] shortArray59 = new java.lang.Short[]{(short) 0, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList60 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean61 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList60, shortArray59);
+        boolean boolean61 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList60,
+                                                         shortArray59);
         java.util.ListIterator<java.lang.Short> shortItor62 = shortList60.listIterator();
         int int63 = doubleList55.indexOf((java.lang.Object) shortList60);
         org.ccsds.moims.mo.mal.structures.Blob blob64 = new org.ccsds.moims.mo.mal.structures.Blob();
         boolean boolean65 = blob64.isURLBased();
-        byte[] byteArray69 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray69 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder70 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray69);
         org.ccsds.moims.mo.mal.structures.Element element71 = blob64.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder70);
         boolean boolean72 = doubleList55.contains((java.lang.Object) blob64);
-        java.lang.String[] strArray75 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray75 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList76 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean77 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList76, strArray75);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray78 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean77 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList76,
+                                                         strArray75);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray78 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList79 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean80 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList79, uRIArray78);
-        java.lang.Byte[] byteArray85 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean80 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList79,
+                                                         uRIArray78);
+        java.lang.Byte[] byteArray85 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList86 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean87 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList86, byteArray85);
+        boolean boolean87 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList86,
+                                                         byteArray85);
         boolean boolean89 = byteList86.add((java.lang.Byte) (byte) 100);
         boolean boolean90 = uRIList79.containsAll((java.util.Collection<java.lang.Byte>) byteList86);
         boolean boolean91 = strList76.containsAll((java.util.Collection<java.lang.Byte>) byteList86);
@@ -9761,7 +10100,7 @@ public class RegressionTest1 {
         java.lang.Integer int1 = uRIList0.getTypeShortForm();
         java.lang.Integer int2 = uRIList0.getTypeShortForm();
         java.lang.Object obj3 = uRIList0.clone();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         int int10 = uRIList0.lastIndexOf((java.lang.Object) binaryDecoder9);
@@ -9800,7 +10139,7 @@ public class RegressionTest1 {
     public void test0792() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0792");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         org.ccsds.moims.mo.mal.structures.UInteger uInteger6 = binaryDecoder5.decodeUInteger();
@@ -9846,7 +10185,7 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test0794");
         org.ccsds.moims.mo.mal.structures.URI uRI1 = new org.ccsds.moims.mo.mal.structures.URI("hi!");
         java.lang.String str2 = uRI1.toString();
-        byte[] byteArray6 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray6 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder7 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray6);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray6);
         java.lang.Integer int9 = binaryDecoder8.decodeInteger();
@@ -9871,7 +10210,8 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.DoubleList doubleList1 = new org.ccsds.moims.mo.mal.structures.DoubleList((int) (short) 100);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = doubleList1.getAreaVersion();
         try {
-            java.lang.Object obj4 = esa.mo.com.impl.util.HelperCOM.getNestedObject((java.lang.Object) doubleList1, "[true]");
+            java.lang.Object obj4 = esa.mo.com.impl.util.HelperCOM.getNestedObject((java.lang.Object) doubleList1,
+                                                                                   "[true]");
             org.junit.Assert.fail("Expected exception of type java.lang.NoSuchFieldException; message: [true]");
         } catch (java.lang.NoSuchFieldException e) {
         }
@@ -9902,7 +10242,7 @@ public class RegressionTest1 {
     public void test0797() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0797");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         org.ccsds.moims.mo.mal.structures.UInteger uInteger6 = binaryDecoder5.decodeUInteger();
@@ -9915,13 +10255,13 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort14 = floatList8.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort15 = floatList8.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort16 = floatList8.getServiceNumber();
-        byte[] byteArray20 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray20 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder21 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray20);
         org.ccsds.moims.mo.mal.structures.Element element22 = uShort16.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder21);
         org.ccsds.moims.mo.mal.structures.Element element23 = uInteger6.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder21);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet24 = uInteger6.getAreaVersion();
         java.lang.String str25 = uInteger6.toString();
-        byte[] byteArray29 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray29 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder30 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray29);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder31 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray29);
         org.ccsds.moims.mo.mal.structures.Blob blob32 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray29);
@@ -9954,10 +10294,11 @@ public class RegressionTest1 {
     public void test0798() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0798");
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1, uRIArray0);
-        java.lang.Byte[] byteArray7 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1,
+                                                        uRIArray0);
+        java.lang.Byte[] byteArray7 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList8 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList8, byteArray7);
         boolean boolean11 = byteList8.add((java.lang.Byte) (byte) 100);
@@ -10017,21 +10358,24 @@ public class RegressionTest1 {
     public void test0800() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0800");
-        java.lang.String[] strArray2 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray2 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList3 = new java.util.ArrayList<java.lang.String>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList3, strArray2);
-        java.lang.Long[] longArray12 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        java.lang.Long[] longArray12 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList13 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList13, longArray12);
+        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList13,
+                                                         longArray12);
         java.lang.Object obj15 = longList13.clone();
         int int16 = strList3.indexOf((java.lang.Object) longList13);
-        java.lang.Byte[] byteArray21 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray21 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList22 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList22, byteArray21);
+        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList22,
+                                                         byteArray21);
         boolean boolean25 = byteList22.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray30 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray30 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList31 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean32 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList31, byteArray30);
+        boolean boolean32 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList31,
+                                                         byteArray30);
         boolean boolean34 = byteList31.add((java.lang.Byte) (byte) 100);
         boolean boolean35 = byteList22.addAll((java.util.Collection<java.lang.Byte>) byteList31);
         java.lang.Object obj36 = byteList22.clone();
@@ -10077,7 +10421,7 @@ public class RegressionTest1 {
     public void test0801() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0801");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         java.lang.Integer int6 = binaryDecoder5.decodeInteger();
@@ -10139,7 +10483,7 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test0804");
         org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 10);
         java.lang.Long long2 = uRIList1.getShortForm();
-        byte[] byteArray6 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray6 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder7 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray6);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray6);
         org.ccsds.moims.mo.mal.structures.Blob blob9 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray6);
@@ -10185,7 +10529,7 @@ public class RegressionTest1 {
         java.lang.Integer int3 = uRIList2.getTypeShortForm();
         java.lang.Integer int4 = uRIList2.getTypeShortForm();
         java.lang.Object obj5 = uRIList2.clone();
-        byte[] byteArray9 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray9 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder10 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray9);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder11 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray9);
         int int12 = uRIList2.lastIndexOf((java.lang.Object) binaryDecoder11);
@@ -10212,7 +10556,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.URIList uRIList3 = new org.ccsds.moims.mo.mal.structures.URIList();
         java.lang.Integer int4 = uRIList3.getTypeShortForm();
         java.lang.Integer int5 = uRIList3.getTypeShortForm();
-        byte[] byteArray9 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray9 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder10 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray9);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder11 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray9);
         org.ccsds.moims.mo.mal.structures.UInteger uInteger12 = binaryDecoder11.decodeUInteger();
@@ -10241,43 +10585,52 @@ public class RegressionTest1 {
         eventCOMObject0.setSourceURI(uRI2);
         org.ccsds.moims.mo.mal.structures.URI uRI5 = new org.ccsds.moims.mo.mal.structures.URI("hi!");
         org.ccsds.moims.mo.mal.structures.Element element6 = uRI5.createElement();
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray7 = new org.ccsds.moims.mo.mal.structures.URI[] { uRI2, uRI5 };
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray7 = new org.ccsds.moims.mo.mal.structures.URI[]{uRI2, uRI5};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList8 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList8, uRIArray7);
-        java.lang.Double[] doubleArray15 = new java.lang.Double[] { 100.0d, (-1.0d), Double.NaN, 0.0d, 100.0d };
+        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList8,
+                                                        uRIArray7);
+        java.lang.Double[] doubleArray15 = new java.lang.Double[]{100.0d, (-1.0d), Double.NaN, 0.0d, 100.0d};
         java.util.ArrayList<java.lang.Double> doubleList16 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList16, doubleArray15);
+        boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList16,
+                                                         doubleArray15);
         org.ccsds.moims.mo.mal.structures.OctetList octetList18 = new org.ccsds.moims.mo.mal.structures.OctetList();
         org.ccsds.moims.mo.mal.structures.UShort uShort19 = octetList18.getServiceNumber();
         boolean boolean20 = doubleList16.containsAll((java.util.Collection<java.lang.Byte>) octetList18);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray21 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray21 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList22 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList22, uShortArray21);
+        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList22,
+                                                         uShortArray21);
         uShortList22.trimToSize();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet25 = org.ccsds.moims.mo.mal.structures.ShortList.AREA_VERSION;
         org.ccsds.moims.mo.mal.structures.Element element26 = uOctet25.createElement();
         int int27 = uShortList22.indexOf((java.lang.Object) element26);
-        java.lang.String[] strArray30 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray30 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList31 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean32 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList31, strArray30);
-        java.lang.Long[] longArray40 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        boolean boolean32 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList31,
+                                                         strArray30);
+        java.lang.Long[] longArray40 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList41 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList41, longArray40);
+        boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList41,
+                                                         longArray40);
         java.lang.Object obj43 = longList41.clone();
         int int44 = strList31.indexOf((java.lang.Object) longList41);
         java.util.ListIterator<java.lang.String> strItor45 = strList31.listIterator();
-        java.lang.Short[] shortArray49 = new java.lang.Short[] { (short) -1, (short) 0, (short) 100 };
+        java.lang.Short[] shortArray49 = new java.lang.Short[]{(short) -1, (short) 0, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList50 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean51 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList50, shortArray49);
-        java.lang.String[] strArray54 = new java.lang.String[] { "hi!", "" };
+        boolean boolean51 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList50,
+                                                         shortArray49);
+        java.lang.String[] strArray54 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList55 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean56 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList55, strArray54);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray57 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean56 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList55,
+                                                         strArray54);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray57 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList58 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean59 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList58, uRIArray57);
-        java.lang.Byte[] byteArray64 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean59 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList58,
+                                                         uRIArray57);
+        java.lang.Byte[] byteArray64 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList65 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean66 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList65, byteArray64);
+        boolean boolean66 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList65,
+                                                         byteArray64);
         boolean boolean68 = byteList65.add((java.lang.Byte) (byte) 100);
         boolean boolean69 = uRIList58.containsAll((java.util.Collection<java.lang.Byte>) byteList65);
         boolean boolean70 = strList55.containsAll((java.util.Collection<java.lang.Byte>) byteList65);
@@ -10335,12 +10688,13 @@ public class RegressionTest1 {
     public void test0809() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0809");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         java.lang.Double double5 = binaryDecoder4.decodeNullableDouble();
         byte[] byteArray6 = binaryDecoder4.getRemainingEncodedData();
         org.ccsds.moims.mo.mal.structures.Blob blob7 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray6);
-        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray6, (int) (short) 1);
+        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray6,
+                                                                                                                           (int) (short) 1);
         try {
             org.ccsds.moims.mo.mal.structures.FineTime fineTime10 = binaryDecoder9.decodeNullableFineTime();
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 1");
@@ -10358,14 +10712,15 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.DoubleList doubleList1 = new org.ccsds.moims.mo.mal.structures.DoubleList((int) (short) 100);
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = doubleList1.getAreaNumber();
         java.lang.Object obj3 = doubleList1.clone();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet10 = binaryDecoder9.decodeNullableUOctet();
         int int11 = doubleList1.lastIndexOf((java.lang.Object) binaryDecoder9);
         byte[] byteArray12 = binaryDecoder9.getRemainingEncodedData();
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder13 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray12);
-        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder15 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray12, (int) (short) 100);
+        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder15 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray12,
+                                                                                                                            (int) (short) 100);
         try {
             org.ccsds.moims.mo.mal.structures.ULong uLong16 = binaryDecoder15.decodeNullableULong();
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 100");
@@ -10405,35 +10760,41 @@ public class RegressionTest1 {
         java.lang.Integer int1 = uRIList0.getTypeShortForm();
         java.lang.Integer int2 = uRIList0.getTypeShortForm();
         java.lang.Object obj3 = uRIList0.clone();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         int int10 = uRIList0.lastIndexOf((java.lang.Object) binaryDecoder9);
         org.ccsds.moims.mo.mal.structures.UInteger uInteger11 = binaryDecoder9.decodeNullableUInteger();
         org.ccsds.moims.mo.mal.structures.UShort uShort12 = uInteger11.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.Element element13 = uInteger11.createElement();
-        java.lang.Short[] shortArray17 = new java.lang.Short[] { (short) -1, (short) 0, (short) 100 };
+        java.lang.Short[] shortArray17 = new java.lang.Short[]{(short) -1, (short) 0, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList18 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList18, shortArray17);
-        java.lang.String[] strArray22 = new java.lang.String[] { "hi!", "" };
+        boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList18,
+                                                         shortArray17);
+        java.lang.String[] strArray22 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList23 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean24 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList23, strArray22);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray25 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean24 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList23,
+                                                         strArray22);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray25 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList26 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean27 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList26, uRIArray25);
-        java.lang.Byte[] byteArray32 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean27 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList26,
+                                                         uRIArray25);
+        java.lang.Byte[] byteArray32 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList33 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean34 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList33, byteArray32);
+        boolean boolean34 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList33,
+                                                         byteArray32);
         boolean boolean36 = byteList33.add((java.lang.Byte) (byte) 100);
         boolean boolean37 = uRIList26.containsAll((java.util.Collection<java.lang.Byte>) byteList33);
         boolean boolean38 = strList23.containsAll((java.util.Collection<java.lang.Byte>) byteList33);
         boolean boolean39 = shortList18.contains((java.lang.Object) byteList33);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray40 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray40 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList41 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean42 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList41, uRIArray40);
-        java.lang.Byte[] byteArray47 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean42 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList41,
+                                                         uRIArray40);
+        java.lang.Byte[] byteArray47 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList48 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean49 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList48, byteArray47);
+        boolean boolean49 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList48,
+                                                         byteArray47);
         boolean boolean51 = byteList48.add((java.lang.Byte) (byte) 100);
         boolean boolean52 = uRIList41.containsAll((java.util.Collection<java.lang.Byte>) byteList48);
         boolean boolean53 = byteList48.isEmpty();
@@ -10481,38 +10842,45 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test0813");
         org.ccsds.moims.mo.mal.structures.URIList uRIList0 = new org.ccsds.moims.mo.mal.structures.URIList();
         int int1 = uRIList0.size();
-        java.lang.Integer[] intArray9 = new java.lang.Integer[] { 1, 100, 100, 1, 8, 8, 8 };
+        java.lang.Integer[] intArray9 = new java.lang.Integer[]{1, 100, 100, 1, 8, 8, 8};
         java.util.ArrayList<java.lang.Integer> intList10 = new java.util.ArrayList<java.lang.Integer>();
-        boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList10, intArray9);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray12 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList10,
+                                                         intArray9);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray12 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList13 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList13, uRIArray12);
-        java.lang.Byte[] byteArray19 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList13,
+                                                         uRIArray12);
+        java.lang.Byte[] byteArray19 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList20 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20, byteArray19);
+        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20,
+                                                         byteArray19);
         boolean boolean23 = byteList20.add((java.lang.Byte) (byte) 100);
         boolean boolean24 = uRIList13.containsAll((java.util.Collection<java.lang.Byte>) byteList20);
         boolean boolean25 = intList10.removeAll((java.util.Collection<java.lang.Byte>) byteList20);
         boolean boolean26 = uRIList0.removeAll((java.util.Collection<java.lang.Byte>) byteList20);
-        java.lang.Byte[] byteArray31 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray31 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList32 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList32, byteArray31);
+        boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList32,
+                                                         byteArray31);
         boolean boolean35 = byteList32.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray40 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray40 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList41 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList41, byteArray40);
+        boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList41,
+                                                         byteArray40);
         boolean boolean44 = byteList41.add((java.lang.Byte) (byte) 100);
         boolean boolean45 = byteList32.addAll((java.util.Collection<java.lang.Byte>) byteList41);
         java.lang.Object obj46 = byteList32.clone();
         java.util.stream.Stream<java.lang.Byte> byteStream47 = byteList32.stream();
         java.lang.Object[] objArray48 = byteList32.toArray();
         boolean boolean49 = byteList20.addAll((java.util.Collection<java.lang.Byte>) byteList32);
-        java.lang.Double[] doubleArray51 = new java.lang.Double[] { 0.0d };
+        java.lang.Double[] doubleArray51 = new java.lang.Double[]{0.0d};
         java.util.ArrayList<java.lang.Double> doubleList52 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean53 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList52, doubleArray51);
-        java.lang.Short[] shortArray56 = new java.lang.Short[] { (short) 0, (short) 10 };
+        boolean boolean53 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList52,
+                                                         doubleArray51);
+        java.lang.Short[] shortArray56 = new java.lang.Short[]{(short) 0, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList57 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean58 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList57, shortArray56);
+        boolean boolean58 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList57,
+                                                         shortArray56);
         java.util.ListIterator<java.lang.Short> shortItor59 = shortList57.listIterator();
         int int60 = doubleList52.indexOf((java.lang.Object) shortList57);
         doubleList52.trimToSize();
@@ -10587,7 +10955,8 @@ public class RegressionTest1 {
         esa.mo.com.impl.util.EventCOMObject eventCOMObject6 = new esa.mo.com.impl.util.EventCOMObject();
         eventCOMObject6.setObjId((java.lang.Long) 4294967295L);
         org.ccsds.moims.mo.com.structures.ObjectType objectType11 = esa.mo.com.impl.util.HelperCOM.objectTypeId2objectType((java.lang.Long) 281474993487885L);
-        org.ccsds.moims.mo.mal.structures.Subscription subscription12 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("", objectType11);
+        org.ccsds.moims.mo.mal.structures.Subscription subscription12 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("",
+                                                                                                                                    objectType11);
         eventCOMObject6.setObjType(objectType11);
         java.lang.Long long14 = eventCOMObject6.getObjId();
         org.ccsds.moims.mo.com.structures.ObjectId objectId15 = eventCOMObject6.getObjectId();
@@ -10612,9 +10981,10 @@ public class RegressionTest1 {
     public void test0817() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0817");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
-        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder6 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3, 6);
+        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder6 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3,
+                                                                                                                           6);
         try {
             java.lang.Float float7 = binaryDecoder6.decodeFloat();
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 6");
@@ -10627,25 +10997,28 @@ public class RegressionTest1 {
     public void test0818() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0818");
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray0 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray0 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList1, uShortArray0);
+        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList1,
+                                                        uShortArray0);
         uShortList1.trimToSize();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet4 = org.ccsds.moims.mo.mal.structures.ShortList.AREA_VERSION;
         org.ccsds.moims.mo.mal.structures.Element element5 = uOctet4.createElement();
         int int6 = uShortList1.indexOf((java.lang.Object) element5);
         boolean boolean8 = uShortList1.contains((java.lang.Object) 100.0d);
         boolean boolean9 = uShortList1.isEmpty();
-        java.lang.Integer[] intArray18 = new java.lang.Integer[] { 2, 10, (-11), (-7), 100, 8, 6, (-7) };
+        java.lang.Integer[] intArray18 = new java.lang.Integer[]{2, 10, (-11), (-7), 100, 8, 6, (-7)};
         java.util.ArrayList<java.lang.Integer> intList19 = new java.util.ArrayList<java.lang.Integer>();
-        boolean boolean20 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList19, intArray18);
+        boolean boolean20 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList19,
+                                                         intArray18);
         int int22 = intList19.lastIndexOf((java.lang.Object) (short) 0);
         java.util.stream.Stream<java.lang.Integer> intStream23 = intList19.stream();
         java.util.Iterator<java.lang.Integer> intItor24 = intList19.iterator();
         int int25 = uShortList1.lastIndexOf((java.lang.Object) intList19);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray26 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray26 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList27 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean28 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList27, uShortArray26);
+        boolean boolean28 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList27,
+                                                         uShortArray26);
         uShortList27.trimToSize();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet30 = org.ccsds.moims.mo.mal.structures.ShortList.AREA_VERSION;
         org.ccsds.moims.mo.mal.structures.Element element31 = uOctet30.createElement();
@@ -10654,7 +11027,8 @@ public class RegressionTest1 {
         int int34 = intList19.indexOf((java.lang.Object) uShortList27);
         int int35 = uShortList27.size();
         org.ccsds.moims.mo.com.structures.ObjectType objectType38 = esa.mo.com.impl.util.HelperCOM.objectTypeId2objectType((java.lang.Long) 281474993487885L);
-        org.ccsds.moims.mo.mal.structures.Subscription subscription39 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("", objectType38);
+        org.ccsds.moims.mo.mal.structures.Subscription subscription39 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("",
+                                                                                                                                    objectType38);
         boolean boolean40 = uShortList27.contains((java.lang.Object) objectType38);
         uShortList27.clear();
         org.junit.Assert.assertNotNull(uShortArray0);
@@ -10687,7 +11061,7 @@ public class RegressionTest1 {
     public void test0819() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0819");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         org.ccsds.moims.mo.mal.structures.Blob blob6 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray3);
@@ -10708,39 +11082,46 @@ public class RegressionTest1 {
     public void test0820() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0820");
-        java.lang.String[] strArray2 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray2 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList3 = new java.util.ArrayList<java.lang.String>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList3, strArray2);
-        java.lang.Long[] longArray12 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        java.lang.Long[] longArray12 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList13 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList13, longArray12);
+        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList13,
+                                                         longArray12);
         java.lang.Object obj15 = longList13.clone();
         int int16 = strList3.indexOf((java.lang.Object) longList13);
         java.util.ListIterator<java.lang.String> strItor17 = strList3.listIterator();
-        java.lang.Short[] shortArray21 = new java.lang.Short[] { (short) -1, (short) 0, (short) 100 };
+        java.lang.Short[] shortArray21 = new java.lang.Short[]{(short) -1, (short) 0, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList22 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList22, shortArray21);
-        java.lang.String[] strArray26 = new java.lang.String[] { "hi!", "" };
+        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList22,
+                                                         shortArray21);
+        java.lang.String[] strArray26 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList27 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean28 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList27, strArray26);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray29 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean28 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList27,
+                                                         strArray26);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray29 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList30 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean31 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList30, uRIArray29);
-        java.lang.Byte[] byteArray36 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean31 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList30,
+                                                         uRIArray29);
+        java.lang.Byte[] byteArray36 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList37 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean38 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList37, byteArray36);
+        boolean boolean38 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList37,
+                                                         byteArray36);
         boolean boolean40 = byteList37.add((java.lang.Byte) (byte) 100);
         boolean boolean41 = uRIList30.containsAll((java.util.Collection<java.lang.Byte>) byteList37);
         boolean boolean42 = strList27.containsAll((java.util.Collection<java.lang.Byte>) byteList37);
         boolean boolean43 = shortList22.contains((java.lang.Object) byteList37);
         boolean boolean44 = strList3.removeAll((java.util.Collection<java.lang.Byte>) byteList37);
-        java.lang.Byte[] byteArray49 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray49 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList50 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean51 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList50, byteArray49);
+        boolean boolean51 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList50,
+                                                         byteArray49);
         boolean boolean53 = byteList50.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray58 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray58 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList59 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean60 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList59, byteArray58);
+        boolean boolean60 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList59,
+                                                         byteArray58);
         boolean boolean62 = byteList59.add((java.lang.Byte) (byte) 100);
         boolean boolean63 = byteList50.addAll((java.util.Collection<java.lang.Byte>) byteList59);
         boolean boolean64 = byteList37.containsAll((java.util.Collection<java.lang.Byte>) byteList59);
@@ -10806,7 +11187,7 @@ public class RegressionTest1 {
         java.lang.Integer int7 = uRIList6.getTypeShortForm();
         java.lang.Integer int8 = uRIList6.getTypeShortForm();
         java.lang.Object obj9 = uRIList6.clone();
-        byte[] byteArray13 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray13 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder14 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray13);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder15 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray13);
         int int16 = uRIList6.lastIndexOf((java.lang.Object) binaryDecoder15);
@@ -10835,7 +11216,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.IntegerList integerList0 = new org.ccsds.moims.mo.mal.structures.IntegerList();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet1 = integerList0.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = integerList0.getAreaNumber();
-        byte[] byteArray6 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray6 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder7 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray6);
         org.ccsds.moims.mo.mal.structures.Element element8 = uShort2.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder7);
         java.lang.Float float9 = binaryDecoder7.decodeFloat();
@@ -10876,7 +11257,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.IntegerList integerList2 = new org.ccsds.moims.mo.mal.structures.IntegerList(2);
         org.ccsds.moims.mo.mal.structures.Blob blob3 = new org.ccsds.moims.mo.mal.structures.Blob();
         boolean boolean4 = blob3.isURLBased();
-        byte[] byteArray8 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray8 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray8);
         org.ccsds.moims.mo.mal.structures.Element element10 = blob3.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder9);
         boolean boolean11 = integerList2.equals((java.lang.Object) binaryDecoder9);
@@ -10897,7 +11278,7 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test0825");
         org.ccsds.moims.mo.mal.structures.OctetList octetList1 = new org.ccsds.moims.mo.mal.structures.OctetList(12);
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = octetList1.getAreaNumber();
-        byte[] byteArray6 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray6 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder7 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray6);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray6);
         java.lang.Integer int9 = binaryDecoder8.decodeInteger();
@@ -10960,7 +11341,7 @@ public class RegressionTest1 {
     public void test0828() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0828");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         org.ccsds.moims.mo.mal.structures.Duration duration7 = new org.ccsds.moims.mo.mal.structures.Duration((double) 0.0f);
@@ -10990,19 +11371,20 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0829");
         org.ccsds.moims.mo.mal.structures.FineTime fineTime0 = new org.ccsds.moims.mo.mal.structures.FineTime();
-        byte[] byteArray4 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray4 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray4);
         java.lang.Double double6 = binaryDecoder5.decodeNullableDouble();
         byte[] byteArray7 = binaryDecoder5.getRemainingEncodedData();
         org.ccsds.moims.mo.mal.structures.Blob blob8 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray7);
         boolean boolean9 = fineTime0.equals((java.lang.Object) blob8);
         int int10 = blob8.getOffset();
-        byte[] byteArray14 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray14 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder15 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray14);
         java.lang.Double double16 = binaryDecoder15.decodeNullableDouble();
         byte[] byteArray17 = binaryDecoder15.getRemainingEncodedData();
         org.ccsds.moims.mo.mal.structures.Blob blob18 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray17);
-        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder20 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray17, (int) (short) 1);
+        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder20 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray17,
+                                                                                                                            (int) (short) 1);
         try {
             org.ccsds.moims.mo.mal.structures.Element element21 = blob8.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder20);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 1");
@@ -11039,7 +11421,7 @@ public class RegressionTest1 {
     public void test0831() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0831");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         org.ccsds.moims.mo.mal.structures.UInteger uInteger6 = binaryDecoder5.decodeUInteger();
@@ -11057,7 +11439,7 @@ public class RegressionTest1 {
     public void test0832() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0832");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         org.ccsds.moims.mo.mal.structures.FineTime fineTime5 = binaryDecoder4.decodeFineTime();
         java.lang.Long long6 = binaryDecoder4.decodeLong();
@@ -11075,7 +11457,7 @@ public class RegressionTest1 {
     public void test0833() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0833");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         java.lang.Double double5 = binaryDecoder4.decodeNullableDouble();
         byte[] byteArray6 = binaryDecoder4.getRemainingEncodedData();
@@ -11098,9 +11480,10 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.URI uRI1 = new org.ccsds.moims.mo.mal.structures.URI("hi!");
         org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = uRI1.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UShort uShort3 = uRI1.getServiceNumber();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
-        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder10 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7, 6);
+        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder10 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7,
+                                                                                                                            6);
         boolean boolean11 = uShort3.equals((java.lang.Object) binaryDecoder10);
         try {
             org.ccsds.moims.mo.mal.structures.Identifier identifier12 = binaryDecoder10.decodeIdentifier();
@@ -11135,7 +11518,8 @@ public class RegressionTest1 {
         esa.mo.com.impl.util.EventCOMObject eventCOMObject3 = new esa.mo.com.impl.util.EventCOMObject();
         eventCOMObject3.setObjId((java.lang.Long) 4294967295L);
         org.ccsds.moims.mo.com.structures.ObjectType objectType8 = esa.mo.com.impl.util.HelperCOM.objectTypeId2objectType((java.lang.Long) 281474993487885L);
-        org.ccsds.moims.mo.mal.structures.Subscription subscription9 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("", objectType8);
+        org.ccsds.moims.mo.mal.structures.Subscription subscription9 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("",
+                                                                                                                                   objectType8);
         eventCOMObject3.setObjType(objectType8);
         java.lang.Long long11 = eventCOMObject3.getObjId();
         org.ccsds.moims.mo.com.structures.ObjectId objectId12 = eventCOMObject3.getObjectId();
@@ -11205,7 +11589,7 @@ public class RegressionTest1 {
     public void test0840() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0840");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         org.ccsds.moims.mo.mal.structures.Blob blob5 = binaryDecoder4.decodeBlob();
         try {
@@ -11237,62 +11621,72 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.DoubleList doubleList1 = new org.ccsds.moims.mo.mal.structures.DoubleList((int) (short) 100);
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = doubleList1.getAreaNumber();
         java.lang.Object obj3 = doubleList1.clone();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet10 = binaryDecoder9.decodeNullableUOctet();
         int int11 = doubleList1.lastIndexOf((java.lang.Object) binaryDecoder9);
         java.util.stream.Stream<java.lang.Double> doubleStream12 = doubleList1.stream();
-        java.lang.Double[] doubleArray14 = new java.lang.Double[] { 0.0d };
+        java.lang.Double[] doubleArray14 = new java.lang.Double[]{0.0d};
         java.util.ArrayList<java.lang.Double> doubleList15 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList15, doubleArray14);
-        java.lang.Short[] shortArray19 = new java.lang.Short[] { (short) 0, (short) 10 };
+        boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList15,
+                                                         doubleArray14);
+        java.lang.Short[] shortArray19 = new java.lang.Short[]{(short) 0, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList20 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList20, shortArray19);
+        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList20,
+                                                         shortArray19);
         java.util.ListIterator<java.lang.Short> shortItor22 = shortList20.listIterator();
         int int23 = doubleList15.indexOf((java.lang.Object) shortList20);
         org.ccsds.moims.mo.mal.structures.Blob blob24 = new org.ccsds.moims.mo.mal.structures.Blob();
         boolean boolean25 = blob24.isURLBased();
-        byte[] byteArray29 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray29 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder30 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray29);
         org.ccsds.moims.mo.mal.structures.Element element31 = blob24.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder30);
         boolean boolean32 = doubleList15.contains((java.lang.Object) blob24);
-        java.lang.String[] strArray35 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray35 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList36 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean37 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList36, strArray35);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray38 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean37 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList36,
+                                                         strArray35);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray38 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList39 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean40 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList39, uRIArray38);
-        java.lang.Byte[] byteArray45 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean40 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList39,
+                                                         uRIArray38);
+        java.lang.Byte[] byteArray45 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList46 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean47 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList46, byteArray45);
+        boolean boolean47 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList46,
+                                                         byteArray45);
         boolean boolean49 = byteList46.add((java.lang.Byte) (byte) 100);
         boolean boolean50 = uRIList39.containsAll((java.util.Collection<java.lang.Byte>) byteList46);
         boolean boolean51 = strList36.containsAll((java.util.Collection<java.lang.Byte>) byteList46);
         boolean boolean52 = doubleList15.containsAll((java.util.Collection<java.lang.Byte>) byteList46);
-        java.lang.Double[] doubleArray54 = new java.lang.Double[] { 0.0d };
+        java.lang.Double[] doubleArray54 = new java.lang.Double[]{0.0d};
         java.util.ArrayList<java.lang.Double> doubleList55 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean56 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList55, doubleArray54);
-        java.lang.Short[] shortArray59 = new java.lang.Short[] { (short) 0, (short) 10 };
+        boolean boolean56 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList55,
+                                                         doubleArray54);
+        java.lang.Short[] shortArray59 = new java.lang.Short[]{(short) 0, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList60 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean61 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList60, shortArray59);
+        boolean boolean61 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList60,
+                                                         shortArray59);
         java.util.ListIterator<java.lang.Short> shortItor62 = shortList60.listIterator();
         int int63 = doubleList55.indexOf((java.lang.Object) shortList60);
         org.ccsds.moims.mo.mal.structures.Blob blob64 = new org.ccsds.moims.mo.mal.structures.Blob();
         boolean boolean65 = blob64.isURLBased();
-        byte[] byteArray69 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray69 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder70 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray69);
         org.ccsds.moims.mo.mal.structures.Element element71 = blob64.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder70);
         boolean boolean72 = doubleList55.contains((java.lang.Object) blob64);
-        java.lang.String[] strArray75 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray75 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList76 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean77 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList76, strArray75);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray78 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean77 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList76,
+                                                         strArray75);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray78 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList79 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean80 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList79, uRIArray78);
-        java.lang.Byte[] byteArray85 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean80 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList79,
+                                                         uRIArray78);
+        java.lang.Byte[] byteArray85 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList86 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean87 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList86, byteArray85);
+        boolean boolean87 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList86,
+                                                         byteArray85);
         boolean boolean89 = byteList86.add((java.lang.Byte) (byte) 100);
         boolean boolean90 = uRIList79.containsAll((java.util.Collection<java.lang.Byte>) byteList86);
         boolean boolean91 = strList76.containsAll((java.util.Collection<java.lang.Byte>) byteList86);
@@ -11376,7 +11770,7 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test0844");
         org.ccsds.moims.mo.mal.structures.Blob blob0 = new org.ccsds.moims.mo.mal.structures.Blob();
         boolean boolean1 = blob0.isURLBased();
-        byte[] byteArray5 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray5 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder6 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray5);
         org.ccsds.moims.mo.mal.structures.Element element7 = blob0.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder6);
         int int9 = binaryDecoder6.internalDecodeAttributeType((byte) 0);
@@ -11399,7 +11793,7 @@ public class RegressionTest1 {
         esa.mo.com.impl.archive.encoding.BinaryEncoder binaryEncoder1 = new esa.mo.com.impl.archive.encoding.BinaryEncoder(outputStream0);
         byte byte3 = binaryEncoder1.internalEncodeAttributeType((byte) 100);
         byte byte5 = binaryEncoder1.internalEncodeAttributeType((byte) -1);
-        byte[] byteArray9 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray9 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder10 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray9);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder11 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray9);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet12 = binaryDecoder11.decodeNullableUOctet();
@@ -11426,7 +11820,7 @@ public class RegressionTest1 {
         java.lang.Integer int1 = uRIList0.getTypeShortForm();
         java.lang.Integer int2 = uRIList0.getTypeShortForm();
         java.lang.Object obj3 = uRIList0.clone();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         int int10 = uRIList0.lastIndexOf((java.lang.Object) binaryDecoder9);
@@ -11457,14 +11851,15 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.DoubleList doubleList1 = new org.ccsds.moims.mo.mal.structures.DoubleList((int) (short) 100);
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = doubleList1.getAreaNumber();
         java.lang.Object obj3 = doubleList1.clone();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet10 = binaryDecoder9.decodeNullableUOctet();
         int int11 = doubleList1.lastIndexOf((java.lang.Object) binaryDecoder9);
         byte[] byteArray12 = binaryDecoder9.getRemainingEncodedData();
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder13 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray12);
-        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder15 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray12, (int) (short) 100);
+        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder15 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray12,
+                                                                                                                            (int) (short) 100);
         try {
             java.lang.Float float16 = binaryDecoder15.decodeNullableFloat();
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 100");
@@ -11482,7 +11877,7 @@ public class RegressionTest1 {
     public void test0849() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0849");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         org.ccsds.moims.mo.mal.structures.UInteger uInteger5 = binaryDecoder4.decodeNullableUInteger();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet6 = uInteger5.getAreaVersion();
@@ -11491,34 +11886,41 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort9 = shortList8.getAreaNumber();
         java.lang.Object[] objArray10 = shortList8.toArray();
         boolean boolean11 = floatList7.remove((java.lang.Object) shortList8);
-        java.lang.Long[] longArray19 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        java.lang.Long[] longArray19 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList20 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList20, longArray19);
+        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList20,
+                                                         longArray19);
         java.lang.Object obj22 = longList20.clone();
-        java.lang.Boolean[] booleanArray24 = new java.lang.Boolean[] { false };
+        java.lang.Boolean[] booleanArray24 = new java.lang.Boolean[]{false};
         java.util.ArrayList<java.lang.Boolean> booleanList25 = new java.util.ArrayList<java.lang.Boolean>();
-        boolean boolean26 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList25, booleanArray24);
-        java.lang.Byte[] byteArray31 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean26 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList25,
+                                                         booleanArray24);
+        java.lang.Byte[] byteArray31 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList32 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList32, byteArray31);
+        boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList32,
+                                                         byteArray31);
         boolean boolean35 = byteList32.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray40 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray40 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList41 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList41, byteArray40);
+        boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList41,
+                                                         byteArray40);
         boolean boolean44 = byteList41.add((java.lang.Byte) (byte) 100);
         boolean boolean45 = byteList32.addAll((java.util.Collection<java.lang.Byte>) byteList41);
         java.lang.Object obj46 = byteList32.clone();
         boolean boolean47 = booleanList25.contains((java.lang.Object) byteList32);
         boolean boolean48 = longList20.remove((java.lang.Object) boolean47);
-        java.lang.String[] strArray51 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray51 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList52 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean53 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList52, strArray51);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray54 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean53 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList52,
+                                                         strArray51);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray54 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList55 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean56 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList55, uRIArray54);
-        java.lang.Byte[] byteArray61 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean56 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList55,
+                                                         uRIArray54);
+        java.lang.Byte[] byteArray61 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList62 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean63 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList62, byteArray61);
+        boolean boolean63 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList62,
+                                                         byteArray61);
         boolean boolean65 = byteList62.add((java.lang.Byte) (byte) 100);
         boolean boolean66 = uRIList55.containsAll((java.util.Collection<java.lang.Byte>) byteList62);
         boolean boolean67 = strList52.containsAll((java.util.Collection<java.lang.Byte>) byteList62);
@@ -11528,7 +11930,7 @@ public class RegressionTest1 {
         java.lang.Integer int71 = uRIList70.getTypeShortForm();
         java.lang.Integer int72 = uRIList70.getTypeShortForm();
         java.lang.Object obj73 = uRIList70.clone();
-        byte[] byteArray77 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray77 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder78 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray77);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder79 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray77);
         int int80 = uRIList70.lastIndexOf((java.lang.Object) binaryDecoder79);
@@ -11609,30 +12011,35 @@ public class RegressionTest1 {
     public void test0851() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0851");
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray0 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray0 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList1, uShortArray0);
+        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList1,
+                                                        uShortArray0);
         uShortList1.trimToSize();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet4 = org.ccsds.moims.mo.mal.structures.ShortList.AREA_VERSION;
         org.ccsds.moims.mo.mal.structures.Element element5 = uOctet4.createElement();
         int int6 = uShortList1.indexOf((java.lang.Object) element5);
         boolean boolean8 = uShortList1.contains((java.lang.Object) 100.0d);
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream9 = uShortList1.stream();
-        java.lang.Double[] doubleArray11 = new java.lang.Double[] { 0.0d };
+        java.lang.Double[] doubleArray11 = new java.lang.Double[]{0.0d};
         java.util.ArrayList<java.lang.Double> doubleList12 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList12, doubleArray11);
-        java.lang.Short[] shortArray16 = new java.lang.Short[] { (short) 0, (short) 10 };
+        boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList12,
+                                                         doubleArray11);
+        java.lang.Short[] shortArray16 = new java.lang.Short[]{(short) 0, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList17 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList17, shortArray16);
+        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList17,
+                                                         shortArray16);
         java.util.ListIterator<java.lang.Short> shortItor19 = shortList17.listIterator();
         int int20 = doubleList12.indexOf((java.lang.Object) shortList17);
         doubleList12.ensureCapacity((-1));
-        java.lang.Double[] doubleArray24 = new java.lang.Double[] { 0.0d };
+        java.lang.Double[] doubleArray24 = new java.lang.Double[]{0.0d};
         java.util.ArrayList<java.lang.Double> doubleList25 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean26 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList25, doubleArray24);
-        java.lang.Short[] shortArray29 = new java.lang.Short[] { (short) 0, (short) 10 };
+        boolean boolean26 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList25,
+                                                         doubleArray24);
+        java.lang.Short[] shortArray29 = new java.lang.Short[]{(short) 0, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList30 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean31 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList30, shortArray29);
+        boolean boolean31 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList30,
+                                                         shortArray29);
         java.util.ListIterator<java.lang.Short> shortItor32 = shortList30.listIterator();
         int int33 = doubleList25.indexOf((java.lang.Object) shortList30);
         int int34 = doubleList12.lastIndexOf((java.lang.Object) shortList30);
@@ -11674,26 +12081,29 @@ public class RegressionTest1 {
     public void test0852() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0852");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         java.lang.Integer int6 = binaryDecoder5.decodeInteger();
-        java.lang.String[] strArray9 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray9 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList10 = new java.util.ArrayList<java.lang.String>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList10, strArray9);
-        java.lang.Long[] longArray19 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        java.lang.Long[] longArray19 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList20 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList20, longArray19);
+        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList20,
+                                                         longArray19);
         java.lang.Object obj22 = longList20.clone();
         int int23 = strList10.indexOf((java.lang.Object) longList20);
         java.util.ListIterator<java.lang.String> strItor24 = strList10.listIterator();
         java.lang.String str25 = strList10.toString();
-        java.lang.Double[] doubleArray28 = new java.lang.Double[] { 0.0d, 1.0d };
+        java.lang.Double[] doubleArray28 = new java.lang.Double[]{0.0d, 1.0d};
         java.util.ArrayList<java.lang.Double> doubleList29 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList29, doubleArray28);
-        java.lang.String[] strArray33 = new java.lang.String[] { "", "hi!" };
+        boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList29,
+                                                         doubleArray28);
+        java.lang.String[] strArray33 = new java.lang.String[]{"", "hi!"};
         java.util.ArrayList<java.lang.String> strList34 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean35 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList34, strArray33);
+        boolean boolean35 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList34,
+                                                         strArray33);
         int int36 = strList34.size();
         boolean boolean37 = doubleList29.equals((java.lang.Object) strList34);
         boolean boolean38 = strList10.remove((java.lang.Object) strList34);
@@ -11732,27 +12142,32 @@ public class RegressionTest1 {
         byte byte3 = binaryEncoder1.internalEncodeAttributeType((byte) 100);
         byte byte5 = binaryEncoder1.internalEncodeAttributeType((byte) 10);
         org.ccsds.moims.mo.mal.structures.LongList longList7 = new org.ccsds.moims.mo.mal.structures.LongList((int) '4');
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray8 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray8 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList9 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean10 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList9, uRIArray8);
+        boolean boolean10 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList9,
+                                                         uRIArray8);
         java.util.Spliterator<org.ccsds.moims.mo.mal.structures.URI> uRISpliterator11 = uRIList9.spliterator();
         org.ccsds.moims.mo.mal.structures.UShortList uShortList13 = new org.ccsds.moims.mo.mal.structures.UShortList(1);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray14 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray14 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList15 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean16 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList15, uRIArray14);
-        java.lang.Byte[] byteArray21 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean16 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList15,
+                                                         uRIArray14);
+        java.lang.Byte[] byteArray21 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList22 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList22, byteArray21);
+        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList22,
+                                                         byteArray21);
         boolean boolean25 = byteList22.add((java.lang.Byte) (byte) 100);
         boolean boolean26 = uRIList15.containsAll((java.util.Collection<java.lang.Byte>) byteList22);
         int int28 = uRIList15.lastIndexOf((java.lang.Object) 0.0d);
-        java.lang.Byte[] byteArray33 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray33 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList34 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean35 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList34, byteArray33);
+        boolean boolean35 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList34,
+                                                         byteArray33);
         boolean boolean37 = byteList34.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray42 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray42 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList43 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean44 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList43, byteArray42);
+        boolean boolean44 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList43,
+                                                         byteArray42);
         boolean boolean46 = byteList43.add((java.lang.Byte) (byte) 100);
         boolean boolean47 = byteList34.addAll((java.util.Collection<java.lang.Byte>) byteList43);
         int int49 = byteList43.lastIndexOf((java.lang.Object) 0.0f);
@@ -11760,7 +12175,8 @@ public class RegressionTest1 {
         int int51 = uShortList13.indexOf((java.lang.Object) uRIList15);
         java.util.Spliterator<org.ccsds.moims.mo.mal.structures.URI> uRISpliterator52 = uRIList15.spliterator();
         java.util.Spliterator[] spliteratorArray54 = new java.util.Spliterator[2];
-        @SuppressWarnings("unchecked") java.util.Spliterator<org.ccsds.moims.mo.mal.structures.URI>[] uRISpliteratorArray55 = (java.util.Spliterator<org.ccsds.moims.mo.mal.structures.URI>[]) spliteratorArray54;
+        @SuppressWarnings("unchecked")
+        java.util.Spliterator<org.ccsds.moims.mo.mal.structures.URI>[] uRISpliteratorArray55 = (java.util.Spliterator<org.ccsds.moims.mo.mal.structures.URI>[]) spliteratorArray54;
         uRISpliteratorArray55[0] = uRISpliterator11;
         uRISpliteratorArray55[1] = uRISpliterator52;
         java.util.Spliterator<org.ccsds.moims.mo.mal.structures.URI>[] uRISpliteratorArray60 = longList7.toArray(uRISpliteratorArray55);
@@ -11803,7 +12219,7 @@ public class RegressionTest1 {
     public void test0854() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0854");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         java.lang.Integer int6 = binaryDecoder5.decodeInteger();
@@ -11827,7 +12243,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.FineTime fineTime0 = new org.ccsds.moims.mo.mal.structures.FineTime();
         java.lang.String str1 = fineTime0.toString();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = fineTime0.getAreaVersion();
-        byte[] byteArray6 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray6 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder7 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray6);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray6);
         org.ccsds.moims.mo.mal.structures.Blob blob9 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray6);
@@ -11858,7 +12274,7 @@ public class RegressionTest1 {
         java.lang.Integer int1 = uRIList0.getTypeShortForm();
         java.lang.Integer int2 = uRIList0.getTypeShortForm();
         java.lang.Object obj3 = uRIList0.clone();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         int int10 = uRIList0.lastIndexOf((java.lang.Object) binaryDecoder9);
@@ -11896,12 +12312,14 @@ public class RegressionTest1 {
     public void test0858() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0858");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         java.lang.Double double5 = binaryDecoder4.decodeNullableDouble();
         byte[] byteArray6 = binaryDecoder4.getRemainingEncodedData();
-        org.ccsds.moims.mo.mal.structures.Blob blob9 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray6, 18, (int) ' ');
-        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder11 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray6, (int) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.Blob blob9 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray6, 18,
+                                                                                                  (int) ' ');
+        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder11 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray6,
+                                                                                                                            (int) (byte) 1);
         try {
             org.ccsds.moims.mo.mal.structures.Time time12 = binaryDecoder11.decodeTime();
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 1");
@@ -11940,12 +12358,14 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = duration1.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet3 = duration1.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.LongList longList4 = new org.ccsds.moims.mo.mal.structures.LongList();
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray5 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray5 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList6 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList6, uRIArray5);
-        java.lang.Byte[] byteArray12 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList6,
+                                                        uRIArray5);
+        java.lang.Byte[] byteArray12 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList13 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList13, byteArray12);
+        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList13,
+                                                         byteArray12);
         boolean boolean16 = byteList13.add((java.lang.Byte) (byte) 100);
         boolean boolean17 = uRIList6.containsAll((java.util.Collection<java.lang.Byte>) byteList13);
         byteList13.add(0, (java.lang.Byte) (byte) -1);
@@ -11955,7 +12375,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort25 = stringList24.getAreaNumber();
         java.lang.Integer int26 = stringList24.getTypeShortForm();
         boolean boolean27 = duration1.equals((java.lang.Object) stringList24);
-        byte[] byteArray31 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray31 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder32 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray31);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder33 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray31);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet34 = binaryDecoder33.decodeNullableUOctet();
@@ -11965,7 +12385,7 @@ public class RegressionTest1 {
         java.lang.Integer int38 = uRIList37.getTypeShortForm();
         java.lang.Integer int39 = uRIList37.getTypeShortForm();
         java.lang.Object obj40 = uRIList37.clone();
-        byte[] byteArray44 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray44 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder45 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray44);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder46 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray44);
         int int47 = uRIList37.lastIndexOf((java.lang.Object) binaryDecoder46);
@@ -12011,27 +12431,32 @@ public class RegressionTest1 {
     public void test0861() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0861");
-        java.lang.String[] strArray2 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray2 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList3 = new java.util.ArrayList<java.lang.String>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList3, strArray2);
-        java.lang.Long[] longArray12 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        java.lang.Long[] longArray12 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList13 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList13, longArray12);
+        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList13,
+                                                         longArray12);
         java.lang.Object obj15 = longList13.clone();
         int int16 = strList3.indexOf((java.lang.Object) longList13);
         java.util.ListIterator<java.lang.String> strItor17 = strList3.listIterator();
-        java.lang.Short[] shortArray21 = new java.lang.Short[] { (short) -1, (short) 0, (short) 100 };
+        java.lang.Short[] shortArray21 = new java.lang.Short[]{(short) -1, (short) 0, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList22 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList22, shortArray21);
-        java.lang.String[] strArray26 = new java.lang.String[] { "hi!", "" };
+        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList22,
+                                                         shortArray21);
+        java.lang.String[] strArray26 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList27 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean28 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList27, strArray26);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray29 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean28 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList27,
+                                                         strArray26);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray29 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList30 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean31 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList30, uRIArray29);
-        java.lang.Byte[] byteArray36 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean31 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList30,
+                                                         uRIArray29);
+        java.lang.Byte[] byteArray36 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList37 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean38 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList37, byteArray36);
+        boolean boolean38 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList37,
+                                                         byteArray36);
         boolean boolean40 = byteList37.add((java.lang.Byte) (byte) 100);
         boolean boolean41 = uRIList30.containsAll((java.util.Collection<java.lang.Byte>) byteList37);
         boolean boolean42 = strList27.containsAll((java.util.Collection<java.lang.Byte>) byteList37);
@@ -12042,7 +12467,7 @@ public class RegressionTest1 {
         java.lang.Integer int47 = uRIList46.getTypeShortForm();
         java.lang.Integer int48 = uRIList46.getTypeShortForm();
         java.lang.Object obj49 = uRIList46.clone();
-        byte[] byteArray53 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray53 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder54 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray53);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder55 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray53);
         int int56 = uRIList46.lastIndexOf((java.lang.Object) binaryDecoder55);
@@ -12087,27 +12512,31 @@ public class RegressionTest1 {
     public void test0862() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0862");
-        java.lang.Double[] doubleArray1 = new java.lang.Double[] { 0.0d };
+        java.lang.Double[] doubleArray1 = new java.lang.Double[]{0.0d};
         java.util.ArrayList<java.lang.Double> doubleList2 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList2, doubleArray1);
-        java.lang.Short[] shortArray6 = new java.lang.Short[] { (short) 0, (short) 10 };
+        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList2,
+                                                        doubleArray1);
+        java.lang.Short[] shortArray6 = new java.lang.Short[]{(short) 0, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList7 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean8 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList7, shortArray6);
+        boolean boolean8 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList7,
+                                                        shortArray6);
         java.util.ListIterator<java.lang.Short> shortItor9 = shortList7.listIterator();
         int int10 = doubleList2.indexOf((java.lang.Object) shortList7);
         org.ccsds.moims.mo.mal.structures.Blob blob11 = new org.ccsds.moims.mo.mal.structures.Blob();
         boolean boolean12 = blob11.isURLBased();
-        byte[] byteArray16 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray16 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder17 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray16);
         org.ccsds.moims.mo.mal.structures.Element element18 = blob11.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder17);
         boolean boolean19 = doubleList2.contains((java.lang.Object) blob11);
         java.lang.Object obj20 = doubleList2.clone();
-        java.lang.String[] strArray23 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray23 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList24 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean25 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList24, strArray23);
-        java.lang.Long[] longArray33 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        boolean boolean25 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList24,
+                                                         strArray23);
+        java.lang.Long[] longArray33 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList34 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean35 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList34, longArray33);
+        boolean boolean35 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList34,
+                                                         longArray33);
         java.lang.Object obj36 = longList34.clone();
         int int37 = strList24.indexOf((java.lang.Object) longList34);
         java.util.ListIterator<java.lang.String> strItor38 = strList24.listIterator();
@@ -12168,26 +12597,29 @@ public class RegressionTest1 {
     public void test0864() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0864");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         java.lang.Integer int6 = binaryDecoder5.decodeInteger();
-        java.lang.String[] strArray9 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray9 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList10 = new java.util.ArrayList<java.lang.String>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList10, strArray9);
-        java.lang.Long[] longArray19 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        java.lang.Long[] longArray19 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList20 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList20, longArray19);
+        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList20,
+                                                         longArray19);
         java.lang.Object obj22 = longList20.clone();
         int int23 = strList10.indexOf((java.lang.Object) longList20);
         java.util.ListIterator<java.lang.String> strItor24 = strList10.listIterator();
         java.lang.String str25 = strList10.toString();
-        java.lang.Double[] doubleArray28 = new java.lang.Double[] { 0.0d, 1.0d };
+        java.lang.Double[] doubleArray28 = new java.lang.Double[]{0.0d, 1.0d};
         java.util.ArrayList<java.lang.Double> doubleList29 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList29, doubleArray28);
-        java.lang.String[] strArray33 = new java.lang.String[] { "", "hi!" };
+        boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList29,
+                                                         doubleArray28);
+        java.lang.String[] strArray33 = new java.lang.String[]{"", "hi!"};
         java.util.ArrayList<java.lang.String> strList34 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean35 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList34, strArray33);
+        boolean boolean35 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList34,
+                                                         strArray33);
         int int36 = strList34.size();
         boolean boolean37 = doubleList29.equals((java.lang.Object) strList34);
         boolean boolean38 = strList10.remove((java.lang.Object) strList34);
@@ -12221,29 +12653,33 @@ public class RegressionTest1 {
     public void test0865() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0865");
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1, uRIArray0);
-        java.lang.Byte[] byteArray7 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1,
+                                                        uRIArray0);
+        java.lang.Byte[] byteArray7 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList8 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList8, byteArray7);
         boolean boolean11 = byteList8.add((java.lang.Byte) (byte) 100);
         boolean boolean12 = uRIList1.containsAll((java.util.Collection<java.lang.Byte>) byteList8);
         int int14 = uRIList1.lastIndexOf((java.lang.Object) 0.0d);
-        java.lang.Byte[] byteArray19 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray19 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList20 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20, byteArray19);
+        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20,
+                                                         byteArray19);
         boolean boolean23 = byteList20.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray28 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray28 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList29 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList29, byteArray28);
+        boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList29,
+                                                         byteArray28);
         boolean boolean32 = byteList29.add((java.lang.Byte) (byte) 100);
         boolean boolean33 = byteList20.addAll((java.util.Collection<java.lang.Byte>) byteList29);
         int int35 = byteList29.lastIndexOf((java.lang.Object) 0.0f);
         boolean boolean36 = uRIList1.removeAll((java.util.Collection<java.lang.Byte>) byteList29);
-        java.lang.Double[] doubleArray42 = new java.lang.Double[] { 100.0d, (-1.0d), Double.NaN, 0.0d, 100.0d };
+        java.lang.Double[] doubleArray42 = new java.lang.Double[]{100.0d, (-1.0d), Double.NaN, 0.0d, 100.0d};
         java.util.ArrayList<java.lang.Double> doubleList43 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean44 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList43, doubleArray42);
+        boolean boolean44 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList43,
+                                                         doubleArray42);
         org.ccsds.moims.mo.mal.structures.OctetList octetList45 = new org.ccsds.moims.mo.mal.structures.OctetList();
         org.ccsds.moims.mo.mal.structures.UShort uShort46 = octetList45.getServiceNumber();
         boolean boolean47 = doubleList43.containsAll((java.util.Collection<java.lang.Byte>) octetList45);
@@ -12257,7 +12693,7 @@ public class RegressionTest1 {
         java.lang.Integer int55 = uRIList54.getTypeShortForm();
         java.lang.Integer int56 = uRIList54.getTypeShortForm();
         java.lang.Object obj57 = uRIList54.clone();
-        byte[] byteArray61 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray61 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder62 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray61);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder63 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray61);
         int int64 = uRIList54.lastIndexOf((java.lang.Object) binaryDecoder63);
@@ -12311,7 +12747,7 @@ public class RegressionTest1 {
         java.lang.Integer int5 = uRIList4.getTypeShortForm();
         java.lang.Integer int6 = uRIList4.getTypeShortForm();
         java.lang.Object obj7 = uRIList4.clone();
-        byte[] byteArray11 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray11 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder12 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray11);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder13 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray11);
         int int14 = uRIList4.lastIndexOf((java.lang.Object) binaryDecoder13);
@@ -12341,34 +12777,41 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.IntegerList integerList1 = new org.ccsds.moims.mo.mal.structures.IntegerList(2);
         java.util.stream.Stream<java.lang.Integer> intStream2 = integerList1.parallelStream();
         org.ccsds.moims.mo.mal.structures.Element element3 = integerList1.createElement();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray4 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray4 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList5 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList5, uShortArray4);
+        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList5,
+                                                        uShortArray4);
         uShortList5.trimToSize();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet8 = org.ccsds.moims.mo.mal.structures.ShortList.AREA_VERSION;
         org.ccsds.moims.mo.mal.structures.Element element9 = uOctet8.createElement();
         int int10 = uShortList5.indexOf((java.lang.Object) element9);
-        java.lang.String[] strArray13 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray13 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList14 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean15 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList14, strArray13);
-        java.lang.Long[] longArray23 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        boolean boolean15 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList14,
+                                                         strArray13);
+        java.lang.Long[] longArray23 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList24 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean25 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList24, longArray23);
+        boolean boolean25 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList24,
+                                                         longArray23);
         java.lang.Object obj26 = longList24.clone();
         int int27 = strList14.indexOf((java.lang.Object) longList24);
         java.util.ListIterator<java.lang.String> strItor28 = strList14.listIterator();
-        java.lang.Short[] shortArray32 = new java.lang.Short[] { (short) -1, (short) 0, (short) 100 };
+        java.lang.Short[] shortArray32 = new java.lang.Short[]{(short) -1, (short) 0, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList33 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean34 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList33, shortArray32);
-        java.lang.String[] strArray37 = new java.lang.String[] { "hi!", "" };
+        boolean boolean34 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList33,
+                                                         shortArray32);
+        java.lang.String[] strArray37 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList38 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList38, strArray37);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray40 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList38,
+                                                         strArray37);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray40 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList41 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean42 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList41, uRIArray40);
-        java.lang.Byte[] byteArray47 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean42 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList41,
+                                                         uRIArray40);
+        java.lang.Byte[] byteArray47 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList48 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean49 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList48, byteArray47);
+        boolean boolean49 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList48,
+                                                         byteArray47);
         boolean boolean51 = byteList48.add((java.lang.Byte) (byte) 100);
         boolean boolean52 = uRIList41.containsAll((java.util.Collection<java.lang.Byte>) byteList48);
         boolean boolean53 = strList38.containsAll((java.util.Collection<java.lang.Byte>) byteList48);
@@ -12377,7 +12820,7 @@ public class RegressionTest1 {
         boolean boolean56 = uShortList5.containsAll((java.util.Collection<java.lang.Byte>) byteList48);
         boolean boolean57 = integerList1.retainAll((java.util.Collection<java.lang.Byte>) byteList48);
         integerList1.ensureCapacity((-10));
-        byte[] byteArray63 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray63 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder64 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray63);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder65 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray63);
         java.lang.Float float66 = binaryDecoder65.decodeFloat();
@@ -12427,17 +12870,19 @@ public class RegressionTest1 {
     public void test0868() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0868");
-        java.lang.Double[] doubleArray1 = new java.lang.Double[] { 0.0d };
+        java.lang.Double[] doubleArray1 = new java.lang.Double[]{0.0d};
         java.util.ArrayList<java.lang.Double> doubleList2 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList2, doubleArray1);
-        java.lang.Short[] shortArray6 = new java.lang.Short[] { (short) 0, (short) 10 };
+        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList2,
+                                                        doubleArray1);
+        java.lang.Short[] shortArray6 = new java.lang.Short[]{(short) 0, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList7 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean8 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList7, shortArray6);
+        boolean boolean8 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList7,
+                                                        shortArray6);
         java.util.ListIterator<java.lang.Short> shortItor9 = shortList7.listIterator();
         int int10 = doubleList2.indexOf((java.lang.Object) shortList7);
         org.ccsds.moims.mo.mal.structures.Blob blob11 = new org.ccsds.moims.mo.mal.structures.Blob();
         boolean boolean12 = blob11.isURLBased();
-        byte[] byteArray16 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray16 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder17 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray16);
         org.ccsds.moims.mo.mal.structures.Element element18 = blob11.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder17);
         boolean boolean19 = doubleList2.contains((java.lang.Object) blob11);
@@ -12463,27 +12908,32 @@ public class RegressionTest1 {
     public void test0869() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0869");
-        java.lang.String[] strArray2 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray2 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList3 = new java.util.ArrayList<java.lang.String>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList3, strArray2);
-        java.lang.Long[] longArray12 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        java.lang.Long[] longArray12 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList13 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList13, longArray12);
+        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList13,
+                                                         longArray12);
         java.lang.Object obj15 = longList13.clone();
         int int16 = strList3.indexOf((java.lang.Object) longList13);
         java.util.ListIterator<java.lang.String> strItor17 = strList3.listIterator();
-        java.lang.Short[] shortArray21 = new java.lang.Short[] { (short) -1, (short) 0, (short) 100 };
+        java.lang.Short[] shortArray21 = new java.lang.Short[]{(short) -1, (short) 0, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList22 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList22, shortArray21);
-        java.lang.String[] strArray26 = new java.lang.String[] { "hi!", "" };
+        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList22,
+                                                         shortArray21);
+        java.lang.String[] strArray26 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList27 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean28 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList27, strArray26);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray29 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean28 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList27,
+                                                         strArray26);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray29 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList30 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean31 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList30, uRIArray29);
-        java.lang.Byte[] byteArray36 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean31 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList30,
+                                                         uRIArray29);
+        java.lang.Byte[] byteArray36 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList37 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean38 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList37, byteArray36);
+        boolean boolean38 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList37,
+                                                         byteArray36);
         boolean boolean40 = byteList37.add((java.lang.Byte) (byte) 100);
         boolean boolean41 = uRIList30.containsAll((java.util.Collection<java.lang.Byte>) byteList37);
         boolean boolean42 = strList27.containsAll((java.util.Collection<java.lang.Byte>) byteList37);
@@ -12494,7 +12944,7 @@ public class RegressionTest1 {
         java.lang.Integer int47 = uRIList46.getTypeShortForm();
         java.lang.Integer int48 = uRIList46.getTypeShortForm();
         java.lang.Object obj49 = uRIList46.clone();
-        byte[] byteArray53 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray53 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder54 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray53);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder55 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray53);
         int int56 = uRIList46.lastIndexOf((java.lang.Object) binaryDecoder55);
@@ -12589,39 +13039,46 @@ public class RegressionTest1 {
     public void test0872() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0872");
-        java.lang.Short[] shortArray2 = new java.lang.Short[] { (short) 0, (short) 10 };
+        java.lang.Short[] shortArray2 = new java.lang.Short[]{(short) 0, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList3 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList3, shortArray2);
+        boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList3,
+                                                        shortArray2);
         java.util.ListIterator<java.lang.Short> shortItor5 = shortList3.listIterator();
-        java.lang.Double[] doubleArray11 = new java.lang.Double[] { 100.0d, (-1.0d), Double.NaN, 0.0d, 100.0d };
+        java.lang.Double[] doubleArray11 = new java.lang.Double[]{100.0d, (-1.0d), Double.NaN, 0.0d, 100.0d};
         java.util.ArrayList<java.lang.Double> doubleList12 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList12, doubleArray11);
+        boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList12,
+                                                         doubleArray11);
         org.ccsds.moims.mo.mal.structures.OctetList octetList14 = new org.ccsds.moims.mo.mal.structures.OctetList();
         org.ccsds.moims.mo.mal.structures.UShort uShort15 = octetList14.getServiceNumber();
         boolean boolean16 = doubleList12.containsAll((java.util.Collection<java.lang.Byte>) octetList14);
         boolean boolean17 = shortList3.retainAll((java.util.Collection<java.lang.Byte>) octetList14);
-        java.lang.Short[] shortArray21 = new java.lang.Short[] { (short) -1, (short) 0, (short) 100 };
+        java.lang.Short[] shortArray21 = new java.lang.Short[]{(short) -1, (short) 0, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList22 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList22, shortArray21);
-        java.lang.String[] strArray26 = new java.lang.String[] { "hi!", "" };
+        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList22,
+                                                         shortArray21);
+        java.lang.String[] strArray26 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList27 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean28 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList27, strArray26);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray29 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean28 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList27,
+                                                         strArray26);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray29 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList30 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean31 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList30, uRIArray29);
-        java.lang.Byte[] byteArray36 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean31 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList30,
+                                                         uRIArray29);
+        java.lang.Byte[] byteArray36 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList37 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean38 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList37, byteArray36);
+        boolean boolean38 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList37,
+                                                         byteArray36);
         boolean boolean40 = byteList37.add((java.lang.Byte) (byte) 100);
         boolean boolean41 = uRIList30.containsAll((java.util.Collection<java.lang.Byte>) byteList37);
         boolean boolean42 = strList27.containsAll((java.util.Collection<java.lang.Byte>) byteList37);
         boolean boolean43 = shortList22.contains((java.lang.Object) byteList37);
         boolean boolean44 = octetList14.removeAll((java.util.Collection<java.lang.Byte>) byteList37);
-        byte[] byteArray48 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray48 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder49 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray48);
         java.lang.Double double50 = binaryDecoder49.decodeNullableDouble();
         byte[] byteArray51 = binaryDecoder49.getRemainingEncodedData();
-        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder53 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray51, 15);
+        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder53 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray51,
+                                                                                                                            15);
         try {
             org.ccsds.moims.mo.mal.structures.Element element54 = octetList14.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder53);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: 15");
@@ -12657,9 +13114,15 @@ public class RegressionTest1 {
     public void test0874() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0874");
-        java.lang.Long[] longArray19 = new java.lang.Long[] { 281474993487878L, 100L, 281474993487880L, 281475010265083L, 281474993487879L, 281474993487879L, 281474993487873L, 281475010265075L, 281474993487888L, 281475010265083L, 1L, 281474993487890L, 10L, 281474993487872L, 281474993487890L, 281475010265084L, 281475010265075L, 281474993487877L, 4294967295L };
+        java.lang.Long[] longArray19 = new java.lang.Long[]{281474993487878L, 100L, 281474993487880L, 281475010265083L,
+                                                            281474993487879L, 281474993487879L, 281474993487873L,
+                                                            281475010265075L, 281474993487888L, 281475010265083L, 1L,
+                                                            281474993487890L, 10L, 281474993487872L, 281474993487890L,
+                                                            281475010265084L, 281475010265075L, 281474993487877L,
+                                                            4294967295L};
         java.util.ArrayList<java.lang.Long> longList20 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList20, longArray19);
+        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList20,
+                                                         longArray19);
         java.util.ListIterator<java.lang.Long> longItor22 = longList20.listIterator();
         longList20.trimToSize();
         org.ccsds.moims.mo.mal.structures.ShortList shortList24 = new org.ccsds.moims.mo.mal.structures.ShortList();
@@ -12667,25 +13130,29 @@ public class RegressionTest1 {
         java.lang.Object[] objArray26 = shortList24.toArray();
         java.lang.Long long27 = shortList24.getShortForm();
         shortList24.ensureCapacity((int) (byte) 0);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray30 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray30 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList31 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean32 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList31, uRIArray30);
-        java.lang.Byte[] byteArray37 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean32 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList31,
+                                                         uRIArray30);
+        java.lang.Byte[] byteArray37 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList38 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList38, byteArray37);
+        boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList38,
+                                                         byteArray37);
         boolean boolean41 = byteList38.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray46 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray46 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList47 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean48 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList47, byteArray46);
+        boolean boolean48 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList47,
+                                                         byteArray46);
         boolean boolean50 = byteList47.add((java.lang.Byte) (byte) 100);
         boolean boolean51 = byteList38.addAll((java.util.Collection<java.lang.Byte>) byteList47);
         int int53 = byteList47.lastIndexOf((java.lang.Object) 0.0f);
         boolean boolean54 = uRIList31.retainAll((java.util.Collection<java.lang.Byte>) byteList47);
         boolean boolean55 = shortList24.removeAll((java.util.Collection<java.lang.Byte>) byteList47);
         org.ccsds.moims.mo.mal.structures.UShort uShort56 = shortList24.getServiceNumber();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray57 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray57 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList58 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean59 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList58, uShortArray57);
+        boolean boolean59 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList58,
+                                                         uShortArray57);
         uShortList58.trimToSize();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet61 = org.ccsds.moims.mo.mal.structures.ShortList.AREA_VERSION;
         org.ccsds.moims.mo.mal.structures.Element element62 = uOctet61.createElement();
@@ -12694,7 +13161,7 @@ public class RegressionTest1 {
         uShortList58.clear();
         org.ccsds.moims.mo.mal.structures.ShortList shortList66 = new org.ccsds.moims.mo.mal.structures.ShortList();
         java.lang.Integer int67 = shortList66.getTypeShortForm();
-        byte[] byteArray71 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray71 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder72 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray71);
         org.ccsds.moims.mo.mal.structures.Blob blob73 = binaryDecoder72.decodeBlob();
         boolean boolean74 = shortList66.equals((java.lang.Object) blob73);
@@ -12703,7 +13170,8 @@ public class RegressionTest1 {
         java.lang.Object[] objArray77 = shortList75.toArray();
         java.lang.Long long78 = shortList75.getShortForm();
         shortList75.ensureCapacity((int) (byte) 0);
-        org.ccsds.moims.mo.mal.structures.ShortList[] shortListArray81 = new org.ccsds.moims.mo.mal.structures.ShortList[] { shortList66, shortList75 };
+        org.ccsds.moims.mo.mal.structures.ShortList[] shortListArray81 = new org.ccsds.moims.mo.mal.structures.ShortList[]{shortList66,
+                                                                                                                           shortList75};
         org.ccsds.moims.mo.mal.structures.ShortList[] shortListArray82 = uShortList58.toArray(shortListArray81);
         org.ccsds.moims.mo.mal.structures.ShortList[] shortListArray83 = shortList24.toArray(shortListArray82);
         try {
@@ -12752,7 +13220,7 @@ public class RegressionTest1 {
     public void test0875() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0875");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         org.ccsds.moims.mo.mal.structures.UInteger uInteger6 = binaryDecoder5.decodeUInteger();
@@ -12773,7 +13241,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.DoubleList doubleList1 = new org.ccsds.moims.mo.mal.structures.DoubleList((int) (short) 100);
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = doubleList1.getAreaNumber();
         java.lang.Object obj3 = doubleList1.clone();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet10 = binaryDecoder9.decodeNullableUOctet();
@@ -12803,14 +13271,15 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.DoubleList doubleList5 = new org.ccsds.moims.mo.mal.structures.DoubleList((int) (short) 100);
         org.ccsds.moims.mo.mal.structures.UShort uShort6 = doubleList5.getAreaNumber();
         java.lang.Object obj7 = doubleList5.clone();
-        byte[] byteArray11 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray11 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder12 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray11);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder13 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray11);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet14 = binaryDecoder13.decodeNullableUOctet();
         int int15 = doubleList5.lastIndexOf((java.lang.Object) binaryDecoder13);
         byte[] byteArray16 = binaryDecoder13.getRemainingEncodedData();
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder17 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray16);
-        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder19 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray16, (int) (short) 100);
+        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder19 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray16,
+                                                                                                                            (int) (short) 100);
         try {
             binaryEncoder1.directEncodeBytes(byteArray16);
             org.junit.Assert.fail("Expected exception of type java.lang.NullPointerException; message: null");
@@ -12833,15 +13302,17 @@ public class RegressionTest1 {
         java.lang.Integer int1 = uRIList0.getTypeShortForm();
         java.lang.Integer int2 = uRIList0.getTypeShortForm();
         boolean boolean3 = uRIList0.isEmpty();
-        java.lang.String[] strArray6 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray6 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList7 = new java.util.ArrayList<java.lang.String>();
         boolean boolean8 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList7, strArray6);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray9 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray9 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList10 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean11 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList10, uRIArray9);
-        java.lang.Byte[] byteArray16 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean11 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList10,
+                                                         uRIArray9);
+        java.lang.Byte[] byteArray16 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList17 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList17, byteArray16);
+        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList17,
+                                                         byteArray16);
         boolean boolean20 = byteList17.add((java.lang.Byte) (byte) 100);
         boolean boolean21 = uRIList10.containsAll((java.util.Collection<java.lang.Byte>) byteList17);
         boolean boolean22 = strList7.containsAll((java.util.Collection<java.lang.Byte>) byteList17);
@@ -12898,15 +13369,17 @@ public class RegressionTest1 {
         java.lang.Integer int1 = uRIList0.getTypeShortForm();
         java.lang.Integer int2 = uRIList0.getTypeShortForm();
         boolean boolean3 = uRIList0.isEmpty();
-        java.lang.String[] strArray6 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray6 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList7 = new java.util.ArrayList<java.lang.String>();
         boolean boolean8 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList7, strArray6);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray9 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray9 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList10 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean11 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList10, uRIArray9);
-        java.lang.Byte[] byteArray16 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean11 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList10,
+                                                         uRIArray9);
+        java.lang.Byte[] byteArray16 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList17 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList17, byteArray16);
+        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList17,
+                                                         byteArray16);
         boolean boolean20 = byteList17.add((java.lang.Byte) (byte) 100);
         boolean boolean21 = uRIList10.containsAll((java.util.Collection<java.lang.Byte>) byteList17);
         boolean boolean22 = strList7.containsAll((java.util.Collection<java.lang.Byte>) byteList17);
@@ -12914,7 +13387,7 @@ public class RegressionTest1 {
         int int24 = uRIList0.indexOf((java.lang.Object) strList7);
         int int25 = uRIList0.size();
         java.util.ListIterator<org.ccsds.moims.mo.mal.structures.URI> uRIItor26 = uRIList0.listIterator();
-        byte[] byteArray30 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray30 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder31 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray30);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder32 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray30);
         org.ccsds.moims.mo.mal.structures.Duration duration34 = new org.ccsds.moims.mo.mal.structures.Duration((double) 0.0f);
@@ -12950,20 +13423,23 @@ public class RegressionTest1 {
     public void test0880() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0880");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         org.ccsds.moims.mo.mal.structures.FineTime fineTime5 = binaryDecoder4.decodeFineTime();
         org.ccsds.moims.mo.mal.structures.URIList uRIList6 = new org.ccsds.moims.mo.mal.structures.URIList();
         int int7 = uRIList6.size();
-        java.lang.Integer[] intArray15 = new java.lang.Integer[] { 1, 100, 100, 1, 8, 8, 8 };
+        java.lang.Integer[] intArray15 = new java.lang.Integer[]{1, 100, 100, 1, 8, 8, 8};
         java.util.ArrayList<java.lang.Integer> intList16 = new java.util.ArrayList<java.lang.Integer>();
-        boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList16, intArray15);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray18 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList16,
+                                                         intArray15);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray18 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList19 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean20 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList19, uRIArray18);
-        java.lang.Byte[] byteArray25 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean20 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList19,
+                                                         uRIArray18);
+        java.lang.Byte[] byteArray25 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList26 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList26, byteArray25);
+        boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList26,
+                                                         byteArray25);
         boolean boolean29 = byteList26.add((java.lang.Byte) (byte) 100);
         boolean boolean30 = uRIList19.containsAll((java.util.Collection<java.lang.Byte>) byteList26);
         boolean boolean31 = intList16.removeAll((java.util.Collection<java.lang.Byte>) byteList26);
@@ -12994,11 +13470,12 @@ public class RegressionTest1 {
     public void test0881() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0881");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         java.lang.Double double5 = binaryDecoder4.decodeNullableDouble();
         byte[] byteArray6 = binaryDecoder4.getRemainingEncodedData();
-        org.ccsds.moims.mo.mal.structures.Blob blob9 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray6, 18, (int) ' ');
+        org.ccsds.moims.mo.mal.structures.Blob blob9 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray6, 18,
+                                                                                                  (int) ' ');
         int int10 = blob9.getLength();
         java.lang.String str11 = blob9.getURL();
         org.ccsds.moims.mo.mal.structures.UShort uShort12 = blob9.getAreaNumber();
@@ -13030,7 +13507,7 @@ public class RegressionTest1 {
     public void test0884() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0884");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         org.ccsds.moims.mo.mal.structures.Blob blob6 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray3);
@@ -13054,7 +13531,7 @@ public class RegressionTest1 {
     public void test0885() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0885");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         org.ccsds.moims.mo.mal.structures.Blob blob5 = binaryDecoder4.decodeBlob();
         try {
@@ -13070,7 +13547,9 @@ public class RegressionTest1 {
     public void test0886() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0886");
-        esa.mo.com.impl.archive.db.COMObjectEntityPK cOMObjectEntityPK3 = esa.mo.com.impl.archive.entities.COMObjectEntity.generatePK((java.lang.Integer) 7, (java.lang.Integer) (-13), (java.lang.Long) 281474993487873L);
+        esa.mo.com.impl.archive.db.COMObjectEntityPK cOMObjectEntityPK3 = esa.mo.com.impl.archive.entities.COMObjectEntity.generatePK((java.lang.Integer) 7,
+                                                                                                                                      (java.lang.Integer) (-13),
+                                                                                                                                      (java.lang.Long) 281474993487873L);
         org.junit.Assert.assertNotNull(cOMObjectEntityPK3);
     }
 
@@ -13103,12 +13582,17 @@ public class RegressionTest1 {
         byte byte3 = binaryEncoder1.internalEncodeAttributeType((byte) 100);
         byte byte5 = binaryEncoder1.internalEncodeAttributeType((byte) -1);
         byte byte7 = binaryEncoder1.internalEncodeAttributeType((byte) 1);
-        java.lang.Long[] longArray25 = new java.lang.Long[] { 281474993487886L, 281474993487875L, 281475010265070L, (-1L), 281474993487887L, 281475010265086L, 281475010265084L, 1L, 1558616164233L, 100L, 281474993487882L, 281474993487876L, 281474993487888L, 281474993487886L, 281474993487878L, 281474993487885L, 1558616163157L };
+        java.lang.Long[] longArray25 = new java.lang.Long[]{281474993487886L, 281474993487875L, 281475010265070L, (-1L),
+                                                            281474993487887L, 281475010265086L, 281475010265084L, 1L,
+                                                            1558616164233L, 100L, 281474993487882L, 281474993487876L,
+                                                            281474993487888L, 281474993487886L, 281474993487878L,
+                                                            281474993487885L, 1558616163157L};
         java.util.ArrayList<java.lang.Long> longList26 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList26, longArray25);
+        boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList26,
+                                                         longArray25);
         java.util.List<java.lang.Long> longList30 = longList26.subList(6, 13);
         org.ccsds.moims.mo.mal.structures.FineTime fineTime31 = new org.ccsds.moims.mo.mal.structures.FineTime();
-        byte[] byteArray35 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray35 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder36 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray35);
         java.lang.Double double37 = binaryDecoder36.decodeNullableDouble();
         byte[] byteArray38 = binaryDecoder36.getRemainingEncodedData();
@@ -13145,21 +13629,23 @@ public class RegressionTest1 {
         java.lang.Integer int1 = uRIList0.getTypeShortForm();
         java.lang.Integer int2 = uRIList0.getTypeShortForm();
         java.lang.Object obj3 = uRIList0.clone();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         int int10 = uRIList0.lastIndexOf((java.lang.Object) binaryDecoder9);
         java.lang.Boolean boolean11 = binaryDecoder9.decodeBoolean();
         org.ccsds.moims.mo.mal.structures.Duration duration12 = binaryDecoder9.decodeNullableDuration();
         org.ccsds.moims.mo.mal.structures.UShort uShort13 = duration12.getAreaNumber();
-        java.lang.Short[] shortArray16 = new java.lang.Short[] { (short) 0, (short) 10 };
+        java.lang.Short[] shortArray16 = new java.lang.Short[]{(short) 0, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList17 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList17, shortArray16);
+        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList17,
+                                                         shortArray16);
         java.util.ListIterator<java.lang.Short> shortItor19 = shortList17.listIterator();
         java.lang.String str20 = shortList17.toString();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray21 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray21 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList22 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList22, uShortArray21);
+        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList22,
+                                                         uShortArray21);
         uShortList22.trimToSize();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet25 = org.ccsds.moims.mo.mal.structures.ShortList.AREA_VERSION;
         org.ccsds.moims.mo.mal.structures.Element element26 = uOctet25.createElement();
@@ -13209,11 +13695,12 @@ public class RegressionTest1 {
     public void test0890() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0890");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         java.lang.Double double5 = binaryDecoder4.decodeNullableDouble();
         byte[] byteArray6 = binaryDecoder4.getRemainingEncodedData();
-        org.ccsds.moims.mo.mal.structures.Blob blob9 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray6, 18, (-11));
+        org.ccsds.moims.mo.mal.structures.Blob blob9 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray6, 18,
+                                                                                                  (-11));
         java.io.OutputStream outputStream10 = null;
         esa.mo.com.impl.archive.encoding.BinaryEncoder binaryEncoder11 = new esa.mo.com.impl.archive.encoding.BinaryEncoder(outputStream10);
         byte byte13 = binaryEncoder11.internalEncodeAttributeType((byte) -1);
@@ -13232,42 +13719,49 @@ public class RegressionTest1 {
     public void test0892() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0892");
-        java.lang.Integer[] intArray7 = new java.lang.Integer[] { 1, 100, 100, 1, 8, 8, 8 };
+        java.lang.Integer[] intArray7 = new java.lang.Integer[]{1, 100, 100, 1, 8, 8, 8};
         java.util.ArrayList<java.lang.Integer> intList8 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList8, intArray7);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray10 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray10 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList11 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean12 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList11, uRIArray10);
-        java.lang.Byte[] byteArray17 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean12 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList11,
+                                                         uRIArray10);
+        java.lang.Byte[] byteArray17 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList18 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList18, byteArray17);
+        boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList18,
+                                                         byteArray17);
         boolean boolean21 = byteList18.add((java.lang.Byte) (byte) 100);
         boolean boolean22 = uRIList11.containsAll((java.util.Collection<java.lang.Byte>) byteList18);
         boolean boolean23 = intList8.removeAll((java.util.Collection<java.lang.Byte>) byteList18);
         boolean boolean25 = intList8.remove((java.lang.Object) '4');
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray26 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray26 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList27 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean28 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList27, uRIArray26);
-        java.lang.Byte[] byteArray33 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean28 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList27,
+                                                         uRIArray26);
+        java.lang.Byte[] byteArray33 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList34 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean35 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList34, byteArray33);
+        boolean boolean35 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList34,
+                                                         byteArray33);
         boolean boolean37 = byteList34.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray42 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray42 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList43 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean44 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList43, byteArray42);
+        boolean boolean44 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList43,
+                                                         byteArray42);
         boolean boolean46 = byteList43.add((java.lang.Byte) (byte) 100);
         boolean boolean47 = byteList34.addAll((java.util.Collection<java.lang.Byte>) byteList43);
         int int49 = byteList43.lastIndexOf((java.lang.Object) 0.0f);
         boolean boolean50 = uRIList27.retainAll((java.util.Collection<java.lang.Byte>) byteList43);
         boolean boolean51 = intList8.contains((java.lang.Object) uRIList27);
         intList8.clear();
-        java.lang.Byte[] byteArray57 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray57 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList58 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean59 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList58, byteArray57);
+        boolean boolean59 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList58,
+                                                         byteArray57);
         boolean boolean61 = byteList58.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray66 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray66 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList67 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean68 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList67, byteArray66);
+        boolean boolean68 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList67,
+                                                         byteArray66);
         boolean boolean70 = byteList67.add((java.lang.Byte) (byte) 100);
         boolean boolean71 = byteList58.addAll((java.util.Collection<java.lang.Byte>) byteList67);
         java.lang.Object obj72 = byteList58.clone();
@@ -13277,7 +13771,7 @@ public class RegressionTest1 {
         java.lang.Integer int76 = uRIList75.getTypeShortForm();
         java.lang.Integer int77 = uRIList75.getTypeShortForm();
         java.lang.Object obj78 = uRIList75.clone();
-        byte[] byteArray82 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray82 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder83 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray82);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder84 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray82);
         int int85 = uRIList75.lastIndexOf((java.lang.Object) binaryDecoder84);
@@ -13339,29 +13833,33 @@ public class RegressionTest1 {
     public void test0893() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0893");
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1, uRIArray0);
-        java.lang.Byte[] byteArray7 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1,
+                                                        uRIArray0);
+        java.lang.Byte[] byteArray7 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList8 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList8, byteArray7);
         boolean boolean11 = byteList8.add((java.lang.Byte) (byte) 100);
         boolean boolean12 = uRIList1.containsAll((java.util.Collection<java.lang.Byte>) byteList8);
         int int14 = uRIList1.lastIndexOf((java.lang.Object) 0.0d);
-        java.lang.Byte[] byteArray19 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray19 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList20 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20, byteArray19);
+        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20,
+                                                         byteArray19);
         boolean boolean23 = byteList20.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray28 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray28 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList29 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList29, byteArray28);
+        boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList29,
+                                                         byteArray28);
         boolean boolean32 = byteList29.add((java.lang.Byte) (byte) 100);
         boolean boolean33 = byteList20.addAll((java.util.Collection<java.lang.Byte>) byteList29);
         int int35 = byteList29.lastIndexOf((java.lang.Object) 0.0f);
         boolean boolean36 = uRIList1.removeAll((java.util.Collection<java.lang.Byte>) byteList29);
-        java.lang.Double[] doubleArray42 = new java.lang.Double[] { 100.0d, (-1.0d), Double.NaN, 0.0d, 100.0d };
+        java.lang.Double[] doubleArray42 = new java.lang.Double[]{100.0d, (-1.0d), Double.NaN, 0.0d, 100.0d};
         java.util.ArrayList<java.lang.Double> doubleList43 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean44 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList43, doubleArray42);
+        boolean boolean44 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList43,
+                                                         doubleArray42);
         org.ccsds.moims.mo.mal.structures.OctetList octetList45 = new org.ccsds.moims.mo.mal.structures.OctetList();
         org.ccsds.moims.mo.mal.structures.UShort uShort46 = octetList45.getServiceNumber();
         boolean boolean47 = doubleList43.containsAll((java.util.Collection<java.lang.Byte>) octetList45);
@@ -13369,7 +13867,9 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet49 = octetList45.getAreaVersion();
         org.ccsds.moims.mo.com.archive.structures.ExpressionOperator expressionOperator50 = null;
         org.ccsds.moims.mo.mal.structures.UShort uShort51 = org.ccsds.moims.mo.mal.structures.DoubleList.SERVICE_SHORT_FORM;
-        java.lang.Boolean boolean52 = esa.mo.com.impl.util.HelperCOM.evaluateExpression((org.ccsds.moims.mo.mal.structures.Element) octetList45, expressionOperator50, (org.ccsds.moims.mo.mal.structures.Attribute) uShort51);
+        java.lang.Boolean boolean52 = esa.mo.com.impl.util.HelperCOM.evaluateExpression((org.ccsds.moims.mo.mal.structures.Element) octetList45,
+                                                                                        expressionOperator50,
+                                                                                        (org.ccsds.moims.mo.mal.structures.Attribute) uShort51);
         octetList45.trimToSize();
         org.junit.Assert.assertNotNull(uRIArray0);
         org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + false + "'", !boolean2);
@@ -13401,39 +13901,46 @@ public class RegressionTest1 {
     public void test0894() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0894");
-        java.lang.String[] strArray2 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray2 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList3 = new java.util.ArrayList<java.lang.String>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList3, strArray2);
-        java.lang.Long[] longArray12 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        java.lang.Long[] longArray12 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList13 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList13, longArray12);
+        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList13,
+                                                         longArray12);
         java.lang.Object obj15 = longList13.clone();
         int int16 = strList3.indexOf((java.lang.Object) longList13);
         java.util.ListIterator<java.lang.String> strItor17 = strList3.listIterator();
-        java.lang.Short[] shortArray21 = new java.lang.Short[] { (short) -1, (short) 0, (short) 100 };
+        java.lang.Short[] shortArray21 = new java.lang.Short[]{(short) -1, (short) 0, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList22 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList22, shortArray21);
-        java.lang.String[] strArray26 = new java.lang.String[] { "hi!", "" };
+        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList22,
+                                                         shortArray21);
+        java.lang.String[] strArray26 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList27 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean28 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList27, strArray26);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray29 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean28 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList27,
+                                                         strArray26);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray29 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList30 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean31 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList30, uRIArray29);
-        java.lang.Byte[] byteArray36 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean31 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList30,
+                                                         uRIArray29);
+        java.lang.Byte[] byteArray36 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList37 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean38 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList37, byteArray36);
+        boolean boolean38 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList37,
+                                                         byteArray36);
         boolean boolean40 = byteList37.add((java.lang.Byte) (byte) 100);
         boolean boolean41 = uRIList30.containsAll((java.util.Collection<java.lang.Byte>) byteList37);
         boolean boolean42 = strList27.containsAll((java.util.Collection<java.lang.Byte>) byteList37);
         boolean boolean43 = shortList22.contains((java.lang.Object) byteList37);
         boolean boolean44 = strList3.removeAll((java.util.Collection<java.lang.Byte>) byteList37);
-        java.lang.Byte[] byteArray49 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray49 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList50 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean51 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList50, byteArray49);
+        boolean boolean51 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList50,
+                                                         byteArray49);
         boolean boolean53 = byteList50.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray58 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray58 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList59 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean60 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList59, byteArray58);
+        boolean boolean60 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList59,
+                                                         byteArray58);
         boolean boolean62 = byteList59.add((java.lang.Byte) (byte) 100);
         boolean boolean63 = byteList50.addAll((java.util.Collection<java.lang.Byte>) byteList59);
         boolean boolean64 = byteList37.containsAll((java.util.Collection<java.lang.Byte>) byteList59);
@@ -13502,13 +14009,15 @@ public class RegressionTest1 {
         java.lang.Long long7 = shortList3.getShortForm();
         java.lang.Object[] objArray8 = shortList3.toArray();
         org.ccsds.moims.mo.mal.structures.FloatList floatList9 = new org.ccsds.moims.mo.mal.structures.FloatList();
-        java.lang.Byte[] byteArray14 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray14 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList15 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList15, byteArray14);
+        boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList15,
+                                                         byteArray14);
         boolean boolean18 = byteList15.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray23 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray23 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList24 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean25 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList24, byteArray23);
+        boolean boolean25 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList24,
+                                                         byteArray23);
         boolean boolean27 = byteList24.add((java.lang.Byte) (byte) 100);
         boolean boolean28 = byteList15.addAll((java.util.Collection<java.lang.Byte>) byteList24);
         java.lang.Object obj29 = byteList15.clone();
@@ -13556,26 +14065,30 @@ public class RegressionTest1 {
     public void test0896() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0896");
-        java.lang.Float[] floatArray5 = new java.lang.Float[] { 100.0f, (-1.0f), (-1.0f), 10.0f, (-1.0f) };
+        java.lang.Float[] floatArray5 = new java.lang.Float[]{100.0f, (-1.0f), (-1.0f), 10.0f, (-1.0f)};
         java.util.ArrayList<java.lang.Float> floatList6 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList6, floatArray5);
-        java.lang.Boolean[] booleanArray9 = new java.lang.Boolean[] { false };
+        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList6,
+                                                        floatArray5);
+        java.lang.Boolean[] booleanArray9 = new java.lang.Boolean[]{false};
         java.util.ArrayList<java.lang.Boolean> booleanList10 = new java.util.ArrayList<java.lang.Boolean>();
-        boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList10, booleanArray9);
-        java.lang.Byte[] byteArray16 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList10,
+                                                         booleanArray9);
+        java.lang.Byte[] byteArray16 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList17 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList17, byteArray16);
+        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList17,
+                                                         byteArray16);
         boolean boolean20 = byteList17.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray25 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray25 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList26 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList26, byteArray25);
+        boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList26,
+                                                         byteArray25);
         boolean boolean29 = byteList26.add((java.lang.Byte) (byte) 100);
         boolean boolean30 = byteList17.addAll((java.util.Collection<java.lang.Byte>) byteList26);
         java.lang.Object obj31 = byteList17.clone();
         boolean boolean32 = booleanList10.contains((java.lang.Object) byteList17);
         int int33 = floatList6.lastIndexOf((java.lang.Object) booleanList10);
         java.lang.Float float35 = floatList6.remove(2);
-        byte[] byteArray39 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray39 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder40 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray39);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder41 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray39);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet42 = binaryDecoder41.decodeNullableUOctet();
@@ -13583,7 +14096,8 @@ public class RegressionTest1 {
         esa.mo.com.impl.util.EventCOMObject eventCOMObject44 = new esa.mo.com.impl.util.EventCOMObject();
         eventCOMObject44.setObjId((java.lang.Long) 4294967295L);
         org.ccsds.moims.mo.com.structures.ObjectType objectType49 = esa.mo.com.impl.util.HelperCOM.objectTypeId2objectType((java.lang.Long) 281474993487885L);
-        org.ccsds.moims.mo.mal.structures.Subscription subscription50 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("", objectType49);
+        org.ccsds.moims.mo.mal.structures.Subscription subscription50 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("",
+                                                                                                                                    objectType49);
         eventCOMObject44.setObjType(objectType49);
         org.ccsds.moims.mo.com.structures.ObjectId objectId52 = eventCOMObject44.getSource();
         org.ccsds.moims.mo.com.structures.ObjectType objectType53 = eventCOMObject44.getObjType();
@@ -13623,29 +14137,34 @@ public class RegressionTest1 {
         java.io.OutputStream outputStream0 = null;
         esa.mo.com.impl.archive.encoding.BinaryEncoder binaryEncoder1 = new esa.mo.com.impl.archive.encoding.BinaryEncoder(outputStream0);
         byte byte3 = binaryEncoder1.internalEncodeAttributeType((byte) 100);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray4 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray4 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList5 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList5, uRIArray4);
-        java.lang.Byte[] byteArray11 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList5,
+                                                        uRIArray4);
+        java.lang.Byte[] byteArray11 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList12 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList12, byteArray11);
+        boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList12,
+                                                         byteArray11);
         boolean boolean15 = byteList12.add((java.lang.Byte) (byte) 100);
         boolean boolean16 = uRIList5.containsAll((java.util.Collection<java.lang.Byte>) byteList12);
         int int18 = uRIList5.lastIndexOf((java.lang.Object) 0.0d);
-        java.lang.Byte[] byteArray23 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray23 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList24 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean25 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList24, byteArray23);
+        boolean boolean25 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList24,
+                                                         byteArray23);
         boolean boolean27 = byteList24.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray32 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray32 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList33 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean34 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList33, byteArray32);
+        boolean boolean34 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList33,
+                                                         byteArray32);
         boolean boolean36 = byteList33.add((java.lang.Byte) (byte) 100);
         boolean boolean37 = byteList24.addAll((java.util.Collection<java.lang.Byte>) byteList33);
         int int39 = byteList33.lastIndexOf((java.lang.Object) 0.0f);
         boolean boolean40 = uRIList5.removeAll((java.util.Collection<java.lang.Byte>) byteList33);
-        java.lang.Double[] doubleArray46 = new java.lang.Double[] { 100.0d, (-1.0d), Double.NaN, 0.0d, 100.0d };
+        java.lang.Double[] doubleArray46 = new java.lang.Double[]{100.0d, (-1.0d), Double.NaN, 0.0d, 100.0d};
         java.util.ArrayList<java.lang.Double> doubleList47 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean48 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList47, doubleArray46);
+        boolean boolean48 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList47,
+                                                         doubleArray46);
         org.ccsds.moims.mo.mal.structures.OctetList octetList49 = new org.ccsds.moims.mo.mal.structures.OctetList();
         org.ccsds.moims.mo.mal.structures.UShort uShort50 = octetList49.getServiceNumber();
         boolean boolean51 = doubleList47.containsAll((java.util.Collection<java.lang.Byte>) octetList49);
@@ -13737,7 +14256,8 @@ public class RegressionTest1 {
         esa.mo.com.impl.util.EventCOMObject eventCOMObject9 = new esa.mo.com.impl.util.EventCOMObject();
         eventCOMObject9.setObjId((java.lang.Long) 4294967295L);
         org.ccsds.moims.mo.com.structures.ObjectType objectType14 = esa.mo.com.impl.util.HelperCOM.objectTypeId2objectType((java.lang.Long) 281474993487885L);
-        org.ccsds.moims.mo.mal.structures.Subscription subscription15 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("", objectType14);
+        org.ccsds.moims.mo.mal.structures.Subscription subscription15 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("",
+                                                                                                                                    objectType14);
         eventCOMObject9.setObjType(objectType14);
         java.lang.Long long17 = eventCOMObject9.getObjId();
         org.ccsds.moims.mo.com.structures.ObjectId objectId18 = eventCOMObject9.getObjectId();
@@ -13788,7 +14308,7 @@ public class RegressionTest1 {
         org.junit.Assert.assertTrue("'" + byte7 + "' != '" + (byte) 1 + "'", byte7 == (byte) 1);
     }
 
-   @Test
+    @Test
     public void test0904() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0904");
@@ -13796,35 +14316,41 @@ public class RegressionTest1 {
         java.lang.Integer int1 = uRIList0.getTypeShortForm();
         java.lang.Integer int2 = uRIList0.getTypeShortForm();
         java.lang.Object obj3 = uRIList0.clone();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         int int10 = uRIList0.lastIndexOf((java.lang.Object) binaryDecoder9);
         org.ccsds.moims.mo.mal.structures.UInteger uInteger11 = binaryDecoder9.decodeNullableUInteger();
         org.ccsds.moims.mo.mal.structures.UShort uShort12 = uInteger11.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.Element element13 = uInteger11.createElement();
-        java.lang.Short[] shortArray17 = new java.lang.Short[] { (short) -1, (short) 0, (short) 100 };
+        java.lang.Short[] shortArray17 = new java.lang.Short[]{(short) -1, (short) 0, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList18 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList18, shortArray17);
-        java.lang.String[] strArray22 = new java.lang.String[] { "hi!", "" };
+        boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList18,
+                                                         shortArray17);
+        java.lang.String[] strArray22 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList23 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean24 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList23, strArray22);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray25 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean24 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList23,
+                                                         strArray22);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray25 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList26 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean27 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList26, uRIArray25);
-        java.lang.Byte[] byteArray32 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean27 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList26,
+                                                         uRIArray25);
+        java.lang.Byte[] byteArray32 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList33 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean34 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList33, byteArray32);
+        boolean boolean34 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList33,
+                                                         byteArray32);
         boolean boolean36 = byteList33.add((java.lang.Byte) (byte) 100);
         boolean boolean37 = uRIList26.containsAll((java.util.Collection<java.lang.Byte>) byteList33);
         boolean boolean38 = strList23.containsAll((java.util.Collection<java.lang.Byte>) byteList33);
         boolean boolean39 = shortList18.contains((java.lang.Object) byteList33);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray40 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray40 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList41 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean42 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList41, uRIArray40);
-        java.lang.Byte[] byteArray47 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean42 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList41,
+                                                         uRIArray40);
+        java.lang.Byte[] byteArray47 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList48 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean49 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList48, byteArray47);
+        boolean boolean49 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList48,
+                                                         byteArray47);
         boolean boolean51 = byteList48.add((java.lang.Byte) (byte) 100);
         boolean boolean52 = uRIList41.containsAll((java.util.Collection<java.lang.Byte>) byteList48);
         boolean boolean53 = byteList48.isEmpty();
@@ -13909,7 +14435,7 @@ public class RegressionTest1 {
         java.lang.Integer int4 = uRIList3.getTypeShortForm();
         java.lang.Integer int5 = uRIList3.getTypeShortForm();
         java.lang.Object obj6 = uRIList3.clone();
-        byte[] byteArray10 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray10 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder11 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray10);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder12 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray10);
         int int13 = uRIList3.lastIndexOf((java.lang.Object) binaryDecoder12);
@@ -13939,7 +14465,7 @@ public class RegressionTest1 {
     public void test0908() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0908");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         org.ccsds.moims.mo.mal.structures.UInteger uInteger6 = binaryDecoder5.decodeUInteger();
@@ -13962,7 +14488,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.URI uRI3 = new org.ccsds.moims.mo.mal.structures.URI("hi!");
         org.ccsds.moims.mo.mal.structures.UOctet uOctet4 = uRI3.getAreaVersion();
         boolean boolean5 = uRI1.equals((java.lang.Object) uOctet4);
-        byte[] byteArray9 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray9 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder10 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray9);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder11 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray9);
         org.ccsds.moims.mo.mal.structures.Duration duration13 = new org.ccsds.moims.mo.mal.structures.Duration((double) 0.0f);
@@ -13987,22 +14513,26 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.IntegerList integerList1 = new org.ccsds.moims.mo.mal.structures.IntegerList(2);
         java.util.stream.Stream<java.lang.Integer> intStream2 = integerList1.parallelStream();
         integerList1.ensureCapacity((int) 'a');
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray5 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray5 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList6 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList6, uRIArray5);
-        java.lang.Byte[] byteArray12 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList6,
+                                                        uRIArray5);
+        java.lang.Byte[] byteArray12 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList13 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList13, byteArray12);
+        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList13,
+                                                         byteArray12);
         boolean boolean16 = byteList13.add((java.lang.Byte) (byte) 100);
         boolean boolean17 = uRIList6.containsAll((java.util.Collection<java.lang.Byte>) byteList13);
         int int19 = uRIList6.lastIndexOf((java.lang.Object) 0.0d);
-        java.lang.Byte[] byteArray24 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray24 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList25 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean26 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList25, byteArray24);
+        boolean boolean26 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList25,
+                                                         byteArray24);
         boolean boolean28 = byteList25.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray33 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray33 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList34 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean35 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList34, byteArray33);
+        boolean boolean35 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList34,
+                                                         byteArray33);
         boolean boolean37 = byteList34.add((java.lang.Byte) (byte) 100);
         boolean boolean38 = byteList25.addAll((java.util.Collection<java.lang.Byte>) byteList34);
         int int40 = byteList34.lastIndexOf((java.lang.Object) 0.0f);
@@ -14048,43 +14578,52 @@ public class RegressionTest1 {
         eventCOMObject0.setSourceURI(uRI2);
         org.ccsds.moims.mo.mal.structures.URI uRI5 = new org.ccsds.moims.mo.mal.structures.URI("hi!");
         org.ccsds.moims.mo.mal.structures.Element element6 = uRI5.createElement();
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray7 = new org.ccsds.moims.mo.mal.structures.URI[] { uRI2, uRI5 };
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray7 = new org.ccsds.moims.mo.mal.structures.URI[]{uRI2, uRI5};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList8 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList8, uRIArray7);
-        java.lang.Double[] doubleArray15 = new java.lang.Double[] { 100.0d, (-1.0d), Double.NaN, 0.0d, 100.0d };
+        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList8,
+                                                        uRIArray7);
+        java.lang.Double[] doubleArray15 = new java.lang.Double[]{100.0d, (-1.0d), Double.NaN, 0.0d, 100.0d};
         java.util.ArrayList<java.lang.Double> doubleList16 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList16, doubleArray15);
+        boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList16,
+                                                         doubleArray15);
         org.ccsds.moims.mo.mal.structures.OctetList octetList18 = new org.ccsds.moims.mo.mal.structures.OctetList();
         org.ccsds.moims.mo.mal.structures.UShort uShort19 = octetList18.getServiceNumber();
         boolean boolean20 = doubleList16.containsAll((java.util.Collection<java.lang.Byte>) octetList18);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray21 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray21 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList22 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList22, uShortArray21);
+        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList22,
+                                                         uShortArray21);
         uShortList22.trimToSize();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet25 = org.ccsds.moims.mo.mal.structures.ShortList.AREA_VERSION;
         org.ccsds.moims.mo.mal.structures.Element element26 = uOctet25.createElement();
         int int27 = uShortList22.indexOf((java.lang.Object) element26);
-        java.lang.String[] strArray30 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray30 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList31 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean32 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList31, strArray30);
-        java.lang.Long[] longArray40 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        boolean boolean32 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList31,
+                                                         strArray30);
+        java.lang.Long[] longArray40 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList41 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList41, longArray40);
+        boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList41,
+                                                         longArray40);
         java.lang.Object obj43 = longList41.clone();
         int int44 = strList31.indexOf((java.lang.Object) longList41);
         java.util.ListIterator<java.lang.String> strItor45 = strList31.listIterator();
-        java.lang.Short[] shortArray49 = new java.lang.Short[] { (short) -1, (short) 0, (short) 100 };
+        java.lang.Short[] shortArray49 = new java.lang.Short[]{(short) -1, (short) 0, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList50 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean51 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList50, shortArray49);
-        java.lang.String[] strArray54 = new java.lang.String[] { "hi!", "" };
+        boolean boolean51 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList50,
+                                                         shortArray49);
+        java.lang.String[] strArray54 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList55 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean56 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList55, strArray54);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray57 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean56 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList55,
+                                                         strArray54);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray57 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList58 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean59 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList58, uRIArray57);
-        java.lang.Byte[] byteArray64 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean59 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList58,
+                                                         uRIArray57);
+        java.lang.Byte[] byteArray64 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList65 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean66 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList65, byteArray64);
+        boolean boolean66 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList65,
+                                                         byteArray64);
         boolean boolean68 = byteList65.add((java.lang.Byte) (byte) 100);
         boolean boolean69 = uRIList58.containsAll((java.util.Collection<java.lang.Byte>) byteList65);
         boolean boolean70 = strList55.containsAll((java.util.Collection<java.lang.Byte>) byteList65);
@@ -14098,7 +14637,7 @@ public class RegressionTest1 {
         java.util.Iterator<java.lang.Byte> byteItor78 = octetList18.iterator();
         org.ccsds.moims.mo.mal.structures.UShort uShort79 = octetList18.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort80 = octetList18.getAreaNumber();
-        byte[] byteArray84 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray84 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder85 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray84);
         java.lang.Double double86 = binaryDecoder85.decodeNullableDouble();
         int int87 = octetList18.indexOf((java.lang.Object) double86);
@@ -14154,11 +14693,13 @@ public class RegressionTest1 {
         esa.mo.com.impl.util.EventCOMObject eventCOMObject0 = new esa.mo.com.impl.util.EventCOMObject();
         eventCOMObject0.setObjId((java.lang.Long) 4294967295L);
         org.ccsds.moims.mo.com.structures.ObjectType objectType5 = esa.mo.com.impl.util.HelperCOM.objectTypeId2objectType((java.lang.Long) 281474993487885L);
-        org.ccsds.moims.mo.mal.structures.Subscription subscription6 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("", objectType5);
+        org.ccsds.moims.mo.mal.structures.Subscription subscription6 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("",
+                                                                                                                                   objectType5);
         eventCOMObject0.setObjType(objectType5);
         java.lang.Long long8 = eventCOMObject0.getObjId();
         org.ccsds.moims.mo.com.structures.ObjectType objectType11 = esa.mo.com.impl.util.HelperCOM.objectTypeId2objectType((java.lang.Long) 281474993487885L);
-        org.ccsds.moims.mo.mal.structures.Subscription subscription12 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("", objectType11);
+        org.ccsds.moims.mo.mal.structures.Subscription subscription12 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("",
+                                                                                                                                    objectType11);
         java.lang.Boolean boolean13 = esa.mo.com.impl.provider.ArchiveManager.objectTypeContainsWildcard(objectType11);
         java.lang.Boolean boolean14 = esa.mo.com.impl.provider.ArchiveManager.objectTypeContainsWildcard(objectType11);
         java.lang.Long long15 = esa.mo.com.impl.util.HelperCOM.generateSubKey(objectType11);
@@ -14166,7 +14707,8 @@ public class RegressionTest1 {
         esa.mo.com.impl.util.EventCOMObject eventCOMObject17 = new esa.mo.com.impl.util.EventCOMObject();
         eventCOMObject17.setObjId((java.lang.Long) 4294967295L);
         org.ccsds.moims.mo.com.structures.ObjectType objectType22 = esa.mo.com.impl.util.HelperCOM.objectTypeId2objectType((java.lang.Long) 281474993487885L);
-        org.ccsds.moims.mo.mal.structures.Subscription subscription23 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("", objectType22);
+        org.ccsds.moims.mo.mal.structures.Subscription subscription23 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("",
+                                                                                                                                    objectType22);
         eventCOMObject17.setObjType(objectType22);
         java.lang.Long long25 = eventCOMObject17.getObjId();
         org.ccsds.moims.mo.com.structures.ObjectId objectId26 = eventCOMObject17.getObjectId();
@@ -14191,9 +14733,10 @@ public class RegressionTest1 {
     public void test0913() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0913");
-        java.lang.Short[] shortArray3 = new java.lang.Short[] { (short) 10, (short) -1, (short) 100 };
+        java.lang.Short[] shortArray3 = new java.lang.Short[]{(short) 10, (short) -1, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList4 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList4, shortArray3);
+        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList4,
+                                                        shortArray3);
         java.util.ListIterator<java.lang.Short> shortItor6 = shortList4.listIterator();
         int int7 = shortList4.size();
         java.lang.Class<?> wildcardClass8 = shortList4.getClass();
@@ -14208,16 +14751,19 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.StringList stringList18 = new org.ccsds.moims.mo.mal.structures.StringList((int) (short) 100);
         java.lang.Integer int19 = stringList18.getTypeShortForm();
         org.ccsds.moims.mo.mal.structures.UShort uShort20 = stringList18.getServiceNumber();
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray21 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray21 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList22 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList22, uRIArray21);
-        java.lang.Byte[] byteArray28 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList22,
+                                                         uRIArray21);
+        java.lang.Byte[] byteArray28 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList29 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList29, byteArray28);
+        boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList29,
+                                                         byteArray28);
         boolean boolean32 = byteList29.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray37 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray37 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList38 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList38, byteArray37);
+        boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList38,
+                                                         byteArray37);
         boolean boolean41 = byteList38.add((java.lang.Byte) (byte) 100);
         boolean boolean42 = byteList29.addAll((java.util.Collection<java.lang.Byte>) byteList38);
         int int44 = byteList38.lastIndexOf((java.lang.Object) 0.0f);
@@ -14227,7 +14773,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.DoubleList doubleList49 = new org.ccsds.moims.mo.mal.structures.DoubleList((int) (short) 100);
         org.ccsds.moims.mo.mal.structures.UShort uShort50 = doubleList49.getAreaNumber();
         java.lang.Object obj51 = doubleList49.clone();
-        byte[] byteArray55 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray55 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder56 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray55);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder57 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray55);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet58 = binaryDecoder57.decodeNullableUOctet();
@@ -14296,7 +14842,7 @@ public class RegressionTest1 {
         java.lang.Integer int7 = uRIList6.getTypeShortForm();
         java.lang.Integer int8 = uRIList6.getTypeShortForm();
         java.lang.Object obj9 = uRIList6.clone();
-        byte[] byteArray13 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray13 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder14 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray13);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder15 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray13);
         int int16 = uRIList6.lastIndexOf((java.lang.Object) binaryDecoder15);
@@ -14324,12 +14870,15 @@ public class RegressionTest1 {
     public void test0915() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0915");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         java.lang.Double double5 = binaryDecoder4.decodeNullableDouble();
         byte[] byteArray6 = binaryDecoder4.getRemainingEncodedData();
-        org.ccsds.moims.mo.mal.structures.Blob blob9 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray6, 18, (int) ' ');
-        org.ccsds.moims.mo.mal.structures.Blob blob12 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray6, (int) (short) 10, (int) (byte) -1);
+        org.ccsds.moims.mo.mal.structures.Blob blob9 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray6, 18,
+                                                                                                  (int) ' ');
+        org.ccsds.moims.mo.mal.structures.Blob blob12 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray6,
+                                                                                                   (int) (short) 10,
+                                                                                                   (int) (byte) -1);
         org.ccsds.moims.mo.mal.structures.Element element13 = blob12.createElement();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet14 = blob12.getAreaVersion();
         int int15 = blob12.getLength();
@@ -14345,56 +14894,66 @@ public class RegressionTest1 {
     public void test0916() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0916");
-        java.lang.Double[] doubleArray1 = new java.lang.Double[] { 0.0d };
+        java.lang.Double[] doubleArray1 = new java.lang.Double[]{0.0d};
         java.util.ArrayList<java.lang.Double> doubleList2 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList2, doubleArray1);
-        java.lang.Short[] shortArray6 = new java.lang.Short[] { (short) 0, (short) 10 };
+        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList2,
+                                                        doubleArray1);
+        java.lang.Short[] shortArray6 = new java.lang.Short[]{(short) 0, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList7 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean8 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList7, shortArray6);
+        boolean boolean8 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList7,
+                                                        shortArray6);
         java.util.ListIterator<java.lang.Short> shortItor9 = shortList7.listIterator();
         int int10 = doubleList2.indexOf((java.lang.Object) shortList7);
         org.ccsds.moims.mo.mal.structures.Blob blob11 = new org.ccsds.moims.mo.mal.structures.Blob();
         boolean boolean12 = blob11.isURLBased();
-        byte[] byteArray16 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray16 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder17 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray16);
         org.ccsds.moims.mo.mal.structures.Element element18 = blob11.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder17);
         boolean boolean19 = doubleList2.contains((java.lang.Object) blob11);
-        java.lang.String[] strArray22 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray22 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList23 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean24 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList23, strArray22);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray25 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean24 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList23,
+                                                         strArray22);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray25 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList26 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean27 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList26, uRIArray25);
-        java.lang.Byte[] byteArray32 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean27 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList26,
+                                                         uRIArray25);
+        java.lang.Byte[] byteArray32 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList33 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean34 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList33, byteArray32);
+        boolean boolean34 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList33,
+                                                         byteArray32);
         boolean boolean36 = byteList33.add((java.lang.Byte) (byte) 100);
         boolean boolean37 = uRIList26.containsAll((java.util.Collection<java.lang.Byte>) byteList33);
         boolean boolean38 = strList23.containsAll((java.util.Collection<java.lang.Byte>) byteList33);
         boolean boolean39 = doubleList2.containsAll((java.util.Collection<java.lang.Byte>) byteList33);
-        java.lang.Double[] doubleArray41 = new java.lang.Double[] { 0.0d };
+        java.lang.Double[] doubleArray41 = new java.lang.Double[]{0.0d};
         java.util.ArrayList<java.lang.Double> doubleList42 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean43 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList42, doubleArray41);
-        java.lang.Short[] shortArray46 = new java.lang.Short[] { (short) 0, (short) 10 };
+        boolean boolean43 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList42,
+                                                         doubleArray41);
+        java.lang.Short[] shortArray46 = new java.lang.Short[]{(short) 0, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList47 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean48 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList47, shortArray46);
+        boolean boolean48 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList47,
+                                                         shortArray46);
         java.util.ListIterator<java.lang.Short> shortItor49 = shortList47.listIterator();
         int int50 = doubleList42.indexOf((java.lang.Object) shortList47);
         org.ccsds.moims.mo.mal.structures.Blob blob51 = new org.ccsds.moims.mo.mal.structures.Blob();
         boolean boolean52 = blob51.isURLBased();
-        byte[] byteArray56 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray56 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder57 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray56);
         org.ccsds.moims.mo.mal.structures.Element element58 = blob51.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder57);
         boolean boolean59 = doubleList42.contains((java.lang.Object) blob51);
-        java.lang.String[] strArray62 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray62 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList63 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean64 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList63, strArray62);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray65 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean64 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList63,
+                                                         strArray62);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray65 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList66 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean67 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList66, uRIArray65);
-        java.lang.Byte[] byteArray72 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean67 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList66,
+                                                         uRIArray65);
+        java.lang.Byte[] byteArray72 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList73 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean74 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList73, byteArray72);
+        boolean boolean74 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList73,
+                                                         byteArray72);
         boolean boolean76 = byteList73.add((java.lang.Byte) (byte) 100);
         boolean boolean77 = uRIList66.containsAll((java.util.Collection<java.lang.Byte>) byteList73);
         boolean boolean78 = strList63.containsAll((java.util.Collection<java.lang.Byte>) byteList73);
@@ -14454,20 +15013,23 @@ public class RegressionTest1 {
         java.lang.Integer int3 = longList1.getTypeShortForm();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet4 = longList1.getAreaVersion();
         longList1.trimToSize();
-        byte[] byteArray9 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray9 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder10 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray9);
         org.ccsds.moims.mo.mal.structures.FineTime fineTime11 = binaryDecoder10.decodeFineTime();
         org.ccsds.moims.mo.mal.structures.URIList uRIList12 = new org.ccsds.moims.mo.mal.structures.URIList();
         int int13 = uRIList12.size();
-        java.lang.Integer[] intArray21 = new java.lang.Integer[] { 1, 100, 100, 1, 8, 8, 8 };
+        java.lang.Integer[] intArray21 = new java.lang.Integer[]{1, 100, 100, 1, 8, 8, 8};
         java.util.ArrayList<java.lang.Integer> intList22 = new java.util.ArrayList<java.lang.Integer>();
-        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList22, intArray21);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray24 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList22,
+                                                         intArray21);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray24 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList25 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean26 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList25, uRIArray24);
-        java.lang.Byte[] byteArray31 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean26 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList25,
+                                                         uRIArray24);
+        java.lang.Byte[] byteArray31 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList32 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList32, byteArray31);
+        boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList32,
+                                                         byteArray31);
         boolean boolean35 = byteList32.add((java.lang.Byte) (byte) 100);
         boolean boolean36 = uRIList25.containsAll((java.util.Collection<java.lang.Byte>) byteList32);
         boolean boolean37 = intList22.removeAll((java.util.Collection<java.lang.Byte>) byteList32);
@@ -14507,7 +15069,8 @@ public class RegressionTest1 {
         esa.mo.com.impl.util.EventCOMObject eventCOMObject3 = new esa.mo.com.impl.util.EventCOMObject();
         eventCOMObject3.setObjId((java.lang.Long) 4294967295L);
         org.ccsds.moims.mo.com.structures.ObjectType objectType8 = esa.mo.com.impl.util.HelperCOM.objectTypeId2objectType((java.lang.Long) 281474993487885L);
-        org.ccsds.moims.mo.mal.structures.Subscription subscription9 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("", objectType8);
+        org.ccsds.moims.mo.mal.structures.Subscription subscription9 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("",
+                                                                                                                                   objectType8);
         eventCOMObject3.setObjType(objectType8);
         java.lang.Long long11 = eventCOMObject3.getObjId();
         org.ccsds.moims.mo.com.structures.ObjectId objectId12 = eventCOMObject3.getObjectId();
@@ -14547,7 +15110,7 @@ public class RegressionTest1 {
     public void test0919() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0919");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         org.ccsds.moims.mo.mal.structures.Blob blob6 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray3);
@@ -14556,7 +15119,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UInteger uInteger11 = binaryDecoder10.decodeUInteger();
         byte[] byteArray12 = binaryDecoder10.getRemainingEncodedData();
         org.ccsds.moims.mo.mal.structures.FineTime fineTime13 = binaryDecoder10.decodeFineTime();
-        byte[] byteArray17 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray17 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder18 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray17);
         org.ccsds.moims.mo.mal.structures.Element element19 = fineTime13.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder18);
         org.ccsds.moims.mo.mal.structures.Time time20 = binaryDecoder18.decodeNullableTime();
@@ -14575,9 +15138,10 @@ public class RegressionTest1 {
     public void test0922() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0922");
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray0 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray0 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList1, uShortArray0);
+        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList1,
+                                                        uShortArray0);
         uShortList1.trimToSize();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet4 = org.ccsds.moims.mo.mal.structures.ShortList.AREA_VERSION;
         org.ccsds.moims.mo.mal.structures.Element element5 = uOctet4.createElement();
@@ -14586,7 +15150,7 @@ public class RegressionTest1 {
         uShortList1.clear();
         org.ccsds.moims.mo.mal.structures.ShortList shortList9 = new org.ccsds.moims.mo.mal.structures.ShortList();
         java.lang.Integer int10 = shortList9.getTypeShortForm();
-        byte[] byteArray14 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray14 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder15 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray14);
         org.ccsds.moims.mo.mal.structures.Blob blob16 = binaryDecoder15.decodeBlob();
         boolean boolean17 = shortList9.equals((java.lang.Object) blob16);
@@ -14595,7 +15159,8 @@ public class RegressionTest1 {
         java.lang.Object[] objArray20 = shortList18.toArray();
         java.lang.Long long21 = shortList18.getShortForm();
         shortList18.ensureCapacity((int) (byte) 0);
-        org.ccsds.moims.mo.mal.structures.ShortList[] shortListArray24 = new org.ccsds.moims.mo.mal.structures.ShortList[] { shortList9, shortList18 };
+        org.ccsds.moims.mo.mal.structures.ShortList[] shortListArray24 = new org.ccsds.moims.mo.mal.structures.ShortList[]{shortList9,
+                                                                                                                           shortList18};
         org.ccsds.moims.mo.mal.structures.ShortList[] shortListArray25 = uShortList1.toArray(shortListArray24);
         boolean boolean26 = uShortList1.isEmpty();
         org.junit.Assert.assertNotNull(uShortArray0);
@@ -14624,7 +15189,7 @@ public class RegressionTest1 {
         java.lang.Integer int1 = uRIList0.getTypeShortForm();
         java.lang.Integer int2 = uRIList0.getTypeShortForm();
         java.lang.Object obj3 = uRIList0.clone();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         int int10 = uRIList0.lastIndexOf((java.lang.Object) binaryDecoder9);
@@ -14658,27 +15223,32 @@ public class RegressionTest1 {
         int int2 = floatList0.lastIndexOf((java.lang.Object) 10);
         boolean boolean3 = floatList0.isEmpty();
         java.lang.Long long4 = floatList0.getShortForm();
-        java.lang.String[] strArray7 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray7 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList8 = new java.util.ArrayList<java.lang.String>();
         boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList8, strArray7);
-        java.lang.Long[] longArray17 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        java.lang.Long[] longArray17 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList18 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList18, longArray17);
+        boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList18,
+                                                         longArray17);
         java.lang.Object obj20 = longList18.clone();
         int int21 = strList8.indexOf((java.lang.Object) longList18);
         java.util.ListIterator<java.lang.String> strItor22 = strList8.listIterator();
-        java.lang.Short[] shortArray26 = new java.lang.Short[] { (short) -1, (short) 0, (short) 100 };
+        java.lang.Short[] shortArray26 = new java.lang.Short[]{(short) -1, (short) 0, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList27 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean28 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList27, shortArray26);
-        java.lang.String[] strArray31 = new java.lang.String[] { "hi!", "" };
+        boolean boolean28 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList27,
+                                                         shortArray26);
+        java.lang.String[] strArray31 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList32 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList32, strArray31);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray34 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList32,
+                                                         strArray31);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray34 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList35 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean36 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList35, uRIArray34);
-        java.lang.Byte[] byteArray41 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean36 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList35,
+                                                         uRIArray34);
+        java.lang.Byte[] byteArray41 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList42 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean43 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList42, byteArray41);
+        boolean boolean43 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList42,
+                                                         byteArray41);
         boolean boolean45 = byteList42.add((java.lang.Byte) (byte) 100);
         boolean boolean46 = uRIList35.containsAll((java.util.Collection<java.lang.Byte>) byteList42);
         boolean boolean47 = strList32.containsAll((java.util.Collection<java.lang.Byte>) byteList42);
@@ -14686,9 +15256,10 @@ public class RegressionTest1 {
         boolean boolean49 = strList8.removeAll((java.util.Collection<java.lang.Byte>) byteList42);
         boolean boolean50 = strList8.isEmpty();
         int int51 = floatList0.indexOf((java.lang.Object) strList8);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray52 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray52 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList53 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean54 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList53, uShortArray52);
+        boolean boolean54 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList53,
+                                                         uShortArray52);
         uShortList53.trimToSize();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet56 = org.ccsds.moims.mo.mal.structures.ShortList.AREA_VERSION;
         org.ccsds.moims.mo.mal.structures.Element element57 = uOctet56.createElement();
@@ -14697,12 +15268,14 @@ public class RegressionTest1 {
         java.util.Iterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor61 = uShortList53.iterator();
         org.ccsds.moims.mo.mal.structures.UShort uShort62 = org.ccsds.moims.mo.mal.structures.ShortList.SERVICE_SHORT_FORM;
         boolean boolean63 = uShortList53.add(uShort62);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray64 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray64 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList65 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean66 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList65, uRIArray64);
-        java.lang.Byte[] byteArray71 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean66 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList65,
+                                                         uRIArray64);
+        java.lang.Byte[] byteArray71 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList72 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean73 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList72, byteArray71);
+        boolean boolean73 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList72,
+                                                         byteArray71);
         boolean boolean75 = byteList72.add((java.lang.Byte) (byte) 100);
         boolean boolean76 = uRIList65.containsAll((java.util.Collection<java.lang.Byte>) byteList72);
         boolean boolean77 = uShortList53.retainAll((java.util.Collection<java.lang.Byte>) byteList72);
@@ -14714,7 +15287,7 @@ public class RegressionTest1 {
         java.lang.Integer int83 = uRIList82.getTypeShortForm();
         java.lang.Integer int84 = uRIList82.getTypeShortForm();
         java.lang.Object obj85 = uRIList82.clone();
-        byte[] byteArray89 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray89 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder90 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray89);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder91 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray89);
         int int92 = uRIList82.lastIndexOf((java.lang.Object) binaryDecoder91);
@@ -14788,7 +15361,7 @@ public class RegressionTest1 {
         java.lang.Integer int1 = uRIList0.getTypeShortForm();
         java.lang.Integer int2 = uRIList0.getTypeShortForm();
         java.lang.Object obj3 = uRIList0.clone();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         int int10 = uRIList0.lastIndexOf((java.lang.Object) binaryDecoder9);
@@ -14814,18 +15387,20 @@ public class RegressionTest1 {
     public void test0926() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0926");
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray0 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray0 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList1, uShortArray0);
+        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList1,
+                                                        uShortArray0);
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream3 = uShortList1.parallelStream();
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream4 = uShortList1.stream();
         uShortList1.trimToSize();
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream6 = uShortList1.stream();
-        byte[] byteArray10 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray10 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder11 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray10);
         java.lang.Double double12 = binaryDecoder11.decodeNullableDouble();
         byte[] byteArray13 = binaryDecoder11.getRemainingEncodedData();
-        org.ccsds.moims.mo.mal.structures.Blob blob16 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray13, 18, (int) ' ');
+        org.ccsds.moims.mo.mal.structures.Blob blob16 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray13, 18,
+                                                                                                   (int) ' ');
         org.ccsds.moims.mo.mal.structures.UOctet uOctet17 = blob16.getAreaVersion();
         int int18 = uShortList1.indexOf((java.lang.Object) blob16);
         int int19 = blob16.getLength();
@@ -14846,7 +15421,7 @@ public class RegressionTest1 {
     public void test0927() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0927");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet5 = binaryDecoder4.decodeNullableUOctet();
         try {
@@ -14863,7 +15438,10 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0928");
         try {
-            org.ccsds.moims.mo.com.structures.ObjectType objectType4 = esa.mo.com.impl.util.HelperCOM.generateCOMObjectType((int) (byte) 100, (int) (byte) -1, (-10), (int) (short) 1);
+            org.ccsds.moims.mo.com.structures.ObjectType objectType4 = esa.mo.com.impl.util.HelperCOM.generateCOMObjectType((int) (byte) 100,
+                                                                                                                            (int) (byte) -1,
+                                                                                                                            (-10),
+                                                                                                                            (int) (short) 1);
             org.junit.Assert.fail("Expected exception of type java.lang.IllegalArgumentException; message: UShort argument must not be negative");
         } catch (java.lang.IllegalArgumentException e) {
         }
@@ -14876,7 +15454,7 @@ public class RegressionTest1 {
         java.io.OutputStream outputStream0 = null;
         esa.mo.com.impl.archive.encoding.BinaryEncoder binaryEncoder1 = new esa.mo.com.impl.archive.encoding.BinaryEncoder(outputStream0);
         byte byte3 = binaryEncoder1.internalEncodeAttributeType((byte) 100);
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         org.ccsds.moims.mo.mal.structures.Blob blob10 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray7);
@@ -14911,27 +15489,31 @@ public class RegressionTest1 {
     public void test0932() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0932");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         java.lang.Double double5 = binaryDecoder4.decodeNullableDouble();
         byte[] byteArray6 = binaryDecoder4.getRemainingEncodedData();
         org.ccsds.moims.mo.mal.structures.Blob blob7 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray6);
-        java.lang.String[] strArray10 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray10 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList11 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean12 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList11, strArray10);
-        java.lang.Long[] longArray20 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        boolean boolean12 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList11,
+                                                         strArray10);
+        java.lang.Long[] longArray20 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList21 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList21, longArray20);
+        boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList21,
+                                                         longArray20);
         java.lang.Object obj23 = longList21.clone();
         int int24 = strList11.indexOf((java.lang.Object) longList21);
         java.util.ListIterator<java.lang.String> strItor25 = strList11.listIterator();
         java.lang.String str26 = strList11.toString();
-        java.lang.Double[] doubleArray29 = new java.lang.Double[] { 0.0d, 1.0d };
+        java.lang.Double[] doubleArray29 = new java.lang.Double[]{0.0d, 1.0d};
         java.util.ArrayList<java.lang.Double> doubleList30 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean31 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList30, doubleArray29);
-        java.lang.String[] strArray34 = new java.lang.String[] { "", "hi!" };
+        boolean boolean31 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList30,
+                                                         doubleArray29);
+        java.lang.String[] strArray34 = new java.lang.String[]{"", "hi!"};
         java.util.ArrayList<java.lang.String> strList35 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean36 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList35, strArray34);
+        boolean boolean36 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList35,
+                                                         strArray34);
         int int37 = strList35.size();
         boolean boolean38 = doubleList30.equals((java.lang.Object) strList35);
         boolean boolean39 = strList11.remove((java.lang.Object) strList35);
@@ -14939,20 +15521,24 @@ public class RegressionTest1 {
         java.util.stream.Stream<java.lang.String> strStream41 = strList35.stream();
         org.ccsds.moims.mo.mal.structures.OctetList octetList42 = new org.ccsds.moims.mo.mal.structures.OctetList();
         boolean boolean43 = strList35.retainAll((java.util.Collection<java.lang.Byte>) octetList42);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray44 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray44 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList45 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean46 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList45, uRIArray44);
-        java.lang.Byte[] byteArray51 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean46 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList45,
+                                                         uRIArray44);
+        java.lang.Byte[] byteArray51 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList52 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean53 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList52, byteArray51);
+        boolean boolean53 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList52,
+                                                         byteArray51);
         boolean boolean55 = byteList52.add((java.lang.Byte) (byte) 100);
         boolean boolean56 = uRIList45.containsAll((java.util.Collection<java.lang.Byte>) byteList52);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray57 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray57 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList58 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean59 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList58, uRIArray57);
-        java.lang.Byte[] byteArray64 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean59 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList58,
+                                                         uRIArray57);
+        java.lang.Byte[] byteArray64 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList65 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean66 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList65, byteArray64);
+        boolean boolean66 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList65,
+                                                         byteArray64);
         boolean boolean68 = byteList65.add((java.lang.Byte) (byte) 100);
         boolean boolean69 = uRIList58.containsAll((java.util.Collection<java.lang.Byte>) byteList65);
         boolean boolean70 = byteList65.isEmpty();
@@ -15007,9 +15593,10 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.URI uRI3 = new org.ccsds.moims.mo.mal.structures.URI("hi!");
         org.ccsds.moims.mo.mal.structures.UOctet uOctet4 = uRI3.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UShort uShort5 = uRI3.getServiceNumber();
-        byte[] byteArray9 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray9 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder10 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray9);
-        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder12 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray9, 6);
+        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder12 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray9,
+                                                                                                                            6);
         boolean boolean13 = uShort5.equals((java.lang.Object) binaryDecoder12);
         try {
             binaryEncoder1.encodeNullableUShort(uShort5);
@@ -15029,39 +15616,46 @@ public class RegressionTest1 {
         java.io.OutputStream outputStream0 = null;
         esa.mo.com.impl.archive.encoding.BinaryEncoder binaryEncoder1 = new esa.mo.com.impl.archive.encoding.BinaryEncoder(outputStream0);
         org.ccsds.moims.mo.mal.structures.FineTime fineTime3 = new org.ccsds.moims.mo.mal.structures.FineTime(281474993487881L);
-        java.lang.String[] strArray6 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray6 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList7 = new java.util.ArrayList<java.lang.String>();
         boolean boolean8 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList7, strArray6);
-        java.lang.Long[] longArray16 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        java.lang.Long[] longArray16 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList17 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList17, longArray16);
+        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList17,
+                                                         longArray16);
         java.lang.Object obj19 = longList17.clone();
         int int20 = strList7.indexOf((java.lang.Object) longList17);
         java.util.ListIterator<java.lang.String> strItor21 = strList7.listIterator();
-        java.lang.Short[] shortArray25 = new java.lang.Short[] { (short) -1, (short) 0, (short) 100 };
+        java.lang.Short[] shortArray25 = new java.lang.Short[]{(short) -1, (short) 0, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList26 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList26, shortArray25);
-        java.lang.String[] strArray30 = new java.lang.String[] { "hi!", "" };
+        boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList26,
+                                                         shortArray25);
+        java.lang.String[] strArray30 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList31 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean32 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList31, strArray30);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray33 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean32 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList31,
+                                                         strArray30);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray33 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList34 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean35 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList34, uRIArray33);
-        java.lang.Byte[] byteArray40 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean35 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList34,
+                                                         uRIArray33);
+        java.lang.Byte[] byteArray40 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList41 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList41, byteArray40);
+        boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList41,
+                                                         byteArray40);
         boolean boolean44 = byteList41.add((java.lang.Byte) (byte) 100);
         boolean boolean45 = uRIList34.containsAll((java.util.Collection<java.lang.Byte>) byteList41);
         boolean boolean46 = strList31.containsAll((java.util.Collection<java.lang.Byte>) byteList41);
         boolean boolean47 = shortList26.contains((java.lang.Object) byteList41);
         boolean boolean48 = strList7.removeAll((java.util.Collection<java.lang.Byte>) byteList41);
-        java.lang.Byte[] byteArray53 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray53 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList54 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean55 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList54, byteArray53);
+        boolean boolean55 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList54,
+                                                         byteArray53);
         boolean boolean57 = byteList54.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray62 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray62 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList63 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean64 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList63, byteArray62);
+        boolean boolean64 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList63,
+                                                         byteArray62);
         boolean boolean66 = byteList63.add((java.lang.Byte) (byte) 100);
         boolean boolean67 = byteList54.addAll((java.util.Collection<java.lang.Byte>) byteList63);
         boolean boolean68 = byteList41.containsAll((java.util.Collection<java.lang.Byte>) byteList63);
@@ -15106,39 +15700,44 @@ public class RegressionTest1 {
     public void test0935() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0935");
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1, uRIArray0);
-        java.lang.Byte[] byteArray7 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1,
+                                                        uRIArray0);
+        java.lang.Byte[] byteArray7 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList8 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList8, byteArray7);
         boolean boolean11 = byteList8.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray16 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray16 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList17 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList17, byteArray16);
+        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList17,
+                                                         byteArray16);
         boolean boolean20 = byteList17.add((java.lang.Byte) (byte) 100);
         boolean boolean21 = byteList8.addAll((java.util.Collection<java.lang.Byte>) byteList17);
         int int23 = byteList17.lastIndexOf((java.lang.Object) 0.0f);
         boolean boolean24 = uRIList1.retainAll((java.util.Collection<java.lang.Byte>) byteList17);
-        java.lang.Double[] doubleArray26 = new java.lang.Double[] { 0.0d };
+        java.lang.Double[] doubleArray26 = new java.lang.Double[]{0.0d};
         java.util.ArrayList<java.lang.Double> doubleList27 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean28 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList27, doubleArray26);
-        java.lang.Short[] shortArray31 = new java.lang.Short[] { (short) 0, (short) 10 };
+        boolean boolean28 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList27,
+                                                         doubleArray26);
+        java.lang.Short[] shortArray31 = new java.lang.Short[]{(short) 0, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList32 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList32, shortArray31);
+        boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList32,
+                                                         shortArray31);
         java.util.ListIterator<java.lang.Short> shortItor34 = shortList32.listIterator();
         int int35 = doubleList27.indexOf((java.lang.Object) shortList32);
         org.ccsds.moims.mo.mal.structures.Blob blob36 = new org.ccsds.moims.mo.mal.structures.Blob();
         boolean boolean37 = blob36.isURLBased();
-        byte[] byteArray41 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray41 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder42 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray41);
         org.ccsds.moims.mo.mal.structures.Element element43 = blob36.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder42);
         boolean boolean44 = doubleList27.contains((java.lang.Object) blob36);
         java.util.ListIterator<java.lang.Double> doubleItor46 = doubleList27.listIterator(1);
         doubleList27.trimToSize();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray48 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray48 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList49 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean50 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList49, uShortArray48);
+        boolean boolean50 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList49,
+                                                         uShortArray48);
         uShortList49.trimToSize();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet52 = org.ccsds.moims.mo.mal.structures.ShortList.AREA_VERSION;
         org.ccsds.moims.mo.mal.structures.Element element53 = uOctet52.createElement();
@@ -15147,13 +15746,15 @@ public class RegressionTest1 {
         java.util.Iterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor57 = uShortList49.iterator();
         org.ccsds.moims.mo.mal.structures.UShort uShort58 = org.ccsds.moims.mo.mal.structures.ShortList.SERVICE_SHORT_FORM;
         boolean boolean59 = uShortList49.add(uShort58);
-        java.lang.Byte[] byteArray64 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray64 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList65 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean66 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList65, byteArray64);
+        boolean boolean66 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList65,
+                                                         byteArray64);
         boolean boolean68 = byteList65.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray73 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray73 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList74 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean75 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList74, byteArray73);
+        boolean boolean75 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList74,
+                                                         byteArray73);
         boolean boolean77 = byteList74.add((java.lang.Byte) (byte) 100);
         boolean boolean78 = byteList65.addAll((java.util.Collection<java.lang.Byte>) byteList74);
         java.lang.Object obj79 = byteList65.clone();
@@ -15222,7 +15823,7 @@ public class RegressionTest1 {
         java.lang.Integer int1 = uRIList0.getTypeShortForm();
         java.lang.Integer int2 = uRIList0.getTypeShortForm();
         java.lang.Object obj3 = uRIList0.clone();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         int int10 = uRIList0.lastIndexOf((java.lang.Object) binaryDecoder9);
@@ -15254,7 +15855,7 @@ public class RegressionTest1 {
     public void test0937() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0937");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         org.ccsds.moims.mo.mal.structures.Blob blob6 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray3);
@@ -15280,16 +15881,17 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0938");
         org.ccsds.moims.mo.mal.structures.Blob blob0 = new org.ccsds.moims.mo.mal.structures.Blob();
-        byte[] byteArray4 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray4 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray4);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder6 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray4);
         org.ccsds.moims.mo.mal.structures.Element element7 = blob0.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder6);
         org.ccsds.moims.mo.mal.structures.Element element8 = blob0.createElement();
         int int9 = blob0.getLength();
         org.ccsds.moims.mo.mal.structures.StringList stringList11 = new org.ccsds.moims.mo.mal.structures.StringList(0);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray12 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray12 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList13 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList13, uShortArray12);
+        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList13,
+                                                         uShortArray12);
         uShortList13.trimToSize();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet16 = org.ccsds.moims.mo.mal.structures.ShortList.AREA_VERSION;
         org.ccsds.moims.mo.mal.structures.Element element17 = uOctet16.createElement();
@@ -15298,12 +15900,14 @@ public class RegressionTest1 {
         java.util.Iterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor21 = uShortList13.iterator();
         org.ccsds.moims.mo.mal.structures.UShort uShort22 = org.ccsds.moims.mo.mal.structures.ShortList.SERVICE_SHORT_FORM;
         boolean boolean23 = uShortList13.add(uShort22);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray24 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray24 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList25 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean26 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList25, uRIArray24);
-        java.lang.Byte[] byteArray31 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean26 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList25,
+                                                         uRIArray24);
+        java.lang.Byte[] byteArray31 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList32 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList32, byteArray31);
+        boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList32,
+                                                         byteArray31);
         boolean boolean35 = byteList32.add((java.lang.Byte) (byte) 100);
         boolean boolean36 = uRIList25.containsAll((java.util.Collection<java.lang.Byte>) byteList32);
         boolean boolean37 = uShortList13.retainAll((java.util.Collection<java.lang.Byte>) byteList32);
@@ -15357,7 +15961,7 @@ public class RegressionTest1 {
         java.lang.Integer int1 = uRIList0.getTypeShortForm();
         java.lang.Integer int2 = uRIList0.getTypeShortForm();
         java.lang.Object obj3 = uRIList0.clone();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         int int10 = uRIList0.lastIndexOf((java.lang.Object) binaryDecoder9);
@@ -15397,10 +16001,11 @@ public class RegressionTest1 {
     public void test0941() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0941");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
-        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder7 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3, 18);
+        esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder7 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3,
+                                                                                                                           18);
         org.ccsds.moims.mo.mal.structures.Union union9 = new org.ccsds.moims.mo.mal.structures.Union("0.0");
         org.ccsds.moims.mo.mal.structures.UShort uShort10 = union9.getServiceNumber();
         try {
@@ -15471,11 +16076,11 @@ public class RegressionTest1 {
     public void test0945() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0945");
-        java.lang.String[] strArray2 = new java.lang.String[] { "", "hi!" };
+        java.lang.String[] strArray2 = new java.lang.String[]{"", "hi!"};
         java.util.ArrayList<java.lang.String> strList3 = new java.util.ArrayList<java.lang.String>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList3, strArray2);
         int int5 = strList3.size();
-        java.lang.Object[] objArray8 = new java.lang.Object[] { "", '#' };
+        java.lang.Object[] objArray8 = new java.lang.Object[]{"", '#'};
         java.lang.Object[] objArray9 = strList3.toArray(objArray8);
         java.lang.Object[] objArray10 = strList3.toArray();
         org.ccsds.moims.mo.mal.structures.FloatList floatList11 = new org.ccsds.moims.mo.mal.structures.FloatList();
@@ -15489,17 +16094,19 @@ public class RegressionTest1 {
         java.util.stream.Stream<java.lang.Float> floatStream21 = floatList11.stream();
         java.util.Iterator<java.lang.Float> floatItor22 = floatList11.iterator();
         java.lang.Integer int23 = floatList11.getTypeShortForm();
-        java.lang.String[] strArray26 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray26 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList27 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean28 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList27, strArray26);
-        java.lang.Long[] longArray36 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        boolean boolean28 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList27,
+                                                         strArray26);
+        java.lang.Long[] longArray36 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList37 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean38 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList37, longArray36);
+        boolean boolean38 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList37,
+                                                         longArray36);
         java.lang.Object obj39 = longList37.clone();
         int int40 = strList27.indexOf((java.lang.Object) longList37);
         java.util.ListIterator<java.lang.String> strItor41 = strList27.listIterator();
         java.lang.String str42 = strList27.toString();
-        byte[] byteArray46 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray46 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder47 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray46);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder48 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray46);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet49 = binaryDecoder48.decodeNullableUOctet();
@@ -15507,22 +16114,26 @@ public class RegressionTest1 {
         short short51 = uOctet49.getValue();
         org.ccsds.moims.mo.mal.structures.UShort uShort52 = uOctet49.getServiceNumber();
         boolean boolean53 = strList27.remove((java.lang.Object) uShort52);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray54 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray54 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList55 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean56 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList55, uRIArray54);
-        java.lang.Byte[] byteArray61 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean56 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList55,
+                                                         uRIArray54);
+        java.lang.Byte[] byteArray61 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList62 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean63 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList62, byteArray61);
+        boolean boolean63 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList62,
+                                                         byteArray61);
         boolean boolean65 = byteList62.add((java.lang.Byte) (byte) 100);
         boolean boolean66 = uRIList55.containsAll((java.util.Collection<java.lang.Byte>) byteList62);
         int int68 = uRIList55.lastIndexOf((java.lang.Object) 0.0d);
-        java.lang.Byte[] byteArray73 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray73 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList74 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean75 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList74, byteArray73);
+        boolean boolean75 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList74,
+                                                         byteArray73);
         boolean boolean77 = byteList74.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray82 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray82 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList83 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean84 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList83, byteArray82);
+        boolean boolean84 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList83,
+                                                         byteArray82);
         boolean boolean86 = byteList83.add((java.lang.Byte) (byte) 100);
         boolean boolean87 = byteList74.addAll((java.util.Collection<java.lang.Byte>) byteList83);
         int int89 = byteList83.lastIndexOf((java.lang.Object) 0.0f);
@@ -15587,7 +16198,10 @@ public class RegressionTest1 {
     public void test0946() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0946");
-        org.ccsds.moims.mo.com.structures.ObjectType objectType4 = esa.mo.com.impl.util.HelperCOM.generateCOMObjectType(18, (int) 'a', (int) ' ', 8);
+        org.ccsds.moims.mo.com.structures.ObjectType objectType4 = esa.mo.com.impl.util.HelperCOM.generateCOMObjectType(18,
+                                                                                                                        (int) 'a',
+                                                                                                                        (int) ' ',
+                                                                                                                        8);
         java.lang.Boolean boolean5 = esa.mo.com.impl.provider.ArchiveManager.objectTypeContainsWildcard(objectType4);
         org.junit.Assert.assertNotNull(objectType4);
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", boolean5.equals(false));
@@ -15602,43 +16216,52 @@ public class RegressionTest1 {
         eventCOMObject0.setSourceURI(uRI2);
         org.ccsds.moims.mo.mal.structures.URI uRI5 = new org.ccsds.moims.mo.mal.structures.URI("hi!");
         org.ccsds.moims.mo.mal.structures.Element element6 = uRI5.createElement();
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray7 = new org.ccsds.moims.mo.mal.structures.URI[] { uRI2, uRI5 };
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray7 = new org.ccsds.moims.mo.mal.structures.URI[]{uRI2, uRI5};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList8 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList8, uRIArray7);
-        java.lang.Double[] doubleArray15 = new java.lang.Double[] { 100.0d, (-1.0d), Double.NaN, 0.0d, 100.0d };
+        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList8,
+                                                        uRIArray7);
+        java.lang.Double[] doubleArray15 = new java.lang.Double[]{100.0d, (-1.0d), Double.NaN, 0.0d, 100.0d};
         java.util.ArrayList<java.lang.Double> doubleList16 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList16, doubleArray15);
+        boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList16,
+                                                         doubleArray15);
         org.ccsds.moims.mo.mal.structures.OctetList octetList18 = new org.ccsds.moims.mo.mal.structures.OctetList();
         org.ccsds.moims.mo.mal.structures.UShort uShort19 = octetList18.getServiceNumber();
         boolean boolean20 = doubleList16.containsAll((java.util.Collection<java.lang.Byte>) octetList18);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray21 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray21 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList22 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList22, uShortArray21);
+        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList22,
+                                                         uShortArray21);
         uShortList22.trimToSize();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet25 = org.ccsds.moims.mo.mal.structures.ShortList.AREA_VERSION;
         org.ccsds.moims.mo.mal.structures.Element element26 = uOctet25.createElement();
         int int27 = uShortList22.indexOf((java.lang.Object) element26);
-        java.lang.String[] strArray30 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray30 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList31 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean32 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList31, strArray30);
-        java.lang.Long[] longArray40 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        boolean boolean32 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList31,
+                                                         strArray30);
+        java.lang.Long[] longArray40 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList41 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList41, longArray40);
+        boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList41,
+                                                         longArray40);
         java.lang.Object obj43 = longList41.clone();
         int int44 = strList31.indexOf((java.lang.Object) longList41);
         java.util.ListIterator<java.lang.String> strItor45 = strList31.listIterator();
-        java.lang.Short[] shortArray49 = new java.lang.Short[] { (short) -1, (short) 0, (short) 100 };
+        java.lang.Short[] shortArray49 = new java.lang.Short[]{(short) -1, (short) 0, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList50 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean51 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList50, shortArray49);
-        java.lang.String[] strArray54 = new java.lang.String[] { "hi!", "" };
+        boolean boolean51 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList50,
+                                                         shortArray49);
+        java.lang.String[] strArray54 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList55 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean56 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList55, strArray54);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray57 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean56 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList55,
+                                                         strArray54);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray57 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList58 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean59 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList58, uRIArray57);
-        java.lang.Byte[] byteArray64 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean59 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList58,
+                                                         uRIArray57);
+        java.lang.Byte[] byteArray64 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList65 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean66 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList65, byteArray64);
+        boolean boolean66 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList65,
+                                                         byteArray64);
         boolean boolean68 = byteList65.add((java.lang.Byte) (byte) 100);
         boolean boolean69 = uRIList58.containsAll((java.util.Collection<java.lang.Byte>) byteList65);
         boolean boolean70 = strList55.containsAll((java.util.Collection<java.lang.Byte>) byteList65);
@@ -15703,7 +16326,7 @@ public class RegressionTest1 {
         java.lang.Integer int1 = uRIList0.getTypeShortForm();
         java.lang.Integer int2 = uRIList0.getTypeShortForm();
         java.lang.Object obj3 = uRIList0.clone();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         int int10 = uRIList0.lastIndexOf((java.lang.Object) binaryDecoder9);
@@ -15727,7 +16350,7 @@ public class RegressionTest1 {
     public void test0949() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0949");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet6 = binaryDecoder5.decodeNullableUOctet();
@@ -15771,7 +16394,8 @@ public class RegressionTest1 {
         } catch (java.lang.NullPointerException e) {
         }
         org.junit.Assert.assertTrue("'" + byte3 + "' != '" + (byte) -1 + "'", byte3 == (byte) -1);
-        org.junit.Assert.assertTrue("'" + str6 + "' != '" + "[-1, -1, -1, -1, 100]" + "'", str6.equals("[-1, -1, -1, -1, 100]"));
+        org.junit.Assert.assertTrue("'" + str6 + "' != '" + "[-1, -1, -1, -1, 100]" + "'", str6.equals(
+                                                                                                       "[-1, -1, -1, -1, 100]"));
     }
 
     @Test
@@ -15782,7 +16406,7 @@ public class RegressionTest1 {
         java.lang.Integer int1 = uRIList0.getTypeShortForm();
         java.lang.Integer int2 = uRIList0.getTypeShortForm();
         java.lang.Object obj3 = uRIList0.clone();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         int int10 = uRIList0.lastIndexOf((java.lang.Object) binaryDecoder9);
@@ -15809,7 +16433,7 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0952");
         org.ccsds.moims.mo.mal.structures.Time time0 = new org.ccsds.moims.mo.mal.structures.Time();
-        java.lang.Integer[] intArray2 = new java.lang.Integer[] { 10 };
+        java.lang.Integer[] intArray2 = new java.lang.Integer[]{10};
         java.util.ArrayList<java.lang.Integer> intList3 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList3, intArray2);
         int int6 = intList3.lastIndexOf((java.lang.Object) 0.0f);
@@ -15819,7 +16443,7 @@ public class RegressionTest1 {
         java.lang.Integer int11 = uRIList10.getTypeShortForm();
         java.lang.Integer int12 = uRIList10.getTypeShortForm();
         java.lang.Object obj13 = uRIList10.clone();
-        byte[] byteArray17 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray17 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder18 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray17);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder19 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray17);
         int int20 = uRIList10.lastIndexOf((java.lang.Object) binaryDecoder19);
@@ -15933,62 +16557,72 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.DoubleList doubleList1 = new org.ccsds.moims.mo.mal.structures.DoubleList((int) (short) 100);
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = doubleList1.getAreaNumber();
         java.lang.Object obj3 = doubleList1.clone();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet10 = binaryDecoder9.decodeNullableUOctet();
         int int11 = doubleList1.lastIndexOf((java.lang.Object) binaryDecoder9);
         java.util.stream.Stream<java.lang.Double> doubleStream12 = doubleList1.stream();
-        java.lang.Double[] doubleArray14 = new java.lang.Double[] { 0.0d };
+        java.lang.Double[] doubleArray14 = new java.lang.Double[]{0.0d};
         java.util.ArrayList<java.lang.Double> doubleList15 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList15, doubleArray14);
-        java.lang.Short[] shortArray19 = new java.lang.Short[] { (short) 0, (short) 10 };
+        boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList15,
+                                                         doubleArray14);
+        java.lang.Short[] shortArray19 = new java.lang.Short[]{(short) 0, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList20 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList20, shortArray19);
+        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList20,
+                                                         shortArray19);
         java.util.ListIterator<java.lang.Short> shortItor22 = shortList20.listIterator();
         int int23 = doubleList15.indexOf((java.lang.Object) shortList20);
         org.ccsds.moims.mo.mal.structures.Blob blob24 = new org.ccsds.moims.mo.mal.structures.Blob();
         boolean boolean25 = blob24.isURLBased();
-        byte[] byteArray29 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray29 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder30 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray29);
         org.ccsds.moims.mo.mal.structures.Element element31 = blob24.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder30);
         boolean boolean32 = doubleList15.contains((java.lang.Object) blob24);
-        java.lang.String[] strArray35 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray35 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList36 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean37 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList36, strArray35);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray38 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean37 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList36,
+                                                         strArray35);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray38 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList39 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean40 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList39, uRIArray38);
-        java.lang.Byte[] byteArray45 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean40 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList39,
+                                                         uRIArray38);
+        java.lang.Byte[] byteArray45 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList46 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean47 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList46, byteArray45);
+        boolean boolean47 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList46,
+                                                         byteArray45);
         boolean boolean49 = byteList46.add((java.lang.Byte) (byte) 100);
         boolean boolean50 = uRIList39.containsAll((java.util.Collection<java.lang.Byte>) byteList46);
         boolean boolean51 = strList36.containsAll((java.util.Collection<java.lang.Byte>) byteList46);
         boolean boolean52 = doubleList15.containsAll((java.util.Collection<java.lang.Byte>) byteList46);
-        java.lang.Double[] doubleArray54 = new java.lang.Double[] { 0.0d };
+        java.lang.Double[] doubleArray54 = new java.lang.Double[]{0.0d};
         java.util.ArrayList<java.lang.Double> doubleList55 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean56 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList55, doubleArray54);
-        java.lang.Short[] shortArray59 = new java.lang.Short[] { (short) 0, (short) 10 };
+        boolean boolean56 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList55,
+                                                         doubleArray54);
+        java.lang.Short[] shortArray59 = new java.lang.Short[]{(short) 0, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList60 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean61 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList60, shortArray59);
+        boolean boolean61 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList60,
+                                                         shortArray59);
         java.util.ListIterator<java.lang.Short> shortItor62 = shortList60.listIterator();
         int int63 = doubleList55.indexOf((java.lang.Object) shortList60);
         org.ccsds.moims.mo.mal.structures.Blob blob64 = new org.ccsds.moims.mo.mal.structures.Blob();
         boolean boolean65 = blob64.isURLBased();
-        byte[] byteArray69 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray69 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder70 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray69);
         org.ccsds.moims.mo.mal.structures.Element element71 = blob64.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder70);
         boolean boolean72 = doubleList55.contains((java.lang.Object) blob64);
-        java.lang.String[] strArray75 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray75 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList76 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean77 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList76, strArray75);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray78 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean77 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList76,
+                                                         strArray75);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray78 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList79 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean80 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList79, uRIArray78);
-        java.lang.Byte[] byteArray85 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean80 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList79,
+                                                         uRIArray78);
+        java.lang.Byte[] byteArray85 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList86 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean87 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList86, byteArray85);
+        boolean boolean87 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList86,
+                                                         byteArray85);
         boolean boolean89 = byteList86.add((java.lang.Byte) (byte) 100);
         boolean boolean90 = uRIList79.containsAll((java.util.Collection<java.lang.Byte>) byteList86);
         boolean boolean91 = strList76.containsAll((java.util.Collection<java.lang.Byte>) byteList86);
@@ -16075,7 +16709,7 @@ public class RegressionTest1 {
         esa.mo.com.impl.archive.encoding.BinaryEncoder binaryEncoder1 = new esa.mo.com.impl.archive.encoding.BinaryEncoder(outputStream0);
         org.ccsds.moims.mo.mal.structures.Duration duration3 = new org.ccsds.moims.mo.mal.structures.Duration((double) 0.0f);
         java.lang.Long long4 = duration3.getShortForm();
-        byte[] byteArray8 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray8 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray8);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder10 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray8);
         org.ccsds.moims.mo.mal.structures.Blob blob11 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray8);
@@ -16106,7 +16740,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.DoubleList doubleList9 = new org.ccsds.moims.mo.mal.structures.DoubleList((int) (short) 100);
         org.ccsds.moims.mo.mal.structures.UShort uShort10 = doubleList9.getAreaNumber();
         java.lang.Object obj11 = doubleList9.clone();
-        byte[] byteArray15 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray15 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder16 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray15);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder17 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray15);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet18 = binaryDecoder17.decodeNullableUOctet();
@@ -16117,7 +16751,7 @@ public class RegressionTest1 {
         cOMServicesConsumer21.closeConnections();
         cOMServicesConsumer21.closeConnections();
         boolean boolean25 = doubleList9.contains((java.lang.Object) cOMServicesConsumer21);
-        byte[] byteArray29 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray29 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder30 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray29);
         org.ccsds.moims.mo.mal.structures.UInteger uInteger31 = binaryDecoder30.decodeNullableUInteger();
         org.ccsds.moims.mo.mal.structures.UShort uShort32 = uInteger31.getServiceNumber();
@@ -16156,7 +16790,7 @@ public class RegressionTest1 {
         java.lang.Integer int3 = uRIList2.getTypeShortForm();
         java.lang.Integer int4 = uRIList2.getTypeShortForm();
         java.lang.Object obj5 = uRIList2.clone();
-        byte[] byteArray9 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray9 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder10 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray9);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder11 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray9);
         int int12 = uRIList2.lastIndexOf((java.lang.Object) binaryDecoder11);
@@ -16184,26 +16818,29 @@ public class RegressionTest1 {
     public void test0963() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0963");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         java.lang.Integer int6 = binaryDecoder5.decodeInteger();
-        java.lang.String[] strArray9 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray9 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList10 = new java.util.ArrayList<java.lang.String>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList10, strArray9);
-        java.lang.Long[] longArray19 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        java.lang.Long[] longArray19 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList20 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList20, longArray19);
+        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList20,
+                                                         longArray19);
         java.lang.Object obj22 = longList20.clone();
         int int23 = strList10.indexOf((java.lang.Object) longList20);
         java.util.ListIterator<java.lang.String> strItor24 = strList10.listIterator();
         java.lang.String str25 = strList10.toString();
-        java.lang.Double[] doubleArray28 = new java.lang.Double[] { 0.0d, 1.0d };
+        java.lang.Double[] doubleArray28 = new java.lang.Double[]{0.0d, 1.0d};
         java.util.ArrayList<java.lang.Double> doubleList29 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList29, doubleArray28);
-        java.lang.String[] strArray33 = new java.lang.String[] { "", "hi!" };
+        boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList29,
+                                                         doubleArray28);
+        java.lang.String[] strArray33 = new java.lang.String[]{"", "hi!"};
         java.util.ArrayList<java.lang.String> strList34 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean35 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList34, strArray33);
+        boolean boolean35 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList34,
+                                                         strArray33);
         int int36 = strList34.size();
         boolean boolean37 = doubleList29.equals((java.lang.Object) strList34);
         boolean boolean38 = strList10.remove((java.lang.Object) strList34);
@@ -16237,12 +16874,13 @@ public class RegressionTest1 {
     public void test0964() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0964");
-        java.lang.String[] strArray2 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray2 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList3 = new java.util.ArrayList<java.lang.String>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList3, strArray2);
-        java.lang.Long[] longArray12 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        java.lang.Long[] longArray12 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList13 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList13, longArray12);
+        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList13,
+                                                         longArray12);
         java.lang.Object obj15 = longList13.clone();
         int int16 = strList3.indexOf((java.lang.Object) longList13);
         java.util.ListIterator<java.lang.String> strItor17 = strList3.listIterator();
@@ -16252,43 +16890,52 @@ public class RegressionTest1 {
         eventCOMObject19.setSourceURI(uRI21);
         org.ccsds.moims.mo.mal.structures.URI uRI24 = new org.ccsds.moims.mo.mal.structures.URI("hi!");
         org.ccsds.moims.mo.mal.structures.Element element25 = uRI24.createElement();
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray26 = new org.ccsds.moims.mo.mal.structures.URI[] { uRI21, uRI24 };
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray26 = new org.ccsds.moims.mo.mal.structures.URI[]{uRI21, uRI24};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList27 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean28 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList27, uRIArray26);
-        java.lang.Double[] doubleArray34 = new java.lang.Double[] { 100.0d, (-1.0d), Double.NaN, 0.0d, 100.0d };
+        boolean boolean28 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList27,
+                                                         uRIArray26);
+        java.lang.Double[] doubleArray34 = new java.lang.Double[]{100.0d, (-1.0d), Double.NaN, 0.0d, 100.0d};
         java.util.ArrayList<java.lang.Double> doubleList35 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean36 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList35, doubleArray34);
+        boolean boolean36 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList35,
+                                                         doubleArray34);
         org.ccsds.moims.mo.mal.structures.OctetList octetList37 = new org.ccsds.moims.mo.mal.structures.OctetList();
         org.ccsds.moims.mo.mal.structures.UShort uShort38 = octetList37.getServiceNumber();
         boolean boolean39 = doubleList35.containsAll((java.util.Collection<java.lang.Byte>) octetList37);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray40 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray40 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList41 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean42 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList41, uShortArray40);
+        boolean boolean42 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList41,
+                                                         uShortArray40);
         uShortList41.trimToSize();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet44 = org.ccsds.moims.mo.mal.structures.ShortList.AREA_VERSION;
         org.ccsds.moims.mo.mal.structures.Element element45 = uOctet44.createElement();
         int int46 = uShortList41.indexOf((java.lang.Object) element45);
-        java.lang.String[] strArray49 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray49 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList50 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean51 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList50, strArray49);
-        java.lang.Long[] longArray59 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        boolean boolean51 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList50,
+                                                         strArray49);
+        java.lang.Long[] longArray59 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList60 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean61 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList60, longArray59);
+        boolean boolean61 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList60,
+                                                         longArray59);
         java.lang.Object obj62 = longList60.clone();
         int int63 = strList50.indexOf((java.lang.Object) longList60);
         java.util.ListIterator<java.lang.String> strItor64 = strList50.listIterator();
-        java.lang.Short[] shortArray68 = new java.lang.Short[] { (short) -1, (short) 0, (short) 100 };
+        java.lang.Short[] shortArray68 = new java.lang.Short[]{(short) -1, (short) 0, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList69 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean70 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList69, shortArray68);
-        java.lang.String[] strArray73 = new java.lang.String[] { "hi!", "" };
+        boolean boolean70 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList69,
+                                                         shortArray68);
+        java.lang.String[] strArray73 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList74 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean75 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList74, strArray73);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray76 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean75 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList74,
+                                                         strArray73);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray76 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList77 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean78 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList77, uRIArray76);
-        java.lang.Byte[] byteArray83 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean78 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList77,
+                                                         uRIArray76);
+        java.lang.Byte[] byteArray83 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList84 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean85 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList84, byteArray83);
+        boolean boolean85 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList84,
+                                                         byteArray83);
         boolean boolean87 = byteList84.add((java.lang.Byte) (byte) 100);
         boolean boolean88 = uRIList77.containsAll((java.util.Collection<java.lang.Byte>) byteList84);
         boolean boolean89 = strList74.containsAll((java.util.Collection<java.lang.Byte>) byteList84);
@@ -16354,7 +17001,7 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test0965");
         org.ccsds.moims.mo.mal.structures.URI uRI1 = new org.ccsds.moims.mo.mal.structures.URI("hi!");
         java.lang.String str2 = uRI1.toString();
-        byte[] byteArray6 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray6 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder7 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray6);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray6);
         java.lang.Integer int9 = binaryDecoder8.decodeInteger();
@@ -16378,9 +17025,10 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test0966");
         org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList(0);
         stringList1.ensureCapacity((-15));
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray4 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray4 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList5 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList5, uShortArray4);
+        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList5,
+                                                        uShortArray4);
         uShortList5.trimToSize();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet8 = org.ccsds.moims.mo.mal.structures.ShortList.AREA_VERSION;
         org.ccsds.moims.mo.mal.structures.Element element9 = uOctet8.createElement();
@@ -16389,12 +17037,14 @@ public class RegressionTest1 {
         java.util.Iterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor13 = uShortList5.iterator();
         org.ccsds.moims.mo.mal.structures.UShort uShort14 = org.ccsds.moims.mo.mal.structures.ShortList.SERVICE_SHORT_FORM;
         boolean boolean15 = uShortList5.add(uShort14);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray16 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray16 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList17 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList17, uRIArray16);
-        java.lang.Byte[] byteArray23 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList17,
+                                                         uRIArray16);
+        java.lang.Byte[] byteArray23 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList24 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean25 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList24, byteArray23);
+        boolean boolean25 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList24,
+                                                         byteArray23);
         boolean boolean27 = byteList24.add((java.lang.Byte) (byte) 100);
         boolean boolean28 = uRIList17.containsAll((java.util.Collection<java.lang.Byte>) byteList24);
         boolean boolean29 = uShortList5.retainAll((java.util.Collection<java.lang.Byte>) byteList24);
@@ -16402,7 +17052,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet31 = octetList30.getAreaVersion();
         boolean boolean32 = byteList24.addAll((java.util.Collection<java.lang.Byte>) octetList30);
         boolean boolean33 = stringList1.containsAll((java.util.Collection<java.lang.Byte>) byteList24);
-        byte[] byteArray37 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray37 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder38 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray37);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder39 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray37);
         java.lang.Float float40 = binaryDecoder39.decodeFloat();
@@ -16505,12 +17155,12 @@ public class RegressionTest1 {
         java.lang.Long long4 = doubleList1.getShortForm();
         java.util.stream.Stream<java.lang.Double> doubleStream5 = doubleList1.parallelStream();
         boolean boolean7 = doubleList1.add((java.lang.Double) 0.0d);
-        java.lang.Byte[] byteArray9 = new java.lang.Byte[] { (byte) 10 };
+        java.lang.Byte[] byteArray9 = new java.lang.Byte[]{(byte) 10};
         java.util.ArrayList<java.lang.Byte> byteList10 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList10, byteArray9);
         java.util.Spliterator<java.lang.Byte> byteSpliterator12 = byteList10.spliterator();
         boolean boolean13 = doubleList1.containsAll((java.util.Collection<java.lang.Byte>) byteList10);
-        byte[] byteArray17 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray17 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder18 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray17);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder19 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray17);
         org.ccsds.moims.mo.mal.structures.Blob blob20 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray17);
@@ -16543,7 +17193,7 @@ public class RegressionTest1 {
         java.lang.Integer int1 = uRIList0.getTypeShortForm();
         java.lang.Integer int2 = uRIList0.getTypeShortForm();
         java.lang.Object obj3 = uRIList0.clone();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         int int10 = uRIList0.lastIndexOf((java.lang.Object) binaryDecoder9);
@@ -16621,7 +17271,8 @@ public class RegressionTest1 {
         esa.mo.com.impl.util.EventCOMObject eventCOMObject11 = new esa.mo.com.impl.util.EventCOMObject();
         eventCOMObject11.setObjId((java.lang.Long) 4294967295L);
         org.ccsds.moims.mo.com.structures.ObjectType objectType16 = esa.mo.com.impl.util.HelperCOM.objectTypeId2objectType((java.lang.Long) 281474993487885L);
-        org.ccsds.moims.mo.mal.structures.Subscription subscription17 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("", objectType16);
+        org.ccsds.moims.mo.mal.structures.Subscription subscription17 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("",
+                                                                                                                                    objectType16);
         eventCOMObject11.setObjType(objectType16);
         java.lang.Long long19 = eventCOMObject11.getObjId();
         org.ccsds.moims.mo.com.structures.ObjectId objectId20 = eventCOMObject11.getObjectId();
@@ -16639,7 +17290,8 @@ public class RegressionTest1 {
         esa.mo.com.impl.util.EventCOMObject eventCOMObject32 = new esa.mo.com.impl.util.EventCOMObject();
         eventCOMObject32.setObjId((java.lang.Long) 4294967295L);
         org.ccsds.moims.mo.com.structures.ObjectType objectType37 = esa.mo.com.impl.util.HelperCOM.objectTypeId2objectType((java.lang.Long) 281474993487885L);
-        org.ccsds.moims.mo.mal.structures.Subscription subscription38 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("", objectType37);
+        org.ccsds.moims.mo.mal.structures.Subscription subscription38 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("",
+                                                                                                                                    objectType37);
         eventCOMObject32.setObjType(objectType37);
         java.lang.Long long40 = eventCOMObject32.getObjId();
         org.ccsds.moims.mo.com.structures.ObjectId objectId41 = eventCOMObject32.getObjectId();
@@ -16661,7 +17313,8 @@ public class RegressionTest1 {
         esa.mo.com.impl.util.EventCOMObject eventCOMObject59 = new esa.mo.com.impl.util.EventCOMObject();
         eventCOMObject59.setObjId((java.lang.Long) 4294967295L);
         org.ccsds.moims.mo.com.structures.ObjectType objectType64 = esa.mo.com.impl.util.HelperCOM.objectTypeId2objectType((java.lang.Long) 281474993487885L);
-        org.ccsds.moims.mo.mal.structures.Subscription subscription65 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("", objectType64);
+        org.ccsds.moims.mo.mal.structures.Subscription subscription65 = esa.mo.com.impl.util.HelperCOM.generateSubscriptionCOMEvent("",
+                                                                                                                                    objectType64);
         eventCOMObject59.setObjType(objectType64);
         java.lang.Long long67 = eventCOMObject59.getObjId();
         org.ccsds.moims.mo.com.structures.ObjectId objectId68 = eventCOMObject59.getObjectId();
@@ -16699,18 +17352,20 @@ public class RegressionTest1 {
     public void test0975() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0975");
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray0 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray0 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList1, uShortArray0);
+        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList1,
+                                                        uShortArray0);
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream3 = uShortList1.parallelStream();
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream4 = uShortList1.stream();
         uShortList1.trimToSize();
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream6 = uShortList1.stream();
-        byte[] byteArray10 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray10 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder11 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray10);
         java.lang.Double double12 = binaryDecoder11.decodeNullableDouble();
         byte[] byteArray13 = binaryDecoder11.getRemainingEncodedData();
-        org.ccsds.moims.mo.mal.structures.Blob blob16 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray13, 18, (int) ' ');
+        org.ccsds.moims.mo.mal.structures.Blob blob16 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray13, 18,
+                                                                                                   (int) ' ');
         org.ccsds.moims.mo.mal.structures.UOctet uOctet17 = blob16.getAreaVersion();
         int int18 = uShortList1.indexOf((java.lang.Object) blob16);
         java.lang.String str19 = uShortList1.toString();
@@ -16731,38 +17386,47 @@ public class RegressionTest1 {
     public void test0976() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0976");
-        java.lang.Float[] floatArray2 = new java.lang.Float[] { 10.0f, 0.0f };
+        java.lang.Float[] floatArray2 = new java.lang.Float[]{10.0f, 0.0f};
         java.util.ArrayList<java.lang.Float> floatList3 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList3, floatArray2);
-        java.lang.Double[] doubleArray7 = new java.lang.Double[] { 0.0d, 1.0d };
+        boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList3,
+                                                        floatArray2);
+        java.lang.Double[] doubleArray7 = new java.lang.Double[]{0.0d, 1.0d};
         java.util.ArrayList<java.lang.Double> doubleList8 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList8, doubleArray7);
-        java.lang.String[] strArray12 = new java.lang.String[] { "", "hi!" };
+        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList8,
+                                                        doubleArray7);
+        java.lang.String[] strArray12 = new java.lang.String[]{"", "hi!"};
         java.util.ArrayList<java.lang.String> strList13 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList13, strArray12);
+        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList13,
+                                                         strArray12);
         int int15 = strList13.size();
         boolean boolean16 = doubleList8.equals((java.lang.Object) strList13);
-        java.lang.String[] strArray19 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray19 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList20 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList20, strArray19);
-        java.lang.Long[] longArray29 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList20,
+                                                         strArray19);
+        java.lang.Long[] longArray29 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList30 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean31 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList30, longArray29);
+        boolean boolean31 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList30,
+                                                         longArray29);
         java.lang.Object obj32 = longList30.clone();
         int int33 = strList20.indexOf((java.lang.Object) longList30);
         java.util.ListIterator<java.lang.String> strItor34 = strList20.listIterator();
-        java.lang.Short[] shortArray38 = new java.lang.Short[] { (short) -1, (short) 0, (short) 100 };
+        java.lang.Short[] shortArray38 = new java.lang.Short[]{(short) -1, (short) 0, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList39 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean40 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList39, shortArray38);
-        java.lang.String[] strArray43 = new java.lang.String[] { "hi!", "" };
+        boolean boolean40 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList39,
+                                                         shortArray38);
+        java.lang.String[] strArray43 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList44 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean45 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList44, strArray43);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray46 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean45 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList44,
+                                                         strArray43);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray46 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList47 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean48 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList47, uRIArray46);
-        java.lang.Byte[] byteArray53 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean48 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList47,
+                                                         uRIArray46);
+        java.lang.Byte[] byteArray53 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList54 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean55 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList54, byteArray53);
+        boolean boolean55 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList54,
+                                                         byteArray53);
         boolean boolean57 = byteList54.add((java.lang.Byte) (byte) 100);
         boolean boolean58 = uRIList47.containsAll((java.util.Collection<java.lang.Byte>) byteList54);
         boolean boolean59 = strList44.containsAll((java.util.Collection<java.lang.Byte>) byteList54);
@@ -16772,7 +17436,7 @@ public class RegressionTest1 {
         boolean boolean63 = floatList3.remove((java.lang.Object) byteList54);
         org.ccsds.moims.mo.mal.structures.UShortList uShortList65 = new org.ccsds.moims.mo.mal.structures.UShortList(16);
         boolean boolean66 = floatList3.remove((java.lang.Object) uShortList65);
-        byte[] byteArray70 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray70 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder71 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray70);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder72 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray70);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet73 = binaryDecoder72.decodeNullableUOctet();
@@ -16827,25 +17491,28 @@ public class RegressionTest1 {
     public void test0978() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0978");
-        java.lang.Double[] doubleArray1 = new java.lang.Double[] { 0.0d };
+        java.lang.Double[] doubleArray1 = new java.lang.Double[]{0.0d};
         java.util.ArrayList<java.lang.Double> doubleList2 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList2, doubleArray1);
-        java.lang.Short[] shortArray6 = new java.lang.Short[] { (short) 0, (short) 10 };
+        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList2,
+                                                        doubleArray1);
+        java.lang.Short[] shortArray6 = new java.lang.Short[]{(short) 0, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList7 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean8 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList7, shortArray6);
+        boolean boolean8 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList7,
+                                                        shortArray6);
         java.util.ListIterator<java.lang.Short> shortItor9 = shortList7.listIterator();
         int int10 = doubleList2.indexOf((java.lang.Object) shortList7);
         org.ccsds.moims.mo.mal.structures.Blob blob11 = new org.ccsds.moims.mo.mal.structures.Blob();
         boolean boolean12 = blob11.isURLBased();
-        byte[] byteArray16 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray16 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder17 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray16);
         org.ccsds.moims.mo.mal.structures.Element element18 = blob11.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder17);
         boolean boolean19 = doubleList2.contains((java.lang.Object) blob11);
         java.util.ListIterator<java.lang.Double> doubleItor21 = doubleList2.listIterator(1);
         doubleList2.trimToSize();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray23 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray23 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList24 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean25 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList24, uShortArray23);
+        boolean boolean25 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList24,
+                                                         uShortArray23);
         uShortList24.trimToSize();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet27 = org.ccsds.moims.mo.mal.structures.ShortList.AREA_VERSION;
         org.ccsds.moims.mo.mal.structures.Element element28 = uOctet27.createElement();
@@ -16854,13 +17521,15 @@ public class RegressionTest1 {
         java.util.Iterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor32 = uShortList24.iterator();
         org.ccsds.moims.mo.mal.structures.UShort uShort33 = org.ccsds.moims.mo.mal.structures.ShortList.SERVICE_SHORT_FORM;
         boolean boolean34 = uShortList24.add(uShort33);
-        java.lang.Byte[] byteArray39 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray39 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList40 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean41 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList40, byteArray39);
+        boolean boolean41 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList40,
+                                                         byteArray39);
         boolean boolean43 = byteList40.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray48 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray48 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList49 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean50 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList49, byteArray48);
+        boolean boolean50 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList49,
+                                                         byteArray48);
         boolean boolean52 = byteList49.add((java.lang.Byte) (byte) 100);
         boolean boolean53 = byteList40.addAll((java.util.Collection<java.lang.Byte>) byteList49);
         java.lang.Object obj54 = byteList40.clone();
@@ -16875,15 +17544,18 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort64 = floatList57.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort65 = floatList57.getServiceNumber();
         int int66 = doubleList2.lastIndexOf((java.lang.Object) floatList57);
-        java.lang.String[] strArray69 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray69 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList70 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean71 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList70, strArray69);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray72 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean71 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList70,
+                                                         strArray69);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray72 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList73 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean74 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList73, uRIArray72);
-        java.lang.Byte[] byteArray79 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean74 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList73,
+                                                         uRIArray72);
+        java.lang.Byte[] byteArray79 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList80 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean81 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList80, byteArray79);
+        boolean boolean81 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList80,
+                                                         byteArray79);
         boolean boolean83 = byteList80.add((java.lang.Byte) (byte) 100);
         boolean boolean84 = uRIList73.containsAll((java.util.Collection<java.lang.Byte>) byteList80);
         boolean boolean85 = strList70.containsAll((java.util.Collection<java.lang.Byte>) byteList80);
@@ -16968,12 +17640,12 @@ public class RegressionTest1 {
         java.lang.Long long4 = doubleList1.getShortForm();
         java.util.stream.Stream<java.lang.Double> doubleStream5 = doubleList1.parallelStream();
         boolean boolean7 = doubleList1.add((java.lang.Double) 0.0d);
-        java.lang.Byte[] byteArray9 = new java.lang.Byte[] { (byte) 10 };
+        java.lang.Byte[] byteArray9 = new java.lang.Byte[]{(byte) 10};
         java.util.ArrayList<java.lang.Byte> byteList10 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList10, byteArray9);
         java.util.Spliterator<java.lang.Byte> byteSpliterator12 = byteList10.spliterator();
         boolean boolean13 = doubleList1.containsAll((java.util.Collection<java.lang.Byte>) byteList10);
-        byte[] byteArray17 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray17 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder18 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray17);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder19 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray17);
         org.ccsds.moims.mo.mal.structures.Blob blob20 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray17);
@@ -17005,7 +17677,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.DoubleList doubleList1 = new org.ccsds.moims.mo.mal.structures.DoubleList((int) (short) 100);
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = doubleList1.getAreaNumber();
         java.lang.Object obj3 = doubleList1.clone();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet10 = binaryDecoder9.decodeNullableUOctet();
@@ -17043,7 +17715,10 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0982");
         try {
-            org.ccsds.moims.mo.com.structures.ObjectType objectType4 = esa.mo.com.impl.util.HelperCOM.generateCOMObjectType((int) ' ', (-2), (-11), (int) (short) 127);
+            org.ccsds.moims.mo.com.structures.ObjectType objectType4 = esa.mo.com.impl.util.HelperCOM.generateCOMObjectType((int) ' ',
+                                                                                                                            (-2),
+                                                                                                                            (-11),
+                                                                                                                            (int) (short) 127);
             org.junit.Assert.fail("Expected exception of type java.lang.IllegalArgumentException; message: UShort argument must not be negative");
         } catch (java.lang.IllegalArgumentException e) {
         }
@@ -17053,7 +17728,7 @@ public class RegressionTest1 {
     public void test0983() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0983");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet6 = binaryDecoder5.decodeNullableUOctet();
@@ -17063,41 +17738,48 @@ public class RegressionTest1 {
         java.lang.Integer int10 = uRIList9.getTypeShortForm();
         java.lang.Integer int11 = uRIList9.getTypeShortForm();
         java.lang.Object obj12 = uRIList9.clone();
-        byte[] byteArray16 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray16 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder17 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray16);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder18 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray16);
         int int19 = uRIList9.lastIndexOf((java.lang.Object) binaryDecoder18);
         org.ccsds.moims.mo.mal.structures.Duration duration20 = binaryDecoder18.decodeDuration();
         org.ccsds.moims.mo.mal.structures.Element element21 = uOctet6.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder18);
         byte[] byteArray22 = binaryDecoder18.getRemainingEncodedData();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray23 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray23 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList24 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean25 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList24, uShortArray23);
+        boolean boolean25 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList24,
+                                                         uShortArray23);
         uShortList24.trimToSize();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet27 = org.ccsds.moims.mo.mal.structures.ShortList.AREA_VERSION;
         org.ccsds.moims.mo.mal.structures.Element element28 = uOctet27.createElement();
         int int29 = uShortList24.indexOf((java.lang.Object) element28);
-        java.lang.String[] strArray32 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray32 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList33 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean34 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList33, strArray32);
-        java.lang.Long[] longArray42 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        boolean boolean34 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList33,
+                                                         strArray32);
+        java.lang.Long[] longArray42 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList43 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean44 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList43, longArray42);
+        boolean boolean44 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList43,
+                                                         longArray42);
         java.lang.Object obj45 = longList43.clone();
         int int46 = strList33.indexOf((java.lang.Object) longList43);
         java.util.ListIterator<java.lang.String> strItor47 = strList33.listIterator();
-        java.lang.Short[] shortArray51 = new java.lang.Short[] { (short) -1, (short) 0, (short) 100 };
+        java.lang.Short[] shortArray51 = new java.lang.Short[]{(short) -1, (short) 0, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList52 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean53 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList52, shortArray51);
-        java.lang.String[] strArray56 = new java.lang.String[] { "hi!", "" };
+        boolean boolean53 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList52,
+                                                         shortArray51);
+        java.lang.String[] strArray56 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList57 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean58 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList57, strArray56);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray59 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean58 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList57,
+                                                         strArray56);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray59 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList60 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean61 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList60, uRIArray59);
-        java.lang.Byte[] byteArray66 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean61 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList60,
+                                                         uRIArray59);
+        java.lang.Byte[] byteArray66 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList67 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean68 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList67, byteArray66);
+        boolean boolean68 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList67,
+                                                         byteArray66);
         boolean boolean70 = byteList67.add((java.lang.Byte) (byte) 100);
         boolean boolean71 = uRIList60.containsAll((java.util.Collection<java.lang.Byte>) byteList67);
         boolean boolean72 = strList57.containsAll((java.util.Collection<java.lang.Byte>) byteList67);
@@ -17157,7 +17839,7 @@ public class RegressionTest1 {
     public void test0984() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0984");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder5 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         java.lang.Integer int6 = binaryDecoder5.decodeInteger();
@@ -17178,7 +17860,7 @@ public class RegressionTest1 {
     public void test0986() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0986");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         org.ccsds.moims.mo.mal.structures.UInteger uInteger5 = binaryDecoder4.decodeNullableUInteger();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet6 = uInteger5.getAreaVersion();
@@ -17187,34 +17869,41 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort9 = shortList8.getAreaNumber();
         java.lang.Object[] objArray10 = shortList8.toArray();
         boolean boolean11 = floatList7.remove((java.lang.Object) shortList8);
-        java.lang.Long[] longArray19 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        java.lang.Long[] longArray19 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList20 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList20, longArray19);
+        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList20,
+                                                         longArray19);
         java.lang.Object obj22 = longList20.clone();
-        java.lang.Boolean[] booleanArray24 = new java.lang.Boolean[] { false };
+        java.lang.Boolean[] booleanArray24 = new java.lang.Boolean[]{false};
         java.util.ArrayList<java.lang.Boolean> booleanList25 = new java.util.ArrayList<java.lang.Boolean>();
-        boolean boolean26 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList25, booleanArray24);
-        java.lang.Byte[] byteArray31 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean26 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList25,
+                                                         booleanArray24);
+        java.lang.Byte[] byteArray31 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList32 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList32, byteArray31);
+        boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList32,
+                                                         byteArray31);
         boolean boolean35 = byteList32.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray40 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray40 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList41 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList41, byteArray40);
+        boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList41,
+                                                         byteArray40);
         boolean boolean44 = byteList41.add((java.lang.Byte) (byte) 100);
         boolean boolean45 = byteList32.addAll((java.util.Collection<java.lang.Byte>) byteList41);
         java.lang.Object obj46 = byteList32.clone();
         boolean boolean47 = booleanList25.contains((java.lang.Object) byteList32);
         boolean boolean48 = longList20.remove((java.lang.Object) boolean47);
-        java.lang.String[] strArray51 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray51 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList52 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean53 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList52, strArray51);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray54 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean53 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList52,
+                                                         strArray51);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray54 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList55 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean56 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList55, uRIArray54);
-        java.lang.Byte[] byteArray61 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean56 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList55,
+                                                         uRIArray54);
+        java.lang.Byte[] byteArray61 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList62 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean63 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList62, byteArray61);
+        boolean boolean63 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList62,
+                                                         byteArray61);
         boolean boolean65 = byteList62.add((java.lang.Byte) (byte) 100);
         boolean boolean66 = uRIList55.containsAll((java.util.Collection<java.lang.Byte>) byteList62);
         boolean boolean67 = strList52.containsAll((java.util.Collection<java.lang.Byte>) byteList62);
@@ -17224,7 +17913,7 @@ public class RegressionTest1 {
         java.lang.Integer int71 = uRIList70.getTypeShortForm();
         java.lang.Integer int72 = uRIList70.getTypeShortForm();
         java.lang.Object obj73 = uRIList70.clone();
-        byte[] byteArray77 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray77 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder78 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray77);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder79 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray77);
         int int80 = uRIList70.lastIndexOf((java.lang.Object) binaryDecoder79);
@@ -17287,7 +17976,7 @@ public class RegressionTest1 {
         java.lang.Integer int1 = uRIList0.getTypeShortForm();
         java.lang.Integer int2 = uRIList0.getTypeShortForm();
         java.lang.Object obj3 = uRIList0.clone();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         int int10 = uRIList0.lastIndexOf((java.lang.Object) binaryDecoder9);
@@ -17367,7 +18056,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.DoubleList doubleList1 = new org.ccsds.moims.mo.mal.structures.DoubleList((int) (short) 100);
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = doubleList1.getAreaNumber();
         java.lang.Object obj3 = doubleList1.clone();
-        byte[] byteArray7 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray7 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder8 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder9 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray7);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet10 = binaryDecoder9.decodeNullableUOctet();
@@ -17428,39 +18117,46 @@ public class RegressionTest1 {
     public void test0992() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0992");
-        java.lang.Short[] shortArray2 = new java.lang.Short[] { (short) 0, (short) 10 };
+        java.lang.Short[] shortArray2 = new java.lang.Short[]{(short) 0, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList3 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList3, shortArray2);
+        boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList3,
+                                                        shortArray2);
         java.util.ListIterator<java.lang.Short> shortItor5 = shortList3.listIterator();
-        java.lang.Double[] doubleArray11 = new java.lang.Double[] { 100.0d, (-1.0d), Double.NaN, 0.0d, 100.0d };
+        java.lang.Double[] doubleArray11 = new java.lang.Double[]{100.0d, (-1.0d), Double.NaN, 0.0d, 100.0d};
         java.util.ArrayList<java.lang.Double> doubleList12 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList12, doubleArray11);
+        boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList12,
+                                                         doubleArray11);
         org.ccsds.moims.mo.mal.structures.OctetList octetList14 = new org.ccsds.moims.mo.mal.structures.OctetList();
         org.ccsds.moims.mo.mal.structures.UShort uShort15 = octetList14.getServiceNumber();
         boolean boolean16 = doubleList12.containsAll((java.util.Collection<java.lang.Byte>) octetList14);
         boolean boolean17 = shortList3.retainAll((java.util.Collection<java.lang.Byte>) octetList14);
-        java.lang.Short[] shortArray21 = new java.lang.Short[] { (short) -1, (short) 0, (short) 100 };
+        java.lang.Short[] shortArray21 = new java.lang.Short[]{(short) -1, (short) 0, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList22 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList22, shortArray21);
-        java.lang.String[] strArray26 = new java.lang.String[] { "hi!", "" };
+        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList22,
+                                                         shortArray21);
+        java.lang.String[] strArray26 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList27 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean28 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList27, strArray26);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray29 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean28 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList27,
+                                                         strArray26);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray29 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList30 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean31 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList30, uRIArray29);
-        java.lang.Byte[] byteArray36 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean31 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList30,
+                                                         uRIArray29);
+        java.lang.Byte[] byteArray36 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList37 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean38 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList37, byteArray36);
+        boolean boolean38 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList37,
+                                                         byteArray36);
         boolean boolean40 = byteList37.add((java.lang.Byte) (byte) 100);
         boolean boolean41 = uRIList30.containsAll((java.util.Collection<java.lang.Byte>) byteList37);
         boolean boolean42 = strList27.containsAll((java.util.Collection<java.lang.Byte>) byteList37);
         boolean boolean43 = shortList22.contains((java.lang.Object) byteList37);
         boolean boolean44 = octetList14.removeAll((java.util.Collection<java.lang.Byte>) byteList37);
-        byte[] byteArray48 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray48 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder49 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray48);
         java.lang.Double double50 = binaryDecoder49.decodeNullableDouble();
         byte[] byteArray51 = binaryDecoder49.getRemainingEncodedData();
-        org.ccsds.moims.mo.mal.structures.Blob blob54 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray51, 18, (int) ' ');
+        org.ccsds.moims.mo.mal.structures.Blob blob54 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray51, 18,
+                                                                                                   (int) ' ');
         org.ccsds.moims.mo.mal.structures.UOctet uOctet55 = blob54.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.FloatList floatList56 = new org.ccsds.moims.mo.mal.structures.FloatList();
         int int58 = floatList56.lastIndexOf((java.lang.Object) 10);
@@ -17470,7 +18166,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UShort uShort62 = floatList56.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort63 = floatList56.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort64 = floatList56.getServiceNumber();
-        byte[] byteArray68 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray68 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder69 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray68);
         org.ccsds.moims.mo.mal.structures.Element element70 = uShort64.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder69);
         org.ccsds.moims.mo.mal.structures.Element element71 = uOctet55.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder69);
@@ -17533,34 +18229,40 @@ public class RegressionTest1 {
     public void test0994() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0994");
-        java.lang.Long[] longArray7 = new java.lang.Long[] { 281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L };
+        java.lang.Long[] longArray7 = new java.lang.Long[]{281474993487878L, 100L, (-1L), 100L, 1L, 1L, 1L};
         java.util.ArrayList<java.lang.Long> longList8 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList8, longArray7);
         java.lang.Object obj10 = longList8.clone();
-        java.lang.Boolean[] booleanArray12 = new java.lang.Boolean[] { false };
+        java.lang.Boolean[] booleanArray12 = new java.lang.Boolean[]{false};
         java.util.ArrayList<java.lang.Boolean> booleanList13 = new java.util.ArrayList<java.lang.Boolean>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList13, booleanArray12);
-        java.lang.Byte[] byteArray19 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList13,
+                                                         booleanArray12);
+        java.lang.Byte[] byteArray19 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList20 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20, byteArray19);
+        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20,
+                                                         byteArray19);
         boolean boolean23 = byteList20.add((java.lang.Byte) (byte) 100);
-        java.lang.Byte[] byteArray28 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        java.lang.Byte[] byteArray28 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList29 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList29, byteArray28);
+        boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList29,
+                                                         byteArray28);
         boolean boolean32 = byteList29.add((java.lang.Byte) (byte) 100);
         boolean boolean33 = byteList20.addAll((java.util.Collection<java.lang.Byte>) byteList29);
         java.lang.Object obj34 = byteList20.clone();
         boolean boolean35 = booleanList13.contains((java.lang.Object) byteList20);
         boolean boolean36 = longList8.remove((java.lang.Object) boolean35);
-        java.lang.String[] strArray39 = new java.lang.String[] { "hi!", "" };
+        java.lang.String[] strArray39 = new java.lang.String[]{"hi!", ""};
         java.util.ArrayList<java.lang.String> strList40 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean41 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList40, strArray39);
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray42 = new org.ccsds.moims.mo.mal.structures.URI[] {};
+        boolean boolean41 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList40,
+                                                         strArray39);
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray42 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList43 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean44 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList43, uRIArray42);
-        java.lang.Byte[] byteArray49 = new java.lang.Byte[] { (byte) -1, (byte) -1, (byte) -1, (byte) -1 };
+        boolean boolean44 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList43,
+                                                         uRIArray42);
+        java.lang.Byte[] byteArray49 = new java.lang.Byte[]{(byte) -1, (byte) -1, (byte) -1, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList50 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean51 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList50, byteArray49);
+        boolean boolean51 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList50,
+                                                         byteArray49);
         boolean boolean53 = byteList50.add((java.lang.Byte) (byte) 100);
         boolean boolean54 = uRIList43.containsAll((java.util.Collection<java.lang.Byte>) byteList50);
         boolean boolean55 = strList40.containsAll((java.util.Collection<java.lang.Byte>) byteList50);
@@ -17570,21 +18272,22 @@ public class RegressionTest1 {
         java.lang.Integer int59 = uRIList58.getTypeShortForm();
         java.lang.Integer int60 = uRIList58.getTypeShortForm();
         java.lang.Object obj61 = uRIList58.clone();
-        byte[] byteArray65 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray65 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder66 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray65);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder67 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray65);
         int int68 = uRIList58.lastIndexOf((java.lang.Object) binaryDecoder67);
         boolean boolean69 = longList8.remove((java.lang.Object) uRIList58);
         org.ccsds.moims.mo.mal.structures.UShort uShort70 = uRIList58.getAreaNumber();
         boolean boolean71 = uRIList58.isEmpty();
-        byte[] byteArray75 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray75 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder76 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray75);
         org.ccsds.moims.mo.mal.structures.FineTime fineTime77 = binaryDecoder76.decodeFineTime();
         org.ccsds.moims.mo.mal.structures.URI uRI78 = binaryDecoder76.decodeURI();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet79 = uRI78.getAreaVersion();
-        java.lang.Integer[] intArray88 = new java.lang.Integer[] { 2, 10, (-11), (-7), 100, 8, 6, (-7) };
+        java.lang.Integer[] intArray88 = new java.lang.Integer[]{2, 10, (-11), (-7), 100, 8, 6, (-7)};
         java.util.ArrayList<java.lang.Integer> intList89 = new java.util.ArrayList<java.lang.Integer>();
-        boolean boolean90 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList89, intArray88);
+        boolean boolean90 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList89,
+                                                         intArray88);
         int int92 = intList89.lastIndexOf((java.lang.Object) (short) 0);
         java.util.stream.Stream<java.lang.Integer> intStream93 = intList89.stream();
         java.util.Iterator<java.lang.Integer> intItor94 = intList89.iterator();
@@ -17647,7 +18350,7 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0995");
         org.ccsds.moims.mo.mal.structures.Time time0 = new org.ccsds.moims.mo.mal.structures.Time();
-        java.lang.Integer[] intArray2 = new java.lang.Integer[] { 10 };
+        java.lang.Integer[] intArray2 = new java.lang.Integer[]{10};
         java.util.ArrayList<java.lang.Integer> intList3 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList3, intArray2);
         int int6 = intList3.lastIndexOf((java.lang.Object) 0.0f);
@@ -17657,7 +18360,7 @@ public class RegressionTest1 {
         java.lang.Integer int11 = uRIList10.getTypeShortForm();
         java.lang.Integer int12 = uRIList10.getTypeShortForm();
         java.lang.Object obj13 = uRIList10.clone();
-        byte[] byteArray17 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray17 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder18 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray17);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder19 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray17);
         int int20 = uRIList10.lastIndexOf((java.lang.Object) binaryDecoder19);
@@ -17686,11 +18389,12 @@ public class RegressionTest1 {
     public void test0997() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0997");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         java.lang.Double double5 = binaryDecoder4.decodeNullableDouble();
         byte[] byteArray6 = binaryDecoder4.getRemainingEncodedData();
-        org.ccsds.moims.mo.mal.structures.Blob blob9 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray6, 18, (int) ' ');
+        org.ccsds.moims.mo.mal.structures.Blob blob9 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray6, 18,
+                                                                                                  (int) ' ');
         java.lang.String str10 = blob9.getURL();
         int int11 = blob9.getLength();
         org.junit.Assert.assertNotNull(byteArray3);
@@ -17704,12 +18408,12 @@ public class RegressionTest1 {
     public void test0998() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test0998");
-        byte[] byteArray3 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray3 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder4 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray3);
         org.ccsds.moims.mo.mal.structures.FineTime fineTime5 = binaryDecoder4.decodeFineTime();
         org.ccsds.moims.mo.mal.structures.FineTime fineTime6 = binaryDecoder4.decodeFineTime();
         org.ccsds.moims.mo.mal.structures.Blob blob7 = new org.ccsds.moims.mo.mal.structures.Blob();
-        byte[] byteArray11 = new byte[] { (byte) 100, (byte) -1, (byte) 0 };
+        byte[] byteArray11 = new byte[]{(byte) 100, (byte) -1, (byte) 0};
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder12 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray11);
         esa.mo.com.impl.archive.encoding.BinaryDecoder binaryDecoder13 = new esa.mo.com.impl.archive.encoding.BinaryDecoder(byteArray11);
         org.ccsds.moims.mo.mal.structures.Element element14 = blob7.decode((org.ccsds.moims.mo.mal.MALDecoder) binaryDecoder13);

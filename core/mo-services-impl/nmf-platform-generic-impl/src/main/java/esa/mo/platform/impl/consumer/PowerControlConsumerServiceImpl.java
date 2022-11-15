@@ -61,13 +61,13 @@ public class PowerControlConsumerServiceImpl extends ConsumerServiceImpl {
     }
 
     public PowerControlConsumerServiceImpl(SingleConnectionDetails connectionDetails,
-            COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
+                                           COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
         this(connectionDetails, comServices, null, null);
     }
 
-    public PowerControlConsumerServiceImpl(SingleConnectionDetails connectionDetails,
-                                           COMServicesConsumer comServices,
-                                           Blob authenticationId, String localNamePrefix) throws MALException, MalformedURLException, MALInteractionException {
+    public PowerControlConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices,
+                                           Blob authenticationId,
+                                           String localNamePrefix) throws MALException, MalformedURLException, MALInteractionException {
         this.connectionDetails = connectionDetails;
         this.comServices = comServices;
 
@@ -80,12 +80,11 @@ public class PowerControlConsumerServiceImpl extends ConsumerServiceImpl {
             }
         }
 
-        tmConsumer = connection.startService(
-                this.connectionDetails.getProviderURI(),
-                this.connectionDetails.getBrokerURI(),
-                this.connectionDetails.getDomain(),
-                PowerControlHelper.POWERCONTROL_SERVICE,
-                authenticationId, localNamePrefix);
+        tmConsumer = connection.startService(this.connectionDetails.getProviderURI(), this.connectionDetails
+                                                                                                            .getBrokerURI(),
+                                             this.connectionDetails.getDomain(),
+                                             PowerControlHelper.POWERCONTROL_SERVICE, authenticationId,
+                                             localNamePrefix);
 
         this.powerControlStub = new PowerControlStub(tmConsumer);
     }

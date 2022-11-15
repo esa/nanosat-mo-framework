@@ -19,15 +19,15 @@ public class HelperLocalArchiveRetrieveAdapter extends RetrieveInteraction imple
     final IdentifierList domain;
 
     public HelperLocalArchiveRetrieveAdapter(MALInvoke interaction, final ObjectType objType,
-            final IdentifierList domain) {
+                                             final IdentifierList domain) {
         super(interaction);
         this.objType = objType;
         this.domain = domain;
     }
 
     @Override
-    public synchronized MALMessage sendResponse(ArchiveDetailsList objDetails, ElementList objBodies)
-            throws MALInteractionException, MALException {
+    public synchronized MALMessage sendResponse(ArchiveDetailsList objDetails,
+                                                ElementList objBodies) throws MALInteractionException, MALException {
         if (objBodies != null) {
             if (!objBodies.isEmpty()) {
                 this.objectBodyList = objBodies;

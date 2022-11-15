@@ -37,36 +37,30 @@ import org.orekit.utils.PVCoordinatesProvider;
  *
  * @author Kevin Otto
  */
-public class AttitudeProviderWrapper implements AttitudeProvider
-{
+public class AttitudeProviderWrapper implements AttitudeProvider {
 
-  private AttitudeProvider provider;
+    private AttitudeProvider provider;
 
-  public AttitudeProvider getProvider()
-  {
-    return provider;
-  }
+    public AttitudeProvider getProvider() {
+        return provider;
+    }
 
-  public void setProvider(AttitudeProvider provider)
-  {
-    this.provider = provider;
-  }
+    public void setProvider(AttitudeProvider provider) {
+        this.provider = provider;
+    }
 
-  public AttitudeProviderWrapper(AttitudeProvider provider)
-  {
-    this.provider = provider;
-  }
+    public AttitudeProviderWrapper(AttitudeProvider provider) {
+        this.provider = provider;
+    }
 
-  @Override
-  public Attitude getAttitude(PVCoordinatesProvider pvProv, AbsoluteDate date, Frame frame)
-  {
-    return this.provider.getAttitude(pvProv, date, frame);
-  }
+    @Override
+    public Attitude getAttitude(PVCoordinatesProvider pvProv, AbsoluteDate date, Frame frame) {
+        return this.provider.getAttitude(pvProv, date, frame);
+    }
 
-  @Override
-  public <T extends RealFieldElement<T>> FieldAttitude<T> getAttitude(
-      FieldPVCoordinatesProvider<T> pvProv, FieldAbsoluteDate<T> date, Frame frame)
-  {
-    return this.provider.getAttitude(pvProv, date, frame);
-  }
+    @Override
+    public <T extends RealFieldElement<T>> FieldAttitude<T> getAttitude(FieldPVCoordinatesProvider<T> pvProv,
+                                                                        FieldAbsoluteDate<T> date, Frame frame) {
+        return this.provider.getAttitude(pvProv, date, frame);
+    }
 }

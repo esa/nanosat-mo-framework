@@ -25,26 +25,22 @@ package esa.mo.ground.restservice;
  *
  * @author Kevin Otto
  */
-public class GroundTrack
-{
+public class GroundTrack {
 
-  private final long id;
-  private final PositionAndTime[] trackPoints;
+    private final long id;
+    private final PositionAndTime[] trackPoints;
 
-  public GroundTrack(long id, PositionAndTime[] track)
-  {
-    this.id = id;
-    this.trackPoints = track;
-  }
+    public GroundTrack(long id, PositionAndTime[] track) {
+        this.id = id;
+        this.trackPoints = track;
+    }
 
-  public long getId()
-  {
-    return id;
-  }
+    public long getId() {
+        return id;
+    }
 
-  public PositionAndTime[] getTrack()
-  {
-    return trackPoints;
-  }
+    public PositionAndTime[] getTrack() {
+        return trackPoints;
+    }
 
 }

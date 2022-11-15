@@ -33,9 +33,11 @@ import java.util.logging.Logger;
 public class AppShutdownGuard {
 
     private static final Logger LOGGER = Logger.getLogger(AppShutdownGuard.class.getName());
-    private AppShutdownGuard(){}
-    public static void start()
-    {
+
+    private AppShutdownGuard() {
+    }
+
+    public static void start() {
         (new Thread("ShutdownGuardThread") {
             @Override
             public void run() {
@@ -45,17 +47,20 @@ public class AppShutdownGuard {
                     // The thread was interrupted by the system exit
                     return;
                 }
-                LOGGER.log(Level.WARNING, "The application failed to exit gracefully within predefined {0} ms. Performing a thread dump...", Const.APP_SHUTDOWN_GUARD_MS);
+                LOGGER.log(Level.WARNING,
+                           "The application failed to exit gracefully within predefined {0} ms. Performing a thread dump...",
+                           Const.APP_SHUTDOWN_GUARD_MS);
                 LOGGER.log(Level.WARNING, threadDump(true, true));
                 LOGGER.log(Level.WARNING, "Forcing exit with code -1");
                 System.exit(-1);
             }
         }).start();
     }
+
     private static String threadDump(boolean lockedMonitors, boolean lockedSynchronizers) {
         StringBuilder threadDump = new StringBuilder(System.lineSeparator());
         ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
-        for(ThreadInfo threadInfo : threadMXBean.dumpAllThreads(lockedMonitors, lockedSynchronizers)) {
+        for (ThreadInfo threadInfo : threadMXBean.dumpAllThreads(lockedMonitors, lockedSynchronizers)) {
             threadDump.append(threadInfo.toString());
         }
         return threadDump.toString();

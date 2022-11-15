@@ -35,12 +35,11 @@ public class LoggerFormatter1Line extends Formatter {
     // Create a DateFormat to format the logger timestamp.
     //
     String nodeName;
-    public final static String SIMULATOR_PRE_LOG="OPS-SAT SoftSim:";
+    public final static String SIMULATOR_PRE_LOG = "OPS-SAT SoftSim:";
+
     public LoggerFormatter1Line(String nodeName) {
         this.nodeName = nodeName;
     }
-    
-    
 
     public String format(LogRecord record) {
         StringBuilder builder = new StringBuilder(1000);

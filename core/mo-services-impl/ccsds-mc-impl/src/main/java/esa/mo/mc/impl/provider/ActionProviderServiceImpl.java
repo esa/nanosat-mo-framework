@@ -85,7 +85,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
      * @throws MALException On initialisation error.
      */
     public synchronized void init(COMServicesProvider comServices,
-            ActionInvocationListener actions) throws MALException {
+                                  ActionInvocationListener actions) throws MALException {
         if (!initialiased) {
 
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
@@ -105,12 +105,12 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
             }
 
             if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION)
-                        .getServiceByName(ConfigurationHelper.CONFIGURATION_SERVICE_NAME) == null) {
+                                 .getServiceByName(ConfigurationHelper.CONFIGURATION_SERVICE_NAME) == null) {
                 ConfigurationHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
             if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION)
-                         .getServiceByName(ActionHelper.ACTION_SERVICE_NAME) == null) {
+                                 .getServiceByName(ActionHelper.ACTION_SERVICE_NAME) == null) {
                 ActionHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
@@ -121,7 +121,8 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
             connection.closeAll();
         }
 
-        actionServiceProvider = connection.startService(ActionHelper.ACTION_SERVICE_NAME.toString(), ActionHelper.ACTION_SERVICE, false, this);
+        actionServiceProvider = connection.startService(ActionHelper.ACTION_SERVICE_NAME.toString(),
+                                                        ActionHelper.ACTION_SERVICE, false, this);
 
         running = true;
         manager = new ActionManager(comServices, actions);
@@ -142,8 +143,8 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
             connection.closeAll();
             running = false;
         } catch (MALException ex) {
-            Logger.getLogger(ActionProviderServiceImpl.class.getName()).log(Level.WARNING,
-                    "Exception during close down of the provider {0}", ex);
+            Logger.getLogger(ActionProviderServiceImpl.class.getName())
+                  .log(Level.WARNING, "Exception during close down of the provider {0}", ex);
         }
     }
 
@@ -158,7 +159,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
 
     @Override //requirement: 3.2.3
     public void submitAction(Long actionInstId, ActionInstanceDetails actionDetails,
-            MALInteraction interaction) throws MALInteractionException, MALException {
+                             MALInteraction interaction) throws MALInteractionException, MALException {
         UIntegerList invIndexList = new UIntegerList();
         boolean unknown = false;
 
@@ -183,7 +184,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
 
         // requirement: 3.2.8.e
         boolean accepted;
-//        if (!manager.existsIdentity(manager.getIdentity(actionDetails.getDefInstId()))) {
+        //        if (!manager.existsIdentity(manager.getIdentity(actionDetails.getDefInstId()))) {
         if (!manager.existsDef(actionDetails.getDefInstId())) {
             accepted = false;
             unknown = true;
@@ -195,8 +196,9 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         // Publish the second Acceptance event
         try {
             // source for ActionInstance ACCEPTANCE event is the ActionInstance object id
-            ObjectId source = new ObjectId(ActionHelper.ACTIONINSTANCE_OBJECT_TYPE,
-                    new ObjectKey(ConfigurationProviderSingleton.getDomain(), actionInstId)); // requirement: 3.2.8.f  
+            ObjectId source = new ObjectId(ActionHelper.ACTIONINSTANCE_OBJECT_TYPE, new ObjectKey(
+                                                                                                  ConfigurationProviderSingleton.getDomain(),
+                                                                                                  actionInstId)); // requirement: 3.2.8.f  
             //body of AcceptanceEvent is value of "accepted"? -> issue #187
             manager.getActivityTrackingService().publishAcceptanceEventOperation(interaction, accepted, null, source); // requirement: 3.2.8.e, f, g  
         } catch (MALInteractionException | MALException ex) {
@@ -222,7 +224,8 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
     }
 
     @Override
-    public Boolean preCheckAction(ActionInstanceDetails actionDetails, MALInteraction interaction) throws MALInteractionException, MALException {
+    public Boolean preCheckAction(ActionInstanceDetails actionDetails,
+                                  MALInteraction interaction) throws MALInteractionException, MALException {
         UIntegerList invIndexList = new UIntegerList();
 
         // requirement: 3.2.10.3.2
@@ -244,7 +247,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
 
     @Override
     public ObjectInstancePairList listDefinition(final IdentifierList actionNames,
-            final MALInteraction interaction) throws MALException, MALInteractionException {
+                                                 final MALInteraction interaction) throws MALException, MALInteractionException {
         ObjectInstancePairList outPairLst = new ObjectInstancePairList();
 
         if (null == actionNames) { // Is the input null?
@@ -286,7 +289,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
 
     @Override
     public ObjectInstancePairList addAction(ActionCreationRequestList actionCreationRequestList,
-            MALInteraction interaction) throws MALInteractionException, MALException {
+                                            MALInteraction interaction) throws MALInteractionException, MALException {
         ObjectInstancePairList newObjInstIds = new ObjectInstancePairList();
         UIntegerList invIndexList = new UIntegerList();
         UIntegerList dupIndexList = new UIntegerList();
@@ -300,9 +303,9 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         for (int index = 0; index < actionCreationRequestList.size(); index++) {
             ActionCreationRequest tempActionCreationRequest = actionCreationRequestList.get(index);
             // Check if the name field of the ActionDefinition is invalid.
-            if (tempActionCreationRequest.getName() == null
-                    || tempActionCreationRequest.getName().equals(new Identifier("*"))
-                    || tempActionCreationRequest.getName().equals(new Identifier(""))) { // requirement: 3.2.12.2.b
+            if (tempActionCreationRequest.getName() == null ||
+                tempActionCreationRequest.getName().equals(new Identifier("*")) ||
+                tempActionCreationRequest.getName().equals(new Identifier(""))) { // requirement: 3.2.12.2.b
                 invIndexList.add(new UInteger(index));
                 continue;
             }
@@ -326,8 +329,9 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         for (int index = 0; index < actionCreationRequestList.size(); index++) { // requirement: 3.2.12.2.f (incremental "for cycle" guarantees that)
             ObjectId source;
             source = manager.storeCOMOperationActivity(interaction); // requirement: 3.2.4.e
-            newObjInstIds.add(manager.add(actionCreationRequestList.get(index), source,
-                    connection.getPrimaryConnectionDetails().getProviderURI())); //  requirement: 3.2.12.2.e, g
+            newObjInstIds.add(manager.add(actionCreationRequestList.get(index), source, connection
+                                                                                                  .getPrimaryConnectionDetails()
+                                                                                                  .getProviderURI())); //  requirement: 3.2.12.2.e, g
         }
 
         if (configurationAdapter != null) {
@@ -339,7 +343,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
 
     @Override
     public LongList updateDefinition(LongList actionDefInstIds, ActionDefinitionDetailsList actionDefDetails,
-            MALInteraction interaction) throws MALInteractionException, MALException {
+                                     MALInteraction interaction) throws MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
@@ -352,7 +356,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
             final Long identityId = actionDefInstIds.get(index);
 
             if (identityId == null || identityId == 0 //requirement: 3.2.13.2.c: id is Null or 0?
-                    || actionDefInstIds.size() != actionDefDetails.size()) { //requirement: 3.2.13.2.f
+                || actionDefInstIds.size() != actionDefDetails.size()) { //requirement: 3.2.13.2.f
                 invIndexList.add(new UInteger(index));
                 continue;
             }
@@ -375,8 +379,9 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         LongList newDefIds = new LongList();
         ObjectId source = manager.storeCOMOperationActivity(interaction); // requirement: 3.2.4.e
         for (int index = 0; index < actionDefInstIds.size(); index++) { // requirement: 3.2.13.2.e, k (incremental "for cycle" guarantees that)
-            newDefIds.add(manager.update(actionDefInstIds.get(index), actionDefDetails.get(index),
-                    source, connection.getPrimaryConnectionDetails().getProviderURI()));  // Change in the manager; requirement: 3.2.13.2.d, g, h
+            newDefIds.add(manager.update(actionDefInstIds.get(index), actionDefDetails.get(index), source, connection
+                                                                                                                     .getPrimaryConnectionDetails()
+                                                                                                                     .getProviderURI()));  // Change in the manager; requirement: 3.2.13.2.d, g, h
         }
 
         if (configurationAdapter != null) {
@@ -387,8 +392,8 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
     }
 
     @Override
-    public void removeAction(final LongList actionInstIds, final MALInteraction interaction)
-            throws MALException, MALInteractionException { // requirement: 3.7.12.2.1
+    public void removeAction(final LongList actionInstIds,
+                             final MALInteraction interaction) throws MALException, MALInteractionException { // requirement: 3.7.12.2.1
         UIntegerList unkIndexList = new UIntegerList();
         Long tempIdentity;
         LongList tempIdentityLst = new LongList();
@@ -443,9 +448,9 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
      * @throws IOException if the definition has a totalNumberOfProgressStages
      * different from the on supplied
      */
-    public void reportExecutionProgress(final boolean success, final UInteger errorNumber,
-            final int progressStage, final int totalNumberOfProgressStages,
-            final Long actionInstId) throws IOException {
+    public void reportExecutionProgress(final boolean success, final UInteger errorNumber, final int progressStage,
+                                        final int totalNumberOfProgressStages,
+                                        final Long actionInstId) throws IOException {
         // Some validation
         if (progressStage < 1) {
             throw new IOException("The first progress stage must be 1.");
@@ -464,9 +469,11 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
             UShort totalSteps = actionDefinition.getProgressStepCount();
 
             if (totalNumberOfProgressStages != totalSteps.getValue()) {
-                throw new IOException("The reported total number of progress stages "
-                        + "does not match the number stated in the Action Definition: "
-                        + totalNumberOfProgressStages + " vs. " + totalSteps.getValue());
+                throw new IOException("The reported total number of progress stages " +
+                                      "does not match the number stated in the Action Definition: " +
+                                      totalNumberOfProgressStages +
+                                      " vs. " +
+                                      totalSteps.getValue());
             }
 
             if (totalSteps.getValue() == 0) {
@@ -475,8 +482,8 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         }
 
         // requirement: 3.2.8.h and 3.2.8.j
-        manager.reportActivityExecutionEvent(success, errorNumber, 1 + progressStage,
-                2 + totalNumberOfProgressStages, actionInstId, null, connection.getConnectionDetails());
+        manager.reportActivityExecutionEvent(success, errorNumber, 1 + progressStage, 2 + totalNumberOfProgressStages,
+                                             actionInstId, null, connection.getConnectionDetails());
     }
 
     @Override
@@ -499,50 +506,51 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         ConfigurationObjectSet confSet1 = configurationObjectDetails.getConfigObjects().get(1);
 
         // Confirm the objTypes
-        if (!confSet0.getObjType().equals(ActionHelper.ACTIONDEFINITION_OBJECT_TYPE)
-                && !confSet1.getObjType().equals(ActionHelper.ACTIONDEFINITION_OBJECT_TYPE)) {
+        if (!confSet0.getObjType().equals(ActionHelper.ACTIONDEFINITION_OBJECT_TYPE) &&
+            !confSet1.getObjType().equals(ActionHelper.ACTIONDEFINITION_OBJECT_TYPE)) {
             return false;
         }
 
-        if (!confSet0.getObjType().equals(ActionHelper.ACTIONIDENTITY_OBJECT_TYPE)
-                && !confSet1.getObjType().equals(ActionHelper.ACTIONIDENTITY_OBJECT_TYPE)) {
+        if (!confSet0.getObjType().equals(ActionHelper.ACTIONIDENTITY_OBJECT_TYPE) &&
+            !confSet1.getObjType().equals(ActionHelper.ACTIONIDENTITY_OBJECT_TYPE)) {
             return false;
         }
 
         // Confirm the domain
-        if (!confSet0.getDomain().equals(ConfigurationProviderSingleton.getDomain())
-                || !confSet1.getDomain().equals(ConfigurationProviderSingleton.getDomain())) {
+        if (!confSet0.getDomain().equals(ConfigurationProviderSingleton.getDomain()) ||
+            !confSet1.getDomain().equals(ConfigurationProviderSingleton.getDomain())) {
             return false;
         }
 
         // If the list is empty, reconfigure the service with nothing...
         if (confSet0.getObjInstIds().isEmpty() && confSet1.getObjInstIds().isEmpty()) {
-            manager.reconfigureDefinitions(new LongList(), new IdentifierList(),
-                    new LongList(), new ActionDefinitionDetailsList());  // Reconfigures the Manager
+            manager.reconfigureDefinitions(new LongList(), new IdentifierList(), new LongList(),
+                                           new ActionDefinitionDetailsList());  // Reconfigures the Manager
 
             return true;
         }
 
         // ok, we're good to go...
         // Load the Parameter Definitions from this configuration...
-        ConfigurationObjectSet confSetDefs = (confSet0.getObjType().equals(ActionHelper.ACTIONDEFINITION_OBJECT_TYPE)) ? confSet0 : confSet1;
+        ConfigurationObjectSet confSetDefs = (confSet0.getObjType().equals(ActionHelper.ACTIONDEFINITION_OBJECT_TYPE)) ?
+            confSet0 :
+            confSet1;
 
-        ActionDefinitionDetailsList pDefs = (ActionDefinitionDetailsList) HelperArchive.getObjectBodyListFromArchive(
-                manager.getArchiveService(),
-                ActionHelper.ACTIONDEFINITION_OBJECT_TYPE,
-                ConfigurationProviderSingleton.getDomain(),
-                confSetDefs.getObjInstIds());
+        ActionDefinitionDetailsList pDefs = (ActionDefinitionDetailsList) HelperArchive.getObjectBodyListFromArchive(manager.getArchiveService(),
+                                                                                                                     ActionHelper.ACTIONDEFINITION_OBJECT_TYPE,
+                                                                                                                     ConfigurationProviderSingleton.getDomain(),
+                                                                                                                     confSetDefs.getObjInstIds());
 
-        ConfigurationObjectSet confSetIdents = (confSet0.getObjType().equals(ActionHelper.ACTIONIDENTITY_OBJECT_TYPE)) ? confSet0 : confSet1;
+        ConfigurationObjectSet confSetIdents = (confSet0.getObjType().equals(ActionHelper.ACTIONIDENTITY_OBJECT_TYPE)) ?
+            confSet0 :
+            confSet1;
 
-        IdentifierList idents = (IdentifierList) HelperArchive.getObjectBodyListFromArchive(
-                manager.getArchiveService(),
-                ActionHelper.ACTIONIDENTITY_OBJECT_TYPE,
-                ConfigurationProviderSingleton.getDomain(),
-                confSetIdents.getObjInstIds());
+        IdentifierList idents = (IdentifierList) HelperArchive.getObjectBodyListFromArchive(manager.getArchiveService(),
+                                                                                            ActionHelper.ACTIONIDENTITY_OBJECT_TYPE,
+                                                                                            ConfigurationProviderSingleton.getDomain(),
+                                                                                            confSetIdents.getObjInstIds());
 
-        manager.reconfigureDefinitions(confSetIdents.getObjInstIds(), idents,
-                confSetDefs.getObjInstIds(), pDefs);   // Reconfigures the Manager
+        manager.reconfigureDefinitions(confSetIdents.getObjInstIds(), idents, confSetDefs.getObjInstIds(), pDefs);   // Reconfigures the Manager
 
         return true;
     }
@@ -553,14 +561,14 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         // Create a Configuration Object with all the objs of the provider
         /*
         HashMap<Identity, Definition> defObjs = manager.getCurrentDefinitionsConfiguration();
-
+        
         ConfigurationObjectSet objsSet = new ConfigurationObjectSet();
         objsSet.setDomain(ConfigurationProviderSingleton.getDomain());
         LongList currentObjIds = new LongList();
         currentObjIds.addAll(defObjs.keySet());
         objsSet.setObjInstIds(currentObjIds);
         objsSet.setObjType(ActionHelper.ACTIONDEFINITION_OBJECT_TYPE);
-
+        
         ConfigurationObjectSetList list = new ConfigurationObjectSetList();
         list.add(objsSet);
          */

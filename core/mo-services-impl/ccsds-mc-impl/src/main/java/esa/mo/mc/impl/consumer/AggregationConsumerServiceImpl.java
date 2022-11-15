@@ -34,7 +34,6 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.consumer.MALConsumer;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mc.MCHelper;
-import org.ccsds.moims.mo.mc.action.ActionHelper;
 import org.ccsds.moims.mo.mc.aggregation.AggregationHelper;
 import org.ccsds.moims.mo.mc.aggregation.consumer.AggregationStub;
 
@@ -65,7 +64,8 @@ public class AggregationConsumerServiceImpl extends ConsumerServiceImpl {
         return new AggregationStub(tmConsumer);
     }
 
-    public AggregationConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
+    public AggregationConsumerServiceImpl(SingleConnectionDetails connectionDetails,
+                                          COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
         this(connectionDetails, comServices, null, null);
     }
 
@@ -86,7 +86,7 @@ public class AggregationConsumerServiceImpl extends ConsumerServiceImpl {
         }
 
         if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION)
-                    .getServiceByName(AggregationHelper.AGGREGATION_SERVICE_NAME) == null) {
+                             .getServiceByName(AggregationHelper.AGGREGATION_SERVICE_NAME) == null) {
             AggregationHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
@@ -102,12 +102,10 @@ public class AggregationConsumerServiceImpl extends ConsumerServiceImpl {
             }
         }
 
-        tmConsumer = connection.startService(
-                this.connectionDetails.getProviderURI(),
-                this.connectionDetails.getBrokerURI(),
-                this.connectionDetails.getDomain(),
-                AggregationHelper.AGGREGATION_SERVICE,
-                authenticationId, localNamePrefix);
+        tmConsumer = connection.startService(this.connectionDetails.getProviderURI(), this.connectionDetails
+                                                                                                            .getBrokerURI(),
+                                             this.connectionDetails.getDomain(), AggregationHelper.AGGREGATION_SERVICE,
+                                             authenticationId, localNamePrefix);
 
         this.aggregationService = new AggregationStub(tmConsumer);
     }

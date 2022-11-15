@@ -22,7 +22,7 @@ package esa.mo.mc.impl.provider.check;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
 
-public class ParameterValueEntry{
+public class ParameterValueEntry {
 
     private ParameterValue value;
     private Time creationTime;
@@ -51,6 +51,4 @@ public class ParameterValueEntry{
         this.creationTime = creationTime;
     }
 
-    
-    
 }

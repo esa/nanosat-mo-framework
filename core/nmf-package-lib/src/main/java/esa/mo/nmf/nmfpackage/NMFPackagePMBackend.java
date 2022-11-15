@@ -39,7 +39,7 @@ public class NMFPackagePMBackend implements PMBackend {
 
     @Deprecated
     private static final String PACKAGES_FOLDER = "packages";  // dir name
-    
+
     private final File folderWithPackages;  // Location of the folder
 
     /**
@@ -63,7 +63,7 @@ public class NMFPackagePMBackend implements PMBackend {
         // If there is a property for that, then use it!! 
         if (System.getProperty(FOLDER_LOCATION_PROPERTY) != null) {
             folderWithPackages = new File(System.getProperty(FOLDER_LOCATION_PROPERTY));
-        }else{
+        } else {
             folderWithPackages = new File(PACKAGES_FOLDER);
         }
     }
@@ -74,9 +74,9 @@ public class NMFPackagePMBackend implements PMBackend {
 
         if (!folderWithPackages.exists()) { // The folder does not exist
             // Then create a new folder with a default name
-            Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.INFO,
-                    "The packages folder does not exist. It will be created in path: {0}",
-                    folderWithPackages.getCanonicalPath());
+            Logger.getLogger(NMFPackagePMBackend.class.getName())
+                  .log(Level.INFO, "The packages folder does not exist. It will be created in path: {0}",
+                       folderWithPackages.getCanonicalPath());
 
             folderWithPackages.mkdir();
         }
@@ -104,38 +104,41 @@ public class NMFPackagePMBackend implements PMBackend {
         String packageLocation = this.getFolderLocation(packageName);
         File destination = getNMFDir();
 
-        Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.INFO,
-                "Installing the package...\nPackage name: " + packageName
-                + "\nPackage location: " + packageLocation
-                + "\nDestination: " + destination.getAbsolutePath());
+        Logger.getLogger(NMFPackagePMBackend.class.getName())
+              .log(Level.INFO, "Installing the package...\nPackage name: " +
+                               packageName +
+                               "\nPackage location: " +
+                               packageLocation +
+                               "\nDestination: " +
+                               destination.getAbsolutePath());
 
         try {
             NMFPackageManager.install(packageLocation, destination);
         } catch (IOException ex) {
-            Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.SEVERE, 
-                    "The package '" + packageName + "' could not be installed!", ex);
+            Logger.getLogger(NMFPackagePMBackend.class.getName())
+                  .log(Level.SEVERE, "The package '" + packageName + "' could not be installed!", ex);
         }
     }
 
     @Override
     public void uninstall(final String packageName, final boolean keepUserData) {
         String folderLocation = this.getFolderLocation(packageName);
-        Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.INFO,
-                "Uninstalling the package from: {0}", folderLocation);
+        Logger.getLogger(NMFPackagePMBackend.class.getName())
+              .log(Level.INFO, "Uninstalling the package from: {0}", folderLocation);
 
         try {
             NMFPackageManager.uninstall(folderLocation, keepUserData);
         } catch (IOException ex) {
-            Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.SEVERE, 
-                    "The package '" + packageName + "' could not be uninstalled!", ex);
+            Logger.getLogger(NMFPackagePMBackend.class.getName())
+                  .log(Level.SEVERE, "The package '" + packageName + "' could not be uninstalled!", ex);
         }
     }
 
     @Override
     public void upgrade(final String packageName) {
         String folderLocation = this.getFolderLocation(packageName);
-        Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.INFO,
-                "Upgrading the package from: {0}", folderLocation);
+        Logger.getLogger(NMFPackagePMBackend.class.getName())
+              .log(Level.INFO, "Upgrading the package from: {0}", folderLocation);
 
         // Define the location to be installed!
         File destination = getNMFDir();

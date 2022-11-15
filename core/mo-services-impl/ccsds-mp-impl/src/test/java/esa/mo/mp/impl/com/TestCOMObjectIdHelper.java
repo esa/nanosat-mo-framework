@@ -1,5 +1,4 @@
 
-
 package esa.mo.mp.impl.com;
 
 import static org.junit.Assert.assertEquals;

@@ -53,7 +53,8 @@ public class PublishedRequestsPanel extends PublishedUpdatesPanel {
     private final PlanningRequestConsumerServiceImpl planExecutionControlService;
     private final PublishedRequestsTable publishedRequestsTable;
 
-    public PublishedRequestsPanel(ArchiveConsumerServiceImpl archiveService, PlanningRequestConsumerServiceImpl planExecutionControlService) {
+    public PublishedRequestsPanel(ArchiveConsumerServiceImpl archiveService,
+                                  PlanningRequestConsumerServiceImpl planExecutionControlService) {
         super();
 
         this.archiveService = archiveService;
@@ -80,7 +81,8 @@ public class PublishedRequestsPanel extends PublishedUpdatesPanel {
         FineTime startTime = TimeConverter.convert(getRefreshTime());
 
         if (startTime == null) {
-            JOptionPane.showMessageDialog(null, "Please insert date using format: yyyy-MM-dd HH:mm:ss UTC" , "Unparseable date", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Please insert date using format: yyyy-MM-dd HH:mm:ss UTC",
+                                          "Unparseable date", JOptionPane.PLAIN_MESSAGE);
         }
 
         ArchiveQueryList archiveQueryList = new ArchiveQueryList();
@@ -100,21 +102,27 @@ public class PublishedRequestsPanel extends PublishedUpdatesPanel {
         try {
             archiveService.getArchiveStub().query(true, updateObjectType, archiveQueryList, null, new ArchiveAdapter() {
                 @Override
-                public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+                public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
+                                                ArchiveDetailsList objDetails, ElementList objBodies,
+                                                Map qosProperties) {
                     addEntries(domain, objDetails, objBodies);
                 }
+
                 @Override
-                public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+                public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
+                                                  ArchiveDetailsList objDetails, ElementList objBodies,
+                                                  Map qosProperties) {
                     addEntries(domain, objDetails, objBodies);
                 }
-          });
+            });
         } catch (MALInteractionException | MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
     }
 
     private void addEntries(IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies) {
-        if (objDetails == null) return;
+        if (objDetails == null)
+            return;
         for (int index = 0; index < objDetails.size(); index++) {
             ArchiveDetails details = objDetails.get(index);
             RequestUpdateDetails update = (RequestUpdateDetails) objBodies.get(index);
@@ -132,16 +140,18 @@ public class PublishedRequestsPanel extends PublishedUpdatesPanel {
         ObjectType instanceObjectType = PlanningRequestHelper.REQUESTVERSION_OBJECT_TYPE;
         ObjectType identityObjectType = PlanningRequestHelper.REQUESTIDENTITY_OBJECT_TYPE;
 
-        ArchivePersistenceObject instanceObject = HelperArchive
-            .getArchiveCOMObject(this.archiveService.getArchiveStub(), instanceObjectType, domain, instanceId);
+        ArchivePersistenceObject instanceObject = HelperArchive.getArchiveCOMObject(this.archiveService.getArchiveStub(),
+                                                                                    instanceObjectType, domain,
+                                                                                    instanceId);
 
         if (instanceObject == null) {
             return identity;
         }
 
         Long identityId = instanceObject.getArchiveDetails().getDetails().getRelated();
-        ArchivePersistenceObject identityObject = HelperArchive
-            .getArchiveCOMObject(this.archiveService.getArchiveStub(), identityObjectType, domain, identityId);
+        ArchivePersistenceObject identityObject = HelperArchive.getArchiveCOMObject(this.archiveService.getArchiveStub(),
+                                                                                    identityObjectType, domain,
+                                                                                    identityId);
 
         if (identityObject == null) {
             return identity;

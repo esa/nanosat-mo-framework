@@ -81,16 +81,13 @@ public class FiveStagesAction {
                 Byte convertedType = null;
                 String convertedUnit = null;
 
-                argDef.add(new ArgumentDefinitionDetails(new Identifier("1"), null,
-                        rawType, rawUnit, conditionalConversions, convertedType, convertedUnit));
+                argDef.add(new ArgumentDefinitionDetails(new Identifier("1"), null, rawType, rawUnit,
+                                                         conditionalConversions, convertedType, convertedUnit));
             }
 
-            ActionDefinitionDetails actionDef1 = new ActionDefinitionDetails(
-                    "Example of an Action with 5 stages.",
-                    new UOctet((short) 0),
-                    new UShort(5),
-                    argDef
-            );
+            ActionDefinitionDetails actionDef1 = new ActionDefinitionDetails("Example of an Action with 5 stages.",
+                                                                             new UOctet((short) 0), new UShort(5),
+                                                                             argDef);
             names.add(new Identifier(ACTION5STAGES));
             actionDefs.add(actionDef1);
             registrationObject.registerActions(names, actionDefs);
@@ -107,15 +104,15 @@ public class FiveStagesAction {
         }
 
         @Override
-        public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
-                Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
+        public UInteger actionArrived(Identifier name, AttributeValueList attributeValues, Long actionInstanceObjId,
+                                      boolean reportProgress, MALInteraction interaction) {
             if (ACTION5STAGES.equals(name.getValue())) {
                 try {
                     // action1 was called?
                     reportFiveStepsAction(actionInstanceObjId);
                 } catch (NMFException ex) {
-                    Logger.getLogger(FiveStagesAction.class.getName()).log(Level.SEVERE,
-                            "The action could not report the five steps!", ex);
+                    Logger.getLogger(FiveStagesAction.class.getName())
+                          .log(Level.SEVERE, "The action could not report the five steps!", ex);
                     return new UInteger(0);
                 }
 

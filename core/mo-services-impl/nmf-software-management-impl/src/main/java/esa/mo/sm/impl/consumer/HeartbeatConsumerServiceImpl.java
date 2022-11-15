@@ -37,7 +37,6 @@ import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
-import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorHelper;
 import org.ccsds.moims.mo.softwaremanagement.heartbeat.HeartbeatHelper;
 import org.ccsds.moims.mo.softwaremanagement.heartbeat.consumer.HeartbeatAdapter;
 import org.ccsds.moims.mo.softwaremanagement.heartbeat.consumer.HeartbeatStub;
@@ -70,7 +69,8 @@ public class HeartbeatConsumerServiceImpl extends ConsumerServiceImpl {
         return new HeartbeatStub(tmConsumer);
     }
 
-    public HeartbeatConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
+    public HeartbeatConsumerServiceImpl(SingleConnectionDetails connectionDetails,
+                                        COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
         this(connectionDetails, comServices, null, null);
     }
 
@@ -86,13 +86,14 @@ public class HeartbeatConsumerServiceImpl extends ConsumerServiceImpl {
             COMHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
-        if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME, SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
+        if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
+                                         SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
             SoftwareManagementHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
         if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
                                          SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION)
-                    .getServiceByName(HeartbeatHelper.HEARTBEAT_SERVICE_NAME) == null) {
+                             .getServiceByName(HeartbeatHelper.HEARTBEAT_SERVICE_NAME) == null) {
             HeartbeatHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
@@ -108,12 +109,10 @@ public class HeartbeatConsumerServiceImpl extends ConsumerServiceImpl {
             }
         }
 
-        tmConsumer = connection.startService(
-                this.connectionDetails.getProviderURI(),
-                this.connectionDetails.getBrokerURI(),
-                this.connectionDetails.getDomain(),
-                HeartbeatHelper.HEARTBEAT_SERVICE,
-                authenticationId, localNamePrefix);
+        tmConsumer = connection.startService(this.connectionDetails.getProviderURI(), this.connectionDetails
+                                                                                                            .getBrokerURI(),
+                                             this.connectionDetails.getDomain(), HeartbeatHelper.HEARTBEAT_SERVICE,
+                                             authenticationId, localNamePrefix);
 
         this.heartbeatService = new HeartbeatStub(tmConsumer);
     }

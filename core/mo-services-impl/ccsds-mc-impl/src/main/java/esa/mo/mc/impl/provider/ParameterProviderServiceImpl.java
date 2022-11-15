@@ -21,7 +21,6 @@
 package esa.mo.mc.impl.provider;
 
 import esa.mo.com.impl.consumer.EventConsumerServiceImpl;
-import esa.mo.com.impl.provider.ArchiveSyncProviderServiceImpl;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
 import esa.mo.helpertools.connections.ConnectionProvider;
@@ -140,20 +139,16 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             }
 
             if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION)
-                        .getServiceByName(ParameterHelper.PARAMETER_SERVICE_NAME) == null)
-            {
+                                 .getServiceByName(ParameterHelper.PARAMETER_SERVICE_NAME) == null) {
                 ParameterHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
         }
 
         publisher = createMonitorValuePublisher(ConfigurationProviderSingleton.getDomain(),
-                ConfigurationProviderSingleton.getNetwork(),
-                SessionType.LIVE,
-                ConfigurationProviderSingleton.getSourceSessionName(),
-                QoSLevel.BESTEFFORT,
-                null,
-                new UInteger(0));
+                                                ConfigurationProviderSingleton.getNetwork(), SessionType.LIVE,
+                                                ConfigurationProviderSingleton.getSourceSessionName(),
+                                                QoSLevel.BESTEFFORT, null, new UInteger(0));
 
         // shut down old service transport
         if (null != parameterServiceProvider) {
@@ -161,7 +156,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         }
 
         parameterServiceProvider = connection.startService(ParameterHelper.PARAMETER_SERVICE_NAME.toString(),
-                ParameterHelper.PARAMETER_SERVICE, this);
+                                                           ParameterHelper.PARAMETER_SERVICE, this);
 
         running = true;
         manager = parameterManager;
@@ -170,8 +165,10 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
         groupService.init(manager.getArchiveService());
 
-        storeParametersInCOMArchive = Boolean.parseBoolean(System.getProperty(MCServicesHelper.STORE_IN_ARCHIVE_PROPERTY, "true"));
-        String msg = MessageFormat.format("{0} = {1}", MCServicesHelper.STORE_IN_ARCHIVE_PROPERTY, storeParametersInCOMArchive);
+        storeParametersInCOMArchive = Boolean.parseBoolean(System.getProperty(MCServicesHelper.STORE_IN_ARCHIVE_PROPERTY,
+                                                                              "true"));
+        String msg = MessageFormat.format("{0} = {1}", MCServicesHelper.STORE_IN_ARCHIVE_PROPERTY,
+                                          storeParametersInCOMArchive);
         Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.INFO, msg);
 
         initialiased = true;
@@ -190,8 +187,8 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             connection.closeAll();
             running = false;
         } catch (MALException ex) {
-            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.WARNING,
-                    "Exception during close down of the provider {0}", ex);
+            Logger.getLogger(ParameterProviderServiceImpl.class.getName())
+                  .log(Level.WARNING, "Exception during close down of the provider {0}", ex);
         }
     }
 
@@ -200,8 +197,8 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
     }
 
     @Override
-    public ParameterValueDetailsList getValue(final LongList inIdentityIds, final MALInteraction interaction)
-            throws MALException, MALInteractionException { // requirement 3.3.6.2.1
+    public ParameterValueDetailsList getValue(final LongList inIdentityIds,
+                                              final MALInteraction interaction) throws MALException, MALInteractionException { // requirement 3.3.6.2.1
         if (null == inIdentityIds) { // Is the input null?
             throw new IllegalArgumentException("LongList argument must not be null");
         }
@@ -238,12 +235,9 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         for (int i = 0; i < inIdentityIds.size(); i++) {
             Long inIdentityId = inIdentityIds.get(i);
 
-            outList.add(new ParameterValueDetails(
-                    inIdentityId,
-                    manager.getDefinitionId(inIdentityId),
-                    HelperTime.getTimestampMillis(),
-                    outPValLst.get(i)
-            ));
+            outList.add(new ParameterValueDetails(inIdentityId, manager.getDefinitionId(inIdentityId), HelperTime
+                                                                                                                 .getTimestampMillis(),
+                                                  outPValLst.get(i)));
         }
 
         return outList;
@@ -251,7 +245,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
     @Override
     public LongList enableGeneration(final Boolean isGroupIds, final InstanceBooleanPairList enableInstances,
-            final MALInteraction interaction) throws MALException, MALInteractionException {
+                                     final MALInteraction interaction) throws MALException, MALInteractionException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
@@ -289,11 +283,14 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                 }
             } else { //the ids are group-identity-ids, req: 3.3.10.2.a, 3.9.4.g,h
                 GroupRetrieval groupRetrievalInformation;
-                groupRetrievalInformation = new GroupRetrieval(unkIndexList, invIndexList, objIdToBeEnabled, valueToBeEnabled);
+                groupRetrievalInformation = new GroupRetrieval(unkIndexList, invIndexList, objIdToBeEnabled,
+                                                               valueToBeEnabled);
                 //get the group instances
                 groupRetrievalInformation = manager.getGroupInstancesForServiceOperation(enableInstances,
-                        groupRetrievalInformation, ParameterHelper.PARAMETERIDENTITY_OBJECT_TYPE,
-                        ConfigurationProviderSingleton.getDomain(), manager.listAllIdentities());
+                                                                                         groupRetrievalInformation,
+                                                                                         ParameterHelper.PARAMETERIDENTITY_OBJECT_TYPE,
+                                                                                         ConfigurationProviderSingleton.getDomain(),
+                                                                                         manager.listAllIdentities());
 
                 //fill the existing lists with the generated lists
                 unkIndexList = groupRetrievalInformation.getUnkIndexList();
@@ -316,10 +313,10 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         // requirement: 3.3.10.2.i (This part of the code is only reached if no error was raised)
         for (int index = 0; index < objIdToBeEnabled.size(); index++) {
             // requirement: 3.3.10.2.e, 3.3.10.2.f, 3.3.10.2.j and 3.3.10.2.k
-            Long out = manager.setGenerationEnabled(objIdToBeEnabled.get(index),
-                    valueToBeEnabled.get(index), source, connection.getConnectionDetails());
+            Long out = manager.setGenerationEnabled(objIdToBeEnabled.get(index), valueToBeEnabled.get(index), source,
+                                                    connection.getConnectionDetails());
             output.add(out);
-            
+
             // requirement: 3.3.10.2.l
             if (out.longValue() != objIdToBeEnabled.get(index)) {
                 periodicReportingManager.refresh(objIdToBeEnabled.get(index));
@@ -329,13 +326,13 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         if (configurationAdapter != null) {
             configurationAdapter.onConfigurationChanged(this);
         }
-        
+
         return output;
     }
 
     @Override
-    public void setValue(final ParameterRawValueList rawValueList, final MALInteraction interaction)
-            throws MALException, MALInteractionException {
+    public void setValue(final ParameterRawValueList rawValueList,
+                         final MALInteraction interaction) throws MALException, MALInteractionException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
         UIntegerList readOnlyIndexList = new UIntegerList();
@@ -391,7 +388,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         //requirement 3.3.4.i   
         ObjectId source = manager.storeCOMOperationActivity(interaction);
         //atomic behaviour while setting the values. So let all values have the same timestamp for creation
-//        FineTime timestamp = HelperTime.getTimestamp();
+        //        FineTime timestamp = HelperTime.getTimestamp();
         //requirement: 3.3.9.2.e
         ParameterValueList newParamValues = manager.setValues(rawValueList);
         FineTime timestamp = HelperTime.getTimestamp();
@@ -406,8 +403,8 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             final Long identityId = rawValueList.get(i).getParamInstId();
             if (manager.getParameterDefinition(identityId).getGenerationEnabled()) {
                 //for the parameters where values have to be published (generation is enabled)
-                toPublishParamInstances.add(new ParameterInstance(manager.getName(identityId),
-                        newParamValues.get(i), source, null));
+                toPublishParamInstances.add(new ParameterInstance(manager.getName(identityId), newParamValues.get(i),
+                                                                  source, null));
             } else {
                 //for the parameters where values do not have to be published (generation is disabled)
                 noPublishParamValList.add(newParamValues.get(i));
@@ -423,14 +420,14 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         }
         //for the parameters where values do not have to be published (generation is disabled)
         if (!noPublishParamValList.isEmpty()) {
-            manager.storeAndGenerateMultiplePValobjId(noPublishParamValList, noPublishRelatedIds,
-                    noPublishSourceIds, connection.getConnectionDetails(), timestamps);
+            manager.storeAndGenerateMultiplePValobjId(noPublishParamValList, noPublishRelatedIds, noPublishSourceIds,
+                                                      connection.getConnectionDetails(), timestamps);
         }
     }
 
     @Override
     public ObjectInstancePairList listDefinition(final IdentifierList paramNames,
-            final MALInteraction interaction) throws MALException, MALInteractionException { // requirement: 3.3.11.2.a
+                                                 final MALInteraction interaction) throws MALException, MALInteractionException { // requirement: 3.3.11.2.a
         ObjectInstancePairList retDefinitions = new ObjectInstancePairList();
 
         if (null == paramNames) { // Is the input null?
@@ -473,7 +470,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
     @Override
     public ObjectInstancePairList addParameter(final ParameterCreationRequestList paramCreationReqList,
-            final MALInteraction interaction) throws MALException, MALInteractionException {
+                                               final MALInteraction interaction) throws MALException, MALInteractionException {
         UIntegerList invIndexList = new UIntegerList();
         UIntegerList dupIndexList = new UIntegerList();
 
@@ -486,15 +483,14 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             Identifier paramName = paramCreationReq.getName();
 
             // Check if the name field of the ParameterDefinition is invalid.
-            if (paramName == null
-                    || paramName.equals(new Identifier("*"))
-                    || paramName.equals(new Identifier(""))) { // requirement: 3.3.12.2.b
+            if (paramName == null || paramName.equals(new Identifier("*")) || paramName.equals(new Identifier(""))) { // requirement: 3.3.12.2.b
                 invIndexList.add(new UInteger(index));
                 continue;
             }
 
             final ParameterDefinitionDetails pDef = paramCreationReq.getParamDefDetails();
-            if (pDef.getReportInterval().getValue() != 0 && pDef.getReportInterval().getValue() < MIN_REPORTING_INTERVAL) { //requirement: 3.3.3.h, 3.3.12.2.c
+            if (pDef.getReportInterval().getValue() != 0 &&
+                pDef.getReportInterval().getValue() < MIN_REPORTING_INTERVAL) { //requirement: 3.3.3.h, 3.3.12.2.c
                 invIndexList.add(new UInteger(index));
                 continue;
             }
@@ -525,10 +521,8 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             details.add(tempParameterCreationRequest.getParamDefDetails());
         }
 
-        ObjectInstancePairList objectInstancePairs = manager.addMultiple(names,
-                                                                         details,
-                                                                 source,
-                                                                 connection.getConnectionDetails());
+        ObjectInstancePairList objectInstancePairs = manager.addMultiple(names, details, source, connection
+                                                                                                           .getConnectionDetails());
         //store the objects
         outPairLst.addAll(objectInstancePairs); //  requirement: 3.3.12.2.g
         // Refresh the Periodic Reporting Manager for the added Definitions
@@ -536,13 +530,13 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         final ReconfigurableService t = this;
 
         Thread thread = new Thread(() -> {
-           for(ObjectInstancePair newParamIds : objectInstancePairs) {
-               periodicReportingManager.refresh(newParamIds.getObjIdentityInstanceId());
-           }
+            for (ObjectInstancePair newParamIds : objectInstancePairs) {
+                periodicReportingManager.refresh(newParamIds.getObjIdentityInstanceId());
+            }
 
-           if (configurationAdapter != null) {
-               configurationAdapter.onConfigurationChanged(t);
-           }
+            if (configurationAdapter != null) {
+                configurationAdapter.onConfigurationChanged(t);
+            }
         });
 
         thread.start();//To not block main thread parameter timers can be started in parallel thread
@@ -552,7 +546,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
     @Override
     public LongList updateDefinition(LongList paramIdentityInstIds, ParameterDefinitionDetailsList paramDefDetails,
-            MALInteraction interaction) throws MALInteractionException, MALException { // requirement: 3.3.13.2.a
+                                     MALInteraction interaction) throws MALInteractionException, MALException { // requirement: 3.3.13.2.a
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
@@ -576,7 +570,8 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             }
             //requirement: 3.3.3.h, 3.3.13.2.f
             final ParameterDefinitionDetails pDef = paramDefDetails.get(index);
-            if (pDef.getReportInterval().getValue() != 0 && pDef.getReportInterval().getValue() < MIN_REPORTING_INTERVAL) {
+            if (pDef.getReportInterval().getValue() != 0 &&
+                pDef.getReportInterval().getValue() < MIN_REPORTING_INTERVAL) {
                 invIndexList.add(new UInteger(index));
                 continue;
             }
@@ -597,8 +592,8 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         LongList newDefIds = new LongList();
         ObjectId source = manager.storeCOMOperationActivity(interaction); // requirement: 3.3.4.g, h
         for (int index = 0; index < paramIdentityInstIds.size(); index++) {  // requirement: 3.3.13.2.i, .k
-            newDefIds.add(manager.update(paramIdentityInstIds.get(index), paramDefDetails.get(index),
-                    source, connection.getConnectionDetails()));  // Change in the manager, requirement 3.3.13.2.d, g
+            newDefIds.add(manager.update(paramIdentityInstIds.get(index), paramDefDetails.get(index), source, connection
+                                                                                                                        .getConnectionDetails()));  // Change in the manager, requirement 3.3.13.2.d, g
             periodicReportingManager.refresh(paramIdentityInstIds.get(index));// then, refresh the Periodic updates
         }
 
@@ -612,8 +607,8 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
     }
 
     @Override
-    public void removeParameter(final LongList identityIds, final MALInteraction interaction)
-            throws MALException, MALInteractionException { // requirement: 3.3.11.2.1
+    public void removeParameter(final LongList identityIds,
+                                final MALInteraction interaction) throws MALException, MALInteractionException { // requirement: 3.3.11.2.1
         UIntegerList unkIndexList = new UIntegerList();
         LongList removalLst = new LongList();
 
@@ -682,52 +677,55 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         ConfigurationObjectSet confSet1 = configurationObjectDetails.getConfigObjects().get(1);
 
         // Confirm the objTypes
-        if (!confSet0.getObjType().equals(ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE)
-                && !confSet1.getObjType().equals(ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE)) {
+        if (!confSet0.getObjType().equals(ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE) &&
+            !confSet1.getObjType().equals(ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE)) {
             return false;
         }
 
-        if (!confSet0.getObjType().equals(ParameterHelper.PARAMETERIDENTITY_OBJECT_TYPE)
-                && !confSet1.getObjType().equals(ParameterHelper.PARAMETERIDENTITY_OBJECT_TYPE)) {
+        if (!confSet0.getObjType().equals(ParameterHelper.PARAMETERIDENTITY_OBJECT_TYPE) &&
+            !confSet1.getObjType().equals(ParameterHelper.PARAMETERIDENTITY_OBJECT_TYPE)) {
             return false;
         }
 
         // Confirm the domain
-        if (!confSet0.getDomain().equals(ConfigurationProviderSingleton.getDomain())
-                || !confSet1.getDomain().equals(ConfigurationProviderSingleton.getDomain())) {
+        if (!confSet0.getDomain().equals(ConfigurationProviderSingleton.getDomain()) ||
+            !confSet1.getDomain().equals(ConfigurationProviderSingleton.getDomain())) {
             return false;
         }
 
         // If the list is empty, reconfigure the service with nothing...
         if (confSet0.getObjInstIds().isEmpty() && confSet1.getObjInstIds().isEmpty()) {
-            manager.reconfigureDefinitions(new LongList(), new IdentifierList(),
-                    new LongList(), new ParameterDefinitionDetailsList());   // Reconfigures the Manager
+            manager.reconfigureDefinitions(new LongList(), new IdentifierList(), new LongList(),
+                                           new ParameterDefinitionDetailsList());   // Reconfigures the Manager
 
             return true;
         }
 
         // ok, we're good to go...
         // Load the Parameter Definitions from this configuration...
-        ConfigurationObjectSet confSetDefs = (confSet0.getObjType().equals(ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE)) ? confSet0 : confSet1;
+        ConfigurationObjectSet confSetDefs = (confSet0.getObjType()
+                                                      .equals(ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE)) ?
+                                                          confSet0 :
+                                                          confSet1;
 
-        ParameterDefinitionDetailsList pDefs = (ParameterDefinitionDetailsList) HelperArchive.getObjectBodyListFromArchive(
-                manager.getArchiveService(),
-                ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE,
-                ConfigurationProviderSingleton.getDomain(),
-                confSetDefs.getObjInstIds());
+        ParameterDefinitionDetailsList pDefs = (ParameterDefinitionDetailsList) HelperArchive.getObjectBodyListFromArchive(manager.getArchiveService(),
+                                                                                                                           ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE,
+                                                                                                                           ConfigurationProviderSingleton.getDomain(),
+                                                                                                                           confSetDefs.getObjInstIds());
 
-        ConfigurationObjectSet confSetIdents = (confSet0.getObjType().equals(ParameterHelper.PARAMETERIDENTITY_OBJECT_TYPE)) ? confSet0 : confSet1;
+        ConfigurationObjectSet confSetIdents = (confSet0.getObjType()
+                                                        .equals(ParameterHelper.PARAMETERIDENTITY_OBJECT_TYPE)) ?
+                                                            confSet0 :
+                                                            confSet1;
 
-        IdentifierList idents = (IdentifierList) HelperArchive.getObjectBodyListFromArchive(
-                manager.getArchiveService(),
-                ParameterHelper.PARAMETERIDENTITY_OBJECT_TYPE,
-                ConfigurationProviderSingleton.getDomain(),
-                confSetIdents.getObjInstIds());
+        IdentifierList idents = (IdentifierList) HelperArchive.getObjectBodyListFromArchive(manager.getArchiveService(),
+                                                                                            ParameterHelper.PARAMETERIDENTITY_OBJECT_TYPE,
+                                                                                            ConfigurationProviderSingleton.getDomain(),
+                                                                                            confSetIdents.getObjInstIds());
 
         periodicReportingManager.pause();
-        
-        manager.reconfigureDefinitions(confSetIdents.getObjInstIds(), idents,
-                confSetDefs.getObjInstIds(), pDefs);   // Reconfigures the Manager
+
+        manager.reconfigureDefinitions(confSetIdents.getObjInstIds(), idents, confSetDefs.getObjInstIds(), pDefs);   // Reconfigures the Manager
 
         periodicReportingManager.refreshAll();  // Refresh the reporting
         periodicReportingManager.start();
@@ -756,29 +754,31 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
     public static final class PublishInteractionListener implements MALPublishInteractionListener {
 
         @Override
-        public void publishDeregisterAckReceived(final MALMessageHeader header, final Map qosProperties)
-                throws MALException {
-            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).fine("PublishInteractionListener::publishDeregisterAckReceived");
+        public void publishDeregisterAckReceived(final MALMessageHeader header,
+                                                 final Map qosProperties) throws MALException {
+            Logger.getLogger(ParameterProviderServiceImpl.class.getName())
+                  .fine("PublishInteractionListener::publishDeregisterAckReceived");
         }
 
         @Override
-        public void publishErrorReceived(final MALMessageHeader header, final MALErrorBody body, final Map qosProperties)
-                throws MALException {
-            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).fine("PublishInteractionListener::publishErrorReceived");
+        public void publishErrorReceived(final MALMessageHeader header, final MALErrorBody body,
+                                         final Map qosProperties) throws MALException {
+            Logger.getLogger(ParameterProviderServiceImpl.class.getName())
+                  .fine("PublishInteractionListener::publishErrorReceived");
         }
 
         @Override
-        public void publishRegisterAckReceived(final MALMessageHeader header, final Map qosProperties)
-                throws MALException {
-            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).fine("PublishInteractionListener::publishRegisterAckReceived");
+        public void publishRegisterAckReceived(final MALMessageHeader header,
+                                               final Map qosProperties) throws MALException {
+            Logger.getLogger(ParameterProviderServiceImpl.class.getName())
+                  .fine("PublishInteractionListener::publishRegisterAckReceived");
         }
 
         @Override
-        public void publishRegisterErrorReceived(final MALMessageHeader header,
-                final MALErrorBody body,
-                final Map qosProperties)
-                throws MALException {
-            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).fine("PublishInteractionListener::publishRegisterErrorReceived");
+        public void publishRegisterErrorReceived(final MALMessageHeader header, final MALErrorBody body,
+                                                 final Map qosProperties) throws MALException {
+            Logger.getLogger(ParameterProviderServiceImpl.class.getName())
+                  .fine("PublishInteractionListener::publishRegisterErrorReceived");
         }
 
     }
@@ -901,8 +901,8 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
      * notice that if no consumers are registered on the broker, then the value
      * of true will be returned because not error happened.
      */
-    public Boolean pushSingleParameterValueAttribute(final Identifier name,
-            final Attribute value, final ObjectId source, final Time timestamp) {
+    public Boolean pushSingleParameterValueAttribute(final Identifier name, final Attribute value,
+                                                     final ObjectId source, final Time timestamp) {
         final ParameterValue parameterValue = new ParameterValue(new UOctet((short) 0), value, null);
         ArrayList<ParameterInstance> parameters = new ArrayList<>(1);
         parameters.add(new ParameterInstance(name, parameterValue, source, timestamp));
@@ -928,8 +928,8 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
      * of true will be returned because not error happened.
      */
     @Deprecated
-    public Boolean pushParameterValue(final Identifier name, final ParameterValue parameterValue,
-            final ObjectId source, final Time timestamp) {
+    public Boolean pushParameterValue(final Identifier name, final ParameterValue parameterValue, final ObjectId source,
+                                      final Time timestamp) {
         ParameterInstance instance = new ParameterInstance(name, parameterValue, source, timestamp);
         ArrayList<ParameterInstance> parameters = new ArrayList<>();
         parameters.add(instance);
@@ -995,7 +995,11 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                     if (parameters.get(i).getParameterValue().getRawValue() == null) {  // Well, let's then consider that it is a Double
                         pDef.setRawType(Union.DOUBLE_TYPE_SHORT_FORM.byteValue());
                     } else {
-                        pDef.setRawType(parameters.get(i).getParameterValue().getRawValue().getTypeShortForm().byteValue()); // Check what is the type and stamp it
+                        pDef.setRawType(parameters.get(i)
+                                                  .getParameterValue()
+                                                  .getRawValue()
+                                                  .getTypeShortForm()
+                                                  .byteValue()); // Check what is the type and stamp it
                     }
 
                     pDef.setRawUnit(null);
@@ -1005,7 +1009,8 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                     pDef.setConversion(null);
 
                     ParameterCreationRequestList pDefCreationReqs = new ParameterCreationRequestList(1);
-                    ParameterCreationRequest pDefCreationReq = new ParameterCreationRequest(parameters.get(i).getName(), pDef);
+                    ParameterCreationRequest pDefCreationReq = new ParameterCreationRequest(parameters.get(i).getName(),
+                                                                                            pDef);
                     pDefCreationReqs.add(pDefCreationReq);
 
                     try {
@@ -1020,15 +1025,17 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                 ParameterDefinitionDetails pDef2 = (ParameterDefinitionDetails) manager.getDefinition(objId.getObjIdentityInstanceId());
                 if (pDef2.getGenerationEnabled()) {
                     outIds.add(objId); // Don't push the PVals that are not enabled...
-                    
+
                     // If the conversion value was not provided, we can try to generate it
-                    if(parameters.get(i).getParameterValue().getConvertedValue() == null){
-                        ParameterValue newPVal = manager.generateNewParameterValue(
-                                parameters.get(i).getParameterValue().getRawValue(), pDef2, false);
+                    if (parameters.get(i).getParameterValue().getConvertedValue() == null) {
+                        ParameterValue newPVal = manager.generateNewParameterValue(parameters.get(i)
+                                                                                             .getParameterValue()
+                                                                                             .getRawValue(), pDef2,
+                                                                                   false);
                         parameters.get(i).getParameterValue().setConvertedValue(newPVal.getConvertedValue());
                         parameters.get(i).getParameterValue().setValidityState(newPVal.getValidityState());
                     }
-                    
+
                     parameterValueList.add(parameters.get(i).getParameterValue());
                     parameterInstances.add(parameters.get(i));
                 }
@@ -1049,17 +1056,17 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             for (int i = 0; i < outIds.size(); i++) {
                 relatedIds.add(outIds.get(i).getObjDefInstanceId());
                 sourceIds.add(parameters.get(i).getSource());
-                final FineTime timestamp = (parameters.get(i).getTimestamp() != null) ? 
-                        HelperTime.timeToFineTime(parameters.get(i).getTimestamp()) : 
-                        defaultTimestamp;
+                final FineTime timestamp = (parameters.get(i).getTimestamp() != null) ?
+                    HelperTime.timeToFineTime(parameters.get(i).getTimestamp()) :
+                    defaultTimestamp;
                 timestamps.add(timestamp);
             }
 
             final LongList pValObjIds;
 
             if (storeIt) {
-                pValObjIds = manager.storeAndGenerateMultiplePValobjId(parameterValueList,
-                        relatedIds, sourceIds, connection.getConnectionDetails(), timestamps);
+                pValObjIds = manager.storeAndGenerateMultiplePValobjId(parameterValueList, relatedIds, sourceIds,
+                                                                       connection.getConnectionDetails(), timestamps);
             } else {
                 // Well, if we don't store it, then we shall use the local unique variable
                 pValObjIds = new LongList(parameterValueList.size());
@@ -1074,22 +1081,26 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
             for (int i = 0; i < parameterInstances.size(); i++) {
                 //  requirements: 3.3.7.2.a , 3.3.7.2.b , 3.3.7.2.c , 3.3.7.2.d 
-                final EntityKey ekey = new EntityKey(new Identifier(manager.getName(outIds.get(i).getObjIdentityInstanceId()).toString()),
-                        outIds.get(i).getObjIdentityInstanceId(), outIds.get(i).getObjDefInstanceId(), pValObjIds.get(i));
+                final EntityKey ekey = new EntityKey(new Identifier(manager.getName(outIds.get(i)
+                                                                                          .getObjIdentityInstanceId())
+                                                                           .toString()), outIds.get(i)
+                                                                                               .getObjIdentityInstanceId(),
+                                                     outIds.get(i).getObjDefInstanceId(), pValObjIds.get(i));
 
                 Time time = parameterInstances.get(i).getTimestamp();
                 time = (time == null) ? defaultTimestamp2 : time; //  requirement: 3.3.5.2.5
 
                 //requirement: 3.3.7.2.e : timestamp must be the same as for the creation of the ParameterValue
-                hdrlst.add(new UpdateHeader(time, connection.getConnectionDetails().getProviderURI(), UpdateType.UPDATE, ekey));
+                hdrlst.add(new UpdateHeader(time, connection.getConnectionDetails().getProviderURI(), UpdateType.UPDATE,
+                                            ekey));
                 objectIdlst.add(parameterInstances.get(i).getSource()); // requirement: 3.3.7.2.g (3.3.5.2.f not necessary) 
                 pVallst.add(parameterInstances.get(i).getParameterValue()); // requirement: 3.3.7.2.h 
             }
 
             publisher.publish(hdrlst, objectIdlst, pVallst);
         } catch (IllegalArgumentException | MALInteractionException | MALException ex) {
-            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.WARNING,
-                    "Pushed Parameter: Exception during publishing process on the provider {0}", ex);
+            Logger.getLogger(ParameterProviderServiceImpl.class.getName())
+                  .log(Level.WARNING, "Pushed Parameter: Exception during publishing process on the provider {0}", ex);
             return false;
         }
 
@@ -1120,13 +1131,13 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
              */
             final ParameterValue parameterValue = manager.getParameterValue(identityId);
             final Identifier name = manager.getName(identityId);
-            
+
             ArrayList<ParameterInstance> parameters = new ArrayList<>(1);
             parameters.add(new ParameterInstance(name, parameterValue, null, HelperTime.getTimestampMillis()));
             this.pushMultipleParameterValues(parameters, storeInCOMArchive);
         } catch (IllegalArgumentException | MALInteractionException ex) {
-            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.WARNING,
-                    "Exception during publishing process on the provider {0}", ex);
+            Logger.getLogger(ParameterProviderServiceImpl.class.getName())
+                  .log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
         }
     }
 

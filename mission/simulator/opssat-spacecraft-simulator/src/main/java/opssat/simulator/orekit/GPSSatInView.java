@@ -58,24 +58,30 @@ public class GPSSatInView {
         return elevation;
     }
 
-    
     public GPSSatInView(String name, double distance) {
         this.name = name;
         this.distance = distance;
-        String prn = name.substring(name.indexOf("(")+1,name.indexOf(")"));
-        String[] prnWords=prn.split(" ");
-        this.prn=Integer.parseInt(prnWords[1]);
+        String prn = name.substring(name.indexOf("(") + 1, name.indexOf(")"));
+        String[] prnWords = prn.split(" ");
+        this.prn = Integer.parseInt(prnWords[1]);
     }
 
     public String getName() {
         return name;
     }
-    
+
     @Override
     public String toString() {
-        return "GPSSatInView{" + "name=" + name + ", distance=" + String.format(Locale.ROOT, "%.2f", distance/1000.0 ) 
-                + "[km], azimuth=" + String.format(Locale.ROOT, "%.2f",azimuth)
-                + "[deg], elevation=" + String.format(Locale.ROOT, "%.2f",elevation) + "[deg]}";
+        return "GPSSatInView{" +
+               "name=" +
+               name +
+               ", distance=" +
+               String.format(Locale.ROOT, "%.2f", distance / 1000.0) +
+               "[km], azimuth=" +
+               String.format(Locale.ROOT, "%.2f", azimuth) +
+               "[deg], elevation=" +
+               String.format(Locale.ROOT, "%.2f", elevation) +
+               "[deg]}";
     }
-    
+
 }

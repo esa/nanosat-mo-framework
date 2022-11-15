@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <profiles version="21">
-	<profile kind="CodeFormatterProfile" name="Project" version="21">
+	<profile kind="CodeFormatterProfile" name="NMF rules" version="21">
 		<setting id="org.eclipse.jdt.core.formatter.tabulation.char" value="space"/>
 		<setting id="org.eclipse.jdt.core.formatter.use_tabs_only_for_leading_indentations" value="false"/>
 		<setting id="org.eclipse.jdt.core.formatter.indentation.size" value="4"/>
@@ -22,18 +22,18 @@
 		<setting id="org.eclipse.jdt.core.formatter.align_assignment_statements_on_columns" value="false"/>
 		<setting id="org.eclipse.jdt.core.formatter.align_with_spaces" value="true"/>
 		<setting id="org.eclipse.jdt.core.formatter.align_fields_grouping_blank_lines" value="1"/>
-		<setting id="org.eclipse.jdt.core.formatter.brace_position_for_type_declaration" value="next_line"/>
-		<setting id="org.eclipse.jdt.core.formatter.brace_position_for_anonymous_type_declaration" value="next_line"/>
-		<setting id="org.eclipse.jdt.core.formatter.brace_position_for_constructor_declaration" value="next_line"/>
-		<setting id="org.eclipse.jdt.core.formatter.brace_position_for_method_declaration" value="next_line"/>
-		<setting id="org.eclipse.jdt.core.formatter.brace_position_for_enum_declaration" value="next_line"/>
-		<setting id="org.eclipse.jdt.core.formatter.brace_position_for_enum_constant" value="next_line"/>
-		<setting id="org.eclipse.jdt.core.formatter.brace_position_for_record_declaration" value="next_line"/>
-		<setting id="org.eclipse.jdt.core.formatter.brace_position_for_record_constructor" value="next_line"/>
-		<setting id="org.eclipse.jdt.core.formatter.brace_position_for_annotation_type_declaration" value="next_line"/>
-		<setting id="org.eclipse.jdt.core.formatter.brace_position_for_block" value="next_line"/>
-		<setting id="org.eclipse.jdt.core.formatter.brace_position_for_block_in_case" value="next_line"/>
-		<setting id="org.eclipse.jdt.core.formatter.brace_position_for_switch" value="next_line"/>
+		<setting id="org.eclipse.jdt.core.formatter.brace_position_for_type_declaration" value="end_of_line"/>
+		<setting id="org.eclipse.jdt.core.formatter.brace_position_for_anonymous_type_declaration" value="end_of_line"/>
+		<setting id="org.eclipse.jdt.core.formatter.brace_position_for_constructor_declaration" value="end_of_line"/>
+		<setting id="org.eclipse.jdt.core.formatter.brace_position_for_method_declaration" value="end_of_line"/>
+		<setting id="org.eclipse.jdt.core.formatter.brace_position_for_enum_declaration" value="end_of_line"/>
+		<setting id="org.eclipse.jdt.core.formatter.brace_position_for_enum_constant" value="end_of_line"/>
+		<setting id="org.eclipse.jdt.core.formatter.brace_position_for_record_declaration" value="end_of_line"/>
+		<setting id="org.eclipse.jdt.core.formatter.brace_position_for_record_constructor" value="end_of_line"/>
+		<setting id="org.eclipse.jdt.core.formatter.brace_position_for_annotation_type_declaration" value="end_of_line"/>
+		<setting id="org.eclipse.jdt.core.formatter.brace_position_for_block" value="end_of_line"/>
+		<setting id="org.eclipse.jdt.core.formatter.brace_position_for_block_in_case" value="end_of_line"/>
+		<setting id="org.eclipse.jdt.core.formatter.brace_position_for_switch" value="end_of_line"/>
 		<setting id="org.eclipse.jdt.core.formatter.brace_position_for_array_initializer" value="end_of_line"/>
 		<setting id="org.eclipse.jdt.core.formatter.keep_empty_array_initializer_on_one_line" value="true"/>
 		<setting id="org.eclipse.jdt.core.formatter.brace_position_for_lambda_body" value="end_of_line"/>
@@ -253,9 +253,9 @@
 		<setting id="org.eclipse.jdt.core.formatter.insert_new_line_after_opening_brace_in_array_initializer" value="do not insert"/>
 		<setting id="org.eclipse.jdt.core.formatter.insert_new_line_before_closing_brace_in_array_initializer" value="do not insert"/>
 		<setting id="org.eclipse.jdt.core.formatter.insert_new_line_at_end_of_file_if_missing" value="do not insert"/>
-		<setting id="org.eclipse.jdt.core.formatter.insert_new_line_before_else_in_if_statement" value="insert"/>
-		<setting id="org.eclipse.jdt.core.formatter.insert_new_line_before_catch_in_try_statement" value="insert"/>
-		<setting id="org.eclipse.jdt.core.formatter.insert_new_line_before_finally_in_try_statement" value="insert"/>
+		<setting id="org.eclipse.jdt.core.formatter.insert_new_line_before_else_in_if_statement" value="do not insert"/>
+		<setting id="org.eclipse.jdt.core.formatter.insert_new_line_before_catch_in_try_statement" value="do not insert"/>
+		<setting id="org.eclipse.jdt.core.formatter.insert_new_line_before_finally_in_try_statement" value="do not insert"/>
 		<setting id="org.eclipse.jdt.core.formatter.insert_new_line_before_while_in_do_statement" value="do not insert"/>
 		<setting id="org.eclipse.jdt.core.formatter.insert_new_line_after_label" value="insert"/>
 		<setting id="org.eclipse.jdt.core.formatter.keep_then_statement_on_same_line" value="false"/>
@@ -286,7 +286,7 @@
 		<setting id="org.eclipse.jdt.core.formatter.keep_record_declaration_on_one_line" value="one_line_never"/>
 		<setting id="org.eclipse.jdt.core.formatter.keep_record_constructor_on_one_line" value="one_line_never"/>
 		<setting id="org.eclipse.jdt.core.formatter.keep_annotation_declaration_on_one_line" value="one_line_never"/>
-		<setting id="org.eclipse.jdt.core.formatter.lineSplit" value="140"/>
+		<setting id="org.eclipse.jdt.core.formatter.lineSplit" value="120"/>
 		<setting id="org.eclipse.jdt.core.formatter.continuation_indentation" value="1"/>
 		<setting id="org.eclipse.jdt.core.formatter.continuation_indentation_for_array_initializer" value="1"/>
 		<setting id="org.eclipse.jdt.core.formatter.join_wrapped_lines" value="true"/>
@@ -300,15 +300,15 @@
 		<setting id="org.eclipse.jdt.core.formatter.alignment_for_throws_clause_in_method_declaration" value="2"/>
 		<setting id="org.eclipse.jdt.core.formatter.alignment_for_parameters_in_method_declaration" value="18"/>
 		<setting id="org.eclipse.jdt.core.formatter.alignment_for_enum_constants" value="16"/>
-		<setting id="org.eclipse.jdt.core.formatter.alignment_for_arguments_in_enum_constant" value="82"/>
+		<setting id="org.eclipse.jdt.core.formatter.alignment_for_arguments_in_enum_constant" value="18"/>
 		<setting id="org.eclipse.jdt.core.formatter.alignment_for_superinterfaces_in_enum_declaration" value="2"/>
 		<setting id="org.eclipse.jdt.core.formatter.alignment_for_record_components" value="18"/>
 		<setting id="org.eclipse.jdt.core.formatter.alignment_for_superinterfaces_in_record_declaration" value="2"/>
-		<setting id="org.eclipse.jdt.core.formatter.alignment_for_arguments_in_method_invocation" value="82"/>
+		<setting id="org.eclipse.jdt.core.formatter.alignment_for_arguments_in_method_invocation" value="18"/>
 		<setting id="org.eclipse.jdt.core.formatter.alignment_for_selector_in_method_invocation" value="82"/>
-		<setting id="org.eclipse.jdt.core.formatter.alignment_for_arguments_in_explicit_constructor_call" value="82"/>
-		<setting id="org.eclipse.jdt.core.formatter.alignment_for_arguments_in_allocation_expression" value="82"/>
-		<setting id="org.eclipse.jdt.core.formatter.alignment_for_arguments_in_qualified_allocation_expression" value="82"/>
+		<setting id="org.eclipse.jdt.core.formatter.alignment_for_arguments_in_explicit_constructor_call" value="18"/>
+		<setting id="org.eclipse.jdt.core.formatter.alignment_for_arguments_in_allocation_expression" value="18"/>
+		<setting id="org.eclipse.jdt.core.formatter.alignment_for_arguments_in_qualified_allocation_expression" value="18"/>
 		<setting id="org.eclipse.jdt.core.formatter.alignment_for_multiplicative_operator" value="50"/>
 		<setting id="org.eclipse.jdt.core.formatter.wrap_before_multiplicative_operator" value="false"/>
 		<setting id="org.eclipse.jdt.core.formatter.alignment_for_additive_operator" value="50"/>
@@ -350,9 +350,9 @@
 		<setting id="org.eclipse.jdt.core.formatter.alignment_for_type_annotations" value="49"/>
 		<setting id="org.eclipse.jdt.core.formatter.alignment_for_arguments_in_annotation" value="18"/>
 		<setting id="org.eclipse.jdt.core.formatter.alignment_for_module_statements" value="0"/>
-		<setting id="org.eclipse.jdt.core.formatter.comment.line_length" value="140"/>
+		<setting id="org.eclipse.jdt.core.formatter.comment.line_length" value="120"/>
 		<setting id="org.eclipse.jdt.core.formatter.comment.count_line_length_from_starting_position" value="false"/>
-		<setting id="org.eclipse.jdt.core.formatter.comment.format_javadoc_comments" value="true"/>
+		<setting id="org.eclipse.jdt.core.formatter.comment.format_javadoc_comments" value="false"/>
 		<setting id="org.eclipse.jdt.core.formatter.comment.format_block_comments" value="false"/>
 		<setting id="org.eclipse.jdt.core.formatter.comment.format_line_comments" value="false"/>
 		<setting id="org.eclipse.jdt.core.formatter.format_line_comment_starting_on_first_column" value="false"/>
@@ -366,13 +366,15 @@
 		<setting id="org.eclipse.jdt.core.formatter.comment.insert_new_line_before_root_tags" value="insert"/>
 		<setting id="org.eclipse.jdt.core.formatter.comment.insert_new_line_between_different_tags" value="do not insert"/>
 		<setting id="org.eclipse.jdt.core.formatter.comment.align_tags_names_descriptions" value="false"/>
-		<setting id="org.eclipse.jdt.core.formatter.comment.align_tags_descriptions_grouped" value="true"/>
+		<setting id="org.eclipse.jdt.core.formatter.comment.align_tags_descriptions_grouped" value="false"/>
 		<setting id="org.eclipse.jdt.core.formatter.comment.insert_new_line_for_parameter" value="do not insert"/>
 		<setting id="org.eclipse.jdt.core.formatter.comment.indent_parameter_description" value="false"/>
 		<setting id="org.eclipse.jdt.core.formatter.comment.indent_tag_description" value="false"/>
 		<setting id="org.eclipse.jdt.core.formatter.comment.indent_root_tags" value="false"/>
 		<setting id="org.eclipse.jdt.core.formatter.comment.new_lines_at_javadoc_boundaries" value="true"/>
 		<setting id="org.eclipse.jdt.core.formatter.comment.clear_blank_lines_in_javadoc_comment" value="false"/>
+		<setting id="org.eclipse.jdt.core.formatter.comment.clear_blank_lines_in_block_comment" value="false"/>
+		<setting id="org.eclipse.jdt.core.formatter.comment.format_header" value="false"/>
 		<setting id="org.eclipse.jdt.core.formatter.use_on_off_tags" value="false"/>
 		<setting id="org.eclipse.jdt.core.formatter.enabling_tag" value="@formatter:on"/>
 		<setting id="org.eclipse.jdt.core.formatter.disabling_tag" value="@formatter:off"/>

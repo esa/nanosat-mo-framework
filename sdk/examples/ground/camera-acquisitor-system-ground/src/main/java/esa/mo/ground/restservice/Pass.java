@@ -32,78 +32,71 @@ import org.orekit.time.AbsoluteDate;
  *
  * @author Kevin Otto
  */
-public class Pass implements EventHandler<BooleanDetector>
-{
+public class Pass implements EventHandler<BooleanDetector> {
 
-  private final AbsoluteDate notBeforeDate;
-  private final long worstCaseRotationTimeSeconds;
+    private final AbsoluteDate notBeforeDate;
+    private final long worstCaseRotationTimeSeconds;
 
-  private AbsoluteDate passStart;
-  private AbsoluteDate passEnd;
-  private AbsoluteDate optimalTime;
+    private AbsoluteDate passStart;
+    private AbsoluteDate passEnd;
+    private AbsoluteDate optimalTime;
 
-  private String resultTime;
+    private String resultTime;
 
-  private boolean timeFound = false;
+    private boolean timeFound = false;
 
-  private boolean startIsSet = false;
+    private boolean startIsSet = false;
 
-  public Pass(AbsoluteDate notBeforeDate, long worstCaseRotationTimeSeconds)
-  {
-    this.notBeforeDate = notBeforeDate;
-    this.worstCaseRotationTimeSeconds = worstCaseRotationTimeSeconds;
-  }
-
-  public String getResultTime()
-  {
-    return resultTime;
-  }
-
-  public AbsoluteDate getPassStart()
-  {
-    return passStart;
-  }
-
-  public AbsoluteDate getPassEnd()
-  {
-    return passEnd;
-  }
-
-  public AbsoluteDate getOptimalTime()
-  {
-    return optimalTime;
-  }
-
-  public boolean isTimeFound()
-  {
-    return timeFound;
-  }
-
-  @Override
-  public Action eventOccurred(SpacecraftState s, BooleanDetector detector, boolean increasing)
-  {
-    
-    if (increasing) {
-      if (!startIsSet) {
-        this.passStart = s.getDate();
-        startIsSet = true;
-      }
-    } else {
-      this.passEnd = s.getDate();
-      double elapsedTime = this.passEnd.durationFrom(this.passStart);
-      this.optimalTime = this.passStart.shiftedBy(elapsedTime / 2);
-      this.resultTime = this.optimalTime.toString();
-      if (this.optimalTime.durationFrom(CameraAcquisitorSystemMCAdapter.getNow()) <= worstCaseRotationTimeSeconds && this.optimalTime.compareTo(
-          this.notBeforeDate) > 0) {
-
-        // time too close, try again
-        startIsSet = false;
-        return Action.CONTINUE;
-      }
-      // time found
-      timeFound = true;
-      return Action.STOP;
+    public Pass(AbsoluteDate notBeforeDate, long worstCaseRotationTimeSeconds) {
+        this.notBeforeDate = notBeforeDate;
+        this.worstCaseRotationTimeSeconds = worstCaseRotationTimeSeconds;
     }
-    return Action.CONTINUE;
-  }
+
+    public String getResultTime() {
+        return resultTime;
+    }
+
+    public AbsoluteDate getPassStart() {
+        return passStart;
+    }
+
+    public AbsoluteDate getPassEnd() {
+        return passEnd;
+    }
+
+    public AbsoluteDate getOptimalTime() {
+        return optimalTime;
+    }
+
+    public boolean isTimeFound() {
+        return timeFound;
+    }
+
+    @Override
+    public Action eventOccurred(SpacecraftState s, BooleanDetector detector, boolean increasing) {
+
+        if (increasing) {
+            if (!startIsSet) {
+                this.passStart = s.getDate();
+                startIsSet = true;
+            }
+        } else {
+            this.passEnd = s.getDate();
+            double elapsedTime = this.passEnd.durationFrom(this.passStart);
+            this.optimalTime = this.passStart.shiftedBy(elapsedTime / 2);
+            this.resultTime = this.optimalTime.toString();
+            if (this.optimalTime.durationFrom(CameraAcquisitorSystemMCAdapter.getNow()) <=
+                worstCaseRotationTimeSeconds &&
+                this.optimalTime.compareTo(this.notBeforeDate) > 0) {
+
+                // time too close, try again
+                startIsSet = false;
+                return Action.CONTINUE;
+            }
+            // time found
+            timeFound = true;
+            return Action.STOP;
+        }
+        return Action.CONTINUE;
+    }
 }

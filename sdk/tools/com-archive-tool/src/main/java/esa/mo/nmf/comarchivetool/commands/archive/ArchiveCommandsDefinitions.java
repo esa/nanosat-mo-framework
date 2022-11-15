@@ -34,15 +34,13 @@ import picocli.CommandLine.Parameters;
  */
 public class ArchiveCommandsDefinitions {
 
-    @Command(name = "dump_raw",
-            description = "Dumps to a JSON file the raw tables content of a local COM archive")
+    @Command(name = "dump_raw", description = "Dumps to a JSON file the raw tables content of a local COM archive")
     public static class DumpRawArchive implements Runnable {
         @Option(names = {"-h", "--help"}, usageHelp = true, description = "display a help message")
         boolean helpRequested;
 
-        @Parameters(arity = "1", paramLabel = "<databaseFile>",
-                description = "Local SQLite database file\n"
-                              + "  - example: ../nanosat-mo-supervisor-sim/comArchive.db")
+        @Parameters(arity = "1", paramLabel = "<databaseFile>", description = "Local SQLite database file\n" +
+                                                                              "  - example: ../nanosat-mo-supervisor-sim/comArchive.db")
         String databaseFile;
 
         @Parameters(arity = "1", paramLabel = "<jsonFile>", description = "target JSON file")
@@ -53,8 +51,8 @@ public class ArchiveCommandsDefinitions {
             ArchiveCommandsImplementations.dumpRawArchiveTables(databaseFile, jsonFile);
         }
     }
-    @Command(name = "backup_and_clean",
-            description = "Backups the data for a specific provider")
+
+    @Command(name = "backup_and_clean", description = "Backups the data for a specific provider")
     public static class BackupProvider implements Runnable {
         @Option(names = {"-h", "--help"}, usageHelp = true, description = "display a help message")
         boolean helpRequested;
@@ -66,22 +64,23 @@ public class ArchiveCommandsDefinitions {
         String filename;
 
         @Parameters(arity = "1", index = "0", paramLabel = "<domainId>",
-                description = "Restricts the dump to objects in a specific domain\n"
-                              + "  - format: key1.key2.[...].keyN.\n"
-                              + "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
+                    description = "Restricts the dump to objects in a specific domain\n" +
+                                  "  - format: key1.key2.[...].keyN.\n" +
+                                  "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
         String domain;
 
         @Option(names = {"-p", "--provider"}, paramLabel = "<appName>",
                 description = "Name of the NMF app we want to backup")
         String appName;
+
         @Override
         public void run() {
-            ArchiveCommandsImplementations.backupProvider(localOrRemote.databaseFile, localOrRemote.providerURI, domain, appName, filename);
+            ArchiveCommandsImplementations.backupProvider(localOrRemote.databaseFile, localOrRemote.providerURI, domain,
+                                                          appName, filename);
         }
     }
 
-    @Command(name = "dump",
-            description = "Dumps to a JSON file the formatted content of a local or remote COM archive")
+    @Command(name = "dump", description = "Dumps to a JSON file the formatted content of a local or remote COM archive")
     public static class DumpFormattedArchive implements Runnable {
         @Option(names = {"-h", "--help"}, usageHelp = true, description = "display a help message")
         boolean helpRequested;
@@ -93,45 +92,44 @@ public class ArchiveCommandsDefinitions {
         String jsonFile;
 
         @Option(names = {"-d", "--domain"}, paramLabel = "<domainId>",
-                description = "Restricts the dump to objects in a specific domain\n"
-                              + "  - format: key1.key2.[...].keyN.\n"
-                              + "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
+                description = "Restricts the dump to objects in a specific domain\n" +
+                              "  - format: key1.key2.[...].keyN.\n" +
+                              "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
         String domain;
 
         @Option(names = {"-t", "--type"}, paramLabel = "<comType>",
-                description = "Restricts the dump to objects that are instances of <comType>\n"
-                              + "  - format: areaNumber.serviceNumber.areaVersion.objectNumber.\n"
-                              + "  - examples (0=wildcard): 4.2.1.1, 4.2.1.0 ")
+                description = "Restricts the dump to objects that are instances of <comType>\n" +
+                              "  - format: areaNumber.serviceNumber.areaVersion.objectNumber.\n" +
+                              "  - examples (0=wildcard): 4.2.1.1, 4.2.1.0 ")
         String comType;
 
         @Option(names = {"-s", "--start"}, paramLabel = "<startTime>",
-                description = "Restricts the dump to objects created after the given time\n"
-                              + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n"
-                              + "  - example: \"2021-03-04 08:37:58.482\"")
+                description = "Restricts the dump to objects created after the given time\n" +
+                              "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" +
+                              "  - example: \"2021-03-04 08:37:58.482\"")
         String startTime;
 
         @Option(names = {"-e", "--end"}, paramLabel = "<endTime>",
-                description = "Restricts the dump to objects created before the given time. "
-                              + "If this option is provided without the -s option, returns the single object that has the closest timestamp to, but not greater than <endTime>\n"
-                              + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n"
-                              + "  - example: \"2021-03-05 12:05:45.271\"")
+                description = "Restricts the dump to objects created before the given time. " +
+                              "If this option is provided without the -s option, returns the single object that has the closest timestamp to, but not greater than <endTime>\n" +
+                              "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" +
+                              "  - example: \"2021-03-05 12:05:45.271\"")
         String endTime;
 
         @Override
         public void run() {
-            ArchiveCommandsImplementations.dumpFormattedArchive(localOrRemote.databaseFile,
-                                                      localOrRemote.providerURI, domain, comType, startTime, endTime, jsonFile);
+            ArchiveCommandsImplementations.dumpFormattedArchive(localOrRemote.databaseFile, localOrRemote.providerURI,
+                                                                domain, comType, startTime, endTime, jsonFile);
         }
     }
 
-    @Command(name = "list",
-            description = "Lists the COM archive providers URIs found in a central directory")
+    @Command(name = "list", description = "Lists the COM archive providers URIs found in a central directory")
     public static class ListArchiveProviders implements Runnable {
         @Option(names = {"-h", "--help"}, usageHelp = true, description = "display a help message")
         boolean helpRequested;
 
         @Parameters(arity = "1", paramLabel = "<centralDirectoryURI>",
-                description = "URI of the central directory to use")
+                    description = "URI of the central directory to use")
         String centralDirectoryURI;
 
         @Override

@@ -10,13 +10,14 @@ import esa.mo.com.impl.archive.entities.COMObjectEntity;
 
 final class RunnableUpdate implements Runnable {
     /**
- *
- */
-private final TransactionsProcessor transactionsProcessor;
+    *
+    */
+    private final TransactionsProcessor transactionsProcessor;
     private final Runnable publishEvents;
     private final ArrayList<COMObjectEntity> newObjs;
 
-    RunnableUpdate(TransactionsProcessor transactionsProcessor, Runnable publishEvents, ArrayList<COMObjectEntity> newObjs) {
+    RunnableUpdate(TransactionsProcessor transactionsProcessor, Runnable publishEvents,
+                   ArrayList<COMObjectEntity> newObjs) {
         this.transactionsProcessor = transactionsProcessor;
         this.publishEvents = publishEvents;
         this.newObjs = newObjs;
@@ -33,7 +34,6 @@ private final TransactionsProcessor transactionsProcessor;
         try {
             Connection c = this.transactionsProcessor.dbBackend.getConnection();
             c.setAutoCommit(false);
-
 
             PreparedStatement update = transactionsProcessor.dbBackend.getPreparedStatements().getUpdateCOMObjects();
 
@@ -60,8 +60,7 @@ private final TransactionsProcessor transactionsProcessor;
                 // Flush every 1k objects...
                 if (i != 0) {
                     if ((i % 1000) == 0) {
-                        TransactionsProcessor.LOGGER.log(Level.FINE,
-                                "Flushing the data after 1000 serial stores...");
+                        TransactionsProcessor.LOGGER.log(Level.FINE, "Flushing the data after 1000 serial stores...");
 
                         update.executeBatch();
                         update.clearBatch();
@@ -76,8 +75,8 @@ private final TransactionsProcessor transactionsProcessor;
         }
         this.transactionsProcessor.dbBackend.getAvailability().release();
 
-      if(publishEvents != null) {
-        this.transactionsProcessor.generalExecutor.submit(publishEvents);
-      }
+        if (publishEvents != null) {
+            this.transactionsProcessor.generalExecutor.submit(publishEvents);
+        }
     }
 }

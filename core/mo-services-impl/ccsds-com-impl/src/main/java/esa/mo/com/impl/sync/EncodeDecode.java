@@ -24,7 +24,6 @@ import esa.mo.com.impl.archive.encoding.BinaryDecoder;
 import esa.mo.com.impl.archive.encoding.BinaryEncoder;
 import esa.mo.com.impl.archive.entities.COMObjectEntity;
 import esa.mo.com.impl.provider.ArchiveManager;
-import esa.mo.com.impl.provider.ArchiveSyncProviderServiceImpl;
 import esa.mo.com.impl.util.COMObjectStructure;
 import esa.mo.helpertools.helpers.HelperMisc;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
@@ -57,6 +56,7 @@ import java.util.zip.GZIPOutputStream;
 public class EncodeDecode {
 
     private static final Logger LOGGER = Logger.getLogger(EncodeDecode.class.getName());
+
     /**
      * Encodes a database COM object to byte array.
      *
@@ -65,8 +65,8 @@ public class EncodeDecode {
      * @param dictionary Dictionary mapping strings to integers
      * @return The byte array holding the encoded COM object
      */
-    public static byte[] encodeToByteArray(final COMObjectEntity entity,
-            ArchiveManager manager, Dictionary dictionary) {
+    public static byte[] encodeToByteArray(final COMObjectEntity entity, ArchiveManager manager,
+                                           Dictionary dictionary) {
         try {
             final ByteArrayOutputStream outputBytesStream = new ByteArrayOutputStream();
             final BinaryEncoder encoder = new BinaryEncoder(outputBytesStream);
@@ -93,8 +93,9 @@ public class EncodeDecode {
      * @param domain The domain of the COM objects to decode
      * @return The list of decoded COM objects
      */
-    public static ArrayList<COMObjectStructure> decodeFromByteArrayList(List<byte[]> chunks,
-            Dictionary dictionary, ArchiveSyncStub archiveSyncService, IdentifierList domain) {
+    public static ArrayList<COMObjectStructure> decodeFromByteArrayList(List<byte[]> chunks, Dictionary dictionary,
+                                                                        ArchiveSyncStub archiveSyncService,
+                                                                        IdentifierList domain) {
         if (chunks.isEmpty()) {
             return null;
         }
@@ -112,23 +113,23 @@ public class EncodeDecode {
         return decodeFromByteArray(dictionary, archiveSyncService, domain, bytes);
     }
 
-    public static byte[] encodeToCompressedByteArray(final List<COMObjectEntity> entities,
-                                                           ArchiveManager manager,
-                                                           Dictionary dictionary) {
-        if(entities.isEmpty()) {
+    public static byte[] encodeToCompressedByteArray(final List<COMObjectEntity> entities, ArchiveManager manager,
+                                                     Dictionary dictionary) {
+        if (entities.isEmpty()) {
             return new byte[0];
         }
         try {
             ByteArrayOutputStream bytesOutputStream = new ByteArrayOutputStream();
             BinaryEncoder encoder = new BinaryEncoder(bytesOutputStream);
 
-            for(COMObjectEntity entity : entities) {
+            for (COMObjectEntity entity : entities) {
                 encodeEntity(entity, manager, dictionary, encoder);
             }
 
             byte[] uncompressedOutput = bytesOutputStream.toByteArray();
             encoder.close();
-            Logger.getLogger(EncodeDecode.class.getName()).log(Level.FINE, "Uncompressed objects size: " + uncompressedOutput.length + " bytes");
+            Logger.getLogger(EncodeDecode.class.getName())
+                  .log(Level.FINE, "Uncompressed objects size: " + uncompressedOutput.length + " bytes");
 
             ByteArrayOutputStream compressedBytesOutputStream = new ByteArrayOutputStream();
             GZIPOutputStream gzip = new GZIPOutputStream(compressedBytesOutputStream);
@@ -143,7 +144,8 @@ public class EncodeDecode {
             System.arraycopy(uncompressedSize, 0, output, 0, 4);
             System.arraycopy(compressedBytes, 0, output, 4, compressedBytes.length);
 
-            Logger.getLogger(EncodeDecode.class.getName()).log(Level.FINE, "Compressed objects size: " + compressedBytes.length + " bytes");
+            Logger.getLogger(EncodeDecode.class.getName())
+                  .log(Level.FINE, "Compressed objects size: " + compressedBytes.length + " bytes");
 
             return output;
         } catch (Exception ex) {
@@ -191,9 +193,7 @@ public class EncodeDecode {
         return decodeFromByteArray(dictionary, archiveSyncService, domain, bytes);
     }
 
-    private static void encodeEntity(COMObjectEntity entity,
-                                     ArchiveManager manager,
-                                     Dictionary dictionary,
+    private static void encodeEntity(COMObjectEntity entity, ArchiveManager manager, Dictionary dictionary,
                                      BinaryEncoder encoder) throws Exception {
         Identifier network = manager.getFastNetwork().getNetwork(entity.getNetwork());
         Integer networkId = dictionary.getWordId(network.getValue());
@@ -218,7 +218,8 @@ public class EncodeDecode {
         if (entity.getSourceLink().getObjectTypeId() == null) {
             encoder.encodeNullableElement(null);
         } else {
-            ObjectType sourceObjType = manager.getFastObjectType().getObjectType(entity.getSourceLink().getObjectTypeId());
+            ObjectType sourceObjType = manager.getFastObjectType()
+                                              .getObjectType(entity.getSourceLink().getObjectTypeId());
             encoder.encodeNullableElement(sourceObjType);
         }
 
@@ -243,8 +244,7 @@ public class EncodeDecode {
 
     private static ArrayList<COMObjectStructure> decodeFromByteArray(Dictionary dictionary,
                                                                      ArchiveSyncStub archiveSyncService,
-                                                                     IdentifierList domain,
-                                                                     byte[] bytes) {
+                                                                     IdentifierList domain, byte[] bytes) {
         ArrayList<COMObjectStructure> objs = new ArrayList<>();
         final BinaryDecoder decoder = new BinaryDecoder(bytes);
         boolean stillDecoding = true;
@@ -268,20 +268,21 @@ public class EncodeDecode {
                 if (blob != null) {
                     try {
                         final BinaryDecoder blobDecoder = new BinaryDecoder(blob.getValue());
-                        final MALElementFactory elementFactory = MALContextFactory.getElementFactoryRegistry().lookupElementFactory(blobDecoder.decodeLong());
+                        final MALElementFactory elementFactory = MALContextFactory.getElementFactoryRegistry()
+                                                                                  .lookupElementFactory(blobDecoder.decodeLong());
                         element = blobDecoder.decodeNullableElement((Element) elementFactory.createElement());
                     } catch (MALException ex) {
-                        Logger.getLogger(COMObjectEntity.class.getName()).log(Level.SEVERE,
-                                                                              "The object body could not be decoded! Usually happens when there's "
-                                                                              + "an update in the APIs. (1) ", ex);
+                        Logger.getLogger(COMObjectEntity.class.getName())
+                              .log(Level.SEVERE, "The object body could not be decoded! Usually happens when there's " +
+                                                 "an update in the APIs. (1) ", ex);
                     } catch (IllegalArgumentException ex) {
-                        Logger.getLogger(COMObjectEntity.class.getName()).log(Level.SEVERE,
-                                                                              "The object body could not be decoded! Usually happens when there's "
-                                                                              + "an update in the APIs. (2) ", ex);
+                        Logger.getLogger(COMObjectEntity.class.getName())
+                              .log(Level.SEVERE, "The object body could not be decoded! Usually happens when there's " +
+                                                 "an update in the APIs. (2) ", ex);
                     } catch (Exception ex) {
-                        Logger.getLogger(COMObjectEntity.class.getName()).log(Level.SEVERE,
-                                                                              "The object body could not be decoded! Usually happens when there's "
-                                                                              + "an update in the APIs. (3) ", ex);
+                        Logger.getLogger(COMObjectEntity.class.getName())
+                              .log(Level.SEVERE, "The object body could not be decoded! Usually happens when there's " +
+                                                 "an update in the APIs. (3) ", ex);
                     }
                 }
 
@@ -310,8 +311,8 @@ public class EncodeDecode {
 
                     for (int j = 0; j < ids.size(); j++) {
                         dictionary.defineWord(ids.get(j), strings.get(j));
-                        Logger.getLogger(COMObjectEntity.class.getName()).log(Level.FINE,
-                                                                              "Defining id: " + ids.get(j) + " as word: " + strings.get(j));
+                        Logger.getLogger(COMObjectEntity.class.getName())
+                              .log(Level.FINE, "Defining id: " + ids.get(j) + " as word: " + strings.get(j));
                     }
                 }
 
@@ -324,14 +325,13 @@ public class EncodeDecode {
                     sourceDomain = null;
                 }
 
-                ObjectId objectId = (sourceObjType == null)
-                                    ? null
-                                    : new ObjectId(sourceObjType, new ObjectKey(sourceDomain, sourceObjId));
+                ObjectId objectId = (sourceObjType == null) ?
+                    null :
+                    new ObjectId(sourceObjType, new ObjectKey(sourceDomain, sourceObjId));
 
                 ObjectDetails objDetails = new ObjectDetails(relatedLink, objectId);
 
-                ArchiveDetails archDetails = new ArchiveDetails(objId, objDetails,
-                                                                network, timestamp, providerURI);
+                ArchiveDetails archDetails = new ArchiveDetails(objId, objDetails, network, timestamp, providerURI);
 
                 objs.add(new COMObjectStructure(domain, objType, archDetails, element));
             } catch (IndexOutOfBoundsException ex) {

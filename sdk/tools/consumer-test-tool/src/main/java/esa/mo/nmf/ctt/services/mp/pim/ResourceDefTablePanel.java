@@ -53,7 +53,6 @@ public class ResourceDefTablePanel extends SharedTablePanel {
 
         c_ResourceDefinitionDetails definition = (c_ResourceDefinitionDetails) comObject.getObject();
 
-
         String description = "Unknown";
         if (definition.getNumericResourceDef() != null) {
             description = definition.getNumericResourceDef().getDescription();
@@ -63,11 +62,7 @@ public class ResourceDefTablePanel extends SharedTablePanel {
             description = definition.getStatusResourceDef().getDescription();
         }
 
-        tableData.addRow(new Object[]{
-            identity,
-            comObject.getArchiveDetails().getInstId(),
-            description,
-        });
+        tableData.addRow(new Object[]{identity, comObject.getArchiveDetails().getInstId(), description,});
 
         comObjects.add(comObject);
         semaphore.release();
@@ -75,25 +70,20 @@ public class ResourceDefTablePanel extends SharedTablePanel {
 
     @Override
     public void defineTableContent() {
-        String[] tableCol = new String[]{
-            "Identity", "Definition ID", "Description"
-        };
+        String[] tableCol = new String[]{"Identity", "Definition ID", "Description"};
 
-        tableData = new javax.swing.table.DefaultTableModel(
-            new Object[][]{}, tableCol) {
-                Class[] types = new Class[]{
-                    java.lang.String.class, java.lang.Long.class, java.lang.String.class
-                };
+        tableData = new javax.swing.table.DefaultTableModel(new Object[][]{}, tableCol) {
+            Class[] types = new Class[]{java.lang.String.class, java.lang.Long.class, java.lang.String.class};
 
-                @Override               //all cells false
-                public boolean isCellEditable(int row, int column) {
-                    return false;
-                }
+            @Override               //all cells false
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
 
-                @Override
-                public Class getColumnClass(int columnIndex) {
-                    return types[columnIndex];
-                }
+            @Override
+            public Class getColumnClass(int columnIndex) {
+                return types[columnIndex];
+            }
         };
 
         super.getTable().setModel(tableData);

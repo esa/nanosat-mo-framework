@@ -62,7 +62,7 @@ public class EchoSpace {
     }
 
     public void pushBlob() throws NMFException {
-      connector.pushParameterValue("Data", data);
+        connector.pushParameterValue("Data", data);
     }
 
     /**
@@ -82,16 +82,14 @@ public class EchoSpace {
             ParameterDefinitionDetailsList pddl = new ParameterDefinitionDetailsList();
             IdentifierList names = new IdentifierList();
 
-            pddl.add(new ParameterDefinitionDetails(
-                "The sent data", (byte)1, null, true, new Duration(), null, null
-            ));
+            pddl.add(new ParameterDefinitionDetails("The sent data", (byte) 1, null, true, new Duration(), null, null));
             names.add(new Identifier("Data"));
             registrationObject.registerParameters(names, pddl);
         }
 
         @Override
-        public UInteger actionArrived(Identifier idntfr, AttributeValueList avl,
-                Long l, boolean bln, MALInteraction mali) {
+        public UInteger actionArrived(Identifier idntfr, AttributeValueList avl, Long l, boolean bln,
+                                      MALInteraction mali) {
             throw new UnsupportedOperationException("Not supported.");
         }
 
@@ -102,15 +100,15 @@ public class EchoSpace {
 
         @Override
         public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
-            if(identifiers.get(0).getValue().equals("Data")){
-              data = (Blob)values.get(0).getRawValue();
-              try {
-                pushBlob();
-              } catch (NMFException ex) {
-                Logger.getLogger(EchoSpace.class.getName()).log(Level.SEVERE, "NMF Exception", ex);
-                return false;
-              }
-              return true;
+            if (identifiers.get(0).getValue().equals("Data")) {
+                data = (Blob) values.get(0).getRawValue();
+                try {
+                    pushBlob();
+                } catch (NMFException ex) {
+                    Logger.getLogger(EchoSpace.class.getName()).log(Level.SEVERE, "NMF Exception", ex);
+                    return false;
+                }
+                return true;
             }
             return false;
         }

@@ -30,52 +30,49 @@ import org.ccsds.moims.mo.mal.structures.Blob;
  *
  * @author Cesar Coelho
  */
-public class GroundMOAdapterImpl extends CommonMOAdapterImpl
-{
-  /**
-   * The constructor of this class
-   *
-   * @param connection The connection details of the provider
-   */
-  public GroundMOAdapterImpl(final ConnectionConsumer connection)
-  {
-    super(connection);
-    // No need for super.init(); here and in other constructors because CommonMOAdapterImpl constructor already calls it
-  }
-  
-  /**
-   * The constructor of this class
-   *
-   * @param connection The connection details of the provider
-   * @param authenticationId authenticationId of the logged in user
-   * @param localNamePrefix the prefix for the local name of the consumer
-   */
-  public GroundMOAdapterImpl(final ConnectionConsumer connection, final Blob authenticationId, final String localNamePrefix)
-  {
-    super(connection, authenticationId, localNamePrefix);
-  }
+public class GroundMOAdapterImpl extends CommonMOAdapterImpl {
+    /**
+     * The constructor of this class
+     *
+     * @param connection The connection details of the provider
+     */
+    public GroundMOAdapterImpl(final ConnectionConsumer connection) {
+        super(connection);
+        // No need for super.init(); here and in other constructors because CommonMOAdapterImpl constructor already calls it
+    }
 
-  /**
-   * The constructor of this class
-   *
-   * @param providerDetails The Provider details. This object can be obtained from the Directory
-   *                        service
-   */
-  public GroundMOAdapterImpl(final ProviderSummary providerDetails)
-  {
-    super(providerDetails);
-  }
-  
-  /**
-   * The constructor of this class
-   *
-   * @param providerDetails The Provider details. This object can be obtained from the Directory
-   *                        service
-   * @param authenticationId authenticationId of the logged in user
-   * @param localNamePrefix the prefix for the local name of the consumer
-   */
-  public GroundMOAdapterImpl(final ProviderSummary providerDetails, final Blob authenticationId, final String localNamePrefix)
-  {
-    super(providerDetails, authenticationId, localNamePrefix);
-  }
+    /**
+     * The constructor of this class
+     *
+     * @param connection The connection details of the provider
+     * @param authenticationId authenticationId of the logged in user
+     * @param localNamePrefix the prefix for the local name of the consumer
+     */
+    public GroundMOAdapterImpl(final ConnectionConsumer connection, final Blob authenticationId,
+                               final String localNamePrefix) {
+        super(connection, authenticationId, localNamePrefix);
+    }
+
+    /**
+     * The constructor of this class
+     *
+     * @param providerDetails The Provider details. This object can be obtained from the Directory
+     *                        service
+     */
+    public GroundMOAdapterImpl(final ProviderSummary providerDetails) {
+        super(providerDetails);
+    }
+
+    /**
+     * The constructor of this class
+     *
+     * @param providerDetails The Provider details. This object can be obtained from the Directory
+     *                        service
+     * @param authenticationId authenticationId of the logged in user
+     * @param localNamePrefix the prefix for the local name of the consumer
+     */
+    public GroundMOAdapterImpl(final ProviderSummary providerDetails, final Blob authenticationId,
+                               final String localNamePrefix) {
+        super(providerDetails, authenticationId, localNamePrefix);
+    }
 }

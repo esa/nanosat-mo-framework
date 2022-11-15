@@ -22,7 +22,6 @@ package esa.mo.nmf.nmfpackage;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
@@ -75,7 +74,11 @@ public class NMFDigitalSignature {
             bufin.close();
 
             return dsa.sign(); // Returns the signature
-        } catch (NoSuchProviderException | SignatureException | InvalidKeyException | NoSuchAlgorithmException | IOException ex) {
+        } catch (NoSuchProviderException |
+                 SignatureException |
+                 InvalidKeyException |
+                 NoSuchAlgorithmException |
+                 IOException ex) {
             Logger.getLogger(NMFDigitalSignature.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -109,7 +112,11 @@ public class NMFDigitalSignature {
             bufin.close();
 
             return sig.verify(signatureToVerify);
-        } catch (NoSuchProviderException | InvalidKeyException | NoSuchAlgorithmException | SignatureException | IOException ex) {
+        } catch (NoSuchProviderException |
+                 InvalidKeyException |
+                 NoSuchAlgorithmException |
+                 SignatureException |
+                 IOException ex) {
             Logger.getLogger(NMFDigitalSignature.class.getName()).log(Level.SEVERE, null, ex);
         }
 

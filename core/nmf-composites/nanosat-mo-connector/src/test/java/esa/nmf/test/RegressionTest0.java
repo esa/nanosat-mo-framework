@@ -16,7 +16,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         try {
             java.util.ArrayList<esa.mo.reconfigurable.service.ReconfigurableService> reconfigurableServiceList1 = nanoSatMOConnectorImpl0.getServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -28,7 +28,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         try {
             org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails configurationObjectDetails1 = null; // flaky: nanoSatMOConnectorImpl0.getCurrentConfiguration();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -39,8 +39,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test003");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         try {
-// flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, (int) (byte) 0, (-5), 13, 281475010265083L);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, (int) (byte) 0, (-5), 13, 281475010265083L);
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -52,7 +52,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         try {
             esa.mo.platform.impl.util.PlatformServicesConsumer platformServicesConsumer1 = null; // flaky: nanoSatMOConnectorImpl0.getPlatformServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -64,7 +64,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         try {
             esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider1 = nanoSatMOConnectorImpl0.getCOMServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -76,7 +76,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         try {
             nanoSatMOConnectorImpl0.writeCentralDirectoryServiceURI("", "[-1, 281475010265070]");
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -88,7 +88,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         try {
             nanoSatMOConnectorImpl0.writeCentralDirectoryServiceURI("0", "");
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -102,7 +102,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider3 = nanoSatMOConnectorImpl0.getCOMServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -117,7 +117,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             esa.mo.platform.impl.util.PlatformServicesConsumer platformServicesConsumer3 = null; // flaky: nanoSatMOConnectorImpl0.getPlatformServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -132,7 +132,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             nanoSatMOConnectorImpl0.writeCentralDirectoryServiceURI("[-1.0, 10.0, 10.0, 1.0]", "1");
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -145,7 +145,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         try {
             esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF1 = null; // flaky: nanoSatMOConnectorImpl0.getMCServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -159,7 +159,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             java.util.ArrayList<esa.mo.reconfigurable.service.ReconfigurableService> reconfigurableServiceList3 = nanoSatMOConnectorImpl0.getServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -174,7 +174,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI3 = nanoSatMOConnectorImpl0.readCentralDirectoryServiceURI();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -186,12 +186,13 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test014");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         java.lang.Long long1 = nanoSatMOConnectorImpl0.getAppDirectoryId();
-        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray2 = new esa.mo.mc.impl.provider.ParameterInstance[] {};
+        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray2 = new esa.mo.mc.impl.provider.ParameterInstance[]{};
         java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance> parameterInstanceList3 = new java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance>();
-        boolean boolean4 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList3, parameterInstanceArray2);
+        boolean boolean4 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList3,
+                                                        parameterInstanceArray2);
         try {
             java.lang.Boolean boolean6 = null; // flaky: nanoSatMOConnectorImpl0.pushMultipleParameterValues(parameterInstanceList3, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -207,7 +208,7 @@ public class RegressionTest0 {
         java.lang.Long long1 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             esa.mo.nmf.CloseAppListener closeAppListener2 = nanoSatMOConnectorImpl0.getCloseAppListener();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -220,15 +221,16 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         java.lang.Long long1 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         org.ccsds.moims.mo.mal.structures.URI uRI3 = new org.ccsds.moims.mo.mal.structures.URI();
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray4 = new org.ccsds.moims.mo.mal.structures.URI[] { uRI3 };
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray4 = new org.ccsds.moims.mo.mal.structures.URI[]{uRI3};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList5 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList5, uRIArray4);
+        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList5,
+                                                        uRIArray4);
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream7 = uRIList5.parallelStream();
         java.util.Spliterator<org.ccsds.moims.mo.mal.structures.URI> uRISpliterator8 = uRIList5.spliterator();
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream9 = uRIList5.stream();
         try {
             java.lang.Boolean boolean11 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[-1.0, 10.0, 10.0, 1.0]", (java.io.Serializable) uRIList5, false);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -249,7 +251,7 @@ public class RegressionTest0 {
         java.lang.Long long3 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI4 = nanoSatMOConnectorImpl0.readCentralDirectoryServiceURI();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -266,7 +268,7 @@ public class RegressionTest0 {
         java.lang.Long long3 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             esa.mo.platform.impl.util.PlatformServicesConsumer platformServicesConsumer4 = null; // flaky: nanoSatMOConnectorImpl0.getPlatformServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -279,7 +281,7 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test019");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener1 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
-        java.lang.Byte[] byteArray5 = new java.lang.Byte[] { (byte) 100, (byte) 100 };
+        java.lang.Byte[] byteArray5 = new java.lang.Byte[]{(byte) 100, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList6 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList6, byteArray5);
         java.util.ListIterator<java.lang.Byte> byteItor9 = byteList6.listIterator((int) (short) 1);
@@ -291,7 +293,7 @@ public class RegressionTest0 {
         java.lang.String str16 = time12.toString();
         try {
             java.lang.Boolean boolean18 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[0, 1, 10, 10, 100]", (java.io.Serializable) time12, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(byteArray5);
@@ -310,29 +312,33 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test020");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener1 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
-        java.lang.Integer[] intArray7 = new java.lang.Integer[] { 16, 100, 10, 1 };
+        java.lang.Integer[] intArray7 = new java.lang.Integer[]{16, 100, 10, 1};
         java.util.ArrayList<java.lang.Integer> intList8 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList8, intArray7);
         int int11 = intList8.indexOf((java.lang.Object) 0);
         org.ccsds.moims.mo.mal.structures.StringList stringList12 = new org.ccsds.moims.mo.mal.structures.StringList();
         java.lang.Long long13 = stringList12.getShortForm();
-        java.lang.Boolean[] booleanArray16 = new java.lang.Boolean[] { true, true };
+        java.lang.Boolean[] booleanArray16 = new java.lang.Boolean[]{true, true};
         java.util.ArrayList<java.lang.Boolean> booleanList17 = new java.util.ArrayList<java.lang.Boolean>();
-        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList17, booleanArray16);
+        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList17,
+                                                         booleanArray16);
         boolean boolean20 = booleanList17.contains((java.lang.Object) 10L);
         booleanList17.ensureCapacity(0);
-        java.lang.Short[] shortArray26 = new java.lang.Short[] { (short) 1, (short) -1, (short) 10 };
+        java.lang.Short[] shortArray26 = new java.lang.Short[]{(short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList27 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean28 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList27, shortArray26);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray29 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean28 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList27,
+                                                         shortArray26);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray29 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList30 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean31 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList30, uShortArray29);
+        boolean boolean31 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList30,
+                                                         uShortArray29);
         int int33 = uShortList30.lastIndexOf((java.lang.Object) 'a');
         boolean boolean34 = uShortList30.isEmpty();
         org.ccsds.moims.mo.mal.structures.UShort uShort35 = new org.ccsds.moims.mo.mal.structures.UShort();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray36 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort35 };
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray36 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort35};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList37 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean38 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList37, uShortArray36);
+        boolean boolean38 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList37,
+                                                         uShortArray36);
         boolean boolean39 = uShortList30.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList37);
         boolean boolean40 = shortList27.remove((java.lang.Object) boolean39);
         shortList27.clear();
@@ -345,7 +351,7 @@ public class RegressionTest0 {
         int int50 = intList8.indexOf((java.lang.Object) (short) -1);
         try {
             java.lang.Boolean boolean52 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[100, 100]", (java.io.Serializable) int50, false);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(intArray7);
@@ -378,14 +384,15 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test021");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         org.ccsds.moims.mo.mal.structures.URI uRI2 = new org.ccsds.moims.mo.mal.structures.URI();
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray3 = new org.ccsds.moims.mo.mal.structures.URI[] { uRI2 };
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray3 = new org.ccsds.moims.mo.mal.structures.URI[]{uRI2};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList4 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList4, uRIArray3);
+        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList4,
+                                                        uRIArray3);
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream6 = uRIList4.parallelStream();
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream7 = uRIList4.stream();
         try {
             java.lang.Boolean boolean8 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[0.0, 0.0, 0.0, 10.0]", (java.io.Serializable) uRIList4);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(uRIArray3);
@@ -401,8 +408,8 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener1 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
-// flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(true, 11, (int) ' ', (int) 'a', (long) 0);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(true, 11, (int) ' ', (int) 'a', (long) 0);
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -415,7 +422,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener1 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             esa.mo.platform.impl.util.PlatformServicesConsumer platformServicesConsumer2 = null; // flaky: nanoSatMOConnectorImpl0.getPlatformServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -429,7 +436,7 @@ public class RegressionTest0 {
         esa.mo.nmf.MonitorAndControlNMFAdapter monitorAndControlNMFAdapter2 = null;
         try {
             nanoSatMOConnectorImpl0.init(monitorAndControlNMFAdapter2);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field org.sqlite.jdbc3.JDBC3Connection.randoop_classUsedFlag from class org.sqlite.core.CoreConnection");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field org.sqlite.jdbc3.JDBC3Connection.randoop_classUsedFlag from class org.sqlite.core.CoreConnection");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -442,7 +449,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener1 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI2 = nanoSatMOConnectorImpl0.readCentralDirectoryServiceURI();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -456,7 +463,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             nanoSatMOConnectorImpl0.writeCentralDirectoryServiceURI("[10.0, 0.0, -1.0, -1.0]", "[10.0, -1.0]");
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -468,12 +475,13 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test027");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener1 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
-        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray2 = new esa.mo.mc.impl.provider.ParameterInstance[] {};
+        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray2 = new esa.mo.mc.impl.provider.ParameterInstance[]{};
         java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance> parameterInstanceList3 = new java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance>();
-        boolean boolean4 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList3, parameterInstanceArray2);
+        boolean boolean4 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList3,
+                                                        parameterInstanceArray2);
         try {
             java.lang.Boolean boolean6 = null; // flaky: nanoSatMOConnectorImpl0.pushMultipleParameterValues(parameterInstanceList3, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(parameterInstanceArray2);
@@ -488,7 +496,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener1 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF2 = null; // flaky: nanoSatMOConnectorImpl0.getMCServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -500,7 +508,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         try {
             nanoSatMOConnectorImpl0.writeCentralDirectoryServiceURI("hi!", "[1, 10, 10, 100]");
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -514,7 +522,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             esa.mo.nmf.CloseAppListener closeAppListener3 = nanoSatMOConnectorImpl0.getCloseAppListener();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -528,7 +536,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener1 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             nanoSatMOConnectorImpl0.writeCentralDirectoryServiceURI("[false, true, false]", "-1");
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -543,7 +551,7 @@ public class RegressionTest0 {
         java.lang.Long long3 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF4 = null; // flaky: nanoSatMOConnectorImpl0.getMCServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -559,7 +567,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails configurationObjectDetails3 = null; // flaky: nanoSatMOConnectorImpl0.getCurrentConfiguration();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -574,7 +582,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider4 = nanoSatMOConnectorImpl0.getCOMServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -589,7 +597,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             esa.mo.nmf.CloseAppListener closeAppListener3 = nanoSatMOConnectorImpl0.getCloseAppListener();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -599,12 +607,13 @@ public class RegressionTest0 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test036");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
-        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray1 = new esa.mo.mc.impl.provider.ParameterInstance[] {};
+        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray1 = new esa.mo.mc.impl.provider.ParameterInstance[]{};
         java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance> parameterInstanceList2 = new java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance>();
-        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList2, parameterInstanceArray1);
+        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList2,
+                                                        parameterInstanceArray1);
         try {
             java.lang.Boolean boolean5 = null; // flaky: nanoSatMOConnectorImpl0.pushMultipleParameterValues(parameterInstanceList2, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(parameterInstanceArray1);
@@ -619,7 +628,7 @@ public class RegressionTest0 {
         java.lang.Long long1 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider2 = nanoSatMOConnectorImpl0.getCOMServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -634,7 +643,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF3 = null; // flaky: nanoSatMOConnectorImpl0.getMCServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -646,24 +655,28 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test039");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener1 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
-        java.lang.Double[] doubleArray5 = new java.lang.Double[] { 10.0d, (-1.0d) };
+        java.lang.Double[] doubleArray5 = new java.lang.Double[]{10.0d, (-1.0d)};
         java.util.ArrayList<java.lang.Double> doubleList6 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList6, doubleArray5);
+        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList6,
+                                                        doubleArray5);
         java.lang.Object obj8 = doubleList6.clone();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray9 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray9 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList10 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean11 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList10, uShortArray9);
+        boolean boolean11 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList10,
+                                                         uShortArray9);
         int int13 = uShortList10.lastIndexOf((java.lang.Object) 'a');
         boolean boolean14 = uShortList10.isEmpty();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray15 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray15 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList16 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean17 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList16, uShortArray15);
+        boolean boolean17 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList16,
+                                                         uShortArray15);
         int int19 = uShortList16.lastIndexOf((java.lang.Object) 'a');
         boolean boolean20 = uShortList16.isEmpty();
         org.ccsds.moims.mo.mal.structures.UShort uShort21 = new org.ccsds.moims.mo.mal.structures.UShort();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray22 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort21 };
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray22 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort21};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList23 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean24 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList23, uShortArray22);
+        boolean boolean24 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList23,
+                                                         uShortArray22);
         boolean boolean25 = uShortList16.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList23);
         boolean boolean26 = uShortList10.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList16);
         boolean boolean27 = doubleList6.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList16);
@@ -677,7 +690,7 @@ public class RegressionTest0 {
         boolean boolean37 = uShortList16.contains((java.lang.Object) uRIList34);
         try {
             java.lang.Boolean boolean39 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[-1, 10, 1]", (java.io.Serializable) boolean37, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(doubleArray5);
@@ -712,7 +725,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             java.util.ArrayList<esa.mo.reconfigurable.service.ReconfigurableService> reconfigurableServiceList3 = nanoSatMOConnectorImpl0.getServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -726,7 +739,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF3 = null; // flaky: nanoSatMOConnectorImpl0.getMCServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -746,33 +759,37 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         java.lang.Long long1 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
-        java.lang.Integer[] intArray7 = new java.lang.Integer[] { (-1), 10, 1 };
+        java.lang.Integer[] intArray7 = new java.lang.Integer[]{(-1), 10, 1};
         java.util.ArrayList<java.lang.Integer> intList8 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList8, intArray7);
         intList8.ensureCapacity((int) (short) 100);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray12 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray12 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList13 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList13, uShortArray12);
+        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList13,
+                                                         uShortArray12);
         int int16 = uShortList13.lastIndexOf((java.lang.Object) 'a');
         boolean boolean17 = uShortList13.isEmpty();
         org.ccsds.moims.mo.mal.structures.UShort uShort18 = new org.ccsds.moims.mo.mal.structures.UShort();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray19 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort18 };
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray19 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort18};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList20 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList20, uShortArray19);
+        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList20,
+                                                         uShortArray19);
         boolean boolean22 = uShortList13.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList20);
-        java.lang.String[] strArray24 = new java.lang.String[] { "hi!" };
+        java.lang.String[] strArray24 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList25 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean26 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList25, strArray24);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray27 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean26 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList25,
+                                                         strArray24);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray27 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList28 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean29 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList28, uShortArray27);
+        boolean boolean29 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList28,
+                                                         uShortArray27);
         int int31 = uShortList28.indexOf((java.lang.Object) 1.0f);
         boolean boolean32 = strList25.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList28);
         boolean boolean33 = uShortList13.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList28);
         boolean boolean34 = intList8.removeAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList28);
         try {
             java.lang.Boolean boolean35 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[0, 0]", (java.io.Serializable) uShortList28);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -803,9 +820,10 @@ public class RegressionTest0 {
         java.lang.Long long1 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         java.lang.Long long3 = nanoSatMOConnectorImpl0.getAppDirectoryId();
-        java.lang.Float[] floatArray9 = new java.lang.Float[] { (-1.0f), 10.0f, 10.0f, 1.0f };
+        java.lang.Float[] floatArray9 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f, 1.0f};
         java.util.ArrayList<java.lang.Float> floatList10 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList10, floatArray9);
+        boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList10,
+                                                         floatArray9);
         int int13 = floatList10.lastIndexOf((java.lang.Object) (-1L));
         java.util.Iterator<java.lang.Float> floatItor14 = floatList10.iterator();
         org.ccsds.moims.mo.mal.structures.Identifier identifier15 = new org.ccsds.moims.mo.mal.structures.Identifier();
@@ -816,7 +834,7 @@ public class RegressionTest0 {
         java.util.stream.Stream<java.lang.Float> floatStream21 = floatList10.parallelStream();
         try {
             java.lang.Boolean boolean23 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[0.0, 0.0, 0.0, 10.0]", (java.io.Serializable) floatList10, false);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -828,7 +846,8 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(uOctet16);
         org.junit.Assert.assertTrue("'" + boolean18 + "' != '" + false + "'", !boolean18);
         org.junit.Assert.assertTrue("'" + boolean19 + "' != '" + false + "'", !boolean19);
-        org.junit.Assert.assertTrue("'" + str20 + "' != '" + "[-1.0, 10.0, 10.0, 1.0]" + "'", str20.equals("[-1.0, 10.0, 10.0, 1.0]"));
+        org.junit.Assert.assertTrue("'" + str20 + "' != '" + "[-1.0, 10.0, 10.0, 1.0]" + "'", str20.equals(
+                                                                                                           "[-1.0, 10.0, 10.0, 1.0]"));
         org.junit.Assert.assertNotNull(floatStream21);
     }
 
@@ -841,7 +860,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             org.ccsds.moims.mo.mal.structures.Identifier identifier3 = nanoSatMOConnectorImpl0.getProviderName();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -855,26 +874,29 @@ public class RegressionTest0 {
         java.lang.Long long1 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         nanoSatMOConnectorImpl0.initAdditionalServices();
-        java.lang.Integer[] intArray9 = new java.lang.Integer[] { 16, 100, 10, 1 };
+        java.lang.Integer[] intArray9 = new java.lang.Integer[]{16, 100, 10, 1};
         java.util.ArrayList<java.lang.Integer> intList10 = new java.util.ArrayList<java.lang.Integer>();
-        boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList10, intArray9);
+        boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList10,
+                                                         intArray9);
         int int13 = intList10.indexOf((java.lang.Object) 0);
         java.util.Iterator<java.lang.Integer> intItor14 = intList10.iterator();
-        java.lang.Float[] floatArray16 = new java.lang.Float[] { 1.0f };
+        java.lang.Float[] floatArray16 = new java.lang.Float[]{1.0f};
         java.util.ArrayList<java.lang.Float> floatList17 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList17, floatArray16);
+        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList17,
+                                                         floatArray16);
         java.util.ListIterator<java.lang.Float> floatItor19 = floatList17.listIterator();
         int int20 = floatList17.size();
         boolean boolean21 = intList10.equals((java.lang.Object) int20);
         java.util.Spliterator<java.lang.Integer> intSpliterator22 = intList10.spliterator();
-        java.lang.Double[] doubleArray27 = new java.lang.Double[] { 10.0d, 0.0d, (-1.0d), (-1.0d) };
+        java.lang.Double[] doubleArray27 = new java.lang.Double[]{10.0d, 0.0d, (-1.0d), (-1.0d)};
         java.util.ArrayList<java.lang.Double> doubleList28 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean29 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList28, doubleArray27);
+        boolean boolean29 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList28,
+                                                         doubleArray27);
         boolean boolean31 = doubleList28.equals((java.lang.Object) 281475010265079L);
         int int32 = intList10.lastIndexOf((java.lang.Object) 281475010265079L);
         try {
             java.lang.Boolean boolean34 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[-1.0, 10.0, 10.0, 1.0]", (java.io.Serializable) intList10, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -903,7 +925,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             org.ccsds.moims.mo.mal.structures.Identifier identifier3 = nanoSatMOConnectorImpl0.getProviderName();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -916,8 +938,8 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener1 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
-// flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, (-18), (-7), 10, (long) 17);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, (-18), (-7), 10, (long) 17);
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -929,12 +951,13 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener1 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         nanoSatMOConnectorImpl0.initAdditionalServices();
-        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray3 = new esa.mo.mc.impl.provider.ParameterInstance[] {};
+        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray3 = new esa.mo.mc.impl.provider.ParameterInstance[]{};
         java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance> parameterInstanceList4 = new java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance>();
-        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList4, parameterInstanceArray3);
+        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList4,
+                                                        parameterInstanceArray3);
         try {
             java.lang.Boolean boolean7 = null; // flaky: nanoSatMOConnectorImpl0.pushMultipleParameterValues(parameterInstanceList4, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(parameterInstanceArray3);
@@ -959,7 +982,7 @@ public class RegressionTest0 {
         boolean boolean12 = identifier3.equals((java.lang.Object) uShort11);
         try {
             java.lang.Boolean boolean14 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[-1.0, 10.0, 10.0, 1.0]", (java.io.Serializable) uShort11, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertTrue("'" + str4 + "' != '" + "" + "'", str4.equals(""));
@@ -980,8 +1003,8 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener1 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
-// flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, 100, 6, (int) (short) 100, 281474993487881L);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, 100, 6, (int) (short) 100, 281474993487881L);
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -997,7 +1020,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             esa.mo.platform.impl.util.PlatformServicesConsumer platformServicesConsumer5 = null; // flaky: nanoSatMOConnectorImpl0.getPlatformServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -1014,7 +1037,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             nanoSatMOConnectorImpl0.writeCentralDirectoryServiceURI("", "[10.0, -1.0]");
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -1027,8 +1050,8 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         java.lang.Long long1 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
-// flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, 9, (int) (short) -1, (int) '#', 281474993487886L);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, 9, (int) (short) -1, (int) '#', 281474993487886L);
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -1045,7 +1068,7 @@ public class RegressionTest0 {
         java.lang.Long long4 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             nanoSatMOConnectorImpl0.writeCentralDirectoryServiceURI("[, ]", "[10.0, -1.0]");
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -1062,7 +1085,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             org.ccsds.moims.mo.mal.structures.Identifier identifier4 = nanoSatMOConnectorImpl0.getProviderName();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -1074,26 +1097,30 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test057");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener1 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
-        java.lang.Short[] shortArray6 = new java.lang.Short[] { (short) 1, (short) -1, (short) 10 };
+        java.lang.Short[] shortArray6 = new java.lang.Short[]{(short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList7 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean8 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList7, shortArray6);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray9 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean8 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList7,
+                                                        shortArray6);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray9 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList10 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean11 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList10, uShortArray9);
+        boolean boolean11 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList10,
+                                                         uShortArray9);
         int int13 = uShortList10.lastIndexOf((java.lang.Object) 'a');
         boolean boolean14 = uShortList10.isEmpty();
         org.ccsds.moims.mo.mal.structures.UShort uShort15 = new org.ccsds.moims.mo.mal.structures.UShort();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray16 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort15 };
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray16 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort15};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList17 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList17, uShortArray16);
+        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList17,
+                                                         uShortArray16);
         boolean boolean19 = uShortList10.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList17);
         boolean boolean20 = shortList7.remove((java.lang.Object) boolean19);
         shortList7.clear();
         org.ccsds.moims.mo.mal.structures.URI uRI22 = new org.ccsds.moims.mo.mal.structures.URI();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet23 = uRI22.getAreaVersion();
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray24 = new org.ccsds.moims.mo.mal.structures.URI[] { uRI22 };
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray24 = new org.ccsds.moims.mo.mal.structures.URI[]{uRI22};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList25 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean26 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList25, uRIArray24);
+        boolean boolean26 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList25,
+                                                         uRIArray24);
         java.util.ListIterator<org.ccsds.moims.mo.mal.structures.URI> uRIItor28 = uRIList25.listIterator((int) (short) 0);
         org.ccsds.moims.mo.mal.structures.URI uRI30 = new org.ccsds.moims.mo.mal.structures.URI();
         java.lang.Long long31 = uRI30.getShortForm();
@@ -1105,7 +1132,7 @@ public class RegressionTest0 {
         java.lang.String str37 = uRI30.getValue();
         try {
             java.lang.Boolean boolean38 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("false", (java.io.Serializable) str37);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(shortArray6);
@@ -1141,7 +1168,7 @@ public class RegressionTest0 {
         java.lang.Long long4 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI5 = nanoSatMOConnectorImpl0.readCentralDirectoryServiceURI();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -1160,7 +1187,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener5 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             esa.mo.platform.impl.util.PlatformServicesConsumer platformServicesConsumer6 = null; // flaky: nanoSatMOConnectorImpl0.getPlatformServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -1177,7 +1204,7 @@ public class RegressionTest0 {
         java.lang.Long long3 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider4 = nanoSatMOConnectorImpl0.getCOMServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -1194,8 +1221,8 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         java.lang.Long long4 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
-// flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, (-2), (-11), (int) ' ', 281474993487883L);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, (-2), (-11), (int) ' ', 281474993487883L);
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -1213,7 +1240,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails configurationObjectDetails5 = null; // flaky: nanoSatMOConnectorImpl0.getCurrentConfiguration();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -1229,7 +1256,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener3 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             java.util.ArrayList<esa.mo.reconfigurable.service.ReconfigurableService> reconfigurableServiceList4 = nanoSatMOConnectorImpl0.getServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -1242,12 +1269,13 @@ public class RegressionTest0 {
         java.lang.Long long1 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         java.lang.Long long3 = nanoSatMOConnectorImpl0.getAppDirectoryId();
-        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray4 = new esa.mo.mc.impl.provider.ParameterInstance[] {};
+        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray4 = new esa.mo.mc.impl.provider.ParameterInstance[]{};
         java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance> parameterInstanceList5 = new java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance>();
-        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList5, parameterInstanceArray4);
+        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList5,
+                                                        parameterInstanceArray4);
         try {
             java.lang.Boolean boolean8 = null; // flaky: nanoSatMOConnectorImpl0.pushMultipleParameterValues(parameterInstanceList5, false);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -1283,7 +1311,7 @@ public class RegressionTest0 {
         java.lang.Long long4 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF5 = null; // flaky: nanoSatMOConnectorImpl0.getMCServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -1300,7 +1328,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener3 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF4 = null; // flaky: nanoSatMOConnectorImpl0.getMCServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -1314,7 +1342,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             esa.mo.nmf.CloseAppListener closeAppListener3 = nanoSatMOConnectorImpl0.getCloseAppListener();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -1330,9 +1358,10 @@ public class RegressionTest0 {
         boolean boolean6 = stringList4.equals((java.lang.Object) (byte) -1);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet7 = stringList4.getAreaVersion();
         stringList4.clear();
-        java.lang.Byte[] byteArray11 = new java.lang.Byte[] { (byte) 100, (byte) 100 };
+        java.lang.Byte[] byteArray11 = new java.lang.Byte[]{(byte) 100, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList12 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList12, byteArray11);
+        boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList12,
+                                                         byteArray11);
         java.util.ListIterator<java.lang.Byte> byteItor15 = byteList12.listIterator((int) (short) 1);
         int int16 = byteList12.size();
         java.util.Iterator<java.lang.Byte> byteItor17 = byteList12.iterator();
@@ -1344,26 +1373,30 @@ public class RegressionTest0 {
         java.lang.Object[] objArray25 = byteList12.toArray();
         int int26 = stringList4.indexOf((java.lang.Object) byteList12);
         java.lang.Object obj27 = byteList12.clone();
-        java.lang.Short[] shortArray31 = new java.lang.Short[] { (short) 1, (short) -1, (short) 10 };
+        java.lang.Short[] shortArray31 = new java.lang.Short[]{(short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList32 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList32, shortArray31);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray34 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList32,
+                                                         shortArray31);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray34 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList35 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean36 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList35, uShortArray34);
+        boolean boolean36 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList35,
+                                                         uShortArray34);
         int int38 = uShortList35.lastIndexOf((java.lang.Object) 'a');
         boolean boolean39 = uShortList35.isEmpty();
         org.ccsds.moims.mo.mal.structures.UShort uShort40 = new org.ccsds.moims.mo.mal.structures.UShort();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray41 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort40 };
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray41 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort40};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList42 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean43 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList42, uShortArray41);
+        boolean boolean43 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList42,
+                                                         uShortArray41);
         boolean boolean44 = uShortList35.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList42);
         boolean boolean45 = shortList32.remove((java.lang.Object) boolean44);
         shortList32.clear();
         org.ccsds.moims.mo.mal.structures.URI uRI47 = new org.ccsds.moims.mo.mal.structures.URI();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet48 = uRI47.getAreaVersion();
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray49 = new org.ccsds.moims.mo.mal.structures.URI[] { uRI47 };
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray49 = new org.ccsds.moims.mo.mal.structures.URI[]{uRI47};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList50 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean51 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList50, uRIArray49);
+        boolean boolean51 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList50,
+                                                         uRIArray49);
         java.util.ListIterator<org.ccsds.moims.mo.mal.structures.URI> uRIItor53 = uRIList50.listIterator((int) (short) 0);
         org.ccsds.moims.mo.mal.structures.URI uRI55 = new org.ccsds.moims.mo.mal.structures.URI();
         java.lang.Long long56 = uRI55.getShortForm();
@@ -1373,7 +1406,7 @@ public class RegressionTest0 {
         int int60 = byteList12.indexOf((java.lang.Object) shortItor59);
         try {
             java.lang.Boolean boolean61 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[1.0]", (java.io.Serializable) byteList12);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -1423,7 +1456,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener5 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             esa.mo.nmf.CloseAppListener closeAppListener6 = nanoSatMOConnectorImpl0.getCloseAppListener();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -1439,7 +1472,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             java.lang.Boolean boolean5 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("0.0", (java.io.Serializable) 281474993487881L);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -1453,7 +1486,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             esa.mo.platform.impl.util.PlatformServicesConsumer platformServicesConsumer3 = null; // flaky: nanoSatMOConnectorImpl0.getPlatformServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -1466,9 +1499,10 @@ public class RegressionTest0 {
         java.lang.Long long1 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         nanoSatMOConnectorImpl0.initAdditionalServices();
-        java.lang.Double[] doubleArray7 = new java.lang.Double[] { 10.0d, (-1.0d) };
+        java.lang.Double[] doubleArray7 = new java.lang.Double[]{10.0d, (-1.0d)};
         java.util.ArrayList<java.lang.Double> doubleList8 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList8, doubleArray7);
+        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList8,
+                                                        doubleArray7);
         java.lang.Object obj10 = doubleList8.clone();
         org.ccsds.moims.mo.mal.structures.ShortList shortList11 = new org.ccsds.moims.mo.mal.structures.ShortList();
         org.ccsds.moims.mo.mal.structures.UShort uShort12 = shortList11.getServiceNumber();
@@ -1481,7 +1515,7 @@ public class RegressionTest0 {
         boolean boolean20 = doubleList8.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList15);
         try {
             java.lang.Boolean boolean22 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[, ]", (java.io.Serializable) uShortList15, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -1505,7 +1539,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener1 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             nanoSatMOConnectorImpl0.writeCentralDirectoryServiceURI("", "16");
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -1520,7 +1554,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             esa.mo.nmf.CloseAppListener closeAppListener4 = nanoSatMOConnectorImpl0.getCloseAppListener();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -1532,8 +1566,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test076");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         try {
-// flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, (int) (byte) 1, (int) (byte) 100, (int) ' ', (long) '4');
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, (int) (byte) 1, (int) (byte) 100, (int) ' ', (long) '4');
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -1544,24 +1578,28 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test077");
         org.ccsds.moims.mo.mal.structures.LongList longList0 = new org.ccsds.moims.mo.mal.structures.LongList();
         java.util.stream.Stream<java.lang.Long> longStream1 = longList0.parallelStream();
-        java.lang.Float[] floatArray6 = new java.lang.Float[] { (-1.0f), 10.0f, 10.0f, 1.0f };
+        java.lang.Float[] floatArray6 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f, 1.0f};
         java.util.ArrayList<java.lang.Float> floatList7 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean8 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList7, floatArray6);
+        boolean boolean8 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList7,
+                                                        floatArray6);
         int int10 = floatList7.lastIndexOf((java.lang.Object) (-1L));
         java.util.Iterator<java.lang.Float> floatItor11 = floatList7.iterator();
         floatList7.ensureCapacity(0);
         org.ccsds.moims.mo.mal.structures.IntegerList integerList14 = new org.ccsds.moims.mo.mal.structures.IntegerList();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet15 = integerList14.getAreaVersion();
-        java.lang.Short[] shortArray19 = new java.lang.Short[] { (short) 1, (short) 100, (short) 100 };
+        java.lang.Short[] shortArray19 = new java.lang.Short[]{(short) 1, (short) 100, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList20 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList20, shortArray19);
+        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList20,
+                                                         shortArray19);
         boolean boolean23 = shortList20.equals((java.lang.Object) "hi!");
-        java.lang.String[] strArray25 = new java.lang.String[] { "hi!" };
+        java.lang.String[] strArray25 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList26 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList26, strArray25);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray28 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList26,
+                                                         strArray25);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray28 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList29 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean30 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList29, uShortArray28);
+        boolean boolean30 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList29,
+                                                         uShortArray28);
         int int32 = uShortList29.indexOf((java.lang.Object) 1.0f);
         boolean boolean33 = strList26.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList29);
         boolean boolean34 = shortList20.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList29);
@@ -1569,9 +1607,11 @@ public class RegressionTest0 {
         boolean boolean36 = integerList14.contains((java.lang.Object) uShortList29);
         org.ccsds.moims.mo.mal.structures.UShort uShort37 = org.ccsds.moims.mo.mal.structures.URIList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort uShort38 = new org.ccsds.moims.mo.mal.structures.UShort();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray39 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort37, uShort38 };
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray39 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort37,
+                                                                                                                  uShort38};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList40 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean41 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList40, uShortArray39);
+        boolean boolean41 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList40,
+                                                         uShortArray39);
         org.ccsds.moims.mo.mal.structures.UShort uShort43 = new org.ccsds.moims.mo.mal.structures.UShort();
         org.ccsds.moims.mo.mal.structures.UShort uShort44 = uShortList40.set((int) (short) 0, uShort43);
         org.ccsds.moims.mo.mal.structures.UShort uShort46 = uShortList40.remove(0);
@@ -1590,7 +1630,8 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl56.initAdditionalServices();
         java.lang.Long long60 = nanoSatMOConnectorImpl56.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener61 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl56);
-        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray62 = new esa.mo.com.impl.util.EventReceivedListener[] { closeAppEventListener55, closeAppEventListener61 };
+        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray62 = new esa.mo.com.impl.util.EventReceivedListener[]{closeAppEventListener55,
+                                                                                                                                     closeAppEventListener61};
         try {
             esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray63 = uShortList40.toArray(eventReceivedListenerArray62);
             org.junit.Assert.fail("Expected exception of type java.lang.ArrayStoreException; message: null");
@@ -1637,7 +1678,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener1 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             java.util.ArrayList<esa.mo.reconfigurable.service.ReconfigurableService> reconfigurableServiceList2 = nanoSatMOConnectorImpl0.getServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -1651,7 +1692,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             nanoSatMOConnectorImpl0.writeCentralDirectoryServiceURI("hi!", "[, , ]");
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -1666,7 +1707,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails configurationObjectDetails3 = null; // flaky: nanoSatMOConnectorImpl0.getCurrentConfiguration();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -1678,12 +1719,13 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener1 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
-        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray3 = new esa.mo.mc.impl.provider.ParameterInstance[] {};
+        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray3 = new esa.mo.mc.impl.provider.ParameterInstance[]{};
         java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance> parameterInstanceList4 = new java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance>();
-        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList4, parameterInstanceArray3);
+        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList4,
+                                                        parameterInstanceArray3);
         try {
             java.lang.Boolean boolean7 = null; // flaky: nanoSatMOConnectorImpl0.pushMultipleParameterValues(parameterInstanceList4, false);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(parameterInstanceArray3);
@@ -1702,7 +1744,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener5 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails configurationObjectDetails6 = null; // flaky: nanoSatMOConnectorImpl0.getCurrentConfiguration();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -1716,43 +1758,50 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener1 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         nanoSatMOConnectorImpl0.initAdditionalServices();
-        java.lang.Short[] shortArray7 = new java.lang.Short[] { (short) 1, (short) -1, (short) 10 };
+        java.lang.Short[] shortArray7 = new java.lang.Short[]{(short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList8 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList8, shortArray7);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray10 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList8,
+                                                        shortArray7);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray10 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList11 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean12 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList11, uShortArray10);
+        boolean boolean12 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList11,
+                                                         uShortArray10);
         int int14 = uShortList11.lastIndexOf((java.lang.Object) 'a');
         boolean boolean15 = uShortList11.isEmpty();
         org.ccsds.moims.mo.mal.structures.UShort uShort16 = new org.ccsds.moims.mo.mal.structures.UShort();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray17 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort16 };
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray17 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort16};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList18 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean19 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList18, uShortArray17);
+        boolean boolean19 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList18,
+                                                         uShortArray17);
         boolean boolean20 = uShortList11.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList18);
         boolean boolean21 = shortList8.remove((java.lang.Object) boolean20);
         shortList8.clear();
         org.ccsds.moims.mo.mal.structures.URI uRI23 = new org.ccsds.moims.mo.mal.structures.URI();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet24 = uRI23.getAreaVersion();
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray25 = new org.ccsds.moims.mo.mal.structures.URI[] { uRI23 };
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray25 = new org.ccsds.moims.mo.mal.structures.URI[]{uRI23};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList26 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean27 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList26, uRIArray25);
+        boolean boolean27 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList26,
+                                                         uRIArray25);
         java.util.ListIterator<org.ccsds.moims.mo.mal.structures.URI> uRIItor29 = uRIList26.listIterator((int) (short) 0);
         org.ccsds.moims.mo.mal.structures.URI uRI31 = new org.ccsds.moims.mo.mal.structures.URI();
         java.lang.Long long32 = uRI31.getShortForm();
         uRIList26.add(0, uRI31);
         int int34 = shortList8.indexOf((java.lang.Object) uRI31);
-        java.lang.Short[] shortArray38 = new java.lang.Short[] { (short) 1, (short) -1, (short) 10 };
+        java.lang.Short[] shortArray38 = new java.lang.Short[]{(short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList39 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean40 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList39, shortArray38);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray41 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean40 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList39,
+                                                         shortArray38);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray41 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList42 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean43 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList42, uShortArray41);
+        boolean boolean43 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList42,
+                                                         uShortArray41);
         int int45 = uShortList42.lastIndexOf((java.lang.Object) 'a');
         boolean boolean46 = uShortList42.isEmpty();
         org.ccsds.moims.mo.mal.structures.UShort uShort47 = new org.ccsds.moims.mo.mal.structures.UShort();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray48 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort47 };
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray48 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort47};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList49 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean50 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList49, uShortArray48);
+        boolean boolean50 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList49,
+                                                         uShortArray48);
         boolean boolean51 = uShortList42.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList49);
         boolean boolean52 = shortList39.remove((java.lang.Object) boolean51);
         shortList39.clear();
@@ -1760,7 +1809,7 @@ public class RegressionTest0 {
         shortList39.ensureCapacity(17);
         try {
             java.lang.Boolean boolean57 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[, , ]", (java.io.Serializable) 17);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(shortArray7);
@@ -1800,34 +1849,40 @@ public class RegressionTest0 {
         java.lang.Long long1 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         nanoSatMOConnectorImpl0.initAdditionalServices();
-        java.lang.Double[] doubleArray9 = new java.lang.Double[] { (-1.0d), 0.0d, 0.0d, 10.0d };
+        java.lang.Double[] doubleArray9 = new java.lang.Double[]{(-1.0d), 0.0d, 0.0d, 10.0d};
         java.util.ArrayList<java.lang.Double> doubleList10 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList10, doubleArray9);
+        boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList10,
+                                                         doubleArray9);
         boolean boolean13 = doubleList10.contains((java.lang.Object) "hi!");
         doubleList10.add(2, (java.lang.Double) 0.0d);
-        java.lang.Integer[] intArray21 = new java.lang.Integer[] { 16, 100, 10, 1 };
+        java.lang.Integer[] intArray21 = new java.lang.Integer[]{16, 100, 10, 1};
         java.util.ArrayList<java.lang.Integer> intList22 = new java.util.ArrayList<java.lang.Integer>();
-        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList22, intArray21);
+        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList22,
+                                                         intArray21);
         int int25 = intList22.indexOf((java.lang.Object) 0);
         org.ccsds.moims.mo.mal.structures.StringList stringList26 = new org.ccsds.moims.mo.mal.structures.StringList();
         java.lang.Long long27 = stringList26.getShortForm();
-        java.lang.Boolean[] booleanArray30 = new java.lang.Boolean[] { true, true };
+        java.lang.Boolean[] booleanArray30 = new java.lang.Boolean[]{true, true};
         java.util.ArrayList<java.lang.Boolean> booleanList31 = new java.util.ArrayList<java.lang.Boolean>();
-        boolean boolean32 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList31, booleanArray30);
+        boolean boolean32 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList31,
+                                                         booleanArray30);
         boolean boolean34 = booleanList31.contains((java.lang.Object) 10L);
         booleanList31.ensureCapacity(0);
-        java.lang.Short[] shortArray40 = new java.lang.Short[] { (short) 1, (short) -1, (short) 10 };
+        java.lang.Short[] shortArray40 = new java.lang.Short[]{(short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList41 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList41, shortArray40);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray43 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList41,
+                                                         shortArray40);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray43 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList44 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean45 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList44, uShortArray43);
+        boolean boolean45 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList44,
+                                                         uShortArray43);
         int int47 = uShortList44.lastIndexOf((java.lang.Object) 'a');
         boolean boolean48 = uShortList44.isEmpty();
         org.ccsds.moims.mo.mal.structures.UShort uShort49 = new org.ccsds.moims.mo.mal.structures.UShort();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray50 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort49 };
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray50 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort49};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList51 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean52 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList51, uShortArray50);
+        boolean boolean52 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList51,
+                                                         uShortArray50);
         boolean boolean53 = uShortList44.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList51);
         boolean boolean54 = shortList41.remove((java.lang.Object) boolean53);
         shortList41.clear();
@@ -1840,7 +1895,7 @@ public class RegressionTest0 {
         java.util.Iterator<java.lang.Double> doubleItor62 = doubleList10.iterator();
         try {
             java.lang.Boolean boolean64 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("hi!", (java.io.Serializable) doubleList10, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -1879,12 +1934,13 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener1 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener3 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
-        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray4 = new esa.mo.mc.impl.provider.ParameterInstance[] {};
+        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray4 = new esa.mo.mc.impl.provider.ParameterInstance[]{};
         java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance> parameterInstanceList5 = new java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance>();
-        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList5, parameterInstanceArray4);
+        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList5,
+                                                        parameterInstanceArray4);
         try {
             java.lang.Boolean boolean8 = null; // flaky: nanoSatMOConnectorImpl0.pushMultipleParameterValues(parameterInstanceList5, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(parameterInstanceArray4);
@@ -1903,7 +1959,7 @@ public class RegressionTest0 {
         java.io.Serializable serializable6 = null;
         try {
             java.lang.Boolean boolean7 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[]", serializable6);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -1920,7 +1976,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener3 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider4 = nanoSatMOConnectorImpl0.getCOMServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -1935,7 +1991,7 @@ public class RegressionTest0 {
         java.lang.Long long3 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             nanoSatMOConnectorImpl0.writeCentralDirectoryServiceURI("-1", "");
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long3);
@@ -1952,7 +2008,7 @@ public class RegressionTest0 {
         java.lang.Long long4 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             java.util.ArrayList<esa.mo.reconfigurable.service.ReconfigurableService> reconfigurableServiceList5 = nanoSatMOConnectorImpl0.getServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -1971,7 +2027,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener5 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI6 = nanoSatMOConnectorImpl0.readCentralDirectoryServiceURI();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -1987,7 +2043,7 @@ public class RegressionTest0 {
         java.lang.Long long2 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails configurationObjectDetails3 = null; // flaky: nanoSatMOConnectorImpl0.getCurrentConfiguration();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -2005,7 +2061,7 @@ public class RegressionTest0 {
         java.lang.Long long4 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             esa.mo.nmf.CloseAppListener closeAppListener5 = nanoSatMOConnectorImpl0.getCloseAppListener();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -2022,7 +2078,7 @@ public class RegressionTest0 {
         java.lang.Long long3 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             org.ccsds.moims.mo.mal.structures.Identifier identifier4 = nanoSatMOConnectorImpl0.getProviderName();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -2035,49 +2091,58 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test094");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         java.lang.Long long1 = nanoSatMOConnectorImpl0.getAppDirectoryId();
-        java.lang.Boolean[] booleanArray5 = new java.lang.Boolean[] { true, true };
+        java.lang.Boolean[] booleanArray5 = new java.lang.Boolean[]{true, true};
         java.util.ArrayList<java.lang.Boolean> booleanList6 = new java.util.ArrayList<java.lang.Boolean>();
-        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList6, booleanArray5);
+        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList6,
+                                                        booleanArray5);
         boolean boolean9 = booleanList6.contains((java.lang.Object) 10L);
         booleanList6.ensureCapacity(0);
-        java.lang.Short[] shortArray15 = new java.lang.Short[] { (short) 1, (short) -1, (short) 10 };
+        java.lang.Short[] shortArray15 = new java.lang.Short[]{(short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList16 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList16, shortArray15);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray18 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList16,
+                                                         shortArray15);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray18 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList19 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean20 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList19, uShortArray18);
+        boolean boolean20 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList19,
+                                                         uShortArray18);
         int int22 = uShortList19.lastIndexOf((java.lang.Object) 'a');
         boolean boolean23 = uShortList19.isEmpty();
         org.ccsds.moims.mo.mal.structures.UShort uShort24 = new org.ccsds.moims.mo.mal.structures.UShort();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray25 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort24 };
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray25 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort24};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList26 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean27 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList26, uShortArray25);
+        boolean boolean27 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList26,
+                                                         uShortArray25);
         boolean boolean28 = uShortList19.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList26);
         boolean boolean29 = shortList16.remove((java.lang.Object) boolean28);
         shortList16.clear();
         int int31 = booleanList6.lastIndexOf((java.lang.Object) shortList16);
-        java.lang.Short[] shortArray35 = new java.lang.Short[] { (short) 1, (short) -1, (short) 10 };
+        java.lang.Short[] shortArray35 = new java.lang.Short[]{(short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList36 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean37 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList36, shortArray35);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray38 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean37 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList36,
+                                                         shortArray35);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray38 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList39 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean40 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList39, uShortArray38);
+        boolean boolean40 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList39,
+                                                         uShortArray38);
         int int42 = uShortList39.lastIndexOf((java.lang.Object) 'a');
         boolean boolean43 = uShortList39.isEmpty();
         org.ccsds.moims.mo.mal.structures.UShort uShort44 = new org.ccsds.moims.mo.mal.structures.UShort();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray45 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort44 };
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray45 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort44};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList46 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean47 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList46, uShortArray45);
+        boolean boolean47 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList46,
+                                                         uShortArray45);
         boolean boolean48 = uShortList39.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList46);
         boolean boolean49 = shortList36.remove((java.lang.Object) boolean48);
         shortList36.clear();
         boolean boolean51 = shortList36.isEmpty();
-        java.lang.String[] strArray53 = new java.lang.String[] { "hi!" };
+        java.lang.String[] strArray53 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList54 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean55 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList54, strArray53);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray56 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean55 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList54,
+                                                         strArray53);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray56 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList57 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean58 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList57, uShortArray56);
+        boolean boolean58 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList57,
+                                                         uShortArray56);
         int int60 = uShortList57.indexOf((java.lang.Object) 1.0f);
         boolean boolean61 = strList54.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList57);
         boolean boolean62 = shortList36.removeAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList57);
@@ -2085,7 +2150,7 @@ public class RegressionTest0 {
         java.lang.Object obj64 = booleanList6.clone();
         try {
             java.lang.Boolean boolean66 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[0, 1, 10, 10, 100]", (java.io.Serializable) booleanList6, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -2135,7 +2200,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener3 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             esa.mo.platform.impl.util.PlatformServicesConsumer platformServicesConsumer4 = null; // flaky: nanoSatMOConnectorImpl0.getPlatformServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -2144,9 +2209,10 @@ public class RegressionTest0 {
     public void test096() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test096");
-        java.lang.Float[] floatArray3 = new java.lang.Float[] { 10.0f, 100.0f, (-1.0f) };
+        java.lang.Float[] floatArray3 = new java.lang.Float[]{10.0f, 100.0f, (-1.0f)};
         java.util.ArrayList<java.lang.Float> floatList4 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList4, floatArray3);
+        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList4,
+                                                        floatArray3);
         boolean boolean7 = floatList4.add((java.lang.Float) 10.0f);
         floatList4.trimToSize();
         boolean boolean9 = floatList4.isEmpty();
@@ -2160,7 +2226,7 @@ public class RegressionTest0 {
         boolean boolean17 = floatList4.equals((java.lang.Object) nanoSatMOConnectorImpl11);
         try {
             esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider18 = nanoSatMOConnectorImpl11.getCOMServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(floatArray3);
@@ -2183,7 +2249,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             nanoSatMOConnectorImpl0.writeCentralDirectoryServiceURI("[0.0, 0.0, 0.0, 10.0]", "[0.0, 0.0, 0.0, 10.0]");
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -2204,7 +2270,7 @@ public class RegressionTest0 {
         java.lang.String str9 = duration5.toString();
         try {
             java.lang.Boolean boolean11 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[1.0]", (java.io.Serializable) str9, false);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -2223,12 +2289,13 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         nanoSatMOConnectorImpl0.initAdditionalServices();
         java.lang.Long long4 = nanoSatMOConnectorImpl0.getAppDirectoryId();
-        java.lang.String[] strArray7 = new java.lang.String[] { "hi!" };
+        java.lang.String[] strArray7 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList8 = new java.util.ArrayList<java.lang.String>();
         boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList8, strArray7);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray10 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray10 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList11 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean12 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList11, uShortArray10);
+        boolean boolean12 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList11,
+                                                         uShortArray10);
         int int14 = uShortList11.indexOf((java.lang.Object) 1.0f);
         boolean boolean15 = strList8.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList11);
         java.util.ListIterator<java.lang.String> strItor16 = strList8.listIterator();
@@ -2237,7 +2304,7 @@ public class RegressionTest0 {
         java.lang.String str19 = strList8.toString();
         try {
             java.lang.Boolean boolean20 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[]", (java.io.Serializable) strList8);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -2261,7 +2328,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         try {
             esa.mo.nmf.CloseAppListener closeAppListener1 = nanoSatMOConnectorImpl0.getCloseAppListener();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -2270,9 +2337,10 @@ public class RegressionTest0 {
     public void test101() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test101");
-        java.lang.Float[] floatArray3 = new java.lang.Float[] { 10.0f, 100.0f, (-1.0f) };
+        java.lang.Float[] floatArray3 = new java.lang.Float[]{10.0f, 100.0f, (-1.0f)};
         java.util.ArrayList<java.lang.Float> floatList4 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList4, floatArray3);
+        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList4,
+                                                        floatArray3);
         boolean boolean7 = floatList4.add((java.lang.Float) 10.0f);
         floatList4.trimToSize();
         boolean boolean9 = floatList4.isEmpty();
@@ -2286,7 +2354,7 @@ public class RegressionTest0 {
         boolean boolean17 = floatList4.equals((java.lang.Object) nanoSatMOConnectorImpl11);
         try {
             nanoSatMOConnectorImpl11.writeCentralDirectoryServiceURI("", "");
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(floatArray3);
@@ -2308,7 +2376,7 @@ public class RegressionTest0 {
         java.lang.Long long2 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             esa.mo.nmf.CloseAppListener closeAppListener3 = nanoSatMOConnectorImpl0.getCloseAppListener();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -2321,34 +2389,39 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test103");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener1 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
-        java.lang.Integer[] intArray9 = new java.lang.Integer[] { (-5), (-15), (-5), 5, 16, 8 };
+        java.lang.Integer[] intArray9 = new java.lang.Integer[]{(-5), (-15), (-5), 5, 16, 8};
         java.util.ArrayList<java.lang.Integer> intList10 = new java.util.ArrayList<java.lang.Integer>();
-        boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList10, intArray9);
-        java.lang.Double[] doubleArray14 = new java.lang.Double[] { 10.0d, (-1.0d) };
+        boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList10,
+                                                         intArray9);
+        java.lang.Double[] doubleArray14 = new java.lang.Double[]{10.0d, (-1.0d)};
         java.util.ArrayList<java.lang.Double> doubleList15 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList15, doubleArray14);
+        boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList15,
+                                                         doubleArray14);
         java.lang.Object obj17 = doubleList15.clone();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray18 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray18 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList19 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean20 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList19, uShortArray18);
+        boolean boolean20 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList19,
+                                                         uShortArray18);
         int int22 = uShortList19.lastIndexOf((java.lang.Object) 'a');
         boolean boolean23 = uShortList19.isEmpty();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray24 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray24 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList25 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean26 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList25, uShortArray24);
+        boolean boolean26 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList25,
+                                                         uShortArray24);
         int int28 = uShortList25.lastIndexOf((java.lang.Object) 'a');
         boolean boolean29 = uShortList25.isEmpty();
         org.ccsds.moims.mo.mal.structures.UShort uShort30 = new org.ccsds.moims.mo.mal.structures.UShort();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray31 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort30 };
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray31 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort30};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList32 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean33 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList32, uShortArray31);
+        boolean boolean33 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList32,
+                                                         uShortArray31);
         boolean boolean34 = uShortList25.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList32);
         boolean boolean35 = uShortList19.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList25);
         boolean boolean36 = doubleList15.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList25);
         boolean boolean37 = intList10.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList25);
         try {
             java.lang.Boolean boolean38 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[-1, 0, 1, 10, 10, 100]", (java.io.Serializable) intList10);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(intArray9);
@@ -2383,7 +2456,7 @@ public class RegressionTest0 {
         java.lang.Long long4 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider5 = nanoSatMOConnectorImpl0.getCOMServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -2402,7 +2475,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener5 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             esa.mo.nmf.CloseAppListener closeAppListener6 = nanoSatMOConnectorImpl0.getCloseAppListener();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -2416,7 +2489,7 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.StringList stringList3 = new org.ccsds.moims.mo.mal.structures.StringList((int) '#');
         try {
             java.lang.Boolean boolean5 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[10, 100]", (java.io.Serializable) '#', false);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -2430,7 +2503,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             java.util.ArrayList<esa.mo.reconfigurable.service.ReconfigurableService> reconfigurableServiceList3 = nanoSatMOConnectorImpl0.getServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -2445,7 +2518,7 @@ public class RegressionTest0 {
         java.lang.Long long3 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             java.util.ArrayList<esa.mo.reconfigurable.service.ReconfigurableService> reconfigurableServiceList4 = nanoSatMOConnectorImpl0.getServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long3);
@@ -2461,7 +2534,7 @@ public class RegressionTest0 {
         esa.mo.reconfigurable.service.ConfigurationChangeListener configurationChangeListener3 = null;
         try {
             nanoSatMOConnectorImpl0.setOnConfigurationChangeListener(configurationChangeListener3);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -2473,12 +2546,13 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         java.lang.Long long1 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
-        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray3 = new esa.mo.mc.impl.provider.ParameterInstance[] {};
+        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray3 = new esa.mo.mc.impl.provider.ParameterInstance[]{};
         java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance> parameterInstanceList4 = new java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance>();
-        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList4, parameterInstanceArray3);
+        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList4,
+                                                        parameterInstanceArray3);
         try {
             java.lang.Boolean boolean7 = null; // flaky: nanoSatMOConnectorImpl0.pushMultipleParameterValues(parameterInstanceList4, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -2498,7 +2572,7 @@ public class RegressionTest0 {
         esa.mo.nmf.MonitorAndControlNMFAdapter monitorAndControlNMFAdapter5 = null;
         try {
             nanoSatMOConnectorImpl0.init(monitorAndControlNMFAdapter5);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field org.sqlite.jdbc3.JDBC3Connection.randoop_classUsedFlag from class org.sqlite.core.CoreConnection");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field org.sqlite.jdbc3.JDBC3Connection.randoop_classUsedFlag from class org.sqlite.core.CoreConnection");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -2513,7 +2587,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider3 = nanoSatMOConnectorImpl0.getCOMServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -2525,8 +2599,8 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener1 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
-// flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(true, (-2), (-1), 1, 281474993487887L);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(true, (-2), (-1), 1, 281474993487887L);
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -2543,7 +2617,7 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails configurationObjectDetails5 = null;
         try {
             java.lang.Boolean boolean6 = null; // flaky: nanoSatMOConnectorImpl0.reloadConfiguration(configurationObjectDetails5);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -2556,12 +2630,13 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener1 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         nanoSatMOConnectorImpl0.initAdditionalServices();
-        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray3 = new esa.mo.mc.impl.provider.ParameterInstance[] {};
+        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray3 = new esa.mo.mc.impl.provider.ParameterInstance[]{};
         java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance> parameterInstanceList4 = new java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance>();
-        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList4, parameterInstanceArray3);
+        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList4,
+                                                        parameterInstanceArray3);
         try {
             java.lang.Boolean boolean7 = null; // flaky: nanoSatMOConnectorImpl0.pushMultipleParameterValues(parameterInstanceList4, false);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(parameterInstanceArray3);
@@ -2578,7 +2653,7 @@ public class RegressionTest0 {
         java.io.Serializable serializable4 = null;
         try {
             java.lang.Boolean boolean5 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("100", serializable4);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -2597,22 +2672,26 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener5 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         org.ccsds.moims.mo.mal.structures.OctetList octetList7 = new org.ccsds.moims.mo.mal.structures.OctetList();
         int int8 = octetList7.size();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray9 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray9 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList10 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean11 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList10, uShortArray9);
+        boolean boolean11 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList10,
+                                                         uShortArray9);
         int int13 = uShortList10.lastIndexOf((java.lang.Object) 'a');
         boolean boolean14 = uShortList10.isEmpty();
         org.ccsds.moims.mo.mal.structures.UShort uShort15 = new org.ccsds.moims.mo.mal.structures.UShort();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray16 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort15 };
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray16 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort15};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList17 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList17, uShortArray16);
+        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList17,
+                                                         uShortArray16);
         boolean boolean19 = uShortList10.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList17);
-        java.lang.String[] strArray21 = new java.lang.String[] { "hi!" };
+        java.lang.String[] strArray21 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList22 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList22, strArray21);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray24 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList22,
+                                                         strArray21);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray24 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList25 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean26 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList25, uShortArray24);
+        boolean boolean26 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList25,
+                                                         uShortArray24);
         int int28 = uShortList25.indexOf((java.lang.Object) 1.0f);
         boolean boolean29 = strList22.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList25);
         boolean boolean30 = uShortList10.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList25);
@@ -2624,7 +2703,7 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.Element element36 = uOctet35.createElement();
         try {
             java.lang.Boolean boolean38 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[-1, 0, 1, 10, 10, 100]", (java.io.Serializable) uOctet35, false);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -2663,7 +2742,7 @@ public class RegressionTest0 {
         java.lang.Long long5 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             esa.mo.platform.impl.util.PlatformServicesConsumer platformServicesConsumer6 = null; // flaky: nanoSatMOConnectorImpl0.getPlatformServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -2678,7 +2757,7 @@ public class RegressionTest0 {
         java.lang.Long long1 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             java.util.ArrayList<esa.mo.reconfigurable.service.ReconfigurableService> reconfigurableServiceList2 = nanoSatMOConnectorImpl0.getServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -2691,7 +2770,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         try {
             nanoSatMOConnectorImpl0.writeCentralDirectoryServiceURI("6", "[-1, 281475010265070]");
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -2708,7 +2787,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener5 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             esa.mo.platform.impl.util.PlatformServicesConsumer platformServicesConsumer6 = null; // flaky: nanoSatMOConnectorImpl0.getPlatformServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -2724,7 +2803,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails configurationObjectDetails4 = null; // flaky: nanoSatMOConnectorImpl0.getCurrentConfiguration();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -2741,7 +2820,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener4 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI5 = nanoSatMOConnectorImpl0.readCentralDirectoryServiceURI();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -2761,9 +2840,10 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet8 = integerList7.getAreaVersion();
         java.util.Spliterator<java.lang.Integer> intSpliterator9 = integerList7.spliterator();
         org.ccsds.moims.mo.mal.structures.UShort uShort10 = integerList7.getAreaNumber();
-        java.lang.Boolean[] booleanArray13 = new java.lang.Boolean[] { false, true };
+        java.lang.Boolean[] booleanArray13 = new java.lang.Boolean[]{false, true};
         java.util.ArrayList<java.lang.Boolean> booleanList14 = new java.util.ArrayList<java.lang.Boolean>();
-        boolean boolean15 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList14, booleanArray13);
+        boolean boolean15 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList14,
+                                                         booleanArray13);
         boolean boolean17 = booleanList14.contains((java.lang.Object) 1L);
         java.util.ListIterator<java.lang.Boolean> booleanItor18 = booleanList14.listIterator();
         java.math.BigInteger bigInteger19 = org.ccsds.moims.mo.mal.structures.ULong.MAX_VALUE;
@@ -2779,7 +2859,7 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.Element element30 = uLong24.createElement();
         try {
             java.lang.Boolean boolean32 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[-1, 281475010265070]", (java.io.Serializable) uLong24, false);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -2807,13 +2887,15 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         java.lang.Long long3 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         java.lang.Long long4 = nanoSatMOConnectorImpl0.getAppDirectoryId();
-        java.lang.Integer[] intArray10 = new java.lang.Integer[] { 16, 100, 10, 1 };
+        java.lang.Integer[] intArray10 = new java.lang.Integer[]{16, 100, 10, 1};
         java.util.ArrayList<java.lang.Integer> intList11 = new java.util.ArrayList<java.lang.Integer>();
-        boolean boolean12 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList11, intArray10);
+        boolean boolean12 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList11,
+                                                         intArray10);
         int int14 = intList11.indexOf((java.lang.Object) 0);
-        java.lang.Byte[] byteArray17 = new java.lang.Byte[] { (byte) 100, (byte) 100 };
+        java.lang.Byte[] byteArray17 = new java.lang.Byte[]{(byte) 100, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList18 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList18, byteArray17);
+        boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList18,
+                                                         byteArray17);
         java.util.ListIterator<java.lang.Byte> byteItor21 = byteList18.listIterator((int) (short) 1);
         boolean boolean22 = intList11.contains((java.lang.Object) byteList18);
         org.ccsds.moims.mo.mal.structures.FineTime fineTime23 = new org.ccsds.moims.mo.mal.structures.FineTime();
@@ -2823,7 +2905,7 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.Element element27 = fineTime23.createElement();
         try {
             java.lang.Boolean boolean29 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[false, true, false]", (java.io.Serializable) element27, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -2850,8 +2932,8 @@ public class RegressionTest0 {
         java.lang.Long long1 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
-// flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, (int) (short) 10, 4, 13, 281475010265083L);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, (int) (short) 10, 4, 13, 281475010265083L);
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -2866,7 +2948,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             esa.mo.platform.impl.util.PlatformServicesConsumer platformServicesConsumer3 = null; // flaky: nanoSatMOConnectorImpl0.getPlatformServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -2880,7 +2962,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF3 = null; // flaky: nanoSatMOConnectorImpl0.getMCServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -2891,12 +2973,13 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test129");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         nanoSatMOConnectorImpl0.initAdditionalServices();
-        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray2 = new esa.mo.mc.impl.provider.ParameterInstance[] {};
+        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray2 = new esa.mo.mc.impl.provider.ParameterInstance[]{};
         java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance> parameterInstanceList3 = new java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance>();
-        boolean boolean4 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList3, parameterInstanceArray2);
+        boolean boolean4 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList3,
+                                                        parameterInstanceArray2);
         try {
             java.lang.Boolean boolean6 = null; // flaky: nanoSatMOConnectorImpl0.pushMultipleParameterValues(parameterInstanceList3, false);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(parameterInstanceArray2);
@@ -2907,9 +2990,10 @@ public class RegressionTest0 {
     public void test130() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test130");
-        java.lang.Float[] floatArray3 = new java.lang.Float[] { 10.0f, 100.0f, (-1.0f) };
+        java.lang.Float[] floatArray3 = new java.lang.Float[]{10.0f, 100.0f, (-1.0f)};
         java.util.ArrayList<java.lang.Float> floatList4 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList4, floatArray3);
+        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList4,
+                                                        floatArray3);
         boolean boolean7 = floatList4.add((java.lang.Float) 10.0f);
         floatList4.trimToSize();
         boolean boolean9 = floatList4.isEmpty();
@@ -2922,8 +3006,8 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener16 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl11);
         boolean boolean17 = floatList4.equals((java.lang.Object) nanoSatMOConnectorImpl11);
         try {
-// flaky:             nanoSatMOConnectorImpl11.reportActionExecutionProgress(false, 5, (int) (short) 10, 12, 0L);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             nanoSatMOConnectorImpl11.reportActionExecutionProgress(false, 5, (int) (short) 10, 12, 0L);
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(floatArray3);
@@ -2944,7 +3028,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener1 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             esa.mo.nmf.CloseAppListener closeAppListener2 = nanoSatMOConnectorImpl0.getCloseAppListener();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -2958,7 +3042,7 @@ public class RegressionTest0 {
         java.lang.Long long2 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider3 = nanoSatMOConnectorImpl0.getCOMServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long2);
@@ -2972,7 +3056,7 @@ public class RegressionTest0 {
         java.lang.Long long1 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             esa.mo.platform.impl.util.PlatformServicesConsumer platformServicesConsumer2 = null; // flaky: nanoSatMOConnectorImpl0.getPlatformServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -2990,7 +3074,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener5 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider6 = nanoSatMOConnectorImpl0.getCOMServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -3008,7 +3092,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener5 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             org.ccsds.moims.mo.mal.structures.Identifier identifier6 = nanoSatMOConnectorImpl0.getProviderName();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -3034,7 +3118,7 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet14 = integerList7.getAreaVersion();
         try {
             java.lang.Boolean boolean15 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("-1", (java.io.Serializable) uOctet14);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -3057,7 +3141,7 @@ public class RegressionTest0 {
         java.lang.Long long3 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             esa.mo.nmf.CloseAppListener closeAppListener4 = nanoSatMOConnectorImpl0.getCloseAppListener();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -3078,7 +3162,7 @@ public class RegressionTest0 {
         java.lang.Integer int8 = uRIList6.getTypeShortForm();
         try {
             java.lang.Boolean boolean10 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[-1, 10, 1]", (java.io.Serializable) uRIList6, false);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -3097,7 +3181,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider3 = nanoSatMOConnectorImpl0.getCOMServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -3106,9 +3190,10 @@ public class RegressionTest0 {
     public void test140() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test140");
-        java.lang.Float[] floatArray3 = new java.lang.Float[] { 10.0f, 100.0f, (-1.0f) };
+        java.lang.Float[] floatArray3 = new java.lang.Float[]{10.0f, 100.0f, (-1.0f)};
         java.util.ArrayList<java.lang.Float> floatList4 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList4, floatArray3);
+        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList4,
+                                                        floatArray3);
         boolean boolean7 = floatList4.add((java.lang.Float) 10.0f);
         floatList4.trimToSize();
         boolean boolean9 = floatList4.isEmpty();
@@ -3122,7 +3207,7 @@ public class RegressionTest0 {
         boolean boolean17 = floatList4.equals((java.lang.Object) nanoSatMOConnectorImpl11);
         try {
             java.util.ArrayList<esa.mo.reconfigurable.service.ReconfigurableService> reconfigurableServiceList18 = nanoSatMOConnectorImpl11.getServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(floatArray3);
@@ -3139,9 +3224,10 @@ public class RegressionTest0 {
     public void test141() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test141");
-        java.lang.Float[] floatArray3 = new java.lang.Float[] { 10.0f, 100.0f, (-1.0f) };
+        java.lang.Float[] floatArray3 = new java.lang.Float[]{10.0f, 100.0f, (-1.0f)};
         java.util.ArrayList<java.lang.Float> floatList4 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList4, floatArray3);
+        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList4,
+                                                        floatArray3);
         boolean boolean7 = floatList4.add((java.lang.Float) 10.0f);
         floatList4.trimToSize();
         boolean boolean9 = floatList4.isEmpty();
@@ -3155,7 +3241,7 @@ public class RegressionTest0 {
         boolean boolean17 = floatList4.equals((java.lang.Object) nanoSatMOConnectorImpl11);
         try {
             org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails configurationObjectDetails18 = null; // flaky: nanoSatMOConnectorImpl11.getCurrentConfiguration();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(floatArray3);
@@ -3176,7 +3262,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             esa.mo.nmf.CloseAppListener closeAppListener2 = nanoSatMOConnectorImpl0.getCloseAppListener();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -3192,7 +3278,7 @@ public class RegressionTest0 {
         java.lang.Long long4 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails configurationObjectDetails5 = null; // flaky: nanoSatMOConnectorImpl0.getCurrentConfiguration();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -3207,7 +3293,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener1 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails configurationObjectDetails2 = null; // flaky: nanoSatMOConnectorImpl0.getCurrentConfiguration();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -3221,12 +3307,13 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         java.lang.Long long3 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         java.lang.Long long4 = nanoSatMOConnectorImpl0.getAppDirectoryId();
-        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray5 = new esa.mo.mc.impl.provider.ParameterInstance[] {};
+        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray5 = new esa.mo.mc.impl.provider.ParameterInstance[]{};
         java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance> parameterInstanceList6 = new java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance>();
-        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList6, parameterInstanceArray5);
+        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList6,
+                                                        parameterInstanceArray5);
         try {
             java.lang.Boolean boolean9 = null; // flaky: nanoSatMOConnectorImpl0.pushMultipleParameterValues(parameterInstanceList6, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -3245,7 +3332,7 @@ public class RegressionTest0 {
         java.lang.Long long2 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider3 = nanoSatMOConnectorImpl0.getCOMServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -3262,7 +3349,7 @@ public class RegressionTest0 {
         java.lang.Long long3 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             esa.mo.platform.impl.util.PlatformServicesConsumer platformServicesConsumer4 = null; // flaky: nanoSatMOConnectorImpl0.getPlatformServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long3);
@@ -3275,7 +3362,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         try {
             org.ccsds.moims.mo.mal.structures.Identifier identifier1 = nanoSatMOConnectorImpl0.getProviderName();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -3290,12 +3377,13 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener4 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener5 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
-        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray6 = new esa.mo.mc.impl.provider.ParameterInstance[] {};
+        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray6 = new esa.mo.mc.impl.provider.ParameterInstance[]{};
         java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance> parameterInstanceList7 = new java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance>();
-        boolean boolean8 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList7, parameterInstanceArray6);
+        boolean boolean8 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList7,
+                                                        parameterInstanceArray6);
         try {
             java.lang.Boolean boolean10 = null; // flaky: nanoSatMOConnectorImpl0.pushMultipleParameterValues(parameterInstanceList7, false);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -3314,7 +3402,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             java.util.ArrayList<esa.mo.reconfigurable.service.ReconfigurableService> reconfigurableServiceList5 = nanoSatMOConnectorImpl0.getServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -3329,7 +3417,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails configurationObjectDetails3 = null; // flaky: nanoSatMOConnectorImpl0.getCurrentConfiguration();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -3339,9 +3427,10 @@ public class RegressionTest0 {
     public void test152() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test152");
-        java.lang.Float[] floatArray1 = new java.lang.Float[] { 1.0f };
+        java.lang.Float[] floatArray1 = new java.lang.Float[]{1.0f};
         java.util.ArrayList<java.lang.Float> floatList2 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2, floatArray1);
+        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2,
+                                                        floatArray1);
         java.util.ListIterator<java.lang.Float> floatItor4 = floatList2.listIterator();
         int int6 = floatList2.indexOf((java.lang.Object) "[-1, 281475010265070]");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl7 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
@@ -3350,9 +3439,10 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl7.initAdditionalServices();
         java.lang.Long long11 = nanoSatMOConnectorImpl7.getAppDirectoryId();
         int int12 = floatList2.lastIndexOf((java.lang.Object) nanoSatMOConnectorImpl7);
-        java.lang.Boolean[] booleanArray15 = new java.lang.Boolean[] { true };
+        java.lang.Boolean[] booleanArray15 = new java.lang.Boolean[]{true};
         java.util.ArrayList<java.lang.Boolean> booleanList16 = new java.util.ArrayList<java.lang.Boolean>();
-        boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList16, booleanArray15);
+        boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList16,
+                                                         booleanArray15);
         java.lang.Boolean boolean19 = booleanList16.remove((int) (byte) 0);
         org.ccsds.moims.mo.mal.structures.UInteger uInteger21 = new org.ccsds.moims.mo.mal.structures.UInteger((long) 17);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet22 = uInteger21.getAreaVersion();
@@ -3364,7 +3454,7 @@ public class RegressionTest0 {
         java.lang.String str28 = uInteger21.toString();
         try {
             java.lang.Boolean boolean29 = null; // flaky: nanoSatMOConnectorImpl7.pushParameterValue("", (java.io.Serializable) uInteger21);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(floatArray1);
@@ -3394,12 +3484,13 @@ public class RegressionTest0 {
         java.lang.Long long1 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         nanoSatMOConnectorImpl0.initAdditionalServices();
-        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray4 = new esa.mo.mc.impl.provider.ParameterInstance[] {};
+        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray4 = new esa.mo.mc.impl.provider.ParameterInstance[]{};
         java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance> parameterInstanceList5 = new java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance>();
-        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList5, parameterInstanceArray4);
+        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList5,
+                                                        parameterInstanceArray4);
         try {
             java.lang.Boolean boolean8 = null; // flaky: nanoSatMOConnectorImpl0.pushMultipleParameterValues(parameterInstanceList5, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -3419,7 +3510,7 @@ public class RegressionTest0 {
         java.lang.Long long5 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider6 = nanoSatMOConnectorImpl0.getCOMServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -3434,7 +3525,7 @@ public class RegressionTest0 {
         java.lang.Long long1 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             nanoSatMOConnectorImpl0.writeCentralDirectoryServiceURI("[hi!]", "[-1, 281475010265070, 281474993487873]");
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -3452,7 +3543,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener5 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails configurationObjectDetails6 = null; // flaky: nanoSatMOConnectorImpl0.getCurrentConfiguration();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -3471,7 +3562,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener6 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider7 = nanoSatMOConnectorImpl0.getCOMServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -3490,7 +3581,7 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.UShort uShort6 = org.ccsds.moims.mo.mal.structures.IntegerList.SERVICE_SHORT_FORM;
         try {
             java.lang.Boolean boolean7 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[-1.0, 10.0, 10.0, 1.0]", (java.io.Serializable) uShort6);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -3510,7 +3601,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider7 = nanoSatMOConnectorImpl0.getCOMServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -3527,7 +3618,7 @@ public class RegressionTest0 {
         java.lang.Long long4 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             java.util.ArrayList<esa.mo.reconfigurable.service.ReconfigurableService> reconfigurableServiceList5 = nanoSatMOConnectorImpl0.getServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -3547,7 +3638,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener5 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             nanoSatMOConnectorImpl0.writeCentralDirectoryServiceURI("[0, 0]", "[, , ]");
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -3564,7 +3655,7 @@ public class RegressionTest0 {
         java.lang.Long long3 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             nanoSatMOConnectorImpl0.writeCentralDirectoryServiceURI("[]", "[0, 0]");
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -3583,7 +3674,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener5 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF6 = null; // flaky: nanoSatMOConnectorImpl0.getMCServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -3603,7 +3694,7 @@ public class RegressionTest0 {
         java.lang.Long long6 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF7 = null; // flaky: nanoSatMOConnectorImpl0.getMCServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -3622,8 +3713,8 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener5 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
-// flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, (int) 'a', (-7), 0, (long) 1);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, (int) 'a', (-7), 0, (long) 1);
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -3638,7 +3729,7 @@ public class RegressionTest0 {
         java.lang.Long long2 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI3 = nanoSatMOConnectorImpl0.readCentralDirectoryServiceURI();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long2);
@@ -3651,8 +3742,8 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
-// flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, (int) '4', (int) 'a', (-11), 281474993487886L);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, (int) '4', (int) 'a', (-11), 281474993487886L);
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -3667,16 +3758,19 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         nanoSatMOConnectorImpl0.initAdditionalServices();
         java.lang.Long long5 = nanoSatMOConnectorImpl0.getAppDirectoryId();
-        java.lang.Short[] shortArray10 = new java.lang.Short[] { (short) 1, (short) 100, (short) 100 };
+        java.lang.Short[] shortArray10 = new java.lang.Short[]{(short) 1, (short) 100, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList11 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean12 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList11, shortArray10);
+        boolean boolean12 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList11,
+                                                         shortArray10);
         boolean boolean14 = shortList11.equals((java.lang.Object) "hi!");
-        java.lang.String[] strArray16 = new java.lang.String[] { "hi!" };
+        java.lang.String[] strArray16 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList17 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList17, strArray16);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray19 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList17,
+                                                         strArray16);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray19 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList20 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList20, uShortArray19);
+        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList20,
+                                                         uShortArray19);
         int int23 = uShortList20.indexOf((java.lang.Object) 1.0f);
         boolean boolean24 = strList17.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList20);
         boolean boolean25 = shortList11.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList20);
@@ -3687,7 +3781,7 @@ public class RegressionTest0 {
         java.util.Spliterator<java.lang.Short> shortSpliterator31 = shortList11.spliterator();
         try {
             java.lang.Boolean boolean33 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[10.0, 0.0, -1.0, -1.0]", (java.io.Serializable) shortList11, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -3717,7 +3811,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener3 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             nanoSatMOConnectorImpl0.writeCentralDirectoryServiceURI("-1", "100");
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -3726,9 +3820,10 @@ public class RegressionTest0 {
     public void test170() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test170");
-        java.lang.Float[] floatArray3 = new java.lang.Float[] { 10.0f, 100.0f, (-1.0f) };
+        java.lang.Float[] floatArray3 = new java.lang.Float[]{10.0f, 100.0f, (-1.0f)};
         java.util.ArrayList<java.lang.Float> floatList4 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList4, floatArray3);
+        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList4,
+                                                        floatArray3);
         boolean boolean7 = floatList4.add((java.lang.Float) 10.0f);
         floatList4.trimToSize();
         boolean boolean9 = floatList4.isEmpty();
@@ -3742,7 +3837,7 @@ public class RegressionTest0 {
         boolean boolean17 = floatList4.equals((java.lang.Object) nanoSatMOConnectorImpl11);
         try {
             esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF18 = null; // flaky: nanoSatMOConnectorImpl11.getMCServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(floatArray3);
@@ -3759,9 +3854,10 @@ public class RegressionTest0 {
     public void test171() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test171");
-        java.lang.Float[] floatArray1 = new java.lang.Float[] { 1.0f };
+        java.lang.Float[] floatArray1 = new java.lang.Float[]{1.0f};
         java.util.ArrayList<java.lang.Float> floatList2 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2, floatArray1);
+        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2,
+                                                        floatArray1);
         java.util.ListIterator<java.lang.Float> floatItor4 = floatList2.listIterator();
         int int6 = floatList2.indexOf((java.lang.Object) "[-1, 281475010265070]");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl7 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
@@ -3772,7 +3868,7 @@ public class RegressionTest0 {
         int int12 = floatList2.lastIndexOf((java.lang.Object) nanoSatMOConnectorImpl7);
         try {
             nanoSatMOConnectorImpl7.writeCentralDirectoryServiceURI("[1]", "[16, 100, 10, 1]");
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(floatArray1);
@@ -3795,7 +3891,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF5 = null; // flaky: nanoSatMOConnectorImpl0.getMCServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -3813,7 +3909,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener4 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             org.ccsds.moims.mo.mal.structures.Identifier identifier5 = nanoSatMOConnectorImpl0.getProviderName();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -3830,7 +3926,7 @@ public class RegressionTest0 {
         java.lang.Long long4 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             org.ccsds.moims.mo.mal.structures.Identifier identifier5 = nanoSatMOConnectorImpl0.getProviderName();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -3849,7 +3945,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             java.util.ArrayList<esa.mo.reconfigurable.service.ReconfigurableService> reconfigurableServiceList5 = nanoSatMOConnectorImpl0.getServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -3866,7 +3962,7 @@ public class RegressionTest0 {
         java.lang.Long long3 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             esa.mo.nmf.CloseAppListener closeAppListener4 = nanoSatMOConnectorImpl0.getCloseAppListener();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long2);
@@ -3884,7 +3980,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider5 = nanoSatMOConnectorImpl0.getCOMServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long3);
@@ -3904,12 +4000,12 @@ public class RegressionTest0 {
         java.lang.Object obj9 = null;
         int int10 = stringList7.indexOf(obj9);
         java.lang.Long long11 = stringList7.getShortForm();
-        org.ccsds.moims.mo.mal.structures.URIList[] uRIListArray12 = new org.ccsds.moims.mo.mal.structures.URIList[] {};
+        org.ccsds.moims.mo.mal.structures.URIList[] uRIListArray12 = new org.ccsds.moims.mo.mal.structures.URIList[]{};
         org.ccsds.moims.mo.mal.structures.URIList[] uRIListArray13 = stringList7.toArray(uRIListArray12);
         java.lang.Object[] objArray14 = stringList7.toArray();
         try {
             java.lang.Boolean boolean15 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[false, true]", (java.io.Serializable) stringList7);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -3933,7 +4029,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener6 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             java.util.ArrayList<esa.mo.reconfigurable.service.ReconfigurableService> reconfigurableServiceList7 = nanoSatMOConnectorImpl0.getServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -3944,9 +4040,10 @@ public class RegressionTest0 {
     public void test180() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test180");
-        java.lang.Float[] floatArray1 = new java.lang.Float[] { 1.0f };
+        java.lang.Float[] floatArray1 = new java.lang.Float[]{1.0f};
         java.util.ArrayList<java.lang.Float> floatList2 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2, floatArray1);
+        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2,
+                                                        floatArray1);
         java.util.ListIterator<java.lang.Float> floatItor4 = floatList2.listIterator();
         int int6 = floatList2.indexOf((java.lang.Object) "[-1, 281475010265070]");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl7 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
@@ -3958,7 +4055,7 @@ public class RegressionTest0 {
         esa.mo.nmf.MonitorAndControlNMFAdapter monitorAndControlNMFAdapter13 = null;
         try {
             nanoSatMOConnectorImpl7.init(monitorAndControlNMFAdapter13);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field org.sqlite.jdbc3.JDBC3Connection.randoop_classUsedFlag from class org.sqlite.core.CoreConnection");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field org.sqlite.jdbc3.JDBC3Connection.randoop_classUsedFlag from class org.sqlite.core.CoreConnection");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(floatArray1);
@@ -3974,9 +4071,10 @@ public class RegressionTest0 {
     public void test181() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test181");
-        java.lang.Float[] floatArray3 = new java.lang.Float[] { 10.0f, 100.0f, (-1.0f) };
+        java.lang.Float[] floatArray3 = new java.lang.Float[]{10.0f, 100.0f, (-1.0f)};
         java.util.ArrayList<java.lang.Float> floatList4 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList4, floatArray3);
+        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList4,
+                                                        floatArray3);
         boolean boolean7 = floatList4.add((java.lang.Float) 10.0f);
         floatList4.trimToSize();
         boolean boolean9 = floatList4.isEmpty();
@@ -3988,12 +4086,13 @@ public class RegressionTest0 {
         java.lang.Long long15 = nanoSatMOConnectorImpl11.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener16 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl11);
         boolean boolean17 = floatList4.equals((java.lang.Object) nanoSatMOConnectorImpl11);
-        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray18 = new esa.mo.mc.impl.provider.ParameterInstance[] {};
+        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray18 = new esa.mo.mc.impl.provider.ParameterInstance[]{};
         java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance> parameterInstanceList19 = new java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance>();
-        boolean boolean20 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList19, parameterInstanceArray18);
+        boolean boolean20 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList19,
+                                                         parameterInstanceArray18);
         try {
             java.lang.Boolean boolean22 = null; // flaky: nanoSatMOConnectorImpl11.pushMultipleParameterValues(parameterInstanceList19, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(floatArray3);
@@ -4018,7 +4117,7 @@ public class RegressionTest0 {
         java.lang.Long long3 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             esa.mo.nmf.CloseAppListener closeAppListener4 = nanoSatMOConnectorImpl0.getCloseAppListener();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long3);
@@ -4032,7 +4131,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI2 = nanoSatMOConnectorImpl0.readCentralDirectoryServiceURI();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -4049,8 +4148,8 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener5 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         java.lang.Long long6 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
-// flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(true, (int) ' ', 14, (int) (short) 1, (long) (short) -1);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(true, (int) ' ', 14, (int) (short) 1, (long) (short) -1);
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -4061,9 +4160,10 @@ public class RegressionTest0 {
     public void test185() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test185");
-        java.lang.Float[] floatArray3 = new java.lang.Float[] { 10.0f, 100.0f, (-1.0f) };
+        java.lang.Float[] floatArray3 = new java.lang.Float[]{10.0f, 100.0f, (-1.0f)};
         java.util.ArrayList<java.lang.Float> floatList4 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList4, floatArray3);
+        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList4,
+                                                        floatArray3);
         boolean boolean7 = floatList4.add((java.lang.Float) 10.0f);
         floatList4.trimToSize();
         boolean boolean9 = floatList4.isEmpty();
@@ -4077,7 +4177,7 @@ public class RegressionTest0 {
         boolean boolean17 = floatList4.equals((java.lang.Object) nanoSatMOConnectorImpl11);
         try {
             nanoSatMOConnectorImpl11.writeCentralDirectoryServiceURI("", "[-1, 0, 1, 10, 10, 100]");
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(floatArray3);
@@ -4105,7 +4205,7 @@ public class RegressionTest0 {
         java.lang.Long long10 = fineTime7.getShortForm();
         try {
             java.lang.Boolean boolean12 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[0, 0]", (java.io.Serializable) long10, false);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -4122,7 +4222,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails configurationObjectDetails2 = null; // flaky: nanoSatMOConnectorImpl0.getCurrentConfiguration();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -4145,7 +4245,7 @@ public class RegressionTest0 {
         java.util.ListIterator<java.lang.Double> doubleItor13 = doubleList9.listIterator();
         try {
             java.lang.Boolean boolean14 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[hi!]", (java.io.Serializable) doubleList9);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -4176,7 +4276,9 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener13 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl10);
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl14 = null;
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener15 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl14);
-        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray16 = new esa.mo.com.impl.util.EventReceivedListener[] { closeAppEventListener9, closeAppEventListener13, closeAppEventListener15 };
+        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray16 = new esa.mo.com.impl.util.EventReceivedListener[]{closeAppEventListener9,
+                                                                                                                                     closeAppEventListener13,
+                                                                                                                                     closeAppEventListener15};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl17 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener18 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl17);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener19 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl17);
@@ -4187,7 +4289,9 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener24 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl21);
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl25 = null;
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener26 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl25);
-        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray27 = new esa.mo.com.impl.util.EventReceivedListener[] { closeAppEventListener20, closeAppEventListener24, closeAppEventListener26 };
+        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray27 = new esa.mo.com.impl.util.EventReceivedListener[]{closeAppEventListener20,
+                                                                                                                                     closeAppEventListener24,
+                                                                                                                                     closeAppEventListener26};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl28 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener29 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl28);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener30 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl28);
@@ -4198,7 +4302,9 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener35 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl32);
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl36 = null;
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener37 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl36);
-        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray38 = new esa.mo.com.impl.util.EventReceivedListener[] { closeAppEventListener31, closeAppEventListener35, closeAppEventListener37 };
+        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray38 = new esa.mo.com.impl.util.EventReceivedListener[]{closeAppEventListener31,
+                                                                                                                                     closeAppEventListener35,
+                                                                                                                                     closeAppEventListener37};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl39 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener40 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl39);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener41 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl39);
@@ -4209,27 +4315,36 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener46 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl43);
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl47 = null;
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener48 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl47);
-        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray49 = new esa.mo.com.impl.util.EventReceivedListener[] { closeAppEventListener42, closeAppEventListener46, closeAppEventListener48 };
-        esa.mo.com.impl.util.EventReceivedListener[][] eventReceivedListenerArray50 = new esa.mo.com.impl.util.EventReceivedListener[][] { eventReceivedListenerArray16, eventReceivedListenerArray27, eventReceivedListenerArray38, eventReceivedListenerArray49 };
+        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray49 = new esa.mo.com.impl.util.EventReceivedListener[]{closeAppEventListener42,
+                                                                                                                                     closeAppEventListener46,
+                                                                                                                                     closeAppEventListener48};
+        esa.mo.com.impl.util.EventReceivedListener[][] eventReceivedListenerArray50 = new esa.mo.com.impl.util.EventReceivedListener[][]{eventReceivedListenerArray16,
+                                                                                                                                         eventReceivedListenerArray27,
+                                                                                                                                         eventReceivedListenerArray38,
+                                                                                                                                         eventReceivedListenerArray49};
         esa.mo.com.impl.util.EventReceivedListener[][] eventReceivedListenerArray51 = shortList0.toArray(eventReceivedListenerArray50);
-        java.lang.Double[] doubleArray54 = new java.lang.Double[] { 10.0d, (-1.0d) };
+        java.lang.Double[] doubleArray54 = new java.lang.Double[]{10.0d, (-1.0d)};
         java.util.ArrayList<java.lang.Double> doubleList55 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean56 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList55, doubleArray54);
+        boolean boolean56 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList55,
+                                                         doubleArray54);
         java.lang.Object obj57 = doubleList55.clone();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray58 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray58 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList59 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean60 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList59, uShortArray58);
+        boolean boolean60 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList59,
+                                                         uShortArray58);
         int int62 = uShortList59.lastIndexOf((java.lang.Object) 'a');
         boolean boolean63 = uShortList59.isEmpty();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray64 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray64 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList65 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean66 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList65, uShortArray64);
+        boolean boolean66 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList65,
+                                                         uShortArray64);
         int int68 = uShortList65.lastIndexOf((java.lang.Object) 'a');
         boolean boolean69 = uShortList65.isEmpty();
         org.ccsds.moims.mo.mal.structures.UShort uShort70 = new org.ccsds.moims.mo.mal.structures.UShort();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray71 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort70 };
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray71 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort70};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList72 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean73 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList72, uShortArray71);
+        boolean boolean73 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList72,
+                                                         uShortArray71);
         boolean boolean74 = uShortList65.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList72);
         boolean boolean75 = uShortList59.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList65);
         boolean boolean76 = doubleList55.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList65);
@@ -4298,7 +4413,7 @@ public class RegressionTest0 {
         java.lang.Long long6 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             java.util.ArrayList<esa.mo.reconfigurable.service.ReconfigurableService> reconfigurableServiceList7 = nanoSatMOConnectorImpl0.getServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -4315,21 +4430,23 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.IntegerList integerList4 = new org.ccsds.moims.mo.mal.structures.IntegerList(4);
         java.lang.Long long5 = integerList4.getShortForm();
         org.ccsds.moims.mo.mal.structures.UShort uShort6 = integerList4.getAreaNumber();
-        java.lang.Integer[] intArray11 = new java.lang.Integer[] { 16, 100, 10, 1 };
+        java.lang.Integer[] intArray11 = new java.lang.Integer[]{16, 100, 10, 1};
         java.util.ArrayList<java.lang.Integer> intList12 = new java.util.ArrayList<java.lang.Integer>();
-        boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList12, intArray11);
+        boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList12,
+                                                         intArray11);
         int int15 = intList12.indexOf((java.lang.Object) 0);
         java.util.Iterator<java.lang.Integer> intItor16 = intList12.iterator();
-        java.lang.Float[] floatArray18 = new java.lang.Float[] { 1.0f };
+        java.lang.Float[] floatArray18 = new java.lang.Float[]{1.0f};
         java.util.ArrayList<java.lang.Float> floatList19 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean20 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList19, floatArray18);
+        boolean boolean20 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList19,
+                                                         floatArray18);
         java.util.ListIterator<java.lang.Float> floatItor21 = floatList19.listIterator();
         int int22 = floatList19.size();
         boolean boolean23 = intList12.equals((java.lang.Object) int22);
         boolean boolean24 = uShort6.equals((java.lang.Object) intList12);
         try {
             java.lang.Boolean boolean26 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("", (java.io.Serializable) intList12, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertTrue("'" + long5 + "' != '" + 281475010265077L + "'", long5.equals(281475010265077L));
@@ -4353,8 +4470,8 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
-// flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, (int) ' ', 2, 14, (long) (byte) 1);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, (int) ' ', 2, 14, (long) (byte) 1);
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -4370,7 +4487,7 @@ public class RegressionTest0 {
         java.lang.Long long4 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider5 = nanoSatMOConnectorImpl0.getCOMServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -4390,7 +4507,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener5 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             java.util.ArrayList<esa.mo.reconfigurable.service.ReconfigurableService> reconfigurableServiceList6 = nanoSatMOConnectorImpl0.getServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -4408,7 +4525,7 @@ public class RegressionTest0 {
         java.lang.Long long5 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF6 = null; // flaky: nanoSatMOConnectorImpl0.getMCServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -4425,12 +4542,13 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         nanoSatMOConnectorImpl0.initAdditionalServices();
         java.lang.Long long5 = nanoSatMOConnectorImpl0.getAppDirectoryId();
-        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray6 = new esa.mo.mc.impl.provider.ParameterInstance[] {};
+        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray6 = new esa.mo.mc.impl.provider.ParameterInstance[]{};
         java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance> parameterInstanceList7 = new java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance>();
-        boolean boolean8 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList7, parameterInstanceArray6);
+        boolean boolean8 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList7,
+                                                        parameterInstanceArray6);
         try {
             java.lang.Boolean boolean10 = null; // flaky: nanoSatMOConnectorImpl0.pushMultipleParameterValues(parameterInstanceList7, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -4454,7 +4572,7 @@ public class RegressionTest0 {
         boolean boolean10 = booleanList8.remove(obj9);
         try {
             java.lang.Boolean boolean11 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("281474993487886", (java.io.Serializable) boolean10);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -4466,9 +4584,10 @@ public class RegressionTest0 {
     public void test198() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test198");
-        java.lang.Float[] floatArray1 = new java.lang.Float[] { 1.0f };
+        java.lang.Float[] floatArray1 = new java.lang.Float[]{1.0f};
         java.util.ArrayList<java.lang.Float> floatList2 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2, floatArray1);
+        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2,
+                                                        floatArray1);
         java.util.ListIterator<java.lang.Float> floatItor4 = floatList2.listIterator();
         int int6 = floatList2.indexOf((java.lang.Object) "[-1, 281475010265070]");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl7 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
@@ -4479,7 +4598,7 @@ public class RegressionTest0 {
         int int12 = floatList2.lastIndexOf((java.lang.Object) nanoSatMOConnectorImpl7);
         try {
             org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails configurationObjectDetails13 = null; // flaky: nanoSatMOConnectorImpl7.getCurrentConfiguration();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(floatArray1);
@@ -4496,32 +4615,37 @@ public class RegressionTest0 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test199");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
-        java.lang.Float[] floatArray7 = new java.lang.Float[] { 10.0f, 0.0f, (-1.0f), 100.0f, 10.0f };
+        java.lang.Float[] floatArray7 = new java.lang.Float[]{10.0f, 0.0f, (-1.0f), 100.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList8 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList8, floatArray7);
-        java.lang.Byte[] byteArray12 = new java.lang.Byte[] { (byte) 100, (byte) 100 };
+        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList8,
+                                                        floatArray7);
+        java.lang.Byte[] byteArray12 = new java.lang.Byte[]{(byte) 100, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList13 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList13, byteArray12);
+        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList13,
+                                                         byteArray12);
         java.util.ListIterator<java.lang.Byte> byteItor16 = byteList13.listIterator((int) (short) 1);
         int int17 = byteList13.size();
         java.util.Iterator<java.lang.Byte> byteItor18 = byteList13.iterator();
         int int19 = floatList8.lastIndexOf((java.lang.Object) byteItor18);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray20 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray20 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList21 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean22 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList21, uShortArray20);
+        boolean boolean22 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList21,
+                                                         uShortArray20);
         int int24 = uShortList21.lastIndexOf((java.lang.Object) 'a');
         boolean boolean25 = uShortList21.isEmpty();
         boolean boolean26 = floatList8.retainAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList21);
         org.ccsds.moims.mo.mal.structures.BooleanList booleanList28 = new org.ccsds.moims.mo.mal.structures.BooleanList(5);
         booleanList28.trimToSize();
         java.lang.Long long30 = booleanList28.getShortForm();
-        java.lang.Integer[] intArray35 = new java.lang.Integer[] { 16, 100, 10, 1 };
+        java.lang.Integer[] intArray35 = new java.lang.Integer[]{16, 100, 10, 1};
         java.util.ArrayList<java.lang.Integer> intList36 = new java.util.ArrayList<java.lang.Integer>();
-        boolean boolean37 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList36, intArray35);
+        boolean boolean37 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList36,
+                                                         intArray35);
         int int39 = intList36.indexOf((java.lang.Object) 0);
-        java.lang.Byte[] byteArray42 = new java.lang.Byte[] { (byte) 100, (byte) 100 };
+        java.lang.Byte[] byteArray42 = new java.lang.Byte[]{(byte) 100, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList43 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean44 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList43, byteArray42);
+        boolean boolean44 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList43,
+                                                         byteArray42);
         java.util.ListIterator<java.lang.Byte> byteItor46 = byteList43.listIterator((int) (short) 1);
         int int47 = byteList43.size();
         int int48 = intList36.lastIndexOf((java.lang.Object) int47);
@@ -4530,23 +4654,27 @@ public class RegressionTest0 {
         boolean boolean51 = floatList8.remove((java.lang.Object) int50);
         org.ccsds.moims.mo.mal.structures.StringList stringList53 = new org.ccsds.moims.mo.mal.structures.StringList((int) 'a');
         boolean boolean54 = floatList8.equals((java.lang.Object) stringList53);
-        java.lang.Float[] floatArray59 = new java.lang.Float[] { (-1.0f), 10.0f, 10.0f, 1.0f };
+        java.lang.Float[] floatArray59 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f, 1.0f};
         java.util.ArrayList<java.lang.Float> floatList60 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean61 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList60, floatArray59);
+        boolean boolean61 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList60,
+                                                         floatArray59);
         int int63 = floatList60.lastIndexOf((java.lang.Object) (-1L));
-        java.lang.String[] strArray65 = new java.lang.String[] { "" };
+        java.lang.String[] strArray65 = new java.lang.String[]{""};
         java.util.ArrayList<java.lang.String> strList66 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean67 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList66, strArray65);
+        boolean boolean67 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList66,
+                                                         strArray65);
         java.lang.Object obj68 = strList66.clone();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray69 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray69 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList70 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean71 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList70, uShortArray69);
+        boolean boolean71 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList70,
+                                                         uShortArray69);
         int int73 = uShortList70.lastIndexOf((java.lang.Object) 'a');
         boolean boolean74 = uShortList70.isEmpty();
         org.ccsds.moims.mo.mal.structures.UShort uShort75 = new org.ccsds.moims.mo.mal.structures.UShort();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray76 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort75 };
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray76 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort75};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList77 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean78 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList77, uShortArray76);
+        boolean boolean78 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList77,
+                                                         uShortArray76);
         boolean boolean79 = uShortList70.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList77);
         boolean boolean80 = strList66.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList77);
         boolean boolean81 = floatList60.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList77);
@@ -4556,7 +4684,7 @@ public class RegressionTest0 {
         boolean boolean85 = floatList8.retainAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList77);
         try {
             java.lang.Boolean boolean87 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("7.0", (java.io.Serializable) boolean85, false);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(floatArray7);
@@ -4615,7 +4743,7 @@ public class RegressionTest0 {
         java.lang.Long long3 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             esa.mo.platform.impl.util.PlatformServicesConsumer platformServicesConsumer4 = null; // flaky: nanoSatMOConnectorImpl0.getPlatformServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long2);
@@ -4634,7 +4762,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener5 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             java.util.ArrayList<esa.mo.reconfigurable.service.ReconfigurableService> reconfigurableServiceList6 = nanoSatMOConnectorImpl0.getServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -4645,9 +4773,10 @@ public class RegressionTest0 {
     public void test202() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test202");
-        java.lang.Float[] floatArray1 = new java.lang.Float[] { 1.0f };
+        java.lang.Float[] floatArray1 = new java.lang.Float[]{1.0f};
         java.util.ArrayList<java.lang.Float> floatList2 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2, floatArray1);
+        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2,
+                                                        floatArray1);
         java.util.ListIterator<java.lang.Float> floatItor4 = floatList2.listIterator();
         int int6 = floatList2.indexOf((java.lang.Object) "[-1, 281475010265070]");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl7 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
@@ -4658,7 +4787,7 @@ public class RegressionTest0 {
         int int12 = floatList2.lastIndexOf((java.lang.Object) nanoSatMOConnectorImpl7);
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI13 = nanoSatMOConnectorImpl7.readCentralDirectoryServiceURI();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(floatArray1);
@@ -4674,7 +4803,7 @@ public class RegressionTest0 {
     public void test203() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test203");
-        java.lang.Byte[] byteArray2 = new java.lang.Byte[] { (byte) 100, (byte) 100 };
+        java.lang.Byte[] byteArray2 = new java.lang.Byte[]{(byte) 100, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList3 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList3, byteArray2);
         java.util.ListIterator<java.lang.Byte> byteItor6 = byteList3.listIterator((int) (short) 1);
@@ -4705,7 +4834,11 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener33 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl32);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener34 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl32);
         java.lang.Long long35 = nanoSatMOConnectorImpl32.getAppDirectoryId();
-        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray36 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] { nanoSatMOConnectorImpl17, nanoSatMOConnectorImpl23, nanoSatMOConnectorImpl25, nanoSatMOConnectorImpl30, nanoSatMOConnectorImpl32 };
+        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray36 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[]{nanoSatMOConnectorImpl17,
+                                                                                                                                                          nanoSatMOConnectorImpl23,
+                                                                                                                                                          nanoSatMOConnectorImpl25,
+                                                                                                                                                          nanoSatMOConnectorImpl30,
+                                                                                                                                                          nanoSatMOConnectorImpl32};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray37 = longList10.toArray(nanoSatMOConnectorImplArray36);
         int int38 = longList10.size();
         boolean boolean39 = byteList3.remove((java.lang.Object) longList10);
@@ -4734,16 +4867,18 @@ public class RegressionTest0 {
     public void test204() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test204");
-        java.lang.Short[] shortArray3 = new java.lang.Short[] { (short) 1, (short) 100, (short) 100 };
+        java.lang.Short[] shortArray3 = new java.lang.Short[]{(short) 1, (short) 100, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList4 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList4, shortArray3);
+        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList4,
+                                                        shortArray3);
         boolean boolean7 = shortList4.equals((java.lang.Object) "hi!");
-        java.lang.String[] strArray9 = new java.lang.String[] { "hi!" };
+        java.lang.String[] strArray9 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList10 = new java.util.ArrayList<java.lang.String>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList10, strArray9);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray12 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray12 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList13 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList13, uShortArray12);
+        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList13,
+                                                         uShortArray12);
         int int16 = uShortList13.indexOf((java.lang.Object) 1.0f);
         boolean boolean17 = strList10.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList13);
         boolean boolean18 = shortList4.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList13);
@@ -4774,7 +4909,11 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener44 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl43);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener45 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl43);
         java.lang.Long long46 = nanoSatMOConnectorImpl43.getAppDirectoryId();
-        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray47 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] { nanoSatMOConnectorImpl28, nanoSatMOConnectorImpl34, nanoSatMOConnectorImpl36, nanoSatMOConnectorImpl41, nanoSatMOConnectorImpl43 };
+        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray47 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[]{nanoSatMOConnectorImpl28,
+                                                                                                                                                          nanoSatMOConnectorImpl34,
+                                                                                                                                                          nanoSatMOConnectorImpl36,
+                                                                                                                                                          nanoSatMOConnectorImpl41,
+                                                                                                                                                          nanoSatMOConnectorImpl43};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray48 = longList21.toArray(nanoSatMOConnectorImplArray47);
         esa.mo.nmf.NMFProvider[] nMFProviderArray49 = shortList4.toArray((esa.mo.nmf.NMFProvider[]) nanoSatMOConnectorImplArray47);
         org.junit.Assert.assertNotNull(shortArray3);
@@ -4807,55 +4946,65 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test205");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener1 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
-        java.lang.Float[] floatArray4 = new java.lang.Float[] { 1.0f };
+        java.lang.Float[] floatArray4 = new java.lang.Float[]{1.0f};
         java.util.ArrayList<java.lang.Float> floatList5 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList5, floatArray4);
+        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList5,
+                                                        floatArray4);
         java.util.ListIterator<java.lang.Float> floatItor7 = floatList5.listIterator();
         int int9 = floatList5.indexOf((java.lang.Object) "[-1, 281475010265070]");
         java.util.ListIterator<java.lang.Float> floatItor10 = floatList5.listIterator();
-        java.lang.Boolean[] booleanArray13 = new java.lang.Boolean[] { true, true };
+        java.lang.Boolean[] booleanArray13 = new java.lang.Boolean[]{true, true};
         java.util.ArrayList<java.lang.Boolean> booleanList14 = new java.util.ArrayList<java.lang.Boolean>();
-        boolean boolean15 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList14, booleanArray13);
+        boolean boolean15 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList14,
+                                                         booleanArray13);
         boolean boolean17 = booleanList14.contains((java.lang.Object) 10L);
         booleanList14.ensureCapacity(0);
-        java.lang.Short[] shortArray23 = new java.lang.Short[] { (short) 1, (short) -1, (short) 10 };
+        java.lang.Short[] shortArray23 = new java.lang.Short[]{(short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList24 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean25 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList24, shortArray23);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray26 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean25 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList24,
+                                                         shortArray23);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray26 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList27 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean28 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList27, uShortArray26);
+        boolean boolean28 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList27,
+                                                         uShortArray26);
         int int30 = uShortList27.lastIndexOf((java.lang.Object) 'a');
         boolean boolean31 = uShortList27.isEmpty();
         org.ccsds.moims.mo.mal.structures.UShort uShort32 = new org.ccsds.moims.mo.mal.structures.UShort();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray33 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort32 };
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray33 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort32};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList34 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean35 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList34, uShortArray33);
+        boolean boolean35 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList34,
+                                                         uShortArray33);
         boolean boolean36 = uShortList27.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList34);
         boolean boolean37 = shortList24.remove((java.lang.Object) boolean36);
         shortList24.clear();
         int int39 = booleanList14.lastIndexOf((java.lang.Object) shortList24);
-        java.lang.Short[] shortArray43 = new java.lang.Short[] { (short) 1, (short) -1, (short) 10 };
+        java.lang.Short[] shortArray43 = new java.lang.Short[]{(short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList44 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean45 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList44, shortArray43);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray46 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean45 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList44,
+                                                         shortArray43);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray46 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList47 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean48 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList47, uShortArray46);
+        boolean boolean48 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList47,
+                                                         uShortArray46);
         int int50 = uShortList47.lastIndexOf((java.lang.Object) 'a');
         boolean boolean51 = uShortList47.isEmpty();
         org.ccsds.moims.mo.mal.structures.UShort uShort52 = new org.ccsds.moims.mo.mal.structures.UShort();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray53 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort52 };
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray53 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort52};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList54 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean55 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList54, uShortArray53);
+        boolean boolean55 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList54,
+                                                         uShortArray53);
         boolean boolean56 = uShortList47.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList54);
         boolean boolean57 = shortList44.remove((java.lang.Object) boolean56);
         shortList44.clear();
         boolean boolean59 = shortList44.isEmpty();
-        java.lang.String[] strArray61 = new java.lang.String[] { "hi!" };
+        java.lang.String[] strArray61 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList62 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean63 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList62, strArray61);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray64 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean63 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList62,
+                                                         strArray61);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray64 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList65 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean66 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList65, uShortArray64);
+        boolean boolean66 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList65,
+                                                         uShortArray64);
         int int68 = uShortList65.indexOf((java.lang.Object) 1.0f);
         boolean boolean69 = strList62.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList65);
         boolean boolean70 = shortList44.removeAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList65);
@@ -4864,7 +5013,7 @@ public class RegressionTest0 {
         int int73 = floatList5.size();
         try {
             java.lang.Boolean boolean74 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("281474993487886", (java.io.Serializable) int73);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(floatArray4);
@@ -4919,7 +5068,7 @@ public class RegressionTest0 {
         java.lang.Long long3 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails configurationObjectDetails4 = null; // flaky: nanoSatMOConnectorImpl0.getCurrentConfiguration();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long3);
@@ -4939,7 +5088,7 @@ public class RegressionTest0 {
         java.lang.Long long7 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             org.ccsds.moims.mo.mal.structures.Identifier identifier8 = nanoSatMOConnectorImpl0.getProviderName();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -4957,7 +5106,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF4 = null; // flaky: nanoSatMOConnectorImpl0.getMCServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -4977,7 +5126,7 @@ public class RegressionTest0 {
         boolean boolean9 = stringList7.equals(obj8);
         try {
             java.lang.Boolean boolean10 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("6", (java.io.Serializable) stringList7);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long3);
@@ -4994,7 +5143,7 @@ public class RegressionTest0 {
         java.lang.Long long3 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI4 = nanoSatMOConnectorImpl0.readCentralDirectoryServiceURI();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long2);
@@ -5011,8 +5160,8 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener4 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
-// flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, (-4), (int) (byte) 100, (-2), 281475010265086L);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, (-4), (int) (byte) 100, (-2), 281475010265086L);
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -5022,9 +5171,10 @@ public class RegressionTest0 {
     public void test212() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test212");
-        java.lang.Float[] floatArray1 = new java.lang.Float[] { 1.0f };
+        java.lang.Float[] floatArray1 = new java.lang.Float[]{1.0f};
         java.util.ArrayList<java.lang.Float> floatList2 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2, floatArray1);
+        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2,
+                                                        floatArray1);
         java.util.ListIterator<java.lang.Float> floatItor4 = floatList2.listIterator();
         int int6 = floatList2.indexOf((java.lang.Object) "[-1, 281475010265070]");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl7 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
@@ -5035,7 +5185,7 @@ public class RegressionTest0 {
         int int12 = floatList2.lastIndexOf((java.lang.Object) nanoSatMOConnectorImpl7);
         try {
             esa.mo.nmf.CloseAppListener closeAppListener13 = nanoSatMOConnectorImpl7.getCloseAppListener();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(floatArray1);
@@ -5051,9 +5201,10 @@ public class RegressionTest0 {
     public void test213() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test213");
-        java.lang.Float[] floatArray1 = new java.lang.Float[] { 1.0f };
+        java.lang.Float[] floatArray1 = new java.lang.Float[]{1.0f};
         java.util.ArrayList<java.lang.Float> floatList2 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2, floatArray1);
+        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2,
+                                                        floatArray1);
         java.util.ListIterator<java.lang.Float> floatItor4 = floatList2.listIterator();
         int int6 = floatList2.indexOf((java.lang.Object) "[-1, 281475010265070]");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl7 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
@@ -5062,9 +5213,10 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl7.initAdditionalServices();
         java.lang.Long long11 = nanoSatMOConnectorImpl7.getAppDirectoryId();
         int int12 = floatList2.lastIndexOf((java.lang.Object) nanoSatMOConnectorImpl7);
-        java.lang.Byte[] byteArray16 = new java.lang.Byte[] { (byte) 100, (byte) 100 };
+        java.lang.Byte[] byteArray16 = new java.lang.Byte[]{(byte) 100, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList17 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList17, byteArray16);
+        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList17,
+                                                         byteArray16);
         java.util.ListIterator<java.lang.Byte> byteItor20 = byteList17.listIterator((int) (short) 1);
         int int21 = byteList17.size();
         org.ccsds.moims.mo.mal.structures.Time time23 = new org.ccsds.moims.mo.mal.structures.Time((long) (short) 100);
@@ -5079,7 +5231,7 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.UShort uShort32 = time23.getServiceNumber();
         try {
             java.lang.Boolean boolean33 = null; // flaky: nanoSatMOConnectorImpl7.pushParameterValue("[false, true, false]", (java.io.Serializable) uShort32);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(floatArray1);
@@ -5116,7 +5268,7 @@ public class RegressionTest0 {
         java.lang.Long long5 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             org.ccsds.moims.mo.mal.structures.Identifier identifier6 = nanoSatMOConnectorImpl0.getProviderName();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -5127,9 +5279,10 @@ public class RegressionTest0 {
     public void test215() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test215");
-        java.lang.Float[] floatArray3 = new java.lang.Float[] { 10.0f, 100.0f, (-1.0f) };
+        java.lang.Float[] floatArray3 = new java.lang.Float[]{10.0f, 100.0f, (-1.0f)};
         java.util.ArrayList<java.lang.Float> floatList4 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList4, floatArray3);
+        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList4,
+                                                        floatArray3);
         boolean boolean7 = floatList4.add((java.lang.Float) 10.0f);
         floatList4.trimToSize();
         boolean boolean9 = floatList4.isEmpty();
@@ -5143,7 +5296,7 @@ public class RegressionTest0 {
         boolean boolean17 = floatList4.equals((java.lang.Object) nanoSatMOConnectorImpl11);
         try {
             org.ccsds.moims.mo.mal.structures.Identifier identifier18 = nanoSatMOConnectorImpl11.getProviderName();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(floatArray3);
@@ -5173,7 +5326,7 @@ public class RegressionTest0 {
         boolean boolean12 = uOctet9.equals((java.lang.Object) 16);
         try {
             java.lang.Boolean boolean13 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[-1.0, 0.0, 0.0, 10.0]", (java.io.Serializable) boolean12);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long2);
@@ -5200,7 +5353,7 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.StringList stringList9 = new org.ccsds.moims.mo.mal.structures.StringList(3);
         try {
             java.lang.Boolean boolean10 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[-1, 281475010265070, 281474993487873]", (java.io.Serializable) stringList9);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -5231,7 +5384,7 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet18 = shortList6.getAreaVersion();
         try {
             java.lang.Boolean boolean19 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[1, 10, 10, 100]", (java.io.Serializable) shortList6);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -5258,37 +5411,42 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         org.ccsds.moims.mo.mal.structures.URI uRI7 = new org.ccsds.moims.mo.mal.structures.URI();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet8 = uRI7.getAreaVersion();
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray9 = new org.ccsds.moims.mo.mal.structures.URI[] { uRI7 };
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray9 = new org.ccsds.moims.mo.mal.structures.URI[]{uRI7};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList10 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean11 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList10, uRIArray9);
+        boolean boolean11 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList10,
+                                                         uRIArray9);
         java.util.ListIterator<org.ccsds.moims.mo.mal.structures.URI> uRIItor13 = uRIList10.listIterator((int) (short) 0);
         org.ccsds.moims.mo.mal.structures.URI uRI15 = new org.ccsds.moims.mo.mal.structures.URI();
         java.lang.Long long16 = uRI15.getShortForm();
         uRIList10.add(0, uRI15);
         org.ccsds.moims.mo.mal.structures.UShort uShort18 = uRI15.getAreaNumber();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray19 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray19 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList20 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList20, uShortArray19);
+        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList20,
+                                                         uShortArray19);
         int int23 = uShortList20.lastIndexOf((java.lang.Object) 'a');
         boolean boolean24 = uShortList20.isEmpty();
         org.ccsds.moims.mo.mal.structures.UShort uShort25 = new org.ccsds.moims.mo.mal.structures.UShort();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray26 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort25 };
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray26 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort25};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList27 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean28 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList27, uShortArray26);
+        boolean boolean28 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList27,
+                                                         uShortArray26);
         boolean boolean29 = uShortList20.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList27);
-        java.lang.String[] strArray31 = new java.lang.String[] { "hi!" };
+        java.lang.String[] strArray31 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList32 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList32, strArray31);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray34 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList32,
+                                                         strArray31);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray34 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList35 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean36 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList35, uShortArray34);
+        boolean boolean36 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList35,
+                                                         uShortArray34);
         int int38 = uShortList35.indexOf((java.lang.Object) 1.0f);
         boolean boolean39 = strList32.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList35);
         boolean boolean40 = uShortList20.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList35);
         boolean boolean41 = uRI15.equals((java.lang.Object) boolean40);
         try {
             java.lang.Boolean boolean43 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[0]", (java.io.Serializable) uRI15, false);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -5330,19 +5488,21 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         nanoSatMOConnectorImpl0.initAdditionalServices();
         nanoSatMOConnectorImpl0.initAdditionalServices();
-        java.lang.Float[] floatArray15 = new java.lang.Float[] { 10.0f, 0.0f, (-1.0f), 100.0f, 10.0f };
+        java.lang.Float[] floatArray15 = new java.lang.Float[]{10.0f, 0.0f, (-1.0f), 100.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList16 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList16, floatArray15);
-        java.lang.Byte[] byteArray20 = new java.lang.Byte[] { (byte) 100, (byte) 100 };
+        boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList16,
+                                                         floatArray15);
+        java.lang.Byte[] byteArray20 = new java.lang.Byte[]{(byte) 100, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList21 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList21, byteArray20);
+        boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList21,
+                                                         byteArray20);
         java.util.ListIterator<java.lang.Byte> byteItor24 = byteList21.listIterator((int) (short) 1);
         int int25 = byteList21.size();
         java.util.Iterator<java.lang.Byte> byteItor26 = byteList21.iterator();
         int int27 = floatList16.lastIndexOf((java.lang.Object) byteItor26);
         try {
             java.lang.Boolean boolean28 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[0, 1, 10, 10, 100]", (java.io.Serializable) int27);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -5367,7 +5527,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             esa.mo.nmf.CloseAppListener closeAppListener5 = nanoSatMOConnectorImpl0.getCloseAppListener();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long3);
@@ -5385,7 +5545,7 @@ public class RegressionTest0 {
         java.lang.Long long5 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails configurationObjectDetails6 = null; // flaky: nanoSatMOConnectorImpl0.getCurrentConfiguration();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -5423,7 +5583,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF6 = null; // flaky: nanoSatMOConnectorImpl0.getMCServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -5440,8 +5600,8 @@ public class RegressionTest0 {
         java.lang.Long long3 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
-// flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(true, 8, (int) (byte) 100, 6, 281474993487875L);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(true, 8, (int) (byte) 100, 6, 281474993487875L);
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long3);
@@ -5461,7 +5621,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI8 = nanoSatMOConnectorImpl0.readCentralDirectoryServiceURI();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -5479,7 +5639,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails configurationObjectDetails6 = null; // flaky: nanoSatMOConnectorImpl0.getCurrentConfiguration();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -5499,7 +5659,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             nanoSatMOConnectorImpl0.writeCentralDirectoryServiceURI("6", "");
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -5521,7 +5681,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider8 = nanoSatMOConnectorImpl0.getCOMServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -5531,9 +5691,10 @@ public class RegressionTest0 {
     public void test230() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test230");
-        java.lang.Float[] floatArray1 = new java.lang.Float[] { 1.0f };
+        java.lang.Float[] floatArray1 = new java.lang.Float[]{1.0f};
         java.util.ArrayList<java.lang.Float> floatList2 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2, floatArray1);
+        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2,
+                                                        floatArray1);
         java.util.ListIterator<java.lang.Float> floatItor4 = floatList2.listIterator();
         int int6 = floatList2.indexOf((java.lang.Object) "[-1, 281475010265070]");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl7 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
@@ -5544,7 +5705,7 @@ public class RegressionTest0 {
         int int12 = floatList2.lastIndexOf((java.lang.Object) nanoSatMOConnectorImpl7);
         try {
             java.util.ArrayList<esa.mo.reconfigurable.service.ReconfigurableService> reconfigurableServiceList13 = nanoSatMOConnectorImpl7.getServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(floatArray1);
@@ -5568,8 +5729,8 @@ public class RegressionTest0 {
         java.lang.Long long5 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener6 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
-// flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(true, (-11), 0, (int) ' ', (long) 10);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(true, (-11), 0, (int) ' ', (long) 10);
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -5596,7 +5757,9 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener13 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl10);
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl14 = null;
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener15 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl14);
-        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray16 = new esa.mo.com.impl.util.EventReceivedListener[] { closeAppEventListener9, closeAppEventListener13, closeAppEventListener15 };
+        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray16 = new esa.mo.com.impl.util.EventReceivedListener[]{closeAppEventListener9,
+                                                                                                                                     closeAppEventListener13,
+                                                                                                                                     closeAppEventListener15};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl17 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener18 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl17);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener19 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl17);
@@ -5607,7 +5770,9 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener24 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl21);
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl25 = null;
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener26 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl25);
-        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray27 = new esa.mo.com.impl.util.EventReceivedListener[] { closeAppEventListener20, closeAppEventListener24, closeAppEventListener26 };
+        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray27 = new esa.mo.com.impl.util.EventReceivedListener[]{closeAppEventListener20,
+                                                                                                                                     closeAppEventListener24,
+                                                                                                                                     closeAppEventListener26};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl28 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener29 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl28);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener30 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl28);
@@ -5618,7 +5783,9 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener35 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl32);
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl36 = null;
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener37 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl36);
-        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray38 = new esa.mo.com.impl.util.EventReceivedListener[] { closeAppEventListener31, closeAppEventListener35, closeAppEventListener37 };
+        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray38 = new esa.mo.com.impl.util.EventReceivedListener[]{closeAppEventListener31,
+                                                                                                                                     closeAppEventListener35,
+                                                                                                                                     closeAppEventListener37};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl39 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener40 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl39);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener41 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl39);
@@ -5629,27 +5796,36 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener46 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl43);
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl47 = null;
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener48 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl47);
-        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray49 = new esa.mo.com.impl.util.EventReceivedListener[] { closeAppEventListener42, closeAppEventListener46, closeAppEventListener48 };
-        esa.mo.com.impl.util.EventReceivedListener[][] eventReceivedListenerArray50 = new esa.mo.com.impl.util.EventReceivedListener[][] { eventReceivedListenerArray16, eventReceivedListenerArray27, eventReceivedListenerArray38, eventReceivedListenerArray49 };
+        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray49 = new esa.mo.com.impl.util.EventReceivedListener[]{closeAppEventListener42,
+                                                                                                                                     closeAppEventListener46,
+                                                                                                                                     closeAppEventListener48};
+        esa.mo.com.impl.util.EventReceivedListener[][] eventReceivedListenerArray50 = new esa.mo.com.impl.util.EventReceivedListener[][]{eventReceivedListenerArray16,
+                                                                                                                                         eventReceivedListenerArray27,
+                                                                                                                                         eventReceivedListenerArray38,
+                                                                                                                                         eventReceivedListenerArray49};
         esa.mo.com.impl.util.EventReceivedListener[][] eventReceivedListenerArray51 = shortList0.toArray(eventReceivedListenerArray50);
-        java.lang.Double[] doubleArray54 = new java.lang.Double[] { 10.0d, (-1.0d) };
+        java.lang.Double[] doubleArray54 = new java.lang.Double[]{10.0d, (-1.0d)};
         java.util.ArrayList<java.lang.Double> doubleList55 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean56 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList55, doubleArray54);
+        boolean boolean56 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList55,
+                                                         doubleArray54);
         java.lang.Object obj57 = doubleList55.clone();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray58 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray58 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList59 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean60 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList59, uShortArray58);
+        boolean boolean60 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList59,
+                                                         uShortArray58);
         int int62 = uShortList59.lastIndexOf((java.lang.Object) 'a');
         boolean boolean63 = uShortList59.isEmpty();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray64 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray64 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList65 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean66 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList65, uShortArray64);
+        boolean boolean66 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList65,
+                                                         uShortArray64);
         int int68 = uShortList65.lastIndexOf((java.lang.Object) 'a');
         boolean boolean69 = uShortList65.isEmpty();
         org.ccsds.moims.mo.mal.structures.UShort uShort70 = new org.ccsds.moims.mo.mal.structures.UShort();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray71 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort70 };
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray71 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort70};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList72 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean73 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList72, uShortArray71);
+        boolean boolean73 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList72,
+                                                         uShortArray71);
         boolean boolean74 = uShortList65.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList72);
         boolean boolean75 = uShortList59.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList65);
         boolean boolean76 = doubleList55.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList65);
@@ -5713,7 +5889,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener1 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider2 = nanoSatMOConnectorImpl0.getCOMServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -5730,7 +5906,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI6 = nanoSatMOConnectorImpl0.readCentralDirectoryServiceURI();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -5749,32 +5925,38 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.StringList stringList5 = new org.ccsds.moims.mo.mal.structures.StringList();
         java.lang.Long long6 = stringList5.getShortForm();
         java.lang.Long long7 = stringList5.getShortForm();
-        java.lang.Long[] longArray13 = new java.lang.Long[] { 0L, 1L, 10L, 10L, 100L };
+        java.lang.Long[] longArray13 = new java.lang.Long[]{0L, 1L, 10L, 10L, 100L};
         java.util.ArrayList<java.lang.Long> longList14 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean15 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList14, longArray13);
+        boolean boolean15 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList14,
+                                                         longArray13);
         longList14.trimToSize();
         java.util.stream.Stream<java.lang.Long> longStream17 = longList14.stream();
         boolean boolean18 = stringList5.equals((java.lang.Object) longList14);
-        java.lang.Integer[] intArray22 = new java.lang.Integer[] { (-1), 10, 1 };
+        java.lang.Integer[] intArray22 = new java.lang.Integer[]{(-1), 10, 1};
         java.util.ArrayList<java.lang.Integer> intList23 = new java.util.ArrayList<java.lang.Integer>();
-        boolean boolean24 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList23, intArray22);
+        boolean boolean24 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList23,
+                                                         intArray22);
         intList23.ensureCapacity((int) (short) 100);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray27 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray27 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList28 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean29 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList28, uShortArray27);
+        boolean boolean29 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList28,
+                                                         uShortArray27);
         int int31 = uShortList28.lastIndexOf((java.lang.Object) 'a');
         boolean boolean32 = uShortList28.isEmpty();
         org.ccsds.moims.mo.mal.structures.UShort uShort33 = new org.ccsds.moims.mo.mal.structures.UShort();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray34 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort33 };
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray34 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort33};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList35 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean36 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList35, uShortArray34);
+        boolean boolean36 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList35,
+                                                         uShortArray34);
         boolean boolean37 = uShortList28.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList35);
-        java.lang.String[] strArray39 = new java.lang.String[] { "hi!" };
+        java.lang.String[] strArray39 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList40 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean41 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList40, strArray39);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray42 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean41 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList40,
+                                                         strArray39);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray42 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList43 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean44 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList43, uShortArray42);
+        boolean boolean44 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList43,
+                                                         uShortArray42);
         int int46 = uShortList43.indexOf((java.lang.Object) 1.0f);
         boolean boolean47 = strList40.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList43);
         boolean boolean48 = uShortList28.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList43);
@@ -5788,7 +5970,7 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.UShort uShort56 = time51.getAreaNumber();
         try {
             java.lang.Boolean boolean57 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("7.0", (java.io.Serializable) uShort56);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -5835,7 +6017,7 @@ public class RegressionTest0 {
         java.lang.Long long4 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             esa.mo.platform.impl.util.PlatformServicesConsumer platformServicesConsumer5 = null; // flaky: nanoSatMOConnectorImpl0.getPlatformServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -5855,8 +6037,8 @@ public class RegressionTest0 {
         java.lang.Long long5 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener6 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
-// flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, 5, 15, 0, 65535L);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, 5, 15, 0, 65535L);
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -5875,8 +6057,8 @@ public class RegressionTest0 {
         java.lang.Long long5 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener6 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
-// flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(true, 13, 100, 7, 281474993487876L);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(true, 13, 100, 7, 281474993487876L);
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -5897,7 +6079,7 @@ public class RegressionTest0 {
         java.lang.Long long7 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             esa.mo.nmf.CloseAppListener closeAppListener8 = nanoSatMOConnectorImpl0.getCloseAppListener();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -5918,7 +6100,7 @@ public class RegressionTest0 {
         short short8 = uOctet7.getValue();
         try {
             java.lang.Boolean boolean9 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[-1.0, 0.0, 0.0, 10.0]", (java.io.Serializable) short8);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -5939,12 +6121,13 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         java.lang.Long long5 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         java.lang.Long long6 = nanoSatMOConnectorImpl0.getAppDirectoryId();
-        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray7 = new esa.mo.mc.impl.provider.ParameterInstance[] {};
+        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray7 = new esa.mo.mc.impl.provider.ParameterInstance[]{};
         java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance> parameterInstanceList8 = new java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance>();
-        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList8, parameterInstanceArray7);
+        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList8,
+                                                        parameterInstanceArray7);
         try {
             java.lang.Boolean boolean11 = null; // flaky: nanoSatMOConnectorImpl0.pushMultipleParameterValues(parameterInstanceList8, false);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -5968,7 +6151,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener7 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             nanoSatMOConnectorImpl0.writeCentralDirectoryServiceURI("[0]", "[-1.0]");
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -5987,8 +6170,8 @@ public class RegressionTest0 {
         java.lang.Long long4 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener5 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
-// flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(true, 13, (-15), 18, (long) 16);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(true, 13, (-15), 18, (long) 16);
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -6013,7 +6196,7 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet12 = integerList6.getAreaVersion();
         try {
             java.lang.Boolean boolean13 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[1, 100, -1, 1]", (java.io.Serializable) integerList6);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -6029,14 +6212,15 @@ public class RegressionTest0 {
     public void test245() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test245");
-        java.lang.Long[] longArray5 = new java.lang.Long[] { 0L, 1L, 10L, 10L, 100L };
+        java.lang.Long[] longArray5 = new java.lang.Long[]{0L, 1L, 10L, 10L, 100L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
         longList6.trimToSize();
         java.lang.Long long10 = longList6.remove((int) (byte) 0);
-        java.lang.Integer[] intArray15 = new java.lang.Integer[] { 16, 100, 10, 1 };
+        java.lang.Integer[] intArray15 = new java.lang.Integer[]{16, 100, 10, 1};
         java.util.ArrayList<java.lang.Integer> intList16 = new java.util.ArrayList<java.lang.Integer>();
-        boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList16, intArray15);
+        boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList16,
+                                                         intArray15);
         int int19 = intList16.indexOf((java.lang.Object) 0);
         java.util.Iterator<java.lang.Integer> intItor20 = intList16.iterator();
         java.util.ListIterator<java.lang.Integer> intItor21 = intList16.listIterator();
@@ -6056,9 +6240,10 @@ public class RegressionTest0 {
         java.lang.Long long35 = nanoSatMOConnectorImpl33.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl36 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener37 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl36);
-        java.lang.Float[] floatArray39 = new java.lang.Float[] { 1.0f };
+        java.lang.Float[] floatArray39 = new java.lang.Float[]{1.0f};
         java.util.ArrayList<java.lang.Float> floatList40 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean41 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList40, floatArray39);
+        boolean boolean41 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList40,
+                                                         floatArray39);
         java.util.ListIterator<java.lang.Float> floatItor42 = floatList40.listIterator();
         int int44 = floatList40.indexOf((java.lang.Object) "[-1, 281475010265070]");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl45 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
@@ -6070,7 +6255,11 @@ public class RegressionTest0 {
         java.lang.Long long51 = nanoSatMOConnectorImpl45.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl52 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         java.lang.Long long53 = nanoSatMOConnectorImpl52.getAppDirectoryId();
-        esa.mo.nmf.SimpleMonitoringInterface[] simpleMonitoringInterfaceArray54 = new esa.mo.nmf.SimpleMonitoringInterface[] { nanoSatMOConnectorImpl29, nanoSatMOConnectorImpl33, nanoSatMOConnectorImpl36, nanoSatMOConnectorImpl45, nanoSatMOConnectorImpl52 };
+        esa.mo.nmf.SimpleMonitoringInterface[] simpleMonitoringInterfaceArray54 = new esa.mo.nmf.SimpleMonitoringInterface[]{nanoSatMOConnectorImpl29,
+                                                                                                                             nanoSatMOConnectorImpl33,
+                                                                                                                             nanoSatMOConnectorImpl36,
+                                                                                                                             nanoSatMOConnectorImpl45,
+                                                                                                                             nanoSatMOConnectorImpl52};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl55 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener56 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl55);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener57 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl55);
@@ -6080,9 +6269,10 @@ public class RegressionTest0 {
         java.lang.Long long61 = nanoSatMOConnectorImpl59.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl62 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener63 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl62);
-        java.lang.Float[] floatArray65 = new java.lang.Float[] { 1.0f };
+        java.lang.Float[] floatArray65 = new java.lang.Float[]{1.0f};
         java.util.ArrayList<java.lang.Float> floatList66 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean67 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList66, floatArray65);
+        boolean boolean67 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList66,
+                                                         floatArray65);
         java.util.ListIterator<java.lang.Float> floatItor68 = floatList66.listIterator();
         int int70 = floatList66.indexOf((java.lang.Object) "[-1, 281475010265070]");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl71 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
@@ -6094,8 +6284,13 @@ public class RegressionTest0 {
         java.lang.Long long77 = nanoSatMOConnectorImpl71.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl78 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         java.lang.Long long79 = nanoSatMOConnectorImpl78.getAppDirectoryId();
-        esa.mo.nmf.SimpleMonitoringInterface[] simpleMonitoringInterfaceArray80 = new esa.mo.nmf.SimpleMonitoringInterface[] { nanoSatMOConnectorImpl55, nanoSatMOConnectorImpl59, nanoSatMOConnectorImpl62, nanoSatMOConnectorImpl71, nanoSatMOConnectorImpl78 };
-        esa.mo.nmf.SimpleMonitoringInterface[][] simpleMonitoringInterfaceArray81 = new esa.mo.nmf.SimpleMonitoringInterface[][] { simpleMonitoringInterfaceArray54, simpleMonitoringInterfaceArray80 };
+        esa.mo.nmf.SimpleMonitoringInterface[] simpleMonitoringInterfaceArray80 = new esa.mo.nmf.SimpleMonitoringInterface[]{nanoSatMOConnectorImpl55,
+                                                                                                                             nanoSatMOConnectorImpl59,
+                                                                                                                             nanoSatMOConnectorImpl62,
+                                                                                                                             nanoSatMOConnectorImpl71,
+                                                                                                                             nanoSatMOConnectorImpl78};
+        esa.mo.nmf.SimpleMonitoringInterface[][] simpleMonitoringInterfaceArray81 = new esa.mo.nmf.SimpleMonitoringInterface[][]{simpleMonitoringInterfaceArray54,
+                                                                                                                                 simpleMonitoringInterfaceArray80};
         esa.mo.nmf.SimpleMonitoringInterface[][] simpleMonitoringInterfaceArray82 = shortList23.toArray(simpleMonitoringInterfaceArray81);
         try {
             esa.mo.nmf.SimpleMonitoringInterface[][] simpleMonitoringInterfaceArray83 = longList6.toArray(simpleMonitoringInterfaceArray82);
@@ -6152,7 +6347,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener3 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI4 = nanoSatMOConnectorImpl0.readCentralDirectoryServiceURI();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -6166,7 +6361,7 @@ public class RegressionTest0 {
         java.lang.Long long2 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI3 = nanoSatMOConnectorImpl0.readCentralDirectoryServiceURI();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -6177,7 +6372,7 @@ public class RegressionTest0 {
     public void test248() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test248");
-        java.lang.Byte[] byteArray2 = new java.lang.Byte[] { (byte) 100, (byte) 100 };
+        java.lang.Byte[] byteArray2 = new java.lang.Byte[]{(byte) 100, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList3 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList3, byteArray2);
         java.util.ListIterator<java.lang.Byte> byteItor6 = byteList3.listIterator((int) (short) 1);
@@ -6211,7 +6406,11 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener36 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl35);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener37 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl35);
         java.lang.Long long38 = nanoSatMOConnectorImpl35.getAppDirectoryId();
-        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray39 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] { nanoSatMOConnectorImpl20, nanoSatMOConnectorImpl26, nanoSatMOConnectorImpl28, nanoSatMOConnectorImpl33, nanoSatMOConnectorImpl35 };
+        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray39 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[]{nanoSatMOConnectorImpl20,
+                                                                                                                                                          nanoSatMOConnectorImpl26,
+                                                                                                                                                          nanoSatMOConnectorImpl28,
+                                                                                                                                                          nanoSatMOConnectorImpl33,
+                                                                                                                                                          nanoSatMOConnectorImpl35};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray40 = longList13.toArray(nanoSatMOConnectorImplArray39);
         int int41 = byteList3.lastIndexOf((java.lang.Object) nanoSatMOConnectorImplArray39);
         java.lang.String str42 = byteList3.toString();
@@ -6255,7 +6454,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener4 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             org.ccsds.moims.mo.mal.structures.Identifier identifier5 = nanoSatMOConnectorImpl0.getProviderName();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long2);
@@ -6283,9 +6482,10 @@ public class RegressionTest0 {
         java.lang.Long long17 = uRI16.getShortForm();
         org.ccsds.moims.mo.mal.structures.URI uRI18 = new org.ccsds.moims.mo.mal.structures.URI();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet19 = uRI18.getAreaVersion();
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray20 = new org.ccsds.moims.mo.mal.structures.URI[] { uRI18 };
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray20 = new org.ccsds.moims.mo.mal.structures.URI[]{uRI18};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList21 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean22 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList21, uRIArray20);
+        boolean boolean22 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList21,
+                                                         uRIArray20);
         java.util.ListIterator<org.ccsds.moims.mo.mal.structures.URI> uRIItor24 = uRIList21.listIterator((int) (short) 0);
         org.ccsds.moims.mo.mal.structures.URI uRI26 = new org.ccsds.moims.mo.mal.structures.URI();
         java.lang.Long long27 = uRI26.getShortForm();
@@ -6298,7 +6498,7 @@ public class RegressionTest0 {
         boolean boolean35 = floatList10.add((java.lang.Float) 1.0f);
         try {
             java.lang.Boolean boolean37 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[100, 0, 100, 0]", (java.io.Serializable) 1.0f, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -6330,13 +6530,15 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = uInteger1.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.Element element3 = uInteger1.createElement();
         org.ccsds.moims.mo.mal.structures.UShort uShort4 = uInteger1.getServiceNumber();
-        java.lang.Integer[] intArray9 = new java.lang.Integer[] { 16, 100, 10, 1 };
+        java.lang.Integer[] intArray9 = new java.lang.Integer[]{16, 100, 10, 1};
         java.util.ArrayList<java.lang.Integer> intList10 = new java.util.ArrayList<java.lang.Integer>();
-        boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList10, intArray9);
+        boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList10,
+                                                         intArray9);
         int int13 = intList10.indexOf((java.lang.Object) 0);
-        java.lang.Byte[] byteArray16 = new java.lang.Byte[] { (byte) 100, (byte) 100 };
+        java.lang.Byte[] byteArray16 = new java.lang.Byte[]{(byte) 100, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList17 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList17, byteArray16);
+        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList17,
+                                                         byteArray16);
         java.util.ListIterator<java.lang.Byte> byteItor20 = byteList17.listIterator((int) (short) 1);
         int int21 = byteList17.size();
         int int22 = intList10.lastIndexOf((java.lang.Object) int21);
@@ -6372,7 +6574,11 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener53 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl52);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener54 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl52);
         java.lang.Long long55 = nanoSatMOConnectorImpl52.getAppDirectoryId();
-        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray56 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] { nanoSatMOConnectorImpl37, nanoSatMOConnectorImpl43, nanoSatMOConnectorImpl45, nanoSatMOConnectorImpl50, nanoSatMOConnectorImpl52 };
+        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray56 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[]{nanoSatMOConnectorImpl37,
+                                                                                                                                                          nanoSatMOConnectorImpl43,
+                                                                                                                                                          nanoSatMOConnectorImpl45,
+                                                                                                                                                          nanoSatMOConnectorImpl50,
+                                                                                                                                                          nanoSatMOConnectorImpl52};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray57 = longList30.toArray(nanoSatMOConnectorImplArray56);
         esa.mo.nmf.SimpleMonitoringInterface[] simpleMonitoringInterfaceArray58 = octetList25.toArray((esa.mo.nmf.SimpleMonitoringInterface[]) nanoSatMOConnectorImplArray56);
         boolean boolean59 = uInteger1.equals((java.lang.Object) simpleMonitoringInterfaceArray58);
@@ -6417,7 +6623,7 @@ public class RegressionTest0 {
         java.lang.Long long3 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             java.util.ArrayList<esa.mo.reconfigurable.service.ReconfigurableService> reconfigurableServiceList4 = nanoSatMOConnectorImpl0.getServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -6436,7 +6642,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener5 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             esa.mo.platform.impl.util.PlatformServicesConsumer platformServicesConsumer6 = null; // flaky: nanoSatMOConnectorImpl0.getPlatformServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long3);
@@ -6453,7 +6659,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener4 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI5 = nanoSatMOConnectorImpl0.readCentralDirectoryServiceURI();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long2);
@@ -6471,7 +6677,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener4 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             esa.mo.nmf.CloseAppListener closeAppListener5 = nanoSatMOConnectorImpl0.getCloseAppListener();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -6490,7 +6696,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener6 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             java.util.ArrayList<esa.mo.reconfigurable.service.ReconfigurableService> reconfigurableServiceList7 = nanoSatMOConnectorImpl0.getServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long3);
@@ -6507,8 +6713,8 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener4 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         java.lang.Long long5 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
-// flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, (-15), 0, (-10), 65535L);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, (-15), 0, (-10), 65535L);
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -6525,8 +6731,8 @@ public class RegressionTest0 {
         java.lang.Long long3 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener4 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
-// flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, (-11), (int) (short) -1, 0, (long) 8);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, (-11), (int) (short) -1, 0, (long) 8);
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long2);
@@ -6546,7 +6752,7 @@ public class RegressionTest0 {
         java.lang.Long long6 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             esa.mo.nmf.CloseAppListener closeAppListener7 = nanoSatMOConnectorImpl0.getCloseAppListener();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -6557,9 +6763,10 @@ public class RegressionTest0 {
     public void test260() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test260");
-        java.lang.Float[] floatArray1 = new java.lang.Float[] { 1.0f };
+        java.lang.Float[] floatArray1 = new java.lang.Float[]{1.0f};
         java.util.ArrayList<java.lang.Float> floatList2 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2, floatArray1);
+        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2,
+                                                        floatArray1);
         java.util.ListIterator<java.lang.Float> floatItor4 = floatList2.listIterator();
         int int6 = floatList2.indexOf((java.lang.Object) "[-1, 281475010265070]");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl7 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
@@ -6571,7 +6778,7 @@ public class RegressionTest0 {
         java.lang.Long long13 = nanoSatMOConnectorImpl7.getAppDirectoryId();
         try {
             org.ccsds.moims.mo.mal.structures.Identifier identifier14 = nanoSatMOConnectorImpl7.getProviderName();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(floatArray1);
@@ -6593,7 +6800,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI3 = nanoSatMOConnectorImpl0.readCentralDirectoryServiceURI();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -6607,12 +6814,13 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         java.lang.Long long3 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         nanoSatMOConnectorImpl0.initAdditionalServices();
-        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray5 = new esa.mo.mc.impl.provider.ParameterInstance[] {};
+        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray5 = new esa.mo.mc.impl.provider.ParameterInstance[]{};
         java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance> parameterInstanceList6 = new java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance>();
-        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList6, parameterInstanceArray5);
+        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList6,
+                                                        parameterInstanceArray5);
         try {
             java.lang.Boolean boolean9 = null; // flaky: nanoSatMOConnectorImpl0.pushMultipleParameterValues(parameterInstanceList6, false);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long3);
@@ -6630,7 +6838,7 @@ public class RegressionTest0 {
         java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance> parameterInstanceList3 = null;
         try {
             java.lang.Boolean boolean5 = null; // flaky: nanoSatMOConnectorImpl0.pushMultipleParameterValues(parameterInstanceList3, false);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -6650,7 +6858,7 @@ public class RegressionTest0 {
         java.lang.Long long8 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             esa.mo.platform.impl.util.PlatformServicesConsumer platformServicesConsumer9 = null; // flaky: nanoSatMOConnectorImpl0.getPlatformServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -6666,24 +6874,27 @@ public class RegressionTest0 {
         java.lang.Long long2 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         java.lang.Long long3 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener4 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
-        java.lang.Long[] longArray11 = new java.lang.Long[] { 0L, 1L, 10L, 10L, 100L };
+        java.lang.Long[] longArray11 = new java.lang.Long[]{0L, 1L, 10L, 10L, 100L};
         java.util.ArrayList<java.lang.Long> longList12 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList12, longArray11);
+        boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList12,
+                                                         longArray11);
         longList12.trimToSize();
         int int15 = longList12.size();
         longList12.ensureCapacity((int) (short) 255);
-        java.lang.Float[] floatArray22 = new java.lang.Float[] { (-1.0f), 10.0f, 10.0f, 1.0f };
+        java.lang.Float[] floatArray22 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f, 1.0f};
         java.util.ArrayList<java.lang.Float> floatList23 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean24 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList23, floatArray22);
+        boolean boolean24 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList23,
+                                                         floatArray22);
         int int26 = floatList23.lastIndexOf((java.lang.Object) (-1L));
         java.util.Iterator<java.lang.Float> floatItor27 = floatList23.iterator();
         org.ccsds.moims.mo.mal.structures.Identifier identifier28 = new org.ccsds.moims.mo.mal.structures.Identifier();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet29 = identifier28.getAreaVersion();
         boolean boolean31 = identifier28.equals((java.lang.Object) 0);
         boolean boolean32 = floatList23.contains((java.lang.Object) identifier28);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray33 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray33 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList34 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean35 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList34, uShortArray33);
+        boolean boolean35 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList34,
+                                                         uShortArray33);
         int int37 = uShortList34.lastIndexOf((java.lang.Object) 'a');
         boolean boolean38 = uShortList34.isEmpty();
         boolean boolean39 = floatList23.retainAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList34);
@@ -6691,7 +6902,7 @@ public class RegressionTest0 {
         uShortList34.trimToSize();
         try {
             java.lang.Boolean boolean42 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[0, 1, 10, 10, 100]", (java.io.Serializable) uShortList34);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long2);
@@ -6718,7 +6929,7 @@ public class RegressionTest0 {
     public void test266() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test266");
-        java.lang.Byte[] byteArray2 = new java.lang.Byte[] { (byte) 100, (byte) 100 };
+        java.lang.Byte[] byteArray2 = new java.lang.Byte[]{(byte) 100, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList3 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList3, byteArray2);
         java.util.ListIterator<java.lang.Byte> byteItor6 = byteList3.listIterator((int) (short) 1);
@@ -6749,7 +6960,11 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener33 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl32);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener34 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl32);
         java.lang.Long long35 = nanoSatMOConnectorImpl32.getAppDirectoryId();
-        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray36 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] { nanoSatMOConnectorImpl17, nanoSatMOConnectorImpl23, nanoSatMOConnectorImpl25, nanoSatMOConnectorImpl30, nanoSatMOConnectorImpl32 };
+        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray36 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[]{nanoSatMOConnectorImpl17,
+                                                                                                                                                          nanoSatMOConnectorImpl23,
+                                                                                                                                                          nanoSatMOConnectorImpl25,
+                                                                                                                                                          nanoSatMOConnectorImpl30,
+                                                                                                                                                          nanoSatMOConnectorImpl32};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray37 = longList10.toArray(nanoSatMOConnectorImplArray36);
         int int38 = longList10.size();
         boolean boolean39 = byteList3.remove((java.lang.Object) longList10);
@@ -6792,7 +7007,7 @@ public class RegressionTest0 {
         java.io.Serializable serializable7 = null;
         try {
             java.lang.Boolean boolean8 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[-1.0, 0.0, 0.0, 0.0, 10.0]", serializable7);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long3);
@@ -6807,12 +7022,13 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         java.lang.Long long3 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         java.lang.Long long4 = nanoSatMOConnectorImpl0.getAppDirectoryId();
-        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray5 = new esa.mo.mc.impl.provider.ParameterInstance[] {};
+        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray5 = new esa.mo.mc.impl.provider.ParameterInstance[]{};
         java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance> parameterInstanceList6 = new java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance>();
-        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList6, parameterInstanceArray5);
+        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList6,
+                                                        parameterInstanceArray5);
         try {
             java.lang.Boolean boolean9 = null; // flaky: nanoSatMOConnectorImpl0.pushMultipleParameterValues(parameterInstanceList6, false);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -6833,8 +7049,8 @@ public class RegressionTest0 {
         java.lang.Long long4 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
-// flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(true, (-9), 13, 65535, (long) 5);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(true, (-9), 13, 65535, (long) 5);
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -6847,8 +7063,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test270");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         try {
-// flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(true, (-5), 8, (-7), (long) (-15));
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(true, (-5), 8, (-7), (long) (-15));
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -6861,8 +7077,8 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener1 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         java.lang.Long long2 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
-// flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, (int) 'a', (int) (byte) 10, 6, 281475010265075L);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, (int) 'a', (int) (byte) 10, 6, 281475010265075L);
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long2);
@@ -6879,7 +7095,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             esa.mo.platform.impl.util.PlatformServicesConsumer platformServicesConsumer5 = null; // flaky: nanoSatMOConnectorImpl0.getPlatformServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long3);
@@ -6898,7 +7114,7 @@ public class RegressionTest0 {
         java.lang.Long long6 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             nanoSatMOConnectorImpl0.writeCentralDirectoryServiceURI("[1, 10, 100]", "-9");
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -6919,7 +7135,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener6 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI7 = nanoSatMOConnectorImpl0.readCentralDirectoryServiceURI();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -6934,7 +7150,7 @@ public class RegressionTest0 {
         java.lang.Long long1 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI2 = nanoSatMOConnectorImpl0.readCentralDirectoryServiceURI();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -6953,7 +7169,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener6 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF7 = null; // flaky: nanoSatMOConnectorImpl0.getMCServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long3);
@@ -6969,12 +7185,13 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener4 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         java.lang.Long long5 = nanoSatMOConnectorImpl0.getAppDirectoryId();
-        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray6 = new esa.mo.mc.impl.provider.ParameterInstance[] {};
+        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray6 = new esa.mo.mc.impl.provider.ParameterInstance[]{};
         java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance> parameterInstanceList7 = new java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance>();
-        boolean boolean8 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList7, parameterInstanceArray6);
+        boolean boolean8 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList7,
+                                                        parameterInstanceArray6);
         try {
             java.lang.Boolean boolean10 = null; // flaky: nanoSatMOConnectorImpl0.pushMultipleParameterValues(parameterInstanceList7, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -6998,7 +7215,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             esa.mo.nmf.CloseAppListener closeAppListener9 = nanoSatMOConnectorImpl0.getCloseAppListener();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -7015,7 +7232,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener4 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             esa.mo.nmf.CloseAppListener closeAppListener5 = nanoSatMOConnectorImpl0.getCloseAppListener();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -7034,7 +7251,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener7 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             org.ccsds.moims.mo.mal.structures.Identifier identifier8 = nanoSatMOConnectorImpl0.getProviderName();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -7055,7 +7272,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener6 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider7 = nanoSatMOConnectorImpl0.getCOMServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long3);
@@ -7072,7 +7289,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener4 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             esa.mo.platform.impl.util.PlatformServicesConsumer platformServicesConsumer5 = null; // flaky: nanoSatMOConnectorImpl0.getPlatformServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long2);
@@ -7091,7 +7308,7 @@ public class RegressionTest0 {
         java.lang.Long long7 = doubleList4.getShortForm();
         try {
             java.lang.Boolean boolean9 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("1", (java.io.Serializable) long7, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(obj5);
@@ -7110,7 +7327,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener4 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             esa.mo.nmf.CloseAppListener closeAppListener5 = nanoSatMOConnectorImpl0.getCloseAppListener();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -7131,7 +7348,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener7 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails configurationObjectDetails8 = null; // flaky: nanoSatMOConnectorImpl0.getCurrentConfiguration();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -7154,7 +7371,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider9 = nanoSatMOConnectorImpl0.getCOMServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -7169,7 +7386,7 @@ public class RegressionTest0 {
         esa.mo.nmf.MonitorAndControlNMFAdapter monitorAndControlNMFAdapter2 = null;
         try {
             nanoSatMOConnectorImpl0.startMCServices(monitorAndControlNMFAdapter2);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -7186,7 +7403,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener5 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             nanoSatMOConnectorImpl0.writeCentralDirectoryServiceURI("[-1, 10, 1]", "[false, true, false]");
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long3);
@@ -7203,7 +7420,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             esa.mo.nmf.CloseAppListener closeAppListener5 = nanoSatMOConnectorImpl0.getCloseAppListener();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -7222,8 +7439,8 @@ public class RegressionTest0 {
         java.lang.Long long5 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         java.lang.Long long6 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
-// flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, (-2), 65535, 14, (long) (short) 10);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, (-2), 65535, 14, (long) (short) 10);
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -7248,7 +7465,7 @@ public class RegressionTest0 {
         int int13 = uShortList11.size();
         try {
             java.lang.Boolean boolean14 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[10, 100]", (java.io.Serializable) int13);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(strStream9);
@@ -7260,7 +7477,7 @@ public class RegressionTest0 {
     public void test292() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test292");
-        java.lang.Long[] longArray2 = new java.lang.Long[] { (-1L), 281475010265070L };
+        java.lang.Long[] longArray2 = new java.lang.Long[]{(-1L), 281475010265070L};
         java.util.ArrayList<java.lang.Long> longList3 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList3, longArray2);
         java.lang.String str5 = longList3.toString();
@@ -7301,7 +7518,11 @@ public class RegressionTest0 {
         java.lang.Long long42 = nanoSatMOConnectorImpl41.getAppDirectoryId();
         java.lang.Long long43 = nanoSatMOConnectorImpl41.getAppDirectoryId();
         java.lang.Long long44 = nanoSatMOConnectorImpl41.getAppDirectoryId();
-        esa.mo.nmf.NMFProvider[] nMFProviderArray45 = new esa.mo.nmf.NMFProvider[] { nanoSatMOConnectorImpl19, nanoSatMOConnectorImpl21, nanoSatMOConnectorImpl27, nanoSatMOConnectorImpl32, nanoSatMOConnectorImpl41 };
+        esa.mo.nmf.NMFProvider[] nMFProviderArray45 = new esa.mo.nmf.NMFProvider[]{nanoSatMOConnectorImpl19,
+                                                                                   nanoSatMOConnectorImpl21,
+                                                                                   nanoSatMOConnectorImpl27,
+                                                                                   nanoSatMOConnectorImpl32,
+                                                                                   nanoSatMOConnectorImpl41};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl46 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         java.lang.Long long47 = nanoSatMOConnectorImpl46.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl48 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
@@ -7328,8 +7549,13 @@ public class RegressionTest0 {
         java.lang.Long long69 = nanoSatMOConnectorImpl68.getAppDirectoryId();
         java.lang.Long long70 = nanoSatMOConnectorImpl68.getAppDirectoryId();
         java.lang.Long long71 = nanoSatMOConnectorImpl68.getAppDirectoryId();
-        esa.mo.nmf.NMFProvider[] nMFProviderArray72 = new esa.mo.nmf.NMFProvider[] { nanoSatMOConnectorImpl46, nanoSatMOConnectorImpl48, nanoSatMOConnectorImpl54, nanoSatMOConnectorImpl59, nanoSatMOConnectorImpl68 };
-        esa.mo.nmf.NMFProvider[][] nMFProviderArray73 = new esa.mo.nmf.NMFProvider[][] { nMFProviderArray45, nMFProviderArray72 };
+        esa.mo.nmf.NMFProvider[] nMFProviderArray72 = new esa.mo.nmf.NMFProvider[]{nanoSatMOConnectorImpl46,
+                                                                                   nanoSatMOConnectorImpl48,
+                                                                                   nanoSatMOConnectorImpl54,
+                                                                                   nanoSatMOConnectorImpl59,
+                                                                                   nanoSatMOConnectorImpl68};
+        esa.mo.nmf.NMFProvider[][] nMFProviderArray73 = new esa.mo.nmf.NMFProvider[][]{nMFProviderArray45,
+                                                                                       nMFProviderArray72};
         try {
             esa.mo.nmf.NMFProvider[][] nMFProviderArray74 = longList3.toArray(nMFProviderArray73);
             org.junit.Assert.fail("Expected exception of type java.lang.ArrayStoreException; message: null");
@@ -7337,7 +7563,8 @@ public class RegressionTest0 {
         }
         org.junit.Assert.assertNotNull(longArray2);
         org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
-        org.junit.Assert.assertTrue("'" + str5 + "' != '" + "[-1, 281475010265070]" + "'", str5.equals("[-1, 281475010265070]"));
+        org.junit.Assert.assertTrue("'" + str5 + "' != '" + "[-1, 281475010265070]" + "'", str5.equals(
+                                                                                                       "[-1, 281475010265070]"));
         org.junit.Assert.assertNotNull(uShort6);
         org.junit.Assert.assertTrue("'" + int7 + "' != '" + (-1) + "'", int7 == (-1));
         org.junit.Assert.assertNotNull(obj11);
@@ -7380,7 +7607,7 @@ public class RegressionTest0 {
         java.lang.Long long4 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             org.ccsds.moims.mo.mal.structures.Identifier identifier5 = nanoSatMOConnectorImpl0.getProviderName();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -7399,7 +7626,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener5 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider6 = nanoSatMOConnectorImpl0.getCOMServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long3);
@@ -7417,7 +7644,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener5 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             java.util.ArrayList<esa.mo.reconfigurable.service.ReconfigurableService> reconfigurableServiceList6 = nanoSatMOConnectorImpl0.getServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long3);
@@ -7432,7 +7659,7 @@ public class RegressionTest0 {
         java.lang.Long long2 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             esa.mo.platform.impl.util.PlatformServicesConsumer platformServicesConsumer3 = null; // flaky: nanoSatMOConnectorImpl0.getPlatformServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -7448,9 +7675,10 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         org.ccsds.moims.mo.mal.structures.Union union5 = new org.ccsds.moims.mo.mal.structures.Union((java.lang.Double) (-1.0d));
         org.ccsds.moims.mo.mal.structures.URI uRI6 = new org.ccsds.moims.mo.mal.structures.URI();
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray7 = new org.ccsds.moims.mo.mal.structures.URI[] { uRI6 };
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray7 = new org.ccsds.moims.mo.mal.structures.URI[]{uRI6};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList8 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList8, uRIArray7);
+        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList8,
+                                                        uRIArray7);
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream10 = uRIList8.parallelStream();
         java.util.Spliterator<org.ccsds.moims.mo.mal.structures.URI> uRISpliterator11 = uRIList8.spliterator();
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream12 = uRIList8.parallelStream();
@@ -7458,22 +7686,26 @@ public class RegressionTest0 {
         boolean boolean14 = union5.equals((java.lang.Object) uRIList8);
         org.ccsds.moims.mo.mal.structures.OctetList octetList15 = new org.ccsds.moims.mo.mal.structures.OctetList();
         int int16 = octetList15.size();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray17 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray17 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList18 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean19 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList18, uShortArray17);
+        boolean boolean19 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList18,
+                                                         uShortArray17);
         int int21 = uShortList18.lastIndexOf((java.lang.Object) 'a');
         boolean boolean22 = uShortList18.isEmpty();
         org.ccsds.moims.mo.mal.structures.UShort uShort23 = new org.ccsds.moims.mo.mal.structures.UShort();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray24 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort23 };
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray24 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort23};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList25 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean26 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList25, uShortArray24);
+        boolean boolean26 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList25,
+                                                         uShortArray24);
         boolean boolean27 = uShortList18.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList25);
-        java.lang.String[] strArray29 = new java.lang.String[] { "hi!" };
+        java.lang.String[] strArray29 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList30 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean31 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList30, strArray29);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray32 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean31 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList30,
+                                                         strArray29);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray32 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList33 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean34 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList33, uShortArray32);
+        boolean boolean34 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList33,
+                                                         uShortArray32);
         int int36 = uShortList33.indexOf((java.lang.Object) 1.0f);
         boolean boolean37 = strList30.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList33);
         boolean boolean38 = uShortList18.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList33);
@@ -7481,14 +7713,16 @@ public class RegressionTest0 {
         boolean boolean40 = uShortList33.add(uShort39);
         boolean boolean41 = octetList15.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList33);
         java.util.Iterator<java.lang.Byte> byteItor42 = octetList15.iterator();
-        java.lang.Long[] longArray48 = new java.lang.Long[] { 0L, 1L, 10L, 10L, 100L };
+        java.lang.Long[] longArray48 = new java.lang.Long[]{0L, 1L, 10L, 10L, 100L};
         java.util.ArrayList<java.lang.Long> longList49 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean50 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList49, longArray48);
+        boolean boolean50 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList49,
+                                                         longArray48);
         longList49.trimToSize();
         java.lang.Object[] objArray52 = longList49.toArray();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray53 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray53 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList54 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean55 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList54, uShortArray53);
+        boolean boolean55 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList54,
+                                                         uShortArray53);
         int int57 = uShortList54.lastIndexOf((java.lang.Object) 'a');
         boolean boolean58 = uShortList54.isEmpty();
         uShortList54.clear();
@@ -7499,7 +7733,7 @@ public class RegressionTest0 {
         boolean boolean64 = uRIList8.retainAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList54);
         try {
             java.lang.Boolean boolean66 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[10.0, -1.0]", (java.io.Serializable) uShortList54, false);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(uRIArray7);
@@ -7550,12 +7784,13 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         nanoSatMOConnectorImpl0.initAdditionalServices();
         java.lang.Long long4 = nanoSatMOConnectorImpl0.getAppDirectoryId();
-        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray5 = new esa.mo.mc.impl.provider.ParameterInstance[] {};
+        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray5 = new esa.mo.mc.impl.provider.ParameterInstance[]{};
         java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance> parameterInstanceList6 = new java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance>();
-        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList6, parameterInstanceArray5);
+        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList6,
+                                                        parameterInstanceArray5);
         try {
             java.lang.Boolean boolean9 = null; // flaky: nanoSatMOConnectorImpl0.pushMultipleParameterValues(parameterInstanceList6, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -7572,15 +7807,17 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = uInteger1.getAreaVersion();
         java.lang.Integer int3 = uInteger1.getTypeShortForm();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet4 = uInteger1.getAreaVersion();
-        java.lang.Long[] longArray10 = new java.lang.Long[] { 0L, 1L, 10L, 10L, 100L };
+        java.lang.Long[] longArray10 = new java.lang.Long[]{0L, 1L, 10L, 10L, 100L};
         java.util.ArrayList<java.lang.Long> longList11 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean12 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList11, longArray10);
+        boolean boolean12 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList11,
+                                                         longArray10);
         longList11.trimToSize();
         java.lang.Object[] objArray14 = longList11.toArray();
         boolean boolean15 = uInteger1.equals((java.lang.Object) longList11);
-        java.lang.Float[] floatArray19 = new java.lang.Float[] { 10.0f, 100.0f, (-1.0f) };
+        java.lang.Float[] floatArray19 = new java.lang.Float[]{10.0f, 100.0f, (-1.0f)};
         java.util.ArrayList<java.lang.Float> floatList20 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList20, floatArray19);
+        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList20,
+                                                         floatArray19);
         boolean boolean23 = floatList20.add((java.lang.Float) 10.0f);
         floatList20.trimToSize();
         boolean boolean25 = floatList20.isEmpty();
@@ -7596,8 +7833,9 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener35 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl34);
         java.lang.Long long36 = nanoSatMOConnectorImpl34.getAppDirectoryId();
         java.lang.Long long37 = nanoSatMOConnectorImpl34.getAppDirectoryId();
-        esa.mo.nmf.SimpleMonitoringInterface[] simpleMonitoringInterfaceArray38 = new esa.mo.nmf.SimpleMonitoringInterface[] { nanoSatMOConnectorImpl27, nanoSatMOConnectorImpl34 };
-        esa.mo.nmf.SimpleMonitoringInterface[][] simpleMonitoringInterfaceArray39 = new esa.mo.nmf.SimpleMonitoringInterface[][] { simpleMonitoringInterfaceArray38 };
+        esa.mo.nmf.SimpleMonitoringInterface[] simpleMonitoringInterfaceArray38 = new esa.mo.nmf.SimpleMonitoringInterface[]{nanoSatMOConnectorImpl27,
+                                                                                                                             nanoSatMOConnectorImpl34};
+        esa.mo.nmf.SimpleMonitoringInterface[][] simpleMonitoringInterfaceArray39 = new esa.mo.nmf.SimpleMonitoringInterface[][]{simpleMonitoringInterfaceArray38};
         try {
             esa.mo.nmf.SimpleMonitoringInterface[][] simpleMonitoringInterfaceArray40 = longList11.toArray(simpleMonitoringInterfaceArray39);
             org.junit.Assert.fail("Expected exception of type java.lang.ArrayStoreException; message: null");
@@ -7639,7 +7877,7 @@ public class RegressionTest0 {
         java.lang.Long long8 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             java.lang.Boolean boolean11 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("18446744073709551615", (java.io.Serializable) "[1, 10, 10, 100]");
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -7654,12 +7892,13 @@ public class RegressionTest0 {
         java.lang.Long long1 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         nanoSatMOConnectorImpl0.initAdditionalServices();
-        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray4 = new esa.mo.mc.impl.provider.ParameterInstance[] {};
+        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray4 = new esa.mo.mc.impl.provider.ParameterInstance[]{};
         java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance> parameterInstanceList5 = new java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance>();
-        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList5, parameterInstanceArray4);
+        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList5,
+                                                        parameterInstanceArray4);
         try {
             java.lang.Boolean boolean8 = null; // flaky: nanoSatMOConnectorImpl0.pushMultipleParameterValues(parameterInstanceList5, false);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -7680,7 +7919,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener6 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             esa.mo.platform.impl.util.PlatformServicesConsumer platformServicesConsumer7 = null; // flaky: nanoSatMOConnectorImpl0.getPlatformServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long3);
@@ -7697,7 +7936,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener4 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             java.util.ArrayList<esa.mo.reconfigurable.service.ReconfigurableService> reconfigurableServiceList5 = nanoSatMOConnectorImpl0.getServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long2);
@@ -7708,15 +7947,17 @@ public class RegressionTest0 {
     public void test304() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test304");
-        java.lang.Double[] doubleArray4 = new java.lang.Double[] { 10.0d, 0.0d, (-1.0d), (-1.0d) };
+        java.lang.Double[] doubleArray4 = new java.lang.Double[]{10.0d, 0.0d, (-1.0d), (-1.0d)};
         java.util.ArrayList<java.lang.Double> doubleList5 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList5, doubleArray4);
+        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList5,
+                                                        doubleArray4);
         boolean boolean8 = doubleList5.equals((java.lang.Object) 281475010265079L);
         int int9 = doubleList5.size();
         boolean boolean11 = doubleList5.equals((java.lang.Object) "[10.0, 0.0, -1.0, -1.0]");
-        java.lang.Float[] floatArray16 = new java.lang.Float[] { (-1.0f), 10.0f, 10.0f, 1.0f };
+        java.lang.Float[] floatArray16 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f, 1.0f};
         java.util.ArrayList<java.lang.Float> floatList17 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList17, floatArray16);
+        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList17,
+                                                         floatArray16);
         int int20 = floatList17.lastIndexOf((java.lang.Object) (-1L));
         java.util.Iterator<java.lang.Float> floatItor21 = floatList17.iterator();
         org.ccsds.moims.mo.mal.structures.Identifier identifier22 = new org.ccsds.moims.mo.mal.structures.Identifier();
@@ -7728,9 +7969,10 @@ public class RegressionTest0 {
         java.lang.Object obj31 = doubleList5.clone();
         org.ccsds.moims.mo.mal.structures.UShortList uShortList33 = new org.ccsds.moims.mo.mal.structures.UShortList((int) ' ');
         boolean boolean34 = doubleList5.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList33);
-        java.lang.Byte[] byteArray37 = new java.lang.Byte[] { (byte) 100, (byte) 100 };
+        java.lang.Byte[] byteArray37 = new java.lang.Byte[]{(byte) 100, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList38 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList38, byteArray37);
+        boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList38,
+                                                         byteArray37);
         java.util.ListIterator<java.lang.Byte> byteItor41 = byteList38.listIterator((int) (short) 1);
         int int42 = byteList38.size();
         java.util.Iterator<java.lang.Byte> byteItor43 = byteList38.iterator();
@@ -7762,7 +8004,11 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener71 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl70);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener72 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl70);
         java.lang.Long long73 = nanoSatMOConnectorImpl70.getAppDirectoryId();
-        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray74 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] { nanoSatMOConnectorImpl55, nanoSatMOConnectorImpl61, nanoSatMOConnectorImpl63, nanoSatMOConnectorImpl68, nanoSatMOConnectorImpl70 };
+        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray74 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[]{nanoSatMOConnectorImpl55,
+                                                                                                                                                          nanoSatMOConnectorImpl61,
+                                                                                                                                                          nanoSatMOConnectorImpl63,
+                                                                                                                                                          nanoSatMOConnectorImpl68,
+                                                                                                                                                          nanoSatMOConnectorImpl70};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray75 = longList48.toArray(nanoSatMOConnectorImplArray74);
         int int76 = byteList38.lastIndexOf((java.lang.Object) nanoSatMOConnectorImplArray74);
         esa.mo.nmf.SimpleMonitoringInterface[] simpleMonitoringInterfaceArray77 = uShortList33.toArray((esa.mo.nmf.SimpleMonitoringInterface[]) nanoSatMOConnectorImplArray74);
@@ -7815,7 +8061,7 @@ public class RegressionTest0 {
         java.lang.Long long5 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             nanoSatMOConnectorImpl0.writeCentralDirectoryServiceURI("[10.0, 0.0, -1.0, -1.0, 0.0]", "12");
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -7849,7 +8095,7 @@ public class RegressionTest0 {
         boolean boolean24 = stringList8.retainAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList19);
         try {
             java.lang.Boolean boolean26 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[false, true]", (java.io.Serializable) uShortList19, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -7880,7 +8126,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider9 = nanoSatMOConnectorImpl0.getCOMServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -7902,7 +8148,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             org.ccsds.moims.mo.mal.structures.Identifier identifier8 = nanoSatMOConnectorImpl0.getProviderName();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -7923,7 +8169,7 @@ public class RegressionTest0 {
         java.lang.Long long8 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails configurationObjectDetails9 = null; // flaky: nanoSatMOConnectorImpl0.getCurrentConfiguration();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -7941,8 +8187,9 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener4 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
-            nanoSatMOConnectorImpl0.writeCentralDirectoryServiceURI("[10.0, 0.0, -1.0, -1.0, 0.0]", "[16, 100, 10, 1, -18]");
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            nanoSatMOConnectorImpl0.writeCentralDirectoryServiceURI("[10.0, 0.0, -1.0, -1.0, 0.0]",
+                                                                    "[16, 100, 10, 1, -18]");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long2);
@@ -7959,7 +8206,7 @@ public class RegressionTest0 {
         java.lang.Long long3 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF4 = null; // flaky: nanoSatMOConnectorImpl0.getMCServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long2);
@@ -7979,7 +8226,7 @@ public class RegressionTest0 {
         java.lang.Long long6 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             nanoSatMOConnectorImpl0.writeCentralDirectoryServiceURI("2.81475010265084E14", "[10, 100]");
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long2);
@@ -7997,7 +8244,7 @@ public class RegressionTest0 {
         java.lang.Class<?> wildcardClass3 = nanoSatMOConnectorImpl0.getClass();
         try {
             esa.mo.platform.impl.util.PlatformServicesConsumer platformServicesConsumer4 = null; // flaky: nanoSatMOConnectorImpl0.getPlatformServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(wildcardClass3);
@@ -8015,8 +8262,8 @@ public class RegressionTest0 {
         java.lang.Long long5 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         java.lang.Long long6 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
-// flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, (-2), (-4), (int) (short) -1, (long) 10);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, (-2), (-4), (int) (short) -1, (long) 10);
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -8028,9 +8275,10 @@ public class RegressionTest0 {
     public void test315() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test315");
-        java.lang.Float[] floatArray1 = new java.lang.Float[] { 1.0f };
+        java.lang.Float[] floatArray1 = new java.lang.Float[]{1.0f};
         java.util.ArrayList<java.lang.Float> floatList2 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2, floatArray1);
+        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2,
+                                                        floatArray1);
         java.util.ListIterator<java.lang.Float> floatItor4 = floatList2.listIterator();
         int int6 = floatList2.indexOf((java.lang.Object) "[-1, 281475010265070]");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl7 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
@@ -8042,7 +8290,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener13 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl7);
         try {
             org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails configurationObjectDetails14 = null; // flaky: nanoSatMOConnectorImpl7.getCurrentConfiguration();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(floatArray1);
@@ -8064,7 +8312,7 @@ public class RegressionTest0 {
         java.lang.Class<?> wildcardClass3 = nanoSatMOConnectorImpl0.getClass();
         try {
             esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF4 = null; // flaky: nanoSatMOConnectorImpl0.getMCServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(wildcardClass3);
@@ -8092,7 +8340,7 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.Element element17 = uShort16.createElement();
         try {
             java.lang.Boolean boolean18 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[100, 100, 0]", (java.io.Serializable) uShort16);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -8120,7 +8368,7 @@ public class RegressionTest0 {
         java.io.Serializable serializable10 = null;
         try {
             java.lang.Boolean boolean12 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[false, true, false]", serializable10, false);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -8138,7 +8386,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI4 = nanoSatMOConnectorImpl0.readCentralDirectoryServiceURI();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -8148,9 +8396,10 @@ public class RegressionTest0 {
     public void test320() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test320");
-        java.lang.Float[] floatArray1 = new java.lang.Float[] { 1.0f };
+        java.lang.Float[] floatArray1 = new java.lang.Float[]{1.0f};
         java.util.ArrayList<java.lang.Float> floatList2 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2, floatArray1);
+        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2,
+                                                        floatArray1);
         java.util.ListIterator<java.lang.Float> floatItor4 = floatList2.listIterator();
         int int6 = floatList2.indexOf((java.lang.Object) "[-1, 281475010265070]");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl7 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
@@ -8161,7 +8410,7 @@ public class RegressionTest0 {
         int int12 = floatList2.lastIndexOf((java.lang.Object) nanoSatMOConnectorImpl7);
         try {
             esa.mo.platform.impl.util.PlatformServicesConsumer platformServicesConsumer13 = null; // flaky: nanoSatMOConnectorImpl7.getPlatformServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(floatArray1);
@@ -8182,15 +8431,18 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         java.lang.Long long3 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         org.ccsds.moims.mo.mal.structures.URI uRI5 = new org.ccsds.moims.mo.mal.structures.URI();
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray6 = new org.ccsds.moims.mo.mal.structures.URI[] { uRI5 };
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray6 = new org.ccsds.moims.mo.mal.structures.URI[]{uRI5};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList7 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean8 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList7, uRIArray6);
+        boolean boolean8 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList7,
+                                                        uRIArray6);
         int int9 = uRIList7.size();
         org.ccsds.moims.mo.mal.structures.UShort uShort10 = org.ccsds.moims.mo.mal.structures.URIList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort uShort11 = new org.ccsds.moims.mo.mal.structures.UShort();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray12 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort10, uShort11 };
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray12 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort10,
+                                                                                                                  uShort11};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList13 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList13, uShortArray12);
+        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList13,
+                                                         uShortArray12);
         org.ccsds.moims.mo.mal.structures.UShort uShort16 = new org.ccsds.moims.mo.mal.structures.UShort();
         org.ccsds.moims.mo.mal.structures.UShort uShort17 = uShortList13.set((int) (short) 0, uShort16);
         org.ccsds.moims.mo.mal.structures.UShort uShort19 = uShortList13.remove(0);
@@ -8201,9 +8453,10 @@ public class RegressionTest0 {
         boolean boolean25 = uRIList7.equals((java.lang.Object) uRIList22);
         org.ccsds.moims.mo.mal.structures.URI uRI26 = new org.ccsds.moims.mo.mal.structures.URI();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet27 = uRI26.getAreaVersion();
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray28 = new org.ccsds.moims.mo.mal.structures.URI[] { uRI26 };
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray28 = new org.ccsds.moims.mo.mal.structures.URI[]{uRI26};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList29 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean30 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList29, uRIArray28);
+        boolean boolean30 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList29,
+                                                         uRIArray28);
         java.util.ListIterator<org.ccsds.moims.mo.mal.structures.URI> uRIItor32 = uRIList29.listIterator((int) (short) 0);
         org.ccsds.moims.mo.mal.structures.URI uRI34 = new org.ccsds.moims.mo.mal.structures.URI();
         java.lang.Long long35 = uRI34.getShortForm();
@@ -8213,9 +8466,10 @@ public class RegressionTest0 {
         uRIList29.trimToSize();
         int int40 = uRIList29.size();
         org.ccsds.moims.mo.mal.structures.URI uRI41 = new org.ccsds.moims.mo.mal.structures.URI();
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray42 = new org.ccsds.moims.mo.mal.structures.URI[] { uRI41 };
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray42 = new org.ccsds.moims.mo.mal.structures.URI[]{uRI41};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList43 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean44 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList43, uRIArray42);
+        boolean boolean44 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList43,
+                                                         uRIArray42);
         int int45 = uRIList43.size();
         org.ccsds.moims.mo.mal.structures.URI uRI46 = new org.ccsds.moims.mo.mal.structures.URI();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet47 = uRI46.getAreaVersion();
@@ -8228,7 +8482,7 @@ public class RegressionTest0 {
         boolean boolean55 = uRI46.equals((java.lang.Object) 281474993487875L);
         try {
             java.lang.Boolean boolean56 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[1]", (java.io.Serializable) boolean55);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long3);
@@ -8277,7 +8531,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             java.util.ArrayList<esa.mo.reconfigurable.service.ReconfigurableService> reconfigurableServiceList6 = nanoSatMOConnectorImpl0.getServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -8312,21 +8566,29 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl20 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         java.lang.Long long21 = nanoSatMOConnectorImpl20.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener22 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl20);
-        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray23 = new esa.mo.com.impl.util.EventReceivedListener[] { closeAppEventListener9, closeAppEventListener12, closeAppEventListener15, closeAppEventListener17, closeAppEventListener19, closeAppEventListener22 };
+        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray23 = new esa.mo.com.impl.util.EventReceivedListener[]{closeAppEventListener9,
+                                                                                                                                     closeAppEventListener12,
+                                                                                                                                     closeAppEventListener15,
+                                                                                                                                     closeAppEventListener17,
+                                                                                                                                     closeAppEventListener19,
+                                                                                                                                     closeAppEventListener22};
         esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray24 = octetList0.toArray(eventReceivedListenerArray23);
         java.lang.String str25 = octetList0.toString();
         org.ccsds.moims.mo.mal.structures.IntegerList integerList26 = new org.ccsds.moims.mo.mal.structures.IntegerList();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet27 = integerList26.getAreaVersion();
-        java.lang.Short[] shortArray31 = new java.lang.Short[] { (short) 1, (short) 100, (short) 100 };
+        java.lang.Short[] shortArray31 = new java.lang.Short[]{(short) 1, (short) 100, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList32 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList32, shortArray31);
+        boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList32,
+                                                         shortArray31);
         boolean boolean35 = shortList32.equals((java.lang.Object) "hi!");
-        java.lang.String[] strArray37 = new java.lang.String[] { "hi!" };
+        java.lang.String[] strArray37 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList38 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList38, strArray37);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray40 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList38,
+                                                         strArray37);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray40 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList41 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean42 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList41, uShortArray40);
+        boolean boolean42 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList41,
+                                                         uShortArray40);
         int int44 = uShortList41.indexOf((java.lang.Object) 1.0f);
         boolean boolean45 = strList38.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList41);
         boolean boolean46 = shortList32.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList41);
@@ -8370,7 +8632,7 @@ public class RegressionTest0 {
         java.lang.Long long3 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF4 = null; // flaky: nanoSatMOConnectorImpl0.getMCServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -8389,7 +8651,7 @@ public class RegressionTest0 {
         java.lang.Long long4 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails configurationObjectDetails5 = null; // flaky: nanoSatMOConnectorImpl0.getCurrentConfiguration();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -8401,9 +8663,10 @@ public class RegressionTest0 {
     public void test326() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test326");
-        java.lang.Float[] floatArray1 = new java.lang.Float[] { 1.0f };
+        java.lang.Float[] floatArray1 = new java.lang.Float[]{1.0f};
         java.util.ArrayList<java.lang.Float> floatList2 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2, floatArray1);
+        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2,
+                                                        floatArray1);
         java.util.ListIterator<java.lang.Float> floatItor4 = floatList2.listIterator();
         int int6 = floatList2.indexOf((java.lang.Object) "[-1, 281475010265070]");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl7 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
@@ -8415,7 +8678,7 @@ public class RegressionTest0 {
         java.lang.Long long13 = nanoSatMOConnectorImpl7.getAppDirectoryId();
         try {
             nanoSatMOConnectorImpl7.writeCentralDirectoryServiceURI("281475010265077", "[1.0]");
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(floatArray1);
@@ -8439,7 +8702,7 @@ public class RegressionTest0 {
         java.lang.Long long4 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI5 = nanoSatMOConnectorImpl0.readCentralDirectoryServiceURI();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long4);
@@ -8463,26 +8726,30 @@ public class RegressionTest0 {
         java.lang.Integer int13 = union11.getTypeShortForm();
         org.ccsds.moims.mo.mal.structures.URIList uRIList15 = new org.ccsds.moims.mo.mal.structures.URIList(65535);
         org.ccsds.moims.mo.mal.structures.UShort uShort16 = uRIList15.getServiceNumber();
-        java.lang.Short[] shortArray20 = new java.lang.Short[] { (short) 1, (short) -1, (short) 10 };
+        java.lang.Short[] shortArray20 = new java.lang.Short[]{(short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList21 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList21, shortArray20);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray23 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList21,
+                                                         shortArray20);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray23 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList24 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean25 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList24, uShortArray23);
+        boolean boolean25 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList24,
+                                                         uShortArray23);
         int int27 = uShortList24.lastIndexOf((java.lang.Object) 'a');
         boolean boolean28 = uShortList24.isEmpty();
         org.ccsds.moims.mo.mal.structures.UShort uShort29 = new org.ccsds.moims.mo.mal.structures.UShort();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray30 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort29 };
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray30 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort29};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList31 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean32 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList31, uShortArray30);
+        boolean boolean32 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList31,
+                                                         uShortArray30);
         boolean boolean33 = uShortList24.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList31);
         boolean boolean34 = shortList21.remove((java.lang.Object) boolean33);
         shortList21.clear();
         org.ccsds.moims.mo.mal.structures.URI uRI36 = new org.ccsds.moims.mo.mal.structures.URI();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet37 = uRI36.getAreaVersion();
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray38 = new org.ccsds.moims.mo.mal.structures.URI[] { uRI36 };
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray38 = new org.ccsds.moims.mo.mal.structures.URI[]{uRI36};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList39 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean40 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList39, uRIArray38);
+        boolean boolean40 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList39,
+                                                         uRIArray38);
         java.util.ListIterator<org.ccsds.moims.mo.mal.structures.URI> uRIItor42 = uRIList39.listIterator((int) (short) 0);
         org.ccsds.moims.mo.mal.structures.URI uRI44 = new org.ccsds.moims.mo.mal.structures.URI();
         java.lang.Long long45 = uRI44.getShortForm();
@@ -8493,7 +8760,7 @@ public class RegressionTest0 {
         boolean boolean50 = union11.equals((java.lang.Object) uRI44);
         try {
             java.lang.Boolean boolean52 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[255, 100, 0]", (java.io.Serializable) boolean50, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -8525,9 +8792,10 @@ public class RegressionTest0 {
     public void test329() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test329");
-        java.lang.Float[] floatArray1 = new java.lang.Float[] { 1.0f };
+        java.lang.Float[] floatArray1 = new java.lang.Float[]{1.0f};
         java.util.ArrayList<java.lang.Float> floatList2 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2, floatArray1);
+        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2,
+                                                        floatArray1);
         java.util.ListIterator<java.lang.Float> floatItor4 = floatList2.listIterator();
         int int6 = floatList2.indexOf((java.lang.Object) "[-1, 281475010265070]");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl7 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
@@ -8537,9 +8805,10 @@ public class RegressionTest0 {
         java.lang.Long long11 = nanoSatMOConnectorImpl7.getAppDirectoryId();
         int int12 = floatList2.lastIndexOf((java.lang.Object) nanoSatMOConnectorImpl7);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener13 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl7);
-        java.lang.Double[] doubleArray19 = new java.lang.Double[] { (-1.0d), 0.0d, 0.0d, 10.0d };
+        java.lang.Double[] doubleArray19 = new java.lang.Double[]{(-1.0d), 0.0d, 0.0d, 10.0d};
         java.util.ArrayList<java.lang.Double> doubleList20 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList20, doubleArray19);
+        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList20,
+                                                         doubleArray19);
         boolean boolean23 = doubleList20.contains((java.lang.Object) "hi!");
         doubleList20.add(2, (java.lang.Double) 0.0d);
         org.ccsds.moims.mo.mal.structures.Identifier identifier27 = new org.ccsds.moims.mo.mal.structures.Identifier();
@@ -8556,7 +8825,7 @@ public class RegressionTest0 {
         java.util.Spliterator<java.lang.Double> doubleSpliterator38 = doubleList20.spliterator();
         try {
             java.lang.Boolean boolean40 = null; // flaky: nanoSatMOConnectorImpl7.pushParameterValue("false", (java.io.Serializable) doubleList20, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(floatArray1);
@@ -8595,7 +8864,7 @@ public class RegressionTest0 {
         java.lang.Long long8 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI9 = nanoSatMOConnectorImpl0.readCentralDirectoryServiceURI();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -8617,7 +8886,7 @@ public class RegressionTest0 {
         java.lang.Long long8 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             nanoSatMOConnectorImpl0.writeCentralDirectoryServiceURI("0.0", "281474993487881");
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -8639,7 +8908,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             java.util.ArrayList<esa.mo.reconfigurable.service.ReconfigurableService> reconfigurableServiceList9 = nanoSatMOConnectorImpl0.getServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -8653,8 +8922,8 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener1 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         java.lang.Long long2 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
-// flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(true, 17, (int) (byte) 10, (-9), 0L);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(true, 17, (int) (byte) 10, (-9), 0L);
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long2);
@@ -8675,7 +8944,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails configurationObjectDetails9 = null; // flaky: nanoSatMOConnectorImpl0.getCurrentConfiguration();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -8715,7 +8984,7 @@ public class RegressionTest0 {
         boolean boolean29 = stringList9.remove((java.lang.Object) uShort27);
         try {
             java.lang.Boolean boolean30 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("281475010265078", (java.io.Serializable) stringList9);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -8746,8 +9015,8 @@ public class RegressionTest0 {
         java.lang.Long long3 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
-// flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, (int) ' ', (int) (byte) 1, 13, (long) 1);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, (int) ' ', (int) (byte) 1, 13, (long) 1);
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -8765,7 +9034,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener4 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             nanoSatMOConnectorImpl0.writeCentralDirectoryServiceURI("", "[16, 100, 10, 1, 65535]");
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -8776,9 +9045,10 @@ public class RegressionTest0 {
     public void test338() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test338");
-        java.lang.Float[] floatArray1 = new java.lang.Float[] { 1.0f };
+        java.lang.Float[] floatArray1 = new java.lang.Float[]{1.0f};
         java.util.ArrayList<java.lang.Float> floatList2 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2, floatArray1);
+        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2,
+                                                        floatArray1);
         java.util.ListIterator<java.lang.Float> floatItor4 = floatList2.listIterator();
         int int6 = floatList2.indexOf((java.lang.Object) "[-1, 281475010265070]");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl7 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
@@ -8789,7 +9059,7 @@ public class RegressionTest0 {
         int int12 = floatList2.lastIndexOf((java.lang.Object) nanoSatMOConnectorImpl7);
         try {
             org.ccsds.moims.mo.mal.structures.Identifier identifier13 = nanoSatMOConnectorImpl7.getProviderName();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(floatArray1);
@@ -8805,9 +9075,10 @@ public class RegressionTest0 {
     public void test339() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test339");
-        java.lang.Float[] floatArray1 = new java.lang.Float[] { 1.0f };
+        java.lang.Float[] floatArray1 = new java.lang.Float[]{1.0f};
         java.util.ArrayList<java.lang.Float> floatList2 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2, floatArray1);
+        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2,
+                                                        floatArray1);
         java.util.ListIterator<java.lang.Float> floatItor4 = floatList2.listIterator();
         int int6 = floatList2.indexOf((java.lang.Object) "[-1, 281475010265070]");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl7 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
@@ -8819,7 +9090,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener13 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl7);
         try {
             esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF14 = null; // flaky: nanoSatMOConnectorImpl7.getMCServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(floatArray1);
@@ -8842,7 +9113,7 @@ public class RegressionTest0 {
         java.lang.Long long4 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF5 = null; // flaky: nanoSatMOConnectorImpl0.getMCServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long4);
@@ -8863,7 +9134,7 @@ public class RegressionTest0 {
         int int9 = uShort8.getValue();
         try {
             java.lang.Boolean boolean11 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[-1, 281475010265070, 281474993487873]", (java.io.Serializable) int9, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long2);
@@ -8889,7 +9160,7 @@ public class RegressionTest0 {
         java.lang.Long long10 = uOctet9.getShortForm();
         try {
             java.lang.Boolean boolean11 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[, ]", (java.io.Serializable) uOctet9);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -8911,30 +9182,33 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener5 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         java.lang.Long long6 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         org.ccsds.moims.mo.mal.structures.URI uRI8 = new org.ccsds.moims.mo.mal.structures.URI();
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray9 = new org.ccsds.moims.mo.mal.structures.URI[] { uRI8 };
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray9 = new org.ccsds.moims.mo.mal.structures.URI[]{uRI8};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList10 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean11 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList10, uRIArray9);
+        boolean boolean11 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList10,
+                                                         uRIArray9);
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream12 = uRIList10.parallelStream();
         java.util.Spliterator<org.ccsds.moims.mo.mal.structures.URI> uRISpliterator13 = uRIList10.spliterator();
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream14 = uRIList10.stream();
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream15 = uRIList10.stream();
         boolean boolean16 = uRIList10.isEmpty();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray17 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray17 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList18 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean19 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList18, uShortArray17);
+        boolean boolean19 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList18,
+                                                         uShortArray17);
         int int21 = uShortList18.lastIndexOf((java.lang.Object) 'a');
         boolean boolean22 = uShortList18.isEmpty();
         uShortList18.clear();
         uShortList18.trimToSize();
         boolean boolean25 = uRIList10.retainAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList18);
-        java.lang.Float[] floatArray27 = new java.lang.Float[] { 0.0f };
+        java.lang.Float[] floatArray27 = new java.lang.Float[]{0.0f};
         java.util.ArrayList<java.lang.Float> floatList28 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean29 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList28, floatArray27);
+        boolean boolean29 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList28,
+                                                         floatArray27);
         java.util.Spliterator<java.lang.Float> floatSpliterator30 = floatList28.spliterator();
         boolean boolean31 = uRIList10.remove((java.lang.Object) floatList28);
         try {
             java.lang.Boolean boolean33 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("281474993487886", (java.io.Serializable) uRIList10, false);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -8961,9 +9235,10 @@ public class RegressionTest0 {
     public void test344() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test344");
-        java.lang.Float[] floatArray1 = new java.lang.Float[] { 1.0f };
+        java.lang.Float[] floatArray1 = new java.lang.Float[]{1.0f};
         java.util.ArrayList<java.lang.Float> floatList2 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2, floatArray1);
+        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2,
+                                                        floatArray1);
         java.util.ListIterator<java.lang.Float> floatItor4 = floatList2.listIterator();
         int int6 = floatList2.indexOf((java.lang.Object) "[-1, 281475010265070]");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl7 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
@@ -8975,7 +9250,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener13 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl7);
         try {
             java.util.ArrayList<esa.mo.reconfigurable.service.ReconfigurableService> reconfigurableServiceList14 = nanoSatMOConnectorImpl7.getServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(floatArray1);
@@ -9000,7 +9275,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener6 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails configurationObjectDetails7 = null; // flaky: nanoSatMOConnectorImpl0.getCurrentConfiguration();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -9018,7 +9293,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI5 = nanoSatMOConnectorImpl0.readCentralDirectoryServiceURI();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long3);
@@ -9028,7 +9303,7 @@ public class RegressionTest0 {
     public void test347() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test347");
-        java.lang.Byte[] byteArray2 = new java.lang.Byte[] { (byte) 100, (byte) 100 };
+        java.lang.Byte[] byteArray2 = new java.lang.Byte[]{(byte) 100, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList3 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList3, byteArray2);
         java.util.ListIterator<java.lang.Byte> byteItor6 = byteList3.listIterator((int) (short) 1);
@@ -9062,7 +9337,11 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener36 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl35);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener37 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl35);
         java.lang.Long long38 = nanoSatMOConnectorImpl35.getAppDirectoryId();
-        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray39 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] { nanoSatMOConnectorImpl20, nanoSatMOConnectorImpl26, nanoSatMOConnectorImpl28, nanoSatMOConnectorImpl33, nanoSatMOConnectorImpl35 };
+        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray39 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[]{nanoSatMOConnectorImpl20,
+                                                                                                                                                          nanoSatMOConnectorImpl26,
+                                                                                                                                                          nanoSatMOConnectorImpl28,
+                                                                                                                                                          nanoSatMOConnectorImpl33,
+                                                                                                                                                          nanoSatMOConnectorImpl35};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray40 = longList13.toArray(nanoSatMOConnectorImplArray39);
         int int41 = byteList3.lastIndexOf((java.lang.Object) nanoSatMOConnectorImplArray39);
         java.lang.String str42 = byteList3.toString();
@@ -9106,16 +9385,19 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.DoubleList doubleList6 = new org.ccsds.moims.mo.mal.structures.DoubleList(7);
         org.ccsds.moims.mo.mal.structures.UShort uShort7 = doubleList6.getAreaNumber();
         int int8 = doubleList6.size();
-        java.lang.Short[] shortArray12 = new java.lang.Short[] { (short) 1, (short) 100, (short) 100 };
+        java.lang.Short[] shortArray12 = new java.lang.Short[]{(short) 1, (short) 100, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList13 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList13, shortArray12);
+        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList13,
+                                                         shortArray12);
         boolean boolean16 = shortList13.equals((java.lang.Object) "hi!");
-        java.lang.String[] strArray18 = new java.lang.String[] { "hi!" };
+        java.lang.String[] strArray18 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList19 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean20 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList19, strArray18);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray21 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean20 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList19,
+                                                         strArray18);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray21 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList22 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList22, uShortArray21);
+        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList22,
+                                                         uShortArray21);
         int int25 = uShortList22.indexOf((java.lang.Object) 1.0f);
         boolean boolean26 = strList19.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList22);
         boolean boolean27 = shortList13.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList22);
@@ -9126,13 +9408,15 @@ public class RegressionTest0 {
         boolean boolean33 = doubleList6.remove((java.lang.Object) shortList13);
         boolean boolean34 = union1.equals((java.lang.Object) shortList13);
         boolean boolean36 = shortList13.add((java.lang.Short) (short) 1);
-        java.lang.Integer[] intArray41 = new java.lang.Integer[] { 16, 100, 10, 1 };
+        java.lang.Integer[] intArray41 = new java.lang.Integer[]{16, 100, 10, 1};
         java.util.ArrayList<java.lang.Integer> intList42 = new java.util.ArrayList<java.lang.Integer>();
-        boolean boolean43 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList42, intArray41);
+        boolean boolean43 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList42,
+                                                         intArray41);
         int int45 = intList42.indexOf((java.lang.Object) 0);
-        java.lang.Byte[] byteArray48 = new java.lang.Byte[] { (byte) 100, (byte) 100 };
+        java.lang.Byte[] byteArray48 = new java.lang.Byte[]{(byte) 100, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList49 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean50 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList49, byteArray48);
+        boolean boolean50 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList49,
+                                                         byteArray48);
         java.util.ListIterator<java.lang.Byte> byteItor52 = byteList49.listIterator((int) (short) 1);
         int int53 = byteList49.size();
         int int54 = intList42.lastIndexOf((java.lang.Object) int53);
@@ -9168,7 +9452,11 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener85 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl84);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener86 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl84);
         java.lang.Long long87 = nanoSatMOConnectorImpl84.getAppDirectoryId();
-        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray88 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] { nanoSatMOConnectorImpl69, nanoSatMOConnectorImpl75, nanoSatMOConnectorImpl77, nanoSatMOConnectorImpl82, nanoSatMOConnectorImpl84 };
+        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray88 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[]{nanoSatMOConnectorImpl69,
+                                                                                                                                                          nanoSatMOConnectorImpl75,
+                                                                                                                                                          nanoSatMOConnectorImpl77,
+                                                                                                                                                          nanoSatMOConnectorImpl82,
+                                                                                                                                                          nanoSatMOConnectorImpl84};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray89 = longList62.toArray(nanoSatMOConnectorImplArray88);
         esa.mo.nmf.SimpleMonitoringInterface[] simpleMonitoringInterfaceArray90 = octetList57.toArray((esa.mo.nmf.SimpleMonitoringInterface[]) nanoSatMOConnectorImplArray88);
         try {
@@ -9238,7 +9526,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails configurationObjectDetails8 = null; // flaky: nanoSatMOConnectorImpl0.getCurrentConfiguration();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -9256,7 +9544,7 @@ public class RegressionTest0 {
         java.lang.Long long5 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             nanoSatMOConnectorImpl0.writeCentralDirectoryServiceURI("[-1.0, 0.0, 0.0, 0.0, 10.0]", "-11");
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long5);
@@ -9271,7 +9559,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails configurationObjectDetails3 = null; // flaky: nanoSatMOConnectorImpl0.getCurrentConfiguration();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -9285,16 +9573,19 @@ public class RegressionTest0 {
         boolean boolean2 = stringList0.equals((java.lang.Object) (byte) -1);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet3 = stringList0.getAreaVersion();
         stringList0.clear();
-        java.lang.Short[] shortArray8 = new java.lang.Short[] { (short) 1, (short) 100, (short) 100 };
+        java.lang.Short[] shortArray8 = new java.lang.Short[]{(short) 1, (short) 100, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList9 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList9, shortArray8);
+        boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList9,
+                                                         shortArray8);
         boolean boolean12 = shortList9.equals((java.lang.Object) "hi!");
-        java.lang.String[] strArray14 = new java.lang.String[] { "hi!" };
+        java.lang.String[] strArray14 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList15 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList15, strArray14);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray17 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList15,
+                                                         strArray14);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray17 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList18 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean19 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList18, uShortArray17);
+        boolean boolean19 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList18,
+                                                         uShortArray17);
         int int21 = uShortList18.indexOf((java.lang.Object) 1.0f);
         boolean boolean22 = strList15.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList18);
         boolean boolean23 = shortList9.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList18);
@@ -9339,12 +9630,13 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener4 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         nanoSatMOConnectorImpl0.initAdditionalServices();
         java.lang.Long long6 = nanoSatMOConnectorImpl0.getAppDirectoryId();
-        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray7 = new esa.mo.mc.impl.provider.ParameterInstance[] {};
+        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray7 = new esa.mo.mc.impl.provider.ParameterInstance[]{};
         java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance> parameterInstanceList8 = new java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance>();
-        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList8, parameterInstanceArray7);
+        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList8,
+                                                        parameterInstanceArray7);
         try {
             java.lang.Boolean boolean11 = null; // flaky: nanoSatMOConnectorImpl0.pushMultipleParameterValues(parameterInstanceList8, false);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long2);
@@ -9370,7 +9662,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             esa.mo.platform.impl.util.PlatformServicesConsumer platformServicesConsumer10 = null; // flaky: nanoSatMOConnectorImpl0.getPlatformServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -9403,7 +9695,12 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl20 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         java.lang.Long long21 = nanoSatMOConnectorImpl20.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener22 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl20);
-        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray23 = new esa.mo.com.impl.util.EventReceivedListener[] { closeAppEventListener9, closeAppEventListener12, closeAppEventListener15, closeAppEventListener17, closeAppEventListener19, closeAppEventListener22 };
+        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray23 = new esa.mo.com.impl.util.EventReceivedListener[]{closeAppEventListener9,
+                                                                                                                                     closeAppEventListener12,
+                                                                                                                                     closeAppEventListener15,
+                                                                                                                                     closeAppEventListener17,
+                                                                                                                                     closeAppEventListener19,
+                                                                                                                                     closeAppEventListener22};
         esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray24 = octetList0.toArray(eventReceivedListenerArray23);
         java.lang.String str25 = octetList0.toString();
         java.lang.String str26 = octetList0.toString();
@@ -9435,7 +9732,7 @@ public class RegressionTest0 {
         java.lang.Object obj10 = octetList8.clone();
         try {
             java.lang.Boolean boolean11 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[, , , ]", (java.io.Serializable) octetList8);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -9448,7 +9745,7 @@ public class RegressionTest0 {
     public void test357() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test357");
-        java.lang.Byte[] byteArray2 = new java.lang.Byte[] { (byte) 100, (byte) 100 };
+        java.lang.Byte[] byteArray2 = new java.lang.Byte[]{(byte) 100, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList3 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList3, byteArray2);
         java.util.ListIterator<java.lang.Byte> byteItor6 = byteList3.listIterator((int) (short) 1);
@@ -9479,7 +9776,11 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener33 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl32);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener34 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl32);
         java.lang.Long long35 = nanoSatMOConnectorImpl32.getAppDirectoryId();
-        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray36 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] { nanoSatMOConnectorImpl17, nanoSatMOConnectorImpl23, nanoSatMOConnectorImpl25, nanoSatMOConnectorImpl30, nanoSatMOConnectorImpl32 };
+        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray36 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[]{nanoSatMOConnectorImpl17,
+                                                                                                                                                          nanoSatMOConnectorImpl23,
+                                                                                                                                                          nanoSatMOConnectorImpl25,
+                                                                                                                                                          nanoSatMOConnectorImpl30,
+                                                                                                                                                          nanoSatMOConnectorImpl32};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray37 = longList10.toArray(nanoSatMOConnectorImplArray36);
         int int38 = longList10.size();
         boolean boolean39 = byteList3.remove((java.lang.Object) longList10);
@@ -9518,12 +9819,13 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         java.lang.Long long5 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         java.lang.Long long6 = nanoSatMOConnectorImpl0.getAppDirectoryId();
-        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray7 = new esa.mo.mc.impl.provider.ParameterInstance[] {};
+        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray7 = new esa.mo.mc.impl.provider.ParameterInstance[]{};
         java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance> parameterInstanceList8 = new java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance>();
-        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList8, parameterInstanceArray7);
+        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList8,
+                                                        parameterInstanceArray7);
         try {
             java.lang.Boolean boolean11 = null; // flaky: nanoSatMOConnectorImpl0.pushMultipleParameterValues(parameterInstanceList8, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -9542,8 +9844,8 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
-// flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, (int) (short) 10, (int) '4', (int) '4', (long) 8);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, (int) (short) 10, (int) '4', (int) '4', (long) 8);
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -9568,16 +9870,18 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.UShort uShort13 = uLong7.getServiceNumber();
         try {
             java.lang.Boolean boolean14 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[16, 10, 1]", (java.io.Serializable) uShort13);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
         org.junit.Assert.assertNotNull(bigInteger6);
         org.junit.Assert.assertTrue("'" + long8 + "' != '" + 281474993487886L + "'", long8.equals(281474993487886L));
         org.junit.Assert.assertNotNull(uOctet9);
-        org.junit.Assert.assertTrue("'" + str10 + "' != '" + "18446744073709551615" + "'", str10.equals("18446744073709551615"));
+        org.junit.Assert.assertTrue("'" + str10 + "' != '" + "18446744073709551615" + "'", str10.equals(
+                                                                                                        "18446744073709551615"));
         org.junit.Assert.assertTrue("'" + int11 + "' != '" + 14 + "'", int11.equals(14));
-        org.junit.Assert.assertTrue("'" + str12 + "' != '" + "18446744073709551615" + "'", str12.equals("18446744073709551615"));
+        org.junit.Assert.assertTrue("'" + str12 + "' != '" + "18446744073709551615" + "'", str12.equals(
+                                                                                                        "18446744073709551615"));
         org.junit.Assert.assertNotNull(uShort13);
     }
 
@@ -9591,7 +9895,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener3 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI4 = nanoSatMOConnectorImpl0.readCentralDirectoryServiceURI();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -9606,7 +9910,7 @@ public class RegressionTest0 {
         java.lang.Long long3 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider4 = nanoSatMOConnectorImpl0.getCOMServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long2);
@@ -9625,25 +9929,29 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.Element element6 = octetList4.createElement();
         boolean boolean7 = octetList4.isEmpty();
         org.ccsds.moims.mo.mal.structures.UShort uShort8 = octetList4.getServiceNumber();
-        java.lang.Short[] shortArray12 = new java.lang.Short[] { (short) 1, (short) 100, (short) 100 };
+        java.lang.Short[] shortArray12 = new java.lang.Short[]{(short) 1, (short) 100, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList13 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList13, shortArray12);
+        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList13,
+                                                         shortArray12);
         boolean boolean16 = shortList13.equals((java.lang.Object) "hi!");
-        java.lang.String[] strArray18 = new java.lang.String[] { "hi!" };
+        java.lang.String[] strArray18 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList19 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean20 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList19, strArray18);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray21 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean20 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList19,
+                                                         strArray18);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray21 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList22 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList22, uShortArray21);
+        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList22,
+                                                         uShortArray21);
         int int25 = uShortList22.indexOf((java.lang.Object) 1.0f);
         boolean boolean26 = strList19.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList22);
         boolean boolean27 = shortList13.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList22);
         java.util.stream.Stream<java.lang.Short> shortStream28 = shortList13.stream();
         boolean boolean29 = octetList4.equals((java.lang.Object) shortStream28);
         org.ccsds.moims.mo.mal.structures.URI uRI30 = new org.ccsds.moims.mo.mal.structures.URI();
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray31 = new org.ccsds.moims.mo.mal.structures.URI[] { uRI30 };
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray31 = new org.ccsds.moims.mo.mal.structures.URI[]{uRI30};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList32 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean33 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList32, uRIArray31);
+        boolean boolean33 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList32,
+                                                         uRIArray31);
         int int34 = uRIList32.size();
         org.ccsds.moims.mo.mal.structures.URI uRI35 = new org.ccsds.moims.mo.mal.structures.URI();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet36 = uRI35.getAreaVersion();
@@ -9660,7 +9968,7 @@ public class RegressionTest0 {
         octetList4.ensureCapacity((-18));
         try {
             java.lang.Boolean boolean50 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[0, 0]", (java.io.Serializable) (-18));
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -9698,7 +10006,7 @@ public class RegressionTest0 {
     public void test364() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test364");
-        java.lang.String[] strArray3 = new java.lang.String[] { "hi!", "[-1, 281475010265070]", "hi!" };
+        java.lang.String[] strArray3 = new java.lang.String[]{"hi!", "[-1, 281475010265070]", "hi!"};
         java.util.ArrayList<java.lang.String> strList4 = new java.util.ArrayList<java.lang.String>();
         boolean boolean5 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList4, strArray3);
         java.util.Spliterator<java.lang.String> strSpliterator6 = strList4.spliterator();
@@ -9706,15 +10014,17 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.Union union9 = new org.ccsds.moims.mo.mal.structures.Union((java.lang.Boolean) true);
         java.lang.Long long10 = union9.getShortForm();
         int int11 = strList4.indexOf((java.lang.Object) long10);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray12 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray12 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList13 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList13, uShortArray12);
+        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList13,
+                                                         uShortArray12);
         int int16 = uShortList13.lastIndexOf((java.lang.Object) 'a');
         boolean boolean17 = uShortList13.isEmpty();
         org.ccsds.moims.mo.mal.structures.UShort uShort18 = new org.ccsds.moims.mo.mal.structures.UShort();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray19 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort18 };
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray19 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort18};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList20 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList20, uShortArray19);
+        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList20,
+                                                         uShortArray19);
         boolean boolean22 = uShortList13.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList20);
         boolean boolean23 = strList4.retainAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList20);
         java.lang.String str24 = uShortList20.toString();
@@ -9724,37 +10034,41 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl25.initAdditionalServices();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener29 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl25);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener30 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl25);
-        esa.mo.nmf.SimpleMonitoringInterface[] simpleMonitoringInterfaceArray31 = new esa.mo.nmf.SimpleMonitoringInterface[] { nanoSatMOConnectorImpl25 };
+        esa.mo.nmf.SimpleMonitoringInterface[] simpleMonitoringInterfaceArray31 = new esa.mo.nmf.SimpleMonitoringInterface[]{nanoSatMOConnectorImpl25};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl32 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         java.lang.Long long33 = nanoSatMOConnectorImpl32.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener34 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl32);
         nanoSatMOConnectorImpl32.initAdditionalServices();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener36 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl32);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener37 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl32);
-        esa.mo.nmf.SimpleMonitoringInterface[] simpleMonitoringInterfaceArray38 = new esa.mo.nmf.SimpleMonitoringInterface[] { nanoSatMOConnectorImpl32 };
+        esa.mo.nmf.SimpleMonitoringInterface[] simpleMonitoringInterfaceArray38 = new esa.mo.nmf.SimpleMonitoringInterface[]{nanoSatMOConnectorImpl32};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl39 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         java.lang.Long long40 = nanoSatMOConnectorImpl39.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener41 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl39);
         nanoSatMOConnectorImpl39.initAdditionalServices();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener43 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl39);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener44 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl39);
-        esa.mo.nmf.SimpleMonitoringInterface[] simpleMonitoringInterfaceArray45 = new esa.mo.nmf.SimpleMonitoringInterface[] { nanoSatMOConnectorImpl39 };
+        esa.mo.nmf.SimpleMonitoringInterface[] simpleMonitoringInterfaceArray45 = new esa.mo.nmf.SimpleMonitoringInterface[]{nanoSatMOConnectorImpl39};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl46 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         java.lang.Long long47 = nanoSatMOConnectorImpl46.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener48 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl46);
         nanoSatMOConnectorImpl46.initAdditionalServices();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener50 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl46);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener51 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl46);
-        esa.mo.nmf.SimpleMonitoringInterface[] simpleMonitoringInterfaceArray52 = new esa.mo.nmf.SimpleMonitoringInterface[] { nanoSatMOConnectorImpl46 };
+        esa.mo.nmf.SimpleMonitoringInterface[] simpleMonitoringInterfaceArray52 = new esa.mo.nmf.SimpleMonitoringInterface[]{nanoSatMOConnectorImpl46};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl53 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         java.lang.Long long54 = nanoSatMOConnectorImpl53.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener55 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl53);
         nanoSatMOConnectorImpl53.initAdditionalServices();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener57 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl53);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener58 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl53);
-        esa.mo.nmf.SimpleMonitoringInterface[] simpleMonitoringInterfaceArray59 = new esa.mo.nmf.SimpleMonitoringInterface[] { nanoSatMOConnectorImpl53 };
-        esa.mo.nmf.SimpleMonitoringInterface[][] simpleMonitoringInterfaceArray60 = new esa.mo.nmf.SimpleMonitoringInterface[][] { simpleMonitoringInterfaceArray31, simpleMonitoringInterfaceArray38, simpleMonitoringInterfaceArray45, simpleMonitoringInterfaceArray52, simpleMonitoringInterfaceArray59 };
-        esa.mo.nmf.SimpleMonitoringInterface[][][] simpleMonitoringInterfaceArray61 = new esa.mo.nmf.SimpleMonitoringInterface[][][] { simpleMonitoringInterfaceArray60 };
+        esa.mo.nmf.SimpleMonitoringInterface[] simpleMonitoringInterfaceArray59 = new esa.mo.nmf.SimpleMonitoringInterface[]{nanoSatMOConnectorImpl53};
+        esa.mo.nmf.SimpleMonitoringInterface[][] simpleMonitoringInterfaceArray60 = new esa.mo.nmf.SimpleMonitoringInterface[][]{simpleMonitoringInterfaceArray31,
+                                                                                                                                 simpleMonitoringInterfaceArray38,
+                                                                                                                                 simpleMonitoringInterfaceArray45,
+                                                                                                                                 simpleMonitoringInterfaceArray52,
+                                                                                                                                 simpleMonitoringInterfaceArray59};
+        esa.mo.nmf.SimpleMonitoringInterface[][][] simpleMonitoringInterfaceArray61 = new esa.mo.nmf.SimpleMonitoringInterface[][][]{simpleMonitoringInterfaceArray60};
         try {
             esa.mo.nmf.SimpleMonitoringInterface[][][] simpleMonitoringInterfaceArray62 = uShortList20.toArray(simpleMonitoringInterfaceArray61);
             org.junit.Assert.fail("Expected exception of type java.lang.ArrayStoreException; message: null");
@@ -9798,7 +10112,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider3 = nanoSatMOConnectorImpl0.getCOMServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -9813,46 +10127,54 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener3 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         java.lang.Long long4 = nanoSatMOConnectorImpl0.getAppDirectoryId();
-        java.lang.Long[] longArray11 = new java.lang.Long[] { 0L, 1L, 10L, 10L, 100L };
+        java.lang.Long[] longArray11 = new java.lang.Long[]{0L, 1L, 10L, 10L, 100L};
         java.util.ArrayList<java.lang.Long> longList12 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList12, longArray11);
+        boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList12,
+                                                         longArray11);
         longList12.trimToSize();
         java.lang.Long long16 = longList12.remove((int) (byte) 0);
         java.lang.String str17 = longList12.toString();
-        java.lang.Float[] floatArray22 = new java.lang.Float[] { (-1.0f), 10.0f, 10.0f, 1.0f };
+        java.lang.Float[] floatArray22 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f, 1.0f};
         java.util.ArrayList<java.lang.Float> floatList23 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean24 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList23, floatArray22);
+        boolean boolean24 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList23,
+                                                         floatArray22);
         int int26 = floatList23.lastIndexOf((java.lang.Object) (-1L));
-        java.lang.String[] strArray28 = new java.lang.String[] { "" };
+        java.lang.String[] strArray28 = new java.lang.String[]{""};
         java.util.ArrayList<java.lang.String> strList29 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList29, strArray28);
+        boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList29,
+                                                         strArray28);
         java.lang.Object obj31 = strList29.clone();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray32 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray32 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList33 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean34 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList33, uShortArray32);
+        boolean boolean34 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList33,
+                                                         uShortArray32);
         int int36 = uShortList33.lastIndexOf((java.lang.Object) 'a');
         boolean boolean37 = uShortList33.isEmpty();
         org.ccsds.moims.mo.mal.structures.UShort uShort38 = new org.ccsds.moims.mo.mal.structures.UShort();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray39 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort38 };
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray39 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort38};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList40 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean41 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList40, uShortArray39);
+        boolean boolean41 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList40,
+                                                         uShortArray39);
         boolean boolean42 = uShortList33.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList40);
         boolean boolean43 = strList29.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList40);
         boolean boolean44 = floatList23.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList40);
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream45 = uShortList40.stream();
         boolean boolean46 = longList12.retainAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList40);
-        java.lang.Long[] longArray49 = new java.lang.Long[] { (-1L), 281475010265070L };
+        java.lang.Long[] longArray49 = new java.lang.Long[]{(-1L), 281475010265070L};
         java.util.ArrayList<java.lang.Long> longList50 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean51 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList50, longArray49);
+        boolean boolean51 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList50,
+                                                         longArray49);
         java.lang.String str52 = longList50.toString();
         org.ccsds.moims.mo.mal.structures.UShort uShort53 = org.ccsds.moims.mo.mal.structures.BooleanList.SERVICE_SHORT_FORM;
         int int54 = longList50.lastIndexOf((java.lang.Object) uShort53);
         boolean boolean56 = longList50.add((java.lang.Long) 281474993487873L);
         org.ccsds.moims.mo.mal.structures.UShort uShort57 = org.ccsds.moims.mo.mal.structures.URIList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort uShort58 = new org.ccsds.moims.mo.mal.structures.UShort();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray59 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort57, uShort58 };
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray59 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort57,
+                                                                                                                  uShort58};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList60 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean61 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList60, uShortArray59);
+        boolean boolean61 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList60,
+                                                         uShortArray59);
         org.ccsds.moims.mo.mal.structures.UShort uShort63 = new org.ccsds.moims.mo.mal.structures.UShort();
         org.ccsds.moims.mo.mal.structures.UShort uShort64 = uShortList60.set((int) (short) 0, uShort63);
         boolean boolean65 = longList50.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList60);
@@ -9861,14 +10183,15 @@ public class RegressionTest0 {
         java.util.Iterator<java.lang.Long> longItor68 = longList12.iterator();
         try {
             java.lang.Boolean boolean69 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("281474993487875", (java.io.Serializable) longList12);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long4);
         org.junit.Assert.assertNotNull(longArray11);
         org.junit.Assert.assertTrue("'" + boolean13 + "' != '" + true + "'", boolean13);
         org.junit.Assert.assertTrue("'" + long16 + "' != '" + 0L + "'", long16.equals(0L));
-        org.junit.Assert.assertTrue("'" + str17 + "' != '" + "[1, 10, 10, 100]" + "'", str17.equals("[1, 10, 10, 100]"));
+        org.junit.Assert.assertTrue("'" + str17 + "' != '" + "[1, 10, 10, 100]" + "'", str17.equals(
+                                                                                                    "[1, 10, 10, 100]"));
         org.junit.Assert.assertNotNull(floatArray22);
         org.junit.Assert.assertTrue("'" + boolean24 + "' != '" + true + "'", boolean24);
         org.junit.Assert.assertTrue("'" + int26 + "' != '" + (-1) + "'", int26 == (-1));
@@ -9888,7 +10211,8 @@ public class RegressionTest0 {
         org.junit.Assert.assertTrue("'" + boolean46 + "' != '" + true + "'", boolean46);
         org.junit.Assert.assertNotNull(longArray49);
         org.junit.Assert.assertTrue("'" + boolean51 + "' != '" + true + "'", boolean51);
-        org.junit.Assert.assertTrue("'" + str52 + "' != '" + "[-1, 281475010265070]" + "'", str52.equals("[-1, 281475010265070]"));
+        org.junit.Assert.assertTrue("'" + str52 + "' != '" + "[-1, 281475010265070]" + "'", str52.equals(
+                                                                                                         "[-1, 281475010265070]"));
         org.junit.Assert.assertNotNull(uShort53);
         org.junit.Assert.assertTrue("'" + int54 + "' != '" + (-1) + "'", int54 == (-1));
         org.junit.Assert.assertTrue("'" + boolean56 + "' != '" + true + "'", boolean56);
@@ -9909,12 +10233,13 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         java.lang.Long long1 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         nanoSatMOConnectorImpl0.initAdditionalServices();
-        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray3 = new esa.mo.mc.impl.provider.ParameterInstance[] {};
+        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray3 = new esa.mo.mc.impl.provider.ParameterInstance[]{};
         java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance> parameterInstanceList4 = new java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance>();
-        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList4, parameterInstanceArray3);
+        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList4,
+                                                        parameterInstanceArray3);
         try {
             java.lang.Boolean boolean7 = null; // flaky: nanoSatMOConnectorImpl0.pushMultipleParameterValues(parameterInstanceList4, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -9931,7 +10256,7 @@ public class RegressionTest0 {
         java.lang.Long long2 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails configurationObjectDetails3 = null; // flaky: nanoSatMOConnectorImpl0.getCurrentConfiguration();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long2);
@@ -9945,12 +10270,13 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener1 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         nanoSatMOConnectorImpl0.initAdditionalServices();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener3 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
-        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray4 = new esa.mo.mc.impl.provider.ParameterInstance[] {};
+        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray4 = new esa.mo.mc.impl.provider.ParameterInstance[]{};
         java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance> parameterInstanceList5 = new java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance>();
-        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList5, parameterInstanceArray4);
+        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList5,
+                                                        parameterInstanceArray4);
         try {
             java.lang.Boolean boolean8 = null; // flaky: nanoSatMOConnectorImpl0.pushMultipleParameterValues(parameterInstanceList5, false);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(parameterInstanceArray4);
@@ -9972,7 +10298,7 @@ public class RegressionTest0 {
         java.lang.Long long8 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF9 = null; // flaky: nanoSatMOConnectorImpl0.getMCServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -9997,7 +10323,7 @@ public class RegressionTest0 {
         java.util.Spliterator<java.lang.Float> floatSpliterator13 = floatList10.spliterator();
         try {
             java.lang.Boolean boolean14 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[16, 10, 1]", (java.io.Serializable) floatList10);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -10010,9 +10336,10 @@ public class RegressionTest0 {
     public void test372() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test372");
-        java.lang.Float[] floatArray1 = new java.lang.Float[] { 1.0f };
+        java.lang.Float[] floatArray1 = new java.lang.Float[]{1.0f};
         java.util.ArrayList<java.lang.Float> floatList2 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2, floatArray1);
+        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2,
+                                                        floatArray1);
         java.util.ListIterator<java.lang.Float> floatItor4 = floatList2.listIterator();
         int int6 = floatList2.indexOf((java.lang.Object) "[-1, 281475010265070]");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl7 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
@@ -10024,7 +10351,7 @@ public class RegressionTest0 {
         java.lang.Long long13 = nanoSatMOConnectorImpl7.getAppDirectoryId();
         try {
             esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF14 = null; // flaky: nanoSatMOConnectorImpl7.getMCServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(floatArray1);
@@ -10070,7 +10397,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             java.util.ArrayList<esa.mo.reconfigurable.service.ReconfigurableService> reconfigurableServiceList8 = nanoSatMOConnectorImpl0.getServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -10087,8 +10414,8 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener4 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener5 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
-// flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(true, 7, 9, (-4), (long) 13);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(true, 7, 9, (-4), (long) 13);
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -10105,7 +10432,7 @@ public class RegressionTest0 {
         java.lang.Long long4 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             nanoSatMOConnectorImpl0.writeCentralDirectoryServiceURI("-9", "17");
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -10126,7 +10453,7 @@ public class RegressionTest0 {
         java.util.ListIterator<java.lang.Long> longItor8 = longList7.listIterator();
         try {
             java.lang.Boolean boolean10 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("17", (java.io.Serializable) longList7, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -10145,7 +10472,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider5 = nanoSatMOConnectorImpl0.getCOMServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -10160,7 +10487,7 @@ public class RegressionTest0 {
         java.lang.Long long1 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             org.ccsds.moims.mo.mal.structures.Identifier identifier2 = nanoSatMOConnectorImpl0.getProviderName();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -10187,7 +10514,7 @@ public class RegressionTest0 {
         java.lang.String str16 = floatList11.toString();
         try {
             java.lang.Boolean boolean17 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[100, 100]", (java.io.Serializable) str16);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -10210,7 +10537,7 @@ public class RegressionTest0 {
         java.io.Serializable serializable6 = null;
         try {
             java.lang.Boolean boolean7 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("", serializable6);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long2);
@@ -10232,7 +10559,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             java.util.ArrayList<esa.mo.reconfigurable.service.ReconfigurableService> reconfigurableServiceList9 = nanoSatMOConnectorImpl0.getServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -10250,12 +10577,13 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.Duration duration4 = new org.ccsds.moims.mo.mal.structures.Duration();
         double double5 = duration4.getValue();
         org.ccsds.moims.mo.mal.structures.UShort uShort6 = duration4.getServiceNumber();
-        java.lang.String[] strArray8 = new java.lang.String[] { "hi!" };
+        java.lang.String[] strArray8 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList9 = new java.util.ArrayList<java.lang.String>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList9, strArray8);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray11 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray11 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList12 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean13 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList12, uShortArray11);
+        boolean boolean13 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList12,
+                                                         uShortArray11);
         int int15 = uShortList12.indexOf((java.lang.Object) 1.0f);
         boolean boolean16 = strList9.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList12);
         java.util.ListIterator<java.lang.String> strItor17 = strList9.listIterator();
@@ -10264,19 +10592,22 @@ public class RegressionTest0 {
         boolean boolean20 = duration4.equals((java.lang.Object) strSpliterator19);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet21 = duration4.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.UShort uShort22 = duration4.getAreaNumber();
-        java.lang.String[] strArray24 = new java.lang.String[] { "" };
+        java.lang.String[] strArray24 = new java.lang.String[]{""};
         java.util.ArrayList<java.lang.String> strList25 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean26 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList25, strArray24);
+        boolean boolean26 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList25,
+                                                         strArray24);
         java.lang.Object obj27 = strList25.clone();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray28 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray28 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList29 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean30 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList29, uShortArray28);
+        boolean boolean30 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList29,
+                                                         uShortArray28);
         int int32 = uShortList29.lastIndexOf((java.lang.Object) 'a');
         boolean boolean33 = uShortList29.isEmpty();
         org.ccsds.moims.mo.mal.structures.UShort uShort34 = new org.ccsds.moims.mo.mal.structures.UShort();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray35 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort34 };
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray35 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort34};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList36 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean37 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList36, uShortArray35);
+        boolean boolean37 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList36,
+                                                         uShortArray35);
         boolean boolean38 = uShortList29.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList36);
         boolean boolean39 = strList25.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList36);
         java.lang.Object obj40 = strList25.clone();
@@ -10289,7 +10620,7 @@ public class RegressionTest0 {
         boolean boolean48 = strList25.contains((java.lang.Object) element47);
         try {
             java.lang.Boolean boolean49 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[1]", (java.io.Serializable) strList25);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertTrue("'" + double5 + "' != '" + 0.0d + "'", double5 == 0.0d);
@@ -10330,9 +10661,10 @@ public class RegressionTest0 {
     public void test384() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test384");
-        java.lang.Float[] floatArray3 = new java.lang.Float[] { 10.0f, 100.0f, (-1.0f) };
+        java.lang.Float[] floatArray3 = new java.lang.Float[]{10.0f, 100.0f, (-1.0f)};
         java.util.ArrayList<java.lang.Float> floatList4 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList4, floatArray3);
+        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList4,
+                                                        floatArray3);
         boolean boolean7 = floatList4.add((java.lang.Float) 10.0f);
         floatList4.trimToSize();
         boolean boolean9 = floatList4.isEmpty();
@@ -10345,12 +10677,13 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener16 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl11);
         boolean boolean17 = floatList4.equals((java.lang.Object) nanoSatMOConnectorImpl11);
         nanoSatMOConnectorImpl11.initAdditionalServices();
-        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray19 = new esa.mo.mc.impl.provider.ParameterInstance[] {};
+        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray19 = new esa.mo.mc.impl.provider.ParameterInstance[]{};
         java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance> parameterInstanceList20 = new java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance>();
-        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList20, parameterInstanceArray19);
+        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList20,
+                                                         parameterInstanceArray19);
         try {
             java.lang.Boolean boolean23 = null; // flaky: nanoSatMOConnectorImpl11.pushMultipleParameterValues(parameterInstanceList20, false);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(floatArray3);
@@ -10376,7 +10709,7 @@ public class RegressionTest0 {
         java.lang.Long long4 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             nanoSatMOConnectorImpl0.writeCentralDirectoryServiceURI("[-1.0, 0.0, 0.0, 10.0]", "10");
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -10391,8 +10724,8 @@ public class RegressionTest0 {
         java.lang.Long long1 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
-// flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(true, 65535, (-9), 13, 281475010265083L);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(true, 65535, (-9), 13, 281475010265083L);
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -10411,7 +10744,7 @@ public class RegressionTest0 {
         java.lang.Object[] objArray8 = stringList5.toArray();
         try {
             java.lang.Boolean boolean9 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[1, 10, 100]", (java.io.Serializable) objArray8);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(wildcardClass3);
@@ -10429,7 +10762,7 @@ public class RegressionTest0 {
         java.lang.Long long3 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             esa.mo.nmf.CloseAppListener closeAppListener4 = nanoSatMOConnectorImpl0.getCloseAppListener();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -10475,12 +10808,16 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl29.initAdditionalServices();
         java.lang.Long long34 = nanoSatMOConnectorImpl29.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener35 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl29);
-        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray36 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] { nanoSatMOConnectorImpl11, nanoSatMOConnectorImpl18, nanoSatMOConnectorImpl22, nanoSatMOConnectorImpl27, nanoSatMOConnectorImpl29 };
+        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray36 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[]{nanoSatMOConnectorImpl11,
+                                                                                                                                                          nanoSatMOConnectorImpl18,
+                                                                                                                                                          nanoSatMOConnectorImpl22,
+                                                                                                                                                          nanoSatMOConnectorImpl27,
+                                                                                                                                                          nanoSatMOConnectorImpl29};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray37 = longList9.toArray(nanoSatMOConnectorImplArray36);
         java.lang.Long long38 = longList9.getShortForm();
         try {
             java.lang.Boolean boolean40 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[10.0, 0.0, -1.0, -1.0, 0.0, 0.0]", (java.io.Serializable) long38, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -10504,16 +10841,19 @@ public class RegressionTest0 {
         java.lang.Object obj2 = booleanList1.clone();
         org.ccsds.moims.mo.mal.structures.IntegerList integerList3 = new org.ccsds.moims.mo.mal.structures.IntegerList();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet4 = integerList3.getAreaVersion();
-        java.lang.Short[] shortArray8 = new java.lang.Short[] { (short) 1, (short) 100, (short) 100 };
+        java.lang.Short[] shortArray8 = new java.lang.Short[]{(short) 1, (short) 100, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList9 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList9, shortArray8);
+        boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList9,
+                                                         shortArray8);
         boolean boolean12 = shortList9.equals((java.lang.Object) "hi!");
-        java.lang.String[] strArray14 = new java.lang.String[] { "hi!" };
+        java.lang.String[] strArray14 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList15 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList15, strArray14);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray17 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList15,
+                                                         strArray14);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray17 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList18 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean19 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList18, uShortArray17);
+        boolean boolean19 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList18,
+                                                         uShortArray17);
         int int21 = uShortList18.indexOf((java.lang.Object) 1.0f);
         boolean boolean22 = strList15.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList18);
         boolean boolean23 = shortList9.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList18);
@@ -10521,31 +10861,36 @@ public class RegressionTest0 {
         boolean boolean25 = integerList3.contains((java.lang.Object) uShortList18);
         boolean boolean26 = booleanList1.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList18);
         java.lang.Long long27 = booleanList1.getShortForm();
-        java.lang.String[] strArray29 = new java.lang.String[] { "hi!" };
+        java.lang.String[] strArray29 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList30 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean31 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList30, strArray29);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray32 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean31 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList30,
+                                                         strArray29);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray32 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList33 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean34 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList33, uShortArray32);
+        boolean boolean34 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList33,
+                                                         uShortArray32);
         int int36 = uShortList33.indexOf((java.lang.Object) 1.0f);
         boolean boolean37 = strList30.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList33);
         boolean boolean39 = uShortList33.remove((java.lang.Object) (byte) 1);
         org.ccsds.moims.mo.mal.structures.URI uRI40 = new org.ccsds.moims.mo.mal.structures.URI();
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray41 = new org.ccsds.moims.mo.mal.structures.URI[] { uRI40 };
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray41 = new org.ccsds.moims.mo.mal.structures.URI[]{uRI40};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList42 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean43 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList42, uRIArray41);
+        boolean boolean43 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList42,
+                                                         uRIArray41);
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream44 = uRIList42.parallelStream();
         java.util.Spliterator<org.ccsds.moims.mo.mal.structures.URI> uRISpliterator45 = uRIList42.spliterator();
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream46 = uRIList42.parallelStream();
         boolean boolean47 = uShortList33.remove((java.lang.Object) uRIStream46);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray48 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray48 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList49 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean50 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList49, uShortArray48);
+        boolean boolean50 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList49,
+                                                         uShortArray48);
         int int52 = uShortList49.lastIndexOf((java.lang.Object) 'a');
         boolean boolean53 = uShortList33.removeAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList49);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray54 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray54 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList55 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean56 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList55, uShortArray54);
+        boolean boolean56 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList55,
+                                                         uShortArray54);
         int int58 = uShortList55.lastIndexOf((java.lang.Object) 'a');
         boolean boolean59 = uShortList55.isEmpty();
         uShortList55.clear();
@@ -10579,7 +10924,11 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener89 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl88);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener90 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl88);
         java.lang.Long long91 = nanoSatMOConnectorImpl88.getAppDirectoryId();
-        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray92 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] { nanoSatMOConnectorImpl73, nanoSatMOConnectorImpl79, nanoSatMOConnectorImpl81, nanoSatMOConnectorImpl86, nanoSatMOConnectorImpl88 };
+        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray92 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[]{nanoSatMOConnectorImpl73,
+                                                                                                                                                          nanoSatMOConnectorImpl79,
+                                                                                                                                                          nanoSatMOConnectorImpl81,
+                                                                                                                                                          nanoSatMOConnectorImpl86,
+                                                                                                                                                          nanoSatMOConnectorImpl88};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray93 = longList66.toArray(nanoSatMOConnectorImplArray92);
         esa.mo.nmf.NMFProvider[] nMFProviderArray94 = uShortList55.toArray((esa.mo.nmf.NMFProvider[]) nanoSatMOConnectorImplArray93);
         org.junit.Assert.assertNotNull(obj2);
@@ -10649,7 +10998,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener6 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF7 = null; // flaky: nanoSatMOConnectorImpl0.getMCServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -10685,7 +11034,11 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener23 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl22);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener24 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl22);
         java.lang.Long long25 = nanoSatMOConnectorImpl22.getAppDirectoryId();
-        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray26 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] { nanoSatMOConnectorImpl7, nanoSatMOConnectorImpl13, nanoSatMOConnectorImpl15, nanoSatMOConnectorImpl20, nanoSatMOConnectorImpl22 };
+        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray26 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[]{nanoSatMOConnectorImpl7,
+                                                                                                                                                          nanoSatMOConnectorImpl13,
+                                                                                                                                                          nanoSatMOConnectorImpl15,
+                                                                                                                                                          nanoSatMOConnectorImpl20,
+                                                                                                                                                          nanoSatMOConnectorImpl22};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray27 = longList0.toArray(nanoSatMOConnectorImplArray26);
         int int28 = longList0.size();
         longList0.ensureCapacity((int) '#');
@@ -10708,9 +11061,10 @@ public class RegressionTest0 {
     public void test393() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test393");
-        java.lang.Float[] floatArray3 = new java.lang.Float[] { 10.0f, 100.0f, (-1.0f) };
+        java.lang.Float[] floatArray3 = new java.lang.Float[]{10.0f, 100.0f, (-1.0f)};
         java.util.ArrayList<java.lang.Float> floatList4 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList4, floatArray3);
+        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList4,
+                                                        floatArray3);
         boolean boolean7 = floatList4.add((java.lang.Float) 10.0f);
         floatList4.trimToSize();
         boolean boolean9 = floatList4.isEmpty();
@@ -10725,7 +11079,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl11.initAdditionalServices();
         try {
             esa.mo.nmf.CloseAppListener closeAppListener19 = nanoSatMOConnectorImpl11.getCloseAppListener();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(floatArray3);
@@ -10746,16 +11100,19 @@ public class RegressionTest0 {
         boolean boolean2 = stringList0.equals((java.lang.Object) (byte) -1);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet3 = stringList0.getAreaVersion();
         stringList0.clear();
-        java.lang.Short[] shortArray8 = new java.lang.Short[] { (short) 1, (short) 100, (short) 100 };
+        java.lang.Short[] shortArray8 = new java.lang.Short[]{(short) 1, (short) 100, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList9 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList9, shortArray8);
+        boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList9,
+                                                         shortArray8);
         boolean boolean12 = shortList9.equals((java.lang.Object) "hi!");
-        java.lang.String[] strArray14 = new java.lang.String[] { "hi!" };
+        java.lang.String[] strArray14 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList15 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList15, strArray14);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray17 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList15,
+                                                         strArray14);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray17 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList18 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean19 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList18, uShortArray17);
+        boolean boolean19 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList18,
+                                                         uShortArray17);
         int int21 = uShortList18.indexOf((java.lang.Object) 1.0f);
         boolean boolean22 = strList15.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList18);
         boolean boolean23 = shortList9.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList18);
@@ -10770,7 +11127,7 @@ public class RegressionTest0 {
         boolean boolean32 = stringList0.contains((java.lang.Object) nanoSatMOConnectorImpl26);
         try {
             esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF33 = null; // flaky: nanoSatMOConnectorImpl26.getMCServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + false + "'", !boolean2);
@@ -10814,7 +11171,7 @@ public class RegressionTest0 {
         java.lang.Integer int3 = union1.getTypeShortForm();
         java.lang.Byte byte4 = union1.getOctetValue();
         org.ccsds.moims.mo.mal.structures.UShort uShort5 = union1.getServiceNumber();
-        java.lang.Byte[] byteArray8 = new java.lang.Byte[] { (byte) 100, (byte) 100 };
+        java.lang.Byte[] byteArray8 = new java.lang.Byte[]{(byte) 100, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList9 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList9, byteArray8);
         java.util.ListIterator<java.lang.Byte> byteItor12 = byteList9.listIterator((int) (short) 1);
@@ -10845,7 +11202,11 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener39 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl38);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener40 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl38);
         java.lang.Long long41 = nanoSatMOConnectorImpl38.getAppDirectoryId();
-        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray42 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] { nanoSatMOConnectorImpl23, nanoSatMOConnectorImpl29, nanoSatMOConnectorImpl31, nanoSatMOConnectorImpl36, nanoSatMOConnectorImpl38 };
+        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray42 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[]{nanoSatMOConnectorImpl23,
+                                                                                                                                                          nanoSatMOConnectorImpl29,
+                                                                                                                                                          nanoSatMOConnectorImpl31,
+                                                                                                                                                          nanoSatMOConnectorImpl36,
+                                                                                                                                                          nanoSatMOConnectorImpl38};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray43 = longList16.toArray(nanoSatMOConnectorImplArray42);
         int int44 = longList16.size();
         boolean boolean45 = byteList9.remove((java.lang.Object) longList16);
@@ -10885,7 +11246,7 @@ public class RegressionTest0 {
     public void test397() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test397");
-        java.lang.Byte[] byteArray2 = new java.lang.Byte[] { (byte) 100, (byte) 100 };
+        java.lang.Byte[] byteArray2 = new java.lang.Byte[]{(byte) 100, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList3 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList3, byteArray2);
         java.util.ListIterator<java.lang.Byte> byteItor6 = byteList3.listIterator((int) (short) 1);
@@ -10916,7 +11277,11 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener33 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl32);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener34 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl32);
         java.lang.Long long35 = nanoSatMOConnectorImpl32.getAppDirectoryId();
-        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray36 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] { nanoSatMOConnectorImpl17, nanoSatMOConnectorImpl23, nanoSatMOConnectorImpl25, nanoSatMOConnectorImpl30, nanoSatMOConnectorImpl32 };
+        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray36 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[]{nanoSatMOConnectorImpl17,
+                                                                                                                                                          nanoSatMOConnectorImpl23,
+                                                                                                                                                          nanoSatMOConnectorImpl25,
+                                                                                                                                                          nanoSatMOConnectorImpl30,
+                                                                                                                                                          nanoSatMOConnectorImpl32};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray37 = longList10.toArray(nanoSatMOConnectorImplArray36);
         int int38 = longList10.size();
         boolean boolean39 = byteList3.remove((java.lang.Object) longList10);
@@ -10954,7 +11319,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener4 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             java.util.ArrayList<esa.mo.reconfigurable.service.ReconfigurableService> reconfigurableServiceList5 = nanoSatMOConnectorImpl0.getServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -10974,7 +11339,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener6 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI7 = nanoSatMOConnectorImpl0.readCentralDirectoryServiceURI();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -10991,7 +11356,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI5 = nanoSatMOConnectorImpl0.readCentralDirectoryServiceURI();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -11010,7 +11375,7 @@ public class RegressionTest0 {
         java.io.Serializable serializable6 = null;
         try {
             java.lang.Boolean boolean8 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[1]", serializable6, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -11029,8 +11394,8 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
-// flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, 5, 15, (int) (short) 1, (long) (short) -1);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, 5, 15, (int) (short) 1, (long) (short) -1);
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -11049,7 +11414,7 @@ public class RegressionTest0 {
         java.lang.Long long6 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             java.util.ArrayList<esa.mo.reconfigurable.service.ReconfigurableService> reconfigurableServiceList7 = nanoSatMOConnectorImpl0.getServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -11067,7 +11432,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener4 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             java.util.ArrayList<esa.mo.reconfigurable.service.ReconfigurableService> reconfigurableServiceList5 = nanoSatMOConnectorImpl0.getServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -11081,12 +11446,13 @@ public class RegressionTest0 {
         java.lang.Long long2 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         java.lang.Long long3 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener4 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
-        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray5 = new esa.mo.mc.impl.provider.ParameterInstance[] {};
+        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray5 = new esa.mo.mc.impl.provider.ParameterInstance[]{};
         java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance> parameterInstanceList6 = new java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance>();
-        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList6, parameterInstanceArray5);
+        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList6,
+                                                        parameterInstanceArray5);
         try {
             java.lang.Boolean boolean9 = null; // flaky: nanoSatMOConnectorImpl0.pushMultipleParameterValues(parameterInstanceList6, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long2);
@@ -11103,16 +11469,19 @@ public class RegressionTest0 {
         boolean boolean2 = stringList0.equals((java.lang.Object) (byte) -1);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet3 = stringList0.getAreaVersion();
         stringList0.clear();
-        java.lang.Short[] shortArray8 = new java.lang.Short[] { (short) 1, (short) 100, (short) 100 };
+        java.lang.Short[] shortArray8 = new java.lang.Short[]{(short) 1, (short) 100, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList9 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList9, shortArray8);
+        boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList9,
+                                                         shortArray8);
         boolean boolean12 = shortList9.equals((java.lang.Object) "hi!");
-        java.lang.String[] strArray14 = new java.lang.String[] { "hi!" };
+        java.lang.String[] strArray14 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList15 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList15, strArray14);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray17 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList15,
+                                                         strArray14);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray17 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList18 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean19 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList18, uShortArray17);
+        boolean boolean19 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList18,
+                                                         uShortArray17);
         int int21 = uShortList18.indexOf((java.lang.Object) 1.0f);
         boolean boolean22 = strList15.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList18);
         boolean boolean23 = shortList9.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList18);
@@ -11127,7 +11496,7 @@ public class RegressionTest0 {
         boolean boolean32 = stringList0.contains((java.lang.Object) nanoSatMOConnectorImpl26);
         try {
             esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider33 = nanoSatMOConnectorImpl26.getCOMServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + false + "'", !boolean2);
@@ -11164,7 +11533,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             esa.mo.platform.impl.util.PlatformServicesConsumer platformServicesConsumer9 = null; // flaky: nanoSatMOConnectorImpl0.getPlatformServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -11174,9 +11543,10 @@ public class RegressionTest0 {
     public void test408() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test408");
-        java.lang.Float[] floatArray1 = new java.lang.Float[] { 1.0f };
+        java.lang.Float[] floatArray1 = new java.lang.Float[]{1.0f};
         java.util.ArrayList<java.lang.Float> floatList2 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2, floatArray1);
+        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2,
+                                                        floatArray1);
         java.util.ListIterator<java.lang.Float> floatItor4 = floatList2.listIterator();
         int int6 = floatList2.indexOf((java.lang.Object) "[-1, 281475010265070]");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl7 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
@@ -11188,7 +11558,7 @@ public class RegressionTest0 {
         java.lang.Long long13 = nanoSatMOConnectorImpl7.getAppDirectoryId();
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI14 = nanoSatMOConnectorImpl7.readCentralDirectoryServiceURI();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(floatArray1);
@@ -11212,7 +11582,7 @@ public class RegressionTest0 {
         java.lang.Long long4 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider5 = nanoSatMOConnectorImpl0.getCOMServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long4);
@@ -11227,12 +11597,13 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         java.lang.Long long3 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         nanoSatMOConnectorImpl0.initAdditionalServices();
-        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray5 = new esa.mo.mc.impl.provider.ParameterInstance[] {};
+        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray5 = new esa.mo.mc.impl.provider.ParameterInstance[]{};
         java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance> parameterInstanceList6 = new java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance>();
-        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList6, parameterInstanceArray5);
+        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList6,
+                                                        parameterInstanceArray5);
         try {
             java.lang.Boolean boolean9 = null; // flaky: nanoSatMOConnectorImpl0.pushMultipleParameterValues(parameterInstanceList6, false);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -11254,7 +11625,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF7 = null; // flaky: nanoSatMOConnectorImpl0.getMCServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -11269,12 +11640,13 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener1 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         java.lang.Class<?> wildcardClass3 = nanoSatMOConnectorImpl0.getClass();
-        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray4 = new esa.mo.mc.impl.provider.ParameterInstance[] {};
+        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray4 = new esa.mo.mc.impl.provider.ParameterInstance[]{};
         java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance> parameterInstanceList5 = new java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance>();
-        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList5, parameterInstanceArray4);
+        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList5,
+                                                        parameterInstanceArray4);
         try {
             java.lang.Boolean boolean8 = null; // flaky: nanoSatMOConnectorImpl0.pushMultipleParameterValues(parameterInstanceList5, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(wildcardClass3);
@@ -11295,7 +11667,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             org.ccsds.moims.mo.mal.structures.Identifier identifier7 = nanoSatMOConnectorImpl0.getProviderName();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -11310,16 +11682,19 @@ public class RegressionTest0 {
         boolean boolean2 = stringList0.equals((java.lang.Object) (byte) -1);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet3 = stringList0.getAreaVersion();
         stringList0.clear();
-        java.lang.Short[] shortArray8 = new java.lang.Short[] { (short) 1, (short) 100, (short) 100 };
+        java.lang.Short[] shortArray8 = new java.lang.Short[]{(short) 1, (short) 100, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList9 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList9, shortArray8);
+        boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList9,
+                                                         shortArray8);
         boolean boolean12 = shortList9.equals((java.lang.Object) "hi!");
-        java.lang.String[] strArray14 = new java.lang.String[] { "hi!" };
+        java.lang.String[] strArray14 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList15 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList15, strArray14);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray17 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList15,
+                                                         strArray14);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray17 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList18 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean19 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList18, uShortArray17);
+        boolean boolean19 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList18,
+                                                         uShortArray17);
         int int21 = uShortList18.indexOf((java.lang.Object) 1.0f);
         boolean boolean22 = strList15.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList18);
         boolean boolean23 = shortList9.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList18);
@@ -11334,7 +11709,7 @@ public class RegressionTest0 {
         boolean boolean32 = stringList0.contains((java.lang.Object) nanoSatMOConnectorImpl26);
         try {
             esa.mo.nmf.CloseAppListener closeAppListener33 = nanoSatMOConnectorImpl26.getCloseAppListener();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + false + "'", !boolean2);
@@ -11366,7 +11741,7 @@ public class RegressionTest0 {
         java.lang.Long long3 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails configurationObjectDetails4 = null; // flaky: nanoSatMOConnectorImpl0.getCurrentConfiguration();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -11387,7 +11762,7 @@ public class RegressionTest0 {
         java.lang.Long long6 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI7 = nanoSatMOConnectorImpl0.readCentralDirectoryServiceURI();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -11405,7 +11780,7 @@ public class RegressionTest0 {
         java.lang.Class<?> wildcardClass3 = nanoSatMOConnectorImpl0.getClass();
         try {
             org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails configurationObjectDetails4 = null; // flaky: nanoSatMOConnectorImpl0.getCurrentConfiguration();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(wildcardClass3);
@@ -11424,32 +11799,42 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener6 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         org.ccsds.moims.mo.mal.structures.URI uRI8 = new org.ccsds.moims.mo.mal.structures.URI();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet9 = uRI8.getAreaVersion();
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray10 = new org.ccsds.moims.mo.mal.structures.URI[] { uRI8 };
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray10 = new org.ccsds.moims.mo.mal.structures.URI[]{uRI8};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList11 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean12 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList11, uRIArray10);
+        boolean boolean12 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList11,
+                                                         uRIArray10);
         java.util.ListIterator<org.ccsds.moims.mo.mal.structures.URI> uRIItor14 = uRIList11.listIterator((int) (short) 0);
         org.ccsds.moims.mo.mal.structures.DoubleList doubleList16 = new org.ccsds.moims.mo.mal.structures.DoubleList(7);
         java.lang.Object obj17 = doubleList16.clone();
         org.ccsds.moims.mo.mal.structures.UShort uShort18 = doubleList16.getAreaNumber();
-        java.lang.String[] strArray38 = new java.lang.String[] { "0.0", "17", "[-1.0, 10.0, 10.0, 1.0]", "-1", "[0.0, 0.0, 0.0, 10.0]", "0", "0.0", "[16, 100, 10, 1]", "", "[, ]", "[false, true, false]", "[-1.0, 10.0, 10.0, 1.0]", "100", "100", "100", "[-1, 10, 1]", "0", "[-1, 10, 1]", "[]" };
+        java.lang.String[] strArray38 = new java.lang.String[]{"0.0", "17", "[-1.0, 10.0, 10.0, 1.0]", "-1",
+                                                               "[0.0, 0.0, 0.0, 10.0]", "0", "0.0", "[16, 100, 10, 1]",
+                                                               "", "[, ]", "[false, true, false]",
+                                                               "[-1.0, 10.0, 10.0, 1.0]", "100", "100", "100",
+                                                               "[-1, 10, 1]", "0", "[-1, 10, 1]", "[]"};
         java.util.ArrayList<java.lang.String> strList39 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean40 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList39, strArray38);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray41 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean40 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList39,
+                                                         strArray38);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray41 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList42 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean43 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList42, uShortArray41);
+        boolean boolean43 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList42,
+                                                         uShortArray41);
         int int45 = uShortList42.lastIndexOf((java.lang.Object) 'a');
         boolean boolean46 = uShortList42.isEmpty();
         org.ccsds.moims.mo.mal.structures.UShort uShort47 = new org.ccsds.moims.mo.mal.structures.UShort();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray48 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort47 };
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray48 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort47};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList49 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean50 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList49, uShortArray48);
+        boolean boolean50 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList49,
+                                                         uShortArray48);
         boolean boolean51 = uShortList42.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList49);
-        java.lang.String[] strArray53 = new java.lang.String[] { "hi!" };
+        java.lang.String[] strArray53 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList54 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean55 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList54, strArray53);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray56 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean55 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList54,
+                                                         strArray53);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray56 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList57 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean58 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList57, uShortArray56);
+        boolean boolean58 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList57,
+                                                         uShortArray56);
         int int60 = uShortList57.indexOf((java.lang.Object) 1.0f);
         boolean boolean61 = strList54.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList57);
         boolean boolean62 = uShortList42.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList57);
@@ -11460,7 +11845,7 @@ public class RegressionTest0 {
         doubleList16.ensureCapacity(12);
         try {
             java.lang.Boolean boolean69 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[0.0, 0.0, 0.0, 10.0]", (java.io.Serializable) doubleList16);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -11503,64 +11888,75 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener4 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         java.lang.Long long5 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener6 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
-        java.lang.Short[] shortArray11 = new java.lang.Short[] { (short) 1, (short) -1, (short) 10 };
+        java.lang.Short[] shortArray11 = new java.lang.Short[]{(short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList12 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList12, shortArray11);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray14 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList12,
+                                                         shortArray11);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray14 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList15 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean16 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList15, uShortArray14);
+        boolean boolean16 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList15,
+                                                         uShortArray14);
         int int18 = uShortList15.lastIndexOf((java.lang.Object) 'a');
         boolean boolean19 = uShortList15.isEmpty();
         org.ccsds.moims.mo.mal.structures.UShort uShort20 = new org.ccsds.moims.mo.mal.structures.UShort();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray21 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort20 };
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray21 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort20};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList22 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList22, uShortArray21);
+        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList22,
+                                                         uShortArray21);
         boolean boolean24 = uShortList15.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList22);
         boolean boolean25 = shortList12.remove((java.lang.Object) boolean24);
         shortList12.clear();
         org.ccsds.moims.mo.mal.structures.URI uRI27 = new org.ccsds.moims.mo.mal.structures.URI();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet28 = uRI27.getAreaVersion();
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray29 = new org.ccsds.moims.mo.mal.structures.URI[] { uRI27 };
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray29 = new org.ccsds.moims.mo.mal.structures.URI[]{uRI27};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList30 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean31 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList30, uRIArray29);
+        boolean boolean31 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList30,
+                                                         uRIArray29);
         java.util.ListIterator<org.ccsds.moims.mo.mal.structures.URI> uRIItor33 = uRIList30.listIterator((int) (short) 0);
         org.ccsds.moims.mo.mal.structures.URI uRI35 = new org.ccsds.moims.mo.mal.structures.URI();
         java.lang.Long long36 = uRI35.getShortForm();
         uRIList30.add(0, uRI35);
         int int38 = shortList12.indexOf((java.lang.Object) uRI35);
-        java.lang.Short[] shortArray42 = new java.lang.Short[] { (short) 1, (short) -1, (short) 10 };
+        java.lang.Short[] shortArray42 = new java.lang.Short[]{(short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList43 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean44 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList43, shortArray42);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray45 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean44 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList43,
+                                                         shortArray42);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray45 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList46 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean47 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList46, uShortArray45);
+        boolean boolean47 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList46,
+                                                         uShortArray45);
         int int49 = uShortList46.lastIndexOf((java.lang.Object) 'a');
         boolean boolean50 = uShortList46.isEmpty();
         org.ccsds.moims.mo.mal.structures.UShort uShort51 = new org.ccsds.moims.mo.mal.structures.UShort();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray52 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort51 };
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray52 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort51};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList53 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean54 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList53, uShortArray52);
+        boolean boolean54 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList53,
+                                                         uShortArray52);
         boolean boolean55 = uShortList46.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList53);
         boolean boolean56 = shortList43.remove((java.lang.Object) boolean55);
         shortList43.clear();
         boolean boolean58 = shortList12.contains((java.lang.Object) shortList43);
-        java.lang.Boolean[] booleanArray61 = new java.lang.Boolean[] { true, true };
+        java.lang.Boolean[] booleanArray61 = new java.lang.Boolean[]{true, true};
         java.util.ArrayList<java.lang.Boolean> booleanList62 = new java.util.ArrayList<java.lang.Boolean>();
-        boolean boolean63 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList62, booleanArray61);
+        boolean boolean63 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList62,
+                                                         booleanArray61);
         boolean boolean65 = booleanList62.contains((java.lang.Object) 10L);
         booleanList62.ensureCapacity(0);
-        java.lang.Short[] shortArray71 = new java.lang.Short[] { (short) 1, (short) -1, (short) 10 };
+        java.lang.Short[] shortArray71 = new java.lang.Short[]{(short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList72 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean73 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList72, shortArray71);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray74 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean73 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList72,
+                                                         shortArray71);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray74 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList75 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean76 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList75, uShortArray74);
+        boolean boolean76 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList75,
+                                                         uShortArray74);
         int int78 = uShortList75.lastIndexOf((java.lang.Object) 'a');
         boolean boolean79 = uShortList75.isEmpty();
         org.ccsds.moims.mo.mal.structures.UShort uShort80 = new org.ccsds.moims.mo.mal.structures.UShort();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray81 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort80 };
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray81 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort80};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList82 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean83 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList82, uShortArray81);
+        boolean boolean83 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList82,
+                                                         uShortArray81);
         boolean boolean84 = uShortList75.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList82);
         boolean boolean85 = shortList72.remove((java.lang.Object) boolean84);
         shortList72.clear();
@@ -11577,7 +11973,7 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet98 = stringList93.getAreaVersion();
         try {
             java.lang.Boolean boolean99 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[-1.0, 0.0, 0.0, 0.0, 10.0]", (java.io.Serializable) stringList93);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long5);
@@ -11646,7 +12042,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI7 = nanoSatMOConnectorImpl0.readCentralDirectoryServiceURI();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -11659,8 +12055,8 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
-// flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(true, (-7), (int) (byte) 1, (-2), 281475010265075L);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(true, (-7), (int) (byte) 1, (-2), 281475010265075L);
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -11676,7 +12072,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener4 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             nanoSatMOConnectorImpl0.writeCentralDirectoryServiceURI("0.0", "");
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -11694,23 +12090,27 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         org.ccsds.moims.mo.mal.structures.IntegerList integerList8 = new org.ccsds.moims.mo.mal.structures.IntegerList();
         java.lang.Long long9 = integerList8.getShortForm();
-        java.lang.Boolean[] booleanArray12 = new java.lang.Boolean[] { true, true };
+        java.lang.Boolean[] booleanArray12 = new java.lang.Boolean[]{true, true};
         java.util.ArrayList<java.lang.Boolean> booleanList13 = new java.util.ArrayList<java.lang.Boolean>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList13, booleanArray12);
+        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList13,
+                                                         booleanArray12);
         boolean boolean16 = booleanList13.contains((java.lang.Object) 10L);
         booleanList13.ensureCapacity(0);
-        java.lang.Short[] shortArray22 = new java.lang.Short[] { (short) 1, (short) -1, (short) 10 };
+        java.lang.Short[] shortArray22 = new java.lang.Short[]{(short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList23 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean24 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList23, shortArray22);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray25 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean24 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList23,
+                                                         shortArray22);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray25 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList26 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean27 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList26, uShortArray25);
+        boolean boolean27 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList26,
+                                                         uShortArray25);
         int int29 = uShortList26.lastIndexOf((java.lang.Object) 'a');
         boolean boolean30 = uShortList26.isEmpty();
         org.ccsds.moims.mo.mal.structures.UShort uShort31 = new org.ccsds.moims.mo.mal.structures.UShort();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray32 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort31 };
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray32 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort31};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList33 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean34 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList33, uShortArray32);
+        boolean boolean34 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList33,
+                                                         uShortArray32);
         boolean boolean35 = uShortList26.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList33);
         boolean boolean36 = shortList23.remove((java.lang.Object) boolean35);
         shortList23.clear();
@@ -11720,16 +12120,19 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.ShortList shortList42 = new org.ccsds.moims.mo.mal.structures.ShortList();
         org.ccsds.moims.mo.mal.structures.UShort uShort43 = shortList42.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.Element element44 = shortList42.createElement();
-        java.lang.Short[] shortArray48 = new java.lang.Short[] { (short) 1, (short) 100, (short) 100 };
+        java.lang.Short[] shortArray48 = new java.lang.Short[]{(short) 1, (short) 100, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList49 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean50 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList49, shortArray48);
+        boolean boolean50 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList49,
+                                                         shortArray48);
         boolean boolean52 = shortList49.equals((java.lang.Object) "hi!");
-        java.lang.String[] strArray54 = new java.lang.String[] { "hi!" };
+        java.lang.String[] strArray54 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList55 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean56 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList55, strArray54);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray57 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean56 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList55,
+                                                         strArray54);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray57 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList58 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean59 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList58, uShortArray57);
+        boolean boolean59 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList58,
+                                                         uShortArray57);
         int int61 = uShortList58.indexOf((java.lang.Object) 1.0f);
         boolean boolean62 = strList55.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList58);
         boolean boolean63 = shortList49.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList58);
@@ -11743,7 +12146,7 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.UShort uShort71 = integerList8.getServiceNumber();
         try {
             java.lang.Boolean boolean72 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[-1.0]", (java.io.Serializable) integerList8);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long2);
@@ -11795,15 +12198,16 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         java.lang.Long long3 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener4 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
-        java.lang.Integer[] intArray10 = new java.lang.Integer[] { 16, 100, 10, 1 };
+        java.lang.Integer[] intArray10 = new java.lang.Integer[]{16, 100, 10, 1};
         java.util.ArrayList<java.lang.Integer> intList11 = new java.util.ArrayList<java.lang.Integer>();
-        boolean boolean12 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList11, intArray10);
+        boolean boolean12 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList11,
+                                                         intArray10);
         int int14 = intList11.indexOf((java.lang.Object) 0);
         java.util.Iterator<java.lang.Integer> intItor15 = intList11.iterator();
         boolean boolean16 = intList11.isEmpty();
         try {
             java.lang.Boolean boolean18 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[true]", (java.io.Serializable) intList11, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -11825,7 +12229,7 @@ public class RegressionTest0 {
         java.lang.Long long3 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             org.ccsds.moims.mo.mal.structures.Identifier identifier4 = nanoSatMOConnectorImpl0.getProviderName();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long3);
@@ -11835,9 +12239,10 @@ public class RegressionTest0 {
     public void test426() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test426");
-        java.lang.Float[] floatArray1 = new java.lang.Float[] { 1.0f };
+        java.lang.Float[] floatArray1 = new java.lang.Float[]{1.0f};
         java.util.ArrayList<java.lang.Float> floatList2 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2, floatArray1);
+        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2,
+                                                        floatArray1);
         java.util.ListIterator<java.lang.Float> floatItor4 = floatList2.listIterator();
         int int6 = floatList2.indexOf((java.lang.Object) "[-1, 281475010265070]");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl7 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
@@ -11849,7 +12254,7 @@ public class RegressionTest0 {
         java.lang.Long long13 = nanoSatMOConnectorImpl7.getAppDirectoryId();
         try {
             org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails configurationObjectDetails14 = null; // flaky: nanoSatMOConnectorImpl7.getCurrentConfiguration();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(floatArray1);
@@ -11870,8 +12275,8 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener1 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
-// flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(true, (int) (byte) 10, (-1), (-10), (long) (-5));
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(true, (int) (byte) 10, (-1), (-10), (long) (-5));
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -11892,7 +12297,7 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.UShort uShort11 = booleanList7.getServiceNumber();
         try {
             java.lang.Boolean boolean13 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[100]", (java.io.Serializable) booleanList7, false);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -11929,7 +12334,9 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener21 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl18);
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl22 = null;
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener23 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl22);
-        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray24 = new esa.mo.com.impl.util.EventReceivedListener[] { closeAppEventListener17, closeAppEventListener21, closeAppEventListener23 };
+        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray24 = new esa.mo.com.impl.util.EventReceivedListener[]{closeAppEventListener17,
+                                                                                                                                     closeAppEventListener21,
+                                                                                                                                     closeAppEventListener23};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl25 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener26 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl25);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener27 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl25);
@@ -11940,7 +12347,9 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener32 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl29);
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl33 = null;
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener34 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl33);
-        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray35 = new esa.mo.com.impl.util.EventReceivedListener[] { closeAppEventListener28, closeAppEventListener32, closeAppEventListener34 };
+        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray35 = new esa.mo.com.impl.util.EventReceivedListener[]{closeAppEventListener28,
+                                                                                                                                     closeAppEventListener32,
+                                                                                                                                     closeAppEventListener34};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl36 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener37 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl36);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener38 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl36);
@@ -11951,7 +12360,9 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener43 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl40);
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl44 = null;
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener45 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl44);
-        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray46 = new esa.mo.com.impl.util.EventReceivedListener[] { closeAppEventListener39, closeAppEventListener43, closeAppEventListener45 };
+        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray46 = new esa.mo.com.impl.util.EventReceivedListener[]{closeAppEventListener39,
+                                                                                                                                     closeAppEventListener43,
+                                                                                                                                     closeAppEventListener45};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl47 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener48 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl47);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener49 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl47);
@@ -11962,27 +12373,36 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener54 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl51);
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl55 = null;
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener56 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl55);
-        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray57 = new esa.mo.com.impl.util.EventReceivedListener[] { closeAppEventListener50, closeAppEventListener54, closeAppEventListener56 };
-        esa.mo.com.impl.util.EventReceivedListener[][] eventReceivedListenerArray58 = new esa.mo.com.impl.util.EventReceivedListener[][] { eventReceivedListenerArray24, eventReceivedListenerArray35, eventReceivedListenerArray46, eventReceivedListenerArray57 };
+        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray57 = new esa.mo.com.impl.util.EventReceivedListener[]{closeAppEventListener50,
+                                                                                                                                     closeAppEventListener54,
+                                                                                                                                     closeAppEventListener56};
+        esa.mo.com.impl.util.EventReceivedListener[][] eventReceivedListenerArray58 = new esa.mo.com.impl.util.EventReceivedListener[][]{eventReceivedListenerArray24,
+                                                                                                                                         eventReceivedListenerArray35,
+                                                                                                                                         eventReceivedListenerArray46,
+                                                                                                                                         eventReceivedListenerArray57};
         esa.mo.com.impl.util.EventReceivedListener[][] eventReceivedListenerArray59 = shortList8.toArray(eventReceivedListenerArray58);
-        java.lang.Double[] doubleArray62 = new java.lang.Double[] { 10.0d, (-1.0d) };
+        java.lang.Double[] doubleArray62 = new java.lang.Double[]{10.0d, (-1.0d)};
         java.util.ArrayList<java.lang.Double> doubleList63 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean64 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList63, doubleArray62);
+        boolean boolean64 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList63,
+                                                         doubleArray62);
         java.lang.Object obj65 = doubleList63.clone();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray66 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray66 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList67 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean68 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList67, uShortArray66);
+        boolean boolean68 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList67,
+                                                         uShortArray66);
         int int70 = uShortList67.lastIndexOf((java.lang.Object) 'a');
         boolean boolean71 = uShortList67.isEmpty();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray72 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray72 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList73 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean74 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList73, uShortArray72);
+        boolean boolean74 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList73,
+                                                         uShortArray72);
         int int76 = uShortList73.lastIndexOf((java.lang.Object) 'a');
         boolean boolean77 = uShortList73.isEmpty();
         org.ccsds.moims.mo.mal.structures.UShort uShort78 = new org.ccsds.moims.mo.mal.structures.UShort();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray79 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort78 };
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray79 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort78};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList80 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean81 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList80, uShortArray79);
+        boolean boolean81 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList80,
+                                                         uShortArray79);
         boolean boolean82 = uShortList73.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList80);
         boolean boolean83 = uShortList67.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList73);
         boolean boolean84 = doubleList63.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList73);
@@ -12042,12 +12462,13 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener1 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         java.lang.Long long3 = nanoSatMOConnectorImpl0.getAppDirectoryId();
-        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray4 = new esa.mo.mc.impl.provider.ParameterInstance[] {};
+        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray4 = new esa.mo.mc.impl.provider.ParameterInstance[]{};
         java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance> parameterInstanceList5 = new java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance>();
-        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList5, parameterInstanceArray4);
+        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList5,
+                                                        parameterInstanceArray4);
         try {
             java.lang.Boolean boolean8 = null; // flaky: nanoSatMOConnectorImpl0.pushMultipleParameterValues(parameterInstanceList5, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long3);
@@ -12077,16 +12498,19 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.DoubleList doubleList19 = new org.ccsds.moims.mo.mal.structures.DoubleList(7);
         org.ccsds.moims.mo.mal.structures.UShort uShort20 = doubleList19.getAreaNumber();
         int int21 = doubleList19.size();
-        java.lang.Short[] shortArray25 = new java.lang.Short[] { (short) 1, (short) 100, (short) 100 };
+        java.lang.Short[] shortArray25 = new java.lang.Short[]{(short) 1, (short) 100, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList26 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList26, shortArray25);
+        boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList26,
+                                                         shortArray25);
         boolean boolean29 = shortList26.equals((java.lang.Object) "hi!");
-        java.lang.String[] strArray31 = new java.lang.String[] { "hi!" };
+        java.lang.String[] strArray31 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList32 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList32, strArray31);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray34 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList32,
+                                                         strArray31);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray34 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList35 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean36 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList35, uShortArray34);
+        boolean boolean36 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList35,
+                                                         uShortArray34);
         int int38 = uShortList35.indexOf((java.lang.Object) 1.0f);
         boolean boolean39 = strList32.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList35);
         boolean boolean40 = shortList26.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList35);
@@ -12101,7 +12525,7 @@ public class RegressionTest0 {
         java.lang.Object[] objArray50 = octetList7.toArray();
         try {
             java.lang.Boolean boolean51 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[255]", (java.io.Serializable) octetList7);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -12145,7 +12569,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener4 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF5 = null; // flaky: nanoSatMOConnectorImpl0.getMCServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -12162,7 +12586,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener3 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF4 = null; // flaky: nanoSatMOConnectorImpl0.getMCServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -12177,8 +12601,8 @@ public class RegressionTest0 {
         java.lang.Long long3 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener4 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
-// flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, (-5), (-18), (-18), 281474993487873L);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, (-5), (-18), (-18), 281474993487873L);
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long2);
@@ -12197,7 +12621,7 @@ public class RegressionTest0 {
         java.lang.Long long5 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI6 = nanoSatMOConnectorImpl0.readCentralDirectoryServiceURI();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -12212,12 +12636,13 @@ public class RegressionTest0 {
         java.lang.Long long1 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener3 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
-        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray4 = new esa.mo.mc.impl.provider.ParameterInstance[] {};
+        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray4 = new esa.mo.mc.impl.provider.ParameterInstance[]{};
         java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance> parameterInstanceList5 = new java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance>();
-        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList5, parameterInstanceArray4);
+        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList5,
+                                                        parameterInstanceArray4);
         try {
             java.lang.Boolean boolean8 = null; // flaky: nanoSatMOConnectorImpl0.pushMultipleParameterValues(parameterInstanceList5, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -12229,9 +12654,10 @@ public class RegressionTest0 {
     public void test437() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test437");
-        java.lang.Float[] floatArray1 = new java.lang.Float[] { 1.0f };
+        java.lang.Float[] floatArray1 = new java.lang.Float[]{1.0f};
         java.util.ArrayList<java.lang.Float> floatList2 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2, floatArray1);
+        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2,
+                                                        floatArray1);
         java.util.ListIterator<java.lang.Float> floatItor4 = floatList2.listIterator();
         int int6 = floatList2.indexOf((java.lang.Object) "[-1, 281475010265070]");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl7 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
@@ -12243,7 +12669,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener13 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl7);
         try {
             esa.mo.nmf.CloseAppListener closeAppListener14 = nanoSatMOConnectorImpl7.getCloseAppListener();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(floatArray1);
@@ -12259,12 +12685,13 @@ public class RegressionTest0 {
     public void test438() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test438");
-        java.lang.String[] strArray1 = new java.lang.String[] { "hi!" };
+        java.lang.String[] strArray1 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList2 = new java.util.ArrayList<java.lang.String>();
         boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList2, strArray1);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray4 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray4 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList5 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList5, uShortArray4);
+        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList5,
+                                                        uShortArray4);
         int int8 = uShortList5.indexOf((java.lang.Object) 1.0f);
         boolean boolean9 = strList2.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList5);
         java.util.ListIterator<java.lang.String> strItor10 = strList2.listIterator();
@@ -12293,7 +12720,9 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener33 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl30);
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl34 = null;
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener35 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl34);
-        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray36 = new esa.mo.com.impl.util.EventReceivedListener[] { closeAppEventListener29, closeAppEventListener33, closeAppEventListener35 };
+        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray36 = new esa.mo.com.impl.util.EventReceivedListener[]{closeAppEventListener29,
+                                                                                                                                     closeAppEventListener33,
+                                                                                                                                     closeAppEventListener35};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl37 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener38 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl37);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener39 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl37);
@@ -12304,7 +12733,9 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener44 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl41);
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl45 = null;
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener46 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl45);
-        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray47 = new esa.mo.com.impl.util.EventReceivedListener[] { closeAppEventListener40, closeAppEventListener44, closeAppEventListener46 };
+        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray47 = new esa.mo.com.impl.util.EventReceivedListener[]{closeAppEventListener40,
+                                                                                                                                     closeAppEventListener44,
+                                                                                                                                     closeAppEventListener46};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl48 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener49 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl48);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener50 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl48);
@@ -12315,7 +12746,9 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener55 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl52);
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl56 = null;
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener57 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl56);
-        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray58 = new esa.mo.com.impl.util.EventReceivedListener[] { closeAppEventListener51, closeAppEventListener55, closeAppEventListener57 };
+        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray58 = new esa.mo.com.impl.util.EventReceivedListener[]{closeAppEventListener51,
+                                                                                                                                     closeAppEventListener55,
+                                                                                                                                     closeAppEventListener57};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl59 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener60 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl59);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener61 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl59);
@@ -12326,8 +12759,13 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener66 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl63);
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl67 = null;
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener68 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl67);
-        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray69 = new esa.mo.com.impl.util.EventReceivedListener[] { closeAppEventListener62, closeAppEventListener66, closeAppEventListener68 };
-        esa.mo.com.impl.util.EventReceivedListener[][] eventReceivedListenerArray70 = new esa.mo.com.impl.util.EventReceivedListener[][] { eventReceivedListenerArray36, eventReceivedListenerArray47, eventReceivedListenerArray58, eventReceivedListenerArray69 };
+        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray69 = new esa.mo.com.impl.util.EventReceivedListener[]{closeAppEventListener62,
+                                                                                                                                     closeAppEventListener66,
+                                                                                                                                     closeAppEventListener68};
+        esa.mo.com.impl.util.EventReceivedListener[][] eventReceivedListenerArray70 = new esa.mo.com.impl.util.EventReceivedListener[][]{eventReceivedListenerArray36,
+                                                                                                                                         eventReceivedListenerArray47,
+                                                                                                                                         eventReceivedListenerArray58,
+                                                                                                                                         eventReceivedListenerArray69};
         esa.mo.com.impl.util.EventReceivedListener[][] eventReceivedListenerArray71 = shortList20.toArray(eventReceivedListenerArray70);
         try {
             esa.mo.com.impl.util.EventReceivedListener[][] eventReceivedListenerArray72 = strList2.toArray(eventReceivedListenerArray70);
@@ -12377,7 +12815,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF10 = null; // flaky: nanoSatMOConnectorImpl0.getMCServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -12396,7 +12834,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI7 = nanoSatMOConnectorImpl0.readCentralDirectoryServiceURI();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -12411,12 +12849,13 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener1 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         java.lang.Long long2 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         java.lang.Long long3 = nanoSatMOConnectorImpl0.getAppDirectoryId();
-        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray4 = new esa.mo.mc.impl.provider.ParameterInstance[] {};
+        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray4 = new esa.mo.mc.impl.provider.ParameterInstance[]{};
         java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance> parameterInstanceList5 = new java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance>();
-        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList5, parameterInstanceArray4);
+        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList5,
+                                                        parameterInstanceArray4);
         try {
             java.lang.Boolean boolean8 = null; // flaky: nanoSatMOConnectorImpl0.pushMultipleParameterValues(parameterInstanceList5, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long2);
@@ -12432,7 +12871,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI1 = nanoSatMOConnectorImpl0.readCentralDirectoryServiceURI();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -12450,7 +12889,7 @@ public class RegressionTest0 {
         java.lang.Long long6 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             org.ccsds.moims.mo.mal.structures.Identifier identifier7 = nanoSatMOConnectorImpl0.getProviderName();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long2);
@@ -12487,49 +12926,56 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.BooleanList booleanList3 = new org.ccsds.moims.mo.mal.structures.BooleanList(15);
         java.lang.Object obj4 = null;
         boolean boolean5 = booleanList3.remove(obj4);
-        java.lang.Float[] floatArray10 = new java.lang.Float[] { (-1.0f), 10.0f, 10.0f, 1.0f };
+        java.lang.Float[] floatArray10 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f, 1.0f};
         java.util.ArrayList<java.lang.Float> floatList11 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean12 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList11, floatArray10);
+        boolean boolean12 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList11,
+                                                         floatArray10);
         int int14 = floatList11.lastIndexOf((java.lang.Object) (-1L));
         floatList11.ensureCapacity(6);
-        java.lang.Float[] floatArray21 = new java.lang.Float[] { (-1.0f), 10.0f, 10.0f, 1.0f };
+        java.lang.Float[] floatArray21 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f, 1.0f};
         java.util.ArrayList<java.lang.Float> floatList22 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList22, floatArray21);
+        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList22,
+                                                         floatArray21);
         int int25 = floatList22.lastIndexOf((java.lang.Object) (-1L));
-        java.lang.String[] strArray27 = new java.lang.String[] { "" };
+        java.lang.String[] strArray27 = new java.lang.String[]{""};
         java.util.ArrayList<java.lang.String> strList28 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean29 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList28, strArray27);
+        boolean boolean29 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList28,
+                                                         strArray27);
         java.lang.Object obj30 = strList28.clone();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray31 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray31 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList32 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean33 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList32, uShortArray31);
+        boolean boolean33 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList32,
+                                                         uShortArray31);
         int int35 = uShortList32.lastIndexOf((java.lang.Object) 'a');
         boolean boolean36 = uShortList32.isEmpty();
         org.ccsds.moims.mo.mal.structures.UShort uShort37 = new org.ccsds.moims.mo.mal.structures.UShort();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray38 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort37 };
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray38 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort37};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList39 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean40 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList39, uShortArray38);
+        boolean boolean40 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList39,
+                                                         uShortArray38);
         boolean boolean41 = uShortList32.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList39);
         boolean boolean42 = strList28.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList39);
         boolean boolean43 = floatList22.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList39);
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream44 = uShortList39.stream();
         uShortList39.trimToSize();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray46 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray46 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList47 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean48 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList47, uShortArray46);
+        boolean boolean48 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList47,
+                                                         uShortArray46);
         int int50 = uShortList47.lastIndexOf((java.lang.Object) 'a');
         boolean boolean51 = uShortList47.isEmpty();
         org.ccsds.moims.mo.mal.structures.UShort uShort52 = new org.ccsds.moims.mo.mal.structures.UShort();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray53 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort52 };
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray53 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort52};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList54 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean55 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList54, uShortArray53);
+        boolean boolean55 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList54,
+                                                         uShortArray53);
         boolean boolean56 = uShortList47.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList54);
         boolean boolean57 = uShortList39.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList47);
         boolean boolean58 = floatList11.remove((java.lang.Object) uShortList39);
         boolean boolean59 = booleanList3.equals((java.lang.Object) floatList11);
         try {
             java.lang.Boolean boolean60 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("281474993487886", (java.io.Serializable) booleanList3);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + false + "'", !boolean5);
@@ -12575,9 +13021,10 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener4 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener5 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         java.lang.Long long6 = nanoSatMOConnectorImpl0.getAppDirectoryId();
-        java.lang.Byte[] byteArray10 = new java.lang.Byte[] { (byte) 100, (byte) 100 };
+        java.lang.Byte[] byteArray10 = new java.lang.Byte[]{(byte) 100, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList11 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean12 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList11, byteArray10);
+        boolean boolean12 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList11,
+                                                         byteArray10);
         java.util.ListIterator<java.lang.Byte> byteItor14 = byteList11.listIterator((int) (short) 1);
         int int15 = byteList11.size();
         java.util.Iterator<java.lang.Byte> byteItor16 = byteList11.iterator();
@@ -12600,31 +13047,35 @@ public class RegressionTest0 {
         stringList34.clear();
         org.ccsds.moims.mo.mal.structures.OctetList octetList38 = new org.ccsds.moims.mo.mal.structures.OctetList();
         boolean boolean39 = stringList34.contains((java.lang.Object) octetList38);
-        java.lang.Double[] doubleArray44 = new java.lang.Double[] { (-1.0d), 0.0d, 0.0d, 10.0d };
+        java.lang.Double[] doubleArray44 = new java.lang.Double[]{(-1.0d), 0.0d, 0.0d, 10.0d};
         java.util.ArrayList<java.lang.Double> doubleList45 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean46 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList45, doubleArray44);
+        boolean boolean46 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList45,
+                                                         doubleArray44);
         boolean boolean48 = doubleList45.contains((java.lang.Object) "hi!");
         doubleList45.add(2, (java.lang.Double) 0.0d);
         java.lang.Double double53 = doubleList45.remove(0);
         java.lang.String str54 = doubleList45.toString();
-        java.lang.Long[] longArray57 = new java.lang.Long[] { (-1L), 281475010265070L };
+        java.lang.Long[] longArray57 = new java.lang.Long[]{(-1L), 281475010265070L};
         java.util.ArrayList<java.lang.Long> longList58 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean59 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList58, longArray57);
+        boolean boolean59 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList58,
+                                                         longArray57);
         java.lang.String str60 = longList58.toString();
         java.lang.Long long63 = longList58.set(1, (java.lang.Long) 281475010265083L);
         java.lang.Object obj64 = longList58.clone();
-        java.lang.Float[] floatArray69 = new java.lang.Float[] { (-1.0f), 10.0f, 10.0f, 1.0f };
+        java.lang.Float[] floatArray69 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f, 1.0f};
         java.util.ArrayList<java.lang.Float> floatList70 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean71 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList70, floatArray69);
+        boolean boolean71 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList70,
+                                                         floatArray69);
         int int73 = floatList70.lastIndexOf((java.lang.Object) (-1L));
         java.util.Iterator<java.lang.Float> floatItor74 = floatList70.iterator();
         org.ccsds.moims.mo.mal.structures.Identifier identifier75 = new org.ccsds.moims.mo.mal.structures.Identifier();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet76 = identifier75.getAreaVersion();
         boolean boolean78 = identifier75.equals((java.lang.Object) 0);
         boolean boolean79 = floatList70.contains((java.lang.Object) identifier75);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray80 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray80 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList81 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean82 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList81, uShortArray80);
+        boolean boolean82 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList81,
+                                                         uShortArray80);
         int int84 = uShortList81.lastIndexOf((java.lang.Object) 'a');
         boolean boolean85 = uShortList81.isEmpty();
         boolean boolean86 = floatList70.retainAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList81);
@@ -12635,7 +13086,7 @@ public class RegressionTest0 {
         boolean boolean91 = uShortList26.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList81);
         try {
             java.lang.Boolean boolean93 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("281474993487875", (java.io.Serializable) boolean91, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -12663,10 +13114,12 @@ public class RegressionTest0 {
         org.junit.Assert.assertTrue("'" + boolean46 + "' != '" + true + "'", boolean46);
         org.junit.Assert.assertTrue("'" + boolean48 + "' != '" + false + "'", !boolean48);
         org.junit.Assert.assertTrue("'" + double53 + "' != '" + (-1.0d) + "'", double53.equals((-1.0d)));
-        org.junit.Assert.assertTrue("'" + str54 + "' != '" + "[0.0, 0.0, 0.0, 10.0]" + "'", str54.equals("[0.0, 0.0, 0.0, 10.0]"));
+        org.junit.Assert.assertTrue("'" + str54 + "' != '" + "[0.0, 0.0, 0.0, 10.0]" + "'", str54.equals(
+                                                                                                         "[0.0, 0.0, 0.0, 10.0]"));
         org.junit.Assert.assertNotNull(longArray57);
         org.junit.Assert.assertTrue("'" + boolean59 + "' != '" + true + "'", boolean59);
-        org.junit.Assert.assertTrue("'" + str60 + "' != '" + "[-1, 281475010265070]" + "'", str60.equals("[-1, 281475010265070]"));
+        org.junit.Assert.assertTrue("'" + str60 + "' != '" + "[-1, 281475010265070]" + "'", str60.equals(
+                                                                                                         "[-1, 281475010265070]"));
         org.junit.Assert.assertTrue("'" + long63 + "' != '" + 281475010265070L + "'", long63.equals(281475010265070L));
         org.junit.Assert.assertNotNull(obj64);
         org.junit.Assert.assertNotNull(floatArray69);
@@ -12702,14 +13155,17 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet9 = org.ccsds.moims.mo.mal.structures.FloatList.AREA_VERSION;
         int int10 = uRIList7.lastIndexOf((java.lang.Object) uOctet9);
         java.lang.String str11 = uRIList7.toString();
-        java.lang.Short[] shortArray14 = new java.lang.Short[] { (short) 255, (short) 100 };
+        java.lang.Short[] shortArray14 = new java.lang.Short[]{(short) 255, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList15 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15, shortArray14);
+        boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList15,
+                                                         shortArray14);
         org.ccsds.moims.mo.mal.structures.UShort uShort17 = org.ccsds.moims.mo.mal.structures.URIList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort uShort18 = new org.ccsds.moims.mo.mal.structures.UShort();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray19 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort17, uShort18 };
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray19 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort17,
+                                                                                                                  uShort18};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList20 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList20, uShortArray19);
+        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList20,
+                                                         uShortArray19);
         org.ccsds.moims.mo.mal.structures.UShort uShort23 = new org.ccsds.moims.mo.mal.structures.UShort();
         org.ccsds.moims.mo.mal.structures.UShort uShort24 = uShortList20.set((int) (short) 0, uShort23);
         org.ccsds.moims.mo.mal.structures.UShort uShort26 = uShortList20.remove(0);
@@ -12717,33 +13173,39 @@ public class RegressionTest0 {
         boolean boolean29 = shortList15.add((java.lang.Short) (short) 0);
         java.util.ListIterator<java.lang.Short> shortItor30 = shortList15.listIterator();
         java.util.Iterator<java.lang.Short> shortItor31 = shortList15.iterator();
-        java.lang.Integer[] intArray35 = new java.lang.Integer[] { (-1), 10, 1 };
+        java.lang.Integer[] intArray35 = new java.lang.Integer[]{(-1), 10, 1};
         java.util.ArrayList<java.lang.Integer> intList36 = new java.util.ArrayList<java.lang.Integer>();
-        boolean boolean37 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList36, intArray35);
+        boolean boolean37 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList36,
+                                                         intArray35);
         intList36.ensureCapacity((int) (short) 100);
         java.lang.Integer int41 = intList36.get((int) (byte) 0);
-        java.lang.Short[] shortArray45 = new java.lang.Short[] { (short) 1, (short) -1, (short) 10 };
+        java.lang.Short[] shortArray45 = new java.lang.Short[]{(short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList46 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean47 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList46, shortArray45);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray48 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean47 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList46,
+                                                         shortArray45);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray48 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList49 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean50 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList49, uShortArray48);
+        boolean boolean50 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList49,
+                                                         uShortArray48);
         int int52 = uShortList49.lastIndexOf((java.lang.Object) 'a');
         boolean boolean53 = uShortList49.isEmpty();
         org.ccsds.moims.mo.mal.structures.UShort uShort54 = new org.ccsds.moims.mo.mal.structures.UShort();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray55 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort54 };
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray55 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort54};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList56 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean57 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList56, uShortArray55);
+        boolean boolean57 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList56,
+                                                         uShortArray55);
         boolean boolean58 = uShortList49.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList56);
         boolean boolean59 = shortList46.remove((java.lang.Object) boolean58);
         shortList46.clear();
         boolean boolean61 = shortList46.isEmpty();
-        java.lang.String[] strArray63 = new java.lang.String[] { "hi!" };
+        java.lang.String[] strArray63 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList64 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean65 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList64, strArray63);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray66 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean65 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList64,
+                                                         strArray63);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray66 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList67 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean68 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList67, uShortArray66);
+        boolean boolean68 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList67,
+                                                         uShortArray66);
         int int70 = uShortList67.indexOf((java.lang.Object) 1.0f);
         boolean boolean71 = strList64.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList67);
         boolean boolean72 = shortList46.removeAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList67);
@@ -12753,7 +13215,7 @@ public class RegressionTest0 {
         shortList15.trimToSize();
         try {
             java.lang.Boolean boolean77 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("17.0", (java.io.Serializable) shortList15);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -12802,9 +13264,10 @@ public class RegressionTest0 {
     public void test448() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test448");
-        java.lang.Float[] floatArray1 = new java.lang.Float[] { 1.0f };
+        java.lang.Float[] floatArray1 = new java.lang.Float[]{1.0f};
         java.util.ArrayList<java.lang.Float> floatList2 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2, floatArray1);
+        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2,
+                                                        floatArray1);
         java.util.ListIterator<java.lang.Float> floatItor4 = floatList2.listIterator();
         int int6 = floatList2.indexOf((java.lang.Object) "[-1, 281475010265070]");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl7 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
@@ -12815,7 +13278,7 @@ public class RegressionTest0 {
         int int12 = floatList2.lastIndexOf((java.lang.Object) nanoSatMOConnectorImpl7);
         try {
             nanoSatMOConnectorImpl7.writeCentralDirectoryServiceURI("2.81475010265084E14", "[false, true, false]");
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(floatArray1);
@@ -12847,7 +13310,9 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener13 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl10);
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl14 = null;
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener15 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl14);
-        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray16 = new esa.mo.com.impl.util.EventReceivedListener[] { closeAppEventListener9, closeAppEventListener13, closeAppEventListener15 };
+        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray16 = new esa.mo.com.impl.util.EventReceivedListener[]{closeAppEventListener9,
+                                                                                                                                     closeAppEventListener13,
+                                                                                                                                     closeAppEventListener15};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl17 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener18 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl17);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener19 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl17);
@@ -12858,7 +13323,9 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener24 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl21);
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl25 = null;
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener26 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl25);
-        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray27 = new esa.mo.com.impl.util.EventReceivedListener[] { closeAppEventListener20, closeAppEventListener24, closeAppEventListener26 };
+        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray27 = new esa.mo.com.impl.util.EventReceivedListener[]{closeAppEventListener20,
+                                                                                                                                     closeAppEventListener24,
+                                                                                                                                     closeAppEventListener26};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl28 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener29 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl28);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener30 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl28);
@@ -12869,7 +13336,9 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener35 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl32);
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl36 = null;
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener37 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl36);
-        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray38 = new esa.mo.com.impl.util.EventReceivedListener[] { closeAppEventListener31, closeAppEventListener35, closeAppEventListener37 };
+        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray38 = new esa.mo.com.impl.util.EventReceivedListener[]{closeAppEventListener31,
+                                                                                                                                     closeAppEventListener35,
+                                                                                                                                     closeAppEventListener37};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl39 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener40 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl39);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener41 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl39);
@@ -12880,27 +13349,36 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener46 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl43);
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl47 = null;
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener48 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl47);
-        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray49 = new esa.mo.com.impl.util.EventReceivedListener[] { closeAppEventListener42, closeAppEventListener46, closeAppEventListener48 };
-        esa.mo.com.impl.util.EventReceivedListener[][] eventReceivedListenerArray50 = new esa.mo.com.impl.util.EventReceivedListener[][] { eventReceivedListenerArray16, eventReceivedListenerArray27, eventReceivedListenerArray38, eventReceivedListenerArray49 };
+        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray49 = new esa.mo.com.impl.util.EventReceivedListener[]{closeAppEventListener42,
+                                                                                                                                     closeAppEventListener46,
+                                                                                                                                     closeAppEventListener48};
+        esa.mo.com.impl.util.EventReceivedListener[][] eventReceivedListenerArray50 = new esa.mo.com.impl.util.EventReceivedListener[][]{eventReceivedListenerArray16,
+                                                                                                                                         eventReceivedListenerArray27,
+                                                                                                                                         eventReceivedListenerArray38,
+                                                                                                                                         eventReceivedListenerArray49};
         esa.mo.com.impl.util.EventReceivedListener[][] eventReceivedListenerArray51 = shortList0.toArray(eventReceivedListenerArray50);
-        java.lang.Double[] doubleArray54 = new java.lang.Double[] { 10.0d, (-1.0d) };
+        java.lang.Double[] doubleArray54 = new java.lang.Double[]{10.0d, (-1.0d)};
         java.util.ArrayList<java.lang.Double> doubleList55 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean56 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList55, doubleArray54);
+        boolean boolean56 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList55,
+                                                         doubleArray54);
         java.lang.Object obj57 = doubleList55.clone();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray58 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray58 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList59 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean60 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList59, uShortArray58);
+        boolean boolean60 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList59,
+                                                         uShortArray58);
         int int62 = uShortList59.lastIndexOf((java.lang.Object) 'a');
         boolean boolean63 = uShortList59.isEmpty();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray64 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray64 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList65 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean66 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList65, uShortArray64);
+        boolean boolean66 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList65,
+                                                         uShortArray64);
         int int68 = uShortList65.lastIndexOf((java.lang.Object) 'a');
         boolean boolean69 = uShortList65.isEmpty();
         org.ccsds.moims.mo.mal.structures.UShort uShort70 = new org.ccsds.moims.mo.mal.structures.UShort();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray71 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort70 };
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray71 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort70};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList72 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean73 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList72, uShortArray71);
+        boolean boolean73 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList72,
+                                                         uShortArray71);
         boolean boolean74 = uShortList65.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList72);
         boolean boolean75 = uShortList59.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList65);
         boolean boolean76 = doubleList55.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList65);
@@ -12972,7 +13450,7 @@ public class RegressionTest0 {
         long long6 = fineTime3.getValue();
         try {
             java.lang.Boolean boolean7 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("281474993487885", (java.io.Serializable) fineTime3);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(uShort4);
@@ -12997,7 +13475,7 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.UShort uShort11 = duration7.getAreaNumber();
         try {
             java.lang.Boolean boolean13 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[-1, 281475010265070, 281474993487873]", (java.io.Serializable) duration7, false);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -13012,9 +13490,10 @@ public class RegressionTest0 {
     public void test452() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test452");
-        java.lang.Float[] floatArray3 = new java.lang.Float[] { 10.0f, 100.0f, (-1.0f) };
+        java.lang.Float[] floatArray3 = new java.lang.Float[]{10.0f, 100.0f, (-1.0f)};
         java.util.ArrayList<java.lang.Float> floatList4 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList4, floatArray3);
+        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList4,
+                                                        floatArray3);
         boolean boolean7 = floatList4.add((java.lang.Float) 10.0f);
         floatList4.trimToSize();
         boolean boolean9 = floatList4.isEmpty();
@@ -13029,7 +13508,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl11.initAdditionalServices();
         try {
             org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails configurationObjectDetails19 = null; // flaky: nanoSatMOConnectorImpl11.getCurrentConfiguration();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(floatArray3);
@@ -13053,7 +13532,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener4 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails configurationObjectDetails5 = null; // flaky: nanoSatMOConnectorImpl0.getCurrentConfiguration();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -13068,12 +13547,13 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         nanoSatMOConnectorImpl0.initAdditionalServices();
         nanoSatMOConnectorImpl0.initAdditionalServices();
-        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray5 = new esa.mo.mc.impl.provider.ParameterInstance[] {};
+        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray5 = new esa.mo.mc.impl.provider.ParameterInstance[]{};
         java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance> parameterInstanceList6 = new java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance>();
-        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList6, parameterInstanceArray5);
+        boolean boolean7 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList6,
+                                                        parameterInstanceArray5);
         try {
             java.lang.Boolean boolean9 = null; // flaky: nanoSatMOConnectorImpl0.pushMultipleParameterValues(parameterInstanceList6, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -13085,9 +13565,10 @@ public class RegressionTest0 {
     public void test455() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test455");
-        java.lang.Float[] floatArray1 = new java.lang.Float[] { 1.0f };
+        java.lang.Float[] floatArray1 = new java.lang.Float[]{1.0f};
         java.util.ArrayList<java.lang.Float> floatList2 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2, floatArray1);
+        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2,
+                                                        floatArray1);
         java.util.ListIterator<java.lang.Float> floatItor4 = floatList2.listIterator();
         int int6 = floatList2.indexOf((java.lang.Object) "[-1, 281475010265070]");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl7 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
@@ -13099,7 +13580,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener13 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl7);
         try {
             esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider14 = nanoSatMOConnectorImpl7.getCOMServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(floatArray1);
@@ -13125,7 +13606,7 @@ public class RegressionTest0 {
         java.lang.String str9 = identifier5.getValue();
         try {
             java.lang.Boolean boolean11 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[0.0]", (java.io.Serializable) str9, false);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(uOctet6);
@@ -13144,7 +13625,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             esa.mo.nmf.CloseAppListener closeAppListener5 = nanoSatMOConnectorImpl0.getCloseAppListener();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -13159,7 +13640,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             org.ccsds.moims.mo.mal.structures.URI uRI3 = nanoSatMOConnectorImpl0.readCentralDirectoryServiceURI();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -13169,9 +13650,10 @@ public class RegressionTest0 {
     public void test459() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test459");
-        java.lang.Float[] floatArray1 = new java.lang.Float[] { 1.0f };
+        java.lang.Float[] floatArray1 = new java.lang.Float[]{1.0f};
         java.util.ArrayList<java.lang.Float> floatList2 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2, floatArray1);
+        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList2,
+                                                        floatArray1);
         java.util.ListIterator<java.lang.Float> floatItor4 = floatList2.listIterator();
         int int6 = floatList2.indexOf((java.lang.Object) "[-1, 281475010265070]");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl7 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
@@ -13181,12 +13663,13 @@ public class RegressionTest0 {
         java.lang.Long long11 = nanoSatMOConnectorImpl7.getAppDirectoryId();
         int int12 = floatList2.lastIndexOf((java.lang.Object) nanoSatMOConnectorImpl7);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener13 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl7);
-        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray14 = new esa.mo.mc.impl.provider.ParameterInstance[] {};
+        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray14 = new esa.mo.mc.impl.provider.ParameterInstance[]{};
         java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance> parameterInstanceList15 = new java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance>();
-        boolean boolean16 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList15, parameterInstanceArray14);
+        boolean boolean16 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList15,
+                                                         parameterInstanceArray14);
         try {
             java.lang.Boolean boolean18 = null; // flaky: nanoSatMOConnectorImpl7.pushMultipleParameterValues(parameterInstanceList15, false);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(floatArray1);
@@ -13208,7 +13691,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF2 = null; // flaky: nanoSatMOConnectorImpl0.getMCServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -13225,7 +13708,7 @@ public class RegressionTest0 {
         java.io.Serializable serializable6 = null;
         try {
             java.lang.Boolean boolean7 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[0, 1, 10, 10, 100]", serializable6);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -13261,7 +13744,7 @@ public class RegressionTest0 {
         java.lang.Object obj25 = doubleList8.clone();
         try {
             java.lang.Boolean boolean26 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[]", (java.io.Serializable) doubleList8);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -13286,15 +13769,17 @@ public class RegressionTest0 {
     public void test463() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test463");
-        java.lang.Double[] doubleArray4 = new java.lang.Double[] { 10.0d, 0.0d, (-1.0d), (-1.0d) };
+        java.lang.Double[] doubleArray4 = new java.lang.Double[]{10.0d, 0.0d, (-1.0d), (-1.0d)};
         java.util.ArrayList<java.lang.Double> doubleList5 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList5, doubleArray4);
+        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList5,
+                                                        doubleArray4);
         boolean boolean8 = doubleList5.equals((java.lang.Object) 281475010265079L);
         int int9 = doubleList5.size();
         boolean boolean11 = doubleList5.equals((java.lang.Object) "[10.0, 0.0, -1.0, -1.0]");
-        java.lang.Float[] floatArray16 = new java.lang.Float[] { (-1.0f), 10.0f, 10.0f, 1.0f };
+        java.lang.Float[] floatArray16 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f, 1.0f};
         java.util.ArrayList<java.lang.Float> floatList17 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList17, floatArray16);
+        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList17,
+                                                         floatArray16);
         int int20 = floatList17.lastIndexOf((java.lang.Object) (-1L));
         java.util.Iterator<java.lang.Float> floatItor21 = floatList17.iterator();
         org.ccsds.moims.mo.mal.structures.Identifier identifier22 = new org.ccsds.moims.mo.mal.structures.Identifier();
@@ -13311,7 +13796,7 @@ public class RegressionTest0 {
         boolean boolean36 = doubleList5.equals((java.lang.Object) nanoSatMOConnectorImpl32);
         try {
             esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider37 = nanoSatMOConnectorImpl32.getCOMServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(doubleArray4);
@@ -13341,8 +13826,8 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
-// flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(true, (int) (short) 0, 7, 14, (long) (short) -1);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(true, (int) (short) 0, 7, 14, (long) (short) -1);
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -13356,8 +13841,8 @@ public class RegressionTest0 {
         java.lang.Long long1 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
-// flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, 11, 5, 9, (long) 18);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, 11, 5, 9, (long) 18);
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -13376,7 +13861,7 @@ public class RegressionTest0 {
         java.lang.Long long6 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider7 = nanoSatMOConnectorImpl0.getCOMServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long2);
@@ -13397,7 +13882,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener6 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider7 = nanoSatMOConnectorImpl0.getCOMServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long2);
@@ -13420,7 +13905,7 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet11 = union9.getAreaVersion();
         try {
             java.lang.Boolean boolean13 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("2.81475010265084E14", (java.io.Serializable) uOctet11, false);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -13443,22 +13928,26 @@ public class RegressionTest0 {
         int int9 = uRIList6.lastIndexOf((java.lang.Object) uOctet8);
         uRIList6.clear();
         java.lang.Long long11 = uRIList6.getShortForm();
-        java.lang.Float[] floatArray16 = new java.lang.Float[] { (-1.0f), 10.0f, 10.0f, 1.0f };
+        java.lang.Float[] floatArray16 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f, 1.0f};
         java.util.ArrayList<java.lang.Float> floatList17 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList17, floatArray16);
+        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList17,
+                                                         floatArray16);
         int int20 = floatList17.lastIndexOf((java.lang.Object) (-1L));
-        java.lang.Long[] longArray23 = new java.lang.Long[] { (-1L), 281475010265070L };
+        java.lang.Long[] longArray23 = new java.lang.Long[]{(-1L), 281475010265070L};
         java.util.ArrayList<java.lang.Long> longList24 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean25 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList24, longArray23);
+        boolean boolean25 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList24,
+                                                         longArray23);
         java.lang.String str26 = longList24.toString();
         org.ccsds.moims.mo.mal.structures.UShort uShort27 = org.ccsds.moims.mo.mal.structures.BooleanList.SERVICE_SHORT_FORM;
         int int28 = longList24.lastIndexOf((java.lang.Object) uShort27);
         boolean boolean30 = longList24.add((java.lang.Long) 281474993487873L);
         org.ccsds.moims.mo.mal.structures.UShort uShort31 = org.ccsds.moims.mo.mal.structures.URIList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort uShort32 = new org.ccsds.moims.mo.mal.structures.UShort();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray33 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort31, uShort32 };
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray33 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort31,
+                                                                                                                  uShort32};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList34 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean35 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList34, uShortArray33);
+        boolean boolean35 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList34,
+                                                         uShortArray33);
         org.ccsds.moims.mo.mal.structures.UShort uShort37 = new org.ccsds.moims.mo.mal.structures.UShort();
         org.ccsds.moims.mo.mal.structures.UShort uShort38 = uShortList34.set((int) (short) 0, uShort37);
         boolean boolean39 = longList24.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList34);
@@ -13471,7 +13960,7 @@ public class RegressionTest0 {
         java.util.Iterator<org.ccsds.moims.mo.mal.structures.URI> uRIItor46 = uRIList6.iterator();
         try {
             java.lang.Boolean boolean47 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[16, 10, 1]", (java.io.Serializable) uRIList6);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(element7);
@@ -13483,7 +13972,8 @@ public class RegressionTest0 {
         org.junit.Assert.assertTrue("'" + int20 + "' != '" + (-1) + "'", int20 == (-1));
         org.junit.Assert.assertNotNull(longArray23);
         org.junit.Assert.assertTrue("'" + boolean25 + "' != '" + true + "'", boolean25);
-        org.junit.Assert.assertTrue("'" + str26 + "' != '" + "[-1, 281475010265070]" + "'", str26.equals("[-1, 281475010265070]"));
+        org.junit.Assert.assertTrue("'" + str26 + "' != '" + "[-1, 281475010265070]" + "'", str26.equals(
+                                                                                                         "[-1, 281475010265070]"));
         org.junit.Assert.assertNotNull(uShort27);
         org.junit.Assert.assertTrue("'" + int28 + "' != '" + (-1) + "'", int28 == (-1));
         org.junit.Assert.assertTrue("'" + boolean30 + "' != '" + true + "'", boolean30);
@@ -13505,7 +13995,7 @@ public class RegressionTest0 {
     public void test470() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test470");
-        java.lang.Byte[] byteArray2 = new java.lang.Byte[] { (byte) 100, (byte) 100 };
+        java.lang.Byte[] byteArray2 = new java.lang.Byte[]{(byte) 100, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList3 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList3, byteArray2);
         java.util.ListIterator<java.lang.Byte> byteItor6 = byteList3.listIterator((int) (short) 1);
@@ -13536,7 +14026,11 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener33 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl32);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener34 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl32);
         java.lang.Long long35 = nanoSatMOConnectorImpl32.getAppDirectoryId();
-        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray36 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] { nanoSatMOConnectorImpl17, nanoSatMOConnectorImpl23, nanoSatMOConnectorImpl25, nanoSatMOConnectorImpl30, nanoSatMOConnectorImpl32 };
+        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray36 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[]{nanoSatMOConnectorImpl17,
+                                                                                                                                                          nanoSatMOConnectorImpl23,
+                                                                                                                                                          nanoSatMOConnectorImpl25,
+                                                                                                                                                          nanoSatMOConnectorImpl30,
+                                                                                                                                                          nanoSatMOConnectorImpl32};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray37 = longList10.toArray(nanoSatMOConnectorImplArray36);
         int int38 = longList10.size();
         boolean boolean39 = byteList3.remove((java.lang.Object) longList10);
@@ -13582,9 +14076,10 @@ public class RegressionTest0 {
         java.lang.Long long12 = nanoSatMOConnectorImpl10.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl13 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener14 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl13);
-        java.lang.Float[] floatArray16 = new java.lang.Float[] { 1.0f };
+        java.lang.Float[] floatArray16 = new java.lang.Float[]{1.0f};
         java.util.ArrayList<java.lang.Float> floatList17 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList17, floatArray16);
+        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList17,
+                                                         floatArray16);
         java.util.ListIterator<java.lang.Float> floatItor19 = floatList17.listIterator();
         int int21 = floatList17.indexOf((java.lang.Object) "[-1, 281475010265070]");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl22 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
@@ -13596,7 +14091,11 @@ public class RegressionTest0 {
         java.lang.Long long28 = nanoSatMOConnectorImpl22.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl29 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         java.lang.Long long30 = nanoSatMOConnectorImpl29.getAppDirectoryId();
-        esa.mo.nmf.SimpleMonitoringInterface[] simpleMonitoringInterfaceArray31 = new esa.mo.nmf.SimpleMonitoringInterface[] { nanoSatMOConnectorImpl6, nanoSatMOConnectorImpl10, nanoSatMOConnectorImpl13, nanoSatMOConnectorImpl22, nanoSatMOConnectorImpl29 };
+        esa.mo.nmf.SimpleMonitoringInterface[] simpleMonitoringInterfaceArray31 = new esa.mo.nmf.SimpleMonitoringInterface[]{nanoSatMOConnectorImpl6,
+                                                                                                                             nanoSatMOConnectorImpl10,
+                                                                                                                             nanoSatMOConnectorImpl13,
+                                                                                                                             nanoSatMOConnectorImpl22,
+                                                                                                                             nanoSatMOConnectorImpl29};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl32 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener33 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl32);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener34 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl32);
@@ -13606,9 +14105,10 @@ public class RegressionTest0 {
         java.lang.Long long38 = nanoSatMOConnectorImpl36.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl39 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener40 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl39);
-        java.lang.Float[] floatArray42 = new java.lang.Float[] { 1.0f };
+        java.lang.Float[] floatArray42 = new java.lang.Float[]{1.0f};
         java.util.ArrayList<java.lang.Float> floatList43 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean44 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList43, floatArray42);
+        boolean boolean44 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList43,
+                                                         floatArray42);
         java.util.ListIterator<java.lang.Float> floatItor45 = floatList43.listIterator();
         int int47 = floatList43.indexOf((java.lang.Object) "[-1, 281475010265070]");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl48 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
@@ -13620,8 +14120,13 @@ public class RegressionTest0 {
         java.lang.Long long54 = nanoSatMOConnectorImpl48.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl55 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         java.lang.Long long56 = nanoSatMOConnectorImpl55.getAppDirectoryId();
-        esa.mo.nmf.SimpleMonitoringInterface[] simpleMonitoringInterfaceArray57 = new esa.mo.nmf.SimpleMonitoringInterface[] { nanoSatMOConnectorImpl32, nanoSatMOConnectorImpl36, nanoSatMOConnectorImpl39, nanoSatMOConnectorImpl48, nanoSatMOConnectorImpl55 };
-        esa.mo.nmf.SimpleMonitoringInterface[][] simpleMonitoringInterfaceArray58 = new esa.mo.nmf.SimpleMonitoringInterface[][] { simpleMonitoringInterfaceArray31, simpleMonitoringInterfaceArray57 };
+        esa.mo.nmf.SimpleMonitoringInterface[] simpleMonitoringInterfaceArray57 = new esa.mo.nmf.SimpleMonitoringInterface[]{nanoSatMOConnectorImpl32,
+                                                                                                                             nanoSatMOConnectorImpl36,
+                                                                                                                             nanoSatMOConnectorImpl39,
+                                                                                                                             nanoSatMOConnectorImpl48,
+                                                                                                                             nanoSatMOConnectorImpl55};
+        esa.mo.nmf.SimpleMonitoringInterface[][] simpleMonitoringInterfaceArray58 = new esa.mo.nmf.SimpleMonitoringInterface[][]{simpleMonitoringInterfaceArray31,
+                                                                                                                                 simpleMonitoringInterfaceArray57};
         esa.mo.nmf.SimpleMonitoringInterface[][] simpleMonitoringInterfaceArray59 = shortList0.toArray(simpleMonitoringInterfaceArray58);
         java.lang.Integer int60 = shortList0.getTypeShortForm();
         org.junit.Assert.assertNotNull(uShort1);
@@ -13660,15 +14165,17 @@ public class RegressionTest0 {
     public void test472() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test472");
-        java.lang.Double[] doubleArray4 = new java.lang.Double[] { 10.0d, 0.0d, (-1.0d), (-1.0d) };
+        java.lang.Double[] doubleArray4 = new java.lang.Double[]{10.0d, 0.0d, (-1.0d), (-1.0d)};
         java.util.ArrayList<java.lang.Double> doubleList5 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList5, doubleArray4);
+        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList5,
+                                                        doubleArray4);
         boolean boolean8 = doubleList5.equals((java.lang.Object) 281475010265079L);
         int int9 = doubleList5.size();
         boolean boolean11 = doubleList5.equals((java.lang.Object) "[10.0, 0.0, -1.0, -1.0]");
-        java.lang.Float[] floatArray16 = new java.lang.Float[] { (-1.0f), 10.0f, 10.0f, 1.0f };
+        java.lang.Float[] floatArray16 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f, 1.0f};
         java.util.ArrayList<java.lang.Float> floatList17 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList17, floatArray16);
+        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList17,
+                                                         floatArray16);
         int int20 = floatList17.lastIndexOf((java.lang.Object) (-1L));
         java.util.Iterator<java.lang.Float> floatItor21 = floatList17.iterator();
         org.ccsds.moims.mo.mal.structures.Identifier identifier22 = new org.ccsds.moims.mo.mal.structures.Identifier();
@@ -13720,7 +14227,7 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.Time time11 = new org.ccsds.moims.mo.mal.structures.Time((long) (short) 10);
         try {
             java.lang.Boolean boolean12 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[10.0, 0.0, -1.0, -1.0, 0.0, 0.0]", (java.io.Serializable) time11);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -13740,7 +14247,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener5 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             esa.mo.nmf.MCServicesProviderNMF mCServicesProviderNMF6 = null; // flaky: nanoSatMOConnectorImpl0.getMCServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -13758,7 +14265,7 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener4 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
             esa.mo.com.impl.util.COMServicesProvider cOMServicesProvider5 = nanoSatMOConnectorImpl0.getCOMServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -13783,7 +14290,7 @@ public class RegressionTest0 {
         java.util.stream.Stream<java.lang.Float> floatStream14 = floatList11.stream();
         try {
             java.lang.Boolean boolean16 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("0.0", (java.io.Serializable) floatList11, false);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -13839,7 +14346,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             esa.mo.platform.impl.util.PlatformServicesConsumer platformServicesConsumer7 = null; // flaky: nanoSatMOConnectorImpl0.getPlatformServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -13860,7 +14367,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             esa.mo.platform.impl.util.PlatformServicesConsumer platformServicesConsumer8 = null; // flaky: nanoSatMOConnectorImpl0.getPlatformServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -13880,7 +14387,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             nanoSatMOConnectorImpl0.writeCentralDirectoryServiceURI("281474993487886", "[false, true]");
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -13921,15 +14428,17 @@ public class RegressionTest0 {
     public void test483() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test483");
-        java.lang.Double[] doubleArray4 = new java.lang.Double[] { 10.0d, 0.0d, (-1.0d), (-1.0d) };
+        java.lang.Double[] doubleArray4 = new java.lang.Double[]{10.0d, 0.0d, (-1.0d), (-1.0d)};
         java.util.ArrayList<java.lang.Double> doubleList5 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList5, doubleArray4);
+        boolean boolean6 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList5,
+                                                        doubleArray4);
         boolean boolean8 = doubleList5.equals((java.lang.Object) 281475010265079L);
         int int9 = doubleList5.size();
         boolean boolean11 = doubleList5.equals((java.lang.Object) "[10.0, 0.0, -1.0, -1.0]");
-        java.lang.Float[] floatArray16 = new java.lang.Float[] { (-1.0f), 10.0f, 10.0f, 1.0f };
+        java.lang.Float[] floatArray16 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f, 1.0f};
         java.util.ArrayList<java.lang.Float> floatList17 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList17, floatArray16);
+        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList17,
+                                                         floatArray16);
         int int20 = floatList17.lastIndexOf((java.lang.Object) (-1L));
         java.util.Iterator<java.lang.Float> floatItor21 = floatList17.iterator();
         org.ccsds.moims.mo.mal.structures.Identifier identifier22 = new org.ccsds.moims.mo.mal.structures.Identifier();
@@ -13947,7 +14456,7 @@ public class RegressionTest0 {
         java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance> parameterInstanceList37 = null;
         try {
             java.lang.Boolean boolean39 = null; // flaky: nanoSatMOConnectorImpl32.pushMultipleParameterValues(parameterInstanceList37, false);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(doubleArray4);
@@ -13997,37 +14506,47 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener23 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl22);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener24 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl22);
         java.lang.Long long25 = nanoSatMOConnectorImpl22.getAppDirectoryId();
-        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray26 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] { nanoSatMOConnectorImpl7, nanoSatMOConnectorImpl13, nanoSatMOConnectorImpl15, nanoSatMOConnectorImpl20, nanoSatMOConnectorImpl22 };
+        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray26 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[]{nanoSatMOConnectorImpl7,
+                                                                                                                                                          nanoSatMOConnectorImpl13,
+                                                                                                                                                          nanoSatMOConnectorImpl15,
+                                                                                                                                                          nanoSatMOConnectorImpl20,
+                                                                                                                                                          nanoSatMOConnectorImpl22};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray27 = longList0.toArray(nanoSatMOConnectorImplArray26);
         int int28 = longList0.size();
         boolean boolean30 = longList0.add((java.lang.Long) 35L);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray31 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray31 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList32 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean33 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList32, uShortArray31);
+        boolean boolean33 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList32,
+                                                         uShortArray31);
         int int35 = uShortList32.lastIndexOf((java.lang.Object) 'a');
         boolean boolean36 = uShortList32.isEmpty();
         uShortList32.clear();
         uShortList32.trimToSize();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray40 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray40 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList41 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean42 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList41, uShortArray40);
+        boolean boolean42 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList41,
+                                                         uShortArray40);
         int int44 = uShortList41.lastIndexOf((java.lang.Object) 'a');
         boolean boolean45 = uShortList41.isEmpty();
         org.ccsds.moims.mo.mal.structures.UShort uShort46 = new org.ccsds.moims.mo.mal.structures.UShort();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray47 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort46 };
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray47 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort46};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList48 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean49 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList48, uShortArray47);
+        boolean boolean49 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList48,
+                                                         uShortArray47);
         boolean boolean50 = uShortList41.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList48);
-        java.lang.String[] strArray52 = new java.lang.String[] { "hi!" };
+        java.lang.String[] strArray52 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList53 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean54 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList53, strArray52);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray55 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean54 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList53,
+                                                         strArray52);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray55 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList56 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean57 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList56, uShortArray55);
+        boolean boolean57 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList56,
+                                                         uShortArray55);
         int int59 = uShortList56.indexOf((java.lang.Object) 1.0f);
         boolean boolean60 = strList53.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList56);
         boolean boolean61 = uShortList41.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList56);
-        boolean boolean62 = uShortList32.addAll(0, (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList56);
+        boolean boolean62 = uShortList32.addAll(0,
+                                                (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList56);
         uShortList56.ensureCapacity(5);
         boolean boolean65 = longList0.retainAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList56);
         org.junit.Assert.assertNotNull(uShort1);
@@ -14077,7 +14596,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             org.ccsds.moims.mo.common.configuration.structures.ConfigurationObjectDetails configurationObjectDetails7 = null; // flaky: nanoSatMOConnectorImpl0.getCurrentConfiguration();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long2);
@@ -14107,7 +14626,9 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener16 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl13);
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl17 = null;
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener18 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl17);
-        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray19 = new esa.mo.com.impl.util.EventReceivedListener[] { closeAppEventListener12, closeAppEventListener16, closeAppEventListener18 };
+        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray19 = new esa.mo.com.impl.util.EventReceivedListener[]{closeAppEventListener12,
+                                                                                                                                     closeAppEventListener16,
+                                                                                                                                     closeAppEventListener18};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl20 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener21 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl20);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener22 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl20);
@@ -14118,7 +14639,9 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener27 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl24);
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl28 = null;
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener29 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl28);
-        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray30 = new esa.mo.com.impl.util.EventReceivedListener[] { closeAppEventListener23, closeAppEventListener27, closeAppEventListener29 };
+        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray30 = new esa.mo.com.impl.util.EventReceivedListener[]{closeAppEventListener23,
+                                                                                                                                     closeAppEventListener27,
+                                                                                                                                     closeAppEventListener29};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl31 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener32 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl31);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener33 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl31);
@@ -14129,7 +14652,9 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener38 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl35);
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl39 = null;
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener40 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl39);
-        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray41 = new esa.mo.com.impl.util.EventReceivedListener[] { closeAppEventListener34, closeAppEventListener38, closeAppEventListener40 };
+        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray41 = new esa.mo.com.impl.util.EventReceivedListener[]{closeAppEventListener34,
+                                                                                                                                     closeAppEventListener38,
+                                                                                                                                     closeAppEventListener40};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl42 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener43 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl42);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener44 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl42);
@@ -14140,27 +14665,36 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener49 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl46);
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl50 = null;
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener51 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl50);
-        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray52 = new esa.mo.com.impl.util.EventReceivedListener[] { closeAppEventListener45, closeAppEventListener49, closeAppEventListener51 };
-        esa.mo.com.impl.util.EventReceivedListener[][] eventReceivedListenerArray53 = new esa.mo.com.impl.util.EventReceivedListener[][] { eventReceivedListenerArray19, eventReceivedListenerArray30, eventReceivedListenerArray41, eventReceivedListenerArray52 };
+        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray52 = new esa.mo.com.impl.util.EventReceivedListener[]{closeAppEventListener45,
+                                                                                                                                     closeAppEventListener49,
+                                                                                                                                     closeAppEventListener51};
+        esa.mo.com.impl.util.EventReceivedListener[][] eventReceivedListenerArray53 = new esa.mo.com.impl.util.EventReceivedListener[][]{eventReceivedListenerArray19,
+                                                                                                                                         eventReceivedListenerArray30,
+                                                                                                                                         eventReceivedListenerArray41,
+                                                                                                                                         eventReceivedListenerArray52};
         esa.mo.com.impl.util.EventReceivedListener[][] eventReceivedListenerArray54 = shortList3.toArray(eventReceivedListenerArray53);
-        java.lang.Double[] doubleArray57 = new java.lang.Double[] { 10.0d, (-1.0d) };
+        java.lang.Double[] doubleArray57 = new java.lang.Double[]{10.0d, (-1.0d)};
         java.util.ArrayList<java.lang.Double> doubleList58 = new java.util.ArrayList<java.lang.Double>();
-        boolean boolean59 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList58, doubleArray57);
+        boolean boolean59 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList58,
+                                                         doubleArray57);
         java.lang.Object obj60 = doubleList58.clone();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray61 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray61 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList62 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean63 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList62, uShortArray61);
+        boolean boolean63 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList62,
+                                                         uShortArray61);
         int int65 = uShortList62.lastIndexOf((java.lang.Object) 'a');
         boolean boolean66 = uShortList62.isEmpty();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray67 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray67 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList68 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean69 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList68, uShortArray67);
+        boolean boolean69 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList68,
+                                                         uShortArray67);
         int int71 = uShortList68.lastIndexOf((java.lang.Object) 'a');
         boolean boolean72 = uShortList68.isEmpty();
         org.ccsds.moims.mo.mal.structures.UShort uShort73 = new org.ccsds.moims.mo.mal.structures.UShort();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray74 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort73 };
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray74 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort73};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList75 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean76 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList75, uShortArray74);
+        boolean boolean76 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList75,
+                                                         uShortArray74);
         boolean boolean77 = uShortList68.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList75);
         boolean boolean78 = uShortList62.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList68);
         boolean boolean79 = doubleList58.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList68);
@@ -14223,26 +14757,30 @@ public class RegressionTest0 {
     public void test487() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test487");
-        java.lang.Short[] shortArray3 = new java.lang.Short[] { (short) 1, (short) -1, (short) 10 };
+        java.lang.Short[] shortArray3 = new java.lang.Short[]{(short) 1, (short) -1, (short) 10};
         java.util.ArrayList<java.lang.Short> shortList4 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList4, shortArray3);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray6 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList4,
+                                                        shortArray3);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray6 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList7 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean8 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList7, uShortArray6);
+        boolean boolean8 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList7,
+                                                        uShortArray6);
         int int10 = uShortList7.lastIndexOf((java.lang.Object) 'a');
         boolean boolean11 = uShortList7.isEmpty();
         org.ccsds.moims.mo.mal.structures.UShort uShort12 = new org.ccsds.moims.mo.mal.structures.UShort();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray13 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort12 };
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray13 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort12};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList14 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean15 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList14, uShortArray13);
+        boolean boolean15 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList14,
+                                                         uShortArray13);
         boolean boolean16 = uShortList7.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList14);
         boolean boolean17 = shortList4.remove((java.lang.Object) boolean16);
         shortList4.clear();
         org.ccsds.moims.mo.mal.structures.URI uRI19 = new org.ccsds.moims.mo.mal.structures.URI();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet20 = uRI19.getAreaVersion();
-        org.ccsds.moims.mo.mal.structures.URI[] uRIArray21 = new org.ccsds.moims.mo.mal.structures.URI[] { uRI19 };
+        org.ccsds.moims.mo.mal.structures.URI[] uRIArray21 = new org.ccsds.moims.mo.mal.structures.URI[]{uRI19};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList22 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList22, uRIArray21);
+        boolean boolean23 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList22,
+                                                         uRIArray21);
         java.util.ListIterator<org.ccsds.moims.mo.mal.structures.URI> uRIItor25 = uRIList22.listIterator((int) (short) 0);
         org.ccsds.moims.mo.mal.structures.URI uRI27 = new org.ccsds.moims.mo.mal.structures.URI();
         java.lang.Long long28 = uRI27.getShortForm();
@@ -14253,16 +14791,19 @@ public class RegressionTest0 {
         boolean boolean36 = stringList34.equals((java.lang.Object) (byte) -1);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet37 = stringList34.getAreaVersion();
         stringList34.clear();
-        java.lang.Short[] shortArray42 = new java.lang.Short[] { (short) 1, (short) 100, (short) 100 };
+        java.lang.Short[] shortArray42 = new java.lang.Short[]{(short) 1, (short) 100, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList43 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean44 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList43, shortArray42);
+        boolean boolean44 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList43,
+                                                         shortArray42);
         boolean boolean46 = shortList43.equals((java.lang.Object) "hi!");
-        java.lang.String[] strArray48 = new java.lang.String[] { "hi!" };
+        java.lang.String[] strArray48 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList49 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean50 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList49, strArray48);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray51 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean50 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList49,
+                                                         strArray48);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray51 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList52 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean53 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList52, uShortArray51);
+        boolean boolean53 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList52,
+                                                         uShortArray51);
         int int55 = uShortList52.indexOf((java.lang.Object) 1.0f);
         boolean boolean56 = strList49.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList52);
         boolean boolean57 = shortList43.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList52);
@@ -14282,7 +14823,7 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet74 = octetList70.getAreaVersion();
         try {
             java.lang.Boolean boolean76 = null; // flaky: nanoSatMOConnectorImpl60.pushParameterValue("[hi!]", (java.io.Serializable) uOctet74, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(shortArray3);
@@ -14330,16 +14871,19 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.ShortList shortList0 = new org.ccsds.moims.mo.mal.structures.ShortList();
         org.ccsds.moims.mo.mal.structures.UShort uShort1 = shortList0.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.Element element2 = shortList0.createElement();
-        java.lang.Short[] shortArray6 = new java.lang.Short[] { (short) 1, (short) 100, (short) 100 };
+        java.lang.Short[] shortArray6 = new java.lang.Short[]{(short) 1, (short) 100, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList7 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean8 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList7, shortArray6);
+        boolean boolean8 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList7,
+                                                        shortArray6);
         boolean boolean10 = shortList7.equals((java.lang.Object) "hi!");
-        java.lang.String[] strArray12 = new java.lang.String[] { "hi!" };
+        java.lang.String[] strArray12 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList13 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList13, strArray12);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray15 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList13,
+                                                         strArray12);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray15 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList16 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean17 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList16, uShortArray15);
+        boolean boolean17 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList16,
+                                                         uShortArray15);
         int int19 = uShortList16.indexOf((java.lang.Object) 1.0f);
         boolean boolean20 = strList13.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList16);
         boolean boolean21 = shortList7.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList16);
@@ -14363,9 +14907,10 @@ public class RegressionTest0 {
         java.lang.Long long39 = nanoSatMOConnectorImpl37.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl40 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener41 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl40);
-        java.lang.Float[] floatArray43 = new java.lang.Float[] { 1.0f };
+        java.lang.Float[] floatArray43 = new java.lang.Float[]{1.0f};
         java.util.ArrayList<java.lang.Float> floatList44 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean45 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList44, floatArray43);
+        boolean boolean45 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList44,
+                                                         floatArray43);
         java.util.ListIterator<java.lang.Float> floatItor46 = floatList44.listIterator();
         int int48 = floatList44.indexOf((java.lang.Object) "[-1, 281475010265070]");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl49 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
@@ -14377,7 +14922,11 @@ public class RegressionTest0 {
         java.lang.Long long55 = nanoSatMOConnectorImpl49.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl56 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         java.lang.Long long57 = nanoSatMOConnectorImpl56.getAppDirectoryId();
-        esa.mo.nmf.SimpleMonitoringInterface[] simpleMonitoringInterfaceArray58 = new esa.mo.nmf.SimpleMonitoringInterface[] { nanoSatMOConnectorImpl33, nanoSatMOConnectorImpl37, nanoSatMOConnectorImpl40, nanoSatMOConnectorImpl49, nanoSatMOConnectorImpl56 };
+        esa.mo.nmf.SimpleMonitoringInterface[] simpleMonitoringInterfaceArray58 = new esa.mo.nmf.SimpleMonitoringInterface[]{nanoSatMOConnectorImpl33,
+                                                                                                                             nanoSatMOConnectorImpl37,
+                                                                                                                             nanoSatMOConnectorImpl40,
+                                                                                                                             nanoSatMOConnectorImpl49,
+                                                                                                                             nanoSatMOConnectorImpl56};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl59 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener60 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl59);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener61 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl59);
@@ -14387,9 +14936,10 @@ public class RegressionTest0 {
         java.lang.Long long65 = nanoSatMOConnectorImpl63.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl66 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener67 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl66);
-        java.lang.Float[] floatArray69 = new java.lang.Float[] { 1.0f };
+        java.lang.Float[] floatArray69 = new java.lang.Float[]{1.0f};
         java.util.ArrayList<java.lang.Float> floatList70 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean71 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList70, floatArray69);
+        boolean boolean71 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList70,
+                                                         floatArray69);
         java.util.ListIterator<java.lang.Float> floatItor72 = floatList70.listIterator();
         int int74 = floatList70.indexOf((java.lang.Object) "[-1, 281475010265070]");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl75 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
@@ -14401,8 +14951,13 @@ public class RegressionTest0 {
         java.lang.Long long81 = nanoSatMOConnectorImpl75.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl82 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         java.lang.Long long83 = nanoSatMOConnectorImpl82.getAppDirectoryId();
-        esa.mo.nmf.SimpleMonitoringInterface[] simpleMonitoringInterfaceArray84 = new esa.mo.nmf.SimpleMonitoringInterface[] { nanoSatMOConnectorImpl59, nanoSatMOConnectorImpl63, nanoSatMOConnectorImpl66, nanoSatMOConnectorImpl75, nanoSatMOConnectorImpl82 };
-        esa.mo.nmf.SimpleMonitoringInterface[][] simpleMonitoringInterfaceArray85 = new esa.mo.nmf.SimpleMonitoringInterface[][] { simpleMonitoringInterfaceArray58, simpleMonitoringInterfaceArray84 };
+        esa.mo.nmf.SimpleMonitoringInterface[] simpleMonitoringInterfaceArray84 = new esa.mo.nmf.SimpleMonitoringInterface[]{nanoSatMOConnectorImpl59,
+                                                                                                                             nanoSatMOConnectorImpl63,
+                                                                                                                             nanoSatMOConnectorImpl66,
+                                                                                                                             nanoSatMOConnectorImpl75,
+                                                                                                                             nanoSatMOConnectorImpl82};
+        esa.mo.nmf.SimpleMonitoringInterface[][] simpleMonitoringInterfaceArray85 = new esa.mo.nmf.SimpleMonitoringInterface[][]{simpleMonitoringInterfaceArray58,
+                                                                                                                                 simpleMonitoringInterfaceArray84};
         esa.mo.nmf.SimpleMonitoringInterface[][] simpleMonitoringInterfaceArray86 = shortList27.toArray(simpleMonitoringInterfaceArray85);
         esa.mo.nmf.SimpleMonitoringInterface[][] simpleMonitoringInterfaceArray87 = shortList0.toArray(simpleMonitoringInterfaceArray86);
         org.ccsds.moims.mo.mal.structures.Element element88 = shortList0.createElement();
@@ -14484,7 +15039,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             org.ccsds.moims.mo.mal.structures.Identifier identifier5 = nanoSatMOConnectorImpl0.getProviderName();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -14503,8 +15058,9 @@ public class RegressionTest0 {
         java.lang.Long long6 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener7 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         try {
-            nanoSatMOConnectorImpl0.writeCentralDirectoryServiceURI("[10.0, 0.0, -1.0, -1.0, 0.0, 0.0]", "281474993487875");
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            nanoSatMOConnectorImpl0.writeCentralDirectoryServiceURI("[10.0, 0.0, -1.0, -1.0, 0.0, 0.0]",
+                                                                    "281474993487875");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -14523,7 +15079,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             nanoSatMOConnectorImpl0.writeCentralDirectoryServiceURI("hi!", "[, [true, true]]");
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -14542,30 +15098,36 @@ public class RegressionTest0 {
         java.lang.Long long6 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         java.lang.Long long7 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         nanoSatMOConnectorImpl0.initAdditionalServices();
-        java.lang.String[] strArray11 = new java.lang.String[] { "" };
+        java.lang.String[] strArray11 = new java.lang.String[]{""};
         java.util.ArrayList<java.lang.String> strList12 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList12, strArray11);
+        boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList12,
+                                                         strArray11);
         java.lang.Object[] objArray14 = strList12.toArray();
-        java.lang.Integer[] intArray18 = new java.lang.Integer[] { (-1), 10, 1 };
+        java.lang.Integer[] intArray18 = new java.lang.Integer[]{(-1), 10, 1};
         java.util.ArrayList<java.lang.Integer> intList19 = new java.util.ArrayList<java.lang.Integer>();
-        boolean boolean20 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList19, intArray18);
+        boolean boolean20 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList19,
+                                                         intArray18);
         intList19.ensureCapacity((int) (short) 100);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray23 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray23 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList24 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean25 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList24, uShortArray23);
+        boolean boolean25 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList24,
+                                                         uShortArray23);
         int int27 = uShortList24.lastIndexOf((java.lang.Object) 'a');
         boolean boolean28 = uShortList24.isEmpty();
         org.ccsds.moims.mo.mal.structures.UShort uShort29 = new org.ccsds.moims.mo.mal.structures.UShort();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray30 = new org.ccsds.moims.mo.mal.structures.UShort[] { uShort29 };
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray30 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort29};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList31 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean32 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList31, uShortArray30);
+        boolean boolean32 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList31,
+                                                         uShortArray30);
         boolean boolean33 = uShortList24.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList31);
-        java.lang.String[] strArray35 = new java.lang.String[] { "hi!" };
+        java.lang.String[] strArray35 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList36 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean37 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList36, strArray35);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray38 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        boolean boolean37 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList36,
+                                                         strArray35);
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray38 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList39 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean40 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList39, uShortArray38);
+        boolean boolean40 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList39,
+                                                         uShortArray38);
         int int42 = uShortList39.indexOf((java.lang.Object) 1.0f);
         boolean boolean43 = strList36.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList39);
         boolean boolean44 = uShortList24.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList39);
@@ -14580,7 +15142,7 @@ public class RegressionTest0 {
         boolean boolean53 = strList12.remove((java.lang.Object) element52);
         try {
             java.lang.Boolean boolean55 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[-1.0]", (java.io.Serializable) strList12, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -14638,7 +15200,12 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl19 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener20 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl19);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener21 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl19);
-        java.util.EventListener[] eventListenerArray22 = new java.util.EventListener[] { closeAppEventListener4, closeAppEventListener6, closeAppEventListener10, closeAppEventListener13, closeAppEventListener18, closeAppEventListener21 };
+        java.util.EventListener[] eventListenerArray22 = new java.util.EventListener[]{closeAppEventListener4,
+                                                                                       closeAppEventListener6,
+                                                                                       closeAppEventListener10,
+                                                                                       closeAppEventListener13,
+                                                                                       closeAppEventListener18,
+                                                                                       closeAppEventListener21};
         java.util.EventListener[] eventListenerArray23 = stringList1.toArray(eventListenerArray22);
         java.lang.String str24 = stringList1.toString();
         org.junit.Assert.assertNull(long12);
@@ -14656,8 +15223,8 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener1 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         java.lang.Long long2 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
-// flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, (int) (short) -1, (int) (byte) 10, 13, (long) (-10));
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, (int) (short) -1, (int) (byte) 10, 13, (long) (-10));
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long2);
@@ -14670,8 +15237,8 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
-// flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(true, (-10), 3, (-9), 0L);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(true, (-10), 3, (-9), 0L);
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }
@@ -14685,8 +15252,8 @@ public class RegressionTest0 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         java.lang.Long long3 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
-// flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, 65535, 0, (-11), (long) (-4));
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, 65535, 0, (-11), (long) (-4));
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long3);
@@ -14706,12 +15273,13 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         nanoSatMOConnectorImpl0.initAdditionalServices();
         nanoSatMOConnectorImpl0.initAdditionalServices();
-        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray10 = new esa.mo.mc.impl.provider.ParameterInstance[] {};
+        esa.mo.mc.impl.provider.ParameterInstance[] parameterInstanceArray10 = new esa.mo.mc.impl.provider.ParameterInstance[]{};
         java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance> parameterInstanceList11 = new java.util.ArrayList<esa.mo.mc.impl.provider.ParameterInstance>();
-        boolean boolean12 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList11, parameterInstanceArray10);
+        boolean boolean12 = java.util.Collections.addAll((java.util.Collection<esa.mo.mc.impl.provider.ParameterInstance>) parameterInstanceList11,
+                                                         parameterInstanceArray10);
         try {
             java.lang.Boolean boolean14 = null; // flaky: nanoSatMOConnectorImpl0.pushMultipleParameterValues(parameterInstanceList11, true);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -14723,9 +15291,10 @@ public class RegressionTest0 {
     public void test499() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test499");
-        java.lang.Float[] floatArray3 = new java.lang.Float[] { 10.0f, 100.0f, (-1.0f) };
+        java.lang.Float[] floatArray3 = new java.lang.Float[]{10.0f, 100.0f, (-1.0f)};
         java.util.ArrayList<java.lang.Float> floatList4 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList4, floatArray3);
+        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList4,
+                                                        floatArray3);
         boolean boolean7 = floatList4.add((java.lang.Float) 10.0f);
         floatList4.trimToSize();
         boolean boolean9 = floatList4.isEmpty();
@@ -14759,7 +15328,7 @@ public class RegressionTest0 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         try {
             org.ccsds.moims.mo.mal.structures.Identifier identifier5 = nanoSatMOConnectorImpl0.getProviderName();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
     }

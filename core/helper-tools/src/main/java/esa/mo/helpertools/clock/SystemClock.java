@@ -34,7 +34,8 @@ public class SystemClock {
 
     private static PlatformClockCallback platformClockCallback;
 
-    private SystemClock() {}
+    private SystemClock() {
+    }
 
     public static void setPlatformClockCallback(PlatformClockCallback callback) {
         platformClockCallback = callback;

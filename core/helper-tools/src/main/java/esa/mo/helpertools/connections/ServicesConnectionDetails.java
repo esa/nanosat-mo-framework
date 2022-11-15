@@ -117,7 +117,8 @@ public class ServicesConnectionDetails {
             String propString = array[i].toString();
 
             if (propString.endsWith(HelperConnections.SUFFIX_URI)) {  // Is it a URI property of some service?
-                String serviceName = propString.substring(0, propString.length() - HelperConnections.SUFFIX_URI.length());  // Remove the URI part of it
+                String serviceName = propString.substring(0, propString.length() -
+                                                             HelperConnections.SUFFIX_URI.length());  // Remove the URI part of it
                 SingleConnectionDetails details = new SingleConnectionDetails();
 
                 // Get the URI + Broker + Domain from the Properties
@@ -130,7 +131,8 @@ public class ServicesConnectionDetails {
                     details.setBrokerURI((URI) null);
                 }
 
-                details.setDomain(HelperMisc.domainId2domain(uriProps.getProperty(serviceName + HelperConnections.SUFFIX_DOMAIN)));
+                details.setDomain(HelperMisc.domainId2domain(uriProps.getProperty(serviceName +
+                                                                                  HelperConnections.SUFFIX_DOMAIN)));
                 String serviceKeyRaw = uriProps.getProperty(serviceName + HelperConnections.SUFFIX_SERVICE_KEY);
 
                 if (serviceKeyRaw != null) {

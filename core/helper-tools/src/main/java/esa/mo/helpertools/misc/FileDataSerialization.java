@@ -33,52 +33,51 @@ import java.io.ObjectOutputStream;
  */
 public class FileDataSerialization {
 
-  /**
-   * Serializes data to a file
-   *
-   * @param filename Name of the file
-   * @param ish      the object to be wrapped
-   * @throws java.net.MalformedURLException
-   * @throws java.lang.IllegalArgumentException If filename == null
-   */
-  public static void serializeDataOut(String filename, Object ish) throws IOException, IllegalArgumentException {
-    if (filename == null) {
-      throw new IllegalArgumentException("Filename must not be null for serialization.");
+    /**
+     * Serializes data to a file
+     *
+     * @param filename Name of the file
+     * @param ish      the object to be wrapped
+     * @throws java.net.MalformedURLException
+     * @throws java.lang.IllegalArgumentException If filename == null
+     */
+    public static void serializeDataOut(String filename, Object ish) throws IOException, IllegalArgumentException {
+        if (filename == null) {
+            throw new IllegalArgumentException("Filename must not be null for serialization.");
+        }
+        FileOutputStream fos = new FileOutputStream(filename);
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        oos.writeObject(ish);
+        oos.flush();
+        oos.close();
     }
-    FileOutputStream fos = new FileOutputStream(filename);
-    ObjectOutputStream oos = new ObjectOutputStream(fos);
-    oos.writeObject(ish);
-    oos.flush();
-    oos.close();
-  }
 
-  /**
-   * Deserializes data from a file
-   *
-   * @param filename Name of the file
-   * @return Generated Object
-   * @throws java.io.FileNotFoundException
-   * @throws java.net.MalformedURLException
-   * @throws java.lang.ClassNotFoundException
-   * @throws java.lang.IllegalArgumentException If filename == null
-   */
-  public static Object serializeDataIn(String filename)
-      throws IOException, ClassNotFoundException, IllegalArgumentException {
-    if (filename == null) {
-      throw new IllegalArgumentException("Filename must not be null for deserialization.");
-    }
-    try {
-      FileInputStream fin = new FileInputStream(filename);
-      ObjectInputStream ois = new ObjectInputStream(fin);
+    /**
+     * Deserializes data from a file
+     *
+     * @param filename Name of the file
+     * @return Generated Object
+     * @throws java.io.FileNotFoundException
+     * @throws java.net.MalformedURLException
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.lang.IllegalArgumentException If filename == null
+     */
+    public static Object serializeDataIn(String filename) throws IOException, ClassNotFoundException, IllegalArgumentException {
+        if (filename == null) {
+            throw new IllegalArgumentException("Filename must not be null for deserialization.");
+        }
+        try {
+            FileInputStream fin = new FileInputStream(filename);
+            ObjectInputStream ois = new ObjectInputStream(fin);
 
-      Object iHandler = ois.readObject();
-      ois.close();
-      return iHandler;
-    } catch (FileNotFoundException e) {
-      throw new FileNotFoundException();
-    } catch (IOException e) {
-      throw new IOException();
+            Object iHandler = ois.readObject();
+            ois.close();
+            return iHandler;
+        } catch (FileNotFoundException e) {
+            throw new FileNotFoundException();
+        } catch (IOException e) {
+            throw new IOException();
+        }
     }
-  }
 
 }

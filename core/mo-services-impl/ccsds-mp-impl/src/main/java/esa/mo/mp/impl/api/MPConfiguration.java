@@ -135,164 +135,106 @@ public class MPConfiguration implements COMConfiguration {
 
     static {
         // PlanIdentity <=> PlanVersion <=> PlanUpdate
-        relatedTypes.put(
-            PlanDistributionHelper.PLANIDENTITY_OBJECT_TYPE,
-            PlanDistributionHelper.PLANVERSION_OBJECT_TYPE
-        );
+        relatedTypes.put(PlanDistributionHelper.PLANIDENTITY_OBJECT_TYPE,
+                         PlanDistributionHelper.PLANVERSION_OBJECT_TYPE);
 
-        relatedTypes.put(
-            PlanDistributionHelper.PLANVERSION_OBJECT_TYPE,
-            PlanDistributionHelper.PLANUPDATE_OBJECT_TYPE
-        );
+        relatedTypes.put(PlanDistributionHelper.PLANVERSION_OBJECT_TYPE, PlanDistributionHelper.PLANUPDATE_OBJECT_TYPE);
 
         // RequestTemplateIdentity <=> RequestTemplate
-        relatedTypes.put(
-            PlanInformationManagementHelper.REQUESTTEMPLATEIDENTITY_OBJECT_TYPE,
-            PlanInformationManagementHelper.REQUESTTEMPLATE_OBJECT_TYPE
-        );
+        relatedTypes.put(PlanInformationManagementHelper.REQUESTTEMPLATEIDENTITY_OBJECT_TYPE,
+                         PlanInformationManagementHelper.REQUESTTEMPLATE_OBJECT_TYPE);
 
         // RequestIdentity <=> RequestVersion <=> RequestStatusUpdate
-        relatedTypes.put(
-            PlanningRequestHelper.REQUESTIDENTITY_OBJECT_TYPE,
-            PlanningRequestHelper.REQUESTVERSION_OBJECT_TYPE
-        );
+        relatedTypes.put(PlanningRequestHelper.REQUESTIDENTITY_OBJECT_TYPE,
+                         PlanningRequestHelper.REQUESTVERSION_OBJECT_TYPE);
 
-        relatedTypes.put(
-            PlanningRequestHelper.REQUESTVERSION_OBJECT_TYPE,
-            PlanningRequestHelper.REQUESTSTATUSUPDATE_OBJECT_TYPE
-        );
+        relatedTypes.put(PlanningRequestHelper.REQUESTVERSION_OBJECT_TYPE,
+                         PlanningRequestHelper.REQUESTSTATUSUPDATE_OBJECT_TYPE);
 
         // ActivityIdentity <=> ActivityDefinition <=> ActivityInstance <=> ActivityUpdate
-        relatedTypes.put(
-            PlanInformationManagementHelper.ACTIVITYIDENTITY_OBJECT_TYPE,
-            PlanInformationManagementHelper.ACTIVITYDEFINITION_OBJECT_TYPE
-        );
+        relatedTypes.put(PlanInformationManagementHelper.ACTIVITYIDENTITY_OBJECT_TYPE,
+                         PlanInformationManagementHelper.ACTIVITYDEFINITION_OBJECT_TYPE);
 
-        relatedTypes.put(
-            PlanInformationManagementHelper.ACTIVITYDEFINITION_OBJECT_TYPE,
-            PlanEditHelper.ACTIVITYINSTANCE_OBJECT_TYPE
-        );
+        relatedTypes.put(PlanInformationManagementHelper.ACTIVITYDEFINITION_OBJECT_TYPE,
+                         PlanEditHelper.ACTIVITYINSTANCE_OBJECT_TYPE);
 
-        relatedTypes.put(
-            PlanEditHelper.ACTIVITYINSTANCE_OBJECT_TYPE,
-            PlanEditHelper.ACTIVITYUPDATE_OBJECT_TYPE
-        );
+        relatedTypes.put(PlanEditHelper.ACTIVITYINSTANCE_OBJECT_TYPE, PlanEditHelper.ACTIVITYUPDATE_OBJECT_TYPE);
 
         // EventIdentity <=> EventDefinition <=> EventInstance <=> EventUpdate
-        relatedTypes.put(
-            PlanInformationManagementHelper.EVENTIDENTITY_OBJECT_TYPE,
-            PlanInformationManagementHelper.EVENTDEFINITION_OBJECT_TYPE
-        );
+        relatedTypes.put(PlanInformationManagementHelper.EVENTIDENTITY_OBJECT_TYPE,
+                         PlanInformationManagementHelper.EVENTDEFINITION_OBJECT_TYPE);
 
-        relatedTypes.put(
-            PlanInformationManagementHelper.EVENTDEFINITION_OBJECT_TYPE,
-            PlanEditHelper.EVENTINSTANCE_OBJECT_TYPE
-        );
+        relatedTypes.put(PlanInformationManagementHelper.EVENTDEFINITION_OBJECT_TYPE,
+                         PlanEditHelper.EVENTINSTANCE_OBJECT_TYPE);
 
-        relatedTypes.put(
-            PlanEditHelper.EVENTINSTANCE_OBJECT_TYPE,
-            PlanEditHelper.EVENTUPDATE_OBJECT_TYPE
-        );
+        relatedTypes.put(PlanEditHelper.EVENTINSTANCE_OBJECT_TYPE, PlanEditHelper.EVENTUPDATE_OBJECT_TYPE);
 
         // ResourceIdentity <=> ResourceDefinition <=> ResourceUpdate
-        relatedTypes.put(
-            PlanInformationManagementHelper.RESOURCEIDENTITY_OBJECT_TYPE,
-            PlanInformationManagementHelper.RESOURCEDEFINITION_OBJECT_TYPE
-        );
+        relatedTypes.put(PlanInformationManagementHelper.RESOURCEIDENTITY_OBJECT_TYPE,
+                         PlanInformationManagementHelper.RESOURCEDEFINITION_OBJECT_TYPE);
 
-        relatedTypes.put(
-            PlanInformationManagementHelper.RESOURCEDEFINITION_OBJECT_TYPE,
-            PlanEditHelper.RESOURCEUPDATE_OBJECT_TYPE
-        );
+        relatedTypes.put(PlanInformationManagementHelper.RESOURCEDEFINITION_OBJECT_TYPE,
+                         PlanEditHelper.RESOURCEUPDATE_OBJECT_TYPE);
 
         // FunctionIdentity <=> FunctionDefinition
-        relatedTypes.put(
-            PlanInformationManagementHelper.FUNCTIONIDENTITY_OBJECT_TYPE,
-            PlanInformationManagementHelper.FUNCTIONDEFINITION_OBJECT_TYPE
-        );
+        relatedTypes.put(PlanInformationManagementHelper.FUNCTIONIDENTITY_OBJECT_TYPE,
+                         PlanInformationManagementHelper.FUNCTIONDEFINITION_OBJECT_TYPE);
 
         // Plan Identity
-        relatedConfigurationTypes.put(
-            PlanDistributionHelper.PLANIDENTITY_OBJECT_TYPE,
-            PlanDistributionHelper.PLANIDENTITYTOPLANVERSION_OBJECT_TYPE
-        );
+        relatedConfigurationTypes.put(PlanDistributionHelper.PLANIDENTITY_OBJECT_TYPE,
+                                      PlanDistributionHelper.PLANIDENTITYTOPLANVERSION_OBJECT_TYPE);
 
         // Plan Version
-        relatedConfigurationTypes.put(
-            PlanDistributionHelper.PLANVERSION_OBJECT_TYPE,
-            PlanDistributionHelper.PLANVERSIONTOPLANUPDATE_OBJECT_TYPE
-        );
+        relatedConfigurationTypes.put(PlanDistributionHelper.PLANVERSION_OBJECT_TYPE,
+                                      PlanDistributionHelper.PLANVERSIONTOPLANUPDATE_OBJECT_TYPE);
 
         // Request Template Identity
-        relatedConfigurationTypes.put(
-            PlanInformationManagementHelper.REQUESTTEMPLATEIDENTITY_OBJECT_TYPE,
-            PlanInformationManagementHelper.REQUESTTEMPLATEIDENTITYTOREQUESTTEMPLATE_OBJECT_TYPE
-        );
+        relatedConfigurationTypes.put(PlanInformationManagementHelper.REQUESTTEMPLATEIDENTITY_OBJECT_TYPE,
+                                      PlanInformationManagementHelper.REQUESTTEMPLATEIDENTITYTOREQUESTTEMPLATE_OBJECT_TYPE);
 
         // Request Identity
-        relatedConfigurationTypes.put(
-            PlanningRequestHelper.REQUESTIDENTITY_OBJECT_TYPE,
-            PlanningRequestHelper.REQUESTIDENTITYTOREQUESTVERSION_OBJECT_TYPE
-        );
+        relatedConfigurationTypes.put(PlanningRequestHelper.REQUESTIDENTITY_OBJECT_TYPE,
+                                      PlanningRequestHelper.REQUESTIDENTITYTOREQUESTVERSION_OBJECT_TYPE);
 
         // Request Version
-        relatedConfigurationTypes.put(
-            PlanningRequestHelper.REQUESTVERSION_OBJECT_TYPE,
-            PlanningRequestHelper.REQUESTVERSIONTOREQUESTSTATUSUPDATE_OBJECT_TYPE
-        );
+        relatedConfigurationTypes.put(PlanningRequestHelper.REQUESTVERSION_OBJECT_TYPE,
+                                      PlanningRequestHelper.REQUESTVERSIONTOREQUESTSTATUSUPDATE_OBJECT_TYPE);
 
         // Activity Identity
-        relatedConfigurationTypes.put(
-            PlanInformationManagementHelper.ACTIVITYIDENTITY_OBJECT_TYPE,
-            PlanInformationManagementHelper.ACTIVITYIDENTITYTOACTIVITYDEFINITION_OBJECT_TYPE
-        );
+        relatedConfigurationTypes.put(PlanInformationManagementHelper.ACTIVITYIDENTITY_OBJECT_TYPE,
+                                      PlanInformationManagementHelper.ACTIVITYIDENTITYTOACTIVITYDEFINITION_OBJECT_TYPE);
 
         // Activity Definition
-        relatedConfigurationTypes.put(
-            PlanInformationManagementHelper.ACTIVITYDEFINITION_OBJECT_TYPE,
-            PlanInformationManagementHelper.ACTIVITYDEFINITIONTOACTIVITYINSTANCE_OBJECT_TYPE
-        );
+        relatedConfigurationTypes.put(PlanInformationManagementHelper.ACTIVITYDEFINITION_OBJECT_TYPE,
+                                      PlanInformationManagementHelper.ACTIVITYDEFINITIONTOACTIVITYINSTANCE_OBJECT_TYPE);
 
         // Activity Instance
-        relatedConfigurationTypes.put(
-            PlanEditHelper.ACTIVITYINSTANCE_OBJECT_TYPE,
-            PlanEditHelper.ACTIVITYINSTANCETOACTIVITYSTATUS_OBJECT_TYPE
-        );
+        relatedConfigurationTypes.put(PlanEditHelper.ACTIVITYINSTANCE_OBJECT_TYPE,
+                                      PlanEditHelper.ACTIVITYINSTANCETOACTIVITYSTATUS_OBJECT_TYPE);
 
         // Event Identity
-        relatedConfigurationTypes.put(
-            PlanInformationManagementHelper.EVENTIDENTITY_OBJECT_TYPE,
-            PlanInformationManagementHelper.EVENTIDENTITYTOEVENTDEFINITION_OBJECT_TYPE
-        );
+        relatedConfigurationTypes.put(PlanInformationManagementHelper.EVENTIDENTITY_OBJECT_TYPE,
+                                      PlanInformationManagementHelper.EVENTIDENTITYTOEVENTDEFINITION_OBJECT_TYPE);
 
         // Event Definition
-        relatedConfigurationTypes.put(
-            PlanInformationManagementHelper.EVENTDEFINITION_OBJECT_TYPE,
-            PlanInformationManagementHelper.EVENTDEFINITIONTOEVENTINSTANCE_OBJECT_TYPE
-        );
+        relatedConfigurationTypes.put(PlanInformationManagementHelper.EVENTDEFINITION_OBJECT_TYPE,
+                                      PlanInformationManagementHelper.EVENTDEFINITIONTOEVENTINSTANCE_OBJECT_TYPE);
 
         // Event Instance
-        relatedConfigurationTypes.put(
-            PlanEditHelper.EVENTINSTANCE_OBJECT_TYPE,
-            PlanEditHelper.EVENTINSTANCETOEVENTSTATUS_OBJECT_TYPE
-        );
+        relatedConfigurationTypes.put(PlanEditHelper.EVENTINSTANCE_OBJECT_TYPE,
+                                      PlanEditHelper.EVENTINSTANCETOEVENTSTATUS_OBJECT_TYPE);
 
         // Resource Identity
-        relatedConfigurationTypes.put(
-            PlanInformationManagementHelper.RESOURCEIDENTITY_OBJECT_TYPE,
-            PlanInformationManagementHelper.RESOURCEIDENTITYTORESOURCEDEFINITION_OBJECT_TYPE
-        );
+        relatedConfigurationTypes.put(PlanInformationManagementHelper.RESOURCEIDENTITY_OBJECT_TYPE,
+                                      PlanInformationManagementHelper.RESOURCEIDENTITYTORESOURCEDEFINITION_OBJECT_TYPE);
 
         // Resource Definition
-        relatedConfigurationTypes.put(
-            PlanInformationManagementHelper.RESOURCEDEFINITION_OBJECT_TYPE,
-            PlanInformationManagementHelper.RESOURCEIDENTITYTORESOURCEDEFINITION_OBJECT_TYPE // TODO
+        relatedConfigurationTypes.put(PlanInformationManagementHelper.RESOURCEDEFINITION_OBJECT_TYPE,
+                                      PlanInformationManagementHelper.RESOURCEIDENTITYTORESOURCEDEFINITION_OBJECT_TYPE // TODO
         );
 
         // Function Identity
-        relatedConfigurationTypes.put(
-            PlanInformationManagementHelper.FUNCTIONIDENTITY_OBJECT_TYPE,
-            PlanInformationManagementHelper.FUNCTIONIDENTITYTOFUNCTIONDEFINITION_OBJECT_TYPE
-        );
+        relatedConfigurationTypes.put(PlanInformationManagementHelper.FUNCTIONIDENTITY_OBJECT_TYPE,
+                                      PlanInformationManagementHelper.FUNCTIONIDENTITYTOFUNCTIONDEFINITION_OBJECT_TYPE);
     }
 }

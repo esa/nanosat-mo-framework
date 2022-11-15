@@ -92,8 +92,7 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
             // Check if the file exists:
             File file = new File(filepath);
             String fileExists = (file.exists()) ? "The file exists! :)" : "The file does not exist!!  :(";
-            LOGGER.log(Level.INFO, "Loading Library from: {0}\n{1}",
-                    new Object[]{filepath, fileExists});
+            LOGGER.log(Level.INFO, "Loading Library from: {0}\n{1}", new Object[]{filepath, fileExists});
 
             // Load the file:
             System.load(filepath);
@@ -148,31 +147,56 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
         ParameterDefinitionDetailsList parDef = new ParameterDefinitionDetailsList();
         IdentifierList paramNames = new IdentifierList();
 
-        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_1, rawTypeString, "unit", false, new Duration(0), null, null));
-        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_2, rawTypeTime, "time", false, new Duration(0), null, null));
-        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_3, rawTypeFloat, "", false, new Duration(0), null, null));
-        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_4, rawTypeFloat, "", false, new Duration(0), null, null));
-        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_5, rawTypeFloat, "", false, new Duration(0), null, null));
-        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_6, rawTypeFloat, "", false, new Duration(0), null, null));
-        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_7, rawTypeFloat, "rad/sec", false, new Duration(0), null, null));
-        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_8, rawTypeFloat, "rad/sec", false, new Duration(0), null, null));
-        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_9, rawTypeFloat, "rad/sec", false, new Duration(0), null, null));
-        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_10, rawTypeFloat, "", false, new Duration(0), null, null));
-        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_11, rawTypeFloat, "", false, new Duration(0), null, null));
-        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_12, rawTypeFloat, "", false, new Duration(0), null, null));
-        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_13, rawTypeFloat, "T", false, new Duration(0), null, null));
-        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_14, rawTypeFloat, "T", false, new Duration(0), null, null));
-        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_15, rawTypeFloat, "T", false, new Duration(0), null, null));
-        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_16, rawTypeFloat, "rad/sec", false, new Duration(0), null, null));
-        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_17, rawTypeFloat, "rad/sec", false, new Duration(0), null, null));
-        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_18, rawTypeFloat, "rad/sec", false, new Duration(0), null, null));
-        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_19, rawTypeFloat, "rad/sec", false, new Duration(0), null, null));
-        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_20, rawTypeFloat, "rad/sec", false, new Duration(0), null, null));
-        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_21, rawTypeFloat, "rad/sec", false, new Duration(0), null, null));
-        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_22, rawTypeFloat, "A*m^2", false, new Duration(0), null, null));
-        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_23, rawTypeFloat, "A*m^2", false, new Duration(0), null, null));
-        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_24, rawTypeFloat, "A*m^2", false, new Duration(0), null, null));
-        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_25, rawTypeString, "", false, new Duration(0), null, null));
+        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_1, rawTypeString, "unit", false,
+                                                  new Duration(0), null, null));
+        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_2, rawTypeTime, "time", false,
+                                                  new Duration(0), null, null));
+        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_3, rawTypeFloat, "", false,
+                                                  new Duration(0), null, null));
+        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_4, rawTypeFloat, "", false,
+                                                  new Duration(0), null, null));
+        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_5, rawTypeFloat, "", false,
+                                                  new Duration(0), null, null));
+        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_6, rawTypeFloat, "", false,
+                                                  new Duration(0), null, null));
+        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_7, rawTypeFloat, "rad/sec",
+                                                  false, new Duration(0), null, null));
+        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_8, rawTypeFloat, "rad/sec",
+                                                  false, new Duration(0), null, null));
+        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_9, rawTypeFloat, "rad/sec",
+                                                  false, new Duration(0), null, null));
+        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_10, rawTypeFloat, "", false,
+                                                  new Duration(0), null, null));
+        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_11, rawTypeFloat, "", false,
+                                                  new Duration(0), null, null));
+        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_12, rawTypeFloat, "", false,
+                                                  new Duration(0), null, null));
+        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_13, rawTypeFloat, "T", false,
+                                                  new Duration(0), null, null));
+        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_14, rawTypeFloat, "T", false,
+                                                  new Duration(0), null, null));
+        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_15, rawTypeFloat, "T", false,
+                                                  new Duration(0), null, null));
+        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_16, rawTypeFloat, "rad/sec",
+                                                  false, new Duration(0), null, null));
+        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_17, rawTypeFloat, "rad/sec",
+                                                  false, new Duration(0), null, null));
+        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_18, rawTypeFloat, "rad/sec",
+                                                  false, new Duration(0), null, null));
+        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_19, rawTypeFloat, "rad/sec",
+                                                  false, new Duration(0), null, null));
+        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_20, rawTypeFloat, "rad/sec",
+                                                  false, new Duration(0), null, null));
+        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_21, rawTypeFloat, "rad/sec",
+                                                  false, new Duration(0), null, null));
+        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_22, rawTypeFloat, "A*m^2",
+                                                  false, new Duration(0), null, null));
+        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_23, rawTypeFloat, "A*m^2",
+                                                  false, new Duration(0), null, null));
+        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_24, rawTypeFloat, "A*m^2",
+                                                  false, new Duration(0), null, null));
+        parDef.add(new ParameterDefinitionDetails(DefinitionNames.PARAMETER_DESCRIPTION_25, rawTypeString, "", false,
+                                                  new Duration(0), null, null));
 
         paramNames.add(new Identifier(DefinitionNames.PARAMETER_NAME_1));
         paramNames.add(new Identifier(DefinitionNames.PARAMETER_NAME_2));
@@ -214,20 +238,28 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
         arguments1.add(new ArgumentDefinitionDetails(new Identifier("iadcs"), "", rawTypeLong, "msec", cc, ct, cu));
 
         ArgumentDefinitionDetailsList arguments4 = new ArgumentDefinitionDetailsList();
-        arguments4.add(new ArgumentDefinitionDetails(new Identifier("start_epoch_time"), "", rawTypeLong, "msec", cc, ct, cu));
-        arguments4.add(new ArgumentDefinitionDetails(new Identifier("stop_epoch_time"), "", rawTypeLong, "msec", cc, ct, cu));
-        arguments4.add(new ArgumentDefinitionDetails(new Identifier("start_latitude"), "", rawTypeFloat, "rad", cc, ct, cu));
-        arguments4.add(new ArgumentDefinitionDetails(new Identifier("start_longitude"), "", rawTypeFloat, "rad", cc, ct, cu));
-        arguments4.add(new ArgumentDefinitionDetails(new Identifier("stop_latitude"), "", rawTypeFloat, "rad", cc, ct, cu));
-        arguments4.add(new ArgumentDefinitionDetails(new Identifier("stop_longitude"), "", rawTypeFloat, "rad", cc, ct, cu));
+        arguments4.add(new ArgumentDefinitionDetails(new Identifier("start_epoch_time"), "", rawTypeLong, "msec", cc,
+                                                     ct, cu));
+        arguments4.add(new ArgumentDefinitionDetails(new Identifier("stop_epoch_time"), "", rawTypeLong, "msec", cc, ct,
+                                                     cu));
+        arguments4.add(new ArgumentDefinitionDetails(new Identifier("start_latitude"), "", rawTypeFloat, "rad", cc, ct,
+                                                     cu));
+        arguments4.add(new ArgumentDefinitionDetails(new Identifier("start_longitude"), "", rawTypeFloat, "rad", cc, ct,
+                                                     cu));
+        arguments4.add(new ArgumentDefinitionDetails(new Identifier("stop_latitude"), "", rawTypeFloat, "rad", cc, ct,
+                                                     cu));
+        arguments4.add(new ArgumentDefinitionDetails(new Identifier("stop_longitude"), "", rawTypeFloat, "rad", cc, ct,
+                                                     cu));
 
         ArgumentDefinitionDetailsList arguments5 = new ArgumentDefinitionDetailsList();
         arguments5.add(new ArgumentDefinitionDetails(new Identifier("latitude"), "", rawTypeFloat, "rad", cc, ct, cu));
         arguments5.add(new ArgumentDefinitionDetails(new Identifier("longitude"), "", rawTypeFloat, "rad", cc, ct, cu));
 
         ArgumentDefinitionDetailsList arguments7 = new ArgumentDefinitionDetailsList();
-        arguments7.add(new ArgumentDefinitionDetails(new Identifier("body_axis"), "Options: x, y, z", rawTypeString, "axis", cc, ct, cu));
-        arguments7.add(new ArgumentDefinitionDetails(new Identifier("angular_velocity"), "", rawTypeFloat, "rad/s", cc, ct, cu));
+        arguments7.add(new ArgumentDefinitionDetails(new Identifier("body_axis"), "Options: x, y, z", rawTypeString,
+                                                     "axis", cc, ct, cu));
+        arguments7.add(new ArgumentDefinitionDetails(new Identifier("angular_velocity"), "", rawTypeFloat, "rad/s", cc,
+                                                     ct, cu));
 
         UOctet cat = new UOctet((short) 0); // Category
         UShort steps = new UShort(0); // The total number of steps
@@ -273,8 +305,8 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
         if (DefinitionNames.PARAMETER_NAME_2.equals(identifier.getValue())) {
             long epoch = adcsApi.Get_Epoch_Time();
             return (Attribute) HelperAttributes.javaType2Attribute(epoch);
-//            SEPP_IADCS_API_ATTITUDE_TELEMETRY tm = adcsApi.Get_Attitude_Telemetry();
-//            return (Attribute) HelperAttributes.javaType2Attribute(tm.getEPOCH_TIME_MSEC());
+            //            SEPP_IADCS_API_ATTITUDE_TELEMETRY tm = adcsApi.Get_Attitude_Telemetry();
+            //            return (Attribute) HelperAttributes.javaType2Attribute(tm.getEPOCH_TIME_MSEC());
         }
         if (DefinitionNames.PARAMETER_NAME_3.equals(identifier.getValue())) {
             SEPP_IADCS_API_ATTITUDE_TELEMETRY tm = adcsApi.Get_Attitude_Telemetry();
@@ -401,8 +433,8 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
     }
 
     @Override
-    public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
-            Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
+    public UInteger actionArrived(Identifier name, AttributeValueList attributeValues, Long actionInstanceObjId,
+                                  boolean reportProgress, MALInteraction interaction) {
         if (DefinitionNames.ACTION_NAME_1.equals(name.getValue())) {
             // Call the action
             Long value = (Long) HelperAttributes.attribute2JavaType(attributeValues.get(0).getValue());
@@ -416,15 +448,13 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
 
         if (DefinitionNames.ACTION_NAME_3.equals(name.getValue())) {
             // Call the action
-            SEPP_IADCS_API_DETUMBLING_MODE_PARAMETERS values
-                    = new SEPP_IADCS_API_DETUMBLING_MODE_PARAMETERS();
+            SEPP_IADCS_API_DETUMBLING_MODE_PARAMETERS values = new SEPP_IADCS_API_DETUMBLING_MODE_PARAMETERS();
             adcsApi.Start_Operation_Mode_Detumbling(values);
         }
 
         if (DefinitionNames.ACTION_NAME_4.equals(name.getValue())) {
             // Call the action
-            SEPP_IADCS_API_EARTH_TARGET_POINTING_CONST_VELOCITY_MODE_PARAMETERS values
-                    = new SEPP_IADCS_API_EARTH_TARGET_POINTING_CONST_VELOCITY_MODE_PARAMETERS();
+            SEPP_IADCS_API_EARTH_TARGET_POINTING_CONST_VELOCITY_MODE_PARAMETERS values = new SEPP_IADCS_API_EARTH_TARGET_POINTING_CONST_VELOCITY_MODE_PARAMETERS();
 
             Long start_Epoch_Time = (Long) HelperAttributes.attribute2JavaType(attributeValues.get(0).getValue());
             values.setSTART_EPOCH_TIME_MSEC(start_Epoch_Time);
@@ -444,8 +474,7 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
 
         if (DefinitionNames.ACTION_NAME_5.equals(name.getValue())) {
             // Call the action
-            SEPP_IADCS_API_EARTH_TARGET_POINTING_FIXED_MODE_PARAMETERS values
-                    = new SEPP_IADCS_API_EARTH_TARGET_POINTING_FIXED_MODE_PARAMETERS();
+            SEPP_IADCS_API_EARTH_TARGET_POINTING_FIXED_MODE_PARAMETERS values = new SEPP_IADCS_API_EARTH_TARGET_POINTING_FIXED_MODE_PARAMETERS();
 
             Float lat = (Float) HelperAttributes.attribute2JavaType(attributeValues.get(0).getValue());
             values.setTARGET_LATITUDE_RAD(lat);
@@ -457,8 +486,7 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
 
         if (DefinitionNames.ACTION_NAME_6.equals(name.getValue())) {
             // Call the action
-            SEPP_IADCS_API_TARGET_POINTING_NADIR_MODE_PARAMETERS values
-                    = new SEPP_IADCS_API_TARGET_POINTING_NADIR_MODE_PARAMETERS();
+            SEPP_IADCS_API_TARGET_POINTING_NADIR_MODE_PARAMETERS values = new SEPP_IADCS_API_TARGET_POINTING_NADIR_MODE_PARAMETERS();
             adcsApi.Start_Target_Pointing_Nadir_Mode(values);
         }
 

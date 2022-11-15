@@ -1,6 +1,5 @@
 package esa.mo.com.impl.archive.db;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,9 +10,9 @@ import org.ccsds.moims.mo.mal.structures.LongList;
 
 final class CallableGetAllCOMObjectIds implements Callable<LongList> {
     /**
- *
- */
-private final TransactionsProcessor transactionsProcessor;
+    *
+    */
+    private final TransactionsProcessor transactionsProcessor;
     private final Integer domainId;
     private final Integer objTypeId;
 
@@ -34,7 +33,8 @@ private final TransactionsProcessor transactionsProcessor;
         LongList objIds = new LongList();
 
         try {
-            PreparedStatement stmt = this.transactionsProcessor.dbBackend.getPreparedStatements().getSelectAllCOMObjects();
+            PreparedStatement stmt = this.transactionsProcessor.dbBackend.getPreparedStatements()
+                                                                         .getSelectAllCOMObjects();
             stmt.setInt(1, objTypeId);
             stmt.setInt(2, domainId);
             ResultSet rs = stmt.executeQuery();

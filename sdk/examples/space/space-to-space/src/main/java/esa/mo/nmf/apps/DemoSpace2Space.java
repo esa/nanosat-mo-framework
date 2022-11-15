@@ -28,15 +28,14 @@ import esa.mo.nmf.spacemoadapter.SpaceMOApdapterImpl;
  */
 public class DemoSpace2Space {
 
-    public DemoSpace2Space()
-    {
+    public DemoSpace2Space() {
         Space2SpaceAdapter adapter = new Space2SpaceAdapter();
         NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
         connector.init(adapter);
 
         // Initialize application's NMF consumer (consuming the supervisor)
-        SpaceMOApdapterImpl spaceAppSMA =
-                SpaceMOApdapterImpl.forNMFApp(connector.readCentralDirectoryServiceURI(), "gps");
+        SpaceMOApdapterImpl spaceAppSMA = SpaceMOApdapterImpl.forNMFApp(connector.readCentralDirectoryServiceURI(),
+                                                                        "gps");
 
         adapter.setConnector(connector);
         adapter.setSpaceAppSMA(spaceAppSMA);

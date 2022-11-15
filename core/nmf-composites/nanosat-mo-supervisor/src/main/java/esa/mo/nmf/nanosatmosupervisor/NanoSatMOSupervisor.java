@@ -63,223 +63,214 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
  * @author Cesar Coelho
  */
 public abstract class NanoSatMOSupervisor extends NMFProvider {
-  private static final Logger LOGGER = Logger.getLogger(NanoSatMOSupervisor.class.getName());
-  private static final String PDU_CHANNEL_PARAMETER = "PDU1952";
-  private static final Duration PDU_CHANNEL_REPORTING_PERIOD = new Duration(10);
-  private final PackageManagementProviderServiceImpl packageManagementService
-      = new PackageManagementProviderServiceImpl();
-  private final AppsLauncherProviderServiceImpl appsLauncherService
-      = new AppsLauncherProviderServiceImpl();
-  private final CommandExecutorProviderServiceImpl commandExecutorService
-      = new CommandExecutorProviderServiceImpl();
+    private static final Logger LOGGER = Logger.getLogger(NanoSatMOSupervisor.class.getName());
+    private static final String PDU_CHANNEL_PARAMETER = "PDU1952";
+    private static final Duration PDU_CHANNEL_REPORTING_PERIOD = new Duration(10);
+    private final PackageManagementProviderServiceImpl packageManagementService = new PackageManagementProviderServiceImpl();
+    private final AppsLauncherProviderServiceImpl appsLauncherService = new AppsLauncherProviderServiceImpl();
+    private final CommandExecutorProviderServiceImpl commandExecutorService = new CommandExecutorProviderServiceImpl();
 
-  /**
-   * Initializes the NanoSat MO Supervisor. The MonitorAndControlAdapter adapter class can be
-   * extended for remote monitoring and control with the CCSDS Monitor and Control services. One can
-   * also extend the SimpleMonitorAndControlAdapter class which contains a simpler interface.
-   *
-   * @param mcAdapter                The adapter to connect the actions and parameters to the
-   *                                 corresponding methods and variables of a specific entity.
-   * @param platformServices         The Platform services consumer stubs
-   * @param packageManagementBackend The Package Management services backend.
-   */
-  public void init(MonitorAndControlNMFAdapter mcAdapter,
-      PlatformServicesConsumer platformServices,
-      PMBackend packageManagementBackend) {
-    super.startTime = System.currentTimeMillis();
-    HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
-    ConnectionProvider.resetURILinks();
+    /**
+     * Initializes the NanoSat MO Supervisor. The MonitorAndControlAdapter adapter class can be
+     * extended for remote monitoring and control with the CCSDS Monitor and Control services. One can
+     * also extend the SimpleMonitorAndControlAdapter class which contains a simpler interface.
+     *
+     * @param mcAdapter                The adapter to connect the actions and parameters to the
+     *                                 corresponding methods and variables of a specific entity.
+     * @param platformServices         The Platform services consumer stubs
+     * @param packageManagementBackend The Package Management services backend.
+     */
+    public void init(MonitorAndControlNMFAdapter mcAdapter, PlatformServicesConsumer platformServices,
+                     PMBackend packageManagementBackend) {
+        super.startTime = System.currentTimeMillis();
+        HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
+        ConnectionProvider.resetURILinks();
 
-    // Enforce the App Name property to be Const.NANOSAT_MO_SUPERVISOR_NAME
-    System.setProperty(HelperMisc.PROP_MO_APP_NAME, Const.NANOSAT_MO_SUPERVISOR_NAME);
+        // Enforce the App Name property to be Const.NANOSAT_MO_SUPERVISOR_NAME
+        System.setProperty(HelperMisc.PROP_MO_APP_NAME, Const.NANOSAT_MO_SUPERVISOR_NAME);
 
-    // Provider name to be used on the Directory service...
-    this.providerName = System.getProperty(HelperMisc.PROP_MO_APP_NAME);
+        // Provider name to be used on the Directory service...
+        this.providerName = System.getProperty(HelperMisc.PROP_MO_APP_NAME);
 
-    this.platformServices = platformServices;
+        this.platformServices = platformServices;
 
-    try {
-      Quota stdQuota = new Quota();
-      this.comServices.init();
-      this.heartbeatService.init();
-      this.directoryService.init(comServices);
-      this.appsLauncherService.init(comServices, directoryService);
-      this.commandExecutorService.init(comServices);
-      this.packageManagementService.init(comServices, packageManagementBackend);
-      this.comServices.initArchiveSync();
-      super.reconfigurableServices.add(this.appsLauncherService);
-      this.appsLauncherService.setStdQuotaPerApp(stdQuota);
-      this.comServices.getArchiveSyncService().setStdQuota(stdQuota);
-      this.startMCServices(mcAdapter);
-      this.initPlatformServices(comServices);
-    } catch (MALException ex) {
-      LOGGER.log(Level.SEVERE,
-          "The services could not be initialized. "
-          + "Perhaps there's something wrong with the Transport Layer.", ex);
-      return;
+        try {
+            Quota stdQuota = new Quota();
+            this.comServices.init();
+            this.heartbeatService.init();
+            this.directoryService.init(comServices);
+            this.appsLauncherService.init(comServices, directoryService);
+            this.commandExecutorService.init(comServices);
+            this.packageManagementService.init(comServices, packageManagementBackend);
+            this.comServices.initArchiveSync();
+            super.reconfigurableServices.add(this.appsLauncherService);
+            this.appsLauncherService.setStdQuotaPerApp(stdQuota);
+            this.comServices.getArchiveSyncService().setStdQuota(stdQuota);
+            this.startMCServices(mcAdapter);
+            this.initPlatformServices(comServices);
+        } catch (MALException ex) {
+            LOGGER.log(Level.SEVERE, "The services could not be initialized. " +
+                                     "Perhaps there's something wrong with the Transport Layer.", ex);
+            return;
+        }
+
+        // Are the dynamic changes enabled?
+        if ("true".equals(System.getProperty(Const.DYNAMIC_CHANGES_PROPERTY))) {
+            LOGGER.log(Level.INFO, "Loading previous configurations...");
+
+            // Activate the previous configuration
+            final ObjectId confId = new ObjectId(ConfigurationHelper.PROVIDERCONFIGURATION_OBJECT_TYPE, new ObjectKey(
+                                                                                                                      ConfigurationProviderSingleton.getDomain(),
+                                                                                                                      DEFAULT_PROVIDER_CONFIGURATION_OBJID));
+
+            super.providerConfiguration = new PersistProviderConfiguration(this, confId, comServices
+                                                                                                    .getArchiveService());
+
+            try {
+                super.providerConfiguration.loadPreviousConfigurations();
+            } catch (IOException ex) {
+                LOGGER.log(Level.SEVERE, null, ex);
+            }
+        }
+
+        if (mcAdapter != null) {
+            MCRegistration registration = new MCRegistration(comServices, mcServices.getParameterService(), mcServices
+                                                                                                                      .getAggregationService(),
+                                                             mcServices.getAlertService(), mcServices
+                                                                                                     .getActionService());
+            mcAdapter.initialRegistrations(registration);
+        }
+
+        // Populate the Directory service with the entries from the URIs File
+        LOGGER.log(Level.INFO, "Populating Directory service...");
+        this.directoryService.loadURIs(Const.NANOSAT_MO_SUPERVISOR_NAME);
+
+        final String primaryURI = this.directoryService.getConnection()
+                                                       .getPrimaryConnectionDetails()
+                                                       .getProviderURI()
+                                                       .toString();
+
+        final SingleConnectionDetails det = this.directoryService.getConnection().getSecondaryConnectionDetails();
+        final String secondaryURI = (det != null) ? det.getProviderURI().toString() : null;
+        this.writeCentralDirectoryServiceURI(primaryURI, secondaryURI);
+        LOGGER.log(Level.INFO, "NanoSat MO Supervisor initialized in " +
+                               (((float) (System.currentTimeMillis() - super.startTime)) / 1000) +
+                               " seconds!");
+        LOGGER.log(Level.INFO, "URI: {0}\n", primaryURI);
+
+        //Once all services are loaded and configured, enable status parameter and subscribe to it
+        Identifier identifier = new Identifier(PDU_CHANNEL_PARAMETER);
+        IdentifierList identifierList = new IdentifierList();
+        identifierList.add(identifier);
+        ParameterDefinitionDetails details = new ParameterDefinitionDetails("PowerStatusChecks", Union.USHORT_SHORT_FORM
+                                                                                                                        .byteValue(),
+                                                                            "N/A", true, PDU_CHANNEL_REPORTING_PERIOD,
+                                                                            null, null);
+
+        ParameterCreationRequest request = new ParameterCreationRequest(identifier, details);
+        ParameterCreationRequestList reqList = new ParameterCreationRequestList();
+        reqList.add(request);
+        try {
+            ObjectInstancePairList objInstPairList = mcServices.getParameterService().addParameter(reqList, null);
+            // check that the parameter was added successfully
+            if (objInstPairList.isEmpty() || objInstPairList.get(0).getObjIdentityInstanceId() == null) {
+                LOGGER.log(Level.SEVERE, "Error creating request with parameter to fetch in the supervisor");
+            }
+        } catch (MALException e) {
+            LOGGER.log(Level.SEVERE, "Error creating request with parameter to fetch in the supervisor", e);
+        } catch (MALInteractionException e) {
+            if (e.getStandardError().getErrorNumber() == COMHelper.DUPLICATE_ERROR_NUMBER) {
+                // Parameter already exists - ignore it
+            } else {
+                LOGGER.log(Level.SEVERE, "Error creating request with parameter to fetch in the supervisor", e);
+            }
+        }
+        this.startStatusTracking();
     }
 
-    // Are the dynamic changes enabled?
-    if ("true".equals(System.getProperty(Const.DYNAMIC_CHANGES_PROPERTY))) {
-      LOGGER.log(Level.INFO,
-          "Loading previous configurations...");
-
-      // Activate the previous configuration
-      final ObjectId confId = new ObjectId(ConfigurationHelper.PROVIDERCONFIGURATION_OBJECT_TYPE,
-          new ObjectKey(ConfigurationProviderSingleton.getDomain(),
-              DEFAULT_PROVIDER_CONFIGURATION_OBJID));
-
-      super.providerConfiguration = new PersistProviderConfiguration(this, confId,
-          comServices.getArchiveService());
-
-      try {
-        super.providerConfiguration.loadPreviousConfigurations();
-      } catch (IOException ex) {
-        LOGGER.log(Level.SEVERE, null, ex);
-      }
+    @Override
+    public void init(MissionPlanningNMFAdapter mpAdapter) {
+        // Not implemented. MP services are accessible only from connector.
     }
 
-    if (mcAdapter != null) {
-      MCRegistration registration
-          = new MCRegistration(comServices, mcServices.getParameterService(),
-              mcServices.getAggregationService(), mcServices.getAlertService(),
-              mcServices.getActionService());
-      mcAdapter.initialRegistrations(registration);
+    @Override
+    public void setCloseAppListener(final CloseAppListener closeAppAdapter) {
+        this.closeAppAdapter = closeAppAdapter;
     }
 
-    // Populate the Directory service with the entries from the URIs File
-    LOGGER.log(Level.INFO,
-        "Populating Directory service...");
-    this.directoryService.loadURIs(Const.NANOSAT_MO_SUPERVISOR_NAME);
+    /**
+     * It closes the App gracefully.
+     *
+     * @param source The source of the triggering. Can be null
+     */
+    @Override
+    public final void closeGracefully(final ObjectId source) {
+        try {
+            AppShutdownGuard.start();
+            long timestamp = System.currentTimeMillis();
 
-    final String primaryURI
-        = this.directoryService.getConnection().getPrimaryConnectionDetails().getProviderURI().toString();
+            // Acknowledge the reception of the request to close (Closing...)
+            Long eventId = this.getCOMServices()
+                               .getEventService()
+                               .generateAndStoreEvent(AppsLauncherHelper.STOPPING_OBJECT_TYPE,
+                                                      ConfigurationProviderSingleton.getDomain(), null, null, source,
+                                                      null);
 
-    final SingleConnectionDetails det
-        = this.directoryService.getConnection().getSecondaryConnectionDetails();
-    final String secondaryURI = (det != null) ? det.getProviderURI().toString() : null;
-    this.writeCentralDirectoryServiceURI(primaryURI, secondaryURI);
-    LOGGER.log(Level.INFO,
-        "NanoSat MO Supervisor initialized in "
-        + (((float) (System.currentTimeMillis() - super.startTime)) / 1000)
-        + " seconds!");
-    LOGGER.log(Level.INFO,
-        "URI: {0}\n", primaryURI);
+            final URI uri = this.getCOMServices()
+                                .getEventService()
+                                .getConnectionProvider()
+                                .getConnectionDetails()
+                                .getProviderURI();
 
-    //Once all services are loaded and configured, enable status parameter and subscribe to it
-    Identifier identifier = new Identifier(PDU_CHANNEL_PARAMETER);
-    IdentifierList identifierList = new IdentifierList();
-    identifierList.add(identifier);
-    ParameterDefinitionDetails details = new ParameterDefinitionDetails("PowerStatusChecks",
-            Union.USHORT_SHORT_FORM.byteValue(), "N/A", true, PDU_CHANNEL_REPORTING_PERIOD,
-            null, null);
+            try {
+                this.getCOMServices()
+                    .getEventService()
+                    .publishEvent(uri, eventId, AppsLauncherHelper.STOPPING_OBJECT_TYPE, null, source, null);
+            } catch (IOException ex) {
+                LOGGER.log(Level.SEVERE, null, ex);
+            }
 
-    ParameterCreationRequest request = new ParameterCreationRequest(identifier, details);
-    ParameterCreationRequestList reqList = new ParameterCreationRequestList();
-    reqList.add(request);
-    try {
-      ObjectInstancePairList objInstPairList = mcServices.getParameterService().addParameter(reqList, null);
-      // check that the parameter was added successfully
-      if (objInstPairList.isEmpty() || objInstPairList.get(0).getObjIdentityInstanceId() == null) {
-        LOGGER.log(Level.SEVERE,
-                "Error creating request with parameter to fetch in the supervisor");
-      }
-    } catch (MALException e) {
-      LOGGER.log(Level.SEVERE,
-              "Error creating request with parameter to fetch in the supervisor", e);
-    } catch (MALInteractionException e) {
-      if (e.getStandardError().getErrorNumber() == COMHelper.DUPLICATE_ERROR_NUMBER) {
-        // Parameter already exists - ignore it
-      } else {
-        LOGGER.log(Level.SEVERE,
-                "Error creating request with parameter to fetch in the supervisor", e);
-      }
-    }
-    this.startStatusTracking();
-  }
+            // Close the app...
+            // Make a call on the app layer to close nicely...
+            if (this.closeAppAdapter != null) {
+                LOGGER.log(Level.INFO, "Triggering the closeAppAdapter of the app business logic...");
+                this.closeAppAdapter.onClose(); // Time to sleep, boy!
+            }
 
-  @Override
-  public void init(MissionPlanningNMFAdapter mpAdapter) {
-    // Not implemented. MP services are accessible only from connector.
-  }
+            Long eventId2 = this.getCOMServices()
+                                .getEventService()
+                                .generateAndStoreEvent(AppsLauncherHelper.STOPPED_OBJECT_TYPE,
+                                                       ConfigurationProviderSingleton.getDomain(), null, null, source,
+                                                       null);
 
-  @Override
-  public void setCloseAppListener(final CloseAppListener closeAppAdapter) {
-    this.closeAppAdapter = closeAppAdapter;
-  }
+            try {
+                this.getCOMServices()
+                    .getEventService()
+                    .publishEvent(uri, eventId2, AppsLauncherHelper.STOPPED_OBJECT_TYPE, null, source, null);
+            } catch (IOException ex) {
+                LOGGER.log(Level.SEVERE, null, ex);
+            }
 
-  /**
-   * It closes the App gracefully.
-   *
-   * @param source The source of the triggering. Can be null
-   */
-  @Override
-  public final void closeGracefully(final ObjectId source) {
-    try {
-      AppShutdownGuard.start();
-      long timestamp = System.currentTimeMillis();
+            // Should close them safely as well...
+            //        provider.getMCServices().closeServices();
+            //        provider.getCOMServices().closeServices();
+            this.getCOMServices().closeAll();
 
-      // Acknowledge the reception of the request to close (Closing...)
-      Long eventId = this.getCOMServices().getEventService().generateAndStoreEvent(
-          AppsLauncherHelper.STOPPING_OBJECT_TYPE,
-          ConfigurationProviderSingleton.getDomain(),
-          null,
-          null,
-          source,
-          null);
+            // Exit the Java application
+            LOGGER.log(Level.INFO, "Success! The currently running Java Virtual Machine will now terminate. " +
+                                   "(NanoSat MO Supervisor closed in: " +
+                                   (System.currentTimeMillis() - timestamp) +
+                                   " ms)\n");
 
-      final URI uri
-          = this.getCOMServices().getEventService().getConnectionProvider().getConnectionDetails().getProviderURI();
+        } catch (NMFException ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+        }
 
-      try {
-        this.getCOMServices().getEventService().publishEvent(uri, eventId,
-            AppsLauncherHelper.STOPPING_OBJECT_TYPE, null, source, null);
-      } catch (IOException ex) {
-        LOGGER.log(Level.SEVERE, null, ex);
-      }
-
-      // Close the app...
-      // Make a call on the app layer to close nicely...
-      if (this.closeAppAdapter != null) {
-        LOGGER.log(Level.INFO,
-            "Triggering the closeAppAdapter of the app business logic...");
-        this.closeAppAdapter.onClose(); // Time to sleep, boy!
-      }
-
-      Long eventId2 = this.getCOMServices().getEventService().generateAndStoreEvent(
-          AppsLauncherHelper.STOPPED_OBJECT_TYPE,
-          ConfigurationProviderSingleton.getDomain(),
-          null,
-          null,
-          source,
-          null);
-
-      try {
-        this.getCOMServices().getEventService().publishEvent(uri, eventId2,
-            AppsLauncherHelper.STOPPED_OBJECT_TYPE, null, source, null);
-      } catch (IOException ex) {
-        LOGGER.log(Level.SEVERE, null, ex);
-      }
-
-      // Should close them safely as well...
-//        provider.getMCServices().closeServices();
-//        provider.getCOMServices().closeServices();
-      this.getCOMServices().closeAll();
-
-      // Exit the Java application
-      LOGGER.log(Level.INFO,
-          "Success! The currently running Java Virtual Machine will now terminate. "
-          + "(NanoSat MO Supervisor closed in: " + (System.currentTimeMillis() - timestamp) + " ms)\n");
-
-    } catch (NMFException ex) {
-      LOGGER.log(Level.SEVERE, null, ex);
+        System.exit(0);
     }
 
-    System.exit(0);
-  }
+    public abstract void initPlatformServices(COMServicesProvider comServices);
 
-  public abstract void initPlatformServices(COMServicesProvider comServices);
-
-  protected abstract void startStatusTracking();
+    protected abstract void startStatusTracking();
 
 }

@@ -48,8 +48,9 @@ public interface SimpleMonitoringInterface {
      * @throws NMFException if the action execution progress could not be
      * reported.
      */
-    void reportActionExecutionProgress(final boolean success, final int errorNumber,
-            final int progressStage, final int totalNumberOfProgressStages, final long actionInstId) throws NMFException;
+    void reportActionExecutionProgress(final boolean success, final int errorNumber, final int progressStage,
+                                       final int totalNumberOfProgressStages,
+                                       final long actionInstId) throws NMFException;
 
     /**
      * The publishAlertEvent operation allows an external software entity to
@@ -62,7 +63,8 @@ public interface SimpleMonitoringInterface {
      * there is any error, then a null shall be returned instead
      * @throws NMFException if the alert event could not be published.
      */
-    Long publishAlertEvent(final String alertDefinitionName, final AttributeValueList attributeValues) throws NMFException;
+    Long publishAlertEvent(final String alertDefinitionName,
+                           final AttributeValueList attributeValues) throws NMFException;
 
     /**
      * The pushParameterValue operation allows an external software entity to
@@ -93,6 +95,7 @@ public interface SimpleMonitoringInterface {
      * @return Returns the flag reporting if the push was successful
      * @throws NMFException if the parameter value could not be pushed.
      */
-    Boolean pushParameterValue(final String name, final Serializable content, final boolean storeIt) throws NMFException;
+    Boolean pushParameterValue(final String name, final Serializable content,
+                               final boolean storeIt) throws NMFException;
 
 }

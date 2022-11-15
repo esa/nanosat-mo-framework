@@ -9,15 +9,16 @@ import org.ccsds.moims.mo.mal.structures.LongList;
 
 final class RunnableRemove implements Runnable {
     /**
- *
- */
-private final TransactionsProcessor transactionsProcessor;
+    *
+    */
+    private final TransactionsProcessor transactionsProcessor;
     private final Runnable publishEvents;
     private final Integer objTypeId;
     private final Integer domainId;
     private final LongList objIds;
 
-    RunnableRemove(TransactionsProcessor transactionsProcessor, Runnable publishEvents, Integer objTypeId, Integer domainId, LongList objIds) {
+    RunnableRemove(TransactionsProcessor transactionsProcessor, Runnable publishEvents, Integer objTypeId,
+                   Integer domainId, LongList objIds) {
         this.transactionsProcessor = transactionsProcessor;
         this.publishEvents = publishEvents;
         this.objTypeId = objTypeId;
@@ -37,7 +38,8 @@ private final TransactionsProcessor transactionsProcessor;
             Connection c = this.transactionsProcessor.dbBackend.getConnection();
             c.setAutoCommit(false);
 
-            PreparedStatement deleteStmt = transactionsProcessor.dbBackend.getPreparedStatements().getDeleteCOMObjects();
+            PreparedStatement deleteStmt = transactionsProcessor.dbBackend.getPreparedStatements()
+                                                                          .getDeleteCOMObjects();
 
             // Generate the object Ids if needed and the persistence objects to be removed
             for (int i = 0; i < objIds.size(); i++) {
@@ -49,8 +51,7 @@ private final TransactionsProcessor transactionsProcessor;
                 // Flush every 1k objects...
                 if (i != 0) {
                     if ((i % 1000) == 0) {
-                        TransactionsProcessor.LOGGER.log(Level.FINE,
-                                "Flushing the data after 1000 serial stores...");
+                        TransactionsProcessor.LOGGER.log(Level.FINE, "Flushing the data after 1000 serial stores...");
 
                         deleteStmt.executeBatch();
                         deleteStmt.clearBatch();
@@ -65,9 +66,9 @@ private final TransactionsProcessor transactionsProcessor;
         }
 
         this.transactionsProcessor.dbBackend.getAvailability().release();
-      if(publishEvents != null) {
-        this.transactionsProcessor.generalExecutor.submit(publishEvents);
-      }
+        if (publishEvents != null) {
+            this.transactionsProcessor.generalExecutor.submit(publishEvents);
+        }
         this.transactionsProcessor.vacuum();
     }
 }

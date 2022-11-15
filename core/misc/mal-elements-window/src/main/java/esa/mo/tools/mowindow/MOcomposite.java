@@ -27,20 +27,19 @@ import org.ccsds.moims.mo.mal.structures.Element;
  *
  * @author Cesar Coelho
  */
-public class MOcomposite extends MOelement{
-    
+public class MOcomposite extends MOelement {
+
     private final javax.swing.JToggleButton button;
 
     public MOcomposite(String fieldNameIn, Element obj, boolean editable, boolean objIsNull) {
         super(fieldNameIn, obj, editable, objIsNull);
-        
+
         // Make a button and put it in the middle Panel
         button = new javax.swing.JToggleButton();
         button.addActionListener(this::buttonActionPerformed);
-        
+
         super.middlePanel.add(button);
 
-        
         // Set the text
         if (editable) {
             this.button.setText("Edit");
@@ -48,7 +47,7 @@ public class MOcomposite extends MOelement{
             this.button.setText("View");
         }
 
-        if (objIsNull){
+        if (objIsNull) {
             super.makeFieldNull();
             this.button.setText("Add");
         }
@@ -58,14 +57,14 @@ public class MOcomposite extends MOelement{
 
     @Override
     public Object getObject() {
-        if (nullCB.isSelected()){
+        if (nullCB.isSelected()) {
             return null;
         }
-        
+
         return object;
     }
 
-    private void buttonActionPerformed(java.awt.event.ActionEvent evt) {                                       
+    private void buttonActionPerformed(java.awt.event.ActionEvent evt) {
         MOWindow genericObj = new MOWindow(object, this.editable);
 
         try {
@@ -78,7 +77,7 @@ public class MOcomposite extends MOelement{
         if (editable) {
             this.button.setText("Edit");
         }
-        
-    }                                      
-    
+
+    }
+
 }

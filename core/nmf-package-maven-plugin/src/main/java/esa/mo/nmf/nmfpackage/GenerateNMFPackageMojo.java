@@ -75,14 +75,12 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
      */
     @Parameter(property = "generate-nmf-package.libs", required = true)
     private String[] libs;
-    
+
     /**
      * The set of privileges that an App can have
      */
     public enum Privilege {
-      normal,
-      admin,
-      root
+        normal, admin, root
     }
 
     /**
@@ -90,7 +88,7 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
      */
     @Parameter(property = "generate-nmf-package.privilege", defaultValue = "normal")
     private Privilege privilege;
-    
+
     @Override
     public void execute() throws MojoExecutionException {
         getLog().info("Generating NMF Package...");
@@ -103,8 +101,8 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
             inputFiles.add(myAppFilename.getAbsolutePath());
             locations.add("apps" + SEPARATOR + name + SEPARATOR + myAppFilename.getName());
         } catch (IOException ex) {
-            Logger.getLogger(GenerateNMFPackageMojo.class.getName()).log(
-                    Level.SEVERE, "The Jar file was not found!", ex);
+            Logger.getLogger(GenerateNMFPackageMojo.class.getName())
+                  .log(Level.SEVERE, "The Jar file was not found!", ex);
         }
 
         getLog().info("\n------------- NMF Package - Generator -------------\n");
@@ -116,23 +114,22 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
         getLog().info(">> nmfVersion = " + nmfVersion);
         getLog().info(">> maxHeap = " + maxHeap);
 
-        if(mainClass == null){
-            throw new MojoExecutionException("The mainClass property needs to be defined!\n"
-                    + "Please use the <mainClass> tag inside the <configuration> tag!\n");
+        if (mainClass == null) {
+            throw new MojoExecutionException("The mainClass property needs to be defined!\n" +
+                                             "Please use the <mainClass> tag inside the <configuration> tag!\n");
         }
 
-        if("${esa.nmf.version-qualifier}".equals(nmfVersion)){
-            throw new MojoExecutionException("The nmfVersion property needs to be defined!\n"
-                    + "Please use the <nmfVersion> tag inside the <configuration> tag!\n");
+        if ("${esa.nmf.version-qualifier}".equals(nmfVersion)) {
+            throw new MojoExecutionException("The nmfVersion property needs to be defined!\n" +
+                                             "Please use the <nmfVersion> tag inside the <configuration> tag!\n");
         }
-        
+
         final Time time = new Time(System.currentTimeMillis());
         final String timestamp = HelperTime.time2readableString(time);
 
         // Package 1
         NMFPackageDetails details = new NMFPackageDetails(name, version, timestamp, mainClass, maxHeap);
-        NMFPackageCreator.nmfPackageCreator(details,
-                inputFiles, locations, "target");
+        NMFPackageCreator.nmfPackageCreator(details, inputFiles, locations, "target");
         // Additional libraries?
     }
 

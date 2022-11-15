@@ -56,7 +56,8 @@ public class HelperNMFPackage {
         return crc.getValue();
     }
 
-    public static String generateLinuxStartAppScript(String mainclass, String jarFilename, String maxHeap) throws IOException {
+    public static String generateLinuxStartAppScript(String mainclass, String jarFilename,
+                                                     String maxHeap) throws IOException {
         StringBuilder str = new StringBuilder();
         str.append("#!/bin/sh\n");
         str.append("#########################################################\n");
@@ -92,7 +93,7 @@ public class HelperNMFPackage {
 
         return str.toString();
     }
-    
+
     public static String generateProviderProperties(String runAs) throws IOException {
         StringBuilder str = new StringBuilder();
         str.append("#########################################################\n");
@@ -105,7 +106,7 @@ public class HelperNMFPackage {
         str.append("# MO App configurations\n");
         str.append(HelperMisc.PROP_ORGANIZATION_NAME).append("=").append("esa\n");
         str.append(HelperMisc.APP_CATEGORY).append("=").append("NMF_App\n");
-        if(runAs != null){
+        if (runAs != null) {
             str.append(HelperMisc.APP_USER).append("=").append(runAs).append("\n");
         }
         str.append("\n");
@@ -149,5 +150,5 @@ public class HelperNMFPackage {
 
         return str.toString();
     }
-    
+
 }

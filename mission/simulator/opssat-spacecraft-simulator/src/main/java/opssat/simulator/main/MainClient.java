@@ -35,12 +35,12 @@ public class MainClient {
     private static GuiApp guiApp;
 
     public static void main(String[] args) {
-      
+
         LookAndFeelInfo[] info = UIManager.getInstalledLookAndFeels();
-        for(int i = 0; i < info.length; i++) {
-          System.out.println(info[i].toString());
+        for (int i = 0; i < info.length; i++) {
+            System.out.println(info[i].toString());
         }
-     
+
         if (args.length == 2) {
             guiApp = new GuiApp(args[0], Integer.parseInt(args[1]));
         } else {

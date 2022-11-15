@@ -69,8 +69,11 @@ public class StoreAggregations {
             for (int i = 0; i < numberOfObjs; i++) {
                 defs.add(def);
             }
-            ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(null, null,
-                    connector.getMCServices().getActionService().getConnectionProvider().getConnectionDetails());
+            ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(null, null, connector
+                                                                                                           .getMCServices()
+                                                                                                           .getActionService()
+                                                                                                           .getConnectionProvider()
+                                                                                                           .getConnectionDetails());
             for (int i = 0; i < numberOfObjs - 1; i++) {
                 archDetails.add(archDetails.get(0));
             }
@@ -118,12 +121,14 @@ public class StoreAggregations {
                     xxx.add(archDetails.get(0));
                     yyy.add(defs.get(i));
 
-                    connector.getCOMServices().getArchiveService().store(true,
-                            AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE,
-                            connector.getMCServices().getActionService().getConnectionProvider().getConnectionDetails().getDomain(),
-                            xxx,
-                            yyy,
-                            null);
+                    connector.getCOMServices()
+                             .getArchiveService()
+                             .store(true, AggregationHelper.AGGREGATIONDEFINITION_OBJECT_TYPE, connector.getMCServices()
+                                                                                                        .getActionService()
+                                                                                                        .getConnectionProvider()
+                                                                                                        .getConnectionDetails()
+                                                                                                        .getDomain(),
+                                    xxx, yyy, null);
 
                 }
 
@@ -131,12 +136,12 @@ public class StoreAggregations {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
             long estimatedTime = System.nanoTime() - startTime;
-            Logger.getLogger(BenchmarkApp.class.getName()).log(Level.INFO,
-                    "Total time: " + numberOfObjs + " objects in {0} nanoseconds", estimatedTime);
+            Logger.getLogger(BenchmarkApp.class.getName())
+                  .log(Level.INFO, "Total time: " + numberOfObjs + " objects in {0} nanoseconds", estimatedTime);
             float objectPerSec = numberOfObjs / ((float) estimatedTime / (float) 1000000000);
             float averageTimePerObj = 1 / objectPerSec;
-            Logger.getLogger(BenchmarkApp.class.getName()).log(Level.INFO,
-                    "Objects per second: " + objectPerSec + " (average: " + averageTimePerObj + " sec)");
+            Logger.getLogger(BenchmarkApp.class.getName())
+                  .log(Level.INFO, "Objects per second: " + objectPerSec + " (average: " + averageTimePerObj + " sec)");
         } catch (NMFException ex) {
             Logger.getLogger(BenchmarkApp.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -112,7 +112,7 @@ public class MPGroundDemo {
 
         c_ResourceDefinitionDetails c_ResourceDefinition = new c_ResourceDefinitionDetails();
         c_ResourceDefinition.setNumericResourceDef(numericResourceDefinition);
-        c_ResourceDefinitionDetailsList c_ResourceDefinitions = new c_ResourceDefinitionDetailsList ();
+        c_ResourceDefinitionDetailsList c_ResourceDefinitions = new c_ResourceDefinitionDetailsList();
         c_ResourceDefinitions.add(c_ResourceDefinition);
         IdentifierList resourceIdentities = new IdentifierList();
         resourceIdentities.add(new Identifier("Resource Definition"));

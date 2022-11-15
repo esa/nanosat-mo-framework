@@ -25,7 +25,6 @@ import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mc.MCHelper;
-import org.ccsds.moims.mo.mc.conversion.ConversionHelper;
 import org.ccsds.moims.mo.mc.group.GroupHelper;
 
 /**
@@ -33,7 +32,6 @@ import org.ccsds.moims.mo.mc.group.GroupHelper;
  * @author Cesar Coelho
  */
 public class GroupConsumerServiceImpl {
-
 
     public GroupConsumerServiceImpl() throws MALException {
 
@@ -50,7 +48,7 @@ public class GroupConsumerServiceImpl {
         }
 
         if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION)
-                    .getServiceByName(GroupHelper.GROUP_SERVICE_NAME) == null) {
+                             .getServiceByName(GroupHelper.GROUP_SERVICE_NAME) == null) {
             GroupHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 

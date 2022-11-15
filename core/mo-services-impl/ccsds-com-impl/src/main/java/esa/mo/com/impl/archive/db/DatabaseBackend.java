@@ -133,22 +133,24 @@ public class DatabaseBackend {
         try {
             checkIfMigrationNeeded();
         } catch (SQLException ex) {
-            Logger.getLogger(DatabaseBackend.class.getName()).log(
-                    Level.FINE, "Migration not needed...");
+            Logger.getLogger(DatabaseBackend.class.getName()).log(Level.FINE, "Migration not needed...");
         }
 
         try {
             String blobType = "BLOB";
-            if(this.url.contains("postgresql")) {
+            if (this.url.contains("postgresql")) {
                 blobType = "bytea";
                 isPostgres = true;
             }
             Statement query = serverConnection.createStatement();
-            query.execute("CREATE TABLE IF NOT EXISTS COMObjectEntity (objectTypeId INTEGER NOT NULL, objId BIGINT NOT NULL, domainId INTEGER NOT NULL, network INTEGER, objBody " + blobType + ", providerURI INTEGER, relatedLink BIGINT, sourceLinkDomainId INTEGER, sourceLinkObjId BIGINT, sourceLinkObjectTypeId INTEGER, timestampArchiveDetails BIGINT, PRIMARY KEY (objectTypeId, objId, domainId))");;
+            query.execute("CREATE TABLE IF NOT EXISTS COMObjectEntity (objectTypeId INTEGER NOT NULL, objId BIGINT NOT NULL, domainId INTEGER NOT NULL, network INTEGER, objBody " +
+                          blobType +
+                          ", providerURI INTEGER, relatedLink BIGINT, sourceLinkDomainId INTEGER, sourceLinkObjId BIGINT, sourceLinkObjectTypeId INTEGER, timestampArchiveDetails BIGINT, PRIMARY KEY (objectTypeId, objId, domainId))");
+            ;
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseBackend.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         preparedStatements = new PreparedStatements(serverConnection);
         try {
             preparedStatements.init(isPostgres);
@@ -164,8 +166,8 @@ public class DatabaseBackend {
         // The first query will throw exception to the outside
         mig.execute("ALTER TABLE COMObjectEntity RENAME COLUMN OBJ TO objBody");
 
-        Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.INFO,
-                "Migrating the database to new Table schemas...");
+        Logger.getLogger(TransactionsProcessor.class.getName())
+              .log(Level.INFO, "Migrating the database to new Table schemas...");
         try {
             mig.execute("ALTER TABLE DomainHolderEntity RENAME COLUMN domainString TO value");
             mig.execute("ALTER TABLE DomainHolderEntity RENAME TO FastDomain");
@@ -178,8 +180,7 @@ public class DatabaseBackend {
         } catch (SQLException ex1) {
             Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.SEVERE, null, ex1);
         }
-        Logger.getLogger(TransactionsProcessor.class.getName()).log(
-                Level.INFO, "Database migrated successfully!");
+        Logger.getLogger(TransactionsProcessor.class.getName()).log(Level.INFO, "Database migrated successfully!");
     }
 
     public void createIndexesIfFirstTime() {
@@ -199,8 +200,7 @@ public class DatabaseBackend {
     private void startDatabaseDriver(String url2, String user, String password) {
         try {
             // Connect to the database
-            LOGGER.log(Level.INFO,
-                    "Attempting to establish a connection to the database:\n >> " + url2);
+            LOGGER.log(Level.INFO, "Attempting to establish a connection to the database:\n >> " + url2);
 
             if (jdbcDriver.equals(DRIVER_CLASS_NAME)) {
                 serverConnection = DriverManager.getConnection(url2);
@@ -209,28 +209,23 @@ public class DatabaseBackend {
             }
         } catch (SQLException ex) {
             if (jdbcDriver.equals(DRIVER_CLASS_NAME)) {
-                LOGGER
-                        .log(Level.WARNING, "Unexpected exception ! ", ex);
-                LOGGER.log(Level.INFO,
-                        "There was an SQLException, maybe the "
-                        + DATABASE_LOCATION_NAME
-                        + " folder/file does not exist. Attempting to create it...");
+                LOGGER.log(Level.WARNING, "Unexpected exception ! ", ex);
+                LOGGER.log(Level.INFO, "There was an SQLException, maybe the " +
+                                       DATABASE_LOCATION_NAME +
+                                       " folder/file does not exist. Attempting to create it...");
                 try {
                     // Connect to the database but also create the database if it does not exist
                     serverConnection = DriverManager.getConnection(url2 + ";create=true");
-                    LOGGER.log(
-                            Level.INFO, "Successfully created!");
+                    LOGGER.log(Level.INFO, "Successfully created!");
                 } catch (SQLException ex2) {
+                    LOGGER.log(Level.SEVERE, "Other connection already exists! Error: " + ex2.getMessage(), ex2);
                     LOGGER.log(Level.SEVERE,
-                            "Other connection already exists! Error: " + ex2.getMessage(), ex2);
-                    LOGGER.log(Level.SEVERE,
-                            "Most likely there is another instance of the same application already running. "
-                            + "Two instances of the same application are not allowed. The application will exit.");
+                               "Most likely there is another instance of the same application already running. " +
+                                             "Two instances of the same application are not allowed. The application will exit.");
                     System.exit(0);
                 }
             } else {
-                LOGGER.log(Level.SEVERE,
-                        "Unexpected exception ! " + ex.getMessage(), ex);
+                LOGGER.log(Level.SEVERE, "Unexpected exception ! " + ex.getMessage(), ex);
                 System.exit(0);
             }
         }

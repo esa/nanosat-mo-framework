@@ -54,7 +54,8 @@ public class MPServicesConsumer {
 
         try {
             // Initialize the Plan Information Management service
-            details = connectionConsumer.getServicesDetails().get(PlanInformationManagementHelper.PLANINFORMATIONMANAGEMENT_SERVICE_NAME);
+            details = connectionConsumer.getServicesDetails()
+                                        .get(PlanInformationManagementHelper.PLANINFORMATIONMANAGEMENT_SERVICE_NAME);
             if (details != null) {
                 this.pimService = new PlanInformationManagementConsumerServiceImpl(details, comServices);
             }
@@ -78,7 +79,8 @@ public class MPServicesConsumer {
             }
 
             // Initialize the Plan Execution Control Service
-            details = connectionConsumer.getServicesDetails().get(PlanExecutionControlHelper.PLANEXECUTIONCONTROL_SERVICE_NAME);
+            details = connectionConsumer.getServicesDetails()
+                                        .get(PlanExecutionControlHelper.PLANEXECUTIONCONTROL_SERVICE_NAME);
             if (details != null) {
                 this.planExecutionControlService = new PlanExecutionControlConsumerServiceImpl(details, comServices);
             }

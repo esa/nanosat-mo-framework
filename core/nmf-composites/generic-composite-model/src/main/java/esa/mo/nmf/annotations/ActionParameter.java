@@ -32,17 +32,19 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)
-public @interface ActionParameter
-{
+public @interface ActionParameter {
 
-  String name(); // sadly, the compiler removes argument names so it is not possible to automaticaly parse them
+    String name(); // sadly, the compiler removes argument names so it is not possible to automaticaly parse them
 
-  String description() default "";
+    String description() default "";
 
-  byte rawType() default 0;
+    byte rawType() default 0;
 
-  String rawUnit() default "";
-  String conditionalConversionFieldName() default "";
-  byte convertedType() default -1;
-  String convertedUnit() default "";
+    String rawUnit() default "";
+
+    String conditionalConversionFieldName() default "";
+
+    byte convertedType() default -1;
+
+    String convertedUnit() default "";
 }

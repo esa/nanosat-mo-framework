@@ -71,8 +71,8 @@ public class HelperCommon {
                 addressDetails = serviceInfo.getServiceAddresses().get(0);
 
                 if (serviceInfo.getServiceAddresses().size() != 1) {
-                    Logger.getLogger(HelperCommon.class.getName()).log(Level.WARNING,
-                            "There are more than just one service address in the ServiceCapability.");
+                    Logger.getLogger(HelperCommon.class.getName())
+                          .log(Level.WARNING, "There are more than just one service address in the ServiceCapability.");
                 }
             } else {
                 continue;
@@ -86,20 +86,22 @@ public class HelperCommon {
             final MALArea malArea = MALContextFactory.lookupArea(key.getKeyArea(), key.getKeyAreaVersion());
 
             if (malArea == null) {
-                Logger.getLogger(HelperCommon.class.getName()).log(Level.WARNING,
-                        "The service could not be found in the MAL factory. "
-                        + "Maybe the Helper for that service was not initialized. "
-                        + "The service key is: " + key.toString());
+                Logger.getLogger(HelperCommon.class.getName())
+                      .log(Level.WARNING, "The service could not be found in the MAL factory. " +
+                                          "Maybe the Helper for that service was not initialized. " +
+                                          "The service key is: " +
+                                          key.toString());
                 continue;
             }
 
             final MALService malService = malArea.getServiceByNumber(key.getKeyService());
 
             if (malService == null) {
-                Logger.getLogger(HelperCommon.class.getName()).log(Level.WARNING,
-                        "The service could not be found in the MAL factory. "
-                        + "Maybe the Helper for that service was not initialized. "
-                        + "The service key is: " + key.toString());
+                Logger.getLogger(HelperCommon.class.getName())
+                      .log(Level.WARNING, "The service could not be found in the MAL factory. " +
+                                          "Maybe the Helper for that service was not initialized. " +
+                                          "The service key is: " +
+                                          key.toString());
                 continue;
             }
 
@@ -147,8 +149,7 @@ public class HelperCommon {
                 newAddresses.add(addresses.get(bestIndex));
                 cap.setServiceAddresses(newAddresses);
             } catch (IllegalArgumentException ex) {
-                LOGGER.log(Level.SEVERE,
-                        "The best IPC service address index could not be determined!", ex);
+                LOGGER.log(Level.SEVERE, "The best IPC service address index could not be determined!", ex);
             }
 
             newCapabilities.add(cap);
@@ -167,65 +168,61 @@ public class HelperCommon {
      * @return Index of the address in the list with the best IPC transport
      * @throws IllegalArgumentException If addresses is empty
      */
-    public static int getBestIPCServiceAddressIndex(AddressDetailsList addresses) throws
-        IllegalArgumentException
-    {
-      if (addresses.isEmpty()) {
-        throw new IllegalArgumentException("The addresses argument cannot be empty.");
-      }
-
-      if (addresses.size() == 1) { // Well, there is only one...
-        return 0;
-      }
-
-      // Well, if there are more than one, then it means we can pick...
-      // My preference would be, in order: tcp/ip, rmi, other, spp
-      // SPP is in last because usually this is the transport supposed
-      // to be used on the ground-to-space link and not internally.
-      StringList availableTransports = getAvailableTransports(addresses);
-
-      int index = getTransportIndex(availableTransports, "tcpip");
-      if (index != -1) {
-        return index;
-      }
-
-      index = getTransportIndex(availableTransports, "rmi");
-      if (index != -1) {
-        return index;
-      }
-
-      index = getTransportIndex(availableTransports, "malspp");
-
-      // If could not be found nor it is not the first one
-      if (index != 0) { // Then let's pick the first one
-        return 0;
-      } else {
-        // It was found and it is the first one (0)
-        // Then let's select the second (index == 1) transport available...
-        return 1;
-      }
-    }
-
-    private static StringList getAvailableTransports(AddressDetailsList addresses)
-    {
-      StringList transports = new StringList(); // List of transport names
-
-      for (AddressDetails address : addresses) {
-        // The name of the transport is always before ":"
-        String[] parts = address.getServiceURI().toString().split(":");
-        transports.add(parts[0]);
-      }
-
-      return transports;
-    }
-
-    private static int getTransportIndex(StringList transports, String findString)
-    {
-      for (int i = 0; i < transports.size(); i++) {
-        if (findString.equals(transports.get(i))) {
-          return i;  // match
+    public static int getBestIPCServiceAddressIndex(AddressDetailsList addresses) throws IllegalArgumentException {
+        if (addresses.isEmpty()) {
+            throw new IllegalArgumentException("The addresses argument cannot be empty.");
         }
-      }
-      return -1;
+
+        if (addresses.size() == 1) { // Well, there is only one...
+            return 0;
+        }
+
+        // Well, if there are more than one, then it means we can pick...
+        // My preference would be, in order: tcp/ip, rmi, other, spp
+        // SPP is in last because usually this is the transport supposed
+        // to be used on the ground-to-space link and not internally.
+        StringList availableTransports = getAvailableTransports(addresses);
+
+        int index = getTransportIndex(availableTransports, "tcpip");
+        if (index != -1) {
+            return index;
+        }
+
+        index = getTransportIndex(availableTransports, "rmi");
+        if (index != -1) {
+            return index;
+        }
+
+        index = getTransportIndex(availableTransports, "malspp");
+
+        // If could not be found nor it is not the first one
+        if (index != 0) { // Then let's pick the first one
+            return 0;
+        } else {
+            // It was found and it is the first one (0)
+            // Then let's select the second (index == 1) transport available...
+            return 1;
+        }
+    }
+
+    private static StringList getAvailableTransports(AddressDetailsList addresses) {
+        StringList transports = new StringList(); // List of transport names
+
+        for (AddressDetails address : addresses) {
+            // The name of the transport is always before ":"
+            String[] parts = address.getServiceURI().toString().split(":");
+            transports.add(parts[0]);
+        }
+
+        return transports;
+    }
+
+    private static int getTransportIndex(StringList transports, String findString) {
+        for (int i = 0; i < transports.size(); i++) {
+            if (findString.equals(transports.get(i))) {
+                return i;  // match
+            }
+        }
+        return -1;
     }
 }

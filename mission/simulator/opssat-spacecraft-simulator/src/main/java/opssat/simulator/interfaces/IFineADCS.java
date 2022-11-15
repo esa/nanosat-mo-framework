@@ -26,10 +26,10 @@ package opssat.simulator.interfaces;
  * @author Cezar Suteu
  */
 public interface IFineADCS {
-//# Boolean enabled1
-//# Integer valueInteger1
-//# Float valueFloat1
-//# String textField1
+    //# Boolean enabled1
+    //# Integer valueInteger1
+    //# Float valueFloat1
+    //# String textField1
 
     /**
      * /
@@ -2245,7 +2245,8 @@ public interface IFineADCS {
      * F32: Y - value;
      * </pre>
      */
-    void singleSpinningStartControlLoop(float[] targetBodyAxis, float targetAngularVelocityMagnitude, float[] inertialTargetVector);//1149
+    void singleSpinningStartControlLoop(float[] targetBodyAxis, float targetAngularVelocityMagnitude,
+                                        float[] inertialTargetVector);//1149
 
     /**
      * <pre>

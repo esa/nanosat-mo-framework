@@ -22,7 +22,6 @@ package esa.mo.com.impl.archive.fast;
 
 import esa.mo.com.impl.archive.db.DatabaseBackend;
 import esa.mo.com.impl.archive.db.TransactionsProcessor;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -27,36 +27,31 @@ import org.ccsds.moims.mo.mal.MALListDecoder;
 /**
  * Implements the MALListDecoder interface for a binary encoding.
  */
-public class BinaryListDecoder extends BinaryDecoder implements MALListDecoder
-{
-  private final int size;
-  private final List list;
+public class BinaryListDecoder extends BinaryDecoder implements MALListDecoder {
+    private final int size;
+    private final List list;
 
-  /**
-   * Constructor.
-   *
-   * @param list List to decode into.
-   * @param srcBuffer Buffer to manage.
-   * @throws MALException If cannot decode list size.
-   */
-  public BinaryListDecoder(final List list, final BufferHolder srcBuffer)
-          throws MALException
-  {
-    super(srcBuffer);
+    /**
+     * Constructor.
+     *
+     * @param list List to decode into.
+     * @param srcBuffer Buffer to manage.
+     * @throws MALException If cannot decode list size.
+     */
+    public BinaryListDecoder(final List list, final BufferHolder srcBuffer) throws MALException {
+        super(srcBuffer);
 
-    this.list = list;
-    size = srcBuffer.getUnsignedInt();
-  }
+        this.list = list;
+        size = srcBuffer.getUnsignedInt();
+    }
 
-  @Override
-  public boolean hasNext()
-  {
-    return list.size() < size;
-  }
+    @Override
+    public boolean hasNext() {
+        return list.size() < size;
+    }
 
-  @Override
-  public int size()
-  {
-    return size;
-  }
+    @Override
+    public int size() {
+        return size;
+    }
 }

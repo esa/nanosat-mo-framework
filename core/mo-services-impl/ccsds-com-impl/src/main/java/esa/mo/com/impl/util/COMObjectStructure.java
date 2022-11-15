@@ -48,7 +48,7 @@ public class COMObjectStructure {
     private final Element object;
 
     public COMObjectStructure(final IdentifierList domain, final ObjectType objType,
-            final ArchiveDetails archiveDetails, final Element object) {
+                              final ArchiveDetails archiveDetails, final Element object) {
         this.objType = objType;
         this.domain = domain;
         this.objId = archiveDetails.getInstId();
@@ -63,8 +63,9 @@ public class COMObjectStructure {
     }
 
     public COMObjectStructure(final ArchivePersistenceObject archivePersistenceObject) {
-        this(archivePersistenceObject.getDomain(), archivePersistenceObject.getObjectType(),
-                archivePersistenceObject.getArchiveDetails(), (Element) archivePersistenceObject.getObject());
+        this(archivePersistenceObject.getDomain(), archivePersistenceObject.getObjectType(), archivePersistenceObject
+                                                                                                                     .getArchiveDetails(),
+             (Element) archivePersistenceObject.getObject());
     }
 
     public ObjectType getObjType() {
@@ -117,13 +118,7 @@ public class COMObjectStructure {
     }
 
     public ArchiveDetails getArchiveDetails() {
-        return new ArchiveDetails(
-                objId,
-                new ObjectDetails(relatedLink, sourceLink),
-                network,
-                timestamp,
-                providerURI
-        );
+        return new ArchiveDetails(objId, new ObjectDetails(relatedLink, sourceLink), network, timestamp, providerURI);
     }
 
 }

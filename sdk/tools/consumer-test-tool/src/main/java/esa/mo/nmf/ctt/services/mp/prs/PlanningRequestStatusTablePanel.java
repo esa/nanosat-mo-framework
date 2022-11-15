@@ -46,14 +46,9 @@ public class PlanningRequestStatusTablePanel extends SharedTablePanel {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
-        tableData.addRow(new Object[]{
-            requestIdentityId,
-            requestVersionId,
-            status.getErrCode(),
-            status.getErrInfo(),
-            status.getStatus().toString(),
-            HelperTime.time2readableString(status.getTimestamp())
-        });
+        tableData.addRow(new Object[]{requestIdentityId, requestVersionId, status.getErrCode(), status.getErrInfo(),
+                                      status.getStatus().toString(), HelperTime.time2readableString(status
+                                                                                                          .getTimestamp())});
 
         comObjects.add(null);
 
@@ -75,14 +70,10 @@ public class PlanningRequestStatusTablePanel extends SharedTablePanel {
 
         RequestUpdateDetails status = (RequestUpdateDetails) comObject.getObject();
 
-        tableData.addRow(new Object[]{
-            identity.toString(),
-            comObject.getArchiveDetails().getInstId(),
-            status.getErrCode(),
-            status.getErrInfo(),
-            status.getStatus().toString(),
-            status.getTimestamp().toString()
-        });
+        tableData.addRow(new Object[]{identity.toString(), comObject.getArchiveDetails().getInstId(), status
+                                                                                                            .getErrCode(),
+                                      status.getErrInfo(), status.getStatus().toString(), status.getTimestamp()
+                                                                                                .toString()});
 
         comObjects.add(comObject);
         semaphore.release();
@@ -90,26 +81,22 @@ public class PlanningRequestStatusTablePanel extends SharedTablePanel {
 
     @Override
     public void defineTableContent() {
-        String[] tableCol = new String[]{
-            "Request Identity ID", "Request Version ID", "Error code", "Error info", "Status", "Timestamp"
-        };
+        String[] tableCol = new String[]{"Request Identity ID", "Request Version ID", "Error code", "Error info",
+                                         "Status", "Timestamp"};
 
-        tableData = new javax.swing.table.DefaultTableModel(
-            new Object[][]{}, tableCol) {
-                Class[] types = new Class[]{
-                    java.lang.Long.class, java.lang.Long.class, java.lang.Integer.class,
-                    java.lang.String.class, java.lang.String.class, java.lang.String.class
-                };
+        tableData = new javax.swing.table.DefaultTableModel(new Object[][]{}, tableCol) {
+            Class[] types = new Class[]{java.lang.Long.class, java.lang.Long.class, java.lang.Integer.class,
+                                        java.lang.String.class, java.lang.String.class, java.lang.String.class};
 
-                @Override               //all cells false
-                public boolean isCellEditable(int row, int column) {
-                    return false;
-                }
+            @Override               //all cells false
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
 
-                @Override
-                public Class getColumnClass(int columnIndex) {
-                    return types[columnIndex];
-                }
+            @Override
+            public Class getColumnClass(int columnIndex) {
+                return types[columnIndex];
+            }
         };
 
         super.getTable().setModel(tableData);

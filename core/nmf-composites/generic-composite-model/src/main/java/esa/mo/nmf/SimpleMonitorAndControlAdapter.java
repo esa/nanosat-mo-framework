@@ -47,8 +47,8 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNMFAdapter implements SimpleMonitorAndControlListener {
 
     @Override
-    public UInteger actionArrived(Identifier identifier, AttributeValueList attributeValues, 
-            Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction) {
+    public UInteger actionArrived(Identifier identifier, AttributeValueList attributeValues, Long actionInstanceObjId,
+                                  boolean reportProgress, MALInteraction interaction) {
         Serializable[] values = new Serializable[attributeValues.size()];
 
         for (int i = 0; i < attributeValues.size(); i++) {
@@ -100,14 +100,14 @@ public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNM
 
     @Override
     public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
-        if(identifiers.isEmpty() || values.isEmpty()){ // Validation
+        if (identifiers.isEmpty() || values.isEmpty()) { // Validation
             return false;
         }
 
         final Identifier identifier = identifiers.get(0);
         final Attribute value = values.get(0).getRawValue();
         Serializable obj;
-        
+
         if (value instanceof Blob) {
             // Try to unserialize it!
             try {
@@ -122,20 +122,20 @@ public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNM
         obj = (Serializable) HelperAttributes.attribute2JavaType(value);
 
         return this.onSetValueSimple(identifier.getValue(), obj);
-        
+
         /* If we ever change the interface to support a boolean list, then use the code below */
         /*
         final BooleanList output = new BooleanList();
-
+        
         if (identifiers.isEmpty() || values.isEmpty()) { // Validation
             return output;
         }
-
+        
         for (int i = 0; i < values.size(); i++) {
             final Identifier identifier = identifiers.get(i);
             final Attribute value = values.get(i).getRawValue();
             Serializable obj;
-
+        
             if (value instanceof Blob) { // Try to unserialize it!
                 try {
                     obj = HelperAttributes.blobAttribute2serialObject((Blob) value);
@@ -146,14 +146,14 @@ public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNM
                     // It didn't work? Maybe it really just a Blob (not a serialized object)
                 }
             }
-
+        
             // Convert it to java type
             obj = (Serializable) HelperAttributes.attribute2JavaType(value);
-
+        
             boolean success = this.onSetValueSimple(identifier.getValue(), obj);
             output.add(success);
         }
-
+        
         return output;
         
         

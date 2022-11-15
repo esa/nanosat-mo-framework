@@ -69,8 +69,7 @@ public class ReceiptVersion1 {
             throw new IOException("Could not read the package timestamp!");
         }
 
-        final NMFPackageDetails details = new NMFPackageDetails(name, 
-                version, timestamp, "", "96m");
+        final NMFPackageDetails details = new NMFPackageDetails(name, version, timestamp, "", "96m");
         final NMFPackageDescriptor descriptor = new NMFPackageDescriptor(details);
         String path;
         long crc;
@@ -97,8 +96,7 @@ public class ReceiptVersion1 {
         return descriptor;
     }
 
-    public static void writeReceipt(final BufferedWriter bw, 
-            final NMFPackageDescriptor descriptor) throws IOException {
+    public static void writeReceipt(final BufferedWriter bw, final NMFPackageDescriptor descriptor) throws IOException {
         bw.write(PACKAGE_NAME + descriptor.getDetails().getPackageName());
         bw.newLine();
         bw.write(PACKAGE_VERSION + descriptor.getDetails().getVersion());

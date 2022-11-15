@@ -41,100 +41,80 @@ import org.ccsds.moims.mo.mal.structures.URI;
  *
  * @author Cesar Coelho
  */
-public class EchoGround
-{
+public class EchoGround {
 
-  private static final String ECHO_SPACE_PROVIDER = "App: echo-space";
-  private static final Logger LOGGER = Logger.getLogger(EchoGround.class.getName());
+    private static final String ECHO_SPACE_PROVIDER = "App: echo-space";
+    private static final Logger LOGGER = Logger.getLogger(EchoGround.class.getName());
 
-  public EchoGround(String directoryURI)
-  {
-    try {
-      GroundMOAdapterImpl gma = null;
-      ProviderSummaryList providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(
-          new URI(directoryURI));
+    public EchoGround(String directoryURI) {
+        try {
+            GroundMOAdapterImpl gma = null;
+            ProviderSummaryList providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(new URI(directoryURI));
 
-      if (!providers.isEmpty()) {
-        for(ProviderSummary provider : providers){
-          if(provider.getProviderId().toString().equals(ECHO_SPACE_PROVIDER)){
-            gma = new GroundMOAdapterImpl(provider);
-            gma.addDataReceivedListener(new CompleteDataReceivedAdapter());
-            break;
-          }
+            if (!providers.isEmpty()) {
+                for (ProviderSummary provider : providers) {
+                    if (provider.getProviderId().toString().equals(ECHO_SPACE_PROVIDER)) {
+                        gma = new GroundMOAdapterImpl(provider);
+                        gma.addDataReceivedListener(new CompleteDataReceivedAdapter());
+                        break;
+                    }
+                }
+            } else {
+                LOGGER.log(Level.SEVERE, "The returned list of providers is empty!");
+            }
+
+            if (gma != null) {
+                StringBuilder sb = new StringBuilder("A");
+                for (int i = 0; i < 50; i++) {
+                    gma.setParameter("Data", new Blob(sb.toString().getBytes()));
+                    sb.append("A");
+                    Thread.sleep(5000);
+                }
+                gma.setParameter("Data", new Blob("Hello".getBytes()));
+                gma.setParameter("Data", new Blob("OPS-SAT".getBytes()));
+            } else {
+                LOGGER.log(Level.SEVERE, "Failed to connect to the provider. No such provider found - " +
+                                         ECHO_SPACE_PROVIDER);
+            }
+        } catch (MALException | MalformedURLException | MALInteractionException | InterruptedException ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
         }
-      } else {
-        LOGGER.log(Level.SEVERE,
-            "The returned list of providers is empty!");
-      }
+    }
 
-      if(gma != null)
-      {
-        StringBuilder sb = new StringBuilder("A");
-        for(int i = 0; i < 50; i++){
-          gma.setParameter("Data", new Blob(sb.toString().getBytes()));
-          sb.append("A");
-          Thread.sleep(5000);
+    /**
+     * Main command line entry point.
+     *
+     * @param args the command line arguments
+     * @throws java.lang.Exception If there is an error
+     */
+    public static void main(final String[] args) throws Exception {
+        if (args.length != 1) {
+            System.err.println("Please give supervisor directory URI as an argument!");
+            System.err.println("e.g. maltcp://123.123.123.123:1024/nanosat-mo-supervisor-Directory");
+            System.exit(1);
         }
-        gma.setParameter("Data", new Blob("Hello".getBytes()));
-        gma.setParameter("Data", new Blob("OPS-SAT".getBytes()));
-      }
-      else
-      {
-        LOGGER.log(Level.SEVERE, "Failed to connect to the provider. No such provider found - " +
-                ECHO_SPACE_PROVIDER);
-      }
-    } catch (MALException | MalformedURLException | MALInteractionException | InterruptedException ex) {
-      LOGGER.log(Level.SEVERE, null, ex);
-    }
-  }
 
-  /**
-   * Main command line entry point.
-   *
-   * @param args the command line arguments
-   * @throws java.lang.Exception If there is an error
-   */
-  public static void main(final String[] args) throws Exception
-  {
-    if (args.length != 1) {
-      System.err.println("Please give supervisor directory URI as an argument!");
-      System.err.println("e.g. maltcp://123.123.123.123:1024/nanosat-mo-supervisor-Directory");
-      System.exit(1);
+        EchoGround demo = new EchoGround(args[0]);
+        return;
     }
 
-    EchoGround demo = new EchoGround(args[0]);
-    return;
-  }
+    private static class SimpleDataReceivedAdapter extends SimpleDataReceivedListener {
 
-  private static class SimpleDataReceivedAdapter extends SimpleDataReceivedListener
-  {
-
-    @Override
-    public void onDataReceived(String parameterName, Serializable data)
-    {
-      LOGGER.log(Level.INFO,
-          "\nParameter name: {0}" + "\n" + "Data content:\n{1}",
-          new Object[]{
-            parameterName,
-            data.toString()
-          }
-      );
+        @Override
+        public void onDataReceived(String parameterName, Serializable data) {
+            LOGGER.log(Level.INFO, "\nParameter name: {0}" + "\n" + "Data content:\n{1}", new Object[]{parameterName,
+                                                                                                       data.toString()});
+        }
     }
-  }
 
-  private static class CompleteDataReceivedAdapter extends CompleteDataReceivedListener
-  {
+    private static class CompleteDataReceivedAdapter extends CompleteDataReceivedListener {
 
-    @Override
-    public void onDataReceived(ParameterInstance parameterInstance)
-    {
-      LOGGER.log(Level.INFO,
-          "\nParameter name: {0}" + "\n" + "Parameter Value: {1}\nSource: {2}",
-          new Object[]{
-            parameterInstance.getName(),
-            parameterInstance.getParameterValue().getRawValue(),
-          }
-      );
+        @Override
+        public void onDataReceived(ParameterInstance parameterInstance) {
+            LOGGER.log(Level.INFO, "\nParameter name: {0}" + "\n" + "Parameter Value: {1}\nSource: {2}", new Object[]{
+                                                                                                                      parameterInstance.getName(),
+                                                                                                                      parameterInstance.getParameterValue()
+                                                                                                                                       .getRawValue(),});
+        }
     }
-  }
 }

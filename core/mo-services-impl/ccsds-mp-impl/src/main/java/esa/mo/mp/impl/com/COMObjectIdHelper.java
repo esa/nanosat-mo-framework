@@ -39,7 +39,8 @@ import esa.mo.helpertools.connections.ConfigurationProviderSingleton;
  */
 public class COMObjectIdHelper {
 
-    private COMObjectIdHelper() {}
+    private COMObjectIdHelper() {
+    }
 
     /**
      * Get the ObjectId from ArchivePersistenceObject
@@ -47,7 +48,8 @@ public class COMObjectIdHelper {
      * @return The COM ObjectId
      */
     public static ObjectId getObjectId(ArchivePersistenceObject comObject) {
-        if (comObject == null) return null;
+        if (comObject == null)
+            return null;
         ObjectKey objectKey = new ObjectKey(comObject.getDomain(), comObject.getObjectId());
         return new ObjectId(comObject.getObjectType(), objectKey);
     }
@@ -58,7 +60,8 @@ public class COMObjectIdHelper {
      * @return The instance id of the COM Object
      */
     public static Long getInstanceId(ObjectId objectId) {
-        if (objectId == null || objectId.getKey() == null) return null;
+        if (objectId == null || objectId.getKey() == null)
+            return null;
         return objectId.getKey().getInstId();
     }
 
@@ -68,11 +71,10 @@ public class COMObjectIdHelper {
      * @return The instance id list of the COM Objects
      */
     public static LongList getInstanceIds(ObjectIdList objectIds) {
-        if (objectIds == null) return null;
+        if (objectIds == null)
+            return null;
         LongList result = new LongList();
-        result.addAll(objectIds.stream()
-            .map(id -> getInstanceId(id))
-            .collect(Collectors.toList()));
+        result.addAll(objectIds.stream().map(id -> getInstanceId(id)).collect(Collectors.toList()));
         return result;
     }
 
@@ -118,14 +120,13 @@ public class COMObjectIdHelper {
      * @return the COM ObjectId list
      */
     public static ObjectIdList getObjectIds(LongList instanceIds, ObjectType objectType, IdentifierList domain) {
-        if (instanceIds == null || objectType == null) return null;
+        if (instanceIds == null || objectType == null)
+            return null;
         ObjectIdList result = new ObjectIdList();
-        result.addAll(instanceIds.stream()
-            .map(id -> {
-                ObjectKey objectKey = new ObjectKey(domain, id);
-                return new ObjectId(objectType, objectKey);
-            })
-            .collect(Collectors.toList()));
+        result.addAll(instanceIds.stream().map(id -> {
+            ObjectKey objectKey = new ObjectKey(domain, id);
+            return new ObjectId(objectType, objectKey);
+        }).collect(Collectors.toList()));
         return result;
     }
 
@@ -138,10 +139,7 @@ public class COMObjectIdHelper {
     public static ObjectIdPairList getObjectIdPairs(ObjectIdList relatedIds, ObjectIdList objectIds) {
         ObjectIdPairList pairs = new ObjectIdPairList();
         for (int index = 0; index < relatedIds.size(); index++) {
-            pairs.add(new ObjectIdPair(
-                relatedIds.get(index),
-                objectIds.get(index)
-            ));
+            pairs.add(new ObjectIdPair(relatedIds.get(index), objectIds.get(index)));
         }
         return pairs;
     }
@@ -154,10 +152,7 @@ public class COMObjectIdHelper {
     public static ObjectInstancePairList getInstancePairIds(ObjectIdPairList pairs) {
         ObjectInstancePairList list = new ObjectInstancePairList();
         for (ObjectIdPair pair : pairs) {
-            list.add(new ObjectInstancePair(
-                getInstanceId(pair.getIdentityId()),
-                getInstanceId(pair.getObjectId())
-            ));
+            list.add(new ObjectInstancePair(getInstanceId(pair.getIdentityId()), getInstanceId(pair.getObjectId())));
         }
         return list;
     }

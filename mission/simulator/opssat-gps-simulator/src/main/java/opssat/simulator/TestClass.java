@@ -45,8 +45,9 @@ public class TestClass {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                System.out.printf("\nLatitude, Longitude: %f, %f\nAltitude: %f\nTime: %s\n",
-                        app.getGPSlatitude(), app.getGPSlongitude(), app.getGPSaltitude(), app.getGPStime().toString());
+                System.out.printf("\nLatitude, Longitude: %f, %f\nAltitude: %f\nTime: %s\n", app.getGPSlatitude(), app
+                                                                                                                      .getGPSlongitude(),
+                                  app.getGPSaltitude(), app.getGPStime().toString());
 
             }
         }, 0, 3000);

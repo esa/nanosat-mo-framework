@@ -55,7 +55,7 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
 
     private ParameterConsumerServiceImpl consumer;
     private final Semaphore queueSemaphore = new Semaphore(1, true);
-    
+
     private MALProvider parameterServiceProvider;
     private boolean initialiased = false;
     private boolean running = false;
@@ -87,14 +87,12 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
             }
 
             if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION)
-                        .getServiceByName(ConfigurationHelper.CONFIGURATION_SERVICE_NAME) == null)
-            {
+                                 .getServiceByName(ConfigurationHelper.CONFIGURATION_SERVICE_NAME) == null) {
                 ConfigurationHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
             if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION)
-                        .getServiceByName(ParameterHelper.PARAMETER_SERVICE_NAME) == null)
-            {
+                                 .getServiceByName(ParameterHelper.PARAMETER_SERVICE_NAME) == null) {
                 ParameterHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
@@ -103,8 +101,8 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
         // One should initialize the Consumer first...
         // Maybe we can use the Ground MO Adapter and pass it during initialization... ;)
         this.consumer = adaptersList.get("lalalalla").getMCServices().getParameterService();
-        
-/*
+
+        /*
         publisher = createMonitorValuePublisher(configuration.getDomain(),
                 configuration.getNetwork(),
                 SessionType.LIVE,
@@ -112,13 +110,14 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
                 QoSLevel.BESTEFFORT,
                 null,
                 new UInteger(0));
-*/
+        */
         // shut down old service transport
         if (null != parameterServiceProvider) {
             connection.close();
         }
 
-        parameterServiceProvider = connection.startService(ParameterHelper.PARAMETER_SERVICE_NAME.toString(), ParameterHelper.PARAMETER_SERVICE, this);
+        parameterServiceProvider = connection.startService(ParameterHelper.PARAMETER_SERVICE_NAME.toString(),
+                                                           ParameterHelper.PARAMETER_SERVICE, this);
 
         running = true;
 
@@ -128,10 +127,11 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
     }
 
     @Override
-    public ParameterValueDetailsList getValue(LongList ll, MALInteraction interaction) throws MALInteractionException, MALException {
+    public ParameterValueDetailsList getValue(LongList ll,
+                                              MALInteraction interaction) throws MALInteractionException, MALException {
         // In this case, the object this.consumer represents the connection 
         // between the consumer part of the proxy to the provider on Space
-        
+
         //  Check the interaction object to know to whom the message should be forwarded to...
         URI uriTo = interaction.getMessageHeader().getURITo();
 
@@ -141,15 +141,14 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
         // Select the right provider from a List of providers based on the 
         // uriOfSpaceProvider. If it does not exist, then initialize the 
         // connection to it.
-        
-        
+
         boolean weCareAboutConnectionAvailableToGS = true; // Will be a future property that can be set
         boolean weHaveQueueing = true;                     // Will be a future property that can be set
         boolean isConnectionAvailable = true;              // Proxy needs to periodically check the connection for this var
         boolean isSatelliteInSight = true;                 // This information must be provided OR it can be calculated if the orbit is known
         int TIME_BETWEEN_COMMANDS = 50;                    // The time between each telecommand in milliseconds
 
-//------------------Check Connection------------------        
+        //------------------Check Connection------------------        
         if (weCareAboutConnectionAvailableToGS) {
             // Is the connection to the GS available?
             if (!isConnectionAvailable) {
@@ -158,11 +157,10 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
                 throw new MALException("The connection to the Ground Station is not available...");
             }
         }
-//----------------------------------------------------
+        //----------------------------------------------------
 
         // Publish RECEPTION Event success back to the consumer
-        
-        
+
         try {
             if (weHaveQueueing) {
                 queueSemaphore.acquire(); // Put it waiting in the queue list
@@ -174,7 +172,7 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
         } catch (InterruptedException ex) {
             Logger.getLogger(ParameterProxyServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         while (true) {
             if (isSatelliteInSight) {
                 if (weHaveQueueing) {
@@ -183,21 +181,21 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
                 }
 
                 // Publish FORWARD Event back to the consumer (runs inside a thread)
-                
+
                 // Makes a call to the provider on Space
-//                GetValueResponse response = this.consumer.getParameterStub().getValue(lLongList);
+                //                GetValueResponse response = this.consumer.getParameterStub().getValue(lLongList);
 
                 // returns the answer to the connected consumer
-//                return response;
+                //                return response;
                 return null;
-          }
+            }
         }
 
     }
 
     @Override
     public LongList enableGeneration(final Boolean isGroupIds, final InstanceBooleanPairList enableInstances,
-            final MALInteraction interaction) throws MALException, MALInteractionException {
+                                     final MALInteraction interaction) throws MALException, MALInteractionException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -211,7 +209,8 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
     }
 
     @Override
-    public ObjectInstancePairList addParameter(ParameterCreationRequestList pcrl, MALInteraction mali) throws MALInteractionException, MALException {
+    public ObjectInstancePairList addParameter(ParameterCreationRequestList pcrl,
+                                               MALInteraction mali) throws MALInteractionException, MALException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -221,12 +220,14 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
     }
 
     @Override
-    public ObjectInstancePairList listDefinition(IdentifierList il, MALInteraction mali) throws MALInteractionException, MALException {
+    public ObjectInstancePairList listDefinition(IdentifierList il,
+                                                 MALInteraction mali) throws MALInteractionException, MALException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public LongList updateDefinition(LongList ll, ParameterDefinitionDetailsList pddl, MALInteraction mali) throws MALInteractionException, MALException {
+    public LongList updateDefinition(LongList ll, ParameterDefinitionDetailsList pddl,
+                                     MALInteraction mali) throws MALInteractionException, MALException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

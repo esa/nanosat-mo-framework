@@ -31,29 +31,28 @@ import opssat.simulator.threading.SimulatorNode;
  *
  * @author Cezar Suteu
  */
-@ISimulatorDeviceData(descriptors={"byte[]:cameraBuffer",
-                                   "int:cameraBufferOperatingIndex"})
+@ISimulatorDeviceData(descriptors = {"byte[]:cameraBuffer", "int:cameraBufferOperatingIndex"})
 public class PCamera extends GenericPeripheral implements ICamera {
 
-    public PCamera(SimulatorNode simulatorNode,String name) {
-        super(simulatorNode,name);
+    public PCamera(SimulatorNode simulatorNode, String name) {
+        super(simulatorNode, name);
     }
+
     @Override
-    @InternalData (internalID=3001,commandIDs={"",""},argNames={"width","height"})
-    public byte[] takePicture(int width,int height) {
+    @InternalData(internalID = 3001, commandIDs = {"", ""}, argNames = {"width", "height"})
+    public byte[] takePicture(int width, int height) {
         ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(width);
         argObject.add(height);
-        return (byte[]) super.getSimulatorNode().runGenericMethod(3001,argObject);
+        return (byte[]) super.getSimulatorNode().runGenericMethod(3001, argObject);
     }
 
     @Override
-    @InternalData (internalID=3002,commandIDs={"",""},argNames={"fileName"})
+    @InternalData(internalID = 3002, commandIDs = {"", ""}, argNames = {"fileName"})
     public void simPreloadPicture(String fileName) {
         ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(fileName);
-        super.getSimulatorNode().runGenericMethod(3002,argObject);
+        super.getSimulatorNode().runGenericMethod(3002, argObject);
     }
-
 
 }

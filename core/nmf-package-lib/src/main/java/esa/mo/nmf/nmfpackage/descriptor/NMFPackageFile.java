@@ -32,7 +32,7 @@ public class NMFPackageFile {
     public NMFPackageFile(final String path, final long crc) {
         this.path = path;
         this.crc = crc;
-    }   
+    }
 
     public String getPath() {
         return path;

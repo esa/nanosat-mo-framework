@@ -63,7 +63,8 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
      *
      * @param serviceMCConfiguration
      */
-    public ConfigurationConsumerPanel(ConfigurationConsumerServiceImpl serviceMCConfiguration, ProviderSummary providerSummary) {
+    public ConfigurationConsumerPanel(ConfigurationConsumerServiceImpl serviceMCConfiguration,
+                                      ProviderSummary providerSummary) {
         initComponents();
         this.providerSummary = providerSummary;
         this.serviceMCConfiguration = serviceMCConfiguration;
@@ -108,21 +109,23 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
         jScrollPane2.setPreferredSize(new java.awt.Dimension(796, 380));
         jScrollPane2.setRequestFocusEnabled(false);
 
-        actionDefinitionsTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, Boolean.TRUE, null},
-                {null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "Obj Inst Id", "name", "description", "rawType", "rawUnit", "generationEnabled", "updateInterval"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Float.class
-            };
+        actionDefinitionsTable.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{{null, null, null, null,
+                                                                                                null, Boolean.TRUE,
+                                                                                                null}, {null, null,
+                                                                                                        null, null,
+                                                                                                        null, null,
+                                                                                                        null}},
+                                                                                new String[]{"Obj Inst Id", "name",
+                                                                                             "description", "rawType",
+                                                                                             "rawUnit",
+                                                                                             "generationEnabled",
+                                                                                             "updateInterval"}) {
+            Class[] types = new Class[]{java.lang.Integer.class, java.lang.String.class, java.lang.String.class,
+                                        java.lang.Object.class, java.lang.String.class, java.lang.Boolean.class,
+                                        java.lang.Float.class};
 
             public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
+                return types[columnIndex];
             }
         });
         actionDefinitionsTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
@@ -186,22 +189,25 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(parameterTab, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 882, Short.MAX_VALUE)
-            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel6)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(parameterTab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(parameterTab, javax.swing.GroupLayout.PREFERRED_SIZE, 0,
+                                                      Short.MAX_VALUE)
+                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING,
+                                                      javax.swing.GroupLayout.DEFAULT_SIZE, 882, Short.MAX_VALUE)
+                                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                      javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
+        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                      .addGroup(layout.createSequentialGroup()
+                                                      .addContainerGap()
+                                                      .addComponent(jLabel6)
+                                                      .addGap(18, 18, 18)
+                                                      .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                    253, Short.MAX_VALUE)
+                                                      .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                      .addComponent(parameterTab,
+                                                                    javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                    javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                    javax.swing.GroupLayout.PREFERRED_SIZE)));
     }// </editor-fold>//GEN-END:initComponents
 
     private void activateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_activateButtonActionPerformed
@@ -216,12 +222,14 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
         try {
             ConfigurationAdapter adapter = new ConfigurationAdapter() {
                 @Override
-                public void activateResponseReceived(MALMessageHeader msgHeader, Boolean activationResult, ObjectIdList previousConfig, Map qosProperties) {
+                public void activateResponseReceived(MALMessageHeader msgHeader, Boolean activationResult,
+                                                     ObjectIdList previousConfig, Map qosProperties) {
                     super.activateResponseReceived(msgHeader, activationResult, previousConfig, qosProperties);
                     result[0] = activationResult;
                 }
             };
-            this.serviceMCConfiguration.getConfigurationStub().activate(providerSummary.getProviderKey(), objIdDef, adapter);
+            this.serviceMCConfiguration.getConfigurationStub()
+                                       .activate(providerSummary.getProviderKey(), objIdDef, adapter);
         } catch (MALInteractionException ex) {
             Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALException ex) {
@@ -230,20 +238,20 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
         }
 
         if (result[0]) {
-            JOptionPane.showMessageDialog(null, "The configuration was successfully activated.", "Success", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null, "The configuration was successfully activated.", "Success",
+                                          JOptionPane.PLAIN_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, "The configuration activation failed.", "Failure", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null, "The configuration activation failed.", "Failure",
+                                          JOptionPane.PLAIN_MESSAGE);
         }
 
     }//GEN-LAST:event_activateButtonActionPerformed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
 
-
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
-
 
     }//GEN-LAST:event_updateButtonActionPerformed
 
@@ -279,14 +287,16 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
         ObjectIdList output;
         try {
             output = this.serviceMCConfiguration.getConfigurationStub().list(ConfigurationType.SERVICE, idList, key);
-//            configurationTable.refreshTableWithIds(output, serviceMCConfiguration.getConnectionDetails().getDomain(), ActionHelper.ACTIONDEFINITION_OBJECT_TYPE);
+            //            configurationTable.refreshTableWithIds(output, serviceMCConfiguration.getConnectionDetails().getDomain(), ActionHelper.ACTIONDEFINITION_OBJECT_TYPE);
         } catch (MALInteractionException | MALException ex) {
-            JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.", "Error", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.", "Error",
+                                          JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
             return;
         }
 
-        Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.INFO, "listDefinition(\"*\") returned {0} object instance identifiers", output.size());
+        Logger.getLogger(ConfigurationConsumerPanel.class.getName())
+              .log(Level.INFO, "listDefinition(\"*\") returned {0} object instance identifiers", output.size());
 
     }//GEN-LAST:event_listAllButtonActionPerformed
 
@@ -332,15 +342,19 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
 
         class ConfigAdapter extends ConfigurationAdapter {
             @Override
-            public void storeCurrentResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader, org.ccsds.moims.mo.com.structures.ObjectId objInstId, java.util.Map qosProperties) {
+            public void storeCurrentResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+                                                     org.ccsds.moims.mo.com.structures.ObjectId objInstId,
+                                                     java.util.Map qosProperties) {
                 String str = "Object instance identifiers on the provider: \n";
                 str += objInstId.toString();
-                JOptionPane.showMessageDialog(null, str, "Returned ObjectId from the Provider", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(null, str, "Returned ObjectId from the Provider",
+                                              JOptionPane.PLAIN_MESSAGE);
             }
         }
 
         try {
-            this.serviceMCConfiguration.getConfigurationStub().storeCurrent(providerSummary.getProviderKey(), key, true, new ConfigAdapter());
+            this.serviceMCConfiguration.getConfigurationStub()
+                                       .storeCurrent(providerSummary.getProviderKey(), key, true, new ConfigAdapter());
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -367,7 +381,6 @@ public class ConfigurationConsumerPanel extends javax.swing.JPanel {
             Logger.getLogger(ConfigurationConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_importXMLButtonActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable actionDefinitionsTable;

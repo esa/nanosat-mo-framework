@@ -30,7 +30,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
-import org.ccsds.moims.mo.com.activitytracking.ActivityTrackingHelper;
 import org.ccsds.moims.mo.com.archive.ArchiveHelper;
 import org.ccsds.moims.mo.com.archive.provider.ArchiveInheritanceSkeleton;
 import org.ccsds.moims.mo.com.archive.provider.CountInteraction;
@@ -86,7 +85,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             }
 
             if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION)
-                        .getServiceByName(ArchiveHelper.ARCHIVE_SERVICE_NAME) == null) {
+                                 .getServiceByName(ArchiveHelper.ARCHIVE_SERVICE_NAME) == null) {
                 ArchiveHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
         }
@@ -99,7 +98,8 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             connection.closeAll();
         }
 
-        archiveServiceProvider = connection.startService(ArchiveHelper.ARCHIVE_SERVICE_NAME.toString(), ArchiveHelper.ARCHIVE_SERVICE, false, this);
+        archiveServiceProvider = connection.startService(ArchiveHelper.ARCHIVE_SERVICE_NAME.toString(),
+                                                         ArchiveHelper.ARCHIVE_SERVICE, false, this);
         running = true;
         initialiased = true;
         Logger.getLogger(ArchiveProviderServiceImpl.class.getName()).info("Archive service READY");
@@ -119,8 +119,8 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             connection.closeAll();
             running = false;
         } catch (MALException ex) {
-            Logger.getLogger(ArchiveProviderServiceImpl.class.getName()).log(Level.WARNING, 
-                    "Exception during close down of the provider {0}", ex);
+            Logger.getLogger(ArchiveProviderServiceImpl.class.getName())
+                  .log(Level.WARNING, "Exception during close down of the provider {0}", ex);
         }
     }
 
@@ -146,9 +146,8 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
     }
 
     @Override
-    public void retrieve(final ObjectType inObjectType, final IdentifierList inDomain,
-            final LongList inObjIds, final RetrieveInteraction interaction)
-            throws MALInteractionException, MALException {
+    public void retrieve(final ObjectType inObjectType, final IdentifierList inDomain, final LongList inObjIds,
+                         final RetrieveInteraction interaction) throws MALInteractionException, MALException {
         interaction.sendAcknowledgement();  // "ok, it was received.."
         UIntegerList unkIndexList = new UIntegerList();
         LongList longList = new LongList();
@@ -163,12 +162,12 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
         }
         if (ArchiveManager.objectTypeContainsWildcard(inObjectType)) {   // requirement: 3.4.3.2.2
-//            interaction.sendError(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
+            //            interaction.sendError(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
         }
 
         if (HelperCOM.domainContainsWildcard(inDomain)) {   // requirement: 3.4.3.2.4
-//            interaction.sendError(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
+            //            interaction.sendError(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
         }
 
@@ -186,7 +185,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         ElementList outMatchedObjects = null;
 
         List<ArchivePersistenceObject> perObjs;
-        if(wildcardFound) {
+        if (wildcardFound) {
             perObjs = manager.getAllPersistenceObjects(inObjectType, inDomain);
         } else {
             perObjs = manager.getPersistenceObjects(inObjectType, inDomain, longList);
@@ -220,7 +219,8 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                     }
                 } catch (Exception ex) {
                     Logger.getLogger(ArchiveProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                    interaction.sendError(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, "The List of the objects could not be generated!"));
+                    interaction.sendError(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER,
+                                                               "The List of the objects could not be generated!"));
                     interaction.sendResponse(null, null);
                     return;
                 }
@@ -233,7 +233,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
 
         // Errors
         if (!unkIndexList.isEmpty()) { // requirement: 3.4.3.3 (error: a)
-//            interaction.sendError(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
+            //            interaction.sendError(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
             throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
         }
 
@@ -246,9 +246,9 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
     }
 
     @Override
-    public void query(Boolean returnObjBody, final ObjectType lObjectType,
-            final ArchiveQueryList lArchiveQueryList, final QueryFilterList queryFilterList,
-            final QueryInteraction interaction) throws MALException, MALInteractionException {
+    public void query(Boolean returnObjBody, final ObjectType lObjectType, final ArchiveQueryList lArchiveQueryList,
+                      final QueryFilterList queryFilterList,
+                      final QueryInteraction interaction) throws MALException, MALInteractionException {
         UIntegerList invIndexList = new UIntegerList();
 
         interaction.sendAcknowledgement();  // "ok, it was received.."
@@ -264,7 +264,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
 
         if (returnObjBody == null) {  // Handle it as a false
             returnObjBody = false;  // requirement: 3.4.4.2.25
-//            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
+            //            throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
         }
         if (lObjectType == null) {
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));  // requirement: 3.4.4.2.2 and 3.4.4.2.3
@@ -272,7 +272,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
 
         if (queryFilterList != null) { // requirement: 3.4.4.2.8
             if (lArchiveQueryList.size() != queryFilterList.size()) { // requirement: 3.4.4.2.9
-//                interaction.sendError(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
+                //                interaction.sendError(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
                 throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
             }
         }
@@ -311,7 +311,8 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                 ArchivePersistenceObject latestPerObj = perObjs.get(0);
 
                 for (ArchivePersistenceObject perObj : perObjs) {  // Cycle the perObjs to find the latest
-                    if (latestPerObj.getArchiveDetails().getTimestamp().getValue() < perObj.getArchiveDetails().getTimestamp().getValue()) {
+                    if (latestPerObj.getArchiveDetails().getTimestamp().getValue() <
+                        perObj.getArchiveDetails().getTimestamp().getValue()) {
                         latestPerObj = perObj; // It is newer than the current
                     }
                 }
@@ -322,20 +323,22 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             // Sort the objects
             if (tmpArchiveQuery.getSortOrder() != null) {
                 try { // requirement: 3.4.4.2.26
-                    perObjs = SortByField.sortPersistenceObjects(perObjs, tmpArchiveQuery.getSortFieldName(), tmpArchiveQuery.getSortOrder());
+                    perObjs = SortByField.sortPersistenceObjects(perObjs, tmpArchiveQuery.getSortFieldName(),
+                                                                 tmpArchiveQuery.getSortOrder());
                 } catch (NoSuchFieldException ex) {
                     // requirement: 3.4.4.2.14
                     throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
-//                    throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, new UInteger(index)));
-//                    interaction.sendError(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
+                    //                    throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, new UInteger(index)));
+                    //                    interaction.sendError(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
                 }
             }
 
             // Errors
             if (!invIndexList.isEmpty()) { // requirement: 3.4.4.3 (error: a, b)
-//                interaction.sendError(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+                //                interaction.sendError(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
                 if (index == (sizeArchiveQueryList - 1)) { // Is it the last query?
-                    throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+                    throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER,
+                                                                           invIndexList));
                 } else {
                     continue;
                 }
@@ -349,8 +352,8 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             }
 
             // requirement: 3.4.4.2.18 and requirement 3.4.4.2.21
-            if (ArchiveManager.objectTypeContainsWildcard(lObjectType)
-                    || HelperCOM.domainContainsWildcard(lArchiveQueryList.get(index).getDomain())) {  // Any wilcards? if so, then send the updates separately
+            if (ArchiveManager.objectTypeContainsWildcard(lObjectType) ||
+                HelperCOM.domainContainsWildcard(lArchiveQueryList.get(index).getDomain())) {  // Any wilcards? if so, then send the updates separately
 
                 // Then we need to send data sequentially... object by object
                 for (int j = 0; j < perObjs.size(); j++) {
@@ -365,7 +368,8 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                         try {  // Let's try to generate the list...
                             outObjectList = HelperMisc.element2elementList(perObjs.get(j).getObject());
                         } catch (Exception ex) { // The list could not be generated
-                            Logger.getLogger(ArchiveProviderServiceImpl.class.getName()).log(Level.SEVERE, "The outObjectList could not be generated!", ex);
+                            Logger.getLogger(ArchiveProviderServiceImpl.class.getName())
+                                  .log(Level.SEVERE, "The outObjectList could not be generated!", ex);
                             continue;
                         }
 
@@ -375,16 +379,16 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                     }
 
                     // requirement: 3.4.4.2.19
-                    ObjectType objType = (ArchiveManager.objectTypeContainsWildcard(lObjectType)) ? perObjs.get(j).getObjectType() : null;
-//                    ObjectType objType = (ArchiveManager.objectTypeContainsWildcard(lObjectType)) ? perObjs.get(j).getObjectType() : lObjectType;
+                    ObjectType objType = (ArchiveManager.objectTypeContainsWildcard(lObjectType)) ?
+                        perObjs.get(j).getObjectType() :
+                        null;
+                    //                    ObjectType objType = (ArchiveManager.objectTypeContainsWildcard(lObjectType)) ? perObjs.get(j).getObjectType() : lObjectType;
 
                     if (j != (perObjs.size() - 1) || index != (sizeArchiveQueryList - 1)) {
                         // requirement: 3.4.4.2.18
-                        interaction.sendUpdate(objType, perObjs.get(j).getDomain(),
-                                outArchDetLst, outObjectList); // requirement: 3.4.4.2.17 and 3.4.4.2.23
+                        interaction.sendUpdate(objType, perObjs.get(j).getDomain(), outArchDetLst, outObjectList); // requirement: 3.4.4.2.17 and 3.4.4.2.23
                     } else {
-                        interaction.sendResponse(objType, perObjs.get(j).getDomain(),
-                                outArchDetLst, outObjectList); // requirement: 3.4.4.2.17 and 3.4.4.2.23
+                        interaction.sendResponse(objType, perObjs.get(j).getDomain(), outArchDetLst, outObjectList); // requirement: 3.4.4.2.17 and 3.4.4.2.23
                     }
                 }
 
@@ -413,10 +417,12 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
 
                 if (index != (sizeArchiveQueryList - 1)) {
                     // requirement: 3.4.4.2.19
-                    interaction.sendUpdate(null, lArchiveQueryList.get(index).getDomain(), outArchiveDetailsList, outObjectList); // requirement: 3.4.4.2.17
+                    interaction.sendUpdate(null, lArchiveQueryList.get(index).getDomain(), outArchiveDetailsList,
+                                           outObjectList); // requirement: 3.4.4.2.17
                 } else {
                     // requirement: 3.4.4.2.19
-                    interaction.sendResponse(null, lArchiveQueryList.get(index).getDomain(), outArchiveDetailsList, outObjectList); // requirement: 3.4.4.2.17
+                    interaction.sendResponse(null, lArchiveQueryList.get(index).getDomain(), outArchiveDetailsList,
+                                             outObjectList); // requirement: 3.4.4.2.17
                 }
             }
         }
@@ -424,8 +430,8 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
 
     @Override
     public void count(final ObjectType lObjectType, final ArchiveQueryList lArchiveQueryList,
-            final QueryFilterList queryFilterList, final CountInteraction interaction)
-            throws MALException, MALInteractionException { // requirement: 3.4.5.2.1
+                      final QueryFilterList queryFilterList,
+                      final CountInteraction interaction) throws MALException, MALInteractionException { // requirement: 3.4.5.2.1
         UIntegerList invIndexList = new UIntegerList();
         LongList outLong = new LongList();
         interaction.sendAcknowledgement();  // "ok, it was received.."
@@ -447,7 +453,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         if (queryFilterList != null) { // requirement: 3.4.5.2.1
 
             if (lArchiveQueryList.size() != queryFilterList.size()) { // requirement: 3.4.5.2.1
-//                interaction.sendError(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
+                //                interaction.sendError(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
                 throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
             }
         }
@@ -483,7 +489,8 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                 ArchivePersistenceObject latestPerObj = perObjs.get(0);
 
                 for (ArchivePersistenceObject perObj : perObjs) {  // Cycle the perObjs to find the latest
-                    if (latestPerObj.getArchiveDetails().getTimestamp().getValue() < perObj.getArchiveDetails().getTimestamp().getValue()) {
+                    if (latestPerObj.getArchiveDetails().getTimestamp().getValue() <
+                        perObj.getArchiveDetails().getTimestamp().getValue()) {
                         latestPerObj = perObj; // It is newer than the current
                     }
                 }
@@ -494,7 +501,8 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             // Sort the objects  (just to be sure there are no errors...
             if (tmpArchiveQuery.getSortOrder() != null) {
                 try { // requirement: 3.4.4.2.26
-                    perObjs = SortByField.sortPersistenceObjects(perObjs, tmpArchiveQuery.getSortFieldName(), tmpArchiveQuery.getSortOrder());
+                    perObjs = SortByField.sortPersistenceObjects(perObjs, tmpArchiveQuery.getSortFieldName(),
+                                                                 tmpArchiveQuery.getSortOrder());
                 } catch (NoSuchFieldException ex) {
                     // requirement: 3.4.4.2.14
                     throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
@@ -506,7 +514,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
 
         // Errors
         if (!invIndexList.isEmpty()) { // requirement: 3.4.4.3 (error: a, b)
-//            interaction.sendError(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
+            //            interaction.sendError(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
         }
 
@@ -514,10 +522,9 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
     }
 
     @Override
-    public LongList store(final Boolean returnObjId, final ObjectType objType,
-            final IdentifierList domain, final ArchiveDetailsList lArchiveDetailsList,
-            final ElementList lElementList, final MALInteraction interaction)
-            throws MALException, MALInteractionException {
+    public LongList store(final Boolean returnObjId, final ObjectType objType, final IdentifierList domain,
+                          final ArchiveDetailsList lArchiveDetailsList, final ElementList lElementList,
+                          final MALInteraction interaction) throws MALException, MALInteractionException {
         UIntegerList invIndexList = new UIntegerList();
         UIntegerList dupIndexList;
 
@@ -530,8 +537,12 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
 
             if (lArchiveDetailsList.size() != lElementList.size()) { // requirement: 3.4.6.2.8
                 UIntegerList error = new UIntegerList();
-                int size1 = (lArchiveDetailsList.size() < lElementList.size()) ? lArchiveDetailsList.size() : lElementList.size();
-                int size2 = (lArchiveDetailsList.size() > lElementList.size()) ? lArchiveDetailsList.size() : lElementList.size();
+                int size1 = (lArchiveDetailsList.size() < lElementList.size()) ?
+                    lArchiveDetailsList.size() :
+                    lElementList.size();
+                int size2 = (lArchiveDetailsList.size() > lElementList.size()) ?
+                    lArchiveDetailsList.size() :
+                    lElementList.size();
 
                 for (int i = size1; i < size2; i++) { // make a list with the invalid indexes
                     error.add(new UInteger(i));
@@ -609,11 +620,9 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
     }
 
     @Override
-    public void update(final ObjectType lObjectType,
-            final IdentifierList domain,
-            final ArchiveDetailsList lArchiveDetailsList,
-            final ElementList lElementList,
-            final MALInteraction interaction) throws MALException, MALInteractionException {
+    public void update(final ObjectType lObjectType, final IdentifierList domain,
+                       final ArchiveDetailsList lArchiveDetailsList, final ElementList lElementList,
+                       final MALInteraction interaction) throws MALException, MALInteractionException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
@@ -626,15 +635,18 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         if (lArchiveDetailsList == null) {
             return; // requirement: 3.4.4.2.3
         }
-        if (ArchiveManager.objectTypeContainsWildcard(lObjectType)
-                || HelperCOM.domainContainsWildcard(domain)) {   // requirement: 3.4.7.2.8 (first part)
+        if (ArchiveManager.objectTypeContainsWildcard(lObjectType) || HelperCOM.domainContainsWildcard(domain)) {   // requirement: 3.4.7.2.8 (first part)
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
         }
 
         if (null != lElementList && lArchiveDetailsList.size() != lElementList.size()) { // requirement: ------ (proposed, does not exist yet)
             UIntegerList error = new UIntegerList();
-            int size1 = (lArchiveDetailsList.size() < lElementList.size()) ? lArchiveDetailsList.size() : lElementList.size();
-            int size2 = (lArchiveDetailsList.size() > lElementList.size()) ? lArchiveDetailsList.size() : lElementList.size();
+            int size1 = (lArchiveDetailsList.size() < lElementList.size()) ?
+                lArchiveDetailsList.size() :
+                lElementList.size();
+            int size2 = (lArchiveDetailsList.size() > lElementList.size()) ?
+                lArchiveDetailsList.size() :
+                lElementList.size();
 
             for (int i = size1; i < size2; i++) { // make a list with the invalid indexes
                 error.add(new UInteger(i));
@@ -672,11 +684,8 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
     }
 
     @Override
-    public LongList delete(final ObjectType lObjectType,
-            final IdentifierList lIdentifierList,
-            final LongList lLongList,
-            final MALInteraction interaction)
-            throws MALException, MALInteractionException {
+    public LongList delete(final ObjectType lObjectType, final IdentifierList lIdentifierList, final LongList lLongList,
+                           final MALInteraction interaction) throws MALException, MALInteractionException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
         LongList toBeDeleted = new LongList();

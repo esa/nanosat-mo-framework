@@ -55,18 +55,17 @@ public final class ConfigurationProviderSingleton {
         initializeIfNeeded();
         return SESSION;
     }
-    
+
     public static Identifier getSourceSessionName() {
         return SESSION_NAME;
     }
 
-    private static synchronized void initializeIfNeeded(){
-        if (!isInitialized){
+    private static synchronized void initializeIfNeeded() {
+        if (!isInitialized) {
             init();
             isInitialized = true;
         }
     }
-    
 
     public static ConfigurationProviderSingleton getInstance() {
         return INSTANCE;

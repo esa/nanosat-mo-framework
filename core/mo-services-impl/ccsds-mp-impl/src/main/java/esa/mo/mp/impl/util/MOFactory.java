@@ -32,6 +32,7 @@ import org.ccsds.moims.mo.mal.structures.Subscription;
 public class MOFactory {
 
     private static Random RANDOM = new Random();
+
     /**
      * Creates a Subscription with Entity Key (*, 0, 0, 0)
      */
@@ -57,7 +58,8 @@ public class MOFactory {
         entityKeys.add(entityKey);
 
         EntityRequestList entities = new EntityRequestList();
-        EntityRequest entityRequest = new EntityRequest(subDomain, allAreas, allServices, allOperations, onlyOnChange, entityKeys);
+        EntityRequest entityRequest = new EntityRequest(subDomain, allAreas, allServices, allOperations, onlyOnChange,
+                                                        entityKeys);
         entities.add(entityRequest);
 
         Subscription subscription = new Subscription(subscriptionId, entities);

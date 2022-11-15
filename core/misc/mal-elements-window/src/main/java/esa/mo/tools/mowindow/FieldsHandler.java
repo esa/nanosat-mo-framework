@@ -43,7 +43,7 @@ public class FieldsHandler {
 
         return null;
     }
-    
+
     public static Field[] getDeclaredFields(Object obj) {
 
         Field[] fields = obj.getClass().getDeclaredFields();
@@ -122,7 +122,10 @@ public class FieldsHandler {
                 constructor.setAccessible(true);
                 try {
                     return (Enumeration) constructor.newInstance(0);
-                } catch (InstantiationException | InvocationTargetException | IllegalArgumentException | IllegalAccessException ex) {
+                } catch (InstantiationException |
+                         InvocationTargetException |
+                         IllegalArgumentException |
+                         IllegalAccessException ex) {
                     Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -146,7 +149,10 @@ public class FieldsHandler {
                     }
 
                     return HelperAttributes.javaType2Attribute(constructor.newInstance(1));
-                } catch (InstantiationException | InvocationTargetException | IllegalArgumentException | IllegalAccessException ex) {
+                } catch (InstantiationException |
+                         InvocationTargetException |
+                         IllegalArgumentException |
+                         IllegalAccessException ex) {
                     Logger.getLogger(MOWindow.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -156,5 +162,4 @@ public class FieldsHandler {
         return null;
     }
 
-    
 }

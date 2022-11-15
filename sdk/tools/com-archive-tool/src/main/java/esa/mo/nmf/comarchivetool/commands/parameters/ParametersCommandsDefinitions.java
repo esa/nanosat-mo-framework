@@ -36,14 +36,13 @@ import java.util.List;
 public class ParametersCommandsDefinitions {
 
     @Command(name = "parameter", subcommands = {ListParameters.class, GetParameters.class},
-            description = "Gets or lists MO parameters using the content of a local or remote COM archive.")
+             description = "Gets or lists MO parameters using the content of a local or remote COM archive.")
     public static class Parameter {
         @Option(names = {"-h", "--help"}, usageHelp = true, description = "display a help message")
         boolean helpRequested;
     }
 
-    @Command(name = "list",
-            description = "Lists available parameters in a COM archive.")
+    @Command(name = "list", description = "Lists available parameters in a COM archive.")
     public static class ListParameters implements Runnable {
         @Option(names = {"-h", "--help"}, usageHelp = true, description = "display a help message")
         boolean helpRequested;
@@ -56,21 +55,20 @@ public class ParametersCommandsDefinitions {
         String appName;
 
         @Option(names = {"-d", "--domain"}, paramLabel = "<domainId>",
-                description = "Restricts the dump to objects in a specific domain\n"
-                        + "  - format: key1.key2.[...].keyN.\n"
-                        + "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
+                description = "Restricts the dump to objects in a specific domain\n" +
+                              "  - format: key1.key2.[...].keyN.\n" +
+                              "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
         String domain;
 
         /** {@inheritDoc} */
         @Override
         public void run() {
             ParametersCommandsImplementations.listParameters(localOrRemote.databaseFile, localOrRemote.providerURI,
-                    domain, appName);
+                                                             domain, appName);
         }
     }
 
-    @Command(name = "get",
-            description = "Dumps to a file MO parameters samples from COM archive.")
+    @Command(name = "get", description = "Dumps to a file MO parameters samples from COM archive.")
     public static class GetParameters implements Runnable {
         @Option(names = {"-h", "--help"}, usageHelp = true, description = "display a help message")
         boolean helpRequested;
@@ -87,27 +85,26 @@ public class ParametersCommandsDefinitions {
         String appName;
 
         @Parameters(arity = "0..*", paramLabel = "<parameterNames>", index = "1",
-                    description = "Names of the parameters to retrieve\n"
-                                  + " - examples: param1 or param1 param2")
+                    description = "Names of the parameters to retrieve\n" + " - examples: param1 or param1 param2")
         List<String> parameterNames;
 
         @Option(names = {"-d", "--domain"}, paramLabel = "<domainId>",
-                description = "Restricts the dump to parameters in a specific domain\n"
-                              + "  - format: key1.key2.[...].keyN.\n"
-                              + "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
+                description = "Restricts the dump to parameters in a specific domain\n" +
+                              "  - format: key1.key2.[...].keyN.\n" +
+                              "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
         String domain;
 
         @Option(names = {"-s", "--start"}, paramLabel = "<startTime>",
-                description = "Restricts the dump to parameters generated after the given time\n"
-                              + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n"
-                              + "  - example: \"2021-03-04 08:37:58.482\"")
+                description = "Restricts the dump to parameters generated after the given time\n" +
+                              "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" +
+                              "  - example: \"2021-03-04 08:37:58.482\"")
         String startTime;
 
         @Option(names = {"-e", "--end"}, paramLabel = "<endTime>",
-                description = "Restricts the dump to parameters generated before the given time. "
-                              + "If this option is provided without the -s option, returns the single object that has the closest timestamp to, but not greater than <endTime>\n"
-                              + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n"
-                              + "  - example: \"2021-03-05 12:05:45.271\"")
+                description = "Restricts the dump to parameters generated before the given time. " +
+                              "If this option is provided without the -s option, returns the single object that has the closest timestamp to, but not greater than <endTime>\n" +
+                              "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" +
+                              "  - example: \"2021-03-05 12:05:45.271\"")
         String endTime;
 
         @Option(names = {"-j", "--json"}, paramLabel = "<json>",

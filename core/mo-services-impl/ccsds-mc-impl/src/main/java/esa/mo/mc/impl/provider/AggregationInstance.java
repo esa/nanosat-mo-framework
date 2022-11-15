@@ -36,14 +36,14 @@ public class AggregationInstance {
     private final ObjectId source;
     private final Time timestamp;
 
-    public AggregationInstance(final Identifier name, final AggregationValue pValue,
-            final ObjectId source, final Time timestamp) {
+    public AggregationInstance(final Identifier name, final AggregationValue pValue, final ObjectId source,
+                               final Time timestamp) {
         this.name = name;
         this.aggregationValue = pValue;
         this.source = source;
         this.timestamp = timestamp;
     }
-    
+
     public Identifier getName() {
         return this.name;
     }

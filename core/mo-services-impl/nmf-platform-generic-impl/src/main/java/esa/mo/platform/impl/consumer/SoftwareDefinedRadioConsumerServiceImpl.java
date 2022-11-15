@@ -60,14 +60,13 @@ public class SoftwareDefinedRadioConsumerServiceImpl extends ConsumerServiceImpl
         return new SoftwareDefinedRadioStub(tmConsumer);
     }
 
-    public SoftwareDefinedRadioConsumerServiceImpl(SingleConnectionDetails connectionDetails, 
-            COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
+    public SoftwareDefinedRadioConsumerServiceImpl(SingleConnectionDetails connectionDetails,
+                                                   COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
         this(connectionDetails, comServices, null, null);
     }
 
     public SoftwareDefinedRadioConsumerServiceImpl(SingleConnectionDetails connectionDetails,
-                                                   COMServicesConsumer comServices,
-                                                   Blob authenticationId,
+                                                   COMServicesConsumer comServices, Blob authenticationId,
                                                    String localNamePrefix) throws MALException, MalformedURLException, MALInteractionException {
         this.connectionDetails = connectionDetails;
         this.comServices = comServices;
@@ -81,12 +80,11 @@ public class SoftwareDefinedRadioConsumerServiceImpl extends ConsumerServiceImpl
             }
         }
 
-        tmConsumer = connection.startService(
-                this.connectionDetails.getProviderURI(),
-                this.connectionDetails.getBrokerURI(),
-                this.connectionDetails.getDomain(),
-                SoftwareDefinedRadioHelper.SOFTWAREDEFINEDRADIO_SERVICE,
-                authenticationId, localNamePrefix);
+        tmConsumer = connection.startService(this.connectionDetails.getProviderURI(), this.connectionDetails
+                                                                                                            .getBrokerURI(),
+                                             this.connectionDetails.getDomain(),
+                                             SoftwareDefinedRadioHelper.SOFTWAREDEFINEDRADIO_SERVICE, authenticationId,
+                                             localNamePrefix);
 
         this.softwareDefinedRadioService = new SoftwareDefinedRadioStub(tmConsumer);
     }

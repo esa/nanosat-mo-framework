@@ -68,21 +68,22 @@ public class ArchiveCommandsImplementations {
      * @param domainId Restricts the dump to objects in a specific domain ID
      * @param filename target filename
      */
-    public static void backupProvider(String databaseFile, String providerURI, String domainId, String providerName, String filename) {
+    public static void backupProvider(String databaseFile, String providerURI, String domainId, String providerName,
+                                      String filename) {
         LocalOrRemoteConsumer consumers = createConsumer(providerURI, databaseFile, providerName);
         ArchiveConsumerServiceImpl localConsumer = consumers.getLocalConsumer();
         NMFConsumer remoteConsumer = consumers.getRemoteConsumer();
 
-        ObjectType objectsTypes = new ObjectType(new UShort(0), new UShort(0),
-                                                 new UOctet((short) 0), new UShort(0));
+        ObjectType objectsTypes = new ObjectType(new UShort(0), new UShort(0), new UOctet((short) 0), new UShort(0));
         ArchiveQueryList archiveQueryList = new ArchiveQueryList();
         IdentifierList domain = domainId == null ? null : HelperMisc.domainId2domain(domainId);
-        ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L, null,
-                                                     null, null, null, null);
+        ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L, null, null, null, null, null);
         archiveQueryList.add(archiveQuery);
 
         ArchiveToBackupAdapter adapter = new ArchiveToBackupAdapter(filename, domainId);
-        queryArchive(objectsTypes, archiveQueryList, adapter, adapter, remoteConsumer == null ? localConsumer : remoteConsumer.getCOMServices().getArchiveService());
+        queryArchive(objectsTypes, archiveQueryList, adapter, adapter, remoteConsumer == null ?
+            localConsumer :
+            remoteConsumer.getCOMServices().getArchiveService());
 
         boolean success = adapter.saveDataToNewDatabase();
 
@@ -99,7 +100,7 @@ public class ArchiveCommandsImplementations {
             ids.add(0L);
             try {
                 List<ArchiveCOMObjectsOutput> toDelete = adapter.getObjectsToProcess();
-                for(ArchiveCOMObjectsOutput objects : toDelete) {
+                for (ArchiveCOMObjectsOutput objects : toDelete) {
                     archive.getArchiveStub().delete(objects.getObjectType(), objects.getDomain(), ids);
                 }
             } catch (MALInteractionException | MALException e) {
@@ -124,8 +125,8 @@ public class ArchiveCommandsImplementations {
         // Test if DB file exists
         File temp = new File(databaseFile);
         if (!temp.exists() || temp.isDirectory()) {
-            LOGGER.log(Level.SEVERE,
-                       String.format("Provided database file %s doesn't exist or is a directory", databaseFile));
+            LOGGER.log(Level.SEVERE, String.format("Provided database file %s doesn't exist or is a directory",
+                                                   databaseFile));
             return;
         }
 
@@ -190,8 +191,8 @@ public class ArchiveCommandsImplementations {
      *        stamp to, but not greater than endTime.
      * @param jsonFile target JSON file
      */
-    public static void dumpFormattedArchive(String databaseFile, String providerURI, String domainId,
-                                            String comType, String startTime, String endTime, String jsonFile) {
+    public static void dumpFormattedArchive(String databaseFile, String providerURI, String domainId, String comType,
+                                            String startTime, String endTime, String jsonFile) {
         // prepare comType filter
         int areaNumber = 0;
         int serviceNumber = 0;
@@ -206,21 +207,21 @@ public class ArchiveCommandsImplementations {
                 areaVersion = Integer.parseInt(subTypes[2]);
                 objectNumber = Integer.parseInt(subTypes[3]);
             } else {
-                LOGGER.log(Level.WARNING,
-                           String.format("Error parsing comType \"%s\", filter will be ignored", comType));
+                LOGGER.log(Level.WARNING, String.format("Error parsing comType \"%s\", filter will be ignored",
+                                                        comType));
             }
         }
 
-        ObjectType objectsTypes = new ObjectType(new UShort(areaNumber), new UShort(serviceNumber),
-                                                 new UOctet((short) areaVersion), new UShort(objectNumber));
+        ObjectType objectsTypes = new ObjectType(new UShort(areaNumber), new UShort(serviceNumber), new UOctet(
+                                                                                                               (short) areaVersion),
+                                                 new UShort(objectNumber));
 
         // prepare domain and time filters
         ArchiveQueryList archiveQueryList = new ArchiveQueryList();
         IdentifierList domain = domainId == null ? null : HelperMisc.domainId2domain(domainId);
         FineTime startTimeF = startTime == null ? null : HelperTime.readableString2FineTime(startTime);
         FineTime endTimeF = endTime == null ? null : HelperTime.readableString2FineTime(endTime);
-        ArchiveQuery archiveQuery =
-                new ArchiveQuery(domain, null, null, 0L, null, startTimeF, endTimeF, null, null);
+        ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L, null, startTimeF, endTimeF, null, null);
         archiveQueryList.add(archiveQuery);
 
         LocalOrRemoteConsumer consumers = createConsumer(providerURI, databaseFile);
@@ -229,7 +230,9 @@ public class ArchiveCommandsImplementations {
 
         // execute query
         ArchiveToJsonAdapter adapter = new ArchiveToJsonAdapter(jsonFile);
-        queryArchive(objectsTypes, archiveQueryList, adapter, adapter, remoteConsumer == null ? localConsumer : remoteConsumer.getCOMServices().getArchiveService());
+        queryArchive(objectsTypes, archiveQueryList, adapter, adapter, remoteConsumer == null ?
+            localConsumer :
+            remoteConsumer.getCOMServices().getArchiveService());
 
         closeConsumer(consumers);
     }
@@ -240,13 +243,12 @@ public class ArchiveCommandsImplementations {
      * @param centralDirectoryServiceURI URI of the central directory to use
      */
     public static void listArchiveProviders(String centralDirectoryServiceURI) {
-        ArrayList<String> archiveProviderURIs =
-                CentralDirectoryHelper.listCOMArchiveProviders(new URI(centralDirectoryServiceURI));
+        ArrayList<String> archiveProviderURIs = CentralDirectoryHelper.listCOMArchiveProviders(new URI(centralDirectoryServiceURI));
 
         // No provider found warning
         if (archiveProviderURIs.size() <= 0) {
-            LOGGER.log(Level.WARNING, String.format(
-                    "No COM archive provider found in central directory at %s", centralDirectoryServiceURI));
+            LOGGER.log(Level.WARNING, String.format("No COM archive provider found in central directory at %s",
+                                                    centralDirectoryServiceURI));
             return;
         }
 

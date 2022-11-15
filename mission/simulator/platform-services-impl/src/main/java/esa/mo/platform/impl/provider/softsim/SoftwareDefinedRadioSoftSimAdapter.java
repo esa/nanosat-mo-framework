@@ -32,57 +32,52 @@ import org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfigurat
  *
  * @author Cesar Coelho
  */
-public class SoftwareDefinedRadioSoftSimAdapter implements SoftwareDefinedRadioAdapterInterface, SimulatorAdapter
-{
+public class SoftwareDefinedRadioSoftSimAdapter implements SoftwareDefinedRadioAdapterInterface, SimulatorAdapter {
 
-  private final ESASimulator instrumentsSimulator;
-  private PowerControlAdapterInterface pcAdapter;
+    private final ESASimulator instrumentsSimulator;
+    private PowerControlAdapterInterface pcAdapter;
 
-  public SoftwareDefinedRadioSoftSimAdapter(ESASimulator instrumentsSimulator, PowerControlAdapterInterface pcAdapter)
-  {
-    this.instrumentsSimulator = instrumentsSimulator;
-    this.pcAdapter = pcAdapter;
-  }
-
-  @Override
-  public boolean isUnitAvailable()
-  {
-    return pcAdapter.isDeviceEnabled(DeviceType.SDR);
-  }
-
-  @Override
-  public boolean setConfiguration(SDRConfiguration configuration)
-  {
-    return false;
-  }
-
-  @Override
-  public boolean enableSDR(Boolean enable)
-  {
-    return true;
-  }
-
-  @Override
-  public IQComponents getIQComponents()
-  {
-
-    int nSamples = 10000;
-    double[] data = instrumentsSimulator.getpSDR().readFromBuffer(nSamples);
-
-    FloatList inPhase = new FloatList();
-    FloatList quadrature = new FloatList();
-
-    // Trim the accuracy to match NMF interface
-    for (int i = 0; i < nSamples; i++) {
-      inPhase.add((float) data[2 * i]);
-      quadrature.add((float) data[2 * i + 1]);
+    public SoftwareDefinedRadioSoftSimAdapter(ESASimulator instrumentsSimulator,
+                                              PowerControlAdapterInterface pcAdapter) {
+        this.instrumentsSimulator = instrumentsSimulator;
+        this.pcAdapter = pcAdapter;
     }
 
-    IQComponents iqComponents = new IQComponents();
-    iqComponents.setInPhase(inPhase);
-    iqComponents.setQuadrature(quadrature);
+    @Override
+    public boolean isUnitAvailable() {
+        return pcAdapter.isDeviceEnabled(DeviceType.SDR);
+    }
 
-    return iqComponents;
-  }
+    @Override
+    public boolean setConfiguration(SDRConfiguration configuration) {
+        return false;
+    }
+
+    @Override
+    public boolean enableSDR(Boolean enable) {
+        return true;
+    }
+
+    @Override
+    public IQComponents getIQComponents() {
+
+        int nSamples = 10000;
+        double[] data = instrumentsSimulator.getpSDR().readFromBuffer(nSamples);
+
+        FloatList inPhase = new FloatList();
+        FloatList quadrature = new FloatList();
+
+        // Trim the accuracy to match NMF interface
+        for (int i = 0; i < nSamples; i++) {
+            inPhase.add((float) data[2 * i]);
+            quadrature.add((float) data[2 * i + 1]);
+        }
+
+        IQComponents iqComponents = new IQComponents();
+        iqComponents.setInPhase(inPhase);
+        iqComponents.setQuadrature(quadrature);
+
+        return iqComponents;
+    }
 
 }

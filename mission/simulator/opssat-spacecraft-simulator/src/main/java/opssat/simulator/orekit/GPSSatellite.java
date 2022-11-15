@@ -41,11 +41,9 @@ public class GPSSatellite {
     public SpacecraftState getState() {
         return state;
     }
-    
+
     public void setState(SpacecraftState state) {
         this.state = state;
     }
-    
-    
-    
+
 }

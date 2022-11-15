@@ -76,15 +76,10 @@ public class PlanVersionTablePanel extends SharedTablePanel {
             }
         }
 
-        tableData.addRow(new Object[]{
-            identity.toString(),
-            comObject.getArchiveDetails().getInstId(),
-            plannedActivitiesCount,
-            plannedEventsCount,
-            HelperTime.time2readableString(planProductionDate),
-            planDescription,
-            planComments
-        });
+        tableData.addRow(new Object[]{identity.toString(), comObject.getArchiveDetails().getInstId(),
+                                      plannedActivitiesCount, plannedEventsCount, HelperTime.time2readableString(
+                                                                                                                 planProductionDate),
+                                      planDescription, planComments});
 
         comObjects.add(comObject);
         semaphore.release();
@@ -92,29 +87,23 @@ public class PlanVersionTablePanel extends SharedTablePanel {
 
     @Override
     public void defineTableContent() {
-        String[] tableCol = new String[]{
-            "Plan Identity", "Plan Version ID", "Planned activities",
-            "Planned events", "Production date", "Description",
-            "Comments"
-        };
+        String[] tableCol = new String[]{"Plan Identity", "Plan Version ID", "Planned activities", "Planned events",
+                                         "Production date", "Description", "Comments"};
 
-        tableData = new javax.swing.table.DefaultTableModel(
-            new Object[][]{}, tableCol) {
-                Class[] types = new Class[]{
-                    java.lang.String.class, java.lang.Long.class, java.lang.Long.class,
-                    java.lang.Long.class, java.lang.String.class, java.lang.String.class,
-                    java.lang.String.class
-                };
+        tableData = new javax.swing.table.DefaultTableModel(new Object[][]{}, tableCol) {
+            Class[] types = new Class[]{java.lang.String.class, java.lang.Long.class, java.lang.Long.class,
+                                        java.lang.Long.class, java.lang.String.class, java.lang.String.class,
+                                        java.lang.String.class};
 
-                @Override               //all cells false
-                public boolean isCellEditable(int row, int column) {
-                    return false;
-                }
+            @Override               //all cells false
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
 
-                @Override
-                public Class getColumnClass(int columnIndex) {
-                    return types[columnIndex];
-                }
+            @Override
+            public Class getColumnClass(int columnIndex) {
+                return types[columnIndex];
+            }
         };
 
         super.getTable().setModel(tableData);
