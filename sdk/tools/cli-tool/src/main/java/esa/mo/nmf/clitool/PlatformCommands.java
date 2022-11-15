@@ -49,22 +49,23 @@ import java.util.logging.Logger;
 /**
  * @author marcel.mikolajko
  */
-public class PlatformCommands
-{
+public class PlatformCommands {
     static Logger LOGGER = Logger.getLogger(PlatformCommands.class.getName());
 
     @Command(name = "gps", subcommands = {GetNMEASentence.class})
-    public static class GPS {}
+    public static class GPS {
+    }
 
     @Command(name = "adcs", subcommands = {GetStatus.class})
-    public static class ADCS {}
+    public static class ADCS {
+    }
 
     @Command(name = "camera", subcommands = {TakePicture.class})
-    public static class Camera {}
+    public static class Camera {
+    }
 
     @Command(name = "take-picture", description = "Take a picture from the camera")
-    public static class TakePicture extends BaseCommand implements Runnable
-    {
+    public static class TakePicture extends BaseCommand implements Runnable {
         @Option(names = {"-res", "--resolution"}, paramLabel = "<resolution>", required = true,
                 description = "Resolution of the image in format widthxheigh. For example 1920x1080")
         String resolution;
@@ -90,138 +91,102 @@ public class PlatformCommands
         String gainBlue;
 
         @Option(names = {"-o", "--output"}, paramLabel = "<outputFile>", defaultValue = "picture",
-                description =  "Name of the output file without the extension.")
+                description = "Name of the output file without the extension.")
         String filename;
 
         @Override
-        public void run()
-        {
-            if(!super.initRemoteConsumer())
-            {
+        public void run() {
+            if (!super.initRemoteConsumer()) {
                 return;
             }
 
             CameraStub camera;
-            try
-            {
+            try {
                 camera = consumer.getPlatformServices().getCameraService();
-            }
-            catch (IOException e)
-            {
+            } catch (IOException e) {
                 LOGGER.log(Level.SEVERE, "Camera service is not available for this provider!", e);
                 return;
             }
 
             String[] res = resolution.split("x");
-            CameraSettings settings = new CameraSettings(new PixelResolution(new UInteger(Integer.parseInt(res[0])), new UInteger(Integer.parseInt(res[1]))),
-                                                         PictureFormat.fromString(format.toUpperCase()),
-                                                         new Duration(Double.parseDouble(exposure)),
-                                                         Float.parseFloat(gainRed),
-                                                         Float.parseFloat(gainGreen),
-                                                         Float.parseFloat(gainBlue));
+            CameraSettings settings = new CameraSettings(new PixelResolution(new UInteger(Integer.parseInt(res[0])),
+                new UInteger(Integer.parseInt(res[1]))), PictureFormat.fromString(format.toUpperCase()), new Duration(
+                    Double.parseDouble(exposure)), Float.parseFloat(gainRed), Float.parseFloat(gainGreen), Float
+                        .parseFloat(gainBlue));
 
             final Object lock = new Object();
-            try
-            {
-                camera.takePicture(settings, new CameraAdapter()
-                {
+            try {
+                camera.takePicture(settings, new CameraAdapter() {
                     @Override
-                    public void takePictureResponseReceived(MALMessageHeader msgHeader, Picture picture, Map qosProperties)
-                    {
+                    public void takePictureResponseReceived(MALMessageHeader msgHeader, Picture picture,
+                        Map qosProperties) {
                         System.out.println("Picture received: " + picture);
-                        try
-                        {
+                        try {
                             filename = filename + "." + format.toLowerCase();
                             Files.write(Paths.get(filename), picture.getContent().getValue());
                             System.out.println("File " + filename + " saved!");
-                        }
-                        catch (IOException | MALException e)
-                        {
+                        } catch (IOException | MALException e) {
                             LOGGER.log(Level.SEVERE, "Error during picture saving!", e);
                         }
 
-                        synchronized (lock)
-                        {
+                        synchronized (lock) {
                             lock.notifyAll();
                         }
                     }
 
                     @Override
-                    public void takePictureResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties)
-                    {
+                    public void takePictureResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                        Map qosProperties) {
                         LOGGER.log(Level.SEVERE, "Error during takePicture!", error);
-                        synchronized (lock)
-                        {
+                        synchronized (lock) {
                             lock.notifyAll();
                         }
                     }
                 });
 
-                synchronized (lock)
-                {
+                synchronized (lock) {
                     lock.wait();
                 }
-            }
-            catch (MALInteractionException e)
-            {
+            } catch (MALInteractionException e) {
                 MALStandardError error = e.getStandardError();
-                if(error.getErrorNumber().equals(COMHelper.INVALID_ERROR_NUMBER))
-                {
-                    if(error.getExtraInformation() instanceof PixelResolutionList)
-                    {
+                if (error.getErrorNumber().equals(COMHelper.INVALID_ERROR_NUMBER)) {
+                    if (error.getExtraInformation() instanceof PixelResolutionList) {
                         System.out.println("Provided resolution is not supported!");
                         System.out.println("Supported resolutions: " + error.getExtraInformation());
-                    }
-                    else
-                    {
+                    } else {
                         System.out.println("Provided format is not supported!");
                         System.out.println("Supported formats: " + error.getExtraInformation());
                     }
-                }
-                else if(error.getErrorNumber().equals(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER))
-                {
+                } else if (error.getErrorNumber().equals(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER)) {
                     System.out.println("Camera is currently unavailable");
-                }
-                else if(error.getErrorNumber().equals(PlatformHelper.DEVICE_IN_USE_ERROR_NUMBER))
-                {
+                } else if (error.getErrorNumber().equals(PlatformHelper.DEVICE_IN_USE_ERROR_NUMBER)) {
                     System.out.println("Camera is currently in use");
-                }
-                else
-                {
+                } else {
                     LOGGER.log(Level.SEVERE, "Error during takePicture!", e);
                 }
-            }
-            catch( MALException | InterruptedException e)
-            {
+            } catch (MALException | InterruptedException e) {
                 LOGGER.log(Level.SEVERE, "Error during takePicture!", e);
             }
         }
     }
 
     @Command(name = "get-status", description = "Gets the provider status")
-    public static class GetStatus extends BaseCommand implements Runnable
-    {
+    public static class GetStatus extends BaseCommand implements Runnable {
         @Override
-        public void run()
-        {
-            if(!super.initRemoteConsumer())
-            {
+        public void run() {
+            if (!super.initRemoteConsumer()) {
                 return;
             }
 
             AutonomousADCSStub adcs;
-            try
-            {
+            try {
                 adcs = consumer.getPlatformServices().getAutonomousADCSService();
-            }
-            catch (IOException e)
-            {
+            } catch (IOException e) {
                 LOGGER.log(Level.SEVERE, "Autonomous ADCS service is not available for this provider!", e);
                 return;
             }
 
-            try
-            {
+            try {
                 GetStatusResponse response = adcs.getStatus();
                 AttitudeTelemetry telemetry = response.getBodyElement0();
                 System.out.println("Attitude telemetry:");
@@ -241,76 +206,61 @@ public class PlatformCommands
                 System.out.println("Generation enabled: " + response.getBodyElement3());
                 System.out.println("Monitoring interval: " + response.getBodyElement4());
                 System.out.println("Active attitude mode: " + response.getBodyElement5());
-            }
-            catch (MALInteractionException | MALException e)
-            {
+            } catch (MALInteractionException | MALException e) {
                 LOGGER.log(Level.SEVERE, "Error during getStatus!", e);
             }
 
         }
     }
 
-
     @Command(name = "get-nmea-sentence", description = "Gets the NMEA sentence")
-    public static class GetNMEASentence extends BaseCommand implements Runnable
-    {
+    public static class GetNMEASentence extends BaseCommand implements Runnable {
         @Parameters(arity = "1", paramLabel = "<sentenceIdentifier>", index = "0",
                     description = "Identifier of the sentence")
         String sentenceId;
 
         @Override
-        public void run()
-        {
-            if(!super.initRemoteConsumer())
-            {
+        public void run() {
+            if (!super.initRemoteConsumer()) {
                 return;
             }
 
             GPSStub gps = null;
-            try
-            {
+            try {
                 gps = consumer.getPlatformServices().getGPSService();
-            }
-            catch (IOException e)
-            {
+            } catch (IOException e) {
                 System.out.println("GPS service is not available for this provider!");
                 return;
             }
 
             final Object lock = new Object();
 
-            try
-            {
-                gps.getNMEASentence(sentenceId, new GPSAdapter()
-                {
+            try {
+                gps.getNMEASentence(sentenceId, new GPSAdapter() {
                     @Override
-                    public void getNMEASentenceResponseReceived(MALMessageHeader msgHeader, String sentence, Map qosProperties)
-                    {
+                    public void getNMEASentenceResponseReceived(MALMessageHeader msgHeader, String sentence,
+                        Map qosProperties) {
                         System.out.println("Sentence received: " + sentence);
 
-                        synchronized (lock)
-                        {
+                        synchronized (lock) {
                             lock.notifyAll();
                         }
                     }
 
                     @Override
-                    public void getNMEASentenceResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+                    public void getNMEASentenceResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                        Map qosProperties) {
                         LOGGER.log(Level.SEVERE, "Error during getNMEASentence!", error);
-                        synchronized (lock)
-                        {
+                        synchronized (lock) {
                             lock.notifyAll();
                         }
                     }
                 });
 
-                synchronized (lock)
-                {
+                synchronized (lock) {
                     lock.wait();
                 }
-            }
-            catch (MALInteractionException | MALException | InterruptedException e)
-            {
+            } catch (MALInteractionException | MALException | InterruptedException e) {
                 LOGGER.log(Level.SEVERE, "Error during getNMEASentence!", e);
             }
         }

@@ -27,26 +27,20 @@ import picocli.CommandLine.Option;
 /**
  * @author marcel.mikolajko
  */
-@Command(name = "esa.mo.nmf.clitool.CLITool",
-         subcommands = {MCCommands.Parameter.class,
-                        MCCommands.Aggregation.class,
-                        SoftwareManagementCommands.AppsLauncher.class,
-                        SoftwareManagementCommands.Heartbeat.class,
-                        PlatformCommands.GPS.class,
-                        PlatformCommands.ADCS.class,
-                        PlatformCommands.Camera.class,
-                        ArchiveCommands.class,
-                        LogsCommands.class},
+@Command(name = "esa.mo.nmf.clitool.CLITool", subcommands = {MCCommands.Parameter.class, MCCommands.Aggregation.class,
+                                                             SoftwareManagementCommands.AppsLauncher.class,
+                                                             SoftwareManagementCommands.Heartbeat.class,
+                                                             PlatformCommands.GPS.class, PlatformCommands.ADCS.class,
+                                                             PlatformCommands.Camera.class, ArchiveCommands.class,
+                                                             LogsCommands.class},
          description = "Provides a way to use provider's services from the command line.")
-public class CLITool
-{
+public class CLITool {
     public static final String APP_NAME = "cli-consumer";
 
     @Option(names = {"-h", "--help"}, usageHelp = true, description = "display a help message")
     private boolean helpRequested;
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         Runtime.getRuntime().addShutdownHook(new Thread(BaseCommand::closeConsumer));
         CLITool cliConsumer = new CLITool();
         CommandLine cmd = new CommandLine(cliConsumer);

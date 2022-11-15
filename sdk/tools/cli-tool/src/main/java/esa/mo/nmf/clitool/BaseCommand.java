@@ -60,19 +60,15 @@ import java.util.logging.Logger;
 public abstract class BaseCommand {
     private static final Logger LOGGER = Logger.getLogger(BaseCommand.class.getName());
 
-
     @Option(names = {"-h", "--help"}, usageHelp = true, description = "display a help message")
     private boolean helpRequested;
 
-    @Option(names = {"-r", "--remote"}, paramLabel = "<providerURI>",
-            description = "Provider URI\n"
-                          + "  - example: maltcp://10.0.2.15:1024/nanosat-mo-supervisor-Directory")
+    @Option(names = {"-r", "--remote"}, paramLabel = "<providerURI>", description = "Provider URI\n" +
+        "  - example: maltcp://10.0.2.15:1024/nanosat-mo-supervisor-Directory")
     public String providerURI;
 
-
-    @Option(names = {"-l", "--local"}, paramLabel = "<databaseFile>",
-            description = "Local SQLite database file\n"
-                          + "  - example: ../nanosat-mo-supervisor-sim/comArchive.db")
+    @Option(names = {"-l", "--local"}, paramLabel = "<databaseFile>", description = "Local SQLite database file\n" +
+        "  - example: ../nanosat-mo-supervisor-sim/comArchive.db")
     public String databaseFile;
 
     @Option(names = {"-p", "--provider"}, paramLabel = "<providerName>",
@@ -85,8 +81,7 @@ public abstract class BaseCommand {
     public static ArchiveConsumerServiceImpl localArchive;
     public static ArchiveProviderServiceImpl localArchiveProvider;
 
-    public boolean initLocalArchiveProvider(String databaseFile)
-    {
+    public boolean initLocalArchiveProvider(String databaseFile) {
         HelperMisc.loadPropertiesFile();
         System.setProperty(HelperMisc.PROP_MO_APP_NAME, CLITool.APP_NAME);
         System.setProperty("esa.nmf.archive.persistence.jdbc.url", "jdbc:sqlite:" + databaseFile);
@@ -94,8 +89,8 @@ public abstract class BaseCommand {
         localArchiveProvider = new ArchiveProviderServiceImpl();
         try {
             localArchiveProvider.init(null);
-            LOGGER.log(Level.INFO, String.format("ArchiveProvider initialized at %s with file %s",
-                                                 localArchiveProvider.getConnection().getConnectionDetails().getProviderURI(), databaseFile));
+            LOGGER.log(Level.INFO, String.format("ArchiveProvider initialized at %s with file %s", localArchiveProvider
+                .getConnection().getConnectionDetails().getProviderURI(), databaseFile));
         } catch (MALException e) {
             LOGGER.log(Level.SEVERE, "Error initializing archiveProvider", e);
             return false;
@@ -110,8 +105,7 @@ public abstract class BaseCommand {
     }
 
     public boolean initLocalConsumer(String databaseFile) {
-        if(!initLocalArchiveProvider(databaseFile))
-        {
+        if (!initLocalArchiveProvider(databaseFile)) {
             return false;
         }
         String providerURI = localArchiveProvider.getConnection().getConnectionDetails().getProviderURI().getValue();
@@ -130,60 +124,46 @@ public abstract class BaseCommand {
         }
         return true;
     }
-    public boolean initRemoteConsumer()
-    {
-        try
-        {
+
+    public boolean initRemoteConsumer() {
+        try {
             HelperMisc.loadPropertiesFile();
             providerURI = providerURI.contains("Archive") ? providerURI.replace("Archive", "Directory") : providerURI;
             ProviderSummaryList providerSummaryList = NMFConsumer.retrieveProvidersFromDirectory(new URI(providerURI));
             ProviderSummary provider = null;
-            if(providerSummaryList.size() == 1)
-            {
-                if(providerName != null)
-                {
+            if (providerSummaryList.size() == 1) {
+                if (providerName != null) {
                     System.out.println("\nThere's only one provider in directory. Ignoring --provider option.\n");
                 }
                 provider = providerSummaryList.get(0);
-            }
-            else
-            {
-                if(providerName == null)
-                {
+            } else {
+                if (providerName == null) {
                     System.out.println("\nThere's more than one provider in directory.");
                     System.out.println("--provider option is required\n");
                     System.out.println("Available providers at this uri: " + providerURI);
-                    for(ProviderSummary summary : providerSummaryList)
-                    {
+                    for (ProviderSummary summary : providerSummaryList) {
                         System.out.println(" - " + summary.getProviderId());
                     }
                     System.out.println();
                     return false;
                 }
 
-                for(ProviderSummary summary : providerSummaryList)
-                {
-                    if(summary.getProviderId().getValue().equals(providerName))
-                    {
+                for (ProviderSummary summary : providerSummaryList) {
+                    if (summary.getProviderId().getValue().equals(providerName)) {
                         provider = summary;
                         break;
                     }
                 }
             }
 
-            if(provider == null)
-            {
+            if (provider == null) {
                 System.out.println("\nProvider not found!");
-                if(!providerSummaryList.isEmpty())
-                {
+                if (!providerSummaryList.isEmpty()) {
                     System.out.println("Available providers at this uri: " + providerURI);
-                    for(ProviderSummary summary : providerSummaryList)
-                    {
+                    for (ProviderSummary summary : providerSummaryList) {
                         System.out.println(" - " + summary.getProviderId());
                     }
-                }
-                else
-                {
+                } else {
                     System.out.println("No providers available at this uri: " + providerURI);
                 }
                 System.out.println();
@@ -194,72 +174,60 @@ public abstract class BaseCommand {
             consumer.init();
             domain = provider.getProviderKey().getDomain();
 
-            if(consumer.getCommonServices().getLoginService() != null &&
-               consumer.getCommonServices().getLoginService().getLoginStub() != null) {
+            if (consumer.getCommonServices().getLoginService() != null && consumer.getCommonServices().getLoginService()
+                .getLoginStub() != null) {
                 System.out.println("\nLogin required for " + provider.getProviderId());
 
                 String login = System.console().readLine("Login: ");
                 char[] password = System.console().readPassword("Password: ");
                 System.out.println();
 
-                LongList ids = consumer.getCommonServices().getLoginService().getLoginStub().listRoles(new Identifier(login), String.valueOf(password));
+                LongList ids = consumer.getCommonServices().getLoginService().getLoginStub().listRoles(new Identifier(
+                    login), String.valueOf(password));
 
                 List<Long> roleIds = new ArrayList<>();
                 List<String> roleNames = new ArrayList<>();
                 final Object lock = new Object();
-                ArchiveAdapter adapter = new ArchiveAdapter()
-                {
+                ArchiveAdapter adapter = new ArchiveAdapter() {
                     @Override
-                    public void retrieveResponseReceived(MALMessageHeader msgHeader, ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties)
-                    {
-                        for(int i = 0; i < objDetails.size(); ++i)
-                        {
+                    public void retrieveResponseReceived(MALMessageHeader msgHeader, ArchiveDetailsList objDetails,
+                        ElementList objBodies, Map qosProperties) {
+                        for (int i = 0; i < objDetails.size(); ++i) {
                             roleIds.add(objDetails.get(i).getInstId());
                             roleNames.add(objBodies.get(i).toString());
                         }
-                        synchronized (lock)
-                        {
+                        synchronized (lock) {
                             lock.notifyAll();
                         }
                     }
                 };
 
-                consumer.getCOMServices()
-                        .getArchiveService()
-                        .getArchiveStub()
-                        .retrieve(LoginHelper.LOGINROLE_OBJECT_TYPE,
-                                  consumer.getCommonServices().getLoginService().getConnectionDetails().getDomain(),
-                                  ids,
-                                  adapter);
+                consumer.getCOMServices().getArchiveService().getArchiveStub().retrieve(
+                    LoginHelper.LOGINROLE_OBJECT_TYPE, consumer.getCommonServices().getLoginService()
+                        .getConnectionDetails().getDomain(), ids, adapter);
 
-                synchronized (lock)
-                {
+                synchronized (lock) {
                     lock.wait(10000);
                 }
 
                 Long roleId = null;
-                if(!roleIds.isEmpty())
-                {
+                if (!roleIds.isEmpty()) {
                     System.out.println("\nAvailable roles: ");
-                    for(int i = 0; i < roleIds.size(); ++i)
-                    {
+                    for (int i = 0; i < roleIds.size(); ++i) {
                         System.out.println((i + 1) + " - " + roleNames.get(i));
                     }
                     int index = Integer.parseInt(System.console().readLine("Select role id: ")) - 1;
-                    if(index >= 0 && index < roleIds.size())
-                    {
+                    if (index >= 0 && index < roleIds.size()) {
                         roleId = roleIds.get(index);
                     }
                 }
 
-                LoginResponse response = consumer.getCommonServices().getLoginService().getLoginStub()
-                                                 .login(new Profile(new Identifier(login), roleId), String.valueOf(password));
+                LoginResponse response = consumer.getCommonServices().getLoginService().getLoginStub().login(
+                    new Profile(new Identifier(login), roleId), String.valueOf(password));
                 consumer.setAuthenticationId(response.getBodyElement0());
                 System.out.println("Login successful!");
             }
-        }
-        catch (MALException | MalformedURLException | MALInteractionException | InterruptedException e)
-        {
+        } catch (MALException | MalformedURLException | MALInteractionException | InterruptedException e) {
             LOGGER.log(Level.SEVERE, "Error when creating consumer", e);
             closeConsumer();
             return false;
@@ -268,43 +236,35 @@ public abstract class BaseCommand {
         return true;
     }
 
-    public static void closeConsumer()
-    {
-        if (consumer != null)
-        {
+    public static void closeConsumer() {
+        if (consumer != null) {
             IdentifierList ids = new IdentifierList();
-            try
-            {
-                if(MCCommands.parameterSubscription != null)
-                {
+            try {
+                if (MCCommands.parameterSubscription != null) {
                     ids.clear();
                     ids.add(MCCommands.parameterSubscription);
                     consumer.getMCServices().getParameterService().getParameterStub().monitorValueDeregister(ids);
                 }
 
-                if(MCCommands.aggregationSubscription != null)
-                {
+                if (MCCommands.aggregationSubscription != null) {
                     ids.clear();
                     ids.add(MCCommands.aggregationSubscription);
                     consumer.getMCServices().getAggregationService().getAggregationStub().monitorValueDeregister(ids);
                 }
 
-                if(SoftwareManagementCommands.heartbeatSubscription != null)
-                {
+                if (SoftwareManagementCommands.heartbeatSubscription != null) {
                     ids.clear();
                     ids.add(SoftwareManagementCommands.heartbeatSubscription);
                     consumer.getSMServices().getHeartbeatService().getHeartbeatStub().beatDeregister(ids);
                 }
 
-                if(SoftwareManagementCommands.outputSubscription != null)
-                {
+                if (SoftwareManagementCommands.outputSubscription != null) {
                     ids.clear();
                     ids.add(SoftwareManagementCommands.outputSubscription);
-                    consumer.getSMServices().getAppsLauncherService().getAppsLauncherStub().monitorExecutionDeregister(ids);
+                    consumer.getSMServices().getAppsLauncherService().getAppsLauncherStub().monitorExecutionDeregister(
+                        ids);
                 }
-            }
-            catch (MALInteractionException | MALException e)
-            {
+            } catch (MALInteractionException | MALException e) {
                 LOGGER.log(Level.SEVERE, "Failed to deregister subscription: " + ids.get(0), e);
             }
 
@@ -316,14 +276,12 @@ public abstract class BaseCommand {
             consumer = null;
         }
 
-        if (localArchive != null)
-        {
+        if (localArchive != null) {
             localArchive.close();
             localArchive = null;
         }
 
-        if (localArchiveProvider != null)
-        {
+        if (localArchiveProvider != null) {
             localArchiveProvider.close();
             localArchiveProvider = null;
         }
@@ -338,10 +296,12 @@ public abstract class BaseCommand {
      * @param adapter Archive adapter receiving the query answer messages
      * @param queryStatusProvider Interface providing the status of the query
      */
-    public static void queryArchive(ObjectType objectsTypes, ArchiveQueryList archiveQueryList, ArchiveAdapter adapter, QueryStatusProvider queryStatusProvider) {
+    public static void queryArchive(ObjectType objectsTypes, ArchiveQueryList archiveQueryList, ArchiveAdapter adapter,
+        QueryStatusProvider queryStatusProvider) {
         // run the query
         try {
-            ArchiveStub archive = localArchive == null ? consumer.getCOMServices().getArchiveService().getArchiveStub() : localArchive.getArchiveStub();
+            ArchiveStub archive = localArchive == null ? consumer.getCOMServices().getArchiveService()
+                .getArchiveStub() : localArchive.getArchiveStub();
             archive.query(true, objectsTypes, archiveQueryList, null, adapter);
         } catch (MALInteractionException | MALException e) {
             LOGGER.log(Level.SEVERE, "Error when querying archive", e);
@@ -368,8 +328,8 @@ public abstract class BaseCommand {
     public static ObjectId getAppObjectId(String appName, IdentifierList domain) {
         // SoftwareManagement.AppsLaunch.App object type
         ObjectType appType = new ObjectType(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER,
-                                            AppsLauncherHelper.APPSLAUNCHER_SERVICE_NUMBER, new UOctet((short) 0),
-                                            AppsLauncherHelper.APP_OBJECT_NUMBER);
+            AppsLauncherHelper.APPSLAUNCHER_SERVICE_NUMBER, new UOctet((short) 0),
+            AppsLauncherHelper.APP_OBJECT_NUMBER);
 
         // prepare domain filter
         ArchiveQueryList archiveQueryList = new ArchiveQueryList();

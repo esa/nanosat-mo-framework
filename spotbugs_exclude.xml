@@ -69,8 +69,9 @@
     <Match>
         <Or>
             <Class name="esa.mo.common.impl.provider.ConfigurationProviderServiceImpl$EventConsumerConfigurationCallbackAdapter"/>
+            <Class name="~esa\.mo\.nmf\.clitool\..*"/>
         </Or>
-        <Bug pattern="SS_SHOULD_BE_STATIC, WA_NOT_IN_LOOP"/>
+        <Bug pattern="SS_SHOULD_BE_STATIC, WA_NOT_IN_LOOP, LI_LAZY_INIT_STATIC"/>
     </Match>
 
     <Match>
@@ -102,15 +103,14 @@
         <Or>
             <Class name="esa.mo.nmf.apps.CameraAcquisitorSystemCameraHandler$CameraDataHandler"/>
             <Class name="esa.mo.ground.echo.AlertTest2$EventConsumerAdapter"/>
-            <Class name="esa.mo.nmf.comarchivetool.adapters.ArchiveToJsonAdapter$CleanCOMArchiveObject$CleanObjectDetails"/>
         </Or>
         <Bug pattern="SIC_INNER_SHOULD_BE_STATIC"/>
     </Match>
 
     <Match>
         <Or>
-            <Class name="esa.mo.nmf.comarchivetool.adapters.ArchiveToParametersAdapter"/>
-            <Class name="esa.mo.nmf.comarchivetool.commands.parameters.ParametersCommandsImplementations"/>
+            <Class name="esa.mo.nmf.clitool.adapters.ArchiveToParametersAdapter"/>
+            <Class name="esa.mo.nmf.clitool.MCCommands$GetParameters"/>
         </Or>
         <Bug pattern="WMI_WRONG_MAP_ITERATOR"/>
     </Match>
