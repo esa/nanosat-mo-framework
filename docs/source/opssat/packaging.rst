@@ -19,45 +19,48 @@ In short, you will need to: clone a repository, change some configuration files,
 1. Clone the `NMF Mission OPS-SAT repository <https://github.com/esa/nmf-mission-ops-sat>`_.
 2. Checkout the ``dev`` branch to get the latest version.
 3. Ensure your local maven repository has the latest NMF Core and NMF Mission OPS-SAT artifacts by running ``mvn install`` in both NMF Core and and NMF Mission OPS-SAT repository clones.
-4. Open the ``pom.xml`` file in the ``opssat-package`` directory.
-5. In the exp profile, edit your experimenter ID ``expId``, ``expApid`` (typically equals to sum of ``expId + 1024``), and the Maven information for your app. Make sure that ``expVersion`` matches the version defined in your app's POM.
+4. Ensure your local maven repository has the latest artifacts of your application by running ``mvn install`` in your application project.
+5. Open the ``pom.xml`` file in the ``opssat-package/experiment`` directory.
+6. In the properties, edit your experimenter ID ``expId``, ``expApid`` (typically APID equals to sum of ``expId + 1024``), and the Maven information for your app. Make sure that ``expVersion`` matches the version defined in your app's POM.
 
 .. code-block:: xml
    :linenos:
-   :emphasize-lines: 4,5,9,10,11
+   :emphasize-lines: 4,5,6,7,13,14
 
-   <id>exp</id>
-   <properties>
-     <isExp>true</isExp>
-     <expId>000</expId>
-     <expApid>1024</expApid>
-     <expVersion>2.1.0-SNAPSHOT</expVersion>
-   </properties>
-   <dependencies>
-     <dependency>
-       <groupId>int.esa.nmf.sdk.examples.space</groupId>
-       <artifactId>publish-clock</artifactId>
-       <version>${expVersion}</version>
-     </dependency>
-   </dependencies>
+    <properties>
+      <!-- Change the following 4 properties to match the information of your app -->
+      <!-- The declared version is arbitrary and does not have to match the NMF version, but only the app version -->
+      <expId>000</expId>
+      <expApid>1024</expApid>
+      <expMainClass>esa.mo.nmf.apps.PayloadsTestApp</expMainClass>
+      <expVersion>2.1.0-SNAPSHOT</expVersion>
+      <!-- Do not change the following -->
+      <esa.nmf.mission.opssat.assembly.outputdir>${project.build.directory}/experiment-package</esa.nmf.mission.opssat.assembly.outputdir>
+    </properties>
+    <dependencies>
+      <dependency>
+        <groupId>int.esa.nmf.sdk.examples.space</groupId>
+        <artifactId>payloads-test</artifactId>
+        <version>${expVersion}</version>
+      </dependency>
+    </dependencies>
 
-6. In the default ``artifactItem`` configuration of the ``expLib`` execution of the maven-dependency-plugin inside the ``exp`` profile you need to change the Maven qualifiers to match those of your app. You must also add an ``artifactItem`` for each external dependency that you app has.
+7. In the default ``artifactItems`` configuration of the ``expLib`` execution of the ``maven-dependency-plugin`` inside the you need to change the Maven qualifiers to match those of your app once again. You must also add an ``artifactItem`` for each external dependency that you app has.
 
 .. code-block:: xml
    :linenos:
-   :emphasize-lines: 4,5,7,13,14,15,16,17,18,19,20
+   :emphasize-lines: 4,5,13,14,15
 
    <artifactItems>
       <artifactItem>
-        <!-- Change the following 3 properties to match the information of your app -->
+        <!-- Change the following 3 properties to locate JAR your app needs -->
         <groupId>int.esa.nmf.sdk.examples.space</groupId>
-        <artifactId>publish-clock</artifactId>
-        <!-- The declared version is arbitrary and does not have to match the NMF version -->
-        <version>2.1.0-SNAPSHOT</version>
-        <!-- Do not change this -->
+        <artifactId>payloads-test</artifactId>
+        <version>${expVersion}</version>
+        <!-- Do not change the following -->
         <type>jar</type>
         <overWrite>true</overWrite>
-        <outputDirectory>${esa.nmf.mission.opssat.assembly.outputdir}/experimenter-package/home/exp${expId}/lib/</outputDirectory>
+        <outputDirectory>${esa.nmf.mission.opssat.assembly.outputdir}/home/exp${expId}/lib/</outputDirectory>
       </artifactItem>
       <artifactItem>
         <groupId>com.example</groupId>
@@ -65,37 +68,14 @@ In short, you will need to: clone a repository, change some configuration files,
         <version>x.x.x</version>
         <type>jar</type>
         <overWrite>true</overWrite>
-        <outputDirectory>${esa.nmf.mission.opssat.assembly.outputdir}/experimenter-package/home/exp${expId}/lib/</outputDirectory>
+        <outputDirectory>${esa.nmf.mission.opssat.assembly.outputdir}/home/exp${expId}/lib/</outputDirectory>
       </artifactItem>
     <artifactItems>
 
-7. Open the file ``copy.xml`` in the ``opssat-package`` folder. In the target ``copyExp`` edit the filter for ``MAIN_CLASS_NAME``. You can also add additional copy tasks to package additional files that your app requires. These copy tasks will be executed by the ``Maven AntRun Plugin``.
+8. You can also add additional copy tasks to package additional files that your app requires by editing ``ant_copy_jobs.xml`` file.  These copy tasks will be executed by the ``Maven AntRun Plugin``.
 
-.. code-block:: xml
-   :linenos:
-   :emphasize-lines: 6
+9. Invoke ``mvn clean package`` in the ``opssat-package/experiment`` directory.
 
-   <target name="copyExp">
-     <copy todir="${esa.nmf.mission.opssat.assembly.outputdir}/experimenter-package/home/exp${expId}/">
-       <fileset dir="${basedir}/src/main/resources/space-common"/>
-       <fileset dir="${basedir}/src/main/resources/space-app-root"/>
-       <filterset>
-         <filter token="MAIN_CLASS_NAME" value="esa.mo.exampleApps.Test.MainClass"/>
-         <filter token="APID" value="${expApid}"/>
-         <filter token="NMF_HOME" value="`cd ../nmf > /dev/null; pwd`"/>
-         <filter token="NMF_LIB" value="`cd ../nmf/lib > /dev/null; pwd`"/>
-         <filter token="MAX_HEAP" value="128m"/>
-       </filterset>
-       <firstmatchmapper>
-         <globmapper from="startscript.sh" to="start_exp${expId}.sh"/>
-         <globmapper from="*" to="*"/>
-       </firstmatchmapper>
-     </copy>
-     <chmod dir="${esa.nmf.mission.opssat.assembly.outputdir}" perm="ugo+rx" includes="**/*.sh"/>
-   </target>
-
-8. Invoke ``mvn clean install -Pexp`` in the ``opssat-package`` directory.
-
-9. Go to the folder ``target/nmf-ops-sat-VERSION/experimenter-package/`` and you will find the directory structure to package your app as an IPK for OPS-SAT.
+9. Go to the folder ``target/experimenter-package/`` and you will find the directory structure to package your app as an IPK for OPS-SAT.
 
 10. Zip the generated directory structure and send it to OPS-SAT's Flight Control Team (FCT) by following the guide instructions in: https://opssat1.esoc.esa.int/projects/experimenter-information/wiki/Building_and_submitting_your_application_to_ESOC
