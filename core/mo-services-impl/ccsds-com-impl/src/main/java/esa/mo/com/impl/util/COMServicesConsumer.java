@@ -62,7 +62,8 @@ public class COMServicesConsumer {
      * @param connectionConsumer Connection details
      * @param authenticationId authenticationId of the logged in user
      */
-    public void init(final ConnectionConsumer connectionConsumer, final Blob authenticationId, final String localNamePrefix) {
+    public void init(final ConnectionConsumer connectionConsumer, final Blob authenticationId,
+                     final String localNamePrefix) {
         SingleConnectionDetails details;
 
         try {

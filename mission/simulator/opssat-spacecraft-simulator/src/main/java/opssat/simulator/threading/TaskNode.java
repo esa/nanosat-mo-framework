@@ -46,14 +46,14 @@ public abstract class TaskNode implements Runnable {
     abstract void coreRun();
 
     abstract Object dataOut();
+
     private final String name;
     private final int delay;
-    
+
     public static final String TIMER_ALIVE = "Alive";
-    
-    
+
     private static final int TIMER_ALIVE_INTERVAL = 10000;
-    
+
     private Hashtable<String, SimulatorTimer> timers;
 
     private Logger logObject;
@@ -64,7 +64,7 @@ public abstract class TaskNode implements Runnable {
     public Logger getLogObject() {
         return logObject;
     }
-    
+
     private long timeElapsed;
     private long lastTimeElapsed;
 
@@ -82,8 +82,8 @@ public abstract class TaskNode implements Runnable {
     public Hashtable<String, SimulatorTimer> getTimers() {
         return timers;
     }
-    private void initLogging(Level logLevel,Level consoleLogLevel)
-    {
+
+    private void initLogging(Level logLevel, Level consoleLogLevel) {
         LogPath = SimulatorNode.getDataPath();
         File sourceLoc = new File(LogPath);
 
@@ -93,7 +93,9 @@ public abstract class TaskNode implements Runnable {
 
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd_HHmmss");
         try {
-            fh = new FileHandler(LogPath + name + "_" + format.format(Calendar.getInstance().getTime()) + ".log", 1024 * 1024, 1, false);
+            fh = new FileHandler(LogPath + name + "_" + format.format(Calendar.getInstance().getTime()) + ".log", 1024 *
+                                                                                                                  1024,
+                                 1, false);
             fh_static = new FileHandler(LogPath + name + ".log", 1024 * 1024, 1, false);
         } catch (Exception e) {
             e.printStackTrace();
@@ -101,47 +103,49 @@ public abstract class TaskNode implements Runnable {
         LoggerFormatter formatter = new LoggerFormatter();
         fh.setFormatter(formatter);
         fh_static.setFormatter(formatter);
-        
+
         logObject = Logger.getLogger(name);
         logObject.addHandler(fh);
         logObject.addHandler(fh_static);
         logObject.setUseParentHandlers(false);
         logObject.setLevel(logLevel);
-        
-        ConsoleHandler consoleHandler=(new ConsoleHandler());
+
+        ConsoleHandler consoleHandler = (new ConsoleHandler());
         consoleHandler.setLevel(consoleLogLevel);
         consoleHandler.setFormatter(new LoggerFormatter1Line(name));
-        
+
         logObject.addHandler(consoleHandler);
-        logObject.log(Level.INFO,"File logging level is ["+logLevel+"], Console logging level is ["+consoleLogLevel+"]");
+        logObject.log(Level.INFO, "File logging level is [" +
+                                  logLevel +
+                                  "], Console logging level is [" +
+                                  consoleLogLevel +
+                                  "]");
     }
-    
-    public TaskNode(ConcurrentLinkedQueue<Object> queueIn, ConcurrentLinkedQueue<Object> queueOut, String name, int delay, Level logLevel,Level consoleLogLevel) {
+
+    public TaskNode(ConcurrentLinkedQueue<Object> queueIn, ConcurrentLinkedQueue<Object> queueOut, String name,
+                    int delay, Level logLevel, Level consoleLogLevel) {
         this.name = name;
-        initLogging(logLevel,consoleLogLevel);
-        
+        initLogging(logLevel, consoleLogLevel);
+
         this.timers = new Hashtable<>();
-        
+
         this.timers.put(TIMER_ALIVE, new SimulatorTimer(TIMER_ALIVE, TIMER_ALIVE_INTERVAL));
-        
 
         this.queueIn = queueIn;
         this.queueOut = queueOut;
-        
+
         this.delay = delay;
 
-        
     }
 
     private void logMessage(String data, Level logLevel) {
-        
-        logObject.log(logLevel,data);
-        
-        
+
+        logObject.log(logLevel, data);
+
     }
-    
+
     private void logMessage(String data) {
-        logMessage(data,Level.INFO);
+        logMessage(data, Level.INFO);
     }
 
     private void manageTime() {
@@ -173,7 +177,7 @@ public abstract class TaskNode implements Runnable {
             }
             if (timers.get(TIMER_ALIVE).isElapsed()) {
                 String aliveData = name + "Alive";
-                logMessage(aliveData,Level.ALL);
+                logMessage(aliveData, Level.ALL);
             }
             try {
                 Thread.sleep(this.delay);

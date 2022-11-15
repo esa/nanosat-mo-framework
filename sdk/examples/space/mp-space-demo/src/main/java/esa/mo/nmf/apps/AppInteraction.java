@@ -52,7 +52,8 @@ public class AppInteraction implements MALInteraction {
     }
 
     @Override
-    public void setQoSProperty(String name, Object value) throws IllegalArgumentException {}
+    public void setQoSProperty(String name, Object value) throws IllegalArgumentException {
+    }
 
     @Override
     public Object getQoSProperty(String name) throws IllegalArgumentException {

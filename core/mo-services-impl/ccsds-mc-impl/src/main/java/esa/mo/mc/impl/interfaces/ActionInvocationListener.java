@@ -47,14 +47,14 @@ public interface ActionInvocationListener {
      * @return Returns null if the Action was successful. If not null, then the
      * returned value should hold the error number
      */
-    UInteger actionArrived(Identifier identifier, AttributeValueList attributeValues,
-                           Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction);
+    UInteger actionArrived(Identifier identifier, AttributeValueList attributeValues, Long actionInstanceObjId,
+                           boolean reportProgress, MALInteraction interaction);
 
     boolean preCheck(ActionDefinitionDetails defDetails, ActionInstanceDetails instDetails, UIntegerList errorList);
-//	public void setForcePreCheckInvalidException(boolean force);
-//	public void setForcePreCheckInvalidExceptionExtra(UIntegerList extra);
-//	public void setForcePreCheckFailure(boolean force);
-//	public void setFailureStage(UInteger stage, UInteger failureCode);
-//	public int getFailureStage();
-//	public UInteger getFailureCode();
+    //	public void setForcePreCheckInvalidException(boolean force);
+    //	public void setForcePreCheckInvalidExceptionExtra(UIntegerList extra);
+    //	public void setForcePreCheckFailure(boolean force);
+    //	public void setFailureStage(UInteger stage, UInteger failureCode);
+    //	public int getFailureStage();
+    //	public UInteger getFailureCode();
 }

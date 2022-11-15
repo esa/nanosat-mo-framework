@@ -40,7 +40,7 @@ import java.util.logging.Logger;
  *
  * @author marcel.mikolajko
  */
-public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryStatusProvider  {
+public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryStatusProvider {
 
     private static final Logger LOGGER = Logger.getLogger(ArchiveToAppListAdapter.class.getName());
 
@@ -90,24 +90,23 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
     private final Map<IdentifierList, Map<Identifier, List<TimestampedParameterValue>>> parameterValues = new HashMap<>();
 
     @Override
-    public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType,
-                                      IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies,
-                                      Map qosProperties) {
-        if(objDetails == null) {
+    public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
+                                      ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+        if (objDetails == null) {
             setIsQueryOver(true);
             return;
         }
         processObjects(objType, objDetails, objBodies, domain);
 
-        for(IdentifierList domainKey : valuesMap.keySet())
-        {
-            if(!parameterValues.containsKey(domainKey)) {
+        for (IdentifierList domainKey : valuesMap.keySet()) {
+            if (!parameterValues.containsKey(domainKey)) {
                 parameterValues.put(domainKey, new HashMap<>());
             }
 
             Map<Long, List<TimestampedParameterValue>> parameters = valuesMap.get(domainKey);
-            for(Map.Entry<Long, List<TimestampedParameterValue>> entry : parameters.entrySet()) {
-                Identifier identity = identitiesMap.get(domainKey).get(definitionsMap.get(domainKey).get(entry.getKey()));
+            for (Map.Entry<Long, List<TimestampedParameterValue>> entry : parameters.entrySet()) {
+                Identifier identity = identitiesMap.get(domainKey)
+                                                   .get(definitionsMap.get(domainKey).get(entry.getKey()));
                 parameterValues.get(domainKey).put(identity, entry.getValue());
             }
         }
@@ -116,9 +115,8 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
     }
 
     @Override
-    public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType,
-                                    IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies,
-                                    Map qosProperties) {
+    public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
+                                    ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
         processObjects(objType, objDetails, objBodies, domain);
     }
 
@@ -128,41 +126,45 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
      * @param detailsList Archive details of the objects
      * @param bodiesList Bodies of the objects
      */
-    private void processObjects(ObjectType type, ArchiveDetailsList detailsList, ElementList bodiesList, IdentifierList domain) {
+    private void processObjects(ObjectType type, ArchiveDetailsList detailsList, ElementList bodiesList,
+                                IdentifierList domain) {
 
-        if(!parameterIdentities.containsKey(domain)) {
+        if (!parameterIdentities.containsKey(domain)) {
             parameterIdentities.put(domain, new ArrayList<>());
         }
 
-        if(!identitiesMap.containsKey(domain)) {
+        if (!identitiesMap.containsKey(domain)) {
             identitiesMap.put(domain, new HashMap<>());
         }
 
-        if(!definitionsMap.containsKey(domain)) {
+        if (!definitionsMap.containsKey(domain)) {
             definitionsMap.put(domain, new HashMap<>());
         }
 
-        if(!valuesMap.containsKey(domain)) {
+        if (!valuesMap.containsKey(domain)) {
             valuesMap.put(domain, new HashMap<>());
         }
 
-        if(type == null || type.equals(parameterIdentityType)) {
-            for(int i = 0; i < detailsList.size(); ++i) {
+        if (type == null || type.equals(parameterIdentityType)) {
+            for (int i = 0; i < detailsList.size(); ++i) {
                 identitiesMap.get(domain).put(detailsList.get(i).getInstId(), (Identifier) bodiesList.get(i));
                 parameterIdentities.get(domain).add((Identifier) bodiesList.get(i));
             }
-        } else if(type.equals(parameterDefinitionType)) {
+        } else if (type.equals(parameterDefinitionType)) {
             for (ArchiveDetails archiveDetails : detailsList) {
                 definitionsMap.get(domain).put(archiveDetails.getInstId(), archiveDetails.getDetails().getRelated());
             }
-        } else if(type.equals(parameterValueType)) {
-            for(int i = 0; i < detailsList.size(); ++i) {
-                if(valuesMap.get(domain).containsKey(detailsList.get(i).getDetails().getRelated())) {
-                    valuesMap.get(domain).get(detailsList.get(i).getDetails().getRelated())
-                             .add(new TimestampedParameterValue((ParameterValue) bodiesList.get(i), detailsList.get(i).getTimestamp()));
+        } else if (type.equals(parameterValueType)) {
+            for (int i = 0; i < detailsList.size(); ++i) {
+                if (valuesMap.get(domain).containsKey(detailsList.get(i).getDetails().getRelated())) {
+                    valuesMap.get(domain)
+                             .get(detailsList.get(i).getDetails().getRelated())
+                             .add(new TimestampedParameterValue((ParameterValue) bodiesList.get(i), detailsList.get(i)
+                                                                                                               .getTimestamp()));
                 } else {
                     List<TimestampedParameterValue> values = new ArrayList<>();
-                    values.add(new TimestampedParameterValue((ParameterValue) bodiesList.get(i), detailsList.get(i).getTimestamp()));
+                    values.add(new TimestampedParameterValue((ParameterValue) bodiesList.get(i), detailsList.get(i)
+                                                                                                            .getTimestamp()));
                     valuesMap.get(domain).put(detailsList.get(i).getDetails().getRelated(), values);
                 }
             }
@@ -170,22 +172,19 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
     }
 
     @Override
-    public void queryAckErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
-                                      Map qosProperties) {
+    public void queryAckErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
         LOGGER.log(Level.SEVERE, "queryAckErrorReceived", error);
         setIsQueryOver(true);
     }
 
     @Override
-    public void queryUpdateErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
-                                         Map qosProperties) {
+    public void queryUpdateErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
         LOGGER.log(Level.SEVERE, "queryUpdateErrorReceived", error);
         setIsQueryOver(true);
     }
 
     @Override
-    public void queryResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
-                                           Map qosProperties) {
+    public void queryResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
         LOGGER.log(Level.SEVERE, "queryResponseErrorReceived", error);
         setIsQueryOver(true);
     }

@@ -28,13 +28,9 @@ import java.io.Serializable;
  */
 public class ParameterLabel extends javax.swing.JLabel implements Serializable {
 
-    private final Color[] coloursBackground = new Color[]{
-        Color.GREEN, Color.BLACK
-    };
-    private final Color[] coloursText = new Color[]{
-        Color.BLACK, Color.WHITE
-    };
-    
+    private final Color[] coloursBackground = new Color[]{Color.GREEN, Color.BLACK};
+    private final Color[] coloursText = new Color[]{Color.BLACK, Color.WHITE};
+
     private final ParameterValueLabel value;
     private short counter;
 
@@ -65,7 +61,7 @@ public class ParameterLabel extends javax.swing.JLabel implements Serializable {
         if (!newVal.equals("")) {
             counter++;
         }
-        
+
         if (value.isInError()) {
             setBackground(Color.RED);
         } else {

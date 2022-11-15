@@ -32,7 +32,6 @@ import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionResponse;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
-import org.ccsds.moims.mo.platform.gps.structures.TwoLineElementSet;
 import org.orekit.bodies.GeodeticPoint;
 
 /**
@@ -40,45 +39,40 @@ import org.orekit.bodies.GeodeticPoint;
  *
  * @author Kevin Otto
  */
-public class CameraAcquisitorSystemGPSHandler extends GPSAdapter
-{
+public class CameraAcquisitorSystemGPSHandler extends GPSAdapter {
 
-  private static final Logger LOGGER = Logger.getLogger(
-      CameraAcquisitorSystemGPSHandler.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(CameraAcquisitorSystemGPSHandler.class.getName());
 
-  private final CameraAcquisitorSystemMCAdapter casMCAdapter;
+    private final CameraAcquisitorSystemMCAdapter casMCAdapter;
 
-  public CameraAcquisitorSystemGPSHandler(CameraAcquisitorSystemMCAdapter casMCAdapter)
-  {
-    this.casMCAdapter = casMCAdapter;
-  }
-
-  public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
-      Long actionInstanceObjId, boolean reportProgress, MALInteraction interaction)
-  {
-    return new UInteger(0); // error code 0 - unknown error
-  }
-
-  /**
-   * gets the current geographical position of the Satellite (longitude, latitude, altitude)
-   *
-   * @return
-   */
-  public GeodeticPoint getCurrentPosition()
-  {
-    GetLastKnownPositionResponse pos;
-    try {
-      casMCAdapter.getConnector().getPlatformServices().getGPSService().getPosition(this);
-      pos = casMCAdapter.getConnector().getPlatformServices().getGPSService().getLastKnownPosition();
-      //get geographical position
-      float latitude = pos.getBodyElement0().getLatitude();
-      float longitude = pos.getBodyElement0().getLongitude();
-      float altitude = pos.getBodyElement0().getAltitude();
-      return new GeodeticPoint(latitude, longitude, altitude);
-
-    } catch (NMFException | IOException | MALInteractionException | MALException ex) {
-      LOGGER.log(Level.SEVERE, null, ex);
+    public CameraAcquisitorSystemGPSHandler(CameraAcquisitorSystemMCAdapter casMCAdapter) {
+        this.casMCAdapter = casMCAdapter;
     }
-    return null;
-  }
+
+    public UInteger actionArrived(Identifier name, AttributeValueList attributeValues, Long actionInstanceObjId,
+                                  boolean reportProgress, MALInteraction interaction) {
+        return new UInteger(0); // error code 0 - unknown error
+    }
+
+    /**
+     * gets the current geographical position of the Satellite (longitude, latitude, altitude)
+     *
+     * @return
+     */
+    public GeodeticPoint getCurrentPosition() {
+        GetLastKnownPositionResponse pos;
+        try {
+            casMCAdapter.getConnector().getPlatformServices().getGPSService().getPosition(this);
+            pos = casMCAdapter.getConnector().getPlatformServices().getGPSService().getLastKnownPosition();
+            //get geographical position
+            float latitude = pos.getBodyElement0().getLatitude();
+            float longitude = pos.getBodyElement0().getLongitude();
+            float altitude = pos.getBodyElement0().getAltitude();
+            return new GeodeticPoint(latitude, longitude, altitude);
+
+        } catch (NMFException | IOException | MALInteractionException | MALException ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 }

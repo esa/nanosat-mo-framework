@@ -26,15 +26,15 @@ package opssat.simulator.interfaces;
  * @author Cezar Suteu
  */
 public interface IMityARM {
-/**
-<pre>
-Low level command to interact with MittyARM.
-Input parameters:int cmdID,byte[] data
-Return parameters:byte[]
-Size of returned parameters: 0
-This commands accepts generic structures for MittyARM.
-</pre>
-*/
-byte[] runRawCommand(int cmdID,byte[] data);//9001
+    /**
+    <pre>
+    Low level command to interact with MittyARM.
+    Input parameters:int cmdID,byte[] data
+    Return parameters:byte[]
+    Size of returned parameters: 0
+    This commands accepts generic structures for MittyARM.
+    </pre>
+    */
+    byte[] runRawCommand(int cmdID, byte[] data);//9001
 
 }

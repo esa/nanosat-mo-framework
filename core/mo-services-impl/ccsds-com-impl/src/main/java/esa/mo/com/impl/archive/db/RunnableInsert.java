@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 import esa.mo.com.impl.archive.entities.COMObjectEntity;
 
 final class RunnableInsert implements Runnable {
-    
+
     public static Logger LOGGER = Logger.getLogger(RunnableInsert.class.getName());
 
     private final TransactionsProcessor transactionsProcessor;
@@ -48,16 +48,17 @@ final class RunnableInsert implements Runnable {
             this.transactionsProcessor.dbBackend.getAvailability().release();
         }
 
-        if(publishEvents != null) {
-          this.transactionsProcessor.generalExecutor.submit(publishEvents);
+        if (publishEvents != null) {
+            this.transactionsProcessor.generalExecutor.submit(publishEvents);
         }
     }
-    
+
     void persistObjects(final ArrayList<COMObjectEntity> perObjs) {
         try {
             Connection c = this.transactionsProcessor.dbBackend.getConnection();
             c.setAutoCommit(false);
-            PreparedStatement insertStmt = transactionsProcessor.dbBackend.getPreparedStatements().getInsertCOMObjects();
+            PreparedStatement insertStmt = transactionsProcessor.dbBackend.getPreparedStatements()
+                                                                          .getInsertCOMObjects();
 
             for (int i = 0; i < perObjs.size(); i++) { // 6.510 ms per cycle
                 COMObjectEntity obj = perObjs.get(i);
@@ -77,8 +78,7 @@ final class RunnableInsert implements Runnable {
                 // Flush every 1k objects...
                 if (i != 0) {
                     if ((i % 1000) == 0) {
-                        LOGGER.log(Level.FINE,
-                                "Flushing the data after 1000 serial stores...");
+                        LOGGER.log(Level.FINE, "Flushing the data after 1000 serial stores...");
 
                         insertStmt.executeBatch();
                         insertStmt.clearBatch();

@@ -39,7 +39,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
-import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
@@ -61,134 +60,124 @@ import org.ccsds.moims.mo.mal.structures.URI;
  *
  * @author Cesar Coelho
  */
-public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel
-{
-  private static Random RANDOM = new Random();
-  private ConnectionConsumer connectionConsumer;
-  private javax.swing.JTabbedPane tabs;
-  private ProviderSummaryList summaryList;
-  private DefaultTableModel tableData;
-  private final boolean isS2G;
-  private static final String LAST_USED_CONSUMER_PREF = "last_used_consumer";
-  private static Preferences prefs = Preferences.userNodeForPackage(DirectoryConnectionConsumerPanel.class);
+public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
+    private static Random RANDOM = new Random();
+    private ConnectionConsumer connectionConsumer;
+    private javax.swing.JTabbedPane tabs;
+    private ProviderSummaryList summaryList;
+    private DefaultTableModel tableData;
+    private final boolean isS2G;
+    private static final String LAST_USED_CONSUMER_PREF = "last_used_consumer";
+    private static Preferences prefs = Preferences.userNodeForPackage(DirectoryConnectionConsumerPanel.class);
 
-  /**
-   * Creates new form ConsumerPanelArchive
-   *
-   * @param isS2G              Flag that defines if it is a Space to Ground link
-   * @param connectionConsumer
-   * @param tabs
-   */
-  public DirectoryConnectionConsumerPanel(final boolean isS2G,
-      final ConnectionConsumer connectionConsumer, final JTabbedPane tabs)
-  {
-    initComponents();
-    this.connectionConsumer = connectionConsumer;
-    this.tabs = tabs;
-    this.initTextBoxAddress();
-    this.isS2G = isS2G;
+    /**
+     * Creates new form ConsumerPanelArchive
+     *
+     * @param isS2G              Flag that defines if it is a Space to Ground link
+     * @param connectionConsumer
+     * @param tabs
+     */
+    public DirectoryConnectionConsumerPanel(final boolean isS2G, final ConnectionConsumer connectionConsumer,
+                                            final JTabbedPane tabs) {
+        initComponents();
+        this.connectionConsumer = connectionConsumer;
+        this.tabs = tabs;
+        this.initTextBoxAddress();
+        this.isS2G = isS2G;
 
-    String[] tableCol = new String[]{"Service name", "Supported Capabilities",
-      "Service Properties", "URI address", "Broker URI Address"};
+        String[] tableCol = new String[]{"Service name", "Supported Capabilities", "Service Properties", "URI address",
+                                         "Broker URI Address"};
 
-    tableData = new javax.swing.table.DefaultTableModel(
-        new Object[][]{}, tableCol)
-    {
-      Class[] types = new Class[]{
-        java.lang.String.class, java.lang.String.class, java.lang.String.class,
-        java.lang.String.class, java.lang.String.class
-      };
+        tableData = new javax.swing.table.DefaultTableModel(new Object[][]{}, tableCol) {
+            Class[] types = new Class[]{java.lang.String.class, java.lang.String.class, java.lang.String.class,
+                                        java.lang.String.class, java.lang.String.class};
 
-      @Override               //all cells false
-      public boolean isCellEditable(int row, int column)
-      {
-        return false;
-      }
+            @Override               //all cells false
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
 
-      @Override
-      public Class getColumnClass(int columnIndex)
-      {
-        return types[columnIndex];
-      }
-    };
+            @Override
+            public Class getColumnClass(int columnIndex) {
+                return types[columnIndex];
+            }
+        };
 
-    jTable1.setModel(tableData);
+        jTable1.setModel(tableData);
 
-    ListSelectionListener listSelectionListener = listSelectionEvent -> {
-      // Update the jTable according to the selection of the index
-      cleanTableData();
+        ListSelectionListener listSelectionListener = listSelectionEvent -> {
+            // Update the jTable according to the selection of the index
+            cleanTableData();
 
-      int index = providersList.getSelectedIndex();
+            int index = providersList.getSelectedIndex();
 
-      if (index == -1) {
-        index = 0;
-      }
+            if (index == -1) {
+                index = 0;
+            }
 
-      ServiceCapabilityList services
-          = summaryList.get(index).getProviderDetails().getServiceCapabilities();
+            ServiceCapabilityList services = summaryList.get(index).getProviderDetails().getServiceCapabilities();
 
-      // And then add the new stuff
-      for (int i = 0; i < services.size(); i++) {
-        ServiceCapability service = services.get(i);
+            // And then add the new stuff
+            for (int i = 0; i < services.size(); i++) {
+                ServiceCapability service = services.get(i);
 
-        String serviceName;
-        try {
-          serviceName = HelperMisc.serviceKey2name(service.getServiceKey().getKeyArea(),
-              service.getServiceKey().getKeyAreaVersion(), service.getServiceKey().getKeyService());
-        } catch (MALException ex) {
-          serviceName = "<Unknown service>";
-        }
+                String serviceName;
+                try {
+                    serviceName = HelperMisc.serviceKey2name(service.getServiceKey().getKeyArea(), service
+                                                                                                          .getServiceKey()
+                                                                                                          .getKeyAreaVersion(),
+                                                             service.getServiceKey().getKeyService());
+                } catch (MALException ex) {
+                    serviceName = "<Unknown service>";
+                }
 
-        String serviceURI = "";
-        String brokerURI = "";
+                String serviceURI = "";
+                String brokerURI = "";
 
-        if (service.getServiceAddresses().size() > 0) {
-          serviceURI = service.getServiceAddresses().get(0).getServiceURI().toString();
-          // To avoid null pointers here...
-          brokerURI = (service.getServiceAddresses().get(0).getBrokerURI() == null)
-              ? "null" : service.getServiceAddresses().get(0).getBrokerURI().toString();
-        }
+                if (service.getServiceAddresses().size() > 0) {
+                    serviceURI = service.getServiceAddresses().get(0).getServiceURI().toString();
+                    // To avoid null pointers here...
+                    brokerURI = (service.getServiceAddresses().get(0).getBrokerURI() == null) ?
+                        "null" :
+                        service.getServiceAddresses().get(0).getBrokerURI().toString();
+                }
 
-        String supportedCapabilities = (service.getSupportedCapabilitySets() == null)
-            ? "All Supported" : service.getSupportedCapabilitySets().toString();
+                String supportedCapabilities = (service.getSupportedCapabilitySets() == null) ?
+                    "All Supported" :
+                    service.getSupportedCapabilitySets().toString();
 
-        tableData.addRow(new Object[]{
-          serviceName,
-          supportedCapabilities,
-          service.getServiceProperties().toString(),
-          serviceURI,
-          brokerURI
-        });
-      }
-    };
+                tableData.addRow(new Object[]{serviceName, supportedCapabilities, service.getServiceProperties()
+                                                                                         .toString(), serviceURI,
+                                              brokerURI});
+            }
+        };
 
-    providersList.addListSelectionListener(listSelectionListener);
-    connectButton.setEnabled(false);
-  }
-
-  /**
-   * Cleans the table data that contains the list of services provided by the currently selected prodiver.
-   */
-  private void cleanTableData() {
-    while (tableData.getRowCount() != 0) {
-      tableData.removeRow(tableData.getRowCount() - 1);
+        providersList.addListSelectionListener(listSelectionListener);
+        connectButton.setEnabled(false);
     }
-  }
 
-  public void setURITextbox(final String uri)
-  {
-    if (uri.isEmpty()) {
-      uriServiceDirectory.setText(prefs.get(LAST_USED_CONSUMER_PREF, ""));
-    } else {
-      uriServiceDirectory.setText(uri);
+    /**
+     * Cleans the table data that contains the list of services provided by the currently selected prodiver.
+     */
+    private void cleanTableData() {
+        while (tableData.getRowCount() != 0) {
+            tableData.removeRow(tableData.getRowCount() - 1);
+        }
     }
-  }
 
-  /**
-   * This method is called from within the constructor to initialize the form. WARNING: Do NOT
-   * modify this code. The content of this method is always regenerated by the Form Editor.
-   */
-  @SuppressWarnings("unchecked")
+    public void setURITextbox(final String uri) {
+        if (uri.isEmpty()) {
+            uriServiceDirectory.setText(prefs.get(LAST_USED_CONSUMER_PREF, ""));
+        } else {
+            uriServiceDirectory.setText(uri);
+        }
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form. WARNING: Do NOT
+     * modify this code. The content of this method is always regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -232,48 +221,63 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
-        jPanel10Layout.setHorizontalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(1, 1, 1)
-                .addComponent(uriServiceDirectory, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(load_URI_links1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(connectButton, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        jPanel10Layout.setVerticalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(uriServiceDirectory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(load_URI_links1))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(connectButton, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE))
-        );
+        jPanel10Layout.setHorizontalGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addGroup(jPanel10Layout.createSequentialGroup()
+                                                                                .addContainerGap()
+                                                                                .addComponent(jLabel29,
+                                                                                              javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                                              208,
+                                                                                              javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                .addGap(1, 1, 1)
+                                                                                .addComponent(uriServiceDirectory,
+                                                                                              javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                                              388, Short.MAX_VALUE)
+                                                                                .addGap(18, 18, 18)
+                                                                                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING,
+                                                                                                                             false)
+                                                                                                        .addComponent(load_URI_links1,
+                                                                                                                      javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                                                                      javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                                                                      Short.MAX_VALUE)
+                                                                                                        .addComponent(connectButton,
+                                                                                                                      javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                                                                      193,
+                                                                                                                      Short.MAX_VALUE))
+                                                                                .addContainerGap()));
+        jPanel10Layout.setVerticalGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                      .addGroup(jPanel10Layout.createSequentialGroup()
+                                                                              .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                                      .addGroup(jPanel10Layout.createSequentialGroup()
+                                                                                                                              .addGap(9,
+                                                                                                                                      9,
+                                                                                                                                      9)
+                                                                                                                              .addComponent(jLabel29,
+                                                                                                                                            javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                                                                                            javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                                                                                            javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                                                      .addGroup(jPanel10Layout.createSequentialGroup()
+                                                                                                                              .addGap(5,
+                                                                                                                                      5,
+                                                                                                                                      5)
+                                                                                                                              .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                                                                                                      .addComponent(uriServiceDirectory,
+                                                                                                                                                                    javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                                                                                                                    javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                                                                                                                    javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                                                                      .addComponent(load_URI_links1))))
+                                                                              .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                              .addComponent(connectButton,
+                                                                                            javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                                            38, Short.MAX_VALUE)));
 
         jSplitPane1.setDividerLocation(280);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{{null, null, null, null}, {null, null,
+                                                                                                           null, null},
+                                                                                {null, null, null, null}, {null, null,
+                                                                                                           null, null}},
+                                                                 new String[]{"Title 1", "Title 2", "Title 3",
+                                                                              "Title 4"}));
         jScrollPane1.setViewportView(jTable1);
 
         jSplitPane1.setRightComponent(jScrollPane1);
@@ -291,188 +295,201 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel
 
         javax.swing.GroupLayout homeTabLayout = new javax.swing.GroupLayout(homeTab);
         homeTab.setLayout(homeTabLayout);
-        homeTabLayout.setHorizontalGroup(
-            homeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, 828, Short.MAX_VALUE)
-            .addGroup(homeTabLayout.createSequentialGroup()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(homeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 988, Short.MAX_VALUE))
-        );
-        homeTabLayout.setVerticalGroup(
-            homeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(homeTabLayout.createSequentialGroup()
-                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 260, Short.MAX_VALUE))
-            .addGroup(homeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, homeTabLayout.createSequentialGroup()
-                    .addGap(99, 99, 99)
-                    .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)))
-        );
+        homeTabLayout.setHorizontalGroup(homeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                      .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, 828,
+                                                                    Short.MAX_VALUE)
+                                                      .addGroup(homeTabLayout.createSequentialGroup()
+                                                                             .addComponent(jLabel1,
+                                                                                           javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                                           110,
+                                                                                           javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                             .addGap(0, 0, Short.MAX_VALUE))
+                                                      .addGroup(homeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                             .addComponent(jSplitPane1,
+                                                                                           javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                                           988, Short.MAX_VALUE)));
+        homeTabLayout.setVerticalGroup(homeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addGroup(homeTabLayout.createSequentialGroup()
+                                                                           .addComponent(jPanel10,
+                                                                                         javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                                         72,
+                                                                                         javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                           .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                           .addComponent(jLabel1,
+                                                                                         javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                                         20,
+                                                                                         javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                           .addGap(0, 260, Short.MAX_VALUE))
+                                                    .addGroup(homeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                           .addGroup(javax.swing.GroupLayout.Alignment.TRAILING,
+                                                                                     homeTabLayout.createSequentialGroup()
+                                                                                                  .addGap(99, 99, 99)
+                                                                                                  .addComponent(jSplitPane1,
+                                                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                                                                259,
+                                                                                                                Short.MAX_VALUE))));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 828, Short.MAX_VALUE)
-            .addComponent(homeTab, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 828, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addComponent(jLabel7)
-                .addGap(18, 18, 18)
-                .addComponent(homeTab, javax.swing.GroupLayout.DEFAULT_SIZE, 358, Short.MAX_VALUE))
-        );
+        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 828,
+                                                      Short.MAX_VALUE)
+                                        .addComponent(homeTab, javax.swing.GroupLayout.Alignment.TRAILING,
+                                                      javax.swing.GroupLayout.DEFAULT_SIZE, 828, Short.MAX_VALUE));
+        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                      .addGroup(layout.createSequentialGroup()
+                                                      .addGap(17, 17, 17)
+                                                      .addComponent(jLabel7)
+                                                      .addGap(18, 18, 18)
+                                                      .addComponent(homeTab, javax.swing.GroupLayout.DEFAULT_SIZE, 358,
+                                                                    Short.MAX_VALUE)));
     }// </editor-fold>//GEN-END:initComponents
 
     private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
-      if (providersList.getModel().getSize() == 0) {
-        return;
-      }
-
-      final ProviderSummary summary = summaryList.get(providersList.getSelectedIndex());
-      final int count = tabs.getTabCount();
-
-      Thread t1 = new Thread()
-      {
-        @Override
-        public void run()
-        {
-          this.setName("ConnectButtonActionThread");
-
-          ServiceKey loginServiceKey = new ServiceKey(LoginHelper.LOGIN_SERVICE.getArea().getNumber(),
-                                                      LoginHelper.LOGIN_SERVICE.getNumber(),
-                                                      LoginHelper.LOGIN_SERVICE.getArea().getVersion());
-          ServiceCapability loginService = summary.getProviderDetails().getServiceCapabilities()
-                                                  .stream()
-                                                  .filter(serviceCapability -> serviceCapability.getServiceKey().equals(loginServiceKey))
-                                                  .findFirst()
-                                                  .orElse(null);
-
-            ServiceKey archiveServiceKey = new ServiceKey(ArchiveHelper.ARCHIVE_SERVICE.getArea().getNumber(),
-                                                          ArchiveHelper.ARCHIVE_SERVICE.getNumber(),
-                                                          ArchiveHelper.ARCHIVE_SERVICE.getArea().getVersion());
-            ServiceCapability archiveService = summary.getProviderDetails().getServiceCapabilities()
-                                                      .stream()
-                                                      .filter(serviceCapability -> serviceCapability.getServiceKey().equals(archiveServiceKey))
-                                                      .findFirst()
-                                                      .orElse(null);
-          Blob authenticationId = null;
-          String localNamePrefix = null;
-          IdentifierList providerDomain = summary.getProviderKey().getDomain();
-          IdentifierList domainForArchiveRetrieval = providerDomain;
-          if(loginService != null && archiveService != null)
-          {
-            if(loginService.getServiceAddresses().get(0).getServiceURI().getValue().toLowerCase().contains("lwmcs"))
-            {
-                localNamePrefix = "LWMCS_Consumer_"  + RANDOM.nextInt();
-                ProviderSummary lwmcs = summaryList.stream()
-                                                   .filter(providerSummary -> providerSummary.getProviderId()
-                                                                                             .getValue()
-                                                                                             .toLowerCase()
-                                                                                             .contains("lwmcs"))
-                                                   .findFirst()
-                                                   .orElse(null);
-                if(lwmcs != null)
-                {
-                    domainForArchiveRetrieval = lwmcs.getProviderKey().getDomain();
-                }
-            }
-            LoginDialog loginDialog = new LoginDialog(loginService, archiveService,
-                                                      providerDomain, domainForArchiveRetrieval,
-                                                      localNamePrefix);
-            if(loginDialog.isLoginSuccessful())
-            {
-                authenticationId = loginDialog.getAuthenticationId();
-            }
-            else
-            {
-                errorConnectionProvider("Login", loginDialog.getLoginError());
-            }
-          }
-
-          ProviderTabPanel providerPanel = createNewProviderTabPanel(summary, authenticationId, localNamePrefix);
-
-          // -- Close Button --
-          final javax.swing.JPanel pnlTab = new javax.swing.JPanel();
-          pnlTab.setOpaque(false);
-          JLabel label = new JLabel(summary.getProviderId().toString());
-          JLabel closeLabel = new JLabel("x");
-          closeLabel.addMouseListener(new CloseMouseHandler(pnlTab, providerPanel));
-          closeLabel.setFont(closeLabel.getFont().deriveFont(
-              closeLabel.getFont().getStyle() | Font.BOLD));
-
-          GridBagConstraints gbc = new GridBagConstraints();
-          gbc.gridx = 0;
-          gbc.gridy = 0;
-          gbc.weightx = 1;
-          pnlTab.add(label, gbc);
-
-          gbc.gridx++;
-          gbc.weightx = 0;
-          pnlTab.add(closeLabel, gbc);
-          // ------------------
-
-          tabs.addTab("", providerPanel);
-          tabs.setSelectedIndex(count);
-          tabs.setTabComponentAt(count, pnlTab);
-
-          providerPanel.insertServicesTabs();
+        if (providersList.getModel().getSize() == 0) {
+            return;
         }
-      };
 
-      t1.start();
+        final ProviderSummary summary = summaryList.get(providersList.getSelectedIndex());
+        final int count = tabs.getTabCount();
+
+        Thread t1 = new Thread() {
+            @Override
+            public void run() {
+                this.setName("ConnectButtonActionThread");
+
+                ServiceKey loginServiceKey = new ServiceKey(LoginHelper.LOGIN_SERVICE.getArea().getNumber(),
+                                                            LoginHelper.LOGIN_SERVICE.getNumber(),
+                                                            LoginHelper.LOGIN_SERVICE.getArea().getVersion());
+                ServiceCapability loginService = summary.getProviderDetails()
+                                                        .getServiceCapabilities()
+                                                        .stream()
+                                                        .filter(serviceCapability -> serviceCapability.getServiceKey()
+                                                                                                      .equals(loginServiceKey))
+                                                        .findFirst()
+                                                        .orElse(null);
+
+                ServiceKey archiveServiceKey = new ServiceKey(ArchiveHelper.ARCHIVE_SERVICE.getArea().getNumber(),
+                                                              ArchiveHelper.ARCHIVE_SERVICE.getNumber(),
+                                                              ArchiveHelper.ARCHIVE_SERVICE.getArea().getVersion());
+                ServiceCapability archiveService = summary.getProviderDetails()
+                                                          .getServiceCapabilities()
+                                                          .stream()
+                                                          .filter(serviceCapability -> serviceCapability.getServiceKey()
+                                                                                                        .equals(archiveServiceKey))
+                                                          .findFirst()
+                                                          .orElse(null);
+                Blob authenticationId = null;
+                String localNamePrefix = null;
+                IdentifierList providerDomain = summary.getProviderKey().getDomain();
+                IdentifierList domainForArchiveRetrieval = providerDomain;
+                if (loginService != null && archiveService != null) {
+                    if (loginService.getServiceAddresses()
+                                    .get(0)
+                                    .getServiceURI()
+                                    .getValue()
+                                    .toLowerCase()
+                                    .contains("lwmcs")) {
+                        localNamePrefix = "LWMCS_Consumer_" + RANDOM.nextInt();
+                        ProviderSummary lwmcs = summaryList.stream()
+                                                           .filter(providerSummary -> providerSummary.getProviderId()
+                                                                                                     .getValue()
+                                                                                                     .toLowerCase()
+                                                                                                     .contains("lwmcs"))
+                                                           .findFirst()
+                                                           .orElse(null);
+                        if (lwmcs != null) {
+                            domainForArchiveRetrieval = lwmcs.getProviderKey().getDomain();
+                        }
+                    }
+                    LoginDialog loginDialog = new LoginDialog(loginService, archiveService, providerDomain,
+                                                              domainForArchiveRetrieval, localNamePrefix);
+                    if (loginDialog.isLoginSuccessful()) {
+                        authenticationId = loginDialog.getAuthenticationId();
+                    } else {
+                        errorConnectionProvider("Login", loginDialog.getLoginError());
+                    }
+                }
+
+                ProviderTabPanel providerPanel = createNewProviderTabPanel(summary, authenticationId, localNamePrefix);
+
+                // -- Close Button --
+                final javax.swing.JPanel pnlTab = new javax.swing.JPanel();
+                pnlTab.setOpaque(false);
+                JLabel label = new JLabel(summary.getProviderId().toString());
+                JLabel closeLabel = new JLabel("x");
+                closeLabel.addMouseListener(new CloseMouseHandler(pnlTab, providerPanel));
+                closeLabel.setFont(closeLabel.getFont().deriveFont(closeLabel.getFont().getStyle() | Font.BOLD));
+
+                GridBagConstraints gbc = new GridBagConstraints();
+                gbc.gridx = 0;
+                gbc.gridy = 0;
+                gbc.weightx = 1;
+                pnlTab.add(label, gbc);
+
+                gbc.gridx++;
+                gbc.weightx = 0;
+                pnlTab.add(closeLabel, gbc);
+                // ------------------
+
+                tabs.addTab("", providerPanel);
+                tabs.setSelectedIndex(count);
+                tabs.setTabComponentAt(count, pnlTab);
+
+                providerPanel.insertServicesTabs();
+            }
+        };
+
+        t1.start();
     }//GEN-LAST:event_connectButtonActionPerformed
 
-  public ProviderTabPanel createNewProviderTabPanel(final ProviderSummary providerSummary, Blob authenticationId, String localNamePrefix)
-  {
-    return new ProviderTabPanel(providerSummary, authenticationId, localNamePrefix);
-  }
+    public ProviderTabPanel createNewProviderTabPanel(final ProviderSummary providerSummary, Blob authenticationId,
+                                                      String localNamePrefix) {
+        return new ProviderTabPanel(providerSummary, authenticationId, localNamePrefix);
+    }
 
-  private void errorConnectionProvider(String service, Throwable ex)
-  {
-    JOptionPane.showMessageDialog(null, "Could not connect to " + service + " service provider!"
-        + "\nException:\n" + ex + "\n" + ex.getMessage(), "Error!", JOptionPane.PLAIN_MESSAGE);
-  }
+    private void errorConnectionProvider(String service, Throwable ex) {
+        JOptionPane.showMessageDialog(null, "Could not connect to " +
+                                            service +
+                                            " service provider!" +
+                                            "\nException:\n" +
+                                            ex +
+                                            "\n" +
+                                            ex.getMessage(), "Error!", JOptionPane.PLAIN_MESSAGE);
+    }
 
     private void uriServiceDirectoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uriServiceDirectoryActionPerformed
-      // TODO add your handling code here:
+        // TODO add your handling code here:
     }//GEN-LAST:event_uriServiceDirectoryActionPerformed
 
-  @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
     private void load_URI_links1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_load_URI_links1ActionPerformed
-      try {
-        summaryList = GroundMOAdapterImpl.retrieveProvidersFromDirectory(isS2G,
-            this.getAddressToBeUsed());
+        try {
+            summaryList = GroundMOAdapterImpl.retrieveProvidersFromDirectory(isS2G, this.getAddressToBeUsed());
 
-        DefaultListModel listOfProviders = new DefaultListModel();
+            DefaultListModel listOfProviders = new DefaultListModel();
 
-        for (ProviderSummary summary : summaryList) {
-          listOfProviders.addElement(summary.getProviderKey().getInstId().toString()
-              + ". " + summary.getProviderId().toString());
+            for (ProviderSummary summary : summaryList) {
+                listOfProviders.addElement(summary.getProviderKey().getInstId().toString() +
+                                           ". " +
+                                           summary.getProviderId().toString());
+            }
+
+            providersList.setModel(listOfProviders);
+
+            if (!listOfProviders.isEmpty()) {
+                providersList.setSelectedIndex(0);
+            }
+            prefs.put(LAST_USED_CONSUMER_PREF, uriServiceDirectory.getText());
+
+            connectButton.setEnabled(true);
+        } catch (MalformedURLException | MALInteractionException | MALException ex) {
+            errorConnectionProvider("Directory", ex);
+            providersList.setModel(new DefaultListModel());
+            connectButton.setEnabled(false);
+            Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            cleanTableData();
         }
-
-        providersList.setModel(listOfProviders);
-
-        if (!listOfProviders.isEmpty()) {
-          providersList.setSelectedIndex(0);
-        }
-        prefs.put(LAST_USED_CONSUMER_PREF, uriServiceDirectory.getText());
-
-        connectButton.setEnabled(true);
-      } catch (MalformedURLException | MALInteractionException | MALException ex) {
-        errorConnectionProvider("Directory", ex);
-        providersList.setModel(new DefaultListModel());
-        connectButton.setEnabled(false);
-        Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.SEVERE, null,
-            ex);
-        cleanTableData();
-      }
     }//GEN-LAST:event_load_URI_links1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -491,96 +508,90 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel
     private javax.swing.JTextField uriServiceDirectory;
     // End of variables declaration//GEN-END:variables
 
-  private URI getAddressToBeUsed()
-  {  // updates the
-    return new URI(this.uriServiceDirectory.getText());
-  }
-
-  private void initTextBoxAddress()
-  {  // runs during the init of the app
-    // Common services
-    SingleConnectionDetails details = connectionConsumer.getServicesDetails().get(
-        DirectoryHelper.DIRECTORY_SERVICE_NAME);
-
-    if (details != null) {
-      this.uriServiceDirectory.setText(details.getProviderURI().toString());
-    }
-  }
-
-  public class CloseMouseHandler implements MouseListener
-  {
-
-    private final javax.swing.JPanel panel;
-    private final ProviderTabPanel providerPanel;
-
-    CloseMouseHandler(final javax.swing.JPanel panel, final ProviderTabPanel providerPanel)
-    {
-      this.panel = panel;
-      this.providerPanel = providerPanel;
+    private URI getAddressToBeUsed() {  // updates the
+        return new URI(this.uriServiceDirectory.getText());
     }
 
-    @Override
-    public void mouseClicked(MouseEvent evt)
-    {
-      Thread t1 = new Thread()
-      {
-        @Override
-        public void run()
-        {
-          this.setName("CloseButtonTabThread");
-          for (int i = 0; i < tabs.getTabCount(); i++) {
-            Component component = tabs.getTabComponentAt(i);
+    private void initTextBoxAddress() {  // runs during the init of the app
+                                       // Common services
+        SingleConnectionDetails details = connectionConsumer.getServicesDetails()
+                                                            .get(DirectoryHelper.DIRECTORY_SERVICE_NAME);
 
-            if (component == panel) {
-              tabs.remove(i);
-
-              try {
-                  if(providerPanel.getServices().getAuthenticationId() != null) {
-                      try {
-                          providerPanel.getServices().getCommonServices().getLoginService().getLoginStub().logout();
-                          providerPanel.getServices().setAuthenticationId(null);
-                          Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName())
-                                .log(Level.INFO, "Logged out successfully");
-
-                      } catch (MALInteractionException | MALException e) {
-                          Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName())
-                                .log(Level.SEVERE, "Unexpected exception during logout!", e);
-                      }
-                  }
-                providerPanel.getServices().closeConnections();
-              } catch (Exception ex) {
-                Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.WARNING,
-                    "The connection was not closed correctly. Maybe the provider was unreachable!");
-              }
-
-              return;
-            }
-          }
+        if (details != null) {
+            this.uriServiceDirectory.setText(details.getProviderURI().toString());
         }
-      };
-
-      t1.start();
     }
 
-    @Override
-    public void mousePressed(MouseEvent me)
-    {
-    }
+    public class CloseMouseHandler implements MouseListener {
 
-    @Override
-    public void mouseReleased(MouseEvent me)
-    {
-    }
+        private final javax.swing.JPanel panel;
+        private final ProviderTabPanel providerPanel;
 
-    @Override
-    public void mouseEntered(MouseEvent me)
-    {
-    }
+        CloseMouseHandler(final javax.swing.JPanel panel, final ProviderTabPanel providerPanel) {
+            this.panel = panel;
+            this.providerPanel = providerPanel;
+        }
 
-    @Override
-    public void mouseExited(MouseEvent me)
-    {
+        @Override
+        public void mouseClicked(MouseEvent evt) {
+            Thread t1 = new Thread() {
+                @Override
+                public void run() {
+                    this.setName("CloseButtonTabThread");
+                    for (int i = 0; i < tabs.getTabCount(); i++) {
+                        Component component = tabs.getTabComponentAt(i);
+
+                        if (component == panel) {
+                            tabs.remove(i);
+
+                            try {
+                                if (providerPanel.getServices().getAuthenticationId() != null) {
+                                    try {
+                                        providerPanel.getServices()
+                                                     .getCommonServices()
+                                                     .getLoginService()
+                                                     .getLoginStub()
+                                                     .logout();
+                                        providerPanel.getServices().setAuthenticationId(null);
+                                        Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName())
+                                              .log(Level.INFO, "Logged out successfully");
+
+                                    } catch (MALInteractionException | MALException e) {
+                                        Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName())
+                                              .log(Level.SEVERE, "Unexpected exception during logout!", e);
+                                    }
+                                }
+                                providerPanel.getServices().closeConnections();
+                            } catch (Exception ex) {
+                                Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName())
+                                      .log(Level.WARNING,
+                                           "The connection was not closed correctly. Maybe the provider was unreachable!");
+                            }
+
+                            return;
+                        }
+                    }
+                }
+            };
+
+            t1.start();
+        }
+
+        @Override
+        public void mousePressed(MouseEvent me) {
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent me) {
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent me) {
+        }
+
+        @Override
+        public void mouseExited(MouseEvent me) {
+        }
     }
-  }
 
 }

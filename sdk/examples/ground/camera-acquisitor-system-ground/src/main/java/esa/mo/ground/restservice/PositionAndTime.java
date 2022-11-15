@@ -30,56 +30,48 @@ import org.orekit.time.AbsoluteDate;
  * @author Kevin Otto
  */
 @JsonIgnoreProperties(value = {"orekitDate", "location"})
-public class PositionAndTime
-{
+public class PositionAndTime {
 
-  public final AbsoluteDate orekitDate;
-  public final String date;
+    public final AbsoluteDate orekitDate;
+    public final String date;
 
-  public final GeodeticPoint location;
-  public final double latitude;
-  public final double longitude;
-  public final double altitude;
+    public final GeodeticPoint location;
+    public final double latitude;
+    public final double longitude;
+    public final double altitude;
 
-  public PositionAndTime(AbsoluteDate orekitDate, GeodeticPoint location)
-  {
-    this.orekitDate = orekitDate;
-    this.date = orekitDate.toString();
+    public PositionAndTime(AbsoluteDate orekitDate, GeodeticPoint location) {
+        this.orekitDate = orekitDate;
+        this.date = orekitDate.toString();
 
-    this.location = location;
-    latitude = location.getLatitude();
-    longitude = location.getLongitude();
-    altitude = location.getAltitude();
-  }
+        this.location = location;
+        latitude = location.getLatitude();
+        longitude = location.getLongitude();
+        altitude = location.getAltitude();
+    }
 
-  public AbsoluteDate getOrekitDate()
-  {
-    return orekitDate;
-  }
+    public AbsoluteDate getOrekitDate() {
+        return orekitDate;
+    }
 
-  public String getDate()
-  {
-    return date;
-  }
+    public String getDate() {
+        return date;
+    }
 
-  public GeodeticPoint getLocation()
-  {
-    return location;
-  }
+    public GeodeticPoint getLocation() {
+        return location;
+    }
 
-  public double getLatitude()
-  {
-    return latitude;
-  }
+    public double getLatitude() {
+        return latitude;
+    }
 
-  public double getLongitude()
-  {
-    return longitude;
-  }
+    public double getLongitude() {
+        return longitude;
+    }
 
-  public double getAltitude()
-  {
-    return altitude;
-  }
+    public double getAltitude() {
+        return altitude;
+    }
 
 }

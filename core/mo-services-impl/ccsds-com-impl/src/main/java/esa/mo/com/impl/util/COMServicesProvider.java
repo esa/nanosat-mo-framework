@@ -30,90 +30,88 @@ import org.ccsds.moims.mo.mal.MALException;
  * Class holding all the COM services providers. The services can all be initialized automatically
  * or can be set manually.
  */
-public class COMServicesProvider
-{
+public class COMServicesProvider {
 
-  private ArchiveProviderServiceImpl archiveService;
-  private EventProviderServiceImpl eventService;
-  private ActivityTrackingProviderServiceImpl activityTrackingService;
-  private ArchiveSyncProviderServiceImpl archiveSyncService;
+    private ArchiveProviderServiceImpl archiveService;
+    private EventProviderServiceImpl eventService;
+    private ActivityTrackingProviderServiceImpl activityTrackingService;
+    private ArchiveSyncProviderServiceImpl archiveSyncService;
 
-  /**
-   * Initializes all the COM services automatically.
-   *
-   * @throws org.ccsds.moims.mo.mal.MALException if the services could not be initialized.
-   */
-  public void init() throws MALException {
-    // Initialize the Archive service
-    archiveService = new ArchiveProviderServiceImpl();
-    archiveService.init(null);
+    /**
+     * Initializes all the COM services automatically.
+     *
+     * @throws org.ccsds.moims.mo.mal.MALException if the services could not be initialized.
+     */
+    public void init() throws MALException {
+        // Initialize the Archive service
+        archiveService = new ArchiveProviderServiceImpl();
+        archiveService.init(null);
 
-    eventService = new EventProviderServiceImpl();
-    activityTrackingService = new ActivityTrackingProviderServiceImpl();
+        eventService = new EventProviderServiceImpl();
+        activityTrackingService = new ActivityTrackingProviderServiceImpl();
 
-    // Initialize the Event service (without an Archive)
-    eventService.init(archiveService);
+        // Initialize the Event service (without an Archive)
+        eventService.init(archiveService);
 
-    // Set the Archive service in the Event service
-    eventService.setArchiveService(archiveService);
-    
-    archiveService.setEventService(eventService);
+        // Set the Archive service in the Event service
+        eventService.setArchiveService(archiveService);
 
-    // Start Activity Tracking Service
-    activityTrackingService.init(archiveService, eventService);
-  }
+        archiveService.setEventService(eventService);
 
-  public EventProviderServiceImpl getEventService() {
-    return this.eventService;
-  }
+        // Start Activity Tracking Service
+        activityTrackingService.init(archiveService, eventService);
+    }
 
-  public ArchiveProviderServiceImpl getArchiveService() {
-    return this.archiveService;
-  }
+    public EventProviderServiceImpl getEventService() {
+        return this.eventService;
+    }
 
-  public ActivityTrackingProviderServiceImpl getActivityTrackingService() {
-    return this.activityTrackingService;
-  }
+    public ArchiveProviderServiceImpl getArchiveService() {
+        return this.archiveService;
+    }
 
-  public ArchiveSyncProviderServiceImpl getArchiveSyncService() {
-    return this.archiveSyncService;
-  }
+    public ActivityTrackingProviderServiceImpl getActivityTrackingService() {
+        return this.activityTrackingService;
+    }
 
-  public void initArchiveSync() throws MALException {
-    archiveSyncService = new ArchiveSyncProviderServiceImpl(
-        archiveService.getConnection().getConnectionDetails());
-    this.archiveSyncService.init(archiveService.getArchiveManager());
-  }
+    public ArchiveSyncProviderServiceImpl getArchiveSyncService() {
+        return this.archiveSyncService;
+    }
 
-  /**
-   * Sets the Event service provider
-   *
-   * @param eventService Event service provider
-   */
-  public void setEventService(EventProviderServiceImpl eventService) {
-    this.eventService = eventService;
-  }
+    public void initArchiveSync() throws MALException {
+        archiveSyncService = new ArchiveSyncProviderServiceImpl(archiveService.getConnection().getConnectionDetails());
+        this.archiveSyncService.init(archiveService.getArchiveManager());
+    }
 
-  /**
-   * Sets the Archive service provider
-   *
-   * @param archiveService Archive service provider
-   */
-  public void setArchiveService(ArchiveProviderServiceImpl archiveService) {
-    this.archiveService = archiveService;
-  }
+    /**
+     * Sets the Event service provider
+     *
+     * @param eventService Event service provider
+     */
+    public void setEventService(EventProviderServiceImpl eventService) {
+        this.eventService = eventService;
+    }
 
-  /**
-   * Sets the Activity Tracking service provider
-   *
-   * @param activityTrackingService Activity Tracking service provider
-   */
-  public void setActivityTrackingService(ActivityTrackingProviderServiceImpl activityTrackingService) {
-    this.activityTrackingService = activityTrackingService;
-  }
+    /**
+     * Sets the Archive service provider
+     *
+     * @param archiveService Archive service provider
+     */
+    public void setArchiveService(ArchiveProviderServiceImpl archiveService) {
+        this.archiveService = archiveService;
+    }
 
-  public void closeAll() {
-    this.archiveService.close();
-    this.eventService.close();
-  }
+    /**
+     * Sets the Activity Tracking service provider
+     *
+     * @param activityTrackingService Activity Tracking service provider
+     */
+    public void setActivityTrackingService(ActivityTrackingProviderServiceImpl activityTrackingService) {
+        this.activityTrackingService = activityTrackingService;
+    }
+
+    public void closeAll() {
+        this.archiveService.close();
+        this.eventService.close();
+    }
 }

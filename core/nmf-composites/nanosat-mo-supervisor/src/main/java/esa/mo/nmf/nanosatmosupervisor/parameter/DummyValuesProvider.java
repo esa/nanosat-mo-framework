@@ -35,45 +35,45 @@ import esa.mo.helpertools.helpers.HelperAttributes;
  */
 public class DummyValuesProvider extends OBSWParameterValuesProvider {
 
-  /**
-   * Dummy Map of OBSW parameter value by parameter name acting as our cache storage.
-   */
-  private final Map<Identifier, Attribute> parameterStorage;
+    /**
+     * Dummy Map of OBSW parameter value by parameter name acting as our cache storage.
+     */
+    private final Map<Identifier, Attribute> parameterStorage;
 
-  /**
-   * Creates a new instance of DummyValuesProvider.
-   * 
-   * @param parameterMap The map of OBSW parameters for which we have to provide values for
-   */
-  public DummyValuesProvider(HashMap<Identifier, OBSWParameter> parameterMap) {
-    super(parameterMap);
-    parameterStorage = new HashMap<>();
-  }
+    /**
+     * Creates a new instance of DummyValuesProvider.
+     * 
+     * @param parameterMap The map of OBSW parameters for which we have to provide values for
+     */
+    public DummyValuesProvider(HashMap<Identifier, OBSWParameter> parameterMap) {
+        super(parameterMap);
+        parameterStorage = new HashMap<>();
+    }
 
-  /** {@inheritDoc} */
-  @Override
-  public Attribute getValue(Identifier identifier) {
-    if (!parameterMap.containsKey(identifier)) {
-      return null;
+    /** {@inheritDoc} */
+    @Override
+    public Attribute getValue(Identifier identifier) {
+        if (!parameterMap.containsKey(identifier)) {
+            return null;
+        }
+        if (parameterStorage.containsKey(identifier)) {
+            return parameterStorage.get(identifier);
+        } else {
+            OBSWParameter param = parameterMap.get(identifier);
+            return HelperAttributes.attributeName2Attribute(param.getType());
+        }
     }
-    if (parameterStorage.containsKey(identifier)){
-      return parameterStorage.get(identifier);
-    }else{
-      OBSWParameter param = parameterMap.get(identifier);
-      return HelperAttributes.attributeName2Attribute(param.getType());
-    }
-  }
 
-  @Override
-  public Boolean setValue(Attribute rawValue, Identifier identifier){
-    if (!parameterMap.containsKey(identifier)) {
-      return false;
+    @Override
+    public Boolean setValue(Attribute rawValue, Identifier identifier) {
+        if (!parameterMap.containsKey(identifier)) {
+            return false;
+        }
+        if (!parameterStorage.containsKey(identifier)) {
+            parameterStorage.put(identifier, rawValue);
+        } else {
+            parameterStorage.replace(identifier, rawValue);
+        }
+        return true;
     }
-    if (!parameterStorage.containsKey(identifier)){
-      parameterStorage.put(identifier, rawValue);
-    }else {
-      parameterStorage.replace(identifier, rawValue);
-    }
-    return true;
-  }
 }

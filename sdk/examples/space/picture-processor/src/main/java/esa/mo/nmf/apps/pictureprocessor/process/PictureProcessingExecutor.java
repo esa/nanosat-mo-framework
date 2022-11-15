@@ -51,7 +51,8 @@ public class PictureProcessingExecutor {
     private final Long maxDurationMillis;
     private final Long processRequestId;
 
-    public PictureProcessingExecutor(ProcessEventListener processEventListener, Long processRequestId, Integer minProcessDurationSeconds, Integer maxProcessDurationSeconds) {
+    public PictureProcessingExecutor(ProcessEventListener processEventListener, Long processRequestId,
+                                     Integer minProcessDurationSeconds, Integer maxProcessDurationSeconds) {
         this.maxDurationMillis = toWatchdogTimeout(maxProcessDurationSeconds);
         this.minDurationSeconds = toMinDuration(minProcessDurationSeconds);
         this.executor = new DefaultExecutor();
@@ -62,16 +63,21 @@ public class PictureProcessingExecutor {
 
     public boolean processPicture(Path picture) {
 
-        LOG.info("Process " + processRequestId + " is starting. It will last at least " + minDurationSeconds + "s and at most " + maxDurationMillis + "ms");
+        LOG.info("Process " +
+                 processRequestId +
+                 " is starting. It will last at least " +
+                 minDurationSeconds +
+                 "s and at most " +
+                 maxDurationMillis +
+                 "ms");
 
         OutputStream outputStream = initLogStream(picture.getFileName());
         if (outputStream == null) {
             return false;
         }
 
-        CommandLine commandLine = new CommandLine("python")
-                .addArgument("imageEditor.py")
-                .addArgument(picture.toAbsolutePath().toString());
+        CommandLine commandLine = new CommandLine("python").addArgument("imageEditor.py")
+                                                           .addArgument(picture.toAbsolutePath().toString());
 
         executor.setStreamHandler(new PumpStreamHandler(outputStream));
 
@@ -79,7 +85,8 @@ public class PictureProcessingExecutor {
         environment.put(ENV_PROCESS_DURATION, String.valueOf(minDurationSeconds));
 
         try {
-            executor.execute(commandLine, environment, new LoggingExecuteResultHandler(processEventListener, processRequestId, outputStream));
+            executor.execute(commandLine, environment, new LoggingExecuteResultHandler(processEventListener,
+                                                                                       processRequestId, outputStream));
         } catch (IOException e) {
             LOG.log(Level.SEVERE, "Picture could not be processed", e);
             return false;
@@ -107,8 +114,7 @@ public class PictureProcessingExecutor {
     }
 
     private static OutputStream initLogStream(Path fileName) {
-        Path logFileName = createDirectoriesIfNotExist(Paths.get(LOG_PATH))
-                .resolve(logFileName(stripFileNameExtension(fileName)));
+        Path logFileName = createDirectoriesIfNotExist(Paths.get(LOG_PATH)).resolve(logFileName(stripFileNameExtension(fileName)));
         return newOutpuStreamSafe(logFileName);
     }
 

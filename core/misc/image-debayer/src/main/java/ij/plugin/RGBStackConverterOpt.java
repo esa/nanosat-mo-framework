@@ -23,7 +23,7 @@ public class RGBStackConverterOpt extends RGBStackConverter {
         if (image == null) {
             image = IJ.getImage();
         }
-//		if (!IJ.isMacro()) keep = super.staticKeep;
+        //		if (!IJ.isMacro()) keep = super.staticKeep;
         CompositeImage cimg = image.isComposite() ? (CompositeImage) image : null;
         int size = image.getStackSize();
         if ((size < 2 || size > 3) && cimg == null) {

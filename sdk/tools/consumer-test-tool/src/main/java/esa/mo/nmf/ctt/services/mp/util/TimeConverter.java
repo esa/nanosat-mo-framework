@@ -34,7 +34,8 @@ public class TimeConverter {
 
     private static final String DATE_PATTERN = "yyyy-MM-dd HH:mm:ss z";
 
-    private TimeConverter() {}
+    private TimeConverter() {
+    }
 
     public static String convert(long timestamp) {
         Date date = new Date(timestamp);

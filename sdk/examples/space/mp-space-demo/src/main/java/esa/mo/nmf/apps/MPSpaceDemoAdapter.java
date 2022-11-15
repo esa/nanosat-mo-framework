@@ -124,13 +124,13 @@ public class MPSpaceDemoAdapter extends MissionPlanningNMFAdapter {
             // Get current plan
             PlanVersionDetails currentPlan = getArchiveManager().PLAN.getInstanceByIdentityId(getPlanIdentityId());
 
-
             /* Insert some Mission Planning System here */
-
 
             // Save modified Plan Version
             PlanVersionDetails updatedPlan = currentPlan;
-            ObjectId planVersionId = getArchiveManager().PLAN.updateInstanceByIdentityId(getPlanIdentityId(), updatedPlan, null, requestArgument.getInteraction());
+            ObjectId planVersionId = getArchiveManager().PLAN.updateInstanceByIdentityId(getPlanIdentityId(),
+                                                                                         updatedPlan, null,
+                                                                                         requestArgument.getInteraction());
             PlanUpdateDetails planUpdate = MPFactory.createPlanUpdate(PlanStatus.DRAFT);
             getArchiveManager().PLAN.addStatus(planVersionId, planUpdate, null, requestArgument.getInteraction());
 
@@ -140,7 +140,9 @@ public class MPSpaceDemoAdapter extends MissionPlanningNMFAdapter {
             newStatus.setStatus(RequestStatus.PLANNED);
             newStatus.setTimestamp(HelperTime.getTimestampMillis());
             newStatus.setPlanRef(planVersionId);
-            ObjectId statusId = getArchiveManager().REQUEST_VERSION.updateStatus(requestArgument.getInstanceId(), newStatus, null, requestArgument.getInteraction());
+            ObjectId statusId = getArchiveManager().REQUEST_VERSION.updateStatus(requestArgument.getInstanceId(),
+                                                                                 newStatus, null, requestArgument
+                                                                                                                 .getInteraction());
         }
     }
 
@@ -194,7 +196,8 @@ public class MPSpaceDemoAdapter extends MissionPlanningNMFAdapter {
 
             // Save modified Plan Version
             ObjectId planIdentityId = getArchiveManager().PLAN.getIdentityIdByInstanceId(planVersionId);
-            getArchiveManager().PLAN.updateInstanceByIdentityId(planIdentityId, planVersion, null, planArgument.getInteraction());
+            getArchiveManager().PLAN.updateInstanceByIdentityId(planIdentityId, planVersion, null, planArgument
+                                                                                                               .getInteraction());
         }
     }
 
@@ -226,7 +229,8 @@ public class MPSpaceDemoAdapter extends MissionPlanningNMFAdapter {
 
             // Save modified Plan Version
             ObjectId planIdentityId = getArchiveManager().PLAN.getIdentityIdByInstanceId(planVersionId);
-            getArchiveManager().PLAN.updateInstanceByIdentityId(planIdentityId, planVersion, null, planArgument.getInteraction());
+            getArchiveManager().PLAN.updateInstanceByIdentityId(planIdentityId, planVersion, null, planArgument
+                                                                                                               .getInteraction());
         }
     }
 }

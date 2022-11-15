@@ -13,9 +13,10 @@ public class RegressionTest1 {
     public void test501() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test501");
-        java.lang.Float[] floatArray3 = new java.lang.Float[] { 10.0f, 100.0f, (-1.0f) };
+        java.lang.Float[] floatArray3 = new java.lang.Float[]{10.0f, 100.0f, (-1.0f)};
         java.util.ArrayList<java.lang.Float> floatList4 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList4, floatArray3);
+        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList4,
+                                                        floatArray3);
         boolean boolean7 = floatList4.add((java.lang.Float) 10.0f);
         floatList4.trimToSize();
         boolean boolean9 = floatList4.isEmpty();
@@ -29,7 +30,7 @@ public class RegressionTest1 {
         boolean boolean17 = floatList4.equals((java.lang.Object) nanoSatMOConnectorImpl11);
         try {
             esa.mo.platform.impl.util.PlatformServicesConsumer platformServicesConsumer18 = null; // flaky: nanoSatMOConnectorImpl11.getPlatformServices();
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(floatArray3);
@@ -53,8 +54,8 @@ public class RegressionTest1 {
         nanoSatMOConnectorImpl0.initAdditionalServices();
         java.lang.Long long5 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
-// flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, 0, (int) (byte) 1, (int) 'a', 281475010265079L);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, 0, (int) (byte) 1, (int) 'a', 281475010265079L);
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long1);
@@ -73,13 +74,15 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet6 = longList4.getAreaVersion();
         longList4.clear();
         org.ccsds.moims.mo.mal.structures.UShort uShort8 = longList4.getServiceNumber();
-        java.lang.Integer[] intArray13 = new java.lang.Integer[] { 16, 100, 10, 1 };
+        java.lang.Integer[] intArray13 = new java.lang.Integer[]{16, 100, 10, 1};
         java.util.ArrayList<java.lang.Integer> intList14 = new java.util.ArrayList<java.lang.Integer>();
-        boolean boolean15 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList14, intArray13);
+        boolean boolean15 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList14,
+                                                         intArray13);
         int int17 = intList14.indexOf((java.lang.Object) 0);
-        java.lang.Byte[] byteArray20 = new java.lang.Byte[] { (byte) 100, (byte) 100 };
+        java.lang.Byte[] byteArray20 = new java.lang.Byte[]{(byte) 100, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList21 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList21, byteArray20);
+        boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList21,
+                                                         byteArray20);
         java.util.ListIterator<java.lang.Byte> byteItor24 = byteList21.listIterator((int) (short) 1);
         int int25 = byteList21.size();
         int int26 = intList14.lastIndexOf((java.lang.Object) int25);
@@ -92,11 +95,11 @@ public class RegressionTest1 {
         java.util.Iterator<java.lang.Long> longItor33 = longList4.iterator();
         org.ccsds.moims.mo.mal.structures.ShortList shortList35 = new org.ccsds.moims.mo.mal.structures.ShortList(9);
         java.lang.Long long36 = shortList35.getShortForm();
-        org.ccsds.moims.mo.mal.structures.ShortList[] shortListArray37 = new org.ccsds.moims.mo.mal.structures.ShortList[] { shortList35 };
+        org.ccsds.moims.mo.mal.structures.ShortList[] shortListArray37 = new org.ccsds.moims.mo.mal.structures.ShortList[]{shortList35};
         org.ccsds.moims.mo.mal.structures.ShortList[] shortListArray38 = longList4.toArray(shortListArray37);
         try {
             java.lang.Boolean boolean39 = null; // flaky: nanoSatMOConnectorImpl0.pushParameterValue("[-1.0, 10.0, 10.0, 1.0]", (java.io.Serializable) longList4);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNotNull(uShort5);
@@ -131,8 +134,8 @@ public class RegressionTest1 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener3 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
         java.lang.Long long4 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
-// flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, (int) (short) 0, 17, 100, (long) 4);
-// flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
+            // flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, (int) (short) 0, 17, 100, (long) 4);
+            // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl.randoop_classUsedFlag from class esa.mo.nmf.NMFProvider");
         } catch (java.lang.IllegalAccessError e) {
         }
         org.junit.Assert.assertNull(long4);
@@ -142,7 +145,7 @@ public class RegressionTest1 {
     public void test505() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test505");
-        java.lang.Long[] longArray5 = new java.lang.Long[] { 0L, 1L, 10L, 10L, 100L };
+        java.lang.Long[] longArray5 = new java.lang.Long[]{0L, 1L, 10L, 10L, 100L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
         longList6.trimToSize();
@@ -155,9 +158,10 @@ public class RegressionTest1 {
         java.lang.Integer int19 = union17.getTypeShortForm();
         java.lang.Byte byte20 = union17.getOctetValue();
         org.ccsds.moims.mo.mal.structures.UShort uShort21 = union17.getServiceNumber();
-        java.lang.Byte[] byteArray24 = new java.lang.Byte[] { (byte) 100, (byte) 100 };
+        java.lang.Byte[] byteArray24 = new java.lang.Byte[]{(byte) 100, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList25 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean26 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList25, byteArray24);
+        boolean boolean26 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList25,
+                                                         byteArray24);
         java.util.ListIterator<java.lang.Byte> byteItor28 = byteList25.listIterator((int) (short) 1);
         int int29 = byteList25.size();
         int int31 = byteList25.indexOf((java.lang.Object) (short) 100);
@@ -186,7 +190,11 @@ public class RegressionTest1 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener55 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl54);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener56 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl54);
         java.lang.Long long57 = nanoSatMOConnectorImpl54.getAppDirectoryId();
-        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray58 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] { nanoSatMOConnectorImpl39, nanoSatMOConnectorImpl45, nanoSatMOConnectorImpl47, nanoSatMOConnectorImpl52, nanoSatMOConnectorImpl54 };
+        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray58 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[]{nanoSatMOConnectorImpl39,
+                                                                                                                                                          nanoSatMOConnectorImpl45,
+                                                                                                                                                          nanoSatMOConnectorImpl47,
+                                                                                                                                                          nanoSatMOConnectorImpl52,
+                                                                                                                                                          nanoSatMOConnectorImpl54};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray59 = longList32.toArray(nanoSatMOConnectorImplArray58);
         int int60 = longList32.size();
         boolean boolean61 = byteList25.remove((java.lang.Object) longList32);
@@ -228,24 +236,26 @@ public class RegressionTest1 {
     public void test506() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test506");
-        java.lang.Long[] longArray5 = new java.lang.Long[] { 0L, 1L, 10L, 10L, 100L };
+        java.lang.Long[] longArray5 = new java.lang.Long[]{0L, 1L, 10L, 10L, 100L};
         java.util.ArrayList<java.lang.Long> longList6 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList6, longArray5);
         longList6.trimToSize();
         int int9 = longList6.size();
         longList6.ensureCapacity((int) (short) 255);
-        java.lang.Float[] floatArray16 = new java.lang.Float[] { (-1.0f), 10.0f, 10.0f, 1.0f };
+        java.lang.Float[] floatArray16 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f, 1.0f};
         java.util.ArrayList<java.lang.Float> floatList17 = new java.util.ArrayList<java.lang.Float>();
-        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList17, floatArray16);
+        boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList17,
+                                                         floatArray16);
         int int20 = floatList17.lastIndexOf((java.lang.Object) (-1L));
         java.util.Iterator<java.lang.Float> floatItor21 = floatList17.iterator();
         org.ccsds.moims.mo.mal.structures.Identifier identifier22 = new org.ccsds.moims.mo.mal.structures.Identifier();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet23 = identifier22.getAreaVersion();
         boolean boolean25 = identifier22.equals((java.lang.Object) 0);
         boolean boolean26 = floatList17.contains((java.lang.Object) identifier22);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray27 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray27 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList28 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean29 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList28, uShortArray27);
+        boolean boolean29 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList28,
+                                                         uShortArray27);
         int int31 = uShortList28.lastIndexOf((java.lang.Object) 'a');
         boolean boolean32 = uShortList28.isEmpty();
         boolean boolean33 = floatList17.retainAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList28);
@@ -268,7 +278,9 @@ public class RegressionTest1 {
         nanoSatMOConnectorImpl46.initAdditionalServices();
         java.lang.Long long51 = nanoSatMOConnectorImpl46.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener52 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl46);
-        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray53 = new esa.mo.com.impl.util.EventReceivedListener[] { closeAppEventListener40, closeAppEventListener45, closeAppEventListener52 };
+        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray53 = new esa.mo.com.impl.util.EventReceivedListener[]{closeAppEventListener40,
+                                                                                                                                     closeAppEventListener45,
+                                                                                                                                     closeAppEventListener52};
         esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray54 = uShortList28.toArray(eventReceivedListenerArray53);
         org.junit.Assert.assertNotNull(longArray5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
@@ -299,7 +311,7 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.StringList stringList0 = new org.ccsds.moims.mo.mal.structures.StringList();
         java.lang.Long long1 = stringList0.getShortForm();
         java.lang.Long long2 = stringList0.getShortForm();
-        java.lang.Long[] longArray8 = new java.lang.Long[] { 0L, 1L, 10L, 10L, 100L };
+        java.lang.Long[] longArray8 = new java.lang.Long[]{0L, 1L, 10L, 10L, 100L};
         java.util.ArrayList<java.lang.Long> longList9 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList9, longArray8);
         longList9.trimToSize();
@@ -317,7 +329,8 @@ public class RegressionTest1 {
         org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10);
         org.junit.Assert.assertNotNull(longStream12);
         org.junit.Assert.assertTrue("'" + boolean13 + "' != '" + false + "'", !boolean13);
-        org.junit.Assert.assertTrue("'" + str14 + "' != '" + "[0, 1, 10, 10, 100]" + "'", str14.equals("[0, 1, 10, 10, 100]"));
+        org.junit.Assert.assertTrue("'" + str14 + "' != '" + "[0, 1, 10, 10, 100]" + "'", str14.equals(
+                                                                                                       "[0, 1, 10, 10, 100]"));
         org.junit.Assert.assertNotNull(longItor15);
         org.junit.Assert.assertNull(long18);
         org.junit.Assert.assertTrue("'" + boolean19 + "' != '" + false + "'", !boolean19);
@@ -327,16 +340,18 @@ public class RegressionTest1 {
     public void test508() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test508");
-        java.lang.Short[] shortArray3 = new java.lang.Short[] { (short) 1, (short) 100, (short) 100 };
+        java.lang.Short[] shortArray3 = new java.lang.Short[]{(short) 1, (short) 100, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList4 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList4, shortArray3);
+        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList4,
+                                                        shortArray3);
         boolean boolean7 = shortList4.equals((java.lang.Object) "hi!");
-        java.lang.String[] strArray9 = new java.lang.String[] { "hi!" };
+        java.lang.String[] strArray9 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList10 = new java.util.ArrayList<java.lang.String>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList10, strArray9);
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray12 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray12 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList13 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList13, uShortArray12);
+        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList13,
+                                                         uShortArray12);
         int int16 = uShortList13.indexOf((java.lang.Object) 1.0f);
         boolean boolean17 = strList10.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList13);
         boolean boolean18 = shortList4.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList13);
@@ -345,9 +360,16 @@ public class RegressionTest1 {
         int int22 = shortList4.size();
         int int23 = shortList4.size();
         java.lang.Object[] objArray24 = shortList4.toArray();
-        java.lang.String[] strArray46 = new java.lang.String[] { "[-1, 281475010265070]", "hi!", "[-1, 0, 1, 10, 10, 100]", "[, ]", "[10.0, 0.0, -1.0, -1.0]", "-1", "0.0", "18446744073709551615", "[, ]", "[-1, 10, 1]", "65535", "[-1.0, 10.0, 10.0, 1.0]", "hi!", "[, ]", "65535", "", "[0.0, 0.0, 0.0, 10.0]", "[, ]", "[]", "[0, 0]", "[-1, 281475010265070, 281474993487873]" };
+        java.lang.String[] strArray46 = new java.lang.String[]{"[-1, 281475010265070]", "hi!",
+                                                               "[-1, 0, 1, 10, 10, 100]", "[, ]",
+                                                               "[10.0, 0.0, -1.0, -1.0]", "-1", "0.0",
+                                                               "18446744073709551615", "[, ]", "[-1, 10, 1]", "65535",
+                                                               "[-1.0, 10.0, 10.0, 1.0]", "hi!", "[, ]", "65535", "",
+                                                               "[0.0, 0.0, 0.0, 10.0]", "[, ]", "[]", "[0, 0]",
+                                                               "[-1, 281475010265070, 281474993487873]"};
         java.util.ArrayList<java.lang.String> strList47 = new java.util.ArrayList<java.lang.String>();
-        boolean boolean48 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList47, strArray46);
+        boolean boolean48 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList47,
+                                                         strArray46);
         org.ccsds.moims.mo.mal.structures.UShortList uShortList50 = new org.ccsds.moims.mo.mal.structures.UShortList((int) ' ');
         org.ccsds.moims.mo.mal.structures.UShort uShort51 = uShortList50.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet52 = uShortList50.getAreaVersion();
@@ -355,9 +377,10 @@ public class RegressionTest1 {
         boolean boolean54 = strList47.retainAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList50);
         org.ccsds.moims.mo.mal.structures.UShort uShort55 = uShortList50.getServiceNumber();
         boolean boolean56 = shortList4.retainAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList50);
-        java.lang.Byte[] byteArray59 = new java.lang.Byte[] { (byte) 100, (byte) 100 };
+        java.lang.Byte[] byteArray59 = new java.lang.Byte[]{(byte) 100, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList60 = new java.util.ArrayList<java.lang.Byte>();
-        boolean boolean61 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList60, byteArray59);
+        boolean boolean61 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList60,
+                                                         byteArray59);
         java.util.ListIterator<java.lang.Byte> byteItor63 = byteList60.listIterator((int) (short) 1);
         int int64 = byteList60.size();
         java.util.Iterator<java.lang.Byte> byteItor65 = byteList60.iterator();
@@ -389,7 +412,11 @@ public class RegressionTest1 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener93 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl92);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener94 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl92);
         java.lang.Long long95 = nanoSatMOConnectorImpl92.getAppDirectoryId();
-        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray96 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] { nanoSatMOConnectorImpl77, nanoSatMOConnectorImpl83, nanoSatMOConnectorImpl85, nanoSatMOConnectorImpl90, nanoSatMOConnectorImpl92 };
+        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray96 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[]{nanoSatMOConnectorImpl77,
+                                                                                                                                                          nanoSatMOConnectorImpl83,
+                                                                                                                                                          nanoSatMOConnectorImpl85,
+                                                                                                                                                          nanoSatMOConnectorImpl90,
+                                                                                                                                                          nanoSatMOConnectorImpl92};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray97 = longList70.toArray(nanoSatMOConnectorImplArray96);
         int int98 = byteList60.lastIndexOf((java.lang.Object) nanoSatMOConnectorImplArray96);
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray99 = uShortList50.toArray(nanoSatMOConnectorImplArray96);
@@ -441,18 +468,21 @@ public class RegressionTest1 {
     public void test509() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test509");
-        java.lang.Short[] shortArray3 = new java.lang.Short[] { (short) 1, (short) 100, (short) 100 };
+        java.lang.Short[] shortArray3 = new java.lang.Short[]{(short) 1, (short) 100, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList4 = new java.util.ArrayList<java.lang.Short>();
-        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList4, shortArray3);
+        boolean boolean5 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList4,
+                                                        shortArray3);
         boolean boolean7 = shortList4.equals((java.lang.Object) "hi!");
-        java.lang.Long[] longArray13 = new java.lang.Long[] { 0L, 1L, 10L, 10L, 100L };
+        java.lang.Long[] longArray13 = new java.lang.Long[]{0L, 1L, 10L, 10L, 100L};
         java.util.ArrayList<java.lang.Long> longList14 = new java.util.ArrayList<java.lang.Long>();
-        boolean boolean15 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList14, longArray13);
+        boolean boolean15 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList14,
+                                                         longArray13);
         longList14.trimToSize();
         java.lang.Object[] objArray17 = longList14.toArray();
-        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray18 = new org.ccsds.moims.mo.mal.structures.UShort[] {};
+        org.ccsds.moims.mo.mal.structures.UShort[] uShortArray18 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList19 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean20 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList19, uShortArray18);
+        boolean boolean20 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList19,
+                                                         uShortArray18);
         int int22 = uShortList19.lastIndexOf((java.lang.Object) 'a');
         boolean boolean23 = uShortList19.isEmpty();
         uShortList19.clear();
@@ -484,7 +514,11 @@ public class RegressionTest1 {
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener51 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl50);
         esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener52 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl50);
         java.lang.Long long53 = nanoSatMOConnectorImpl50.getAppDirectoryId();
-        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray54 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] { nanoSatMOConnectorImpl35, nanoSatMOConnectorImpl41, nanoSatMOConnectorImpl43, nanoSatMOConnectorImpl48, nanoSatMOConnectorImpl50 };
+        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray54 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[]{nanoSatMOConnectorImpl35,
+                                                                                                                                                          nanoSatMOConnectorImpl41,
+                                                                                                                                                          nanoSatMOConnectorImpl43,
+                                                                                                                                                          nanoSatMOConnectorImpl48,
+                                                                                                                                                          nanoSatMOConnectorImpl50};
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray55 = longList28.toArray(nanoSatMOConnectorImplArray54);
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray56 = shortList4.toArray(nanoSatMOConnectorImplArray54);
         org.junit.Assert.assertNotNull(shortArray3);

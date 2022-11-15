@@ -45,8 +45,8 @@ public class ClosingAppListener extends EventReceivedListener {
     private boolean appClosed;
     private final Object semaphore;
 
-    public ClosingAppListener(final StopAppInteraction interaction,
-            final EventConsumerServiceImpl eventService, final Long objId) {
+    public ClosingAppListener(final StopAppInteraction interaction, final EventConsumerServiceImpl eventService,
+                              final Long objId) {
         this.interaction = interaction;
         this.eventService = eventService;
         this.objId = objId;
@@ -84,12 +84,10 @@ public class ClosingAppListener extends EventReceivedListener {
         return this.appClosed;
     }
 
-    public void waitForAppClosing(long timeout) throws InterruptedException
-    {
-        synchronized (semaphore)
-        {
+    public void waitForAppClosing(long timeout) throws InterruptedException {
+        synchronized (semaphore) {
             if (!appClosed)
-              semaphore.wait(timeout);
+                semaphore.wait(timeout);
         }
     }
 }

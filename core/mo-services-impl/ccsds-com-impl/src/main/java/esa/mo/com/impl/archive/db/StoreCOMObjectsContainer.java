@@ -32,8 +32,7 @@ public class StoreCOMObjectsContainer {
     private final ArrayList<COMObjectEntity> perObjs;
     private final boolean continuous;
 
-    public StoreCOMObjectsContainer(final ArrayList<COMObjectEntity> perObjs,
-            final boolean continuous) {
+    public StoreCOMObjectsContainer(final ArrayList<COMObjectEntity> perObjs, final boolean continuous) {
         this.perObjs = perObjs;
         this.continuous = continuous;
     }

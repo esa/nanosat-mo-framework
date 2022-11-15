@@ -55,7 +55,8 @@ public class PublishedPlansTable extends SharedTablePanel {
     private final ArchiveConsumerServiceImpl archiveService;
     private final PlanDistributionConsumerServiceImpl pdsService;
 
-    public PublishedPlansTable(ArchiveConsumerServiceImpl archiveService, PlanDistributionConsumerServiceImpl pdsService) {
+    public PublishedPlansTable(ArchiveConsumerServiceImpl archiveService,
+                               PlanDistributionConsumerServiceImpl pdsService) {
         super(archiveService);
         this.archiveService = archiveService;
         this.pdsService = pdsService;
@@ -66,14 +67,14 @@ public class PublishedPlansTable extends SharedTablePanel {
         // Not used
     }
 
-    public void addEntry(IdentifierList domain, Time timestamp, Long identityId, Identifier identity, Long instanceId, PlanVersionDetails planVersion) {
+    public void addEntry(IdentifierList domain, Time timestamp, Long identityId, Identifier identity, Long instanceId,
+                         PlanVersionDetails planVersion) {
 
         try {
             semaphore.acquire();
         } catch (InterruptedException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
-
 
         int plannedActivitiesCount = 0;
         int plannedEventsCount = 0;
@@ -97,8 +98,9 @@ public class PublishedPlansTable extends SharedTablePanel {
         ObjectType instanceObjectType = PlanDistributionHelper.PLANVERSION_OBJECT_TYPE;
         LongList objectIds = new LongList();
         objectIds.add(0L);
-        List<ArchivePersistenceObject> instanceObjects = HelperArchive
-            .getArchiveCOMObjectList(this.archiveService.getArchiveStub(), instanceObjectType, domain, objectIds);
+        List<ArchivePersistenceObject> instanceObjects = HelperArchive.getArchiveCOMObjectList(this.archiveService.getArchiveStub(),
+                                                                                               instanceObjectType,
+                                                                                               domain, objectIds);
 
         ArchivePersistenceObject comObject = null;
         if (instanceObjects != null) {
@@ -110,16 +112,8 @@ public class PublishedPlansTable extends SharedTablePanel {
             }
         }
 
-        tableData.addRow(new Object[]{
-            HelperTime.time2readableString(timestamp),
-            identity,
-            identityId,
-            instanceId,
-            plannedActivitiesCount,
-            plannedEventsCount,
-            planDescription,
-            planComments,
-        });
+        tableData.addRow(new Object[]{HelperTime.time2readableString(timestamp), identity, identityId, instanceId,
+                                      plannedActivitiesCount, plannedEventsCount, planDescription, planComments,});
 
         comObjects.add(comObject);
         semaphore.release();
@@ -127,29 +121,23 @@ public class PublishedPlansTable extends SharedTablePanel {
 
     @Override
     public void defineTableContent() {
-        String[] tableCol = new String[]{
-            "Timestamp", "Plan Identity", "Plan Identity ID",
-            "Plan Version ID", "Planned Activities", "Planned Events",
-            "Description", "Comments"
-        };
+        String[] tableCol = new String[]{"Timestamp", "Plan Identity", "Plan Identity ID", "Plan Version ID",
+                                         "Planned Activities", "Planned Events", "Description", "Comments"};
 
-        tableData = new javax.swing.table.DefaultTableModel(
-            new Object[][]{}, tableCol) {
-                Class[] types = new Class[]{
-                    java.lang.String.class, java.lang.String.class, java.lang.Long.class,
-                    java.lang.Long.class, java.lang.Long.class, java.lang.Long.class,
-                    java.lang.String.class, java.lang.String.class
-                };
+        tableData = new javax.swing.table.DefaultTableModel(new Object[][]{}, tableCol) {
+            Class[] types = new Class[]{java.lang.String.class, java.lang.String.class, java.lang.Long.class,
+                                        java.lang.Long.class, java.lang.Long.class, java.lang.Long.class,
+                                        java.lang.String.class, java.lang.String.class};
 
-                @Override               //all cells false
-                public boolean isCellEditable(int row, int column) {
-                    return false;
-                }
+            @Override               //all cells false
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
 
-                @Override
-                public Class getColumnClass(int columnIndex) {
-                    return types[columnIndex];
-                }
+            @Override
+            public Class getColumnClass(int columnIndex) {
+                return types[columnIndex];
+            }
         };
 
         super.getTable().setModel(tableData);
@@ -164,7 +152,9 @@ public class PublishedPlansTable extends SharedTablePanel {
     class PlanMonitor extends PlanDistributionAdapter {
 
         @Override
-        public void monitorPlanNotifyReceived(MALMessageHeader msgHeader, Identifier identifier, UpdateHeaderList headerList, PlanVersionDetailsList versionList, Map qosProperties) {
+        public void monitorPlanNotifyReceived(MALMessageHeader msgHeader, Identifier identifier,
+                                              UpdateHeaderList headerList, PlanVersionDetailsList versionList,
+                                              Map qosProperties) {
             for (int index = 0; index < versionList.size(); index++) {
                 UpdateHeader updateHeader = headerList.get(index);
                 PlanVersionDetails planVersion = versionList.get(index);

@@ -100,12 +100,12 @@ public class MPServicesTestAdapter extends MissionPlanningNMFAdapter {
             // Get current plan
             PlanVersionDetails currentPlan = getArchiveManager().PLAN.getInstanceByIdentityId(getPlanIdentityId());
 
-
             /* Insert some Mission Planning System here */
 
-
             // Save modified Plan Version
-            ObjectId planVersionId = getArchiveManager().PLAN.updateInstanceByIdentityId(getPlanIdentityId(), currentPlan, null, requestArgument.getInteraction());
+            ObjectId planVersionId = getArchiveManager().PLAN.updateInstanceByIdentityId(getPlanIdentityId(),
+                                                                                         currentPlan, null,
+                                                                                         requestArgument.getInteraction());
             PlanUpdateDetails planUpdate = MPFactory.createPlanUpdate(PlanStatus.DRAFT);
             getArchiveManager().PLAN.addStatus(planVersionId, planUpdate, null, requestArgument.getInteraction());
 
@@ -115,7 +115,9 @@ public class MPServicesTestAdapter extends MissionPlanningNMFAdapter {
             newStatus.setStatus(RequestStatus.PLANNED);
             newStatus.setTimestamp(HelperTime.getTimestampMillis());
             newStatus.setPlanRef(planVersionId);
-            ObjectId statusId = getArchiveManager().REQUEST_VERSION.updateStatus(requestArgument.getInstanceId(), newStatus, null, requestArgument.getInteraction());
+            ObjectId statusId = getArchiveManager().REQUEST_VERSION.updateStatus(requestArgument.getInstanceId(),
+                                                                                 newStatus, null, requestArgument
+                                                                                                                 .getInteraction());
         }
     }
 
@@ -136,7 +138,9 @@ public class MPServicesTestAdapter extends MissionPlanningNMFAdapter {
             currentPlan.getItems().getPlannedActivities().add(plannedActivity);
 
             // Save modified Plan Version
-            ObjectId planVersionId = getArchiveManager().PLAN.updateInstanceByIdentityId(getPlanIdentityId(), currentPlan, null, activityArgument.getInteraction());
+            ObjectId planVersionId = getArchiveManager().PLAN.updateInstanceByIdentityId(getPlanIdentityId(),
+                                                                                         currentPlan, null,
+                                                                                         activityArgument.getInteraction());
             PlanUpdateDetails planUpdate = MPFactory.createPlanUpdate(PlanStatus.DRAFT);
             getArchiveManager().PLAN.addStatus(planVersionId, planUpdate, null, activityArgument.getInteraction());
         }
@@ -159,7 +163,9 @@ public class MPServicesTestAdapter extends MissionPlanningNMFAdapter {
             currentPlan.getItems().getPlannedEvents().add(plannedEvent);
 
             // Save modified Plan Version
-            ObjectId planVersionId = getArchiveManager().PLAN.updateInstanceByIdentityId(getPlanIdentityId(), currentPlan, null, eventArgument.getInteraction());
+            ObjectId planVersionId = getArchiveManager().PLAN.updateInstanceByIdentityId(getPlanIdentityId(),
+                                                                                         currentPlan, null,
+                                                                                         eventArgument.getInteraction());
             PlanUpdateDetails planUpdate = MPFactory.createPlanUpdate(PlanStatus.DRAFT);
             getArchiveManager().PLAN.addStatus(planVersionId, planUpdate, null, eventArgument.getInteraction());
         }

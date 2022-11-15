@@ -50,8 +50,8 @@ public class CommonServicesConsumer {
         init(connectionConsumer, comServices, null, null);
     }
 
-    public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices,
-                     Blob authenticationId, String localNamePrefix) {
+    public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices, Blob authenticationId,
+                     String localNamePrefix) {
 
         SingleConnectionDetails details;
 
@@ -59,13 +59,15 @@ public class CommonServicesConsumer {
             // Initialize the Directory service
             details = connectionConsumer.getServicesDetails().get(DirectoryHelper.DIRECTORY_SERVICE_NAME);
             if (details != null) {
-                directoryService = new DirectoryConsumerServiceImpl(details.getProviderURI(), authenticationId, localNamePrefix);
+                directoryService = new DirectoryConsumerServiceImpl(details.getProviderURI(), authenticationId,
+                                                                    localNamePrefix);
             }
 
             // Initialize the Configuration service
             details = connectionConsumer.getServicesDetails().get(ConfigurationHelper.CONFIGURATION_SERVICE_NAME);
             if (details != null) {
-                configurationService = new ConfigurationConsumerServiceImpl(details, comServices, authenticationId, localNamePrefix);
+                configurationService = new ConfigurationConsumerServiceImpl(details, comServices, authenticationId,
+                                                                            localNamePrefix);
             }
 
             // Initialize the Login service
@@ -91,10 +93,9 @@ public class CommonServicesConsumer {
         return this.loginService;
     }
 
-    public void setServices(
-            DirectoryConsumerServiceImpl directoryService,
-            ConfigurationConsumerServiceImpl configurationService,
-            LoginConsumerServiceImpl loginService) {
+    public void setServices(DirectoryConsumerServiceImpl directoryService,
+                            ConfigurationConsumerServiceImpl configurationService,
+                            LoginConsumerServiceImpl loginService) {
         this.directoryService = directoryService;
         this.configurationService = configurationService;
         this.loginService = loginService;

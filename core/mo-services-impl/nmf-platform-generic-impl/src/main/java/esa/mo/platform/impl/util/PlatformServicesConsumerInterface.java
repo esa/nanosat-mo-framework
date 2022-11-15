@@ -33,21 +33,20 @@ import org.ccsds.moims.mo.platform.softwaredefinedradio.consumer.SoftwareDefined
  *
  * @author Cesar Coelho
  */
-public interface PlatformServicesConsumerInterface
-{
+public interface PlatformServicesConsumerInterface {
 
-  AutonomousADCSStub getAutonomousADCSService() throws IOException;
+    AutonomousADCSStub getAutonomousADCSService() throws IOException;
 
-  CameraStub getCameraService() throws IOException;
+    CameraStub getCameraService() throws IOException;
 
-  GPSStub getGPSService() throws IOException;
+    GPSStub getGPSService() throws IOException;
 
-  OpticalDataReceiverStub getOpticalDataReceiverService() throws IOException;
+    OpticalDataReceiverStub getOpticalDataReceiverService() throws IOException;
 
-  SoftwareDefinedRadioStub getSoftwareDefinedRadioService() throws IOException;
+    SoftwareDefinedRadioStub getSoftwareDefinedRadioService() throws IOException;
 
-  PowerControlStub getPowerControlService() throws IOException;
+    PowerControlStub getPowerControlService() throws IOException;
 
-  ClockStub getClockService() throws IOException;
+    ClockStub getClockService() throws IOException;
 
 }

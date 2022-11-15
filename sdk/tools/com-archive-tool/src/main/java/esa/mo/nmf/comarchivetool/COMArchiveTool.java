@@ -34,33 +34,32 @@ import picocli.CommandLine.Option;
  * @author Tanguy Soto
  * @author Marcel Mikołajko
  */
-@Command(name = "COMArchiveTool",
-         subcommands = {LogsCommandsDefinitions.Logs.class,
-                        ParametersCommandsDefinitions.Parameter.class,
-                        ArchiveCommandsDefinitions.BackupProvider.class,
-                        ArchiveCommandsDefinitions.DumpRawArchive.class,
-                        ArchiveCommandsDefinitions.DumpFormattedArchive.class,
-                        ArchiveCommandsDefinitions.ListArchiveProviders.class},
+@Command(name = "COMArchiveTool", subcommands = {LogsCommandsDefinitions.Logs.class,
+                                                 ParametersCommandsDefinitions.Parameter.class,
+                                                 ArchiveCommandsDefinitions.BackupProvider.class,
+                                                 ArchiveCommandsDefinitions.DumpRawArchive.class,
+                                                 ArchiveCommandsDefinitions.DumpFormattedArchive.class,
+                                                 ArchiveCommandsDefinitions.ListArchiveProviders.class},
          description = "Browses a COM archive to retrieve it's contents.")
 public class COMArchiveTool {
 
-  public static final String APP_NAME = "com-archive-tool";
+    public static final String APP_NAME = "com-archive-tool";
 
-  @Option(names = {"-h", "--help"}, usageHelp = true, description = "display a help message")
-  private boolean helpRequested;
+    @Option(names = {"-h", "--help"}, usageHelp = true, description = "display a help message")
+    private boolean helpRequested;
 
-  /**
-   * Main command line entry point.
-   *
-   * @param args the command line arguments
-   */
-  public static void main(String[] args) {
-    NMFConsumer.initHelpers();
-    COMArchiveTool browser = new COMArchiveTool();
-    CommandLine cmd = new CommandLine(browser);
-    cmd.setUsageHelpAutoWidth(true);
-    cmd.setUsageHelpLongOptionsMaxWidth(30);
+    /**
+     * Main command line entry point.
+     *
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        NMFConsumer.initHelpers();
+        COMArchiveTool browser = new COMArchiveTool();
+        CommandLine cmd = new CommandLine(browser);
+        cmd.setUsageHelpAutoWidth(true);
+        cmd.setUsageHelpLongOptionsMaxWidth(30);
 
-    System.exit(cmd.execute(args));
-  }
+        System.exit(cmd.execute(args));
+    }
 }

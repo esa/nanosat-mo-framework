@@ -30,7 +30,6 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
-import org.ccsds.moims.mo.com.archive.ArchiveHelper;
 import org.ccsds.moims.mo.com.archivesync.ArchiveSyncHelper;
 import org.ccsds.moims.mo.com.archivesync.consumer.ArchiveSyncStub;
 import org.ccsds.moims.mo.com.structures.ObjectTypeList;
@@ -72,8 +71,8 @@ public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
         this(connectionDetails, null, null);
     }
 
-    public ArchiveSyncConsumerServiceImpl(SingleConnectionDetails connectionDetails,
-                                          Blob authenticationId, String localNamePrefix) throws MALException, MalformedURLException {
+    public ArchiveSyncConsumerServiceImpl(SingleConnectionDetails connectionDetails, Blob authenticationId,
+                                          String localNamePrefix) throws MALException, MalformedURLException {
         if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
             MALHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
@@ -83,8 +82,8 @@ public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
         }
 
         if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION)
-                    .getServiceByName(ArchiveSyncHelper.ARCHIVESYNC_SERVICE_NAME) == null) {
-                ArchiveSyncHelper.init(MALContextFactory.getElementFactoryRegistry());
+                             .getServiceByName(ArchiveSyncHelper.ARCHIVESYNC_SERVICE_NAME) == null) {
+            ArchiveSyncHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
         this.connectionDetails = connectionDetails;
@@ -98,12 +97,10 @@ public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
             }
         }
 
-        tmConsumer = connection.startService(
-                this.connectionDetails.getProviderURI(),
-                this.connectionDetails.getBrokerURI(),
-                this.connectionDetails.getDomain(),
-                ArchiveSyncHelper.ARCHIVESYNC_SERVICE,
-                authenticationId, localNamePrefix);
+        tmConsumer = connection.startService(this.connectionDetails.getProviderURI(), this.connectionDetails
+                                                                                                            .getBrokerURI(),
+                                             this.connectionDetails.getDomain(), ArchiveSyncHelper.ARCHIVESYNC_SERVICE,
+                                             authenticationId, localNamePrefix);
 
         this.archiveSyncService = new ArchiveSyncStub(tmConsumer);
     }
@@ -126,20 +123,19 @@ public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
             try {
                 if (adapter.waitUntilResponseReceived(timeout)) {
                     unfinished = false;
-                    Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(
-                            Level.FINE, "Retrieved the range of objects");
+                    Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName())
+                          .log(Level.FINE, "Retrieved the range of objects");
                 }
             } catch (InterruptedException ex) {
                 // Still not complete...
-                Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(
-                        Level.FINE, "Still unfinished...");
+                Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(Level.FINE, "Still unfinished...");
 
                 // If the last piece was not received in less than x seconds,
                 // then we need to do something about it
                 // Ask to retransmit
                 if (adapter.noUpdatesReceivedForThisDuration() > timeout * 4) {
-                    Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(
-                            Level.INFO, "Asking to retransmit the missing part.", ex);
+                    Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName())
+                          .log(Level.INFO, "Asking to retransmit the missing part.", ex);
                     UIntegerList missingIndexes = new UIntegerList();
                     missingIndexes.add(adapter.getLastKnownIndex());
                     missingIndexes.add(new UInteger(0));
@@ -160,8 +156,8 @@ public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
             if (!adapter.receivedAllChunks()) {
                 // Then we will have to retrieve the missing ones...
                 UIntegerList missingIndexes = adapter.getMissingIndexes();
-                Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(
-                        Level.INFO, "Missing {0} chunks.", missingIndexes.size());
+                Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName())
+                      .log(Level.INFO, "Missing {0} chunks.", missingIndexes.size());
 
                 try {
                     archiveSyncService.retrieveRangeAgain(iTicket, missingIndexes, adapter);
@@ -176,8 +172,9 @@ public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
         // Convert the byte arrays into COM Objects
         ArrayList<byte[]> chunks = adapter.getReceivedChunks();
 
-        ArrayList<COMObjectStructure> objs = EncodeDecode.decodeFromCompressedByteArrayList(chunks,
-                dictionary, archiveSyncService, this.connectionDetails.getDomain());
+        ArrayList<COMObjectStructure> objs = EncodeDecode.decodeFromCompressedByteArrayList(chunks, dictionary,
+                                                                                            archiveSyncService,
+                                                                                            this.connectionDetails.getDomain());
 
         try {
             // Free the data from the provider!

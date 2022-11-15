@@ -25,17 +25,16 @@ package opssat.simulator.interfaces;
  *
  * @author Cezar Suteu
  */
-public interface IFDIR{
-/**
-<pre>
-Low level command to interact with FDIR.
-Input parameters:int cmdID,byte[] data
-Return parameters:byte[]
-Size of returned parameters: 0
-This commands accepts generic structures for FDIR.
-</pre>
-*/
-byte[] runRawCommand(int cmdID,byte[] data);//5001
+public interface IFDIR {
+    /**
+    <pre>
+    Low level command to interact with FDIR.
+    Input parameters:int cmdID,byte[] data
+    Return parameters:byte[]
+    Size of returned parameters: 0
+    This commands accepts generic structures for FDIR.
+    </pre>
+    */
+    byte[] runRawCommand(int cmdID, byte[] data);//5001
 
 }
-

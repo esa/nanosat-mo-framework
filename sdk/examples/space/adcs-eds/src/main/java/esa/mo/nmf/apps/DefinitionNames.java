@@ -110,5 +110,4 @@ public class DefinitionNames {
     public static final String ACTION_DESCRIPTION_13 = "Stops Single-axis spinning attitude mode";
     public static final String ACTION_DESCRIPTION_14 = "Stops Sun Pointing attitude mode";
 
-    
 }

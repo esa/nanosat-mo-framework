@@ -66,5 +66,4 @@ public class EvaluationResult {
         this.checkedValue = checkedValue;
     }
 
-
 }

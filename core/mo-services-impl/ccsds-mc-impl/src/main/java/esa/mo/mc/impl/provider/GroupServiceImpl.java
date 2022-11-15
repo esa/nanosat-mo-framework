@@ -32,7 +32,6 @@ import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mc.MCHelper;
-import org.ccsds.moims.mo.mc.conversion.ConversionHelper;
 import org.ccsds.moims.mo.mc.conversion.provider.ConversionInheritanceSkeleton;
 import org.ccsds.moims.mo.mc.group.GroupHelper;
 import org.ccsds.moims.mo.mc.group.structures.GroupDetails;
@@ -67,7 +66,7 @@ public class GroupServiceImpl extends ConversionInheritanceSkeleton {
             }
 
             if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION)
-                        .getServiceByName(GroupHelper.GROUP_SERVICE_NAME) == null) {
+                                 .getServiceByName(GroupHelper.GROUP_SERVICE_NAME) == null) {
                 GroupHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
         }
@@ -89,8 +88,9 @@ public class GroupServiceImpl extends ConversionInheritanceSkeleton {
         //get the latest group-definition, referencing the group-identity
         LongList groupDefIds = new LongList();
         groupDefIds.add(0L);
-        final ArchiveDetailsList groupDetailsList = HelperArchive.getArchiveDetailsListFromArchive(archiveService, 
-                GroupHelper.GROUPDEFINITION_OBJECT_TYPE, domain, groupDefIds);
+        final ArchiveDetailsList groupDetailsList = HelperArchive.getArchiveDetailsListFromArchive(archiveService,
+                                                                                                   GroupHelper.GROUPDEFINITION_OBJECT_TYPE,
+                                                                                                   domain, groupDefIds);
         ArchiveDetailsList groupDefsReferencingGroupIdentity = new ArchiveDetailsList();
         //get ALL group-definitions, referencing the current group-identity
         for (ArchiveDetails groupDefDetails : groupDetailsList) {
@@ -138,8 +138,9 @@ public class GroupServiceImpl extends ConversionInheritanceSkeleton {
         }
         //get the group-definitions-body
         //requirement: 3.9.4.g instances of a group will be referenced by the id of the GroupDefinition-object
-        return (GroupDetails) HelperArchive.getObjectBodyFromArchive(archiveService, 
-                GroupHelper.GROUPDEFINITION_OBJECT_TYPE, domain, latestGroupDefId);
+        return (GroupDetails) HelperArchive.getObjectBodyFromArchive(archiveService,
+                                                                     GroupHelper.GROUPDEFINITION_OBJECT_TYPE, domain,
+                                                                     latestGroupDefId);
     }
 
     /**
@@ -157,8 +158,9 @@ public class GroupServiceImpl extends ConversionInheritanceSkeleton {
 
         //get the group-definitions-body
         //requirement: 3.9.4.g instances of a group will be referenced by the id of the GroupDefinition-object
-        return (GroupDetails) HelperArchive.getObjectBodyFromArchive(archiveService, 
-                GroupHelper.GROUPDEFINITION_OBJECT_TYPE, domain, groupDefId);
+        return (GroupDetails) HelperArchive.getObjectBodyFromArchive(archiveService,
+                                                                     GroupHelper.GROUPDEFINITION_OBJECT_TYPE, domain,
+                                                                     groupDefId);
     }
 
     /**
@@ -173,7 +175,8 @@ public class GroupServiceImpl extends ConversionInheritanceSkeleton {
      * @return the identity-ids of the other services objects (e.g.
      * parameter-identity-ids, action-identity-ids,...)
      */
-    protected IdObjectTypeList getGroupObjectIdsFromGroup(Long groupIdentityId, GroupDetails group, LongList previousGroupInstances) {
+    protected IdObjectTypeList getGroupObjectIdsFromGroup(Long groupIdentityId, GroupDetails group,
+                                                          LongList previousGroupInstances) {
         //dont check the parent group later again
         previousGroupInstances.add(groupIdentityId);
         //get all referenced instances
@@ -206,7 +209,8 @@ public class GroupServiceImpl extends ConversionInheritanceSkeleton {
                     // Retrieve the groups group-ids from the archive
                     // requirement: 3.9.4.h
                     GroupDetails nextGroupInstance = retrieveGroupDetailsFromArchive(group.getDomain(), groupInstance);
-                    idObjectTypeList.addAll(this.getGroupObjectIdsFromGroupRecursive(nextGroupInstance, newPreviousGroupInstances));
+                    idObjectTypeList.addAll(this.getGroupObjectIdsFromGroupRecursive(nextGroupInstance,
+                                                                                     newPreviousGroupInstances));
                 }
             }
             return idObjectTypeList;

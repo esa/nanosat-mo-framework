@@ -56,7 +56,8 @@ public class PublishedPlanStatusesTable extends SharedTablePanel {
     private final ArchiveConsumerServiceImpl archiveService;
     private final PlanDistributionConsumerServiceImpl pdsService;
 
-    public PublishedPlanStatusesTable(ArchiveConsumerServiceImpl archiveService, PlanDistributionConsumerServiceImpl pdsService) {
+    public PublishedPlanStatusesTable(ArchiveConsumerServiceImpl archiveService,
+                                      PlanDistributionConsumerServiceImpl pdsService) {
         super(archiveService);
         this.archiveService = archiveService;
         this.pdsService = pdsService;
@@ -78,8 +79,9 @@ public class PublishedPlanStatusesTable extends SharedTablePanel {
         ObjectType updateObjectType = PlanDistributionHelper.PLANUPDATE_OBJECT_TYPE;
         LongList objectIds = new LongList();
         objectIds.add(0L);
-        List<ArchivePersistenceObject> updateObjects = HelperArchive
-            .getArchiveCOMObjectList(this.archiveService.getArchiveStub(), updateObjectType, domain, objectIds);
+        List<ArchivePersistenceObject> updateObjects = HelperArchive.getArchiveCOMObjectList(this.archiveService.getArchiveStub(),
+                                                                                             updateObjectType, domain,
+                                                                                             objectIds);
 
         ArchivePersistenceObject comObject = null;
         if (updateObjects != null) {
@@ -91,13 +93,9 @@ public class PublishedPlanStatusesTable extends SharedTablePanel {
             }
         }
 
-        tableData.addRow(new Object[]{
-            HelperTime.time2readableString(update.getTimestamp()),
-            instanceId,
-            update.getIsAlternate(),
-            update.getStatus(),
-            update.getTerminationInfo()
-        });
+        tableData.addRow(new Object[]{HelperTime.time2readableString(update.getTimestamp()), instanceId, update
+                                                                                                               .getIsAlternate(),
+                                      update.getStatus(), update.getTerminationInfo()});
 
         comObjects.add(comObject);
         semaphore.release();
@@ -105,27 +103,22 @@ public class PublishedPlanStatusesTable extends SharedTablePanel {
 
     @Override
     public void defineTableContent() {
-        String[] tableCol = new String[]{
-            "Timestamp", "Plan Version ID", "Is alternate",
-            "Plan Status", "Termination info"
-        };
+        String[] tableCol = new String[]{"Timestamp", "Plan Version ID", "Is alternate", "Plan Status",
+                                         "Termination info"};
 
-        tableData = new javax.swing.table.DefaultTableModel(
-            new Object[][]{}, tableCol) {
-                Class[] types = new Class[]{
-                    java.lang.String.class, java.lang.Long.class, java.lang.String.class,
-                    java.lang.String.class, java.lang.String.class
-                };
+        tableData = new javax.swing.table.DefaultTableModel(new Object[][]{}, tableCol) {
+            Class[] types = new Class[]{java.lang.String.class, java.lang.Long.class, java.lang.String.class,
+                                        java.lang.String.class, java.lang.String.class};
 
-                @Override               //all cells false
-                public boolean isCellEditable(int row, int column) {
-                    return false;
-                }
+            @Override               //all cells false
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
 
-                @Override
-                public Class getColumnClass(int columnIndex) {
-                    return types[columnIndex];
-                }
+            @Override
+            public Class getColumnClass(int columnIndex) {
+                return types[columnIndex];
+            }
         };
 
         super.getTable().setModel(tableData);
@@ -140,7 +133,9 @@ public class PublishedPlanStatusesTable extends SharedTablePanel {
     class PlanMonitor extends PlanDistributionAdapter {
 
         @Override
-        public void monitorPlanStatusNotifyReceived(MALMessageHeader msgHeader, Identifier identifier, UpdateHeaderList headerList, ObjectIdList planVersionIdList, PlanUpdateDetailsList updateList, Map qosProperties) {
+        public void monitorPlanStatusNotifyReceived(MALMessageHeader msgHeader, Identifier identifier,
+                                                    UpdateHeaderList headerList, ObjectIdList planVersionIdList,
+                                                    PlanUpdateDetailsList updateList, Map qosProperties) {
             for (int index = 0; index < headerList.size(); index++) {
                 ObjectId planVersionId = planVersionIdList.get(index);
                 PlanUpdateDetails update = updateList.get(index);

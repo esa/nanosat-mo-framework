@@ -65,7 +65,8 @@ public class PlanInformationManagementConsumerServiceImpl extends ConsumerServic
         return new PlanInformationManagementStub(tmConsumer);
     }
 
-    public PlanInformationManagementConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices) throws MALException, MalformedURLException {
+    public PlanInformationManagementConsumerServiceImpl(SingleConnectionDetails connectionDetails,
+                                                        COMServicesConsumer comServices) throws MALException, MalformedURLException {
         if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
             MALHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
@@ -96,11 +97,10 @@ public class PlanInformationManagementConsumerServiceImpl extends ConsumerServic
             }
         }
 
-        tmConsumer = connection.startService(
-            this.connectionDetails.getProviderURI(),
-            this.connectionDetails.getBrokerURI(),
-            this.connectionDetails.getDomain(),
-            PlanInformationManagementHelper.PLANINFORMATIONMANAGEMENT_SERVICE);
+        tmConsumer = connection.startService(this.connectionDetails.getProviderURI(), this.connectionDetails
+                                                                                                            .getBrokerURI(),
+                                             this.connectionDetails.getDomain(),
+                                             PlanInformationManagementHelper.PLANINFORMATIONMANAGEMENT_SERVICE);
 
         this.pimService = new PlanInformationManagementStub(tmConsumer);
     }

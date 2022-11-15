@@ -40,7 +40,7 @@ public class ArchiveSyncGenAdapter extends org.ccsds.moims.mo.com.archivesync.co
 
     private final Map<Integer, byte[]> receivedChunks;
     private final Semaphore completed;
-//    private Long interactionTicket = null;
+    //    private Long interactionTicket = null;
     private UInteger numberOfChunks = null;
     private long lastTimeReceived = 0;
     private long lastknowIndex = 0;
@@ -57,7 +57,7 @@ public class ArchiveSyncGenAdapter extends org.ccsds.moims.mo.com.archivesync.co
 
     @Override
     public synchronized void retrieveRangeAckReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-            Long interactionTicket, java.util.Map qosProperties) {
+                                                      Long interactionTicket, java.util.Map qosProperties) {
         // Later on, do something...
         /*
         Logger.getLogger(ArchiveSyncAdapter.class.getName()).log(Level.INFO,
@@ -69,7 +69,8 @@ public class ArchiveSyncGenAdapter extends org.ccsds.moims.mo.com.archivesync.co
 
     @Override
     public synchronized void retrieveRangeUpdateReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-            Blob chunk, UInteger indexReceived, java.util.Map qosProperties) {
+                                                         Blob chunk, UInteger indexReceived,
+                                                         java.util.Map qosProperties) {
         int index = (int) indexReceived.getValue();
         /*
         Logger.getLogger(ArchiveSyncAdapter.class.getName()).log(Level.INFO,
@@ -87,33 +88,36 @@ public class ArchiveSyncGenAdapter extends org.ccsds.moims.mo.com.archivesync.co
 
     @Override
     public void retrieveRangeResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-            UInteger numberOfChunks, java.util.Map qosProperties) {
-        Logger.getLogger(ArchiveSyncGenAdapter.class.getName()).log(Level.INFO,
-                "Received the last stage! The total number of chunks is: " + numberOfChunks);
+                                              UInteger numberOfChunks, java.util.Map qosProperties) {
+        Logger.getLogger(ArchiveSyncGenAdapter.class.getName())
+              .log(Level.INFO, "Received the last stage! The total number of chunks is: " + numberOfChunks);
         this.numberOfChunks = numberOfChunks;
         completed.release();
     }
 
     @Override
     public void retrieveRangeAckErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-            org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties) {
-        Logger.getLogger(ArchiveSyncGenAdapter.class.getName()).log(Level.SEVERE,
-                "retrieveRangeAckErrorReceived: No idea on how this should be handled...", error);
+                                              org.ccsds.moims.mo.mal.MALStandardError error,
+                                              java.util.Map qosProperties) {
+        Logger.getLogger(ArchiveSyncGenAdapter.class.getName())
+              .log(Level.SEVERE, "retrieveRangeAckErrorReceived: No idea on how this should be handled...", error);
     }
 
     @Override
     public void retrieveRangeAgainAckReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-            java.util.Map qosProperties) {
-        Logger.getLogger(ArchiveSyncGenAdapter.class.getName()).log(Level.INFO,
-                "Received Acknowledgement from rerequest!");
+                                              java.util.Map qosProperties) {
+        Logger.getLogger(ArchiveSyncGenAdapter.class.getName())
+              .log(Level.INFO, "Received Acknowledgement from rerequest!");
     }
 
     @Override
     public void retrieveRangeAgainUpdateReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-            org.ccsds.moims.mo.mal.structures.Blob chunk, org.ccsds.moims.mo.mal.structures.UInteger indexReceived, java.util.Map qosProperties) {
+                                                 org.ccsds.moims.mo.mal.structures.Blob chunk,
+                                                 org.ccsds.moims.mo.mal.structures.UInteger indexReceived,
+                                                 java.util.Map qosProperties) {
         int index = (int) indexReceived.getValue();
-        Logger.getLogger(ArchiveSyncGenAdapter.class.getName()).log(Level.FINE,
-                "Received on rerequest! Chunk index: " + index);
+        Logger.getLogger(ArchiveSyncGenAdapter.class.getName())
+              .log(Level.FINE, "Received on rerequest! Chunk index: " + index);
 
         lastTimeReceived = System.currentTimeMillis();
         try {
@@ -125,16 +129,16 @@ public class ArchiveSyncGenAdapter extends org.ccsds.moims.mo.com.archivesync.co
 
     @Override
     public void retrieveRangeAgainResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-            java.util.Map qosProperties) {
-        Logger.getLogger(ArchiveSyncGenAdapter.class.getName()).log(Level.INFO,
-                "Success from rerequest!");
+                                                   java.util.Map qosProperties) {
+        Logger.getLogger(ArchiveSyncGenAdapter.class.getName()).log(Level.INFO, "Success from rerequest!");
     }
 
     @Override
     public void retrieveRangeAgainAckErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-            org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties) {
-        Logger.getLogger(ArchiveSyncGenAdapter.class.getName()).log(Level.SEVERE,
-                "retrieveRangeAgainAckErrorReceived: No idea on how this should be handled...", error);
+                                                   org.ccsds.moims.mo.mal.MALStandardError error,
+                                                   java.util.Map qosProperties) {
+        Logger.getLogger(ArchiveSyncGenAdapter.class.getName())
+              .log(Level.SEVERE, "retrieveRangeAgainAckErrorReceived: No idea on how this should be handled...", error);
     }
 
     public void waitUntilResponseReceived() throws InterruptedException {

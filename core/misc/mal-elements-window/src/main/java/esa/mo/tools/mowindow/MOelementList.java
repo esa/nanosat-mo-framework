@@ -28,15 +28,16 @@ import org.ccsds.moims.mo.mal.structures.ElementList;
  *
  * @author Cesar Coelho
  */
-public class MOelementList extends MOelement{
-    
+public class MOelementList extends MOelement {
+
     private javax.swing.JToggleButton buttonEdit;
     private final javax.swing.JToggleButton buttonRemove;
     private javax.swing.JTextField fieldValue;
-    
-    public MOelementList(final MOWindow previousWindow, String fieldNameIn, Object obj, boolean editable, boolean objIsNull) {
+
+    public MOelementList(final MOWindow previousWindow, String fieldNameIn, Object obj, boolean editable,
+                         boolean objIsNull) {
         super(fieldNameIn, obj, true, objIsNull);
-        
+
         this.editable = editable;
 
         // Make the remove button
@@ -47,8 +48,9 @@ public class MOelementList extends MOelement{
             previousWindow.getComponentsPanel().remove(temp);
 
             // Fix the indexes
-            for (int i = 0; i < previousWindow.getComponentsPanel().getComponentCount()-1; i++){
-                ( (MOelement) previousWindow.getComponentsPanel().getComponent(i)).getFieldNameLabel().setText(String.valueOf(i));
+            for (int i = 0; i < previousWindow.getComponentsPanel().getComponentCount() - 1; i++) {
+                ((MOelement) previousWindow.getComponentsPanel().getComponent(i)).getFieldNameLabel()
+                                                                                 .setText(String.valueOf(i));
             }
 
             previousWindow.refreshVerticalSize();
@@ -57,25 +59,25 @@ public class MOelementList extends MOelement{
 
         // Is it an Attribute?
         boolean isAttribute = (HelperAttributes.attributeName2typeShortForm(obj.getClass().getSimpleName()) != null);
-        
-        if(isAttribute && !(obj instanceof ElementList)){
+
+        if (isAttribute && !(obj instanceof ElementList)) {
             // Make a textbox and put it in the middle Panel
             fieldValue = new javax.swing.JTextField();
             super.middlePanel.add(fieldValue);
 
             this.fieldValue.setEditable(editable);
             this.fieldValue.setText(HelperAttributes.attribute2string(obj));
-            
+
             // Set the text
             if (!editable) {
                 this.buttonRemove.setEnabled(false);
             }
 
-        }else{
+        } else {
             // Make a button and put it in the middle Panel
             buttonEdit = new javax.swing.JToggleButton();
             buttonEdit.addActionListener(this::buttonEditActionPerformed);
-        
+
             super.middlePanel.add(buttonEdit);
 
             // Set the text
@@ -91,7 +93,7 @@ public class MOelementList extends MOelement{
 
         super.middlePanel.add(buttonRemove);
 
-        if (objIsNull){
+        if (objIsNull) {
             super.makeFieldNull();
         }
 
@@ -100,16 +102,19 @@ public class MOelementList extends MOelement{
 
     @Override
     public Object getObject() {
-        if (nullCB.isSelected()){
+        if (nullCB.isSelected()) {
             return null;
-        }else{
+        } else {
             // Is it an Attribute?
-            boolean isAttribute = (HelperAttributes.attributeName2typeShortForm(this.object.getClass().getSimpleName()) != null);
-            return (isAttribute) ? HelperAttributes.string2attribute(this.object, this.fieldValue.getText()) : HelperAttributes.attribute2JavaType(this.object);
+            boolean isAttribute = (HelperAttributes.attributeName2typeShortForm(this.object.getClass()
+                                                                                           .getSimpleName()) != null);
+            return (isAttribute) ?
+                HelperAttributes.string2attribute(this.object, this.fieldValue.getText()) :
+                HelperAttributes.attribute2JavaType(this.object);
         }
     }
-    
-    private void buttonEditActionPerformed(java.awt.event.ActionEvent evt) {                                       
+
+    private void buttonEditActionPerformed(java.awt.event.ActionEvent evt) {
         MOWindow genericObj = new MOWindow(this.object, this.editable);
         try {
             this.object = genericObj.getObject();
@@ -121,6 +126,6 @@ public class MOelementList extends MOelement{
         if (editable) {
             this.buttonEdit.setText("Edit");
         }
-    }                                      
-    
+    }
+
 }

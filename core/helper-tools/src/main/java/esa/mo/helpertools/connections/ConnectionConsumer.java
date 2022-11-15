@@ -119,9 +119,8 @@ public class ConnectionConsumer {
      * @throws java.net.MalformedURLException when the MALconsumer is not
      * initialized correctly
      */
-    public MALConsumer startService(final URI uriP, final URI uriB,
-            final IdentifierList domain, final MALService malService)
-            throws MALException, MalformedURLException {
+    public MALConsumer startService(final URI uriP, final URI uriB, final IdentifierList domain,
+                                    final MALService malService) throws MALException, MalformedURLException {
         this.startMAL();
         return this.createMALconsumer(uriP, uriB, domain, malService);
     }
@@ -141,10 +140,9 @@ public class ConnectionConsumer {
      * @throws java.net.MalformedURLException when the MALconsumer is not
      * initialized correctly
      */
-    public MALConsumer startService(final URI uriP, final URI uriB,
-                                    final IdentifierList domain, final MALService malService,
-                                    final Blob authenticationId, final String localNamePrefix)
-            throws MALException, MalformedURLException {
+    public MALConsumer startService(final URI uriP, final URI uriB, final IdentifierList domain,
+                                    final MALService malService, final Blob authenticationId,
+                                    final String localNamePrefix) throws MALException, MalformedURLException {
         this.startMAL();
         return this.createMALconsumer(uriP, uriB, domain, malService, authenticationId, localNamePrefix);
     }
@@ -162,9 +160,8 @@ public class ConnectionConsumer {
      * @throws java.net.MalformedURLException when the MALconsumer is not
      * initialized correctly
      */
-    public MALConsumer createMALconsumer(final URI uriP, final URI uriB,
-            final IdentifierList domain, final MALService malService)
-            throws MALException, MalformedURLException {
+    public MALConsumer createMALconsumer(final URI uriP, final URI uriB, final IdentifierList domain,
+                                         final MALService malService) throws MALException, MalformedURLException {
 
         return createMALconsumer(uriP, uriB, domain, malService, null, null);
     }
@@ -184,23 +181,15 @@ public class ConnectionConsumer {
      * @throws java.net.MalformedURLException when the MALconsumer is not
      * initialized correctly
      */
-    public MALConsumer createMALconsumer(final URI uriP, final URI uriB,
-                                         final IdentifierList domain, final MALService malService,
-                                         final Blob authenticationId,
-                                         final String localNamePrefix)
-            throws MALException, MalformedURLException {
+    public MALConsumer createMALconsumer(final URI uriP, final URI uriB, final IdentifierList domain,
+                                         final MALService malService, final Blob authenticationId,
+                                         final String localNamePrefix) throws MALException, MalformedURLException {
 
-        tmConsumer = consumerMgr.createConsumer(getLocalName(localNamePrefix),
-                                                uriP,
-                                                uriB,
-                                                malService, getAuthenticationId(authenticationId),
-                                                domain,
-                                                configuration.getNetwork(),
-                                                configuration.getSession(),
-                                                configuration.getSessionName(),
-                                                QoSLevel.ASSURED,
-                                                props,
-                                                new UInteger(0));
+        tmConsumer = consumerMgr.createConsumer(getLocalName(localNamePrefix), uriP, uriB, malService,
+                                                getAuthenticationId(authenticationId), domain, configuration
+                                                                                                            .getNetwork(),
+                                                configuration.getSession(), configuration.getSessionName(),
+                                                QoSLevel.ASSURED, props, new UInteger(0));
 
         return tmConsumer;
     }
@@ -220,10 +209,9 @@ public class ConnectionConsumer {
      * @throws java.net.MalformedURLException when the MALconsumer is not
      * initialized correctly
      */
-    public MALConsumer startService(final URI uriP, final URI uriB,
-            final IdentifierList domain, final QoSLevelList qosLevels,
-            final UInteger priorityLevels, final MALService malService)
-            throws MALException, MalformedURLException {
+    public MALConsumer startService(final URI uriP, final URI uriB, final IdentifierList domain,
+                                    final QoSLevelList qosLevels, final UInteger priorityLevels,
+                                    final MALService malService) throws MALException, MalformedURLException {
 
         return startService(uriP, uriB, domain, qosLevels, priorityLevels, malService, null, null);
     }
@@ -245,12 +233,10 @@ public class ConnectionConsumer {
      * @throws java.net.MalformedURLException when the MALconsumer is not
      * initialized correctly
      */
-    public MALConsumer startService(final URI uriP, final URI uriB,
-                                    final IdentifierList domain, final QoSLevelList qosLevels,
-                                    final UInteger priorityLevels, final MALService malService,
-                                    final Blob authenticationId,
-                                    final String localNamePrefix)
-            throws MALException, MalformedURLException {
+    public MALConsumer startService(final URI uriP, final URI uriB, final IdentifierList domain,
+                                    final QoSLevelList qosLevels, final UInteger priorityLevels,
+                                    final MALService malService, final Blob authenticationId,
+                                    final String localNamePrefix) throws MALException, MalformedURLException {
 
         this.startMAL();
         QoSLevel qosLevel = QoSLevel.BESTEFFORT;  // Worst case scenario
@@ -261,28 +247,20 @@ public class ConnectionConsumer {
             }
         }
 
-        tmConsumer = consumerMgr.createConsumer(getLocalName(localNamePrefix),
-                                                uriP,
-                                                uriB,
-                                                malService, getAuthenticationId(authenticationId),
-                                                domain,
-                                                configuration.getNetwork(),
-                                                configuration.getSession(),
-                                                configuration.getSessionName(),
-                                                qosLevel,
-                                                props,
-                                                priorityLevels);
+        tmConsumer = consumerMgr.createConsumer(getLocalName(localNamePrefix), uriP, uriB, malService,
+                                                getAuthenticationId(authenticationId), domain, configuration
+                                                                                                            .getNetwork(),
+                                                configuration.getSession(), configuration.getSessionName(), qosLevel,
+                                                props, priorityLevels);
 
         return tmConsumer;
     }
 
-    private Blob getAuthenticationId(Blob authenticationId)
-    {
+    private Blob getAuthenticationId(Blob authenticationId) {
         return null == authenticationId ? new Blob("".getBytes()) : authenticationId;
     }
 
-    private String getLocalName(String localNamePrefix)
-    {
+    private String getLocalName(String localNamePrefix) {
         return null == localNamePrefix ? null : localNamePrefix + "_" + random.nextInt();
     }
 
@@ -296,7 +274,7 @@ public class ConnectionConsumer {
     public ServicesConnectionDetails loadURIs() throws MalformedURLException {
         try {
             servicesDetails.loadURIFromFiles();
-        } catch(FileNotFoundException ex) {
+        } catch (FileNotFoundException ex) {
             servicesDetails = ConnectionProvider.getGlobalProvidersDetailsPrimary();
         }
         return servicesDetails;
@@ -348,8 +326,8 @@ public class ConnectionConsumer {
      * @param key4 Fourth key
      * @return The subscription object
      */
-    public static Subscription subscriptionKeys(final Identifier key1,
-            final Long key2, final Long key3, final Long key4) {
+    public static Subscription subscriptionKeys(final Identifier key1, final Long key2, final Long key3,
+                                                final Long key4) {
         final Identifier subscriptionId = new Identifier("SUB");
         return ConnectionConsumer.subscriptionKeys(subscriptionId, key1, key2, key3, key4);
     }
@@ -366,8 +344,7 @@ public class ConnectionConsumer {
         final EntityKey entitykey = new EntityKey(new Identifier("*"), 0L, 0L, 0L);
         entityKeys.add(entitykey);
 
-        final EntityRequest entity = new EntityRequest(
-                null, false, false, false, false, entityKeys);
+        final EntityRequest entity = new EntityRequest(null, false, false, false, false, entityKeys);
         final EntityRequestList entities = new EntityRequestList();
         entities.add(entity);
 
@@ -385,33 +362,28 @@ public class ConnectionConsumer {
      * @param key4 Fourth key
      * @return The subscription object
      */
-    public static Subscription subscriptionKeys(final Identifier subscriptionId,
-            final Identifier key1, final Long key2, final Long key3, final Long key4) {
+    public static Subscription subscriptionKeys(final Identifier subscriptionId, final Identifier key1, final Long key2,
+                                                final Long key3, final Long key4) {
         final EntityKeyList entityKeys = new EntityKeyList();
         final EntityKey entitykey = new EntityKey(key1, key2, key3, key4);
         entityKeys.add(entitykey);
 
-        final EntityRequest entity = new EntityRequest(
-                null, false, false, false, false, entityKeys);
+        final EntityRequest entity = new EntityRequest(null, false, false, false, false, entityKeys);
         final EntityRequestList entities = new EntityRequestList();
         entities.add(entity);
 
         return new Subscription(subscriptionId, entities);
     }
 
-    public Blob getAuthenticationId()
-    {
-        if (null != tmConsumer)
-        {
+    public Blob getAuthenticationId() {
+        if (null != tmConsumer) {
             return tmConsumer.getAuthenticationId();
         }
         return null;
     }
 
-    public void setAuthenticationId(Blob authenticationId)
-    {
-        if (null != tmConsumer)
-        {
+    public void setAuthenticationId(Blob authenticationId) {
+        if (null != tmConsumer) {
             tmConsumer.setAuthenticationId(getAuthenticationId(authenticationId));
         }
     }

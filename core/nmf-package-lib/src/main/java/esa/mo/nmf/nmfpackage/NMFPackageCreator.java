@@ -30,7 +30,6 @@ import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -48,8 +47,7 @@ public class NMFPackageCreator {
 
     private static final int BUFFER = 2048;
 
-    private static void zipFiles(String outputPath, ArrayList<String> from,
-            ArrayList<String> newLocations) {
+    private static void zipFiles(String outputPath, ArrayList<String> from, ArrayList<String> newLocations) {
         try {
             BufferedInputStream origin;
             FileOutputStream dest = new FileOutputStream(outputPath);
@@ -59,8 +57,7 @@ public class NMFPackageCreator {
             for (int i = 0; i < from.size(); i++) {
                 String file = from.get(i);
                 String newPath = newLocations.get(i);
-                System.out.println(i + ".Adding file: " + file + "\n"
-                        + i + ".On path: " + newPath);
+                System.out.println(i + ".Adding file: " + file + "\n" + i + ".On path: " + newPath);
                 origin = new BufferedInputStream(new FileInputStream(file), BUFFER);
 
                 ZipEntry entry = new ZipEntry(newPath);
@@ -74,19 +71,17 @@ public class NMFPackageCreator {
             }
             out.close();
         } catch (Exception ex) {
-            Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.SEVERE,
-                    "The Files could not be zipped!", ex);
+            Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.SEVERE, "The Files could not be zipped!", ex);
         }
     }
 
-    public static String nmfPackageCreator(NMFPackageDetails details,
-            ArrayList<String> filesInput, ArrayList<String> newLocationsInput) {
+    public static String nmfPackageCreator(NMFPackageDetails details, ArrayList<String> filesInput,
+                                           ArrayList<String> newLocationsInput) {
         return NMFPackageCreator.nmfPackageCreator(details, filesInput, newLocationsInput, null);
     }
 
-    public static String nmfPackageCreator(NMFPackageDetails details,
-            ArrayList<String> filesInput, ArrayList<String> newLocationsInput,
-            String destinationFolder) {
+    public static String nmfPackageCreator(NMFPackageDetails details, ArrayList<String> filesInput,
+                                           ArrayList<String> newLocationsInput, String destinationFolder) {
         NMFPackageDescriptor descriptor = new NMFPackageDescriptor(details);
         final ArrayList<String> files = new ArrayList<>(filesInput);
 
@@ -94,18 +89,17 @@ public class NMFPackageCreator {
 
         for (int i = 0; i < newLocations.size(); i++) {
             try {
-                descriptor.addFile(new NMFPackageFile(newLocations.get(i),
-                        HelperNMFPackage.calculateCRCFromFile(files.get(i))));
+                descriptor.addFile(new NMFPackageFile(newLocations.get(i), HelperNMFPackage.calculateCRCFromFile(files
+                                                                                                                      .get(i))));
             } catch (IOException ex) {
-                Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.SEVERE,
-                        "There was a problem during the CRC calculation.", ex);
+                Logger.getLogger(NMFPackageCreator.class.getName())
+                      .log(Level.SEVERE, "There was a problem during the CRC calculation.", ex);
             }
         }
 
         // -------------------------------------------------------------------
         // Generate nmfPackage.receipt
-        Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.INFO,
-                "Generating receipt file...");
+        Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.INFO, "Generating receipt file...");
 
         try { // Write down all the new paths
             FileOutputStream sigfos = new FileOutputStream(HelperNMFPackage.RECEIPT_FILENAME);
@@ -130,13 +124,13 @@ public class NMFPackageCreator {
         /*
         Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.INFO,
                 "Generating digital signature...");
-
+        
         // Generate Public and Private keys
         KeyPair pair = NMFDigitalSignature.generateKeyPar();
-
+        
         // Generate the SHA (can only be done after having the receipt file)
         byte[] signature = NMFDigitalSignature.signWithData(pair.getPrivate(), HelperNMFPackage.RECEIPT_FILENAME);
-
+        
         // Write the signature to the file: DS_FILENAME
         try {
             FileOutputStream sigfos = new FileOutputStream(HelperNMFPackage.DS_FILENAME);
@@ -150,7 +144,7 @@ public class NMFPackageCreator {
             Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
         // -------------------------------------------------------------------
-
+        
         // Add the signature file to the list of Files to be zipped
         File digitalSignature = new File(HelperNMFPackage.DS_FILENAME);
         files.add((new File(HelperNMFPackage.DS_FILENAME)).getPath());
@@ -159,13 +153,10 @@ public class NMFPackageCreator {
         // -------------------------------------------------------------------
         // -------------------------------------------------------------------
         // Compress:
-        Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.INFO,
-                "Creating compressed NMF Package...");
+        Logger.getLogger(NMFPackageCreator.class.getName()).log(Level.INFO, "Creating compressed NMF Package...");
 
-        String name = details.getPackageName() + "-"
-                + details.getVersion() + "." + Const.NMF_PACKAGE_SUFFIX;
-        String packageOutputPath = (destinationFolder == null) ? name
-                : destinationFolder + File.separator + name;
+        String name = details.getPackageName() + "-" + details.getVersion() + "." + Const.NMF_PACKAGE_SUFFIX;
+        String packageOutputPath = (destinationFolder == null) ? name : destinationFolder + File.separator + name;
         NMFPackageCreator.zipFiles(packageOutputPath, files, newLocations);
 
         // Output the secret privateKey into a file

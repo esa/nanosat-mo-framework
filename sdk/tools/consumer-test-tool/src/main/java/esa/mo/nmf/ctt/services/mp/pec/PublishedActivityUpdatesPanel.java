@@ -54,15 +54,17 @@ public class PublishedActivityUpdatesPanel extends PublishedUpdatesPanel {
     private final PlanExecutionControlConsumerServiceImpl planExecutionControlService;
     private final PublishedActivityUpdatesTable publishedActivityUpdatesTable;
 
-    public PublishedActivityUpdatesPanel(ArchiveConsumerServiceImpl archiveService, PlanExecutionControlConsumerServiceImpl planExecutionControlService) {
+    public PublishedActivityUpdatesPanel(ArchiveConsumerServiceImpl archiveService,
+                                         PlanExecutionControlConsumerServiceImpl planExecutionControlService) {
         super();
 
         this.archiveService = archiveService;
         this.planExecutionControlService = planExecutionControlService;
 
-        this.publishedActivityUpdatesTable = new PublishedActivityUpdatesTable(archiveService, planExecutionControlService);
+        this.publishedActivityUpdatesTable = new PublishedActivityUpdatesTable(archiveService,
+                                                                               planExecutionControlService);
         try {
-          this.publishedActivityUpdatesTable.monitorActivities();
+            this.publishedActivityUpdatesTable.monitorActivities();
         } catch (MALInteractionException | MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
@@ -81,7 +83,8 @@ public class PublishedActivityUpdatesPanel extends PublishedUpdatesPanel {
         FineTime startTime = TimeConverter.convert(getRefreshTime());
 
         if (startTime == null) {
-            JOptionPane.showMessageDialog(null, "Please insert date using format: yyyy-MM-dd HH:mm:ss UTC" , "Unparseable date", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Please insert date using format: yyyy-MM-dd HH:mm:ss UTC",
+                                          "Unparseable date", JOptionPane.PLAIN_MESSAGE);
         }
 
         ArchiveQueryList archiveQueryList = new ArchiveQueryList();
@@ -101,21 +104,27 @@ public class PublishedActivityUpdatesPanel extends PublishedUpdatesPanel {
         try {
             archiveService.getArchiveStub().query(true, updateObjectType, archiveQueryList, null, new ArchiveAdapter() {
                 @Override
-                public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+                public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
+                                                ArchiveDetailsList objDetails, ElementList objBodies,
+                                                Map qosProperties) {
                     addEntries(domain, objDetails, objBodies);
                 }
+
                 @Override
-                public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+                public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
+                                                  ArchiveDetailsList objDetails, ElementList objBodies,
+                                                  Map qosProperties) {
                     addEntries(domain, objDetails, objBodies);
                 }
-          });
+            });
         } catch (MALInteractionException | MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
     }
 
     private void addEntries(IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies) {
-        if (objDetails == null) return;
+        if (objDetails == null)
+            return;
         for (int index = 0; index < objDetails.size(); index++) {
             ArchiveDetails details = objDetails.get(index);
             ActivityUpdateDetails update = (ActivityUpdateDetails) objBodies.get(index);
@@ -134,24 +143,27 @@ public class PublishedActivityUpdatesPanel extends PublishedUpdatesPanel {
         ObjectType definitionObjectType = PlanInformationManagementHelper.ACTIVITYDEFINITION_OBJECT_TYPE;
         ObjectType identityObjectType = PlanInformationManagementHelper.ACTIVITYIDENTITY_OBJECT_TYPE;
 
-        ArchivePersistenceObject instanceObject = HelperArchive
-            .getArchiveCOMObject(this.archiveService.getArchiveStub(), instanceObjectType, domain, instanceId);
+        ArchivePersistenceObject instanceObject = HelperArchive.getArchiveCOMObject(this.archiveService.getArchiveStub(),
+                                                                                    instanceObjectType, domain,
+                                                                                    instanceId);
 
         if (instanceObject == null) {
             return identity;
         }
 
         Long definitionId = instanceObject.getArchiveDetails().getDetails().getRelated();
-        ArchivePersistenceObject definitionObject = HelperArchive
-            .getArchiveCOMObject(this.archiveService.getArchiveStub(), definitionObjectType, domain, definitionId);
+        ArchivePersistenceObject definitionObject = HelperArchive.getArchiveCOMObject(this.archiveService.getArchiveStub(),
+                                                                                      definitionObjectType, domain,
+                                                                                      definitionId);
 
         if (definitionObject == null) {
             return identity;
         }
 
         Long identityId = definitionObject.getArchiveDetails().getDetails().getRelated();
-        ArchivePersistenceObject identityObject = HelperArchive
-            .getArchiveCOMObject(this.archiveService.getArchiveStub(), identityObjectType, domain, identityId);
+        ArchivePersistenceObject identityObject = HelperArchive.getArchiveCOMObject(this.archiveService.getArchiveStub(),
+                                                                                    identityObjectType, domain,
+                                                                                    identityId);
 
         if (identityObject == null) {
             return identity;

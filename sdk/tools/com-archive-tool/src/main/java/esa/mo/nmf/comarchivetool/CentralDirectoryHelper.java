@@ -46,89 +46,85 @@ import esa.mo.common.impl.consumer.DirectoryConsumerServiceImpl;
  */
 public class CentralDirectoryHelper {
 
-  private static final Logger LOGGER = Logger.getLogger(CentralDirectoryHelper.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(CentralDirectoryHelper.class.getName());
 
-  /**
-   * Look up the central directory to find provider details of the given provider.
-   * 
-   * @param centralDirectoryServiceURI URI of the central directory to use
-   * @param providerName Name of the provider to look for
-   * @return ProviderSummary of the provider or null if not found
-   */
-  public static ProviderSummary getProviderSummary(URI centralDirectoryServiceURI,
-      String providerName) {
-    // Create provider filter
-    IdentifierList domain = new IdentifierList();
-    domain.add(new Identifier("*"));
-    ServiceKey sk = new ServiceKey(new UShort(0), new UShort(0), new UOctet((short) 0));
-    ServiceFilter sf2 = new ServiceFilter(new Identifier(providerName), domain, new Identifier("*"),
-        null, new Identifier("*"), sk, new UShortList());
+    /**
+     * Look up the central directory to find provider details of the given provider.
+     * 
+     * @param centralDirectoryServiceURI URI of the central directory to use
+     * @param providerName Name of the provider to look for
+     * @return ProviderSummary of the provider or null if not found
+     */
+    public static ProviderSummary getProviderSummary(URI centralDirectoryServiceURI, String providerName) {
+        // Create provider filter
+        IdentifierList domain = new IdentifierList();
+        domain.add(new Identifier("*"));
+        ServiceKey sk = new ServiceKey(new UShort(0), new UShort(0), new UOctet((short) 0));
+        ServiceFilter sf2 = new ServiceFilter(new Identifier(providerName), domain, new Identifier("*"), null,
+                                              new Identifier("*"), sk, new UShortList());
 
-    // Query directory service with filter
-    try (DirectoryConsumerServiceImpl centralDirectory = new DirectoryConsumerServiceImpl(centralDirectoryServiceURI)) {
-      ProviderSummaryList providersSummaries =
-          centralDirectory.getDirectoryStub().lookupProvider(sf2);
-      if (providersSummaries.size() == 1) {
-        LOGGER.log(Level.INFO, String.format("Found provider %s", providerName));
-        return providersSummaries.get(0);
-      } else if (providersSummaries.size() > 1) {
-        LOGGER.log(Level.SEVERE,
-            String.format("Found multiple providers with name %s", providerName));
-      } else {
-        LOGGER.log(Level.SEVERE,
-            String.format("Couldn't find provider with name %s", providerName));
-      }
-    } catch (MALInteractionException | MALException | MalformedURLException e) {
-      LOGGER.log(Level.SEVERE, "Error while looking up the central directory", e);
-    }
-
-    return null;
-  }
-
-  /**
-   * Look up the central directory to find the list of providers that provides a COM archive
-   * service.
-   *
-   * @param centralDirectoryServiceURI URI of the central directory to use
-   * @return The list of providers
-   */
-  public static ArrayList<String> listCOMArchiveProviders(URI centralDirectoryServiceURI) {
-    ArrayList<String> archiveProviders = new ArrayList<>();
-
-    // Create archive provider filter
-    IdentifierList domain = new IdentifierList();
-    domain.add(new Identifier("*"));
-    ServiceKey sk = new ServiceKey(COMHelper.COM_AREA_NUMBER, ArchiveHelper.ARCHIVE_SERVICE_NUMBER,
-        new UOctet((short) 0));
-    ServiceFilter sf2 = new ServiceFilter(new Identifier("*"), domain, new Identifier("*"), null,
-        new Identifier("*"), sk, new UShortList());
-
-    // Query directory service with filter
-    try (DirectoryConsumerServiceImpl centralDirectory = new DirectoryConsumerServiceImpl(centralDirectoryServiceURI)) {
-      ProviderSummaryList providersSummaries =
-          centralDirectory.getDirectoryStub().lookupProvider(sf2);
-      for (ProviderSummary providerSummary : providersSummaries) {
-        final StringBuilder provider = new StringBuilder(providerSummary.getProviderId().getValue());
-
-        ProviderDetails providerDetails = providerSummary.getProviderDetails();
-
-        // dump provider addresses
-        for (AddressDetails addressDetails : providerDetails.getProviderAddresses()) {
-          provider.append("\n\t - ").append(addressDetails.getServiceURI().getValue());
+        // Query directory service with filter
+        try (DirectoryConsumerServiceImpl centralDirectory = new DirectoryConsumerServiceImpl(centralDirectoryServiceURI)) {
+            ProviderSummaryList providersSummaries = centralDirectory.getDirectoryStub().lookupProvider(sf2);
+            if (providersSummaries.size() == 1) {
+                LOGGER.log(Level.INFO, String.format("Found provider %s", providerName));
+                return providersSummaries.get(0);
+            } else if (providersSummaries.size() > 1) {
+                LOGGER.log(Level.SEVERE, String.format("Found multiple providers with name %s", providerName));
+            } else {
+                LOGGER.log(Level.SEVERE, String.format("Couldn't find provider with name %s", providerName));
+            }
+        } catch (MALInteractionException | MALException | MalformedURLException e) {
+            LOGGER.log(Level.SEVERE, "Error while looking up the central directory", e);
         }
 
-        // dump services capabilities addresses
-        for (ServiceCapability serviceCapability : providerDetails.getServiceCapabilities()) {
-          for (AddressDetails serviceAddressDetails : serviceCapability.getServiceAddresses()) {
-            provider.append("\n\t - ").append(serviceAddressDetails.getServiceURI().getValue());
-          }
-        }
-        archiveProviders.add(provider.toString());
-      }
-    } catch (MALInteractionException | MALException | MalformedURLException e) {
-      LOGGER.log(Level.SEVERE, "Error while looking up the central directory", e);
+        return null;
     }
 
-    return archiveProviders;
-  }
+    /**
+     * Look up the central directory to find the list of providers that provides a COM archive
+     * service.
+     *
+     * @param centralDirectoryServiceURI URI of the central directory to use
+     * @return The list of providers
+     */
+    public static ArrayList<String> listCOMArchiveProviders(URI centralDirectoryServiceURI) {
+        ArrayList<String> archiveProviders = new ArrayList<>();
+
+        // Create archive provider filter
+        IdentifierList domain = new IdentifierList();
+        domain.add(new Identifier("*"));
+        ServiceKey sk = new ServiceKey(COMHelper.COM_AREA_NUMBER, ArchiveHelper.ARCHIVE_SERVICE_NUMBER, new UOctet(
+                                                                                                                   (short) 0));
+        ServiceFilter sf2 = new ServiceFilter(new Identifier("*"), domain, new Identifier("*"), null, new Identifier(
+                                                                                                                     "*"),
+                                              sk, new UShortList());
+
+        // Query directory service with filter
+        try (DirectoryConsumerServiceImpl centralDirectory = new DirectoryConsumerServiceImpl(centralDirectoryServiceURI)) {
+            ProviderSummaryList providersSummaries = centralDirectory.getDirectoryStub().lookupProvider(sf2);
+            for (ProviderSummary providerSummary : providersSummaries) {
+                final StringBuilder provider = new StringBuilder(providerSummary.getProviderId().getValue());
+
+                ProviderDetails providerDetails = providerSummary.getProviderDetails();
+
+                // dump provider addresses
+                for (AddressDetails addressDetails : providerDetails.getProviderAddresses()) {
+                    provider.append("\n\t - ").append(addressDetails.getServiceURI().getValue());
+                }
+
+                // dump services capabilities addresses
+                for (ServiceCapability serviceCapability : providerDetails.getServiceCapabilities()) {
+                    for (AddressDetails serviceAddressDetails : serviceCapability.getServiceAddresses()) {
+                        provider.append("\n\t - ").append(serviceAddressDetails.getServiceURI().getValue());
+                    }
+                }
+                archiveProviders.add(provider.toString());
+            }
+        } catch (MALInteractionException | MALException | MalformedURLException e) {
+            LOGGER.log(Level.SEVERE, "Error while looking up the central directory", e);
+        }
+
+        return archiveProviders;
+    }
 }

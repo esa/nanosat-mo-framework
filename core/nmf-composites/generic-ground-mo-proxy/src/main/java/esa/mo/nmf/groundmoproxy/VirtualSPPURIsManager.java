@@ -60,8 +60,10 @@ public class VirtualSPPURIsManager {
             reverse = reverseMap.get(virtualSPPURI);
 
             if (reverse == null) {
-                Logger.getLogger(VirtualSPPURIsManager.class.getName()).log(Level.SEVERE,
-                        "The reverse APID for virtualSPPURI: " + virtualSPPURI + " could not be found!");
+                Logger.getLogger(VirtualSPPURIsManager.class.getName())
+                      .log(Level.SEVERE, "The reverse APID for virtualSPPURI: " +
+                                         virtualSPPURI +
+                                         " could not be found!");
             }
         }
 
@@ -80,8 +82,8 @@ public class VirtualSPPURIsManager {
                 reverseMap.put(virtualAPID, uriFrom);
             }
 
-            Logger.getLogger(VirtualSPPURIsManager.class.getName()).log(Level.FINE,
-                    "The virtualAPID is: " + virtualAPID);
+            Logger.getLogger(VirtualSPPURIsManager.class.getName())
+                  .log(Level.FINE, "The virtualAPID is: " + virtualAPID);
         }
 
         return virtualAPID;

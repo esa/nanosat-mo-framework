@@ -37,65 +37,57 @@ import java.util.logging.Logger;
  * Ground consumer: Demo Simple Ground
  * Takes in the directoryURI and app name to which to connect, and logs the received parameters data.
  */
-public class SimpleGround
-{
+public class SimpleGround {
 
-  private static final String APP_PREFIX = "App: ";
-  private final Logger LOGGER = Logger.getLogger(SimpleGround.class.getName());
+    private static final String APP_PREFIX = "App: ";
+    private final Logger LOGGER = Logger.getLogger(SimpleGround.class.getName());
 
-  public SimpleGround(String directoryURI, String providerName)
-  {
-    try {
-      ProviderSummaryList providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(
-              new URI(directoryURI));
+    public SimpleGround(String directoryURI, String providerName) {
+        try {
+            ProviderSummaryList providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(new URI(directoryURI));
 
-      GroundMOAdapterImpl gma = null;
-      if (!providers.isEmpty()) {
-        for (ProviderSummary provider : providers) {
-          if (provider.getProviderId().toString().equals(APP_PREFIX + providerName)) {
-            gma = new GroundMOAdapterImpl(provider);
-            gma.addDataReceivedListener(new DataReceivedAdapter());
-            break;
-          }
+            GroundMOAdapterImpl gma = null;
+            if (!providers.isEmpty()) {
+                for (ProviderSummary provider : providers) {
+                    if (provider.getProviderId().toString().equals(APP_PREFIX + providerName)) {
+                        gma = new GroundMOAdapterImpl(provider);
+                        gma.addDataReceivedListener(new DataReceivedAdapter());
+                        break;
+                    }
+                }
+            }
+
+            if (gma == null) {
+                LOGGER.log(Level.SEVERE, "Failed to connect to the provider. No such provider found - " + providerName);
+            }
+        } catch (MalformedURLException | MALException | MALInteractionException ex) {
+            LOGGER.log(Level.SEVERE, "Failed to connect to the provider.", ex);
         }
-      }
 
-      if(gma == null)
-      {
-        LOGGER.log(Level.SEVERE, "Failed to connect to the provider. No such provider found - " + providerName);
-      }
-    } catch (MalformedURLException | MALException | MALInteractionException ex) {
-      LOGGER.log(Level.SEVERE, "Failed to connect to the provider.", ex);
     }
 
-  }
-
-  /**
-   * Main command line entry point.
-   *
-   * @param args the command line arguments
-   * @throws java.lang.Exception If there is an error
-   */
-  public static void main(final String[] args) throws Exception
-  {
-    if (args.length != 2) {
-      System.err.println("Please give supervisor directory URI as a first argument and a provider name," +
-              " which to connect as the second argument!");
-      System.err.println("e.g. maltcp://123.123.123.123:1024/nanosat-mo-supervisor-Directory publish-clock");
-      System.exit(1);
+    /**
+     * Main command line entry point.
+     *
+     * @param args the command line arguments
+     * @throws java.lang.Exception If there is an error
+     */
+    public static void main(final String[] args) throws Exception {
+        if (args.length != 2) {
+            System.err.println("Please give supervisor directory URI as a first argument and a provider name," +
+                               " which to connect as the second argument!");
+            System.err.println("e.g. maltcp://123.123.123.123:1024/nanosat-mo-supervisor-Directory publish-clock");
+            System.exit(1);
+        }
+        SimpleGround demo = new SimpleGround(args[0], args[1]);
     }
-    SimpleGround demo = new SimpleGround(args[0], args[1]);
-  }
 
-  class DataReceivedAdapter extends SimpleDataReceivedListener
-  {
+    class DataReceivedAdapter extends SimpleDataReceivedListener {
 
-    @Override
-    public void onDataReceived(String parameterName, Serializable data)
-    {
-      LOGGER.log(Level.INFO,
-          "\nParameter name: {0}" + "\n" + "Data content:\n{1}",
-          new Object[]{parameterName, data.toString()});
+        @Override
+        public void onDataReceived(String parameterName, Serializable data) {
+            LOGGER.log(Level.INFO, "\nParameter name: {0}" + "\n" + "Data content:\n{1}", new Object[]{parameterName,
+                                                                                                       data.toString()});
+        }
     }
-  }
 }

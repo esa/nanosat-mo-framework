@@ -27,11 +27,9 @@ import org.orekit.data.DataProvider;
  *
  * @author Kevin Otto
  */
-public class OrekitResources
-{
+public class OrekitResources {
 
-  public static DataProvider getOrekitData()
-  {
-    return new ClasspathCrawler(OrekitResources.class.getClassLoader(), "orekit-data.zip");
-  }
+    public static DataProvider getOrekitData() {
+        return new ClasspathCrawler(OrekitResources.class.getClassLoader(), "orekit-data.zip");
+    }
 }

@@ -68,5 +68,5 @@ public class SourceLinkContainer {
     public void setObjectTypeIds(final IntegerList objectTypeIds) {
         this.objectTypeIds = objectTypeIds;
     }
-    
+
 }

@@ -55,8 +55,8 @@ public class ClockProviderServiceImpl extends ClockInheritanceSkeleton {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
-            if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME,
-                PlatformHelper.PLATFORM_AREA_VERSION) == null) {
+            if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME, PlatformHelper.PLATFORM_AREA_VERSION) ==
+                null) {
                 PlatformHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
@@ -78,7 +78,7 @@ public class ClockProviderServiceImpl extends ClockInheritanceSkeleton {
 
         this.adapter = adapter;
         clockServiceProvider = connection.startService(ClockHelper.CLOCK_SERVICE_NAME.toString(),
-            ClockHelper.CLOCK_SERVICE, this);
+                                                       ClockHelper.CLOCK_SERVICE, this);
 
         initialiased = true;
         LOGGER.info("Clock service READY");
@@ -97,7 +97,7 @@ public class ClockProviderServiceImpl extends ClockInheritanceSkeleton {
         } catch (MALException ex) {
             LOGGER.log(Level.WARNING, "Exception during close down of the provider {0}", ex);
         }
-}
+    }
 
     @Override
     public Time getTime(MALInteraction interaction) throws MALInteractionException, MALException {

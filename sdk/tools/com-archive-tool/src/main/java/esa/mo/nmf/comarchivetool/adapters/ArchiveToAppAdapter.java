@@ -46,132 +46,123 @@ import esa.mo.com.impl.util.ArchiveCOMObjectsOutput;
  */
 public class ArchiveToAppAdapter extends ArchiveAdapter implements QueryStatusProvider {
 
-  private static final Logger LOGGER = Logger.getLogger(ArchiveToAppAdapter.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(ArchiveToAppAdapter.class.getName());
 
-  /**
-   * Name of the App to find.
-   */
-  private String appName;
+    /**
+     * Name of the App to find.
+     */
+    private String appName;
 
-  /**
-   * ObjectId of the found App or null if not found after the query ended.
-   */
-  private ObjectId appObjectId;
+    /**
+     * ObjectId of the found App or null if not found after the query ended.
+     */
+    private ObjectId appObjectId;
 
-  /**
-   * True if the query is over (response or any error received)
-   */
-  private boolean isQueryOver = false;
+    /**
+     * True if the query is over (response or any error received)
+     */
+    private boolean isQueryOver = false;
 
-  /**
-   * SoftwareManagement.AppsLaunch.App object type
-   */
-  private ObjectType appType = AppsLauncherHelper.APP_OBJECT_TYPE;
+    /**
+     * SoftwareManagement.AppsLaunch.App object type
+     */
+    private ObjectType appType = AppsLauncherHelper.APP_OBJECT_TYPE;
 
-
-  /**
-   * Creates a new instance of ArchiveToAppAdapter.
-   * 
-   * @param appName
-   */
-  public ArchiveToAppAdapter(String appName) {
-    this.appName = appName;
-  }
-
-  /**
-   * Processes archive objects output received from an archive query answer (update or response).
-   *
-   * @param archiveObjectOutput the archive objects outputs
-   */
-  private synchronized void ProcessArchiveObjectsOutput(
-      ArchiveCOMObjectsOutput archiveObjectOutput) {
-    // empty comType means query returned nothing
-    ObjectType comType = archiveObjectOutput.getObjectType();
-    if (comType == null) {
-      return;
+    /**
+     * Creates a new instance of ArchiveToAppAdapter.
+     * 
+     * @param appName
+     */
+    public ArchiveToAppAdapter(String appName) {
+        this.appName = appName;
     }
 
-    // process only app type
-    if (!comType.equals(appType)) {
-      return;
+    /**
+     * Processes archive objects output received from an archive query answer (update or response).
+     *
+     * @param archiveObjectOutput the archive objects outputs
+     */
+    private synchronized void ProcessArchiveObjectsOutput(ArchiveCOMObjectsOutput archiveObjectOutput) {
+        // empty comType means query returned nothing
+        ObjectType comType = archiveObjectOutput.getObjectType();
+        if (comType == null) {
+            return;
+        }
+
+        // process only app type
+        if (!comType.equals(appType)) {
+            return;
+        }
+
+        // if somehow we have no object bodies, stop
+        if (archiveObjectOutput.getObjectBodies() == null) {
+            return;
+        }
+
+        // look for the App by name
+        for (int i = 0; i < archiveObjectOutput.getObjectBodies().size(); i++) {
+            AppDetails appObject = (AppDetails) archiveObjectOutput.getObjectBodies().get(i);
+            String appName = appObject.getName().getValue();
+            Long appInstanceId = archiveObjectOutput.getArchiveDetailsList().get(i).getInstId();
+            // TODO uncomment when archive sync fixed
+            // IdentifierList appDomain = archiveObjectOutput.getDomain();
+            IdentifierList appDomain = new IdentifierList();
+            appDomain.add(new Identifier("*"));
+
+            if (this.appName.equals(appName)) {
+                appObjectId = new ObjectId(appType, new ObjectKey(appDomain, appInstanceId));
+                setIsQueryOver(true);
+            }
+        }
     }
 
-    // if somehow we have no object bodies, stop
-    if (archiveObjectOutput.getObjectBodies() == null) {
-      return;
-    }
-
-    // look for the App by name
-    for (int i = 0; i < archiveObjectOutput.getObjectBodies().size(); i++) {
-      AppDetails appObject = (AppDetails) archiveObjectOutput.getObjectBodies().get(i);
-      String appName = appObject.getName().getValue();
-      Long appInstanceId = archiveObjectOutput.getArchiveDetailsList().get(i).getInstId();
-      // TODO uncomment when archive sync fixed
-      // IdentifierList appDomain = archiveObjectOutput.getDomain();
-      IdentifierList appDomain = new IdentifierList();
-      appDomain.add(new Identifier("*"));
-
-      if (this.appName.equals(appName)) {
-        appObjectId = new ObjectId(appType, new ObjectKey(appDomain, appInstanceId));
+    @Override
+    public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
+                                      ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+        ProcessArchiveObjectsOutput(new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies));
         setIsQueryOver(true);
-      }
     }
-  }
 
-  @Override
-  public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType,
-      IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies,
-      Map qosProperties) {
-    ProcessArchiveObjectsOutput(
-        new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies));
-    setIsQueryOver(true);
-  }
+    @Override
+    public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
+                                    ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+        ProcessArchiveObjectsOutput(new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies));
+    }
 
-  @Override
-  public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType,
-      IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies,
-      Map qosProperties) {
-    ProcessArchiveObjectsOutput(
-        new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies));
-  }
+    @Override
+    public void queryAckErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+        LOGGER.log(Level.SEVERE, "queryAckErrorReceived", error);
+        setIsQueryOver(true);
+    }
 
-  @Override
-  public void queryAckErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
-      Map qosProperties) {
-    LOGGER.log(Level.SEVERE, "queryAckErrorReceived", error);
-    setIsQueryOver(true);
-  }
+    @Override
+    public void queryUpdateErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+        LOGGER.log(Level.SEVERE, "queryUpdateErrorReceived", error);
+        setIsQueryOver(true);
+    }
 
-  @Override
-  public void queryUpdateErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
-      Map qosProperties) {
-    LOGGER.log(Level.SEVERE, "queryUpdateErrorReceived", error);
-    setIsQueryOver(true);
-  }
+    @Override
+    public void queryResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
+        LOGGER.log(Level.SEVERE, "queryResponseErrorReceived", error);
+        setIsQueryOver(true);
+    }
 
-  @Override
-  public void queryResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
-      Map qosProperties) {
-    LOGGER.log(Level.SEVERE, "queryResponseErrorReceived", error);
-    setIsQueryOver(true);
-  }
+    /**
+     * Returns the ObjectId of the found App or null if not found after the query ended.
+     * 
+     * @return the ObjectId
+     */
+    public ObjectId getAppObjectId() {
+        return appObjectId;
+    }
 
-  /**
-   * Returns the ObjectId of the found App or null if not found after the query ended.
-   * 
-   * @return the ObjectId
-   */
-  public ObjectId getAppObjectId() {
-    return appObjectId;
-  }
+    /** {@inheritDoc} */
+    @Override
+    public synchronized boolean isQueryOver() {
+        return isQueryOver;
+    }
 
-  /** {@inheritDoc} */
-  @Override
-  public synchronized boolean isQueryOver() {
-    return isQueryOver;
-  }
-
-  private synchronized void setIsQueryOver(boolean isQueryOver) {
-    this.isQueryOver = isQueryOver;
-  }
+    private synchronized void setIsQueryOver(boolean isQueryOver) {
+        this.isQueryOver = isQueryOver;
+    }
 }

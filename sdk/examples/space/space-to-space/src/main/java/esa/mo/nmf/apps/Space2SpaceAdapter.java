@@ -46,8 +46,7 @@ public class Space2SpaceAdapter extends MonitorAndControlNMFAdapter {
 
     private List<String> parametersNames = new ArrayList<>();
 
-    public void setConnector(NanoSatMOConnectorImpl connector)
-    {
+    public void setConnector(NanoSatMOConnectorImpl connector) {
         this.connector = connector;
 
         // Define application behavior when closed
@@ -59,8 +58,7 @@ public class Space2SpaceAdapter extends MonitorAndControlNMFAdapter {
         });
     }
 
-    public void setSpaceAppSMA(SpaceMOApdapterImpl spaceAppSMA)
-    {
+    public void setSpaceAppSMA(SpaceMOApdapterImpl spaceAppSMA) {
         this.spaceAppSMA = spaceAppSMA;
     }
 
@@ -83,14 +81,12 @@ public class Space2SpaceAdapter extends MonitorAndControlNMFAdapter {
             @Override
             public void onDataReceived(String parameterName, Serializable data) {
                 if (data == null) {
-                    LOGGER.log(Level.WARNING,
-                            String.format("Received null value for parameter %s", parameterName));
+                    LOGGER.log(Level.WARNING, String.format("Received null value for parameter %s", parameterName));
                     return;
                 }
 
                 String dataS = data.toString();
-                LOGGER.log(Level.INFO, String.format(
-                        "Received value: %s = %s", parameterName, dataS));
+                LOGGER.log(Level.INFO, String.format("Received value: %s = %s", parameterName, dataS));
             }
         };
 
@@ -98,9 +94,7 @@ public class Space2SpaceAdapter extends MonitorAndControlNMFAdapter {
         LOGGER.log(Level.INFO, "Started fetching parameters");
     }
 
-
-    public Boolean onClose()
-    {
+    public Boolean onClose() {
         boolean success = true;
         // Stop fetching data in supervisor
         try {

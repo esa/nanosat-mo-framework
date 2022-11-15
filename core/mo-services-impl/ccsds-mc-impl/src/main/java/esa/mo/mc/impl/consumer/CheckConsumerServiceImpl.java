@@ -34,7 +34,6 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.consumer.MALConsumer;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mc.MCHelper;
-import org.ccsds.moims.mo.mc.alert.AlertHelper;
 import org.ccsds.moims.mo.mc.check.CheckHelper;
 import org.ccsds.moims.mo.mc.check.consumer.CheckStub;
 
@@ -46,7 +45,7 @@ public class CheckConsumerServiceImpl extends ConsumerServiceImpl {
 
     private CheckStub checkService = null;
     private COMServicesConsumer comServices;
-   
+
     public COMServicesConsumer getCOMServices() {
         return comServices;
     }
@@ -65,7 +64,8 @@ public class CheckConsumerServiceImpl extends ConsumerServiceImpl {
         return new CheckStub(tmConsumer);
     }
 
-    public CheckConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
+    public CheckConsumerServiceImpl(SingleConnectionDetails connectionDetails,
+                                    COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
         this(connectionDetails, comServices, null, null);
     }
 
@@ -86,7 +86,7 @@ public class CheckConsumerServiceImpl extends ConsumerServiceImpl {
         }
 
         if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION)
-                    .getServiceByName(CheckHelper.CHECK_SERVICE_NAME) == null) {
+                             .getServiceByName(CheckHelper.CHECK_SERVICE_NAME) == null) {
             CheckHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
@@ -102,12 +102,10 @@ public class CheckConsumerServiceImpl extends ConsumerServiceImpl {
             }
         }
 
-        tmConsumer = connection.startService(
-                this.connectionDetails.getProviderURI(),
-                this.connectionDetails.getBrokerURI(),
-                this.connectionDetails.getDomain(),
-                CheckHelper.CHECK_SERVICE,
-                authenticationId, localNamePrefix);
+        tmConsumer = connection.startService(this.connectionDetails.getProviderURI(), this.connectionDetails
+                                                                                                            .getBrokerURI(),
+                                             this.connectionDetails.getDomain(), CheckHelper.CHECK_SERVICE,
+                                             authenticationId, localNamePrefix);
 
         this.checkService = new CheckStub(tmConsumer);
     }

@@ -94,7 +94,8 @@ public class ProtocolBridge {
         }
 
         @Override
-        public void onTransmitError(MALEndpoint callingEndpoint, MALMessageHeader srcMessageHeader, MALStandardError err, Map qosMap) {
+        public void onTransmitError(MALEndpoint callingEndpoint, MALMessageHeader srcMessageHeader,
+                                    MALStandardError err, Map qosMap) {
             throw new UnsupportedOperationException("Not supported yet.");
         }
 
@@ -128,11 +129,15 @@ public class ProtocolBridge {
         }
     }
 
-    protected static MALMessage cloneForwardMessage(MALEndpoint destination, MALMessage srcMessage) throws MALException {
+    protected static MALMessage cloneForwardMessage(MALEndpoint destination,
+                                                    MALMessage srcMessage) throws MALException {
         MALMessageHeader sourceHdr = srcMessage.getHeader();
         MALMessageBody body = srcMessage.getBody();
 
-        System.out.println("cloneForwardMessage from : " + sourceHdr.getURIFrom() + "                to  :    " + sourceHdr.getURITo());
+        System.out.println("cloneForwardMessage from : " +
+                           sourceHdr.getURIFrom() +
+                           "                to  :    " +
+                           sourceHdr.getURITo());
         String endpointUriPart = sourceHdr.getURITo().getValue();
         final int iSecond = endpointUriPart.indexOf("@");
         endpointUriPart = endpointUriPart.substring(iSecond + 1);
@@ -140,26 +145,19 @@ public class ProtocolBridge {
         URI from = new URI(destination.getURI().getValue() + "@" + sourceHdr.getURIFrom().getValue());
         System.out.println("cloneForwardMessage      : " + from + "                to  :    " + to);
 
-        MALMessage destMessage = destination.createMessage(
-                sourceHdr.getAuthenticationId(),
-                to,
-                sourceHdr.getTimestamp(),
-                sourceHdr.getQoSlevel(),
-                sourceHdr.getPriority(),
-                sourceHdr.getDomain(),
-                sourceHdr.getNetworkZone(),
-                sourceHdr.getSession(),
-                sourceHdr.getSessionName(),
-                sourceHdr.getInteractionType(),
-                sourceHdr.getInteractionStage(),
-                sourceHdr.getTransactionId(),
-                sourceHdr.getServiceArea(),
-                sourceHdr.getService(),
-                sourceHdr.getOperation(),
-                sourceHdr.getAreaVersion(),
-                sourceHdr.getIsErrorMessage(),
-                srcMessage.getQoSProperties(),
-                body.getEncodedBody());
+        MALMessage destMessage = destination.createMessage(sourceHdr.getAuthenticationId(), to, sourceHdr
+                                                                                                         .getTimestamp(),
+                                                           sourceHdr.getQoSlevel(), sourceHdr.getPriority(), sourceHdr
+                                                                                                                      .getDomain(),
+                                                           sourceHdr.getNetworkZone(), sourceHdr.getSession(), sourceHdr
+                                                                                                                        .getSessionName(),
+                                                           sourceHdr.getInteractionType(), sourceHdr
+                                                                                                    .getInteractionStage(),
+                                                           sourceHdr.getTransactionId(), sourceHdr.getServiceArea(),
+                                                           sourceHdr.getService(), sourceHdr.getOperation(), sourceHdr
+                                                                                                                      .getAreaVersion(),
+                                                           sourceHdr.getIsErrorMessage(), srcMessage.getQoSProperties(),
+                                                           body.getEncodedBody());
 
         destMessage.getHeader().setURIFrom(from);
 

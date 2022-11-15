@@ -88,7 +88,6 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
     private static final String TAKE_IMAGE_MULTIPLE = "TakeImage Request (10,51; 75,23)";
     private static final String SCOUT_SINGLE = "Scout Request (58,26)";
 
-
     private final PlanningRequestConsumerServiceImpl planningRequestService;
     private final PlanningRequestTablePanel planningRequestTable;
     private final PlanningRequestStatusTablePanel planningRequestStatusTable;
@@ -98,8 +97,10 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
 
         this.planningRequestService = planningRequestService;
 
-        this.planningRequestTable = new PlanningRequestTablePanel(planningRequestService.getCOMServices().getArchiveService());
-        this.planningRequestStatusTable = new PlanningRequestStatusTablePanel(planningRequestService.getCOMServices().getArchiveService());
+        this.planningRequestTable = new PlanningRequestTablePanel(planningRequestService.getCOMServices()
+                                                                                        .getArchiveService());
+        this.planningRequestStatusTable = new PlanningRequestStatusTablePanel(planningRequestService.getCOMServices()
+                                                                                                    .getArchiveService());
 
         jScrollPane2.setViewportView(this.planningRequestTable);
     }
@@ -139,15 +140,9 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
         jScrollPane2.setPreferredSize(new java.awt.Dimension(796, 380));
         jScrollPane2.setRequestFocusEnabled(false);
 
-        actionDefinitionsTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {},
-                {}
-            },
-            new String [] {
+        actionDefinitionsTable.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{{}, {}}, new String[]{
 
-            }
-        ));
+        }));
         actionDefinitionsTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         actionDefinitionsTable.setAutoscrolls(false);
         actionDefinitionsTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -155,7 +150,8 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
 
         parameterTab.setLayout(new java.awt.GridLayout(1, 1));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { GENERIC_REQUEST, TAKE_IMAGE_SINGLE, TAKE_IMAGE_MULTIPLE, SCOUT_SINGLE }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{GENERIC_REQUEST, TAKE_IMAGE_SINGLE,
+                                                                                TAKE_IMAGE_MULTIPLE, SCOUT_SINGLE}));
         jPanel5.add(jComboBox1);
 
         submitPlanningRequestButton.setText("submitPlanningRequest");
@@ -182,22 +178,25 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(parameterTab, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1043, Short.MAX_VALUE)
-            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel6)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(parameterTab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(parameterTab, javax.swing.GroupLayout.PREFERRED_SIZE, 0,
+                                                      Short.MAX_VALUE)
+                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING,
+                                                      javax.swing.GroupLayout.DEFAULT_SIZE, 1043, Short.MAX_VALUE)
+                                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                      javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
+        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                      .addGroup(layout.createSequentialGroup()
+                                                      .addContainerGap()
+                                                      .addComponent(jLabel6)
+                                                      .addGap(18, 18, 18)
+                                                      .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                    246, Short.MAX_VALUE)
+                                                      .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                      .addComponent(parameterTab,
+                                                                    javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                    javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                    javax.swing.GroupLayout.PREFERRED_SIZE)));
     }// </editor-fold>//GEN-END:initComponents
 
     private void submitRequestButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitRequestButtonActionPerformed
@@ -210,13 +209,13 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
                 request = createGenericRequest();
                 break;
             case TAKE_IMAGE_SINGLE:
-                request = createTakeImageRequest(new String[] { "10,51" });
+                request = createTakeImageRequest(new String[]{"10,51"});
                 break;
             case TAKE_IMAGE_MULTIPLE:
-                request = createTakeImageRequest(new String[] { "10,51", "75,23" });
+                request = createTakeImageRequest(new String[]{"10,51", "75,23"});
                 break;
             case SCOUT_SINGLE:
-                request = createScoutRequest(new String[] { "58,26" });
+                request = createScoutRequest(new String[]{"58,26"});
                 break;
             default:
                 break;
@@ -239,19 +238,28 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
         }
 
         try {
-            this.planningRequestService.getPlanningRequestStub().asyncSubmitRequest(identity, request, new PlanningRequestAdapter() {
+            this.planningRequestService.getPlanningRequestStub()
+                                       .asyncSubmitRequest(identity, request, new PlanningRequestAdapter() {
 
-                @Override
-                public void submitRequestResponseReceived(MALMessageHeader msgHeader, Long requestIdentityId, Long requestVersionId, Map qosProperties) {
-                    getRequestAllButtonActionPerformed(null);
-                }
+                                           @Override
+                                           public void submitRequestResponseReceived(MALMessageHeader msgHeader,
+                                                                                     Long requestIdentityId,
+                                                                                     Long requestVersionId,
+                                                                                     Map qosProperties) {
+                                               getRequestAllButtonActionPerformed(null);
+                                           }
 
-                @Override
-                public void submitRequestErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
-                    JOptionPane.showMessageDialog(null, "There was an error during the submitRequest operation.\n" + error.toString() , "Error", JOptionPane.PLAIN_MESSAGE);
-                    LOGGER.log(Level.SEVERE, null, error);
-                }
-            });
+                                           @Override
+                                           public void submitRequestErrorReceived(MALMessageHeader msgHeader,
+                                                                                  MALStandardError error,
+                                                                                  Map qosProperties) {
+                                               JOptionPane.showMessageDialog(null,
+                                                                             "There was an error during the submitRequest operation.\n" +
+                                                                                   error.toString(), "Error",
+                                                                             JOptionPane.PLAIN_MESSAGE);
+                                               LOGGER.log(Level.SEVERE, null, error);
+                                           }
+                                       });
         } catch (MALInteractionException | MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
@@ -260,7 +268,8 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
     private RequestVersionDetails createGenericRequest() {
         RequestVersionDetails requestVersion = MPFactory.createRequestVersion();
 
-        ObjectId requestTemplateId = COMObjectIdHelper.getObjectId(1L, PlanInformationManagementHelper.REQUESTTEMPLATE_OBJECT_TYPE);
+        ObjectId requestTemplateId = COMObjectIdHelper.getObjectId(1L,
+                                                                   PlanInformationManagementHelper.REQUESTTEMPLATE_OBJECT_TYPE);
 
         SimpleActivityDetails activity = new SimpleActivityDetails();
         activity.setActivityDef(1L);
@@ -333,7 +342,8 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
 
         activityNode.setActivities(activities);
 
-        ObjectId requestTemplateId = COMObjectIdHelper.getObjectId(1L, PlanInformationManagementHelper.REQUESTTEMPLATE_OBJECT_TYPE);
+        ObjectId requestTemplateId = COMObjectIdHelper.getObjectId(1L,
+                                                                   PlanInformationManagementHelper.REQUESTTEMPLATE_OBJECT_TYPE);
 
         ArgumentList arguments = new ArgumentList();
 
@@ -369,7 +379,8 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
         SimpleActivityDetails takeImageActivity = new SimpleActivityDetails();
         takeImageActivity.setActivityDef(1L);
 
-        PositionExpression positionExpression = new PositionExpression("==", null, ArgType.POSITION, new Union(position));
+        PositionExpression positionExpression = new PositionExpression("==", null, ArgType.POSITION, new Union(
+                                                                                                               position));
         c_Expression expression = MPPolyFix.encode(positionExpression);
         ArgSpec positionArg = new ArgSpec(new Identifier("position"), expression, null);
 
@@ -382,7 +393,8 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
     private TimeWindowList createValidityTime() {
         long timeNow = SystemClock.getTime().getValue();
         TimeExpression windowStart = new TimeExpression("==", null, ArgType.TIME, new Time(timeNow + 10000L));
-        TimeExpression windowEnd = new TimeExpression("==", null, ArgType.TIME, new Time(timeNow + 30 * 24 * 60 * 60 * 1000L)); // 30 days
+        TimeExpression windowEnd = new TimeExpression("==", null, ArgType.TIME, new Time(timeNow +
+                                                                                         30 * 24 * 60 * 60 * 1000L)); // 30 days
         TimeWindow timeWindow = new TimeWindow(windowStart, windowEnd);
 
         TimeWindowList timeWindows = new TimeWindowList();
@@ -421,7 +433,8 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
         argumentList.add(positionArgument);
         argumentList.add(interestArgument);
 
-        ObjectId requestTemplateId = COMObjectIdHelper.getObjectId(2L, PlanInformationManagementHelper.REQUESTTEMPLATE_OBJECT_TYPE);
+        ObjectId requestTemplateId = COMObjectIdHelper.getObjectId(2L,
+                                                                   PlanInformationManagementHelper.REQUESTTEMPLATE_OBJECT_TYPE);
 
         ConstraintNode constraints = new ConstraintNode();
 
@@ -471,18 +484,28 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
         }
 
         try {
-            this.planningRequestService.getPlanningRequestStub().asyncUpdateRequest(identityId, updatedRequestVersion, new PlanningRequestAdapter() {
-                @Override
-                public void updateRequestResponseReceived(MALMessageHeader msgHeader, Long requestVersionId, Map qosProperties) {
-                    getRequestAllButtonActionPerformed(null);
-                }
+            this.planningRequestService.getPlanningRequestStub()
+                                       .asyncUpdateRequest(identityId, updatedRequestVersion,
+                                                           new PlanningRequestAdapter() {
+                                                               @Override
+                                                               public void updateRequestResponseReceived(MALMessageHeader msgHeader,
+                                                                                                         Long requestVersionId,
+                                                                                                         Map qosProperties) {
+                                                                   getRequestAllButtonActionPerformed(null);
+                                                               }
 
-                @Override
-                public void updateRequestErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
-                    JOptionPane.showMessageDialog(null, "There was an error during the updateRequest operation.\n" + error.toString() , "Error", JOptionPane.PLAIN_MESSAGE);
-                    LOGGER.log(Level.SEVERE, null, error);
-                }
-            });
+                                                               @Override
+                                                               public void updateRequestErrorReceived(MALMessageHeader msgHeader,
+                                                                                                      MALStandardError error,
+                                                                                                      Map qosProperties) {
+                                                                   JOptionPane.showMessageDialog(null,
+                                                                                                 "There was an error during the updateRequest operation.\n" +
+                                                                                                       error.toString(),
+                                                                                                 "Error",
+                                                                                                 JOptionPane.PLAIN_MESSAGE);
+                                                                   LOGGER.log(Level.SEVERE, null, error);
+                                                               }
+                                                           });
         } catch (MALInteractionException | MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
@@ -497,18 +520,25 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
         Long identityId = planningRequestTable.getSelectedIdentityObjId();
 
         try {
-            this.planningRequestService.getPlanningRequestStub().asyncCancelRequest(identityId, new PlanningRequestAdapter() {
-                @Override
-                public void cancelRequestAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
-                    getRequestStatusAllButtonActionPerformed(null);
-                }
+            this.planningRequestService.getPlanningRequestStub()
+                                       .asyncCancelRequest(identityId, new PlanningRequestAdapter() {
+                                           @Override
+                                           public void cancelRequestAckReceived(MALMessageHeader msgHeader,
+                                                                                Map qosProperties) {
+                                               getRequestStatusAllButtonActionPerformed(null);
+                                           }
 
-                @Override
-                public void cancelRequestErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
-                    JOptionPane.showMessageDialog(null, "There was an error during the cancelRequest operation.\n" + error.toString() , "Error", JOptionPane.PLAIN_MESSAGE);
-                    LOGGER.log(Level.SEVERE, null, error);
-                }
-            });
+                                           @Override
+                                           public void cancelRequestErrorReceived(MALMessageHeader msgHeader,
+                                                                                  MALStandardError error,
+                                                                                  Map qosProperties) {
+                                               JOptionPane.showMessageDialog(null,
+                                                                             "There was an error during the cancelRequest operation.\n" +
+                                                                                   error.toString(), "Error",
+                                                                             JOptionPane.PLAIN_MESSAGE);
+                                               LOGGER.log(Level.SEVERE, null, error);
+                                           }
+                                       });
         } catch (MALInteractionException | MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
@@ -521,23 +551,28 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
         try {
             this.planningRequestService.getPlanningRequestStub().asyncGetRequest(filter, new PlanningRequestAdapter() {
                 @Override
-                public void getRequestResponseReceived(MALMessageHeader msgHeader, LongList requestIdentityIds, LongList requestInstanceIds, RequestVersionDetailsList requestVersions, Map qosProperties) {
+                public void getRequestResponseReceived(MALMessageHeader msgHeader, LongList requestIdentityIds,
+                                                       LongList requestInstanceIds,
+                                                       RequestVersionDetailsList requestVersions, Map qosProperties) {
                     org.ccsds.moims.mo.mc.structures.ObjectInstancePairList ids = new org.ccsds.moims.mo.mc.structures.ObjectInstancePairList();
                     for (int index = 0; index < requestIdentityIds.size(); index++) {
-                        ids.add(new org.ccsds.moims.mo.mc.structures.ObjectInstancePair(
-                            requestIdentityIds.get(index),
-                            requestInstanceIds.get(index)
-                        ));
+                        ids.add(new org.ccsds.moims.mo.mc.structures.ObjectInstancePair(requestIdentityIds.get(index),
+                                                                                        requestInstanceIds.get(index)));
                     }
-                    planningRequestTable.refreshTableWithIds(ids, planningRequestService.getConnectionDetails().getDomain(), PlanningRequestHelper.REQUESTVERSION_OBJECT_TYPE);
+                    planningRequestTable.refreshTableWithIds(ids, planningRequestService.getConnectionDetails()
+                                                                                        .getDomain(),
+                                                             PlanningRequestHelper.REQUESTVERSION_OBJECT_TYPE);
 
                     jScrollPane2.setViewportView(planningRequestTable);
-                    LOGGER.log(Level.INFO, "getRequest(\"*\") returned {0} object instance identifiers", requestIdentityIds.size());
+                    LOGGER.log(Level.INFO, "getRequest(\"*\") returned {0} object instance identifiers",
+                               requestIdentityIds.size());
                 }
 
                 @Override
-                public void getRequestResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
-                    JOptionPane.showMessageDialog(null, "There was an error during the getRequest operation.\n" + error.toString(), "Error", JOptionPane.PLAIN_MESSAGE);
+                public void getRequestResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                                                            Map qosProperties) {
+                    JOptionPane.showMessageDialog(null, "There was an error during the getRequest operation.\n" +
+                                                        error.toString(), "Error", JOptionPane.PLAIN_MESSAGE);
                     LOGGER.log(Level.SEVERE, null, error);
                 }
             });
@@ -553,29 +588,38 @@ public class PlanningRequestConsumerPanel extends javax.swing.JPanel {
         filter.setReturnAll(true);
 
         try {
-            this.planningRequestService.getPlanningRequestStub().asyncGetRequestStatus(filter, new PlanningRequestAdapter() {
+            this.planningRequestService.getPlanningRequestStub()
+                                       .asyncGetRequestStatus(filter, new PlanningRequestAdapter() {
 
-                @Override
-                public void getRequestStatusResponseReceived(MALMessageHeader msgHeader, LongList requestIdentityIds, LongList requestVersionIds, RequestUpdateDetailsList requestUpdate, Map qosProperties) {
-                    planningRequestStatusTable.removeAllEntries();
-                    for (int index = 0; index < requestIdentityIds.size(); index++) {
-                        planningRequestStatusTable.addEntry(
-                            requestIdentityIds.get(index),
-                            requestVersionIds.get(index),
-                            requestUpdate.get(index)
-                        );
-                    }
-                    jScrollPane2.setViewportView(planningRequestStatusTable);
-                    LOGGER.log(Level.INFO, "getRequestStatus(\"*\") returned {0} object instance identifiers", requestVersionIds.size());
-                }
+                                           @Override
+                                           public void getRequestStatusResponseReceived(MALMessageHeader msgHeader,
+                                                                                        LongList requestIdentityIds,
+                                                                                        LongList requestVersionIds,
+                                                                                        RequestUpdateDetailsList requestUpdate,
+                                                                                        Map qosProperties) {
+                                               planningRequestStatusTable.removeAllEntries();
+                                               for (int index = 0; index < requestIdentityIds.size(); index++) {
+                                                   planningRequestStatusTable.addEntry(requestIdentityIds.get(index),
+                                                                                       requestVersionIds.get(index),
+                                                                                       requestUpdate.get(index));
+                                               }
+                                               jScrollPane2.setViewportView(planningRequestStatusTable);
+                                               LOGGER.log(Level.INFO,
+                                                          "getRequestStatus(\"*\") returned {0} object instance identifiers",
+                                                          requestVersionIds.size());
+                                           }
 
-                @Override
-                public void getRequestStatusErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
-                    JOptionPane.showMessageDialog(null, "There was an error during the getRequestStatus operation.\n" + error.toString(), "Error", JOptionPane.PLAIN_MESSAGE);
-                    LOGGER.log(Level.SEVERE, null, error);
-                }
-            }
-            );
+                                           @Override
+                                           public void getRequestStatusErrorReceived(MALMessageHeader msgHeader,
+                                                                                     MALStandardError error,
+                                                                                     Map qosProperties) {
+                                               JOptionPane.showMessageDialog(null,
+                                                                             "There was an error during the getRequestStatus operation.\n" +
+                                                                                   error.toString(), "Error",
+                                                                             JOptionPane.PLAIN_MESSAGE);
+                                               LOGGER.log(Level.SEVERE, null, error);
+                                           }
+                                       });
         } catch (MALInteractionException e) {
             LOGGER.log(Level.SEVERE, null, e);
         } catch (MALException e) {

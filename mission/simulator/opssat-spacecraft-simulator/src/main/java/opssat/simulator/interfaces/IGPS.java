@@ -26,48 +26,48 @@ package opssat.simulator.interfaces;
  * @author Cezar Suteu
  */
 public interface IGPS {
-//# String latitude
-//# String longitude
-//# String altitude
+    //# String latitude
+    //# String longitude
+    //# String altitude
 
-  /**
-   * <pre>
-   * Obtain a NMEA response for a given NMEA sentence
-   * Input parameters:String inputSentence
-   * Return parameters:String
-   * Size of returned parameters: 0
-   *
-   * </pre>
-   */
-  String getNMEASentence(String inputSentence);// 2001
+    /**
+     * <pre>
+     * Obtain a NMEA response for a given NMEA sentence
+     * Input parameters:String inputSentence
+     * Return parameters:String
+     * Size of returned parameters: 0
+     *
+     * </pre>
+     */
+    String getNMEASentence(String inputSentence);// 2001
 
-  /**
-   * <pre>
-   * Obtain the last known position of the s/c
-   * Input parameters:
-   * Return parameters:String
-   * Size of returned parameters: 0
-   *
-   * </pre>
-   */
-  String getLastKnownPosition();// 2002
+    /**
+     * <pre>
+     * Obtain the last known position of the s/c
+     * Input parameters:
+     * Return parameters:String
+     * Size of returned parameters: 0
+     *
+     * </pre>
+     */
+    String getLastKnownPosition();// 2002
 
-  /**
-   * <pre>
-   * Obtain the x-, y- and z-coordinates of the satellite
-   * in an Earth-fixed cartesian coordinate system.
-   * </pre>
-   * 
-   * @return String containing the coordinates and velocity of the satellite
-   */
-  String getBestXYZSentence();// 2003
+    /**
+     * <pre>
+     * Obtain the x-, y- and z-coordinates of the satellite
+     * in an Earth-fixed cartesian coordinate system.
+     * </pre>
+     * 
+     * @return String containing the coordinates and velocity of the satellite
+     */
+    String getBestXYZSentence();// 2003
 
-  /**
-   * <pre>
-   * Obtain current UTC time information.
-   * </pre>
-   * 
-   * @return UTC time information
-   */
-  String getTIMEASentence();// 2004
+    /**
+     * <pre>
+     * Obtain current UTC time information.
+     * </pre>
+     * 
+     * @return UTC time information
+     */
+    String getTIMEASentence();// 2004
 }

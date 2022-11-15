@@ -65,7 +65,8 @@ public class PlanDistributionConsumerServiceImpl extends ConsumerServiceImpl {
         return new PlanDistributionStub(tmConsumer);
     }
 
-    public PlanDistributionConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices) throws MALException, MalformedURLException {
+    public PlanDistributionConsumerServiceImpl(SingleConnectionDetails connectionDetails,
+                                               COMServicesConsumer comServices) throws MALException, MalformedURLException {
         if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
             MALHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
@@ -96,11 +97,10 @@ public class PlanDistributionConsumerServiceImpl extends ConsumerServiceImpl {
             }
         }
 
-        tmConsumer = connection.startService(
-            this.connectionDetails.getProviderURI(),
-            this.connectionDetails.getBrokerURI(),
-            this.connectionDetails.getDomain(),
-            PlanDistributionHelper.PLANDISTRIBUTION_SERVICE);
+        tmConsumer = connection.startService(this.connectionDetails.getProviderURI(), this.connectionDetails
+                                                                                                            .getBrokerURI(),
+                                             this.connectionDetails.getDomain(),
+                                             PlanDistributionHelper.PLANDISTRIBUTION_SERVICE);
 
         this.planDistributionService = new PlanDistributionStub(tmConsumer);
     }

@@ -38,9 +38,9 @@ public interface PMBackend {
     void uninstall(final String packageName, final boolean keepUserData);
 
     void upgrade(final String packageName);
-    
+
     boolean isPackageInstalled(final String packageName);
-    
+
     boolean checkPackageIntegrity(final String packageName) throws UnsupportedOperationException;
 
     String getPublicKey(String value);

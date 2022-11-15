@@ -73,7 +73,7 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
      * @throws MALException On initialisation error.
      */
     public synchronized void init(COMServicesProvider localCOMServices,
-            ActionConsumerServiceImpl actionConsumer) throws MALException {
+                                  ActionConsumerServiceImpl actionConsumer) throws MALException {
         if (!initialiased) {
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -92,14 +92,12 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
             }
 
             if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION)
-                        .getServiceByName(ConfigurationHelper.CONFIGURATION_SERVICE_NAME) == null)
-            {
+                                 .getServiceByName(ConfigurationHelper.CONFIGURATION_SERVICE_NAME) == null) {
                 ConfigurationHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
             if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION)
-                        .getServiceByName(ActionHelper.ACTION_SERVICE_NAME) == null)
-            {
+                                 .getServiceByName(ActionHelper.ACTION_SERVICE_NAME) == null) {
                 ActionHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
         }
@@ -133,8 +131,8 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
             connection.closeAll();
             running = false;
         } catch (MALException ex) {
-            Logger.getLogger(ActionProxyServiceImpl.class.getName()).log(Level.WARNING,
-                    "Exception during close down of the provider {0}", ex);
+            Logger.getLogger(ActionProxyServiceImpl.class.getName())
+                  .log(Level.WARNING, "Exception during close down of the provider {0}", ex);
         }
     }
 
@@ -144,44 +142,37 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
 
     @Override
     public void submitAction(Long actionInstId, ActionInstanceDetails actionDetails,
-            MALInteraction interaction) throws MALInteractionException, MALException {
+                             MALInteraction interaction) throws MALInteractionException, MALException {
         // Publish Activity Tracking event: Reception Event
-        manager.getCOMServices().getActivityTrackingService().publishReceptionEvent(
-                interaction,
-                true,
-                new Duration(0),
-                actionConsumer.getConnectionDetails().getProviderURI(),
-                null);
+        manager.getCOMServices()
+               .getActivityTrackingService()
+               .publishReceptionEvent(interaction, true, new Duration(0), actionConsumer.getConnectionDetails()
+                                                                                        .getProviderURI(), null);
 
-        actionConsumer.getActionStub().asyncSubmitAction(
-                actionInstId,
-                actionDetails,
-                new ActionAdapter() {
+        actionConsumer.getActionStub().asyncSubmitAction(actionInstId, actionDetails, new ActionAdapter() {
             @Override
             public void submitActionAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
                 // Expected!
             }
 
             @Override
-            public void submitActionErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
-                Logger.getLogger(ActionProxyServiceImpl.class.getName()).log(Level.WARNING,
-                        "The Action could not be submitted to the provider. {0}", error);
+            public void submitActionErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                                                  Map qosProperties) {
+                Logger.getLogger(ActionProxyServiceImpl.class.getName())
+                      .log(Level.WARNING, "The Action could not be submitted to the provider. {0}", error);
             }
-        }
-        );
+        });
 
         // Publish Activity Tracking event: Forward Event
-        manager.getCOMServices().getActivityTrackingService().publishForwardEvent(
-                interaction,
-                true,
-                new Duration(0),
-                actionConsumer.getConnectionDetails().getProviderURI(),
-                null);
+        manager.getCOMServices()
+               .getActivityTrackingService()
+               .publishForwardEvent(interaction, true, new Duration(0), actionConsumer.getConnectionDetails()
+                                                                                      .getProviderURI(), null);
     }
 
     @Override
     public Boolean preCheckAction(ActionInstanceDetails actionDetails,
-            MALInteraction interaction) throws MALInteractionException, MALException {
+                                  MALInteraction interaction) throws MALInteractionException, MALException {
         UIntegerList invIndexList = new UIntegerList();
 
         // 3.2.10.3.2
@@ -202,19 +193,19 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
 
     @Override
     public ObjectInstancePairList listDefinition(IdentifierList il,
-            MALInteraction mali) throws MALInteractionException, MALException {
+                                                 MALInteraction mali) throws MALInteractionException, MALException {
         return actionConsumer.getActionStub().listDefinition(il);
     }
 
     @Override
     public ObjectInstancePairList addAction(ActionCreationRequestList acrl,
-            MALInteraction mali) throws MALInteractionException, MALException {
+                                            MALInteraction mali) throws MALInteractionException, MALException {
         return actionConsumer.getActionStub().addAction(acrl);
     }
 
     @Override
     public LongList updateDefinition(LongList ll, ActionDefinitionDetailsList addl,
-            MALInteraction mali) throws MALInteractionException, MALException {
+                                     MALInteraction mali) throws MALInteractionException, MALException {
         return actionConsumer.getActionStub().updateDefinition(ll, addl);
     }
 

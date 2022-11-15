@@ -18,17 +18,18 @@ import esa.mo.com.impl.archive.entities.COMObjectEntity;
 final class CallableGetCOMObjects implements Callable<List<COMObjectEntity>> {
 
     // for sqlite. %s will be replaced with proper ids.
-    private final static String SELECT_COM_OBJECTS = "SELECT objectTypeId, domainId, objId, "
-            + "timestampArchiveDetails, providerURI, network, sourceLinkObjectTypeId, "
-            + "sourceLinkDomainId, sourceLinkObjId, relatedLink, objBody " + "FROM COMObjectEntity "
-            + "WHERE ((objectTypeId = %s) AND (domainId = %s) AND (objId in (%s)))";
+    private final static String SELECT_COM_OBJECTS = "SELECT objectTypeId, domainId, objId, " +
+                                                     "timestampArchiveDetails, providerURI, network, sourceLinkObjectTypeId, " +
+                                                     "sourceLinkDomainId, sourceLinkObjId, relatedLink, objBody " +
+                                                     "FROM COMObjectEntity " +
+                                                     "WHERE ((objectTypeId = %s) AND (domainId = %s) AND (objId in (%s)))";
     private final TransactionsProcessor transactionsProcessor;
     private final LongList ids;
     private final Integer domainId;
     private final Integer objTypeId;
 
     CallableGetCOMObjects(TransactionsProcessor transactionsProcessor, LongList ids, Integer domainId,
-            Integer objTypeId) {
+                          Integer objTypeId) {
         this.transactionsProcessor = transactionsProcessor;
         this.ids = ids;
         this.domainId = domainId;
@@ -65,12 +66,15 @@ final class CallableGetCOMObjects implements Callable<List<COMObjectEntity>> {
 
             while (rs.next()) {
                 perObjs.add(new COMObjectEntity((Integer) rs.getObject(1), (Integer) rs.getObject(2),
-                        TransactionsProcessor.convert2Long(rs.getObject(3)),
-                        TransactionsProcessor.convert2Long(rs.getObject(4)), (Integer) rs.getObject(5),
-                        (Integer) rs.getObject(6),
-                        new SourceLinkContainer((Integer) rs.getObject(7), (Integer) rs.getObject(8),
-                                TransactionsProcessor.convert2Long(rs.getObject(9))),
-                        TransactionsProcessor.convert2Long(rs.getObject(10)), (byte[]) rs.getObject(11)));
+                                                TransactionsProcessor.convert2Long(rs.getObject(3)),
+                                                TransactionsProcessor.convert2Long(rs.getObject(4)), (Integer) rs
+                                                                                                                 .getObject(5),
+                                                (Integer) rs.getObject(6), new SourceLinkContainer((Integer) rs
+                                                                                                               .getObject(7),
+                                                                                                   (Integer) rs.getObject(8),
+                                                                                                   TransactionsProcessor.convert2Long(rs.getObject(9))),
+                                                TransactionsProcessor.convert2Long(rs.getObject(10)), (byte[]) rs
+                                                                                                                 .getObject(11)));
             }
         } catch (SQLException ex) {
             TransactionsProcessor.LOGGER.log(Level.SEVERE, null, ex);

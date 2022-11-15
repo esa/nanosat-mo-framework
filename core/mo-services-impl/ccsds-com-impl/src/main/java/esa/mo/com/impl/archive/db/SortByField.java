@@ -51,7 +51,8 @@ public class SortByField implements Comparator {
     private final String fieldName;
     private Field field;
 
-    SortByField(Class<?> beanClass, String fieldName, boolean ascending) throws NoSuchFieldException, SecurityException {
+    SortByField(Class<?> beanClass, String fieldName,
+                boolean ascending) throws NoSuchFieldException, SecurityException {
         this.ascending = ascending;
 
         if (fieldName != null) {  // Is it timestamp sorting?
@@ -95,7 +96,7 @@ public class SortByField implements Comparator {
                         this.field.setAccessible(true);
                     } else {
                         // Then it is a Enumeration
-//                                obj = ((Enumeration) obj).getNumericValue();
+                        //                                obj = ((Enumeration) obj).getNumericValue();
                     }
                 }
             }
@@ -162,7 +163,7 @@ public class SortByField implements Comparator {
         /*
         Object c1;
         Object c2;
-
+        
         if (this.ascending) {
             c1 = obj1;
             c2 = obj2;
@@ -190,13 +191,14 @@ public class SortByField implements Comparator {
         }
 
         if (c1 instanceof java.lang.Integer) {
-//                return ((int) c1 - (int) c2);
-//                return (((Integer) c1).intValue() - ((Integer) c2).intValue());
+            //                return ((int) c1 - (int) c2);
+            //                return (((Integer) c1).intValue() - ((Integer) c2).intValue());
             return (((Integer) c1) - ((Integer) c2));
         }
 
         if (c1 instanceof Enumeration) {
-            return (int) (((Enumeration) c1).getNumericValue().getValue() - ((Enumeration) c2).getNumericValue().getValue());
+            return (int) (((Enumeration) c1).getNumericValue().getValue() -
+                          ((Enumeration) c2).getNumericValue().getValue());
         }
 
         if (c1 instanceof Attribute) {
@@ -225,9 +227,9 @@ public class SortByField implements Comparator {
         return ((String) c1).compareToIgnoreCase((String) c2);
     }
 
-    public static ArrayList<ArchivePersistenceObject> sortPersistenceObjects(
-            final ArrayList<ArchivePersistenceObject> perObjs, final String fieldString,
-            final Boolean ascending) throws NoSuchFieldException {
+    public static ArrayList<ArchivePersistenceObject> sortPersistenceObjects(final ArrayList<ArchivePersistenceObject> perObjs,
+                                                                             final String fieldString,
+                                                                             final Boolean ascending) throws NoSuchFieldException {
 
         IdentifierList tmpDomain;
         ObjectType tmpObjType;
@@ -245,8 +247,8 @@ public class SortByField implements Comparator {
 
             // Make a stack B with all the equal pairs domain+objType
             for (int index = 0; index < perObjs.size(); index++) { // Let's cycle the complete stack A
-                if (perObjs.get(index).getDomain().equals(tmpDomain)
-                        && perObjs.get(index).getObjectType().equals(tmpObjType)) { // if the pair is the same...
+                if (perObjs.get(index).getDomain().equals(tmpDomain) &&
+                    perObjs.get(index).getObjectType().equals(tmpObjType)) { // if the pair is the same...
                     stackB.add(perObjs.get(index));
                     perObjs.remove(index);
                     index--; // index has to be the same on next iteration; counter the index++
@@ -261,7 +263,8 @@ public class SortByField implements Comparator {
     }
 
     private static ArrayList<ArchivePersistenceObject> sortStack(ArrayList<ArchivePersistenceObject> stack,
-            final String fieldString, final Boolean ascending) throws NoSuchFieldException {
+                                                                 final String fieldString,
+                                                                 final Boolean ascending) throws NoSuchFieldException {
 
         if (stack == null) {
             return null;

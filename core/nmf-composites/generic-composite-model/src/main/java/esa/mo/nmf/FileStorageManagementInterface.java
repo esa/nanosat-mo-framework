@@ -28,7 +28,7 @@ import java.util.ArrayList;
  * 
  */
 public interface FileStorageManagementInterface {
-    
+
     /**
      * Lists the Folders available in the specified path
      *
@@ -36,7 +36,7 @@ public interface FileStorageManagementInterface {
      * @return A list of Folders
      */
     ArrayList<String> listFolders(final boolean path);
-    
+
     /**
      * Creates a folder in the specified path
      *
@@ -53,7 +53,7 @@ public interface FileStorageManagementInterface {
      * @param newName The new name of the folder
      */
     void renameFolder(final boolean path, final String oldName, final String newName);
-    
+
     /**
      * The publishAlertEvent operation allows an external software entity to
      * publish Alert events through the Alert service
@@ -63,5 +63,5 @@ public interface FileStorageManagementInterface {
      * If there is any error, then a null shall be returned instead
      */
     Long getFolderUsageStats(final String path);
-    
+
 }

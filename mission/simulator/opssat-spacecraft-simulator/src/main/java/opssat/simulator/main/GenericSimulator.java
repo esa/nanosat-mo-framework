@@ -72,11 +72,11 @@ public abstract class GenericSimulator {
     public void setpOpticalReceiver(POpticalReceiver pOpticalReceiver) {
         this.pOpticalReceiver = pOpticalReceiver;
     }
-    
+
     PGPS pGPS;
     PFineADCS pFineADCS;
     PSDR pSDR;
     PCamera pCamera;
     POpticalReceiver pOpticalReceiver;
-    
+
 }

@@ -41,8 +41,8 @@ public class AlertTablePanel extends SharedTablePanel {
     @Override
     public void addEntry(final Identifier name, final ArchivePersistenceObject comObject) {
         if (comObject == null) {
-            Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE,
-                    "The table cannot process a null COM Object.");
+            Logger.getLogger(SharedTablePanel.class.getName())
+                  .log(Level.SEVERE, "The table cannot process a null COM Object.");
             return;
         }
 
@@ -54,13 +54,9 @@ public class AlertTablePanel extends SharedTablePanel {
 
         AlertDefinitionDetails pDef = (AlertDefinitionDetails) comObject.getObject();
 
-        tableData.addRow(new Object[]{
-            comObject.getArchiveDetails().getDetails().getRelated(),
-            name.toString(),
-            pDef.getDescription(),
-            pDef.getSeverity().toString(),
-            pDef.getGenerationEnabled()
-        });
+        tableData.addRow(new Object[]{comObject.getArchiveDetails().getDetails().getRelated(), name.toString(), pDef
+                                                                                                                    .getDescription(),
+                                      pDef.getSeverity().toString(), pDef.getGenerationEnabled()});
 
         comObjects.add(comObject);
         semaphore.release();
@@ -100,15 +96,11 @@ public class AlertTablePanel extends SharedTablePanel {
 
     @Override
     public void defineTableContent() {
-        String[] tableCol = new String[]{
-            "Identity", "name", "description", "Severity", "generationEnabled"};
+        String[] tableCol = new String[]{"Identity", "name", "description", "Severity", "generationEnabled"};
 
-        tableData = new javax.swing.table.DefaultTableModel(
-                new Object[][]{}, tableCol) {
-            Class[] types = new Class[]{
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class,
-                java.lang.String.class, java.lang.Boolean.class
-            };
+        tableData = new javax.swing.table.DefaultTableModel(new Object[][]{}, tableCol) {
+            Class[] types = new Class[]{java.lang.Integer.class, java.lang.String.class, java.lang.String.class,
+                                        java.lang.String.class, java.lang.Boolean.class};
 
             @Override               //all cells false
             public boolean isCellEditable(int row, int column) {

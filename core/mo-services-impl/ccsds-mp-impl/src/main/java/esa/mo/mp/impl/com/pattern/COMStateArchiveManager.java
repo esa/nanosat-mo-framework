@@ -43,26 +43,29 @@ import esa.mo.mp.impl.com.COMConfiguration;
  *
  * @see COMArchiveManager
  */
-public class COMStateArchiveManager <IdentityT extends Element, IdentityListT extends ElementList, DefinitionT extends Element, DefinitionListT extends ElementList, StatusT extends Element, StatusListT extends ElementList>
-        extends COMArchiveManager<IdentityT, IdentityListT, DefinitionT, DefinitionListT, Element, ElementList, StatusT, StatusListT> {
+public class COMStateArchiveManager<IdentityT extends Element, IdentityListT extends ElementList, DefinitionT extends Element, DefinitionListT extends ElementList, StatusT extends Element, StatusListT extends ElementList> extends COMArchiveManager<IdentityT, IdentityListT, DefinitionT, DefinitionListT, Element, ElementList, StatusT, StatusListT> {
 
     public COMStateArchiveManager(COMServicesProvider comServices, COMConfiguration configuration) {
         super(comServices, configuration);
     }
 
-    public ObjectIdPair addDefinition(Identifier identity, DefinitionT definition, ObjectId source, MALInteraction interaction) throws MALException, MALInteractionException {
+    public ObjectIdPair addDefinition(Identifier identity, DefinitionT definition, ObjectId source,
+                                      MALInteraction interaction) throws MALException, MALInteractionException {
         return super.addCOMObject(identity, definition, source, interaction);
     }
 
-    public ObjectIdPairList addDefinitions(IdentifierList identities, DefinitionListT definitions, ObjectId source, MALInteraction interaction) throws MALException, MALInteractionException {
+    public ObjectIdPairList addDefinitions(IdentifierList identities, DefinitionListT definitions, ObjectId source,
+                                           MALInteraction interaction) throws MALException, MALInteractionException {
         return super.addCOMObjects(identities, definitions, source, interaction);
     }
 
-    public ObjectId addStatus(ObjectId definitionId, StatusT status, ObjectId source, MALInteraction interaction) throws MALException, MALInteractionException {
+    public ObjectId addStatus(ObjectId definitionId, StatusT status, ObjectId source,
+                              MALInteraction interaction) throws MALException, MALInteractionException {
         return super.addCOMObject(definitionId, status, source, interaction);
     }
 
-    public ObjectIdList addStatuses(ObjectIdList definitionIds, StatusListT statuses, ObjectId source, MALInteraction interaction) throws MALException, MALInteractionException {
+    public ObjectIdList addStatuses(ObjectIdList definitionIds, StatusListT statuses, ObjectId source,
+                                    MALInteraction interaction) throws MALException, MALInteractionException {
         return super.addCOMObjects(definitionIds, statuses, source, interaction);
     }
 
@@ -154,27 +157,33 @@ public class COMStateArchiveManager <IdentityT extends Element, IdentityListT ex
         return (StatusListT) super.getObjects(statusIds);
     }
 
-    public ObjectId updateDefinition(ObjectId identityId, DefinitionT definition, ObjectId source, MALInteraction interaction) throws MALException, MALInteractionException {
+    public ObjectId updateDefinition(ObjectId identityId, DefinitionT definition, ObjectId source,
+                                     MALInteraction interaction) throws MALException, MALInteractionException {
         return super.updateCOMObject(identityId, definition, source, interaction);
     }
 
-    public ObjectIdList updateDefinitions(ObjectIdList identityIds, DefinitionListT definitions, ObjectId source, MALInteraction interaction) throws MALException, MALInteractionException {
+    public ObjectIdList updateDefinitions(ObjectIdList identityIds, DefinitionListT definitions, ObjectId source,
+                                          MALInteraction interaction) throws MALException, MALInteractionException {
         return super.updateCOMObjects(identityIds, definitions, source, interaction);
     }
 
-    public ObjectId updateStatus(ObjectId definitionId, StatusT status, ObjectId source, MALInteraction interaction) throws MALException, MALInteractionException {
+    public ObjectId updateStatus(ObjectId definitionId, StatusT status, ObjectId source,
+                                 MALInteraction interaction) throws MALException, MALInteractionException {
         return super.updateCOMObject(definitionId, status, source, interaction);
     }
 
-    public ObjectIdList updateStatuses(ObjectIdList definitionIds, StatusListT statuses, ObjectId source, MALInteraction interaction) throws MALException, MALInteractionException {
+    public ObjectIdList updateStatuses(ObjectIdList definitionIds, StatusListT statuses, ObjectId source,
+                                       MALInteraction interaction) throws MALException, MALInteractionException {
         return super.updateCOMObjects(definitionIds, statuses, source, interaction);
     }
 
-    public void removeDefinition(ObjectId identityId, MALInteraction interaction) throws MALException, MALInteractionException {
+    public void removeDefinition(ObjectId identityId,
+                                 MALInteraction interaction) throws MALException, MALInteractionException {
         super.removeObject(identityId, interaction);
     }
 
-    public void removeDefinitions(ObjectIdList identityIds, MALInteraction interaction) throws MALException, MALInteractionException {
+    public void removeDefinitions(ObjectIdList identityIds,
+                                  MALInteraction interaction) throws MALException, MALInteractionException {
         super.removeObjects(identityIds, interaction);
     }
 }

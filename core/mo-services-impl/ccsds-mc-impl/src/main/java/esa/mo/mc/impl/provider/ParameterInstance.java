@@ -38,26 +38,26 @@ public class ParameterInstance {
     private final ObjectId source;
     private final Time timestamp;
 
-    public ParameterInstance(final Identifier name, final Attribute value,
-            final ObjectId source, final Time timestamp) {
+    public ParameterInstance(final Identifier name, final Attribute value, final ObjectId source,
+                             final Time timestamp) {
         this.name = name;
         this.parameterValue = new ParameterValue();
         this.source = source;
         this.timestamp = timestamp;
-        
+
         this.parameterValue.setRawValue(value);
         this.parameterValue.setConvertedValue(null);
         this.parameterValue.setValidityState(new UOctet((short) 0));
     }
 
-    public ParameterInstance(final Identifier name, final ParameterValue pValue,
-            final ObjectId source, final Time timestamp) {
+    public ParameterInstance(final Identifier name, final ParameterValue pValue, final ObjectId source,
+                             final Time timestamp) {
         this.name = name;
         this.parameterValue = pValue;
         this.source = source;
         this.timestamp = timestamp;
     }
-    
+
     public Identifier getName() {
         return this.name;
     }

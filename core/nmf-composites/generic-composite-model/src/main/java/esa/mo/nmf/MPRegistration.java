@@ -39,15 +39,13 @@ public class MPRegistration {
     public enum RegistrationMode {
         UPDATE_IF_EXISTS, DONT_UPDATE_IF_EXISTS
     };
+
     private RegistrationMode mode = RegistrationMode.DONT_UPDATE_IF_EXISTS; // default mode
 
     public final COMServicesProvider comServices;
     public final MPServiceOperationManager operationCallbackManager;
 
-    public MPRegistration(
-        COMServicesProvider comServices,
-        MPServiceOperationManager operationCallbackManager
-    ) {
+    public MPRegistration(COMServicesProvider comServices, MPServiceOperationManager operationCallbackManager) {
         this.comServices = comServices;
         this.operationCallbackManager = operationCallbackManager;
     }

@@ -51,6 +51,5 @@ public class WholeTextAreaObject {
         this.textArea = textArea;
         this.updateValues = updateValues;
     }
-    
-    
+
 }

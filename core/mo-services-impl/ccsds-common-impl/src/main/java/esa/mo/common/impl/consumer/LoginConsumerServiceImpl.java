@@ -27,7 +27,6 @@ import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
-import org.ccsds.moims.mo.com.event.EventHelper;
 import org.ccsds.moims.mo.common.CommonHelper;
 import org.ccsds.moims.mo.common.login.LoginHelper;
 import org.ccsds.moims.mo.common.login.consumer.LoginStub;
@@ -65,14 +64,14 @@ public class LoginConsumerServiceImpl extends ConsumerServiceImpl {
         return this.loginService;
     }
 
-    public LoginConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices)
-            throws MALException, MalformedURLException, MALInteractionException {
+    public LoginConsumerServiceImpl(SingleConnectionDetails connectionDetails,
+                                    COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
         this(connectionDetails, comServices, null, null);
     }
 
-    public LoginConsumerServiceImpl(SingleConnectionDetails connectionDetails,
-                                    COMServicesConsumer comServices, Blob authenticationId, String localNamePrefix)
-            throws MALException, MalformedURLException, MALInteractionException {
+    public LoginConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices,
+                                    Blob authenticationId,
+                                    String localNamePrefix) throws MALException, MalformedURLException, MALInteractionException {
 
         if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
             MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -87,7 +86,7 @@ public class LoginConsumerServiceImpl extends ConsumerServiceImpl {
         }
 
         if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION)
-                    .getServiceByName(LoginHelper.LOGIN_SERVICE_NAME) == null) {
+                             .getServiceByName(LoginHelper.LOGIN_SERVICE_NAME) == null) {
             LoginHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
@@ -103,12 +102,10 @@ public class LoginConsumerServiceImpl extends ConsumerServiceImpl {
             }
         }
 
-        tmConsumer = connection.startService(
-                this.connectionDetails.getProviderURI(),
-                this.connectionDetails.getBrokerURI(),
-                this.connectionDetails.getDomain(),
-                LoginHelper.LOGIN_SERVICE,
-                authenticationId, localNamePrefix);
+        tmConsumer = connection.startService(this.connectionDetails.getProviderURI(), this.connectionDetails
+                                                                                                            .getBrokerURI(),
+                                             this.connectionDetails.getDomain(), LoginHelper.LOGIN_SERVICE,
+                                             authenticationId, localNamePrefix);
 
         this.loginService = new LoginStub(tmConsumer);
     }

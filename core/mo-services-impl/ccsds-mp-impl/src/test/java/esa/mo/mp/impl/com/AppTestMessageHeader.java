@@ -232,5 +232,4 @@ public class AppTestMessageHeader implements MALMessageHeader {
 
     }
 
-    
 }

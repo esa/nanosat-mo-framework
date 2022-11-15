@@ -56,7 +56,7 @@ public class ClockConsumerServiceImpl extends ConsumerServiceImpl {
     }
 
     public ClockConsumerServiceImpl(SingleConnectionDetails connectionDetails,
-            COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
+                                    COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
         this.connectionDetails = connectionDetails;
         this.comServices = comServices;
 
@@ -69,11 +69,9 @@ public class ClockConsumerServiceImpl extends ConsumerServiceImpl {
             }
         }
 
-        tmConsumer = connection.startService(
-                this.connectionDetails.getProviderURI(),
-                this.connectionDetails.getBrokerURI(),
-                this.connectionDetails.getDomain(),
-                ClockHelper.CLOCK_SERVICE);
+        tmConsumer = connection.startService(this.connectionDetails.getProviderURI(), this.connectionDetails
+                                                                                                            .getBrokerURI(),
+                                             this.connectionDetails.getDomain(), ClockHelper.CLOCK_SERVICE);
 
         this.clockStub = new ClockStub(tmConsumer);
     }

@@ -55,16 +55,15 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface Action
-{
+public @interface Action {
 
-  String name() default "";
+    String name() default "";
 
-  String description() default "";
+    String description() default "";
 
-  short category() default 0;
+    short category() default 0;
 
-  int stepCount() default 0;
+    int stepCount() default 0;
 
-  String rawUnit() default "";
+    String rawUnit() default "";
 }

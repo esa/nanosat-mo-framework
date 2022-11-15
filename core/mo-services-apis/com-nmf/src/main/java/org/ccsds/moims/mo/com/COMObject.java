@@ -26,95 +26,71 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 /**
  *
  */
-public class COMObject
-{
-  private final ObjectType objectType;
-  private final Identifier objectName;
-  private final Object bodyShortForm;
-  private final boolean hasRelated;
-  private final ObjectType relatedType;
-  private final boolean hasSource;
-  private final ObjectType sourceType;
-  private final boolean event;
+public class COMObject {
+    private final ObjectType objectType;
+    private final Identifier objectName;
+    private final Object bodyShortForm;
+    private final boolean hasRelated;
+    private final ObjectType relatedType;
+    private final boolean hasSource;
+    private final ObjectType sourceType;
+    private final boolean event;
 
-  public COMObject(org.ccsds.moims.mo.mal.structures.UShort area,
-          org.ccsds.moims.mo.mal.structures.UShort service,
-          org.ccsds.moims.mo.mal.structures.UOctet version,
-          org.ccsds.moims.mo.mal.structures.UShort number,
-          Identifier name,
-          Object bodyShortForm,
-          boolean hasRelated,
-          ObjectType relatedType,
-          boolean hasSource,
-          ObjectType sourceType,
-          boolean isEvent)
-  {
-    this.objectType = new ObjectType(area, service, version, number);
-    this.objectName = name;
-    this.bodyShortForm = bodyShortForm;
-    this.hasRelated = hasRelated;
-    this.relatedType = relatedType;
-    this.hasSource = hasSource;
-    this.sourceType = sourceType;
-    this.event = isEvent;
-  }
+    public COMObject(org.ccsds.moims.mo.mal.structures.UShort area, org.ccsds.moims.mo.mal.structures.UShort service,
+                     org.ccsds.moims.mo.mal.structures.UOctet version, org.ccsds.moims.mo.mal.structures.UShort number,
+                     Identifier name, Object bodyShortForm, boolean hasRelated, ObjectType relatedType,
+                     boolean hasSource, ObjectType sourceType, boolean isEvent) {
+        this.objectType = new ObjectType(area, service, version, number);
+        this.objectName = name;
+        this.bodyShortForm = bodyShortForm;
+        this.hasRelated = hasRelated;
+        this.relatedType = relatedType;
+        this.hasSource = hasSource;
+        this.sourceType = sourceType;
+        this.event = isEvent;
+    }
 
-  public COMObject(ObjectType objectType,
-          Identifier name,
-          Object bodyShortForm,
-          boolean hasRelated,
-          ObjectType relatedType,
-          boolean hasSource,
-          ObjectType sourceType,
-          boolean isEvent)
-  {
-    this.objectType = objectType;
-    this.objectName = name;
-    this.bodyShortForm = bodyShortForm;
-    this.hasRelated = hasRelated;
-    this.relatedType = relatedType;
-    this.hasSource = hasSource;
-    this.sourceType = sourceType;
-    this.event = isEvent;
-  }
-  
-  public ObjectType getObjectType()
-  {
-    return objectType;
-  }
+    public COMObject(ObjectType objectType, Identifier name, Object bodyShortForm, boolean hasRelated,
+                     ObjectType relatedType, boolean hasSource, ObjectType sourceType, boolean isEvent) {
+        this.objectType = objectType;
+        this.objectName = name;
+        this.bodyShortForm = bodyShortForm;
+        this.hasRelated = hasRelated;
+        this.relatedType = relatedType;
+        this.hasSource = hasSource;
+        this.sourceType = sourceType;
+        this.event = isEvent;
+    }
 
-  public Identifier getObjectName()
-  {
-    return objectName;
-  }
+    public ObjectType getObjectType() {
+        return objectType;
+    }
 
-  public Object getBodyShortForm()
-  {
-    return bodyShortForm;
-  }
+    public Identifier getObjectName() {
+        return objectName;
+    }
 
-  public boolean hasRelated()
-  {
-    return hasRelated;
-  }
+    public Object getBodyShortForm() {
+        return bodyShortForm;
+    }
 
-  public ObjectType getRelatedType()
-  {
-    return relatedType;
-  }
+    public boolean hasRelated() {
+        return hasRelated;
+    }
 
-  public boolean hasSource()
-  {
-    return hasSource;
-  }
+    public ObjectType getRelatedType() {
+        return relatedType;
+    }
 
-  public ObjectType getSourceType()
-  {
-    return sourceType;
-  }
+    public boolean hasSource() {
+        return hasSource;
+    }
 
-  public boolean isEvent()
-  {
-    return event;
-  }
+    public ObjectType getSourceType() {
+        return sourceType;
+    }
+
+    public boolean isEvent() {
+        return event;
+    }
 }

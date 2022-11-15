@@ -40,41 +40,35 @@ import org.ccsds.moims.mo.mal.structures.Blob;
 /**
  * @author Cesar Coelho
  */
-public class ConfigurationConsumerServiceImpl extends ConsumerServiceImpl
-{
+public class ConfigurationConsumerServiceImpl extends ConsumerServiceImpl {
 
     private ConfigurationStub configurationService = null;
 
     private COMServicesConsumer comServices;
 
-    public ConfigurationConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices)
-            throws MALException, MalformedURLException, MALInteractionException
-    {
+    public ConfigurationConsumerServiceImpl(SingleConnectionDetails connectionDetails,
+                                            COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
         this(connectionDetails, comServices, null, null);
     }
 
     public ConfigurationConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices,
-                                            Blob authenticationId, String localNamePrefix)
-            throws MALException, MalformedURLException, MALInteractionException
-    {
+                                            Blob authenticationId,
+                                            String localNamePrefix) throws MALException, MalformedURLException, MALInteractionException {
 
-        if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null)
-        {
+        if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
             MALHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
-        if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null)
-        {
+        if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) == null) {
             COMHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
         }
 
-        if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION) == null)
-        {
+        if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION) == null) {
             CommonHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
         if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION)
-                    .getServiceByName(ConfigurationHelper.CONFIGURATION_SERVICE_NAME) == null) {
+                             .getServiceByName(ConfigurationHelper.CONFIGURATION_SERVICE_NAME) == null) {
             ConfigurationHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
@@ -82,45 +76,38 @@ public class ConfigurationConsumerServiceImpl extends ConsumerServiceImpl
         this.comServices = comServices;
 
         // Close old connection
-        if (tmConsumer != null)
-        {
-            try
-            {
+        if (tmConsumer != null) {
+            try {
                 tmConsumer.close();
-            }
-            catch (MALException ex)
-            {
+            } catch (MALException ex) {
                 Logger.getLogger(ConfigurationConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
-        tmConsumer =
-                connection.startService(this.connectionDetails.getProviderURI(), this.connectionDetails.getBrokerURI(),
-                                        this.connectionDetails.getDomain(), ConfigurationHelper.CONFIGURATION_SERVICE,
-                                        authenticationId, localNamePrefix);
+        tmConsumer = connection.startService(this.connectionDetails.getProviderURI(), this.connectionDetails
+                                                                                                            .getBrokerURI(),
+                                             this.connectionDetails.getDomain(),
+                                             ConfigurationHelper.CONFIGURATION_SERVICE, authenticationId,
+                                             localNamePrefix);
 
         this.configurationService = new ConfigurationStub(tmConsumer);
     }
 
-    public COMServicesConsumer getCOMServices()
-    {
+    public COMServicesConsumer getCOMServices() {
         return comServices;
     }
 
     @Override
-    public Object generateServiceStub(MALConsumer tmConsumer)
-    {
+    public Object generateServiceStub(MALConsumer tmConsumer) {
         return new ConfigurationStub(tmConsumer);
     }
 
     @Override
-    public Object getStub()
-    {
+    public Object getStub() {
         return this.getConfigurationStub();
     }
 
-    public ConfigurationStub getConfigurationStub()
-    {
+    public ConfigurationStub getConfigurationStub() {
         return this.configurationService;
     }
 

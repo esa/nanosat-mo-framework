@@ -41,112 +41,93 @@ import org.ccsds.moims.mo.mc.structures.ConditionalConversionList;
  * This class provides a simple Hello World demo cli provider
  *
  */
-public class DemoHelloWorldSimple
-{
+public class DemoHelloWorldSimple {
 
-  private final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
-  private static final String PARAMETER_NAME = "A_Parameter";
-  private static final String PARAMETER_DESCRIPTION = "My first parameter!";
-  private String var = "Hello World!";
-  private static final String ACTION_GO = "Go";
+    private final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
+    private static final String PARAMETER_NAME = "A_Parameter";
+    private static final String PARAMETER_DESCRIPTION = "My first parameter!";
+    private String var = "Hello World!";
+    private static final String ACTION_GO = "Go";
 
-  public DemoHelloWorldSimple()
-  {
-    connector.init(new MCAdapterSimple());
-  }
-
-  /**
-   * Main command line entry point.
-   *
-   * @param args the command line arguments
-   * @throws java.lang.Exception If there is an error
-   */
-  public static void main(final String[] args) throws Exception
-  {
-    DemoHelloWorldSimple demo = new DemoHelloWorldSimple();
-  }
-
-  public class MCAdapterSimple extends SimpleMonitorAndControlAdapter
-  {
-
-    @Override
-    public void initialRegistrations(MCRegistration registrationObject)
-    {
-      registrationObject.setMode(RegistrationMode.DONT_UPDATE_IF_EXISTS);
-
-      // ------------------ Parameters ------------------
-      final ParameterDefinitionDetailsList defs = new ParameterDefinitionDetailsList();
-      final IdentifierList names = new IdentifierList();
-
-      defs.add(new ParameterDefinitionDetails(
-          PARAMETER_DESCRIPTION,
-          Union.STRING_SHORT_FORM.byteValue(),
-          "",
-          false,
-          new Duration(3),
-          null,
-          null
-      ));
-      names.add(new Identifier(PARAMETER_NAME));
-      registrationObject.registerParameters(names, defs);
-
-      // ------------------ Actions ------------------
-      ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
-      IdentifierList actionNames = new IdentifierList();
-
-      ArgumentDefinitionDetailsList arguments1 = new ArgumentDefinitionDetailsList();
-      {
-        Byte rawType = Attribute._DOUBLE_TYPE_SHORT_FORM;
-        String rawUnit = "-";
-        ConditionalConversionList conditionalConversions = null;
-        Byte convertedType = null;
-        String convertedUnit = null;
-
-        arguments1.add(new ArgumentDefinitionDetails(new Identifier("1"), null,
-                rawType, rawUnit, conditionalConversions, convertedType, convertedUnit));
-      }
-
-      actionDefs.add(new ActionDefinitionDetails(
-              "Simple Go action with double value.",
-              new UOctet((short) 0),
-              new UShort(3),
-              arguments1
-      ));
-      actionNames.add(new Identifier(ACTION_GO));
-
-      registrationObject.registerActions(actionNames, actionDefs);
+    public DemoHelloWorldSimple() {
+        connector.init(new MCAdapterSimple());
     }
 
-    @Override
-    public Serializable onGetValueSimple(String name)
-    {
-      if (PARAMETER_NAME.equals(name)) {
-        return var;
-      }
-
-      return null;
+    /**
+     * Main command line entry point.
+     *
+     * @param args the command line arguments
+     * @throws java.lang.Exception If there is an error
+     */
+    public static void main(final String[] args) throws Exception {
+        DemoHelloWorldSimple demo = new DemoHelloWorldSimple();
     }
 
-    @Override
-    public boolean onSetValueSimple(String name, Serializable value)
-    {
-      if (PARAMETER_NAME.equals(name)) {
-        var = value.toString();
-        return true;  // to confirm that the variable was set
-      }
+    public class MCAdapterSimple extends SimpleMonitorAndControlAdapter {
 
-      return false;
-    }
+        @Override
+        public void initialRegistrations(MCRegistration registrationObject) {
+            registrationObject.setMode(RegistrationMode.DONT_UPDATE_IF_EXISTS);
 
-    @Override
-    public boolean actionArrivedSimple(String name, Serializable[] values,
-        Long actionInstanceObjId)
-    {
-      if (ACTION_GO.equals(name)) {
-        Logger.getLogger(DemoHelloWorldSimple.class.getName()).log(Level.INFO, "Action 'Go' activated. Success!");
-        return true; // Success!
-      }
-      return false;
+            // ------------------ Parameters ------------------
+            final ParameterDefinitionDetailsList defs = new ParameterDefinitionDetailsList();
+            final IdentifierList names = new IdentifierList();
+
+            defs.add(new ParameterDefinitionDetails(PARAMETER_DESCRIPTION, Union.STRING_SHORT_FORM.byteValue(), "",
+                                                    false, new Duration(3), null, null));
+            names.add(new Identifier(PARAMETER_NAME));
+            registrationObject.registerParameters(names, defs);
+
+            // ------------------ Actions ------------------
+            ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
+            IdentifierList actionNames = new IdentifierList();
+
+            ArgumentDefinitionDetailsList arguments1 = new ArgumentDefinitionDetailsList();
+            {
+                Byte rawType = Attribute._DOUBLE_TYPE_SHORT_FORM;
+                String rawUnit = "-";
+                ConditionalConversionList conditionalConversions = null;
+                Byte convertedType = null;
+                String convertedUnit = null;
+
+                arguments1.add(new ArgumentDefinitionDetails(new Identifier("1"), null, rawType, rawUnit,
+                                                             conditionalConversions, convertedType, convertedUnit));
+            }
+
+            actionDefs.add(new ActionDefinitionDetails("Simple Go action with double value.", new UOctet((short) 0),
+                                                       new UShort(3), arguments1));
+            actionNames.add(new Identifier(ACTION_GO));
+
+            registrationObject.registerActions(actionNames, actionDefs);
+        }
+
+        @Override
+        public Serializable onGetValueSimple(String name) {
+            if (PARAMETER_NAME.equals(name)) {
+                return var;
+            }
+
+            return null;
+        }
+
+        @Override
+        public boolean onSetValueSimple(String name, Serializable value) {
+            if (PARAMETER_NAME.equals(name)) {
+                var = value.toString();
+                return true;  // to confirm that the variable was set
+            }
+
+            return false;
+        }
+
+        @Override
+        public boolean actionArrivedSimple(String name, Serializable[] values, Long actionInstanceObjId) {
+            if (ACTION_GO.equals(name)) {
+                Logger.getLogger(DemoHelloWorldSimple.class.getName())
+                      .log(Level.INFO, "Action 'Go' activated. Success!");
+                return true; // Success!
+            }
+            return false;
+        }
     }
-  }
 }

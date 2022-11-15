@@ -32,21 +32,19 @@ public class EndlessWavStreamOperatingBuffer extends GenericWavFileBasedOperatin
     public EndlessWavStreamOperatingBuffer(Logger logger) {
         super(logger);
     }
-    
+
     public double[] getDataAsDoubleArray(int quantityOfData) {
-        int bytesNo= quantityOfData;
-        double[] result=new double[bytesNo];
-        double[] tempData=(double[])super.getDataBuffer();
-        int capacity=tempData.length;
-        int tempOperatingIndex=super.getOperatingIndex();
-        if (tempData!=null && capacity>0)
-        {
-            int resultIndex=0;
-            while ((bytesNo--)>0){
-                result[resultIndex]=tempData[tempOperatingIndex++];
-                if (tempOperatingIndex>=capacity)
-                {
-                    tempOperatingIndex=0;
+        int bytesNo = quantityOfData;
+        double[] result = new double[bytesNo];
+        double[] tempData = (double[]) super.getDataBuffer();
+        int capacity = tempData.length;
+        int tempOperatingIndex = super.getOperatingIndex();
+        if (tempData != null && capacity > 0) {
+            int resultIndex = 0;
+            while ((bytesNo--) > 0) {
+                result[resultIndex] = tempData[tempOperatingIndex++];
+                if (tempOperatingIndex >= capacity) {
+                    tempOperatingIndex = 0;
                 }
                 resultIndex++;
             }
@@ -55,8 +53,8 @@ public class EndlessWavStreamOperatingBuffer extends GenericWavFileBasedOperatin
         //System.out.println("result has ["+result.length+"] elements");
         return result;
     }
-    public void setDataFromByteArray(byte[] directData)
-    {
+
+    public void setDataFromByteArray(byte[] directData) {
         super.setOperatingIndex(0);
         super.setDataBuffer(directData);
     }

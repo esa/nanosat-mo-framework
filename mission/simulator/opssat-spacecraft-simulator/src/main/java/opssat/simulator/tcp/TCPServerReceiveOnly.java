@@ -44,8 +44,6 @@ public class TCPServerReceiveOnly extends Thread {
     public void setShouldClose(boolean shouldClose) {
         this.shouldClose = shouldClose;
     }
-    
-    
 
     public String getData() {
         synchronized (dataMutex) {
@@ -62,7 +60,7 @@ public class TCPServerReceiveOnly extends Thread {
         while (!shouldClose) {
             try {
                 welcomeSocket = new ServerSocket(port);
-                this.logger.log(Level.INFO,"Created ServerSocket on port [" + port + "]");
+                this.logger.log(Level.INFO, "Created ServerSocket on port [" + port + "]");
 
                 Socket connectionSocket;
                 try {
@@ -71,7 +69,7 @@ public class TCPServerReceiveOnly extends Thread {
                     Logger.getLogger(TCPServerReceiveOnly.class.getName()).log(Level.SEVERE, null, ex);
                     break;
                 }
-                this.logger.log(Level.INFO,"Accepted Socket from [" + connectionSocket.getInetAddress() + "]");
+                this.logger.log(Level.INFO, "Accepted Socket from [" + connectionSocket.getInetAddress() + "]");
                 BufferedReader inFromClient;
                 try {
                     inFromClient = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
@@ -102,8 +100,7 @@ public class TCPServerReceiveOnly extends Thread {
                 }
 
             } catch (IOException ex) {
-                if (welcomeSocket!=null)
-                {
+                if (welcomeSocket != null) {
                     try {
                         welcomeSocket.close();
                     } catch (IOException ex1) {
@@ -123,13 +120,13 @@ public class TCPServerReceiveOnly extends Thread {
     }
 
     public TCPServerReceiveOnly(int port, Logger logger) {
-        this.logger=logger;
+        this.logger = logger;
         this.port = port;
 
     }
-    
+
     public static void main(String[] argv) {
-        TCPServerReceiveOnly tcpServer = new TCPServerReceiveOnly(10500,Logger.getLogger(Logger.GLOBAL_LOGGER_NAME));
+        TCPServerReceiveOnly tcpServer = new TCPServerReceiveOnly(10500, Logger.getLogger(Logger.GLOBAL_LOGGER_NAME));
         tcpServer.start();
     }
 }

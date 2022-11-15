@@ -24,13 +24,13 @@ package esa.mo.tools.mowindow;
  *
  * @author Cesar Coelho
  */
-public class MOelementListBlank extends MOelement{
-    
+public class MOelementListBlank extends MOelement {
+
     private final javax.swing.JToggleButton buttonAdd;
 
     public MOelementListBlank(java.awt.event.ActionListener actionListener, boolean editable) {
         super("", null, editable, false);
-        
+
         this.editable = editable;
         super.fieldName.setText("");
         super.fieldType.setText("");
@@ -43,7 +43,7 @@ public class MOelementListBlank extends MOelement{
         buttonAdd.addActionListener(actionListener);
         super.mainPanel.add(buttonAdd);
 
-        if (!editable){
+        if (!editable) {
             this.buttonAdd.setEnabled(false);
         }
 

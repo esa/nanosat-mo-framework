@@ -24,31 +24,26 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.platform.opticaldatareceiver.consumer.OpticalDataReceiverAdapter;
 
-class PayloadsTestOpticalDataHandler extends OpticalDataReceiverAdapter
-{
+class PayloadsTestOpticalDataHandler extends OpticalDataReceiverAdapter {
 
-  private static final Logger LOGGER = Logger.getLogger(
-      PayloadsTestOpticalDataHandler.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(PayloadsTestOpticalDataHandler.class.getName());
 
-  public PayloadsTestOpticalDataHandler()
-  {
-  }
+    public PayloadsTestOpticalDataHandler() {
+    }
 
-  @Override
-  public void recordSamplesResponseReceived(
-      org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-      org.ccsds.moims.mo.mal.structures.Blob data, java.util.Map qosProperties)
-  {
-    LOGGER.log(Level.INFO, "Received {0} bytes.", data.getLength());
-  }
+    @Override
+    public void recordSamplesResponseReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+                                              org.ccsds.moims.mo.mal.structures.Blob data,
+                                              java.util.Map qosProperties) {
+        LOGGER.log(Level.INFO, "Received {0} bytes.", data.getLength());
+    }
 
-  @Override
-  public void recordSamplesResponseErrorReceived(
-      org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-      org.ccsds.moims.mo.mal.MALStandardError error, java.util.Map qosProperties)
-  {
-    LOGGER.log(Level.SEVERE, "MAL Error: {0}", error.toString());
+    @Override
+    public void recordSamplesResponseErrorReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+                                                   org.ccsds.moims.mo.mal.MALStandardError error,
+                                                   java.util.Map qosProperties) {
+        LOGGER.log(Level.SEVERE, "MAL Error: {0}", error.toString());
 
-  }
+    }
 
 }

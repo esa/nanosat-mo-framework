@@ -62,7 +62,7 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
      * @throws MALInteractionException
      */
     public ProviderSummaryList syncLocalDirectoryServiceWithCentral(final URI centralDirectoryServiceURI,
-            final URI routedURI) throws MALException, MalformedURLException, MALInteractionException {
+                                                                    final URI routedURI) throws MALException, MalformedURLException, MALInteractionException {
         ProviderSummaryList providers = NMFConsumer.retrieveProvidersFromDirectory(true, centralDirectoryServiceURI);
         addProxyPrefix(providers, routedURI.getValue());
 
@@ -96,7 +96,7 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
      * @throws IllegalArgumentException if the providers object is null
      */
     public static void addProxyPrefix(final ProviderSummaryList providers,
-            final String proxyURI) throws IllegalArgumentException {
+                                      final String proxyURI) throws IllegalArgumentException {
         if (providers == null) {
             throw new IllegalArgumentException("The provider object cannot be null.");
         }
@@ -137,9 +137,9 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
                     for (ServiceCapability capability : capabilities) {
                         ServiceKey key = capability.getServiceKey();
 
-                        if (COMHelper._COM_AREA_NUMBER == key.getKeyArea().getValue()
-                                && ArchiveHelper._ARCHIVE_SERVICE_NUMBER == key.getKeyService().getValue()
-                                && COMHelper._COM_AREA_VERSION == key.getKeyAreaVersion().getValue()) {
+                        if (COMHelper._COM_AREA_NUMBER == key.getKeyArea().getValue() &&
+                            ArchiveHelper._ARCHIVE_SERVICE_NUMBER == key.getKeyService().getValue() &&
+                            COMHelper._COM_AREA_VERSION == key.getKeyAreaVersion().getValue()) {
                             AddressDetails details = capability.getServiceAddresses().get(0);
                             details.setServiceURI(to);
                         }
@@ -168,9 +168,9 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
                     for (ServiceCapability capability : capabilities) {
                         ServiceKey key = capability.getServiceKey();
 
-                        if (MCHelper._MC_AREA_NUMBER == key.getKeyArea().getValue()
-                                && ActionHelper._ACTION_SERVICE_NUMBER == key.getKeyService().getValue()
-                                && MCHelper._MC_AREA_VERSION == key.getKeyAreaVersion().getValue()) {
+                        if (MCHelper._MC_AREA_NUMBER == key.getKeyArea().getValue() &&
+                            ActionHelper._ACTION_SERVICE_NUMBER == key.getKeyService().getValue() &&
+                            MCHelper._MC_AREA_VERSION == key.getKeyAreaVersion().getValue()) {
                             AddressDetails details = capability.getServiceAddresses().get(0);
                             details.setServiceURI(to);
                         }

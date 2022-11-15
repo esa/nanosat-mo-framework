@@ -38,6 +38,6 @@ public abstract class SimpleDataReceivedListener implements DataReceivedListener
      * @param parameterName Name of the Parameter
      * @param data The content of the data
      */
-    public abstract void onDataReceived (String parameterName, Serializable data);
-    
+    public abstract void onDataReceived(String parameterName, Serializable data);
+
 }

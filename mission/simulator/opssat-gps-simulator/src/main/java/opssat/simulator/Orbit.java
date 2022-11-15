@@ -20,7 +20,6 @@
  */
 package opssat.simulator;
 
-
 //import java.time.LocalDateTime;
 //import java.time.Month;
 //import java.time.ZoneOffset;
@@ -59,18 +58,18 @@ public class Orbit {
     // Vector Vevolicty
     private Vector v;
 
-//gravitational constant (units: km^3 kg^-1 s^-2)
+    //gravitational constant (units: km^3 kg^-1 s^-2)
     private static final double G = 6.67384E-20;
-//Earth Mass (units: kg)
+    //Earth Mass (units: kg)
     private static final double M_e = 5.97219E24;
-//Earth Radius (units: km)
+    //Earth Radius (units: km)
     private static final double R_e = 6371;
-//1 solar day = 1.00273(...) sideral days
+    //1 solar day = 1.00273(...) sideral days
     private static final double SOLAR_DAY = 1.002737909350795;
 
-//Epoch time: '2003 June 01 - 00:00:00'
+    //Epoch time: '2003 June 01 - 00:00:00'
     public static String DATEFORMATSTRING = "yyyy:MM:dd HH:mm:ss z";
-    private static String EPOCH_INITIAL="2003:06:01 00:00:00 CEST";
+    private static String EPOCH_INITIAL = "2003:06:01 00:00:00 CEST";
     private Date Epoch;
 
     public static class OrbitParameters {
@@ -121,10 +120,11 @@ public class Orbit {
             return velocity;
         }
     }
-    public Orbit(double a, double i, double RAAN, double arg_per, double true_anomaly)
-    {
-        this(a,i,RAAN,arg_per,true_anomaly,EPOCH_INITIAL);
+
+    public Orbit(double a, double i, double RAAN, double arg_per, double true_anomaly) {
+        this(a, i, RAAN, arg_per, true_anomaly, EPOCH_INITIAL);
     }
+
     public Orbit(double a, double i, double RAAN, double arg_per, double true_anomaly, String initialEpoch) {
         SimpleDateFormat df = new SimpleDateFormat(DATEFORMATSTRING);//DateFormat.getInstance();    
         df.setLenient(true);
@@ -157,8 +157,7 @@ public class Orbit {
     public OrbitParameters getParameters() {
         return getParameters(new Date());
     }
-    
-    
+
     public OrbitParameters getParameters(Date currentTime) {
 
         this.time = currentTime;
@@ -183,8 +182,7 @@ public class Orbit {
         double lon = this.normalizeAngle(Math.atan2(this.r.y(), this.r.x()) - delta_lst);
         //System.out.println("lat:["+lat+"] lon:["+lon+"]");
 
-        return new OrbitParameters(lat * (180 / Math.PI), lon * (180 / Math.PI),
-            this.r.length(), this.v, this.time);
+        return new OrbitParameters(lat * (180 / Math.PI), lon * (180 / Math.PI), this.r.length(), this.v, this.time);
     }
 
     // Calculates ascending node change (RAAN)
@@ -192,10 +190,13 @@ public class Orbit {
         // time_int: interval of time passed
         double J2 = 1.08262668E-3;
 
-        return -3 * Math.PI * J2 * (R_e * R_e)
-            / (Math.pow(a * (1 - e * e), 2))
-            * Math.cos(i)
-            * (time_int / this.Period);
+        return -3 *
+               Math.PI *
+               J2 *
+               (R_e * R_e) /
+               (Math.pow(a * (1 - e * e), 2)) *
+               Math.cos(i) *
+               (time_int / this.Period);
     }
 
     // Calculates Nodal Precession
@@ -203,9 +204,9 @@ public class Orbit {
         // time_int: interval of time passed
         double J2 = 1.08262668E-3;
 
-        return -(3 * Math.PI * J2 * R_e * R_e / (2 * Math.pow(a * (1 - e * e), 2)))
-            * (5 * Math.pow(Math.sin(i), 2) - 4)
-            * (time_int / this.Period);
+        return -(3 * Math.PI * J2 * R_e * R_e / (2 * Math.pow(a * (1 - e * e), 2))) *
+               (5 * Math.pow(Math.sin(i), 2) - 4) *
+               (time_int / this.Period);
     }
 
     // Calculates Mean Anomaly: M
@@ -226,17 +227,21 @@ public class Orbit {
 
     // Calculates both unit vectors: P, Q
     private void calculateUnitVectors() {
-        this.P = new Vector(
-            Math.cos(this.arg_per) * Math.cos(this.RAAN) - Math.sin(this.arg_per) * Math.cos(this.i) * Math.sin(this.RAAN),
-            Math.cos(this.arg_per) * Math.sin(this.RAAN) + Math.sin(this.arg_per) * Math.cos(this.i) * Math.cos(this.RAAN),
-            Math.sin(this.arg_per) * Math.sin(this.i)
-        );
+        this.P = new Vector(Math.cos(this.arg_per) * Math.cos(this.RAAN) -
+                            Math.sin(this.arg_per) * Math.cos(this.i) * Math.sin(this.RAAN), Math.cos(this.arg_per) *
+                                                                                             Math.sin(this.RAAN) +
+                                                                                             Math.sin(this.arg_per) *
+                                                                                                                   Math.cos(this.i) *
+                                                                                                                   Math.cos(this.RAAN),
+                            Math.sin(this.arg_per) * Math.sin(this.i));
 
-        this.Q = new Vector(
-            -Math.sin(this.arg_per) * Math.cos(this.RAAN) - Math.cos(this.arg_per) * Math.cos(this.i) * Math.sin(this.RAAN),
-            -Math.sin(this.arg_per) * Math.sin(this.RAAN) + Math.cos(this.arg_per) * Math.cos(this.i) * Math.cos(this.RAAN),
-            Math.sin(this.i) * Math.cos(this.arg_per)
-        );
+        this.Q = new Vector(-Math.sin(this.arg_per) * Math.cos(this.RAAN) -
+                            Math.cos(this.arg_per) * Math.cos(this.i) * Math.sin(this.RAAN), -Math.sin(this.arg_per) *
+                                                                                             Math.sin(this.RAAN) +
+                                                                                             Math.cos(this.arg_per) *
+                                                                                                                   Math.cos(this.i) *
+                                                                                                                   Math.cos(this.RAAN),
+                            Math.sin(this.i) * Math.cos(this.arg_per));
     }
 
     // Calculates the vector r

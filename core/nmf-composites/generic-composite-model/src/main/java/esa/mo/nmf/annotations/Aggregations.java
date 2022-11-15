@@ -32,7 +32,6 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface Aggregations
-{
-  Aggregation[] value() default {}; // it has to be named value for @Repeatable to work
+public @interface Aggregations {
+    Aggregation[] value() default {}; // it has to be named value for @Repeatable to work
 }

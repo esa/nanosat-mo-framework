@@ -34,7 +34,6 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.consumer.MALConsumer;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mc.MCHelper;
-import org.ccsds.moims.mo.mc.aggregation.AggregationHelper;
 import org.ccsds.moims.mo.mc.alert.AlertHelper;
 import org.ccsds.moims.mo.mc.alert.consumer.AlertStub;
 
@@ -65,7 +64,8 @@ public class AlertConsumerServiceImpl extends ConsumerServiceImpl {
         return new AlertStub(tmConsumer);
     }
 
-    public AlertConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
+    public AlertConsumerServiceImpl(SingleConnectionDetails connectionDetails,
+                                    COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
         this(connectionDetails, comServices, null, null);
     }
 
@@ -86,7 +86,7 @@ public class AlertConsumerServiceImpl extends ConsumerServiceImpl {
         }
 
         if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION)
-                    .getServiceByName(AlertHelper.ALERT_SERVICE_NAME) == null) {
+                             .getServiceByName(AlertHelper.ALERT_SERVICE_NAME) == null) {
             AlertHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
@@ -102,12 +102,10 @@ public class AlertConsumerServiceImpl extends ConsumerServiceImpl {
             }
         }
 
-        tmConsumer = connection.startService(
-                this.connectionDetails.getProviderURI(),
-                this.connectionDetails.getBrokerURI(),
-                this.connectionDetails.getDomain(),
-                AlertHelper.ALERT_SERVICE,
-                authenticationId, localNamePrefix);
+        tmConsumer = connection.startService(this.connectionDetails.getProviderURI(), this.connectionDetails
+                                                                                                            .getBrokerURI(),
+                                             this.connectionDetails.getDomain(), AlertHelper.ALERT_SERVICE,
+                                             authenticationId, localNamePrefix);
 
         this.alertService = new AlertStub(tmConsumer);
     }

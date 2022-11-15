@@ -31,7 +31,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
-import org.ccsds.moims.mo.com.archivesync.ArchiveSyncHelper;
 import org.ccsds.moims.mo.com.event.EventHelper;
 import org.ccsds.moims.mo.com.event.consumer.EventAdapter;
 import org.ccsds.moims.mo.com.event.consumer.EventStub;
@@ -80,7 +79,8 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
         this(connectionDetails, null, null);
     }
 
-    public EventConsumerServiceImpl(SingleConnectionDetails connectionDetails, Blob authenticationId, String localNamePrefix) throws MALException, MALInteractionException, MalformedURLException {
+    public EventConsumerServiceImpl(SingleConnectionDetails connectionDetails, Blob authenticationId,
+                                    String localNamePrefix) throws MALException, MALInteractionException, MalformedURLException {
         if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
             MALHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
@@ -90,7 +90,7 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
         }
 
         if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION)
-                    .getServiceByName(EventHelper.EVENT_SERVICE_NAME) == null) {
+                             .getServiceByName(EventHelper.EVENT_SERVICE_NAME) == null) {
             EventHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
@@ -118,26 +118,25 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
             }
         }
 
-        tmConsumer = connection.startService(
-                this.connectionDetails.getProviderURI(),
-                this.connectionDetails.getBrokerURI(),
-                this.connectionDetails.getDomain(),
-                EventHelper.EVENT_SERVICE,
-                authenticationId, localNamePrefix);
+        tmConsumer = connection.startService(this.connectionDetails.getProviderURI(), this.connectionDetails
+                                                                                                            .getBrokerURI(),
+                                             this.connectionDetails.getDomain(), EventHelper.EVENT_SERVICE,
+                                             authenticationId, localNamePrefix);
 
         this.eventService = new EventStub(tmConsumer);
     }
 
-    public void addEventReceivedListener(final Subscription subscription, final EventReceivedListener eventReceivedListener) {
+    public void addEventReceivedListener(final Subscription subscription,
+                                         final EventReceivedListener eventReceivedListener) {
 
         // Make the event adapter to call the eventReceivedListener when there's a new object available
         class EventReceivedAdapter extends EventAdapter {
 
             @Override
-            public void monitorEventNotifyReceived(final MALMessageHeader msgHeader,
-                    final Identifier lIdentifier, final UpdateHeaderList lUpdateHeaderList,
-                    final ObjectDetailsList objectDetailsList, final ElementList elementList,
-                    Map qosProperties) {
+            public void monitorEventNotifyReceived(final MALMessageHeader msgHeader, final Identifier lIdentifier,
+                                                   final UpdateHeaderList lUpdateHeaderList,
+                                                   final ObjectDetailsList objectDetailsList,
+                                                   final ElementList elementList, Map qosProperties) {
 
                 if (objectDetailsList.size() == lUpdateHeaderList.size()) { // Something is wrong
                     for (int i = 0; i < lUpdateHeaderList.size(); i++) {
@@ -157,7 +156,7 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
 
                         // ----
                         EventCOMObject newEvent = new EventCOMObject();
-//                        newEvent.setDomain(msgHeader.getDomain());
+                        //                        newEvent.setDomain(msgHeader.getDomain());
                         newEvent.setDomain(connectionDetails.getDomain());
                         newEvent.setObjType(objType);
                         newEvent.setObjId(entityKey3);

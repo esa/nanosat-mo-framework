@@ -211,11 +211,7 @@ public class GuiSimulatorHeaderEdit {
 
     private void createAndShowGUI() {
 
-        final String[] labels = {"System enabled: ",
-            "Time running: ",
-            "Time factor: ",
-            "Start date: ",
-            "End date: "};
+        final String[] labels = {"System enabled: ", "Time running: ", "Time factor: ", "Start date: ", "End date: "};
         ArrayList<Object> data;
         data = new ArrayList<>();
 
@@ -240,14 +236,16 @@ public class GuiSimulatorHeaderEdit {
             if (i == 0) {
                 chkSystemEnableDefault = new JCheckBox("", simulatorHeader.isAutoStartSystem());
                 chkSystemEnableDefault.addItemListener(e -> {
-                    GuiSimulatorHeaderEdit.this.simulatorHeader.setAutoStartSystem(e.getStateChange() == ItemEvent.SELECTED);
+                    GuiSimulatorHeaderEdit.this.simulatorHeader.setAutoStartSystem(e.getStateChange() ==
+                                                                                   ItemEvent.SELECTED);
                     submitButton.setEnabled(true);
                 });
                 localPanel.add(chkSystemEnableDefault);
             } else if (i == 1) {
                 chkTimeRunDefault = new JCheckBox("", simulatorHeader.isAutoStartTime());
                 chkTimeRunDefault.addItemListener(e -> {
-                    GuiSimulatorHeaderEdit.this.simulatorHeader.setAutoStartTime(e.getStateChange() == ItemEvent.SELECTED);
+                    GuiSimulatorHeaderEdit.this.simulatorHeader.setAutoStartTime(e.getStateChange() ==
+                                                                                 ItemEvent.SELECTED);
                     submitButton.setEnabled(true);
                 });
                 localPanel.add(chkTimeRunDefault);
@@ -329,10 +327,14 @@ public class GuiSimulatorHeaderEdit {
                 submitButtonPressed();
 
             } else {
-                JOptionPane.showMessageDialog(frame, "Data not ok!"
-                    + "\nTime factor:" + timeFactorOK
-                    + "\nStart date:" + startDateOK
-                    + "\nEnd date: " + endDateOK + ".");
+                JOptionPane.showMessageDialog(frame, "Data not ok!" +
+                                                     "\nTime factor:" +
+                                                     timeFactorOK +
+                                                     "\nStart date:" +
+                                                     startDateOK +
+                                                     "\nEnd date: " +
+                                                     endDateOK +
+                                                     ".");
             }
         });
 

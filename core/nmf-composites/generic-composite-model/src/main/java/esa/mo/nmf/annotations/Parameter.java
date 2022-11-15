@@ -58,91 +58,90 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface Parameter
-{
+public @interface Parameter {
 
-  /**
-   * The name of this parameter
-   *
-   * default: ""
-   */
-  String name() default "";
+    /**
+     * The name of this parameter
+     *
+     * default: ""
+     */
+    String name() default "";
 
-  /**
-   * The description of this parameter
-   *
-   * default: ""
-   */
-  String description() default "";
+    /**
+     * The description of this parameter
+     *
+     * default: ""
+     */
+    String description() default "";
 
-  /**
-   * MAL Type of this parameter.
-   *
-   * default: auto generated: only possible when directly using Attribute as field type (linke
-   * UInteger, Integer, UShort, ...) or build in java types (int, double, String ...)
-   */
-  String malType() default "";
+    /**
+     * MAL Type of this parameter.
+     *
+     * default: auto generated: only possible when directly using Attribute as field type (linke
+     * UInteger, Integer, UShort, ...) or build in java types (int, double, String ...)
+     */
+    String malType() default "";
 
-  /**
-   * The raw unit of this parameter examples: rad, m/s ...
-   *
-   * default: ""
-   */
-  String rawUnit() default "";
+    /**
+     * The raw unit of this parameter examples: rad, m/s ...
+     *
+     * default: ""
+     */
+    String rawUnit() default "";
 
-  /**
-   * if generation should be enabled
-   *
-   * default: false
-   */
-  boolean generationEnabled() default true;
+    /**
+     * if generation should be enabled
+     *
+     * default: false
+     */
+    boolean generationEnabled() default true;
 
-  /**
-   * How often the parameter will be reported (in Seconds)
-   *
-   * default: every 0 seconds which disables automatic generation interval
-   */
-  double reportIntervalSeconds() default 0.0;
+    /**
+     * How often the parameter will be reported (in Seconds)
+     *
+     * default: every 0 seconds which disables automatic generation interval
+     */
+    double reportIntervalSeconds() default 0.0;
 
-  /**
-   * Name of the field containing a ParameterExpression instance containing the validity expression
-   * for this parameter
-   *
-   * default: no validity check
-   */
-  String validityExpressionFieldName() default "";
+    /**
+     * Name of the field containing a ParameterExpression instance containing the validity expression
+     * for this parameter
+     *
+     * default: no validity check
+     */
+    String validityExpressionFieldName() default "";
 
-  /**
-   * Name of the field containing a ParameterConversion instance containing the conversion for this
-   * parameter
-   *
-   * default: no conversion
-   */
-  String conversionFunctionName() default "";
+    /**
+     * Name of the field containing a ParameterConversion instance containing the conversion for this
+     * parameter
+     *
+     * default: no conversion
+     */
+    String conversionFunctionName() default "";
 
-  /**
-   * If this parameter should be read only. Parameters which are final are always read only!
-   *
-   * default: false
-   */
-  boolean readOnly() default false;
+    /**
+     * If this parameter should be read only. Parameters which are final are always read only!
+     *
+     * default: false
+     */
+    boolean readOnly() default false;
 
-  /**
-   * The name of the function that will be called, every time the Parameter is get (before its value
-   * is read).
-   *
-   * The functions is not allowed to have any parameters and all return statements are ignored. The
-   * function needs to be public!
-   *
-   * default: no function is called
-   */
-  String onGetFunction() default "";
+    /**
+     * The name of the function that will be called, every time the Parameter is get (before its value
+     * is read).
+     *
+     * The functions is not allowed to have any parameters and all return statements are ignored. The
+     * function needs to be public!
+     *
+     * default: no function is called
+     */
+    String onGetFunction() default "";
 
-  /**
-   * array of Aggregation ids this parameter belongs to.
-   *
-   * @return
-   */
-  String[] aggregations() default {};
+    /**
+     * array of Aggregation ids this parameter belongs to.
+     *
+     * @return
+     */
+    String[] aggregations() default {};
 
 }

@@ -31,6 +31,7 @@ public abstract class GenericPeripheral {
 
     private SimulatorNode simulatorNode;
     private String name;
+
     public SimulatorNode getSimulatorNode() {
         return simulatorNode;
     }
@@ -38,13 +39,12 @@ public abstract class GenericPeripheral {
     public String getName() {
         return name;
     }
-    
-    public GenericPeripheral(SimulatorNode simulatorNode,String name) {
-        if (simulatorNode==null)
-        {
+
+    public GenericPeripheral(SimulatorNode simulatorNode, String name) {
+        if (simulatorNode == null) {
             //System.out.println("Warning! Setting a null simulatorNode on device ["+name+"]");
         }
-        this.name=name;
+        this.name = name;
         this.simulatorNode = simulatorNode;
     }
 

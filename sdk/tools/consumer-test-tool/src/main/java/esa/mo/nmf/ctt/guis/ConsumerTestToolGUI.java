@@ -44,96 +44,89 @@ import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
 /**
  * This class provides a simple form for the control of the consumer.
  */
-public class ConsumerTestToolGUI extends javax.swing.JFrame
-{
+public class ConsumerTestToolGUI extends javax.swing.JFrame {
 
-  private static final Logger LOGGER = Logger.getLogger(ConsumerTestToolGUI.class.getName());
-  protected ConnectionConsumer connection = new ConnectionConsumer();
+    private static final Logger LOGGER = Logger.getLogger(ConsumerTestToolGUI.class.getName());
+    protected ConnectionConsumer connection = new ConnectionConsumer();
 
-  /**
-   * Main command line entry point.
-   *
-   * @param args the command line arguments
-   */
-  public static void main(final String[] args)
-  {
-    try {
-      // Set cross-platform Java L&F (also called "Metal")
-      UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-    } catch (UnsupportedLookAndFeelException | InstantiationException | ClassNotFoundException e) {
-    } catch (IllegalAccessException e) {
-      // handle exception
+    /**
+     * Main command line entry point.
+     *
+     * @param args the command line arguments
+     */
+    public static void main(final String[] args) {
+        try {
+            // Set cross-platform Java L&F (also called "Metal")
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+        } catch (UnsupportedLookAndFeelException | InstantiationException | ClassNotFoundException e) {
+        } catch (IllegalAccessException e) {
+            // handle exception
+        }
+
+        final String name = System.getProperty("application.name", "CTT: Consumer Test Tool");
+        final ConsumerTestToolGUI gui = new ConsumerTestToolGUI(name);
+        gui.insertDirectoryServiceTab("");
+
+        EventQueue.invokeLater(() -> gui.setVisible(true));
     }
 
-    final String name = System.getProperty("application.name", "CTT: Consumer Test Tool");
-    final ConsumerTestToolGUI gui = new ConsumerTestToolGUI(name);
-    gui.insertDirectoryServiceTab("");
+    /**
+     * Creates new form MOConsumerGUI
+     *
+     * @param name The name to display on the title bar of the form.
+     */
+    public ConsumerTestToolGUI(final String name) {
+        initComponents();
 
-    EventQueue.invokeLater(() -> gui.setVisible(true));
-  }
+        this.setLocationRelativeTo(null);
+        this.setTitle(name);
 
-  /**
-   * Creates new form MOConsumerGUI
-   *
-   * @param name The name to display on the title bar of the form.
-   */
-  public ConsumerTestToolGUI(final String name)
-  {
-    initComponents();
+        try {
+            connection.getServicesDetails().loadURIFromFiles();
+        } catch (MalformedURLException ex) {
+            JOptionPane.showMessageDialog(null, "The URIs could not be loaded from the file!", "Error",
+                                          JOptionPane.PLAIN_MESSAGE);
+            LOGGER.log(Level.SEVERE, null, ex);
+        } catch (FileNotFoundException ex) {
+            LOGGER.log(Level.INFO, "The file with provider URIs is not present.");
+        }
 
-    this.setLocationRelativeTo(null);
-    this.setTitle(name);
-
-    try {
-      connection.getServicesDetails().loadURIFromFiles();
-    } catch (MalformedURLException ex) {
-      JOptionPane.showMessageDialog(null, "The URIs could not be loaded from the file!", "Error",
-          JOptionPane.PLAIN_MESSAGE);
-      LOGGER.log(Level.SEVERE, null, ex);
-    } catch (FileNotFoundException ex) {
-      LOGGER.log(Level.INFO, "The file with provider URIs is not present.");
+        try {
+            MALHelper.init(MALContextFactory.getElementFactoryRegistry());
+            COMHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
+            MCHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
+            MPHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
+            CommonHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
+            SoftwareManagementHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
+            PlatformHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
+        } catch (MALException ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+        }
     }
 
-    try {
-      MALHelper.init(MALContextFactory.getElementFactoryRegistry());
-      COMHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-      MCHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-      MPHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-      CommonHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-      SoftwareManagementHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-      PlatformHelper.deepInit(MALContextFactory.getElementFactoryRegistry());
-    } catch (MALException ex) {
-      LOGGER.log(Level.SEVERE, null, ex);
+    public final void insertDirectoryServiceTab(final String defaultURI) {
+        this.insertDirectoryServiceTab(defaultURI, false);
     }
-  }
 
-  public final void insertDirectoryServiceTab(final String defaultURI)
-  {
-    this.insertDirectoryServiceTab(defaultURI, false);
-  }
+    public void insertDirectoryServiceTab(final String defaultURI, final boolean isS2G) {
+        final DirectoryConnectionConsumerPanel directoryTab = new DirectoryConnectionConsumerPanel(isS2G, connection,
+                                                                                                   tabs);
 
-  public void insertDirectoryServiceTab(final String defaultURI, final boolean isS2G)
-  {
-    final DirectoryConnectionConsumerPanel directoryTab
-        = new DirectoryConnectionConsumerPanel(isS2G, connection, tabs);
+        tabs.insertTab("Communication Settings (Directory)", null, directoryTab, "Communications Tab (Directory)", tabs
+                                                                                                                       .getTabCount());
 
-    tabs.insertTab("Communication Settings (Directory)", null,
-        directoryTab,
-        "Communications Tab (Directory)", tabs.getTabCount());
+        directoryTab.setURITextbox(defaultURI);
+    }
 
-    directoryTab.setURITextbox(defaultURI);
-  }
+    public JTabbedPane getTabs() {
+        return tabs;
+    }
 
-  public JTabbedPane getTabs()
-  {
-    return tabs;
-  }
-
-  /**
-   * This method is called from within the constructor to initialize the form. WARNING: Do NOT
-   * modify this code. The content of this method is always regenerated by the Form Editor.
-   */
-  @SuppressWarnings("unchecked")
+    /**
+     * This method is called from within the constructor to initialize the form. WARNING: Do NOT
+     * modify this code. The content of this method is always regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -141,12 +134,12 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
-          @Override
-          public void windowClosing(java.awt.event.WindowEvent e) {
-              // call dispose here, so on panels the removeNotify is also called
-              // to clean up the connections
-              e.getWindow().dispose();
-          }
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                // call dispose here, so on panels the removeNotify is also called
+                // to clean up the connections
+                e.getWindow().dispose();
+            }
         });
         setMinimumSize(new java.awt.Dimension(800, 600));
         setName("Form"); // NOI18N
@@ -164,7 +157,6 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTabbedPane tabs;

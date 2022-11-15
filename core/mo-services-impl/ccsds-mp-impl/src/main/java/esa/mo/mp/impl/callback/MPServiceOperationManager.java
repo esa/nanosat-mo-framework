@@ -43,28 +43,36 @@ public class MPServiceOperationManager {
 
     public void register(MPServiceOperation operationName, MPServiceOperationCallback callback) {
         if (operations.get(operationName) != null) {
-            LOGGER.warning(String.format("Operation %s is already registered. Ignoring previous registration.", operationName));
+            LOGGER.warning(String.format("Operation %s is already registered. Ignoring previous registration.",
+                                         operationName));
         }
         operations.put(operationName, callback);
     }
 
     public void notifyRequestValidation(MPServiceOperation operationName, RequestVersionDetails requestVersion) {
-        if (operations.get(operationName) == null) return;
+        if (operations.get(operationName) == null)
+            return;
         operations.get(operationName).validate(requestVersion);
     }
 
-    public void notifyActivityValidation(MPServiceOperation operationName, PlanVersionDetails planVersion, ActivityInstanceDetails activityInstance) {
-        if (operations.get(operationName) == null) return;
+    public void notifyActivityValidation(MPServiceOperation operationName, PlanVersionDetails planVersion,
+                                         ActivityInstanceDetails activityInstance) {
+        if (operations.get(operationName) == null)
+            return;
         operations.get(operationName).validate(planVersion, activityInstance);
     }
 
-    public void notifyEventValidation(MPServiceOperation operationName, PlanVersionDetails planVersion, EventInstanceDetails eventInstance) {
-        if (operations.get(operationName) == null) return;
+    public void notifyEventValidation(MPServiceOperation operationName, PlanVersionDetails planVersion,
+                                      EventInstanceDetails eventInstance) {
+        if (operations.get(operationName) == null)
+            return;
         operations.get(operationName).validate(planVersion, eventInstance);
     }
 
-    public void notify(MPServiceOperation operationName, List<MPServiceOperationArguments> arguments) throws MALException, MALInteractionException {
-        if (operations.get(operationName) == null) return;
+    public void notify(MPServiceOperation operationName,
+                       List<MPServiceOperationArguments> arguments) throws MALException, MALInteractionException {
+        if (operations.get(operationName) == null)
+            return;
         operations.get(operationName).onCallback(arguments);
     }
 }

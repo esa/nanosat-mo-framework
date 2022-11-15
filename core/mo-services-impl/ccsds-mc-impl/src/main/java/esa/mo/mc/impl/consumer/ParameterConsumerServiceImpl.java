@@ -36,7 +36,6 @@ import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mc.MCHelper;
-import org.ccsds.moims.mo.mc.aggregation.AggregationHelper;
 import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterStub;
 
@@ -67,7 +66,8 @@ public class ParameterConsumerServiceImpl extends ConsumerServiceImpl {
         return new ParameterStub(tmConsumer);
     }
 
-    public ParameterConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
+    public ParameterConsumerServiceImpl(SingleConnectionDetails connectionDetails,
+                                        COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
         this(connectionDetails, comServices, null, null);
     }
 
@@ -88,7 +88,7 @@ public class ParameterConsumerServiceImpl extends ConsumerServiceImpl {
         }
 
         if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION)
-                    .getServiceByName(ParameterHelper.PARAMETER_SERVICE_NAME) == null) {
+                             .getServiceByName(ParameterHelper.PARAMETER_SERVICE_NAME) == null) {
             ParameterHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
@@ -111,12 +111,10 @@ public class ParameterConsumerServiceImpl extends ConsumerServiceImpl {
             }
         }
 
-        tmConsumer = connection.startService(
-                this.connectionDetails.getProviderURI(),
-                this.connectionDetails.getBrokerURI(),
-                this.connectionDetails.getDomain(),
-                ParameterHelper.PARAMETER_SERVICE,
-                authenticationId, localNamePrefix);
+        tmConsumer = connection.startService(this.connectionDetails.getProviderURI(), this.connectionDetails
+                                                                                                            .getBrokerURI(),
+                                             this.connectionDetails.getDomain(), ParameterHelper.PARAMETER_SERVICE,
+                                             authenticationId, localNamePrefix);
 
         this.parameterService = new ParameterStub(tmConsumer);
     }

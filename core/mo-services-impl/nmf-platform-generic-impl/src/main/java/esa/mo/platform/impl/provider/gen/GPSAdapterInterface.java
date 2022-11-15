@@ -24,69 +24,66 @@ import java.io.IOException;
 
 import org.ccsds.moims.mo.platform.gps.structures.Position;
 import org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList;
-import org.ccsds.moims.mo.platform.gps.structures.TwoLineElementSet;
 import org.orekit.propagation.analytical.tle.TLE;
 
 /**
  *
  * @author Cesar Coelho
  */
-public interface GPSAdapterInterface
-{
+public interface GPSAdapterInterface {
 
-  /**
-   * Checks if the device is present and accessible.
-   *
-   * @return true if the device is present and available for operations.
-   */
-  boolean isUnitAvailable();
+    /**
+     * Checks if the device is present and accessible.
+     *
+     * @return true if the device is present and available for operations.
+     */
+    boolean isUnitAvailable();
 
-  /**
-   * Request a NMEA sentence from a GPS unit.
-   *
-   * @param identifier The NMEA Identifier
-   * @return
-   * @throws java.io.IOException
-   */
-  String getNMEASentence(final String identifier) throws IOException;
+    /**
+     * Request a NMEA sentence from a GPS unit.
+     *
+     * @param identifier The NMEA Identifier
+     * @return
+     * @throws java.io.IOException
+     */
+    String getNMEASentence(final String identifier) throws IOException;
 
-  /**
-   * Request the current position from the GPS
-   *
-   * @return The Position or null in case of error
-   */
-  Position getCurrentPosition();
+    /**
+     * Request the current position from the GPS
+     *
+     * @return The Position or null in case of error
+     */
+    Position getCurrentPosition();
 
-  /**
-   * Requests the information of the satellites in view.
-   *
-   * @return The list of Satellites Information or null in case of error
-   */
-  SatelliteInfoList getSatelliteInfoList();
+    /**
+     * Requests the information of the satellites in view.
+     *
+     * @return The list of Satellites Information or null in case of error
+     */
+    SatelliteInfoList getSatelliteInfoList();
 
-  /**
-   * Requests the current two line element set
-   *
-   * @return The current two line element set
-   * @throws IOException if TLE can't be read
-   */
-  TLE getTLE();
+    /**
+     * Requests the current two line element set
+     *
+     * @return The current two line element set
+     * @throws IOException if TLE can't be read
+     */
+    TLE getTLE();
 
+    /**
+     * Requests the BESTXYZ NMEA sentence
+     *
+     * @return BESTXYZ response
+     * @throws IOException if the request fails
+     */
+    String getBestXYZSentence() throws IOException;
 
-  /**
-   * Requests the BESTXYZ NMEA sentence
-   *
-   * @return BESTXYZ response
-   * @throws IOException if the request fails
-   */
-  String getBestXYZSentence() throws IOException;
-
-  /**
-   * Requests the TIMEA NMEA sentence
-   *
-   * @return TIMEA response
-   * @throws IOException if the request fails
-   */
-  String getTIMEASentence() throws IOException;
+    /**
+     * Requests the TIMEA NMEA sentence
+     *
+     * @return TIMEA response
+     * @throws IOException if the request fails
+     */
+    String getTIMEASentence() throws IOException;
 
 }

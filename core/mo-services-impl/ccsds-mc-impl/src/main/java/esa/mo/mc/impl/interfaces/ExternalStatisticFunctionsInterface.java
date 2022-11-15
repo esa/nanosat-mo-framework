@@ -31,7 +31,7 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
  * 
  */
 public interface ExternalStatisticFunctionsInterface {
-    
+
     /**
      * The user must implement this interface to get custom Statistic
      * Functions.
@@ -42,10 +42,7 @@ public interface ExternalStatisticFunctionsInterface {
      * @return The corresponding Statistic Function
      */
     StatisticFunctionDetails getCustomStatisticFunction(Long statFuncId);
-    
-    
+
     StatisticValue generateCustomStatisticValue(Long statFuncId, TimeList times, AttributeValueList values);
 
-    
-    
 }

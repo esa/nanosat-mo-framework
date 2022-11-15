@@ -34,19 +34,20 @@ import org.ccsds.moims.mo.platform.softwaredefinedradio.provider.SoftwareDefined
  */
 public interface PlatformServicesProviderInterface {
 
-  default void init(COMServicesProvider comServices) throws MALException{
-  }
+    default void init(COMServicesProvider comServices) throws MALException {
+    }
 
-  default void startStatusTracking(ConnectionConsumer connection){}
+    default void startStatusTracking(ConnectionConsumer connection) {
+    }
 
-  CameraInheritanceSkeleton getCameraService();
+    CameraInheritanceSkeleton getCameraService();
 
-  GPSInheritanceSkeleton getGPSService();
+    GPSInheritanceSkeleton getGPSService();
 
-  AutonomousADCSInheritanceSkeleton getAutonomousADCSService();
+    AutonomousADCSInheritanceSkeleton getAutonomousADCSService();
 
-  OpticalDataReceiverInheritanceSkeleton getOpticalDataReceiverService();
+    OpticalDataReceiverInheritanceSkeleton getOpticalDataReceiverService();
 
-  SoftwareDefinedRadioInheritanceSkeleton getSoftwareDefinedRadioService();
+    SoftwareDefinedRadioInheritanceSkeleton getSoftwareDefinedRadioService();
 
 }

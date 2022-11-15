@@ -61,20 +61,15 @@ public class PlanningRequestTablePanel extends SharedTablePanel {
         TimeWindowList validityWindows = requestVersion.getValidityTime();
         if (!validityWindows.isEmpty()) {
             TimeWindow validityWindow = validityWindows.get(0);
-            Time validityStart = validityWindow.getStart() != null ? (Time)validityWindow.getStart().getValue() : null;
-            Time validityEnd = validityWindow.getEnd() != null ? (Time)validityWindow.getEnd().getValue() : null;
-            validityPeriod = String.format("%s - %s", HelperTime.time2readableString(validityStart), HelperTime.time2readableString(validityEnd));
+            Time validityStart = validityWindow.getStart() != null ? (Time) validityWindow.getStart().getValue() : null;
+            Time validityEnd = validityWindow.getEnd() != null ? (Time) validityWindow.getEnd().getValue() : null;
+            validityPeriod = String.format("%s - %s", HelperTime.time2readableString(validityStart), HelperTime
+                                                                                                               .time2readableString(validityEnd));
         }
 
-        tableData.addRow(new Object[]{
-            identity.toString(),
-            comObject.getArchiveDetails().getInstId(),
-            templateInstanceId,
-            validityPeriod,
-            requestVersion.getDescription(),
-            requestVersion.getUser(),
-            requestVersion.getComments()
-        });
+        tableData.addRow(new Object[]{identity.toString(), comObject.getArchiveDetails().getInstId(),
+                                      templateInstanceId, validityPeriod, requestVersion.getDescription(),
+                                      requestVersion.getUser(), requestVersion.getComments()});
 
         comObjects.add(comObject);
         semaphore.release();
@@ -82,27 +77,23 @@ public class PlanningRequestTablePanel extends SharedTablePanel {
 
     @Override
     public void defineTableContent() {
-        String[] tableCol = new String[]{
-            "Request Identity", "Request Version ID", "Request Template ID", "Validity period", "Description", "User", "Comments"
-        };
+        String[] tableCol = new String[]{"Request Identity", "Request Version ID", "Request Template ID",
+                                         "Validity period", "Description", "User", "Comments"};
 
-        tableData = new javax.swing.table.DefaultTableModel(
-            new Object[][]{}, tableCol) {
-                Class[] types = new Class[]{
-                    java.lang.String.class, java.lang.Long.class, java.lang.Long.class,
-                    java.lang.Long.class, java.lang.String.class, java.lang.String.class,
-                    java.lang.String.class
-                };
+        tableData = new javax.swing.table.DefaultTableModel(new Object[][]{}, tableCol) {
+            Class[] types = new Class[]{java.lang.String.class, java.lang.Long.class, java.lang.Long.class,
+                                        java.lang.Long.class, java.lang.String.class, java.lang.String.class,
+                                        java.lang.String.class};
 
-                @Override               //all cells false
-                public boolean isCellEditable(int row, int column) {
-                    return false;
-                }
+            @Override               //all cells false
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
 
-                @Override
-                public Class getColumnClass(int columnIndex) {
-                    return types[columnIndex];
-                }
+            @Override
+            public Class getColumnClass(int columnIndex) {
+                return types[columnIndex];
+            }
         };
 
         super.getTable().setModel(tableData);

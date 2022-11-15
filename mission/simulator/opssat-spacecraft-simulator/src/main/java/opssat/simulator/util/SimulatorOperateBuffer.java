@@ -27,6 +27,8 @@ package opssat.simulator.util;
  */
 public interface SimulatorOperateBuffer {
     boolean loadFromPath(String path);
+
     boolean preparePath(String path);
+
     int getOperatingIndex();
 }

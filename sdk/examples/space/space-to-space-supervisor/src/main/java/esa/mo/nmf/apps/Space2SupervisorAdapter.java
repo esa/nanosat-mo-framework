@@ -49,8 +49,7 @@ public class Space2SupervisorAdapter extends MonitorAndControlNMFAdapter {
     public Space2SupervisorAdapter() {
     }
 
-    public void setConnector(NanoSatMOConnectorImpl connector)
-    {
+    public void setConnector(NanoSatMOConnectorImpl connector) {
         this.connector = connector;
 
         // Define application behavior when closed
@@ -62,8 +61,7 @@ public class Space2SupervisorAdapter extends MonitorAndControlNMFAdapter {
         });
     }
 
-    public void setSupervisorSMA(SpaceMOApdapterImpl supervisorSMA)
-    {
+    public void setSupervisorSMA(SpaceMOApdapterImpl supervisorSMA) {
         this.supervisorSMA = supervisorSMA;
     }
 
@@ -86,14 +84,13 @@ public class Space2SupervisorAdapter extends MonitorAndControlNMFAdapter {
             @Override
             public void onDataReceived(String parameterName, Serializable data) {
                 if (data == null) {
-                    LOGGER.log(Level.WARNING,
-                            String.format("Received null value for parameter %s", parameterName));
+                    LOGGER.log(Level.WARNING, String.format("Received null value for parameter %s", parameterName));
                     return;
                 }
 
                 String dataS = data.toString();
-                LOGGER.log(Level.INFO, String.format(
-                        "Received value %s from supervisor for parameter %s", dataS, parameterName));
+                LOGGER.log(Level.INFO, String.format("Received value %s from supervisor for parameter %s", dataS,
+                                                     parameterName));
             }
         };
 
@@ -101,8 +98,7 @@ public class Space2SupervisorAdapter extends MonitorAndControlNMFAdapter {
         LOGGER.log(Level.INFO, "Started fetching parameters from supervisor");
     }
 
-    public Boolean onClose()
-    {
+    public Boolean onClose() {
         boolean success = true;
         // Stop fetching data in supervisor
         try {
