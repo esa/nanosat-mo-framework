@@ -359,7 +359,7 @@
                 <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/picture-processor">
                   <fileset dir="${basedir}/src/main/resources/space-common"/>
                   <fileset dir="${basedir}/src/main/resources/space-app-root"/>
-		  <fileset dir="${basedir}/../examples/space/picture-processor/src/main/resources/scripts/imageEditor"/>
+                  <fileset dir="${basedir}/../examples/space/picture-processor/src/main/resources/scripts/imageEditor"/>
                 </copy>
                 <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/mp-demo">
                   <fileset dir="${basedir}/src/main/resources/space-common"/>
@@ -376,21 +376,21 @@
         <artifactId>git-commit-id-plugin</artifactId>
         <version>4.0.4</version>
         <executions>
-            <execution>
-                <id>get-the-git-infos</id>
-                <goals>
-                    <goal>revision</goal>
-                </goals>
-                <phase>initialize</phase>
-            </execution>
+          <execution>
+            <id>get-the-git-infos</id>
+            <goals>
+              <goal>revision</goal>
+            </goals>
+            <phase>initialize</phase>
+          </execution>
         </executions>
         <configuration>
-            <failOnNoGitDirectory>false</failOnNoGitDirectory>
-            <commitIdGenerationMode>full</commitIdGenerationMode>
-            <gitDescribe>
-              <tags>true</tags>
-              <forceLongFormat>true</forceLongFormat>
-            </gitDescribe>
+          <failOnNoGitDirectory>false</failOnNoGitDirectory>
+          <commitIdGenerationMode>full</commitIdGenerationMode>
+          <gitDescribe>
+            <tags>true</tags>
+            <forceLongFormat>true</forceLongFormat>
+          </gitDescribe>
         </configuration>
       </plugin>
     </plugins>
@@ -413,7 +413,7 @@
                     </goals>
                   </pluginExecutionFilter>
                   <action>
-                    <execute />
+                    <execute/>
                   </action>
                 </pluginExecution>
                 <pluginExecution>
@@ -426,7 +426,7 @@
                     </goals>
                   </pluginExecutionFilter>
                   <action>
-                    <execute />
+                    <execute/>
                   </action>
                 </pluginExecution>
               </pluginExecutions>

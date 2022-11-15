@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-  <!--
+<!--
     Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
     You may not use this file except in compliance with the License.
 
@@ -95,11 +95,11 @@
       <artifactId>gson</artifactId>
       <version>2.8.9</version>
     </dependency>
-      <dependency>
-          <groupId>int.esa.nmf.core.moservices.api</groupId>
-          <artifactId>com-nmf</artifactId>
-          <version>2.1.0-SNAPSHOT</version>
-      </dependency>
+    <dependency>
+      <groupId>int.esa.nmf.core.moservices.api</groupId>
+      <artifactId>com-nmf</artifactId>
+      <version>2.1.0-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 
   <build>

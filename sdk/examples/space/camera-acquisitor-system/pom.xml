@@ -72,8 +72,7 @@
     </dependency>
   </dependencies>
   <build>
-    <resources>
-    </resources>
+    <resources></resources>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -97,27 +96,27 @@
       </plugin>
     </plugins>
   </build>
-  
+
   <profiles>
     <profile>
       <id>generate-nmf-package</id>
       <build>
         <plugins>
-            <plugin>
-              <groupId>int.esa.nmf.core</groupId>
-              <artifactId>nmf-package-maven-plugin</artifactId>
-              <executions>
-                <execution>
-                  <phase>package</phase>
-                  <goals>
-                    <goal>generate-nmf-package</goal>
-                  </goals>
-                  <configuration>
-                    <mainClass>${assembly.mainClass}</mainClass>
-                  </configuration>
-                </execution>
-              </executions>
-            </plugin>
+          <plugin>
+            <groupId>int.esa.nmf.core</groupId>
+            <artifactId>nmf-package-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <phase>package</phase>
+                <goals>
+                  <goal>generate-nmf-package</goal>
+                </goals>
+                <configuration>
+                  <mainClass>${assembly.mainClass}</mainClass>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
         </plugins>
       </build>
     </profile>

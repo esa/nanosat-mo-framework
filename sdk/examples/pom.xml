@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-  <!--
+<!--
     Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
     You may not use this file except in compliance with the License.
 
@@ -26,7 +26,7 @@
   <artifactId>examples-reactor</artifactId>
   <name>ESA NMF SDK Reactor - NMF Applications Examples</name>
   <packaging>pom</packaging>
-    
+
   <organization>
     <name>ESA</name>
     <url>http://www.esa.int</url>

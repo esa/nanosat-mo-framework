@@ -80,7 +80,7 @@
         <targetPath>xml</targetPath>
       </resource>
     </resources>
- 
+
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -122,7 +122,7 @@
                     </goals>
                   </pluginExecutionFilter>
                   <action>
-                    <execute />
+                    <execute/>
                   </action>
                 </pluginExecution>
               </pluginExecutions>

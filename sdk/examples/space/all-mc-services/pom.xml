@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-  <!--
+<!--
     Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
     You may not use this file except in compliance with the License.
 
@@ -74,8 +74,7 @@
   </dependencies>
 
   <build>
-    <resources>
-    </resources>
+    <resources></resources>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -105,21 +104,21 @@
       <id>generate-nmf-package</id>
       <build>
         <plugins>
-            <plugin>
-              <groupId>int.esa.nmf.core</groupId>
-              <artifactId>nmf-package-maven-plugin</artifactId>
-              <executions>
-                <execution>
-                  <phase>package</phase>
-                  <goals>
-                    <goal>generate-nmf-package</goal>
-                  </goals>
-                  <configuration>
-                    <mainClass>${assembly.mainClass}</mainClass>
-                  </configuration>
-                </execution>
-              </executions>
-            </plugin>
+          <plugin>
+            <groupId>int.esa.nmf.core</groupId>
+            <artifactId>nmf-package-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <phase>package</phase>
+                <goals>
+                  <goal>generate-nmf-package</goal>
+                </goals>
+                <configuration>
+                  <mainClass>${assembly.mainClass}</mainClass>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
         </plugins>
       </build>
     </profile>

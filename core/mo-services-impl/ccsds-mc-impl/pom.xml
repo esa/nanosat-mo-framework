@@ -96,8 +96,7 @@
     </dependency>
   </dependencies>
   <build>
-    <resources>
-    </resources>
+    <resources></resources>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
