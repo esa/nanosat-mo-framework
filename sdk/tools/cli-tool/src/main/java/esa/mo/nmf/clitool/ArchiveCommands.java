@@ -70,8 +70,7 @@ public class ArchiveCommands {
 
     private static final Logger LOGGER = Logger.getLogger(ArchiveCommands.class.getName());
 
-    @Command(name = "dump_raw",
-             description = "Dumps to a JSON file the raw tables content of a local COM archive")
+    @Command(name = "dump_raw", description = "Dumps to a JSON file the raw tables content of a local COM archive")
     public static class DumpRawArchive extends BaseCommand implements Runnable {
         @Parameters(arity = "1", paramLabel = "<jsonFile>", description = "target JSON file")
         String jsonFile;
@@ -81,7 +80,8 @@ public class ArchiveCommands {
             // Test if DB file exists
             File temp = new File(databaseFile);
             if (!temp.exists() || temp.isDirectory()) {
-                LOGGER.log(Level.SEVERE, String.format("Provided database file %s doesn't exist or is a directory", databaseFile));
+                LOGGER.log(Level.SEVERE, String.format("Provided database file %s doesn't exist or is a directory",
+                    databaseFile));
                 return;
             }
 
@@ -134,30 +134,31 @@ public class ArchiveCommands {
         }
     }
 
-    @Command(name = "dump",
-             description = "Dumps to a JSON file the formatted content of a local or remote COM archive")
+    @Command(name = "dump", description = "Dumps to a JSON file the formatted content of a local or remote COM archive")
     public static class DumpFormattedArchive extends BaseCommand implements Runnable {
         @Parameters(arity = "1", paramLabel = "<jsonFile>", description = "target JSON file")
         String jsonFile;
 
         @Option(names = {"-d", "--domain"}, paramLabel = "<domainId>",
-                description = "Restricts the dump to objects in a specific domain\n" + "  - format: key1.key2.[...].keyN.\n" + "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
+                description = "Restricts the dump to objects in a specific domain\n" +
+                    "  - format: key1.key2.[...].keyN.\n" + "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
         String domainId;
 
-        @Option(names = {"-t", "--type"}, paramLabel = "<comType>", description = "Restricts the dump to objects that are instances of <comType>\n" +
-                                                                                  "  - format: areaNumber.serviceNumber.areaVersion.objectNumber.\n" +
-                                                                                  "  - examples (0=wildcard): 4.2.1.1, 4.2.1.0 ")
+        @Option(names = {"-t", "--type"}, paramLabel = "<comType>",
+                description = "Restricts the dump to objects that are instances of <comType>\n" +
+                    "  - format: areaNumber.serviceNumber.areaVersion.objectNumber.\n" +
+                    "  - examples (0=wildcard): 4.2.1.1, 4.2.1.0 ")
         String comType;
 
-        @Option(names = {"-s", "--start"}, paramLabel = "<startTime>", description = "Restricts the dump to objects created after the given time\n" +
-                                                                                     "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" +
-                                                                                     "  - example: \"2021-03-04 08:37:58.482\"")
+        @Option(names = {"-s", "--start"}, paramLabel = "<startTime>",
+                description = "Restricts the dump to objects created after the given time\n" +
+                    "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" + "  - example: \"2021-03-04 08:37:58.482\"")
         String startTime;
 
-        @Option(names = {"-e", "--end"}, paramLabel = "<endTime>", description = "Restricts the dump to objects created before the given time. " +
-                                                                                 "If this option is provided without the -s option, returns the single object that has the closest timestamp to, but not greater than <endTime>\n" +
-                                                                                 "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" +
-                                                                                 "  - example: \"2021-03-05 12:05:45.271\"")
+        @Option(names = {"-e", "--end"}, paramLabel = "<endTime>",
+                description = "Restricts the dump to objects created before the given time. " +
+                    "If this option is provided without the -s option, returns the single object that has the closest timestamp to, but not greater than <endTime>\n" +
+                    "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" + "  - example: \"2021-03-05 12:05:45.271\"")
         String endTime;
 
         public void run() {
@@ -175,32 +176,31 @@ public class ArchiveCommands {
                     areaVersion = Integer.parseInt(subTypes[2]);
                     objectNumber = Integer.parseInt(subTypes[3]);
                 } else {
-                    LOGGER.log(Level.WARNING, String.format("Error parsing comType \"%s\", filter will be ignored", comType));
+                    LOGGER.log(Level.WARNING, String.format("Error parsing comType \"%s\", filter will be ignored",
+                        comType));
                 }
             }
 
-            ObjectType objectsTypes = new ObjectType(new UShort(areaNumber), new UShort(serviceNumber), new UOctet((short) areaVersion), new UShort(objectNumber));
+            ObjectType objectsTypes = new ObjectType(new UShort(areaNumber), new UShort(serviceNumber), new UOctet(
+                (short) areaVersion), new UShort(objectNumber));
 
             // prepare domain and time filters
             ArchiveQueryList archiveQueryList = new ArchiveQueryList();
             IdentifierList domain = domainId == null ? null : HelperMisc.domainId2domain(domainId);
             FineTime startTimeF = startTime == null ? null : HelperTime.readableString2FineTime(startTime);
             FineTime endTimeF = endTime == null ? null : HelperTime.readableString2FineTime(endTime);
-            ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L, null, startTimeF, endTimeF, null, null);
+            ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L, null, startTimeF, endTimeF, null,
+                null);
             archiveQueryList.add(archiveQuery);
 
             boolean consumerCreated = false;
-            if (providerURI != null)
-            {
+            if (providerURI != null) {
                 consumerCreated = initRemoteConsumer();
-            }
-            else if(databaseFile != null)
-            {
+            } else if (databaseFile != null) {
                 consumerCreated = initLocalConsumer(databaseFile);
             }
 
-            if(!consumerCreated)
-            {
+            if (!consumerCreated) {
                 LOGGER.log(Level.SEVERE, "Failed to create consumer!");
                 return;
             }
@@ -210,12 +210,12 @@ public class ArchiveCommands {
         }
     }
 
-    @Command(name = "list",
-             description = "Lists the COM archive providers URIs found in a central directory")
+    @Command(name = "list", description = "Lists the COM archive providers URIs found in a central directory")
     public static class ListArchiveProviders extends BaseCommand implements Runnable {
         @Parameters(arity = "1", paramLabel = "<centralDirectoryURI>",
                     description = "URI of the central directory to use")
         String centralDirectoryURI;
+
         /**
          * Lists the COM archive providers URIs found in the central directory.
          */
@@ -225,8 +225,8 @@ public class ArchiveCommands {
 
             // No provider found warning
             if (archiveProviderURIs.size() <= 0) {
-                LOGGER.log(Level.WARNING, String.format(
-                        "No COM archive provider found in central directory at %s", centralDirectoryURI));
+                LOGGER.log(Level.WARNING, String.format("No COM archive provider found in central directory at %s",
+                    centralDirectoryURI));
                 return;
             }
 
@@ -251,15 +251,15 @@ public class ArchiveCommands {
         // Create archive provider filter
         IdentifierList domain = new IdentifierList();
         domain.add(new Identifier("*"));
-        ServiceKey sk = new ServiceKey(COMHelper.COM_AREA_NUMBER, ArchiveHelper.ARCHIVE_SERVICE_NUMBER,
-                                       new UOctet((short) 0));
-        ServiceFilter sf2 = new ServiceFilter(new Identifier("*"), domain, new Identifier("*"), null,
-                                              new Identifier("*"), sk, new UShortList());
+        ServiceKey sk = new ServiceKey(COMHelper.COM_AREA_NUMBER, ArchiveHelper.ARCHIVE_SERVICE_NUMBER, new UOctet(
+            (short) 0));
+        ServiceFilter sf2 = new ServiceFilter(new Identifier("*"), domain, new Identifier("*"), null, new Identifier(
+            "*"), sk, new UShortList());
 
         // Query directory service with filter
-        try (DirectoryConsumerServiceImpl centralDirectory = new DirectoryConsumerServiceImpl(centralDirectoryServiceURI)) {
-            ProviderSummaryList providersSummaries =
-                centralDirectory.getDirectoryStub().lookupProvider(sf2);
+        try (DirectoryConsumerServiceImpl centralDirectory = new DirectoryConsumerServiceImpl(
+            centralDirectoryServiceURI)) {
+            ProviderSummaryList providersSummaries = centralDirectory.getDirectoryStub().lookupProvider(sf2);
             for (ProviderSummary providerSummary : providersSummaries) {
                 final StringBuilder provider = new StringBuilder(providerSummary.getProviderId().getValue());
 
@@ -285,22 +285,22 @@ public class ArchiveCommands {
         return archiveProviders;
     }
 
-    @Command(name = "backup_and_clean",
-             description = "Backups the data for a specific provider")
+    @Command(name = "backup_and_clean", description = "Backups the data for a specific provider")
     public static class BackupProvider extends BaseCommand implements Runnable {
         @Option(names = {"-o", "--output"}, paramLabel = "<filename>", description = "target file name")
         String filename;
 
         @Parameters(arity = "1", index = "0", paramLabel = "<domainId>",
-                    description = "Restricts the dump to objects in a specific domain\n" + "  - format: key1.key2.[...].keyN.\n" + "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
+                    description = "Restricts the dump to objects in a specific domain\n" +
+                        "  - format: key1.key2.[...].keyN.\n" + "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
         String domainId;
 
         public void run() {
-            if(!super.initRemoteConsumer())
-            {
+            if (!super.initRemoteConsumer()) {
                 return;
             }
-            ObjectType objectsTypes = new ObjectType(new UShort(0), new UShort(0), new UOctet((short) 0), new UShort(0));
+            ObjectType objectsTypes = new ObjectType(new UShort(0), new UShort(0), new UOctet((short) 0), new UShort(
+                0));
             ArchiveQueryList archiveQueryList = new ArchiveQueryList();
             IdentifierList domain = domainId == null ? null : HelperMisc.domainId2domain(domainId);
             ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L, null, null, null, null, null);
@@ -348,7 +348,8 @@ public class ArchiveCommands {
                 }
                 System.out.println("Deleting objects from provider finished.\n");
             } else {
-                System.out.println("\nThere were errors when saving data. Not deleting objects from provider archive.\n");
+                System.out.println(
+                    "\nThere were errors when saving data. Not deleting objects from provider archive.\n");
             }
         }
     }

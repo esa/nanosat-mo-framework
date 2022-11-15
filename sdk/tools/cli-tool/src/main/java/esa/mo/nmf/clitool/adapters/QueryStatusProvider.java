@@ -28,10 +28,10 @@ package esa.mo.nmf.clitool.adapters;
  */
 public interface QueryStatusProvider {
 
-  /**
-   * @return true if the query is finished ((response or any error message received), false
-   *         otherwise.
-   */
-  boolean isQueryOver();
+    /**
+     * @return true if the query is finished ((response or any error message received), false
+     *         otherwise.
+     */
+    boolean isQueryOver();
 
 }

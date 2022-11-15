@@ -34,7 +34,6 @@ import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.body.ListAppResponse;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.consumer.AppsLauncherAdapter;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.consumer.AppsLauncherStub;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetails;
@@ -51,52 +50,44 @@ import java.util.logging.Logger;
 /**
  * @author marcel.mikolajko
  */
-public class SoftwareManagementCommands
-{
+public class SoftwareManagementCommands {
     static Logger LOGGER = Logger.getLogger(SoftwareManagementCommands.class.getName());
 
     public static Identifier heartbeatSubscription;
     public static Identifier outputSubscription;
 
-    @Command(name = "apps-launcher", subcommands = {MonitorExecution.class,
-                                                    RunApp.class,
-                                                    StopApp.class,
-                                                    KillApp.class})
-    public static class AppsLauncher {}
+    @Command(name = "apps-launcher", subcommands = {MonitorExecution.class, RunApp.class, StopApp.class, KillApp.class})
+    public static class AppsLauncher {
+    }
 
     @Command(name = "heartbeat", subcommands = {Beat.class})
-    public static class Heartbeat {}
+    public static class Heartbeat {
+    }
 
     @Command(name = "subscribe", description = "Subscribes to provider's heartbeat")
-    public static class Beat extends BaseCommand implements Runnable
-    {
+    public static class Beat extends BaseCommand implements Runnable {
         @Override
-        public void run()
-        {
-            if(!super.initRemoteConsumer())
-            {
+        public void run() {
+            if (!super.initRemoteConsumer()) {
                 return;
             }
 
-            if(consumer.getSMServices().getHeartbeatService() == null)
-            {
+            if (consumer.getSMServices().getHeartbeatService() == null) {
                 System.out.println("Heartbeat service is not available for this provider!");
                 return;
             }
 
-            try
-            {
+            try {
                 HeartbeatStub heartbeat = consumer.getSMServices().getHeartbeatService().getHeartbeatStub();
 
                 Identifier subscriptionId = new Identifier("CLI-Consumer-HeartbeatSubscription");
                 Subscription subscription = ConnectionConsumer.subscriptionWildcard(subscriptionId);
                 heartbeatSubscription = subscriptionId;
 
-                heartbeat.beatRegister(subscription, new HeartbeatAdapter()
-                {
+                heartbeat.beatRegister(subscription, new HeartbeatAdapter() {
                     @Override
-                    public void beatNotifyReceived(MALMessageHeader msgHeader, Identifier identifier, UpdateHeaderList updateHeaderList, Map qosProperties)
-                    {
+                    public void beatNotifyReceived(MALMessageHeader msgHeader, Identifier identifier,
+                        UpdateHeaderList updateHeaderList, Map qosProperties) {
                         long timestamp = updateHeaderList.get(0).getTimestamp().getValue();
                         System.out.println("[" + timestamp + "] - Heartbeat received");
                     }
@@ -104,78 +95,62 @@ public class SoftwareManagementCommands
 
                 final Object lock = new Object();
 
-                synchronized (lock)
-                {
+                synchronized (lock) {
                     lock.wait();
                 }
-            }
-            catch (MALInteractionException | MALException | InterruptedException e)
-            {
+            } catch (MALInteractionException | MALException | InterruptedException e) {
                 LOGGER.log(Level.SEVERE, "Error during heartbeat register!", e);
             }
         }
     }
 
     @Command(name = "subscribe", description = "Subscribes to app's stdout")
-    public static class MonitorExecution extends BaseCommand implements Runnable
-    {
+    public static class MonitorExecution extends BaseCommand implements Runnable {
         @Parameters(arity = "0..*", paramLabel = "<appNames>", index = "0",
                     description = "Names of the apps to subscribe to. If non are specified subscribe to all.")
         List<String> appNames;
 
         @Override
-        public void run()
-        {
-            if(!super.initRemoteConsumer())
-            {
+        public void run() {
+            if (!super.initRemoteConsumer()) {
                 return;
             }
 
-            if(consumer.getSMServices().getAppsLauncherService() == null)
-            {
+            if (consumer.getSMServices().getAppsLauncherService() == null) {
                 System.out.println("Apps launcher service is not available for this provider!");
                 return;
             }
 
             final Object lock = new Object();
 
-            try
-            {
+            try {
                 AppsLauncherStub appsLauncher = consumer.getSMServices().getAppsLauncherService().getAppsLauncherStub();
 
                 Identifier subscriptionId = new Identifier("CLI-Consumer-AppsLauncherSubscription");
                 Subscription subscription;
-                if(appNames == null || appNames.isEmpty())
-                {
+                if (appNames == null || appNames.isEmpty()) {
                     subscription = ConnectionConsumer.subscriptionWildcard(subscriptionId);
-                }
-                else
-                {
+                } else {
                     ArchiveStub archive = consumer.getCOMServices().getArchiveService().getArchiveStub();
                     Map<String, ProviderAppDetails> providerNameToDetails = getProvidersDetails(archive);
 
                     EntityKeyList entityKeys = new EntityKeyList();
-                    for(String app : appNames)
-                    {
+                    for (String app : appNames) {
                         Long id = providerNameToDetails.get(app).id;
-                        if(id != null)
-                        {
+                        if (id != null) {
                             EntityKey entitykey = new EntityKey(new Identifier(app), id, 0L, 0L);
                             entityKeys.add(entitykey);
-                        }
-                        else
-                        {
+                        } else {
                             System.out.println("Provider " + app + " not found!");
                         }
                     }
 
-                    if(entityKeys.isEmpty())
-                    {
+                    if (entityKeys.isEmpty()) {
                         System.out.println("Could not find any providers matching provided names!");
                         System.out.println("Available providers:");
-                        for(Map.Entry<String, ProviderAppDetails> entry : providerNameToDetails.entrySet())
-                        {
-                            System.out.println(entry.getKey() + " - Running: " + entry.getValue().appDetails.getRunning());
+                        for (Map.Entry<String, ProviderAppDetails> entry : providerNameToDetails.entrySet()) {
+                            System.out.println(entry.getKey() + " - Running: " + entry.getValue().appDetails
+                                .getRunning());
                         }
                         return;
                     }
@@ -188,64 +163,51 @@ public class SoftwareManagementCommands
                 }
                 outputSubscription = subscriptionId;
 
-                appsLauncher.monitorExecutionRegister(subscription, new AppsLauncherAdapter()
-                {
+                appsLauncher.monitorExecutionRegister(subscription, new AppsLauncherAdapter() {
                     @Override
-                    public void monitorExecutionNotifyReceived(MALMessageHeader msgHeader, Identifier identifier, UpdateHeaderList updateHeaderList, StringList strings, Map qosProperties)
-                    {
-                        for (int i = 0; i < updateHeaderList.size(); i++)
-                        {
+                    public void monitorExecutionNotifyReceived(MALMessageHeader msgHeader, Identifier identifier,
+                        UpdateHeaderList updateHeaderList, StringList strings, Map qosProperties) {
+                        for (int i = 0; i < updateHeaderList.size(); i++) {
                             String providerName = updateHeaderList.get(i).getKey().getFirstSubKey().getValue();
                             String[] lines = strings.get(i).split("\n");
-                            for(String line : lines)
-                            {
+                            for (String line : lines) {
                                 System.out.println("[" + providerName + "]: " + line);
                             }
                         }
                     }
                 });
 
-                synchronized (lock)
-                {
+                synchronized (lock) {
                     lock.wait();
                 }
-            }
-            catch (MALInteractionException | MALException | InterruptedException e)
-            {
+            } catch (MALInteractionException | MALException | InterruptedException e) {
                 LOGGER.log(Level.SEVERE, "Error during heartbeat register!", e);
             }
         }
     }
 
     @Command(name = "run", description = "Runs the specified provider app")
-    public static class RunApp extends BaseCommand implements Runnable
-    {
-        @Parameters(arity = "1", paramLabel = "<appName>", index = "0",
-                description = "Name of the app to run.")
+    public static class RunApp extends BaseCommand implements Runnable {
+        @Parameters(arity = "1", paramLabel = "<appName>", index = "0", description = "Name of the app to run.")
         String appName;
 
         @Override
-        public void run()
-        {
-            if(!super.initRemoteConsumer())
-            {
+        public void run() {
+            if (!super.initRemoteConsumer()) {
                 return;
             }
 
-            if(consumer.getSMServices().getAppsLauncherService() == null)
-            {
+            if (consumer.getSMServices().getAppsLauncherService() == null) {
                 System.out.println("Apps launcher service is not available for this provider!");
                 return;
             }
 
-            try
-            {
+            try {
                 AppsLauncherStub appsLauncher = consumer.getSMServices().getAppsLauncherService().getAppsLauncherStub();
 
                 ArchiveStub archive = consumer.getCOMServices().getArchiveService().getArchiveStub();
                 Map<String, ProviderAppDetails> providerNameToDetails = getProvidersDetails(archive);
-                if(!checkProvider(providerNameToDetails, appName))
-                {
+                if (!checkProvider(providerNameToDetails, appName)) {
                     return;
                 }
 
@@ -253,44 +215,35 @@ public class SoftwareManagementCommands
                 ids.add(providerNameToDetails.get(appName).id);
                 appsLauncher.runApp(ids);
 
-            }
-            catch (MALInteractionException | MALException | InterruptedException e)
-            {
+            } catch (MALInteractionException | MALException | InterruptedException e) {
                 LOGGER.log(Level.SEVERE, "Error during runApp!", e);
             }
         }
     }
 
     @Command(name = "stop", description = "Stops the specified provider app")
-    public static class StopApp extends BaseCommand implements Runnable
-    {
-        @Parameters(arity = "1", paramLabel = "<appName>", index = "0",
-                description = "Name of the app to stop.")
+    public static class StopApp extends BaseCommand implements Runnable {
+        @Parameters(arity = "1", paramLabel = "<appName>", index = "0", description = "Name of the app to stop.")
         String appName;
 
         @Override
-        public void run()
-        {
-            if(!super.initRemoteConsumer())
-            {
+        public void run() {
+            if (!super.initRemoteConsumer()) {
                 return;
             }
 
-            if(consumer.getSMServices().getAppsLauncherService() == null)
-            {
+            if (consumer.getSMServices().getAppsLauncherService() == null) {
                 System.out.println("Apps launcher service is not available for this provider!");
                 return;
             }
 
-            try
-            {
+            try {
                 AppsLauncherStub appsLauncher = consumer.getSMServices().getAppsLauncherService().getAppsLauncherStub();
 
                 ArchiveStub archive = consumer.getCOMServices().getArchiveService().getArchiveStub();
                 Map<String, ProviderAppDetails> providerNameToDetails = getProvidersDetails(archive);
 
-                if(!checkProvider(providerNameToDetails, appName))
-                {
+                if (!checkProvider(providerNameToDetails, appName)) {
                     return;
                 }
 
@@ -300,12 +253,9 @@ public class SoftwareManagementCommands
                 ids.add(providerNameToDetails.get(appName).id);
                 appsLauncher.stopApp(ids, new AppsLauncherAdapter() {
                     @Override
-                    public void stopAppUpdateReceived(MALMessageHeader msgHeader, Long appClosing, Map qosProperties)
-                    {
-                        for(ProviderAppDetails details : providerNameToDetails.values())
-                        {
-                            if(appClosing.equals(details.id))
-                            {
+                    public void stopAppUpdateReceived(MALMessageHeader msgHeader, Long appClosing, Map qosProperties) {
+                        for (ProviderAppDetails details : providerNameToDetails.values()) {
+                            if (appClosing.equals(details.id)) {
                                 System.out.println(details.appDetails.getName() + " closing in progress...");
                                 break;
                             }
@@ -313,102 +263,83 @@ public class SoftwareManagementCommands
                     }
 
                     @Override
-                    public void stopAppResponseReceived(MALMessageHeader msgHeader, Map qosProperties)
-                    {
+                    public void stopAppResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
                         System.out.println("App closed!");
 
-                        synchronized (lock)
-                        {
+                        synchronized (lock) {
                             lock.notifyAll();
                         }
                     }
 
                     @Override
-                    public void stopAppUpdateErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties)
-                    {
+                    public void stopAppUpdateErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                        Map qosProperties) {
                         LOGGER.log(Level.SEVERE, "Error during stopApp!", error);
-                        synchronized (lock)
-                        {
+                        synchronized (lock) {
                             lock.notifyAll();
                         }
                     }
 
                     @Override
-                    public void stopAppResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties)
-                    {
+                    public void stopAppResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                        Map qosProperties) {
                         LOGGER.log(Level.SEVERE, "Error during stopApp!", error);
-                        synchronized (lock)
-                        {
+                        synchronized (lock) {
                             lock.notifyAll();
                         }
                     }
                 });
 
-                synchronized (lock)
-                {
+                synchronized (lock) {
                     lock.wait();
                 }
 
-            }
-            catch (MALInteractionException | MALException | InterruptedException e)
-            {
+            } catch (MALInteractionException | MALException | InterruptedException e) {
                 LOGGER.log(Level.SEVERE, "Error during stopApp!", e);
             }
         }
     }
 
     @Command(name = "kill", description = "Kills the specified provider app")
-    public static class KillApp extends BaseCommand implements Runnable
-    {
-        @Parameters(arity = "1", paramLabel = "<appName>", index = "0",
-                description = "Name of the app to kill.")
+    public static class KillApp extends BaseCommand implements Runnable {
+        @Parameters(arity = "1", paramLabel = "<appName>", index = "0", description = "Name of the app to kill.")
         String appName;
 
         @Override
-        public void run()
-        {
-            if(!super.initRemoteConsumer())
-            {
+        public void run() {
+            if (!super.initRemoteConsumer()) {
                 return;
             }
 
-            if(consumer.getSMServices().getAppsLauncherService() == null)
-            {
+            if (consumer.getSMServices().getAppsLauncherService() == null) {
                 System.out.println("Apps launcher service is not available for this provider!");
                 return;
             }
 
-            try
-            {
+            try {
                 AppsLauncherStub appsLauncher = consumer.getSMServices().getAppsLauncherService().getAppsLauncherStub();
 
                 ArchiveStub archive = consumer.getCOMServices().getArchiveService().getArchiveStub();
                 Map<String, ProviderAppDetails> providerNameToDetails = getProvidersDetails(archive);
 
-                if(!checkProvider(providerNameToDetails, appName))
-                {
+                if (!checkProvider(providerNameToDetails, appName)) {
                     return;
                 }
 
                 LongList ids = new LongList();
                 ids.add(providerNameToDetails.get(appName).id);
                 appsLauncher.killApp(ids);
-            }
-            catch (MALInteractionException | MALException | InterruptedException e)
-            {
+            } catch (MALInteractionException | MALException | InterruptedException e) {
                 LOGGER.log(Level.SEVERE, "Error during killApp!", e);
             }
         }
     }
 
-    private static boolean checkProvider(Map<String, ProviderAppDetails> providers, String provider)
-    {
-        if(!providers.containsKey(provider))
-        {
+    private static boolean checkProvider(Map<String, ProviderAppDetails> providers, String provider) {
+        if (!providers.containsKey(provider)) {
             System.out.println("Could not find any apps matching provided name!");
             System.out.println("Available apps:");
-            for(Map.Entry<String, ProviderAppDetails> entry : providers.entrySet())
-            {
+            for (Map.Entry<String, ProviderAppDetails> entry : providers.entrySet()) {
                 System.out.println(entry.getKey() + " - Running: " + entry.getValue().appDetails.getRunning());
             }
             return false;
@@ -417,7 +348,8 @@ public class SoftwareManagementCommands
         return true;
     }
 
-    private static Map<String, ProviderAppDetails> getProvidersDetails(ArchiveStub archive) throws MALInteractionException, MALException, InterruptedException {
+    private static Map<String, ProviderAppDetails> getProvidersDetails(ArchiveStub archive)
+        throws MALInteractionException, MALException, InterruptedException {
         final Object lock = new Object();
 
         ArchiveQueryList queries = new ArchiveQueryList();
@@ -425,68 +357,62 @@ public class SoftwareManagementCommands
 
         Map<String, ProviderAppDetails> result = new HashMap<>();
         ObjectType appType = new ObjectType(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER,
-                                            AppsLauncherHelper.APPSLAUNCHER_SERVICE_NUMBER, new UOctet((short) 0),
-                                            AppsLauncherHelper.APP_OBJECT_NUMBER);
+            AppsLauncherHelper.APPSLAUNCHER_SERVICE_NUMBER, new UOctet((short) 0),
+            AppsLauncherHelper.APP_OBJECT_NUMBER);
         archive.query(true, appType, queries, null, new ArchiveAdapter() {
             @Override
-            public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties)
-            {
-                for(int i = 0; i < objDetails.size(); ++i)
-                {
-                    AppDetails details = (AppDetails)objBodies.get(i);
-                    result.put(details.getName().getValue(), new ProviderAppDetails(objDetails.get(i).getInstId(), details));
+            public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
+                ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+                for (int i = 0; i < objDetails.size(); ++i) {
+                    AppDetails details = (AppDetails) objBodies.get(i);
+                    result.put(details.getName().getValue(), new ProviderAppDetails(objDetails.get(i).getInstId(),
+                        details));
                 }
             }
 
             @Override
-            public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties)
-            {
-                if(objDetails != null)
-                {
-                    for(int i = 0; i < objDetails.size(); ++i)
-                    {
-                        AppDetails details = (AppDetails)objBodies.get(i);
-                        result.put(details.getName().getValue(), new ProviderAppDetails(objDetails.get(i).getInstId(), details));
+            public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
+                ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+                if (objDetails != null) {
+                    for (int i = 0; i < objDetails.size(); ++i) {
+                        AppDetails details = (AppDetails) objBodies.get(i);
+                        result.put(details.getName().getValue(), new ProviderAppDetails(objDetails.get(i).getInstId(),
+                            details));
                     }
                 }
 
-                synchronized (lock)
-                {
+                synchronized (lock) {
                     lock.notifyAll();
                 }
             }
 
             @Override
-            public void queryUpdateErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties)
-            {
+            public void queryUpdateErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                Map qosProperties) {
                 LOGGER.log(Level.SEVERE, "Error during archive query!", error);
-                synchronized (lock)
-                {
+                synchronized (lock) {
                     lock.notifyAll();
                 }
             }
 
             @Override
-            public void queryResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties)
-            {
+            public void queryResponseErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
+                Map qosProperties) {
                 LOGGER.log(Level.SEVERE, "Error during archive query!", error);
-                synchronized (lock)
-                {
+                synchronized (lock) {
                     lock.notifyAll();
                 }
             }
         });
 
-        synchronized (lock)
-        {
+        synchronized (lock) {
             lock.wait();
         }
 
         return result;
     }
 
-    private static class ProviderAppDetails
-    {
+    private static class ProviderAppDetails {
         Long id;
         AppDetails appDetails;
 
