@@ -25,7 +25,7 @@
   <groupId>int.esa.nmf.sdk</groupId>
   <artifactId>package</artifactId>
   <name>ESA NMF SDK Package Assembly</name>
-  <packaging>jar</packaging>
+  <packaging>pom</packaging>
 
   <organization>
     <name>ESA</name>
