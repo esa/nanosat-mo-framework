@@ -18,7 +18,7 @@
  * limitations under the License.
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.cliconsumer;
+package esa.mo.nmf.clitool;
 
 import esa.mo.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
@@ -32,7 +32,9 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MALStandardError;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
+import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
+import org.ccsds.moims.mo.softwaremanagement.appslauncher.body.ListAppResponse;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.consumer.AppsLauncherAdapter;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.consumer.AppsLauncherStub;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetails;
@@ -71,7 +73,7 @@ public class SoftwareManagementCommands
         @Override
         public void run()
         {
-            if(!super.initConsumer())
+            if(!super.initRemoteConsumer())
             {
                 return;
             }
@@ -114,17 +116,17 @@ public class SoftwareManagementCommands
         }
     }
 
-    @Command(name = "subscribe", description = "Subscribes to provider's stdout")
+    @Command(name = "subscribe", description = "Subscribes to app's stdout")
     public static class MonitorExecution extends BaseCommand implements Runnable
     {
-        @Parameters(arity = "0..*", paramLabel = "<providerNames>", index = "0",
-                    description = "Names of the providers to subscribe to. If non are specified subscribe to all.")
-        List<String> providerNames;
+        @Parameters(arity = "0..*", paramLabel = "<appNames>", index = "0",
+                    description = "Names of the apps to subscribe to. If non are specified subscribe to all.")
+        List<String> appNames;
 
         @Override
         public void run()
         {
-            if(!super.initConsumer())
+            if(!super.initRemoteConsumer())
             {
                 return;
             }
@@ -143,7 +145,7 @@ public class SoftwareManagementCommands
 
                 Identifier subscriptionId = new Identifier("CLI-Consumer-AppsLauncherSubscription");
                 Subscription subscription;
-                if(providerNames == null || providerNames.isEmpty())
+                if(appNames == null || appNames.isEmpty())
                 {
                     subscription = ConnectionConsumer.subscriptionWildcard(subscriptionId);
                 }
@@ -153,17 +155,17 @@ public class SoftwareManagementCommands
                     Map<String, ProviderAppDetails> providerNameToDetails = getProvidersDetails(archive);
 
                     EntityKeyList entityKeys = new EntityKeyList();
-                    for(String provider : providerNames)
+                    for(String app : appNames)
                     {
-                        Long id = providerNameToDetails.get(provider).id;
+                        Long id = providerNameToDetails.get(app).id;
                         if(id != null)
                         {
-                            EntityKey entitykey = new EntityKey(new Identifier(provider), id, 0L, 0L);
+                            EntityKey entitykey = new EntityKey(new Identifier(app), id, 0L, 0L);
                             entityKeys.add(entitykey);
                         }
                         else
                         {
-                            System.out.println("Provider " + provider + " not found!");
+                            System.out.println("Provider " + app + " not found!");
                         }
                     }
 
@@ -218,14 +220,14 @@ public class SoftwareManagementCommands
     @Command(name = "run", description = "Runs the specified provider app")
     public static class RunApp extends BaseCommand implements Runnable
     {
-        @Parameters(arity = "1", paramLabel = "<providerName>", index = "0",
-                description = "Names of the provider to run.")
-        String providerName;
+        @Parameters(arity = "1", paramLabel = "<appName>", index = "0",
+                description = "Name of the app to run.")
+        String appName;
 
         @Override
         public void run()
         {
-            if(!super.initConsumer())
+            if(!super.initRemoteConsumer())
             {
                 return;
             }
@@ -242,14 +244,13 @@ public class SoftwareManagementCommands
 
                 ArchiveStub archive = consumer.getCOMServices().getArchiveService().getArchiveStub();
                 Map<String, ProviderAppDetails> providerNameToDetails = getProvidersDetails(archive);
-
-                if(!checkProvider(providerNameToDetails, providerName))
+                if(!checkProvider(providerNameToDetails, appName))
                 {
                     return;
                 }
 
                 LongList ids = new LongList();
-                ids.add(providerNameToDetails.get(providerName).id);
+                ids.add(providerNameToDetails.get(appName).id);
                 appsLauncher.runApp(ids);
 
             }
@@ -263,14 +264,14 @@ public class SoftwareManagementCommands
     @Command(name = "stop", description = "Stops the specified provider app")
     public static class StopApp extends BaseCommand implements Runnable
     {
-        @Parameters(arity = "1", paramLabel = "<providerName>", index = "0",
-                description = "Names of the provider to stop.")
-        String providerName;
+        @Parameters(arity = "1", paramLabel = "<appName>", index = "0",
+                description = "Name of the app to stop.")
+        String appName;
 
         @Override
         public void run()
         {
-            if(!super.initConsumer())
+            if(!super.initRemoteConsumer())
             {
                 return;
             }
@@ -288,7 +289,7 @@ public class SoftwareManagementCommands
                 ArchiveStub archive = consumer.getCOMServices().getArchiveService().getArchiveStub();
                 Map<String, ProviderAppDetails> providerNameToDetails = getProvidersDetails(archive);
 
-                if(!checkProvider(providerNameToDetails, providerName))
+                if(!checkProvider(providerNameToDetails, appName))
                 {
                     return;
                 }
@@ -296,7 +297,7 @@ public class SoftwareManagementCommands
                 final Object lock = new Object();
 
                 LongList ids = new LongList();
-                ids.add(providerNameToDetails.get(providerName).id);
+                ids.add(providerNameToDetails.get(appName).id);
                 appsLauncher.stopApp(ids, new AppsLauncherAdapter() {
                     @Override
                     public void stopAppUpdateReceived(MALMessageHeader msgHeader, Long appClosing, Map qosProperties)
@@ -359,14 +360,14 @@ public class SoftwareManagementCommands
     @Command(name = "kill", description = "Kills the specified provider app")
     public static class KillApp extends BaseCommand implements Runnable
     {
-        @Parameters(arity = "1", paramLabel = "<providerName>", index = "0",
-                description = "Names of the provider to kill.")
-        String providerName;
+        @Parameters(arity = "1", paramLabel = "<appName>", index = "0",
+                description = "Name of the app to kill.")
+        String appName;
 
         @Override
         public void run()
         {
-            if(!super.initConsumer())
+            if(!super.initRemoteConsumer())
             {
                 return;
             }
@@ -384,13 +385,13 @@ public class SoftwareManagementCommands
                 ArchiveStub archive = consumer.getCOMServices().getArchiveService().getArchiveStub();
                 Map<String, ProviderAppDetails> providerNameToDetails = getProvidersDetails(archive);
 
-                if(!checkProvider(providerNameToDetails, providerName))
+                if(!checkProvider(providerNameToDetails, appName))
                 {
                     return;
                 }
 
                 LongList ids = new LongList();
-                ids.add(providerNameToDetails.get(providerName).id);
+                ids.add(providerNameToDetails.get(appName).id);
                 appsLauncher.killApp(ids);
             }
             catch (MALInteractionException | MALException | InterruptedException e)
@@ -404,8 +405,8 @@ public class SoftwareManagementCommands
     {
         if(!providers.containsKey(provider))
         {
-            System.out.println("Could not find any providers matching provided name!");
-            System.out.println("Available providers:");
+            System.out.println("Could not find any apps matching provided name!");
+            System.out.println("Available apps:");
             for(Map.Entry<String, ProviderAppDetails> entry : providers.entrySet())
             {
                 System.out.println(entry.getKey() + " - Running: " + entry.getValue().appDetails.getRunning());
@@ -420,10 +421,13 @@ public class SoftwareManagementCommands
         final Object lock = new Object();
 
         ArchiveQueryList queries = new ArchiveQueryList();
-        queries.add(new ArchiveQuery(null, null, null, 0L, null, null, null, null, null));
+        queries.add(new ArchiveQuery(BaseCommand.domain, null, null, 0L, null, null, null, null, null));
 
         Map<String, ProviderAppDetails> result = new HashMap<>();
-        archive.query(true, AppsLauncherHelper.APP_OBJECT_TYPE, queries, null, new ArchiveAdapter() {
+        ObjectType appType = new ObjectType(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER,
+                                            AppsLauncherHelper.APPSLAUNCHER_SERVICE_NUMBER, new UOctet((short) 0),
+                                            AppsLauncherHelper.APP_OBJECT_NUMBER);
+        archive.query(true, appType, queries, null, new ArchiveAdapter() {
             @Override
             public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain, ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties)
             {

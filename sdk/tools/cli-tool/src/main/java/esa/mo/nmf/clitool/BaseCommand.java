@@ -18,11 +18,22 @@
  * limitations under the License.
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.cliconsumer;
+package esa.mo.nmf.clitool;
 
+import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
+import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
+import esa.mo.helpertools.connections.SingleConnectionDetails;
+import esa.mo.helpertools.helpers.HelperMisc;
 import esa.mo.nmf.NMFConsumer;
+import esa.mo.nmf.clitool.adapters.ArchiveToAppAdapter;
+import esa.mo.nmf.clitool.adapters.QueryStatusProvider;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
+import org.ccsds.moims.mo.com.archive.consumer.ArchiveStub;
 import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
+import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
+import org.ccsds.moims.mo.com.archive.structures.ArchiveQueryList;
+import org.ccsds.moims.mo.com.structures.ObjectId;
+import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
 import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
 import org.ccsds.moims.mo.common.login.LoginHelper;
@@ -32,6 +43,8 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
+import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
+import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
 import picocli.CommandLine.*;
 
 import java.net.MalformedURLException;
@@ -51,10 +64,16 @@ public abstract class BaseCommand {
     @Option(names = {"-h", "--help"}, usageHelp = true, description = "display a help message")
     private boolean helpRequested;
 
-    @Option(names = {"-u", "--uri"}, paramLabel = "<providerURI>",
+    @Option(names = {"-r", "--remote"}, paramLabel = "<providerURI>",
             description = "Provider URI\n"
                           + "  - example: maltcp://10.0.2.15:1024/nanosat-mo-supervisor-Directory")
     public String providerURI;
+
+
+    @Option(names = {"-l", "--local"}, paramLabel = "<databaseFile>",
+            description = "Local SQLite database file\n"
+                          + "  - example: ../nanosat-mo-supervisor-sim/comArchive.db")
+    public String databaseFile;
 
     @Option(names = {"-p", "--provider"}, paramLabel = "<providerName>",
             description = "Name of the provider we want to connect to")
@@ -63,17 +82,67 @@ public abstract class BaseCommand {
     public static NMFConsumer consumer;
     public static IdentifierList domain;
 
-    public boolean initConsumer()
+    public static ArchiveConsumerServiceImpl localArchive;
+    public static ArchiveProviderServiceImpl localArchiveProvider;
+
+    public boolean initLocalArchiveProvider(String databaseFile)
+    {
+        HelperMisc.loadPropertiesFile();
+        System.setProperty(HelperMisc.PROP_MO_APP_NAME, CLITool.APP_NAME);
+        System.setProperty("esa.nmf.archive.persistence.jdbc.url", "jdbc:sqlite:" + databaseFile);
+
+        localArchiveProvider = new ArchiveProviderServiceImpl();
+        try {
+            localArchiveProvider.init(null);
+            LOGGER.log(Level.INFO, String.format("ArchiveProvider initialized at %s with file %s",
+                                                 localArchiveProvider.getConnection().getConnectionDetails().getProviderURI(), databaseFile));
+        } catch (MALException e) {
+            LOGGER.log(Level.SEVERE, "Error initializing archiveProvider", e);
+            return false;
+        }
+
+        // give it time to initialize
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException ignored) {
+        }
+        return true;
+    }
+
+    public boolean initLocalConsumer(String databaseFile) {
+        if(!initLocalArchiveProvider(databaseFile))
+        {
+            return false;
+        }
+        String providerURI = localArchiveProvider.getConnection().getConnectionDetails().getProviderURI().getValue();
+        SingleConnectionDetails connectionDetails = new SingleConnectionDetails();
+        connectionDetails.setProviderURI(providerURI);
+        IdentifierList domain = new IdentifierList();
+        Identifier wildCard = new Identifier("*");
+        domain.add(wildCard);
+        connectionDetails.setDomain(domain);
+
+        try {
+            localArchive = new ArchiveConsumerServiceImpl(connectionDetails);
+        } catch (MALException | MalformedURLException e) {
+            LOGGER.log(Level.SEVERE, "Error initializing local archive", e);
+            return false;
+        }
+        return true;
+    }
+    public boolean initRemoteConsumer()
     {
         try
         {
+            HelperMisc.loadPropertiesFile();
+            providerURI = providerURI.contains("Archive") ? providerURI.replace("Archive", "Directory") : providerURI;
             ProviderSummaryList providerSummaryList = NMFConsumer.retrieveProvidersFromDirectory(new URI(providerURI));
             ProviderSummary provider = null;
             if(providerSummaryList.size() == 1)
             {
                 if(providerName != null)
                 {
-                    System.out.println("There's only one provider in directory. Ignoring --provider option.");
+                    System.out.println("\nThere's only one provider in directory. Ignoring --provider option.\n");
                 }
                 provider = providerSummaryList.get(0);
             }
@@ -81,7 +150,8 @@ public abstract class BaseCommand {
             {
                 if(providerName == null)
                 {
-                    System.out.println("\nThere's more than one provider in directory. In this case the --provider option is required");
+                    System.out.println("\nThere's more than one provider in directory.");
+                    System.out.println("--provider option is required\n");
                     System.out.println("Available providers at this uri: " + providerURI);
                     for(ProviderSummary summary : providerSummaryList)
                     {
@@ -200,44 +270,44 @@ public abstract class BaseCommand {
 
     public static void closeConsumer()
     {
-        IdentifierList ids = new IdentifierList();
-        try
+        if (consumer != null)
         {
-            if(MCCommands.parameterSubscription != null)
+            IdentifierList ids = new IdentifierList();
+            try
             {
-                ids.clear();
-                ids.add(MCCommands.parameterSubscription);
-                consumer.getMCServices().getParameterService().getParameterStub().monitorValueDeregister(ids);
+                if(MCCommands.parameterSubscription != null)
+                {
+                    ids.clear();
+                    ids.add(MCCommands.parameterSubscription);
+                    consumer.getMCServices().getParameterService().getParameterStub().monitorValueDeregister(ids);
+                }
+
+                if(MCCommands.aggregationSubscription != null)
+                {
+                    ids.clear();
+                    ids.add(MCCommands.aggregationSubscription);
+                    consumer.getMCServices().getAggregationService().getAggregationStub().monitorValueDeregister(ids);
+                }
+
+                if(SoftwareManagementCommands.heartbeatSubscription != null)
+                {
+                    ids.clear();
+                    ids.add(SoftwareManagementCommands.heartbeatSubscription);
+                    consumer.getSMServices().getHeartbeatService().getHeartbeatStub().beatDeregister(ids);
+                }
+
+                if(SoftwareManagementCommands.outputSubscription != null)
+                {
+                    ids.clear();
+                    ids.add(SoftwareManagementCommands.outputSubscription);
+                    consumer.getSMServices().getAppsLauncherService().getAppsLauncherStub().monitorExecutionDeregister(ids);
+                }
+            }
+            catch (MALInteractionException | MALException e)
+            {
+                LOGGER.log(Level.SEVERE, "Failed to deregister subscription: " + ids.get(0), e);
             }
 
-            if(MCCommands.aggregationSubscription != null)
-            {
-                ids.clear();
-                ids.add(MCCommands.aggregationSubscription);
-                consumer.getMCServices().getAggregationService().getAggregationStub().monitorValueDeregister(ids);
-            }
-
-            if(SoftwareManagementCommands.heartbeatSubscription != null)
-            {
-                ids.clear();
-                ids.add(SoftwareManagementCommands.heartbeatSubscription);
-                consumer.getSMServices().getHeartbeatService().getHeartbeatStub().beatDeregister(ids);
-            }
-
-            if(SoftwareManagementCommands.outputSubscription != null)
-            {
-                ids.clear();
-                ids.add(SoftwareManagementCommands.outputSubscription);
-                consumer.getSMServices().getAppsLauncherService().getAppsLauncherStub().monitorExecutionDeregister(ids);
-            }
-        }
-        catch (MALInteractionException | MALException e)
-        {
-            LOGGER.log(Level.SEVERE, "Failed to deregister subscription: " + ids.get(0), e);
-        }
-
-        if(consumer != null)
-        {
             consumer.getCommonServices().closeConnections();
             consumer.getCOMServices().closeConnections();
             consumer.getMCServices().closeConnections();
@@ -245,7 +315,71 @@ public abstract class BaseCommand {
             consumer.getSMServices().closeConnections();
             consumer = null;
         }
+
+        if (localArchive != null)
+        {
+            localArchive.close();
+            localArchive = null;
+        }
+
+        if (localArchiveProvider != null)
+        {
+            localArchiveProvider.close();
+            localArchiveProvider = null;
+        }
         System.out.println("Consumer successfully closed.");
+    }
+
+    /**
+     * Queries objects from a COM archive provider.
+     *
+     * @param objectsTypes COM types of objects to query
+     * @param archiveQueryList Archive query object used for filtering
+     * @param adapter Archive adapter receiving the query answer messages
+     * @param queryStatusProvider Interface providing the status of the query
+     */
+    public static void queryArchive(ObjectType objectsTypes, ArchiveQueryList archiveQueryList, ArchiveAdapter adapter, QueryStatusProvider queryStatusProvider) {
+        // run the query
+        try {
+            ArchiveStub archive = localArchive == null ? consumer.getCOMServices().getArchiveService().getArchiveStub() : localArchive.getArchiveStub();
+            archive.query(true, objectsTypes, archiveQueryList, null, adapter);
+        } catch (MALInteractionException | MALException e) {
+            LOGGER.log(Level.SEVERE, "Error when querying archive", e);
+            return;
+        }
+
+        // wait for query to end
+        while (!queryStatusProvider.isQueryOver()) {
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException ignored) {
+            }
+        }
+    }
+
+    /**
+     * Search a COM archive provider content to find the ObjectId of an App of the CommandExecutor
+     * service of the SoftwareManagement.
+     *
+     * @param appName Name of the NMF app we want the logs for
+     * @param domain Restricts the search to objects in a specific domain ID
+     * @return the ObjectId of the found App or null if not found
+     */
+    public static ObjectId getAppObjectId(String appName, IdentifierList domain) {
+        // SoftwareManagement.AppsLaunch.App object type
+        ObjectType appType = new ObjectType(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER,
+                                            AppsLauncherHelper.APPSLAUNCHER_SERVICE_NUMBER, new UOctet((short) 0),
+                                            AppsLauncherHelper.APP_OBJECT_NUMBER);
+
+        // prepare domain filter
+        ArchiveQueryList archiveQueryList = new ArchiveQueryList();
+        ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L, null, null, null, null, null);
+        archiveQueryList.add(archiveQuery);
+
+        // execute query
+        ArchiveToAppAdapter adapter = new ArchiveToAppAdapter(appName);
+        queryArchive(appType, archiveQueryList, adapter, adapter);
+        return adapter.getAppObjectId();
     }
 }
 //------------------------------------------------------------------------------

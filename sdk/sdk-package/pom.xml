@@ -88,7 +88,7 @@
     </dependency>
     <dependency>
       <groupId>int.esa.nmf.sdk</groupId>
-      <artifactId>cli-consumer</artifactId>
+      <artifactId>cli-tool</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
@@ -323,7 +323,7 @@
                 <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/nmf/consumer-test-tool">
                   <fileset dir="${basedir}/src/main/resources/ground-consumer-root"/>
                 </copy>
-                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/nmf/cli-consumer">
+                <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/nmf/cli-tool">
                   <fileset dir="${basedir}/src/main/resources/ground-consumer-root"/>
                   <fileset dir="${basedir}/src/main/resources/space-common"/>
                   <fileset dir="${basedir}/src/main/resources/space-supervisor-root"/>

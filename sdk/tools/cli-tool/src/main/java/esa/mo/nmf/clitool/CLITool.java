@@ -18,7 +18,7 @@
  * limitations under the License.
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.cliconsumer;
+package esa.mo.nmf.clitool;
 
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
@@ -27,31 +27,19 @@ import picocli.CommandLine.Option;
 /**
  * @author marcel.mikolajko
  */
-@Command(name = "esa.mo.nmf.cliconsumer.CLIConsumer",
+@Command(name = "esa.mo.nmf.clitool.CLITool",
          subcommands = {MCCommands.Parameter.class,
                         MCCommands.Aggregation.class,
                         SoftwareManagementCommands.AppsLauncher.class,
                         SoftwareManagementCommands.Heartbeat.class,
                         PlatformCommands.GPS.class,
                         PlatformCommands.ADCS.class,
-                        PlatformCommands.Camera.class},
+                        PlatformCommands.Camera.class,
+                        ArchiveCommands.class,
+                        LogsCommands.class},
          description = "Provides a way to use provider's services from the command line.")
-public class CLIConsumer
+public class CLITool
 {
-    /*
-        PubSub:
-          - event - monitorEvent
-          - statistic - monitorStatistics
-          - camera - picturesStream
-          - gps - nearbyPosition
-          - adcs - monitorAttitude
-          - Radio - streamRadio
-          - clock - monitorTimeFactor
-          -x parameter - monitorValue
-          -x aggregation - monitorValue
-          -x heartbeat - beat
-          -x appslauncher - monitorExecution
-     */
     public static final String APP_NAME = "cli-consumer";
 
     @Option(names = {"-h", "--help"}, usageHelp = true, description = "display a help message")
@@ -60,7 +48,7 @@ public class CLIConsumer
     public static void main(String[] args)
     {
         Runtime.getRuntime().addShutdownHook(new Thread(BaseCommand::closeConsumer));
-        CLIConsumer cliConsumer = new CLIConsumer();
+        CLITool cliConsumer = new CLITool();
         CommandLine cmd = new CommandLine(cliConsumer);
         cmd.setUsageHelpAutoWidth(true);
         cmd.setUsageHelpLongOptionsMaxWidth(30);
