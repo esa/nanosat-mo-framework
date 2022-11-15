@@ -18,15 +18,13 @@
  * limitations under the License.
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.cliconsumer;
+package esa.mo.nmf.clitool;
 
 import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MALStandardError;
 import org.ccsds.moims.mo.mal.structures.Duration;
-import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.platform.PlatformHelper;
@@ -98,7 +96,7 @@ public class PlatformCommands
         @Override
         public void run()
         {
-            if(!super.initConsumer())
+            if(!super.initRemoteConsumer())
             {
                 return;
             }
@@ -206,7 +204,7 @@ public class PlatformCommands
         @Override
         public void run()
         {
-            if(!super.initConsumer())
+            if(!super.initRemoteConsumer())
             {
                 return;
             }
@@ -263,7 +261,7 @@ public class PlatformCommands
         @Override
         public void run()
         {
-            if(!super.initConsumer())
+            if(!super.initRemoteConsumer())
             {
                 return;
             }
