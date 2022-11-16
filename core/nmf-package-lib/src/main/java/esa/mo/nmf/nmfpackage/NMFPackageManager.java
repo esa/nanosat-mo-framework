@@ -115,18 +115,21 @@ public class NMFPackageManager {
         String packageName = metadata.getPackageName();
 
         if (metadata.isApp()) {
-            File appDir = new File(Deployment.getNMFAppsDir(), packageName);
-            String username = null;
+            String username = generateUsername(packageName);
             String password = null;
+
+            File appDir = new File(Deployment.getAppsDir(), packageName);
+            HelperNMFPackage.generateStartScript(metadata.castToApp(), appDir, nmfDir);
+            createAuxiliaryFiles(appDir, username);
+            File logDir = Deployment.getLogsDirForApp(packageName);
+            logDir.mkdirs();
 
             if (OS.isUnix()) {
                 try {
                     // Create the User for this App
-                    username = generateUsername(packageName);
                     boolean withGroup = true;
                     LinuxUsersGroups.adduser(username, password, withGroup);
                     LinuxUsersGroups.addUserToGroup(username, GROUP_NMF_APPS);
-                    //LinuxUsersGroups.useradd(username, password, withGroup, GROUP_NMF_APPS);
 
                     // Set the right Group and Permissions to the Home Directory
                     // The owner remains with the app, the group is nmf-admin
@@ -140,14 +143,15 @@ public class NMFPackageManager {
                 }
             }
 
-            HelperNMFPackage.generateStartScript(metadata.castToApp(), appDir, nmfDir);
-            createAuxiliaryFiles(appDir, username);
-            File logDir = new File(Deployment.getLogsDir(), packageName);
-            logDir.mkdirs();
-
             if (OS.isUnix()) { // Change Group owner of the appDir
                 changeGroupAndSetPermissions(appDir, username, "750");
-                changeGroupAndSetPermissions(logDir, username, "770");
+
+                try {
+                    changeGroupAndSetPermissions(logDir, username, "770");
+                } catch (IOException ex) {
+                    // The previous log files were created with a user that 
+                    // might no longer exist, so just ignore the exception!
+                }
             }
         }
 
@@ -157,7 +161,7 @@ public class NMFPackageManager {
         File receiptFile = new File(receiptsFolder, receiptFilename);
         metadata.store(receiptFile);
 
-        if (appsLauncher != null) {
+        if (metadata.isApp() && appsLauncher != null) {
             appsLauncher.refresh();
         }
 
@@ -186,9 +190,11 @@ public class NMFPackageManager {
         Logger.getLogger(NMFPackageManager.class.getName()).log(
                 Level.INFO, "Removing the files...");
 
+        removeFiles(packageMetadata);
+
         if (packageMetadata.isApp()) {
             // This directory should be passed in the method signature:
-            File installationDir = new File(Deployment.getNMFAppsDir(), packageName);
+            File installationDir = new File(Deployment.getAppsDir(), packageName);
             removeAuxiliaryFiles(installationDir, packageName);
 
             if (OS.isUnix()) {
@@ -198,8 +204,6 @@ public class NMFPackageManager {
                 }
             }
         }
-
-        removeFiles(packageMetadata);
 
         File receiptsFolder = Deployment.getInstallationsTrackerDir();
         File receiptFile = new File(receiptsFolder, packageName + RECEIPT_ENDING);
@@ -265,7 +269,7 @@ public class NMFPackageManager {
 
         if (isApp) {
             // This directory should be passed in the method signature:
-            File installationDir = new File(Deployment.getNMFAppsDir(), packageName);
+            File installationDir = new File(Deployment.getAppsDir(), packageName);
             removeAuxiliaryFiles(installationDir, packageName);
         }
 
@@ -280,22 +284,31 @@ public class NMFPackageManager {
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
             "Copying the new files to the locations...");
 
-        MetadataApp appMetadata = newPackMetadata.castToApp();
-        installDependencies(appMetadata, packageLocation, nmfDir);
+        if (isApp) {
+            MetadataApp appMetadata = newPackMetadata.castToApp();
+            installDependencies(appMetadata, packageLocation, nmfDir);
+        }
         newPack.extractFiles(nmfDir);
 
         if (isApp) {
-            File installationDir = new File(Deployment.getNMFAppsDir(), packageName);
-            String username= generateUsername(packageName);
+            File installationDir = new File(Deployment.getAppsDir(), packageName);
+            String username = generateUsername(packageName);
 
+            MetadataApp appMetadata = newPackMetadata.castToApp();
             HelperNMFPackage.generateStartScript(appMetadata, installationDir, nmfDir);
             createAuxiliaryFiles(installationDir, username);
-            File logDir = new File(Deployment.getLogsDir(), packageName);
+            File logDir = Deployment.getLogsDirForApp(packageName);
             logDir.mkdirs();
 
             if (OS.isUnix()) { // Change Group owner of the appDir
                 changeGroupAndSetPermissions(installationDir, username, "750");
-                changeGroupAndSetPermissions(logDir, username, "770");
+
+                try {
+                    changeGroupAndSetPermissions(logDir, username, "770");
+                } catch (IOException ex) {
+                    // The previous log files were created with a user that 
+                    // might no longer exist, so just ignore the exception!
+                }
             }
         }
 
@@ -375,8 +388,8 @@ public class NMFPackageManager {
         return true;
     }
 
-    private static void installDependencies(MetadataApp metadata,
-            String packageLocation, File installationDir) throws IOException {
+    private void installDependencies(MetadataApp metadata,
+            String packageLocation, File nmfDir) throws IOException {
         if (!metadata.hasDependencies()) {
             return;
         }
@@ -390,8 +403,12 @@ public class NMFPackageManager {
         for (String file : dependencies) {
             file = file.replace(".jar", "." + Const.NMF_PACKAGE_SUFFIX);
             String path = parent + File.separator + file;
-            NMFPackage pack = new NMFPackage(path);
-            pack.extractFiles(installationDir);
+            // NMFPackage pack = new NMFPackage(path);
+            // pack.extractFiles(installationDir);
+
+            // TBD: We need to check if it has been installed 
+            // already, otherwise no need to do it again
+            this.install(path, nmfDir);
         }
     }
 

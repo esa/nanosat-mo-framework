@@ -30,6 +30,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * The Deployment class is contains the information on how the NMF root
+ * directory is expected to look like and where the NMF files and folders can be
+ * found.
  *
  * @author Cesar Coelho
  */
@@ -42,6 +45,8 @@ public class Deployment {
     public static final String DIR_ETC = "etc";
     public static final String DIR_JARS_MISSION = "jars-mission";
     public static final String DIR_JARS_NMF = "jars-nmf";
+    @Deprecated
+    public static final String DIR_JARS_NMF_OLD = "libs";
     public static final String DIR_JARS_SHARED = "jars-shared-libraries";
     public static final String DIR_JAVA = "java";
     public static final String DIR_LOGS = "logs";
@@ -54,35 +59,7 @@ public class Deployment {
 
     private static File pathNMF = null;
 
-    public static File getInstallationsTrackerDir() {
-        // Default location of the folder
-        File folder = new File(getEtcDir(), DIR_INSTALLATIONS_TRACKER);
-
-        // Read the Property of the folder to install the packages
-        if (System.getProperty(PROPERTY_INSTALLED_RECEIPTS_FOLDER) != null) {
-            folder = new File(System.getProperty(PROPERTY_INSTALLED_RECEIPTS_FOLDER));
-        }
-
-        return folder;
-    }
-    
-    public static File getEtcDir() {
-        return new File(getNMFRootDir(), DIR_ETC);
-    }
-    
-    public static File getLogsDir() {
-        return new File(getNMFRootDir(), DIR_LOGS);
-    }
-
-    public static File getNMFAppsDir() {
-        return new File(getNMFRootDir(), DIR_APPS);
-    }
-
-    public static File getJarsSharedDir() {
-        return new File(getNMFRootDir(), DIR_JARS_SHARED);
-    }
-
-    public static File getNMFRootDir() {
+    public synchronized static File getNMFRootDir() {
         if (pathNMF != null) {
             return pathNMF;
         }
@@ -100,6 +77,60 @@ public class Deployment {
         return folder;
     }
 
+    public static File getAppsDir() {
+        return new File(getNMFRootDir(), DIR_APPS);
+    }
+
+    public static File getDriversDir() {
+        return new File(getNMFRootDir(), DIR_DRIVERS);
+    }
+
+    public static File getEtcDir() {
+        return new File(getNMFRootDir(), DIR_ETC);
+    }
+
+    public static File getJarsNMFDir() {
+        File deprecatedFolder = new File(getNMFRootDir(), DIR_JARS_NMF_OLD);
+
+        if (deprecatedFolder.exists()) {
+            return deprecatedFolder;
+        }
+
+        return new File(getNMFRootDir(), DIR_JARS_NMF);
+    }
+
+    public static File getJarsSharedDir() {
+        return new File(getNMFRootDir(), DIR_JARS_SHARED);
+    }
+
+    public static File getJarsMissionDir() {
+        return new File(getNMFRootDir(), DIR_JARS_MISSION);
+    }
+
+    public static File getJavaDir() {
+        return new File(getNMFRootDir(), DIR_JAVA);
+    }
+
+    public static File getLogsDir() {
+        return new File(getNMFRootDir(), DIR_LOGS);
+    }
+
+    public static File getLogsDirForApp(String appName) {
+        return new File(getLogsDir(), "app_" + appName);
+    }
+
+    public static File getInstallationsTrackerDir() {
+        // Default location of the folder
+        File folder = new File(getEtcDir(), DIR_INSTALLATIONS_TRACKER);
+
+        // Read the Property of the folder to install the packages
+        if (System.getProperty(PROPERTY_INSTALLED_RECEIPTS_FOLDER) != null) {
+            folder = new File(System.getProperty(PROPERTY_INSTALLED_RECEIPTS_FOLDER));
+        }
+
+        return folder;
+    }
+
     /**
      * Find the best Java Runtime Environment inside an nmf directory. The best
      * JRE will be determined based on arguments containing a recommended
@@ -110,7 +141,7 @@ public class Deployment {
      * @param max The maximum version to run the App.
      * @return The Best JRE available for .
      */
-    public static String findJREPath(File nmfDir, int recommended, int min, int max) {
+    public static String findJREPath(int recommended, int min, int max) {
         if (min < max) {
             Logger.getLogger(HelperNMFPackage.class.getName()).log(Level.WARNING,
                     "The JRE minimum version cannot be greater than the maximum!");
@@ -121,7 +152,7 @@ public class Deployment {
                     "The JRE recommended version should be between the min and max!");
         }
 
-        File javaNMFDir = new File(nmfDir, DIR_JAVA);
+        File javaNMFDir = getJavaDir();
         String bestJRE = "java"; // Default value and worst-case scenario
 
         if (!javaNMFDir.exists()) {
