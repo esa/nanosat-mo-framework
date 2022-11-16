@@ -262,6 +262,7 @@ public class LinuxUsersGroups {
             }
 
             String out = extractString(p.getInputStream());
+            out += extractString(p.getErrorStream());
             int exitValue = p.exitValue();
 
             if (exitValue == 127) { // Command not found!
