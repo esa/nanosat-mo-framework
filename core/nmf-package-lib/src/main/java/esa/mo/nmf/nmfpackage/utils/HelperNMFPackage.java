@@ -77,7 +77,7 @@ public class HelperNMFPackage {
     }
 
     public static String generateLinuxStartAppScript(String javaCommand,
-            String jarFilename, MetadataApp meta) throws IOException {
+            MetadataApp meta) throws IOException {
         StringBuilder str = new StringBuilder();
         str.append("#!/bin/sh\n");
         str.append(getBanner());
@@ -91,9 +91,9 @@ public class HelperNMFPackage {
         str.append("MIN_HEAP=").append(meta.getAppMinHeap()).append("\n\n");
 
         str.append("# Jars from: App, NMF, and Shared dependencies:\n");
-        str.append("JAR_APP=").append(jarFilename).append("\n");
+        str.append("JAR_APP=").append(meta.getAppMainJar()).append("\n");
         // The following code must be changed:
-        str.append("JARS_NMF=").append("`cd ../../libs > /dev/null; pwd`").append("\n");
+        str.append("JARS_NMF=").append(Deployment.getJarsNMFDir()).append("\n");
         String shared = "";
 
         if (meta.hasDependencies()) {
@@ -115,12 +115,12 @@ public class HelperNMFPackage {
         str.append("NOW=$(date +\"%F\")\n");
         String appName = meta.getPackageName();
         str.append("FILENAME=").append(appName).append("_$NOW.log\n");
-        String logPath = Deployment.getLogsDir().getAbsolutePath();
-        str.append("LOG_PATH=").append(logPath).append("/").append(appName).append("\n");
+        String logPath = Deployment.getLogsDirForApp(appName).getAbsolutePath();
+        str.append("LOG_PATH=").append(logPath).append("\n");
         str.append("mkdir -p $LOG_PATH\n\n");
 
         // The command "exec" spawns the execution in a different process
-        // str.append("exec ");
+        // str.append("exec -a MyUniqueProcessName ");
         str.append("$JAVA_CMD $JAVA_OPTS \\\n");
         str.append("  -classpath \"$JARS_ALL\" \\\n");
         str.append("  \"$MAIN_CLASS\" \\\n");
@@ -262,12 +262,12 @@ public class HelperNMFPackage {
 
         // The Java version for now will be forced to 8, however in
         // the future the package should recommend a version
-        String javaCMD = Deployment.findJREPath(nmfDir, 8, 8, 8);
+        String javaCMD = Deployment.findJREPath(8, 8, 8);
 
         OSValidator os = new OSValidator();
 
         if (os.isUnix() || os.isMac()) {
-            String content = generateLinuxStartAppScript(javaCMD, jarName, appDetails);
+            String content = generateLinuxStartAppScript(javaCMD, appDetails);
             File startApp = new File(appDir, "start_" + name + ".sh");
             HelperNMFPackage.writeFile(startApp, content);
             startApp.setExecutable(true, true);
