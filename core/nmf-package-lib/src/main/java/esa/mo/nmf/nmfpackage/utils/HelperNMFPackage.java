@@ -115,7 +115,8 @@ public class HelperNMFPackage {
         str.append("NOW=$(date +\"%F\")\n");
         String appName = meta.getPackageName();
         str.append("FILENAME=").append(appName).append("_$NOW.log\n");
-        str.append("LOG_PATH=/nanosat-mo-framework/logs/").append(appName).append("\n");
+        String logPath = Deployment.getLogsDir().getAbsolutePath();
+        str.append("LOG_PATH=").append(logPath).append("/").append(appName).append("\n");
         str.append("mkdir -p $LOG_PATH\n\n");
 
         // The command "exec" spawns the execution in a different process
