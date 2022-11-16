@@ -41,6 +41,8 @@
     <Bug pattern="VA_FORMAT_STRING_USES_NEWLINE"/>
     <Bug pattern="FI_EXPLICIT_INVOCATION"/>
     <Bug pattern="MS_PKGPROTECT"/>
+    <Bug pattern="FL_FLOATS_AS_LOOP_COUNTERS"/>
+    <Bug pattern="UC_USELESS_OBJECT"/>
 
     <Match>
         <Or>
@@ -113,6 +115,7 @@
         <Bug pattern="WMI_WRONG_MAP_ITERATOR"/>
     </Match>
 
+    <Package name="~opssat.simulator.*"/>
     <!-- Exclude generated sources -->
     <Package name="~org.ccsds.moims.mo.*"/>
 

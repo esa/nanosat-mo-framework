@@ -37,7 +37,7 @@ public class GPS {
     private Orbit.OrbitParameters Position;
     private final static int NUMERICAL_ERROR = 2;  // 2 meters
     private final static int POSITION_ERROR = 10;  // 10 meters
-
+    private static Random randomno = new Random();
     // GPS characteristics
     int SampleFrequency = 1 * 1000; //milliseconds (1 update per second)
 
@@ -131,7 +131,6 @@ public class GPS {
     private OrbitParameters generateError(double k, OrbitParameters param) {
         // Generate errors
         //    System.out.printf("Time: %s\n", RealPosition.time.toString());
-        Random randomno = new Random();
 
         // Factor to convert the k from meters to degrees
         double factor = 360 / (2 * Math.PI * param.geta());

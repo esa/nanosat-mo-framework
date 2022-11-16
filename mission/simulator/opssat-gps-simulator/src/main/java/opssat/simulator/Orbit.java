@@ -68,8 +68,8 @@ public class Orbit {
     private static final double SOLAR_DAY = 1.002737909350795;
 
     //Epoch time: '2003 June 01 - 00:00:00'
-    public static String DATEFORMATSTRING = "yyyy:MM:dd HH:mm:ss z";
-    private static String EPOCH_INITIAL = "2003:06:01 00:00:00 CEST";
+    public static final String DATEFORMATSTRING = "yyyy:MM:dd HH:mm:ss z";
+    private static final String EPOCH_INITIAL = "2003:06:01 00:00:00 CEST";
     private Date Epoch;
 
     public static class OrbitParameters {

@@ -45,7 +45,7 @@ public class TestProcessing {
         }
     }
 
-    public static String RAW_PATH = "../../../payloads-test/toGround/img_msec_1633341865066_50.ims_rgb";
+    public static final String RAW_PATH = "../../../payloads-test/toGround/img_msec_1633341865066_50.ims_rgb";
 
     public static void testDebayer() throws IOException {
         byte[] inBytes = Files.readAllBytes(Paths.get(RAW_PATH));
