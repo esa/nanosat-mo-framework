@@ -105,7 +105,7 @@ public class LinuxUsersGroups {
     public static void adduser(String username, String password,
             boolean withGroup) throws IOException {
         // First, we need to check if the "useradd" is from BusyBox or not
-        String[] cmd1 = {"sudo", "adduser", "-h", "|", "echo"};
+        String[] cmd1 = {"sudo", "adduser", "--help"};
         String out1 = runCommand(cmd1);
 
         // Different Linux Systems have different syntaxes for the same command
@@ -271,8 +271,9 @@ public class LinuxUsersGroups {
 
             if (exitValue != 0) { // Error!
                 String error = extractString(p.getErrorStream());
-                throw new IOException("There was an error:\n >> "
-                        + String.join(" ", cmd) + "\n" + out + "\nError:\n" + error);
+                throw new IOException("There was an error with code " + exitValue
+                        + ". For command:\n >> " + String.join(" ", cmd) + "\n"
+                        + out + "\nError:\n" + error);
             }
 
             return out;
