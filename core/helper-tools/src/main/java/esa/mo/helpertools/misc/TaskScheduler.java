@@ -69,8 +69,8 @@ public class TaskScheduler {
      * @see ScheduledThreadPoolExecutor#scheduleAtFixedRate(java.lang.Runnable, long, long, java.util.concurrent.TimeUnit)
      * @see ScheduledThreadPoolExecutor#scheduleWithFixedDelay(java.lang.Runnable, long, long, java.util.concurrent.TimeUnit) 
      */
-    public int scheduleTask(Thread command, long startDelay, long taskDelay, TimeUnit unit,
-                            boolean fixedRate) throws IllegalArgumentException {
+    public int scheduleTask(Thread command, long startDelay, long taskDelay, TimeUnit unit, boolean fixedRate)
+        throws IllegalArgumentException {
         if (command == null || unit == null) {
             throw new IllegalArgumentException("The provided thread must not be null.");
         }

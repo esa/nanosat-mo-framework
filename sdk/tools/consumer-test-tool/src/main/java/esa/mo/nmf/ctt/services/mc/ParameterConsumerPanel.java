@@ -122,11 +122,8 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
                                                                                                         null, null,
                                                                                                         null, null,
                                                                                                         null}},
-                                                                                new String[]{"Obj Inst Id", "name",
-                                                                                             "description", "rawType",
-                                                                                             "rawUnit",
-                                                                                             "generationEnabled",
-                                                                                             "updateInterval"}) {
+            new String[]{"Obj Inst Id", "name", "description", "rawType", "rawUnit", "generationEnabled",
+                         "updateInterval"}) {
             Class[] types = new Class[]{java.lang.Integer.class, java.lang.String.class, java.lang.String.class,
                                         java.lang.Object.class, java.lang.String.class, java.lang.Boolean.class,
                                         java.lang.Float.class};
@@ -192,25 +189,17 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
-        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(parameterTab, javax.swing.GroupLayout.PREFERRED_SIZE, 0,
-                                                      Short.MAX_VALUE)
-                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING,
-                                                      javax.swing.GroupLayout.DEFAULT_SIZE, 882, Short.MAX_VALUE)
-                                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                      javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
-        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                      .addGroup(layout.createSequentialGroup()
-                                                      .addContainerGap()
-                                                      .addComponent(jLabel6)
-                                                      .addGap(18, 18, 18)
-                                                      .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                    253, Short.MAX_VALUE)
-                                                      .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                      .addComponent(parameterTab,
-                                                                    javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                    javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                    javax.swing.GroupLayout.PREFERRED_SIZE)));
+        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
+            parameterTab, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE).addComponent(jScrollPane2,
+                javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 882, Short.MAX_VALUE)
+            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+                Short.MAX_VALUE));
+        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout
+            .createSequentialGroup().addContainerGap().addComponent(jLabel6).addGap(18, 18, 18).addComponent(
+                jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE).addPreferredGap(
+                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(parameterTab,
+                        javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+                        javax.swing.GroupLayout.PREFERRED_SIZE)));
     }// </editor-fold>//GEN-END:initComponents
 
     private void addDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDefinitionButtonActionPerformed
@@ -245,33 +234,26 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
 
             Thread.sleep(500);
             // Get the stored Parameter Definition from the Archive
-            ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(this.serviceMCParameter.getCOMServices()
-                                                                                                          .getArchiveService()
-                                                                                                          .getArchiveStub(),
-                                                                                   ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE,
-                                                                                   serviceMCParameter.getConnectionDetails()
-                                                                                                     .getDomain(),
-                                                                                   objIds.get(0).getObjDefInstanceId());
+            ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(this.serviceMCParameter
+                .getCOMServices().getArchiveService().getArchiveStub(), ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE,
+                serviceMCParameter.getConnectionDetails().getDomain(), objIds.get(0).getObjDefInstanceId());
 
             if (comObject == null) {
-                JOptionPane.showMessageDialog(null, "The COM object could not be returned! The objId is: " +
-                                                    objIds.get(0).toString(), "Error", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(null, "The COM object could not be returned! The objId is: " + objIds.get(
+                    0).toString(), "Error", JOptionPane.PLAIN_MESSAGE);
 
                 Thread.sleep(2500);
                 // Get the stored Parameter Definition from the Archive
                 comObject = HelperArchive.getArchiveCOMObject(this.serviceMCParameter.getCOMServices()
-                                                                                     .getArchiveService()
-                                                                                     .getArchiveStub(),
-                                                              ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE,
-                                                              serviceMCParameter.getConnectionDetails().getDomain(),
-                                                              objIds.get(0).getObjDefInstanceId());
+                    .getArchiveService().getArchiveStub(), ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE,
+                    serviceMCParameter.getConnectionDetails().getDomain(), objIds.get(0).getObjDefInstanceId());
             }
 
             // Add the Parameter Definition to the table
             parameterTable.addEntry(request.getName(), comObject);
         } catch (MALInteractionException | MALException ex) {
             JOptionPane.showMessageDialog(null, "There was an error with the submitted parameter definition.", "Error",
-                                          JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InterruptedException ex) {
             Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -347,20 +329,18 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
             this.serviceMCParameter.getParameterStub().asyncListDefinition(idList, new ParameterAdapter() {
                 @Override
                 public void listDefinitionResponseReceived(MALMessageHeader msgHeader,
-                                                           ObjectInstancePairList objInstIds, Map qosProperties) {
+                    ObjectInstancePairList objInstIds, Map qosProperties) {
                     parameterTable.refreshTableWithIds(objInstIds, serviceMCParameter.getConnectionDetails()
-                                                                                     .getDomain(),
-                                                       ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE);
-                    Logger.getLogger(ParameterConsumerPanel.class.getName())
-                          .log(Level.INFO, "listDefinition(\"*\") returned {0} object instance identifiers", objInstIds
-                                                                                                                       .size());
+                        .getDomain(), ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE);
+                    Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.INFO,
+                        "listDefinition(\"*\") returned {0} object instance identifiers", objInstIds.size());
                 }
 
                 @Override
                 public void listDefinitionErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
-                                                        Map qosProperties) {
+                    Map qosProperties) {
                     JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.",
-                                                  "Error", JOptionPane.PLAIN_MESSAGE);
+                        "Error", JOptionPane.PLAIN_MESSAGE);
                     Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, error);
                 }
             });
@@ -391,8 +371,8 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
         Boolean curState;
 
         if (parameterTable.getSelectedRow() == -1) {  // Used to avoid problems if no row is selected
-            ParameterDefinitionDetails parameterDefinition = (ParameterDefinitionDetails) parameterTable.getFirstCOMObject()
-                                                                                                        .getObject();
+            ParameterDefinitionDetails parameterDefinition = (ParameterDefinitionDetails) parameterTable
+                .getFirstCOMObject().getObject();
             if (parameterDefinition != null) {
                 curState = parameterDefinition.getGenerationEnabled();
             } else {
@@ -400,7 +380,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
             }
         } else {
             curState = ((ParameterDefinitionDetails) parameterTable.getSelectedCOMObject().getObject())
-                                                                                                       .getGenerationEnabled();
+                .getGenerationEnabled();
         }
 
         InstanceBooleanPairList BoolPairList = new InstanceBooleanPairList();
@@ -420,7 +400,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
         }
 
         Boolean curState = ((ParameterDefinitionDetails) parameterTable.getSelectedCOMObject().getObject())
-                                                                                                           .getGenerationEnabled();
+            .getGenerationEnabled();
         InstanceBooleanPairList BoolPairList = new InstanceBooleanPairList();
         BoolPairList.add(new InstanceBooleanPair(parameterTable.getSelectedIdentityObjId(), !curState));  // Zero is the wildcard
 
@@ -473,7 +453,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
             }
 
             JOptionPane.showMessageDialog(null, str.toString(), "Returned Values from the Provider",
-                                          JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.PLAIN_MESSAGE);
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }

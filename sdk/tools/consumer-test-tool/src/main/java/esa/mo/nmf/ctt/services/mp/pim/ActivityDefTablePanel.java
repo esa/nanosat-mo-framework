@@ -54,7 +54,7 @@ public class ActivityDefTablePanel extends SharedTablePanel {
         ActivityDefinitionDetails definition = (ActivityDefinitionDetails) comObject.getObject();
 
         tableData.addRow(new Object[]{identity, comObject.getArchiveDetails().getInstId(), definition
-                                                                                                     .getDescription(),});
+            .getDescription(),});
 
         comObjects.add(comObject);
         semaphore.release();

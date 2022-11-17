@@ -50,7 +50,7 @@ public class CameraAcquisitorSystemGPSHandler extends GPSAdapter {
     }
 
     public UInteger actionArrived(Identifier name, AttributeValueList attributeValues, Long actionInstanceObjId,
-                                  boolean reportProgress, MALInteraction interaction) {
+        boolean reportProgress, MALInteraction interaction) {
         return new UInteger(0); // error code 0 - unknown error
     }
 

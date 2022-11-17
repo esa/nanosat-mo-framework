@@ -69,9 +69,8 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
      */
     public synchronized void init(final COMServicesProvider comServices, final PMBackend backend) throws MALException {
         if (backend == null) {
-            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName())
-                  .severe("Package Management service could not be initialized! " +
-                          "The backend object cannot be null.");
+            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).severe(
+                "Package Management service could not be initialized! " + "The backend object cannot be null.");
             return;
         }
 
@@ -85,13 +84,13 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             }
 
             if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
-                                             SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
+                SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
                 SoftwareManagementHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
             if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
-                                             SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION)
-                                 .getServiceByName(PackageManagementHelper.PACKAGEMANAGEMENT_SERVICE_NAME) == null) {
+                SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION).getServiceByName(
+                    PackageManagementHelper.PACKAGEMANAGEMENT_SERVICE_NAME) == null) {
                 PackageManagementHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
@@ -104,9 +103,9 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             connection.closeAll();
         }
 
-        packageManagementServiceProvider = connection.startService(PackageManagementHelper.PACKAGEMANAGEMENT_SERVICE_NAME.toString(),
-                                                                   PackageManagementHelper.PACKAGEMANAGEMENT_SERVICE,
-                                                                   false, this);
+        packageManagementServiceProvider = connection.startService(
+            PackageManagementHelper.PACKAGEMANAGEMENT_SERVICE_NAME.toString(),
+            PackageManagementHelper.PACKAGEMANAGEMENT_SERVICE, false, this);
         running = true;
         initialiased = true;
         Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).info("Package Management service READY");
@@ -124,14 +123,14 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             connection.closeAll();
             running = false;
         } catch (MALException ex) {
-            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName())
-                  .log(Level.WARNING, "Exception during close down of the provider {0}", ex);
+            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.WARNING,
+                "Exception during close down of the provider {0}", ex);
         }
     }
 
     @Override
-    public FindPackageResponse findPackage(IdentifierList names,
-                                           MALInteraction interaction) throws MALInteractionException, MALException {
+    public FindPackageResponse findPackage(IdentifierList names, MALInteraction interaction)
+        throws MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         FindPackageResponse outList = new FindPackageResponse();
 
@@ -178,8 +177,8 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             outList.setBodyElement0(packages); // ObjIds
             outList.setBodyElement1(installed); // Installed?
         } catch (IOException ex) {
-            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName())
-                  .log(Level.SEVERE, "The list of packages could not be retrieved!", ex);
+            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.SEVERE,
+                "The list of packages could not be retrieved!", ex);
 
             // Just return empty lists
             outList.setBodyElement0(new IdentifierList());
@@ -195,8 +194,8 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
     }
 
     @Override
-    public void install(final IdentifierList names,
-                        final InstallInteraction interaction) throws MALInteractionException, MALException {
+    public void install(final IdentifierList names, final InstallInteraction interaction)
+        throws MALInteractionException, MALException {
         interaction.sendAcknowledgement(null);
 
         UIntegerList unkIndexList = new UIntegerList();
@@ -241,8 +240,8 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
         }
 
         for (Identifier packageName : names) {
-            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName())
-                  .log(Level.INFO, "Installing: {0}", packageName.getValue());
+            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.INFO, "Installing: {0}",
+                packageName.getValue());
 
             backend.install(packageName.getValue());
         }
@@ -252,7 +251,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
     @Override
     public void uninstall(final IdentifierList names, final BooleanList keepConfigurations,
-                          final UninstallInteraction interaction) throws MALInteractionException, MALException {
+        final UninstallInteraction interaction) throws MALInteractionException, MALException {
         interaction.sendAcknowledgement();
 
         UIntegerList unkIndexList = new UIntegerList();
@@ -276,8 +275,8 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
                 if (!backend.isPackageInstalled(names.get(i).getValue())) {
                     invIndexList.add(new UInteger(i));
-                    Logger.getLogger(PackageManagementProviderServiceImpl.class.getName())
-                          .log(Level.SEVERE, "The package is not installed!");
+                    Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.SEVERE,
+                        "The package is not installed!");
                     continue;
                 }
 
@@ -287,31 +286,31 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
                 if (!integrity) {
                     invIndexList.add(new UInteger(i));
-                    Logger.getLogger(PackageManagementProviderServiceImpl.class.getName())
-                          .log(Level.SEVERE, "The integrity of the package is bad!");
+                    Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.SEVERE,
+                        "The integrity of the package is bad!");
                 }
             }
         } catch (IOException ex) {
-            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName())
-                  .log(Level.SEVERE, "The list of packages could not be retrieved!", ex);
+            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.SEVERE,
+                "The list of packages could not be retrieved!", ex);
         }
 
         // Errors
         if (!unkIndexList.isEmpty()) {
-            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName())
-                  .log(Level.SEVERE, "Unknown error triggered!");
+            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.SEVERE,
+                "Unknown error triggered!");
             throw new MALInteractionException(new MALStandardError(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
         }
 
         if (!invIndexList.isEmpty()) {
-            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName())
-                  .log(Level.SEVERE, "Invalid error triggered!");
+            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.SEVERE,
+                "Invalid error triggered!");
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, invIndexList));
         }
 
         for (Identifier packageName : names) {
-            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName())
-                  .log(Level.INFO, "Uninstalling: {0}", packageName.getValue());
+            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.INFO, "Uninstalling: {0}",
+                packageName.getValue());
 
             backend.uninstall(packageName.getValue(), true);
         }
@@ -320,8 +319,8 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
     }
 
     @Override
-    public void upgrade(final IdentifierList names,
-                        final UpgradeInteraction interaction) throws MALInteractionException, MALException {
+    public void upgrade(final IdentifierList names, final UpgradeInteraction interaction)
+        throws MALInteractionException, MALException {
         interaction.sendAcknowledgement();
 
         UIntegerList unkIndexList = new UIntegerList();
@@ -367,8 +366,8 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
         }
 
         for (Identifier packageName : names) {
-            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName())
-                  .log(Level.INFO, "Upgrading: {0}", packageName.getValue());
+            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.INFO, "Upgrading: {0}",
+                packageName.getValue());
 
             backend.upgrade(packageName.getValue());
         }
@@ -377,8 +376,8 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
     }
 
     @Override
-    public CheckPackageIntegrityResponse checkPackageIntegrity(IdentifierList names,
-                                                               MALInteraction interaction) throws MALInteractionException, MALException {
+    public CheckPackageIntegrityResponse checkPackageIntegrity(IdentifierList names, MALInteraction interaction)
+        throws MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 

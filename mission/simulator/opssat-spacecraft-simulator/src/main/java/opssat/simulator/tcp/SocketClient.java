@@ -60,12 +60,8 @@ public class SocketClient extends Thread {
             }
 
             y = ip.indexOf('.', ++x);
-            return !(y == -1 ||
-                     ip.charAt(x) == '-' ||
-                     Integer.parseInt(ip.substring(x, y)) > 255 ||
-                     ip.charAt(++y) == '-' ||
-                     Integer.parseInt(ip.substring(y)) > 255 ||
-                     ip.charAt(ip.length() - 1) == '.');
+            return !(y == -1 || ip.charAt(x) == '-' || Integer.parseInt(ip.substring(x, y)) > 255 || ip.charAt(++y) ==
+                '-' || Integer.parseInt(ip.substring(y)) > 255 || ip.charAt(ip.length() - 1) == '.');
 
         } catch (NumberFormatException e) {
             return false;
@@ -116,8 +112,8 @@ public class SocketClient extends Thread {
                 s = null;
             } catch (IOException ioe) {
                 // Cannot connect to port on given server host
-                this.parent.getFromServerQueue()
-                           .offer("Local;Cannot connect to server @ " + targetURL + ":" + targetPort);
+                this.parent.getFromServerQueue().offer("Local;Cannot connect to server @ " + targetURL + ":" +
+                    targetPort);
                 s = null;
             }
 
@@ -181,9 +177,8 @@ public class SocketClient extends Thread {
             } catch (IOException ioe) {
                 System.out.println("Receiver Exception during communication. Server probably closed connection.");
                 this.parent.getGuiMainWindow().showConnectedInfo(false);
-                this.parent.getFromServerQueue()
-                           .offer("Local;Receiver;Exception during communication. Server probably closed connection." +
-                                  ioe);
+                this.parent.getFromServerQueue().offer(
+                    "Local;Receiver;Exception during communication. Server probably closed connection." + ioe);
 
             } finally {
                 try {
@@ -240,9 +235,8 @@ public class SocketClient extends Thread {
             } catch (IOException ioe) {
                 System.out.println("Sender Exception during communication. Server probably closed connection.");
 
-                this.parent.getFromServerQueue()
-                           .offer("Local;Sender;Exception during communication. Server probably closed connection." +
-                                  ioe);
+                this.parent.getFromServerQueue().offer(
+                    "Local;Sender;Exception during communication. Server probably closed connection." + ioe);
 
             } finally {
                 try {

@@ -64,7 +64,7 @@ public class PlanningRequestTablePanel extends SharedTablePanel {
             Time validityStart = validityWindow.getStart() != null ? (Time) validityWindow.getStart().getValue() : null;
             Time validityEnd = validityWindow.getEnd() != null ? (Time) validityWindow.getEnd().getValue() : null;
             validityPeriod = String.format("%s - %s", HelperTime.time2readableString(validityStart), HelperTime
-                                                                                                               .time2readableString(validityEnd));
+                .time2readableString(validityEnd));
         }
 
         tableData.addRow(new Object[]{identity.toString(), comObject.getArchiveDetails().getInstId(),

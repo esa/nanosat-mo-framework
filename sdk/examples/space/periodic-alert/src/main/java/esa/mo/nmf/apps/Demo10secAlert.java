@@ -53,8 +53,8 @@ public class Demo10secAlert {
             try {
                 connector.publishAlertEvent("10SecondsAlert", null);
             } catch (NMFException ex) {
-                Logger.getLogger(Demo10secAlert.class.getName())
-                      .log(Level.SEVERE, "The Alert could not be published to the consumer!", ex);
+                Logger.getLogger(Demo10secAlert.class.getName()).log(Level.SEVERE,
+                    "The Alert could not be published to the consumer!", ex);
             }
         }), 0, 10, TimeUnit.SECONDS, true); // 10 seconds
     }
@@ -77,7 +77,7 @@ public class Demo10secAlert {
 
         @Override
         public UInteger actionArrived(Identifier idntfr, AttributeValueList avl, Long l, boolean bln,
-                                      MALInteraction mali) {
+            MALInteraction mali) {
             throw new UnsupportedOperationException("Not supported.");
         }
 

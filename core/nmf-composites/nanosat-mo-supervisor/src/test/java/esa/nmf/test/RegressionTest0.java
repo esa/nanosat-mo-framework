@@ -24,8 +24,9 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.UShort uShort12 = duration2.getServiceNumber();
         org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails parameterDefinitionDetails13 = null;
         try {
-            org.ccsds.moims.mo.mc.parameter.structures.ParameterValue parameterValue14 = mCSoftwareSimulatorAdapter0.getValueWithCustomValidityState((org.ccsds.moims.mo.mal.structures.Attribute) uShort12,
-                                                                                                                                                     parameterDefinitionDetails13);
+            org.ccsds.moims.mo.mc.parameter.structures.ParameterValue parameterValue14 = mCSoftwareSimulatorAdapter0
+                .getValueWithCustomValidityState((org.ccsds.moims.mo.mal.structures.Attribute) uShort12,
+                    parameterDefinitionDetails13);
             // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmosupervisor.MCSupervisorBasicAdapter.randoop_classUsedFlag from class esa.mo.nmf.MonitorAndControlNMFAdapter");
         } catch (java.lang.IllegalAccessError e) {
         }
@@ -42,7 +43,8 @@ public class RegressionTest0 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test002");
         esa.mo.nmf.nanosatmosupervisor.MCSupervisorBasicAdapter mCSoftwareSimulatorAdapter0 = new esa.mo.nmf.nanosatmosupervisor.MCSupervisorBasicAdapter();
-        org.ccsds.moims.mo.mal.structures.Identifier identifier2 = new org.ccsds.moims.mo.mal.structures.Identifier("[0, -1, -1, 10, 0]");
+        org.ccsds.moims.mo.mal.structures.Identifier identifier2 = new org.ccsds.moims.mo.mal.structures.Identifier(
+            "[0, -1, -1, 10, 0]");
         try {
             boolean boolean3 = mCSoftwareSimulatorAdapter0.isReadOnly(identifier2);
             // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmosupervisor.MCSupervisorBasicAdapter.randoop_classUsedFlag from class esa.mo.nmf.MonitorAndControlNMFAdapter");
@@ -55,12 +57,13 @@ public class RegressionTest0 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test003");
         esa.mo.nmf.nanosatmosupervisor.MCSupervisorBasicAdapter mCSoftwareSimulatorAdapter0 = new esa.mo.nmf.nanosatmosupervisor.MCSupervisorBasicAdapter();
-        org.ccsds.moims.mo.mal.structures.Identifier identifier2 = new org.ccsds.moims.mo.mal.structures.Identifier("1");
+        org.ccsds.moims.mo.mal.structures.Identifier identifier2 = new org.ccsds.moims.mo.mal.structures.Identifier(
+            "1");
         java.lang.Integer int3 = identifier2.getTypeShortForm();
         java.lang.Integer[] intArray11 = new java.lang.Integer[]{0, (-1), (-1), 10, 0};
         java.util.ArrayList<java.lang.Integer> intList12 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList12,
-                                                         intArray11);
+            intArray11);
         boolean boolean15 = intList12.contains((java.lang.Object) 0);
         intList12.ensureCapacity((int) (byte) 0);
         intList12.clear();
@@ -91,7 +94,8 @@ public class RegressionTest0 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test005");
         esa.mo.nmf.nanosatmosupervisor.MCSupervisorBasicAdapter mCSoftwareSimulatorAdapter0 = new esa.mo.nmf.nanosatmosupervisor.MCSupervisorBasicAdapter();
-        org.ccsds.moims.mo.mal.structures.Identifier identifier2 = new org.ccsds.moims.mo.mal.structures.Identifier("1");
+        org.ccsds.moims.mo.mal.structures.Identifier identifier2 = new org.ccsds.moims.mo.mal.structures.Identifier(
+            "1");
         java.lang.Integer int3 = identifier2.getTypeShortForm();
         try {
             boolean boolean4 = mCSoftwareSimulatorAdapter0.isReadOnly(identifier2);
@@ -111,7 +115,7 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.UIntegerList uIntegerList3 = null;
         try {
             boolean boolean4 = mCSoftwareSimulatorAdapter0.preCheck(actionDefinitionDetails1, actionInstanceDetails2,
-                                                                    uIntegerList3);
+                uIntegerList3);
             // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.nmf.nanosatmosupervisor.MCSupervisorBasicAdapter.randoop_classUsedFlag from class esa.mo.nmf.MonitorAndControlNMFAdapter");
         } catch (java.lang.IllegalAccessError e) {
         }

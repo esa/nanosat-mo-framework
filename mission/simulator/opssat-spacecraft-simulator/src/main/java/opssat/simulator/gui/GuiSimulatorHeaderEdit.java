@@ -237,7 +237,7 @@ public class GuiSimulatorHeaderEdit {
                 chkSystemEnableDefault = new JCheckBox("", simulatorHeader.isAutoStartSystem());
                 chkSystemEnableDefault.addItemListener(e -> {
                     GuiSimulatorHeaderEdit.this.simulatorHeader.setAutoStartSystem(e.getStateChange() ==
-                                                                                   ItemEvent.SELECTED);
+                        ItemEvent.SELECTED);
                     submitButton.setEnabled(true);
                 });
                 localPanel.add(chkSystemEnableDefault);
@@ -245,7 +245,7 @@ public class GuiSimulatorHeaderEdit {
                 chkTimeRunDefault = new JCheckBox("", simulatorHeader.isAutoStartTime());
                 chkTimeRunDefault.addItemListener(e -> {
                     GuiSimulatorHeaderEdit.this.simulatorHeader.setAutoStartTime(e.getStateChange() ==
-                                                                                 ItemEvent.SELECTED);
+                        ItemEvent.SELECTED);
                     submitButton.setEnabled(true);
                 });
                 localPanel.add(chkTimeRunDefault);
@@ -327,14 +327,8 @@ public class GuiSimulatorHeaderEdit {
                 submitButtonPressed();
 
             } else {
-                JOptionPane.showMessageDialog(frame, "Data not ok!" +
-                                                     "\nTime factor:" +
-                                                     timeFactorOK +
-                                                     "\nStart date:" +
-                                                     startDateOK +
-                                                     "\nEnd date: " +
-                                                     endDateOK +
-                                                     ".");
+                JOptionPane.showMessageDialog(frame, "Data not ok!" + "\nTime factor:" + timeFactorOK +
+                    "\nStart date:" + startDateOK + "\nEnd date: " + endDateOK + ".");
             }
         });
 

@@ -63,7 +63,7 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel {
         initComponents();
 
         recentCommandsTable = new CommandExecutorTablePanel(serviceSMCommandExecutor.getCOMServices()
-                                                                                    .getArchiveService());
+            .getArchiveService());
 
         recentCommandsTable.getTable().addMouseListener(new MouseListener() {
             @Override
@@ -95,20 +95,17 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel {
 
     public void init() {
         final Subscription subscription = HelperCOM.generateSubscriptionCOMEvent("SUB",
-                                                                                 CommandExecutorHelper.EXECUTIONFINISHED_OBJECT_TYPE);
+            CommandExecutorHelper.EXECUTIONFINISHED_OBJECT_TYPE);
         // Produce wildcard subscribtion to all event objects
-        serviceSMCommandExecutor.getCOMServices()
-                                .getEventService()
-                                .addEventReceivedListener(subscription, new EventReceivedAdapter());
+        serviceSMCommandExecutor.getCOMServices().getEventService().addEventReceivedListener(subscription,
+            new EventReceivedAdapter());
     }
 
     private void refreshOutputBufferWindow(Long justUpdatedObjId) {
         // If there is a concrete row selected...
         if (recentCommandsTable.getSelectedRow() != -1) {
-            final Long objId = recentCommandsTable.getCOMObjects()
-                                                  .get(recentCommandsTable.getSelectedRow())
-                                                  .getArchiveDetails()
-                                                  .getInstId();
+            final Long objId = recentCommandsTable.getCOMObjects().get(recentCommandsTable.getSelectedRow())
+                .getArchiveDetails().getInstId();
             if (justUpdatedObjId != null && !justUpdatedObjId.equals(objId)) {
                 return;
             }
@@ -170,28 +167,18 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel {
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
-        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(parameterTab, javax.swing.GroupLayout.DEFAULT_SIZE, 893,
-                                                      Short.MAX_VALUE)
-                                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                      javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jScrollPane1)
-                                        .addComponent(jScrollPane2));
-        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                      .addGroup(layout.createSequentialGroup()
-                                                      .addContainerGap()
-                                                      .addComponent(jLabel6)
-                                                      .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                      .addComponent(jScrollPane2,
-                                                                    javax.swing.GroupLayout.PREFERRED_SIZE, 199,
-                                                                    javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                      .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                      .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                    216, Short.MAX_VALUE)
-                                                      .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                      .addComponent(parameterTab,
-                                                                    javax.swing.GroupLayout.PREFERRED_SIZE, 42,
-                                                                    javax.swing.GroupLayout.PREFERRED_SIZE)));
+        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
+            parameterTab, javax.swing.GroupLayout.DEFAULT_SIZE, 893, Short.MAX_VALUE).addComponent(jLabel6,
+                javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jScrollPane1).addComponent(jScrollPane2));
+        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout
+            .createSequentialGroup().addContainerGap().addComponent(jLabel6).addPreferredGap(
+                javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jScrollPane2,
+                    javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jScrollPane1,
+                javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE).addPreferredGap(
+                    javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addComponent(parameterTab,
+                        javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)));
     }// </editor-fold>//GEN-END:initComponents
 
     private void listRecentCommandsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listRecentCommandsButtonActionPerformed
@@ -215,7 +202,7 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel {
             serviceSMCommandExecutor.getCommandExecutorStub().asyncRunCommand(cd, asyncAdapter);
         } catch (MALInteractionException | MALException ex) {
             JOptionPane.showMessageDialog(null, "Error!\nException:\n" + ex + "\n" + ex.getMessage(), "Error!",
-                                          JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.PLAIN_MESSAGE);
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_runCommandButtonActionPerformed
@@ -234,13 +221,13 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel {
             Long sourceObjId = eventCOMObject.getSource().getKey().getInstId();
             if (sourceObjId == null) {
                 LOGGER.log(Level.SEVERE,
-                           "Missing source object in a received event (oID {0}). This should never happen.",
-                           eventCOMObject.getObjId());
+                    "Missing source object in a received event (oID {0}). This should never happen.", eventCOMObject
+                        .getObjId());
                 return;
             }
             if (object == null) {
                 LOGGER.log(Level.SEVERE, "Missing body in a received event (oID {0}). This should never happen.",
-                           eventCOMObject.getObjId());
+                    eventCOMObject.getObjId());
                 return;
             }
             if (objType.equals(CommandExecutorHelper.EXECUTIONFINISHED_OBJECT_TYPE)) {
@@ -265,13 +252,9 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel {
 
         @Override
         public void runCommandResponseReceived(MALMessageHeader msgHeader, Long commandInstId, Map qosProperties) {
-            ArchivePersistenceObject comObj = HelperArchive.getArchiveCOMObject(serviceSMCommandExecutor.getCOMServices()
-                                                                                                        .getArchiveService()
-                                                                                                        .getArchiveStub(),
-                                                                                CommandExecutorHelper.COMMAND_OBJECT_TYPE,
-                                                                                serviceSMCommandExecutor.getConnectionDetails()
-                                                                                                        .getDomain(),
-                                                                                commandInstId);
+            ArchivePersistenceObject comObj = HelperArchive.getArchiveCOMObject(serviceSMCommandExecutor
+                .getCOMServices().getArchiveService().getArchiveStub(), CommandExecutorHelper.COMMAND_OBJECT_TYPE,
+                serviceSMCommandExecutor.getConnectionDetails().getDomain(), commandInstId);
             if (comObj == null) {
                 LOGGER.log(Level.SEVERE, "Retrieved null COM object for objInstId {0}", commandInstId);
             } else {

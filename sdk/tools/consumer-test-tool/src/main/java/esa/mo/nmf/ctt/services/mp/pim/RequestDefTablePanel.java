@@ -54,7 +54,7 @@ public class RequestDefTablePanel extends SharedTablePanel {
         RequestTemplateDetails requestDef = (RequestTemplateDetails) comObject.getObject();
 
         tableData.addRow(new Object[]{identity, comObject.getArchiveDetails().getInstId(), requestDef
-                                                                                                     .getDescription(),});
+            .getDescription(),});
 
         comObjects.add(comObject);
         semaphore.release();

@@ -67,7 +67,7 @@ public class DemoSerialObject {
             final IdentifierList names = new IdentifierList();
 
             defsOther.add(new ParameterDefinitionDetails("A single parameter.", Union.STRING_SHORT_FORM.byteValue(), "",
-                                                         true, new Duration(0), null, null));
+                true, new Duration(0), null, null));
             names.add(new Identifier(PARAMETER));
 
             registrationObject.registerParameters(names, defsOther);

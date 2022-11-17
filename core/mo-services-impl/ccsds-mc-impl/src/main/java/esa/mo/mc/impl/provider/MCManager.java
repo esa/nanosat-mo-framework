@@ -260,7 +260,7 @@ public abstract class MCManager {
      * @return True if successful. False otherwise.
      */
     protected synchronized Boolean addIdentityDefinition(final Identifier name, final ObjectInstancePair pair,
-                                                         final Element defDetails) {
+        final Element defDetails) {
         this.identitiesToNamesMap.put(pair.getObjIdentityInstanceId(), name);
         this.namesToPairsMap.put(name, pair);
         this.objIdToDefMap.put(pair.getObjDefInstanceId(), defDetails);
@@ -371,14 +371,13 @@ public abstract class MCManager {
      * otherwise.
      */
     public synchronized Boolean reconfigureDefinitions(final LongList identityIds, final IdentifierList names,
-                                                       final LongList defIds, final ElementList definitions) {
+        final LongList defIds, final ElementList definitions) {
         if (identityIds == null || names == null || defIds == null || definitions == null) {
             return false;
         }
 
-        if (identityIds.size() != names.size() &&
-            defIds.size() != definitions.size() &&
-            identityIds.size() != defIds.size()) {
+        if (identityIds.size() != names.size() && defIds.size() != definitions.size() && identityIds.size() != defIds
+            .size()) {
             return false;
         }
 
@@ -425,7 +424,7 @@ public abstract class MCManager {
      * the archive. NULL otherwise.
      */
     protected synchronized Long retrieveIdentityIdByNameFromArchive(IdentifierList domain, Identifier name,
-                                                                    ObjectType identitysObjectType) {
+        ObjectType identitysObjectType) {
         // We never queried the archive -> do it once
         if (storedNamesToIdMap == null) {
             final ArchiveProviderServiceImpl archive = getArchiveService();
@@ -436,9 +435,7 @@ public abstract class MCManager {
             LongList identityIds = new LongList();
             identityIds.add(0L);
             final List<ArchivePersistenceObject> identityArchiveObjs = HelperArchive.getArchiveCOMObjectList(archive,
-                                                                                                             identitysObjectType,
-                                                                                                             domain,
-                                                                                                             identityIds);
+                identitysObjectType, domain, identityIds);
 
             // Build the Identifier to id map
             storedNamesToIdMap = new HashMap<>();
@@ -446,7 +443,7 @@ public abstract class MCManager {
             if (identityArchiveObjs != null) {
                 for (ArchivePersistenceObject identityArchiveObj : identityArchiveObjs) {
                     storedNamesToIdMap.put((Identifier) identityArchiveObj.getObject(), identityArchiveObj
-                                                                                                          .getObjectId());
+                        .getObjectId());
                 }
             }
         }
@@ -478,9 +475,8 @@ public abstract class MCManager {
      * @return
      */
     public GroupRetrieval getGroupInstancesForServiceOperation(InstanceBooleanPairList enableInstances,
-                                                               GroupRetrieval groupRetrievalInformation,
-                                                               ObjectType identyObjectType, IdentifierList domain,
-                                                               LongList allIdentities) {
+        GroupRetrieval groupRetrievalInformation, ObjectType identyObjectType, IdentifierList domain,
+        LongList allIdentities) {
         //in the next for loop, ignore the other group identities, those will be checked in other iterations.
         LongList ignoreList = new LongList();
         for (InstanceBooleanPair instance : enableInstances) {
@@ -495,9 +491,8 @@ public abstract class MCManager {
                 groupRetrievalInformation.addUnkIndex(new UInteger(index)); // requirement: 3.3.10.2.g
             } else { //if group was found, then get the instances of it and its groups
                 ignoreList.remove(groupIdentityId);
-                GroupServiceImpl.IdObjectTypeList idObjectTypes = groupService.getGroupObjectIdsFromGroup(groupIdentityId,
-                                                                                                          group,
-                                                                                                          ignoreList);
+                GroupServiceImpl.IdObjectTypeList idObjectTypes = groupService.getGroupObjectIdsFromGroup(
+                    groupIdentityId, group, ignoreList);
                 ignoreList.add(groupIdentityId);
                 //checks if the given identityId is found in the internal Identity-list of the specific 
                 //service, if not then the object doesnt belong to the service and is invalid
@@ -540,9 +535,8 @@ public abstract class MCManager {
      * @return
      */
     public GroupRetrieval getGroupInstancesForServiceOperation(LongList groupIds,
-                                                               GroupRetrieval groupRetrievalInformation,
-                                                               ObjectType identyObjectType, IdentifierList domain,
-                                                               LongList allIdentities) {
+        GroupRetrieval groupRetrievalInformation, ObjectType identyObjectType, IdentifierList domain,
+        LongList allIdentities) {
         //if you cont care about the values and just want to get the identities referenced by the groups:
         InstanceBooleanPairList instBoolPairList = new InstanceBooleanPairList(groupIds.size());
         for (Long enableInstance : groupIds) {
@@ -550,7 +544,7 @@ public abstract class MCManager {
         }
 
         return getGroupInstancesForServiceOperation(instBoolPairList, groupRetrievalInformation, identyObjectType,
-                                                    domain, allIdentities);
+            domain, allIdentities);
     }
 
 }

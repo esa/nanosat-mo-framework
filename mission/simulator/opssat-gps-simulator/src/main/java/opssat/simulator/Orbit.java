@@ -190,13 +190,8 @@ public class Orbit {
         // time_int: interval of time passed
         double J2 = 1.08262668E-3;
 
-        return -3 *
-               Math.PI *
-               J2 *
-               (R_e * R_e) /
-               (Math.pow(a * (1 - e * e), 2)) *
-               Math.cos(i) *
-               (time_int / this.Period);
+        return -3 * Math.PI * J2 * (R_e * R_e) / (Math.pow(a * (1 - e * e), 2)) * Math.cos(i) * (time_int /
+            this.Period);
     }
 
     // Calculates Nodal Precession
@@ -204,9 +199,8 @@ public class Orbit {
         // time_int: interval of time passed
         double J2 = 1.08262668E-3;
 
-        return -(3 * Math.PI * J2 * R_e * R_e / (2 * Math.pow(a * (1 - e * e), 2))) *
-               (5 * Math.pow(Math.sin(i), 2) - 4) *
-               (time_int / this.Period);
+        return -(3 * Math.PI * J2 * R_e * R_e / (2 * Math.pow(a * (1 - e * e), 2))) * (5 * Math.pow(Math.sin(i), 2) -
+            4) * (time_int / this.Period);
     }
 
     // Calculates Mean Anomaly: M
@@ -227,21 +221,13 @@ public class Orbit {
 
     // Calculates both unit vectors: P, Q
     private void calculateUnitVectors() {
-        this.P = new Vector(Math.cos(this.arg_per) * Math.cos(this.RAAN) -
-                            Math.sin(this.arg_per) * Math.cos(this.i) * Math.sin(this.RAAN), Math.cos(this.arg_per) *
-                                                                                             Math.sin(this.RAAN) +
-                                                                                             Math.sin(this.arg_per) *
-                                                                                                                   Math.cos(this.i) *
-                                                                                                                   Math.cos(this.RAAN),
-                            Math.sin(this.arg_per) * Math.sin(this.i));
+        this.P = new Vector(Math.cos(this.arg_per) * Math.cos(this.RAAN) - Math.sin(this.arg_per) * Math.cos(this.i) *
+            Math.sin(this.RAAN), Math.cos(this.arg_per) * Math.sin(this.RAAN) + Math.sin(this.arg_per) * Math.cos(
+                this.i) * Math.cos(this.RAAN), Math.sin(this.arg_per) * Math.sin(this.i));
 
-        this.Q = new Vector(-Math.sin(this.arg_per) * Math.cos(this.RAAN) -
-                            Math.cos(this.arg_per) * Math.cos(this.i) * Math.sin(this.RAAN), -Math.sin(this.arg_per) *
-                                                                                             Math.sin(this.RAAN) +
-                                                                                             Math.cos(this.arg_per) *
-                                                                                                                   Math.cos(this.i) *
-                                                                                                                   Math.cos(this.RAAN),
-                            Math.sin(this.i) * Math.cos(this.arg_per));
+        this.Q = new Vector(-Math.sin(this.arg_per) * Math.cos(this.RAAN) - Math.cos(this.arg_per) * Math.cos(this.i) *
+            Math.sin(this.RAAN), -Math.sin(this.arg_per) * Math.sin(this.RAAN) + Math.cos(this.arg_per) * Math.cos(
+                this.i) * Math.cos(this.RAAN), Math.sin(this.i) * Math.cos(this.arg_per));
     }
 
     // Calculates the vector r

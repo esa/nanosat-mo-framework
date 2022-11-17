@@ -66,14 +66,14 @@ public class ParameterConsumerServiceImpl extends ConsumerServiceImpl {
         return new ParameterStub(tmConsumer);
     }
 
-    public ParameterConsumerServiceImpl(SingleConnectionDetails connectionDetails,
-                                        COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
+    public ParameterConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices)
+        throws MALException, MalformedURLException, MALInteractionException {
         this(connectionDetails, comServices, null, null);
     }
 
     public ParameterConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices,
-                                        Blob authenticationId,
-                                        String localNamePrefix) throws MALException, MalformedURLException, MALInteractionException {
+        Blob authenticationId, String localNamePrefix) throws MALException, MalformedURLException,
+        MALInteractionException {
 
         if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
             MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -87,8 +87,8 @@ public class ParameterConsumerServiceImpl extends ConsumerServiceImpl {
             MCHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
-        if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION)
-                             .getServiceByName(ParameterHelper.PARAMETER_SERVICE_NAME) == null) {
+        if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION).getServiceByName(
+            ParameterHelper.PARAMETER_SERVICE_NAME) == null) {
             ParameterHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
@@ -112,9 +112,8 @@ public class ParameterConsumerServiceImpl extends ConsumerServiceImpl {
         }
 
         tmConsumer = connection.startService(this.connectionDetails.getProviderURI(), this.connectionDetails
-                                                                                                            .getBrokerURI(),
-                                             this.connectionDetails.getDomain(), ParameterHelper.PARAMETER_SERVICE,
-                                             authenticationId, localNamePrefix);
+            .getBrokerURI(), this.connectionDetails.getDomain(), ParameterHelper.PARAMETER_SERVICE, authenticationId,
+            localNamePrefix);
 
         this.parameterService = new ParameterStub(tmConsumer);
     }

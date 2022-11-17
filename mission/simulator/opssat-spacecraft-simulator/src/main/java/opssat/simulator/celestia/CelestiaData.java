@@ -144,30 +144,8 @@ public class CelestiaData implements Serializable {
 
     @Override
     public String toString() {
-        return "CelestiaData{" +
-               "rv=" +
-               "[" +
-               rv[0] +
-               "," +
-               rv[1] +
-               "," +
-               rv[2] +
-               "," +
-               rv[3] +
-               "," +
-               rv[4] +
-               "," +
-               rv[5] +
-               "]" +
-               ", q0=" +
-               q[0] +
-               ",q1=" +
-               q[1] +
-               ",q2=" +
-               q[2] +
-               ",q3=" +
-               q[3] +
-               '}';
+        return "CelestiaData{" + "rv=" + "[" + rv[0] + "," + rv[1] + "," + rv[2] + "," + rv[3] + "," + rv[4] + "," +
+            rv[5] + "]" + ", q0=" + q[0] + ",q1=" + q[1] + ",q2=" + q[2] + ",q3=" + q[3] + '}';
     }
 
 }

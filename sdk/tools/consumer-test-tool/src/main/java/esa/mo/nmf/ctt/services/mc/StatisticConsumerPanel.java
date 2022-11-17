@@ -73,7 +73,7 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
      * @param serviceMCParameter
      */
     public StatisticConsumerPanel(StatisticConsumerServiceImpl serviceMCStatistic,
-                                  ParameterConsumerServiceImpl serviceMCParameter) {
+        ParameterConsumerServiceImpl serviceMCParameter) {
         initComponents();
 
         statisticTable = new StatisticLinkTablePanel(serviceMCStatistic.getCOMServices().getArchiveService());
@@ -87,8 +87,8 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
         // Subscribe to Statistic Values
         subscription = ConnectionConsumer.subscriptionWildcard();
         try {
-            serviceMCStatistic.getStatisticStub()
-                              .monitorStatisticsRegister(subscription, new StatisticConsumerAdapter());
+            serviceMCStatistic.getStatisticStub().monitorStatisticsRegister(subscription,
+                new StatisticConsumerAdapter());
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -146,11 +146,8 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
                                                                                                         null, null,
                                                                                                         null, null,
                                                                                                         null}},
-                                                                                new String[]{"Obj Inst Id", "name",
-                                                                                             "description", "rawType",
-                                                                                             "rawUnit",
-                                                                                             "generationEnabled",
-                                                                                             "updateInterval"}) {
+            new String[]{"Obj Inst Id", "name", "description", "rawType", "rawUnit", "generationEnabled",
+                         "updateInterval"}) {
             Class[] types = new Class[]{java.lang.Integer.class, java.lang.String.class, java.lang.String.class,
                                         java.lang.Object.class, java.lang.String.class, java.lang.Boolean.class,
                                         java.lang.Float.class};
@@ -216,25 +213,17 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
-        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(parameterTab, javax.swing.GroupLayout.PREFERRED_SIZE, 0,
-                                                      Short.MAX_VALUE)
-                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING,
-                                                      javax.swing.GroupLayout.DEFAULT_SIZE, 882, Short.MAX_VALUE)
-                                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                      javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
-        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                      .addGroup(layout.createSequentialGroup()
-                                                      .addContainerGap()
-                                                      .addComponent(jLabel6)
-                                                      .addGap(18, 18, 18)
-                                                      .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                    253, Short.MAX_VALUE)
-                                                      .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                      .addComponent(parameterTab,
-                                                                    javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                    javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                    javax.swing.GroupLayout.PREFERRED_SIZE)));
+        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
+            parameterTab, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE).addComponent(jScrollPane2,
+                javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 882, Short.MAX_VALUE)
+            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+                Short.MAX_VALUE));
+        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout
+            .createSequentialGroup().addContainerGap().addComponent(jLabel6).addGap(18, 18, 18).addComponent(
+                jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE).addPreferredGap(
+                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(parameterTab,
+                        javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+                        javax.swing.GroupLayout.PREFERRED_SIZE)));
     }// </editor-fold>//GEN-END:initComponents
 
     private void listDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listDefinitionButtonActionPerformed
@@ -272,8 +261,8 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
         }
 
         try {
-            ObjectInstancePairList objIds = this.serviceMCStatistic.getStatisticStub()
-                                                                   .addParameterEvaluation(statLinkList);
+            ObjectInstancePairList objIds = this.serviceMCStatistic.getStatisticStub().addParameterEvaluation(
+                statLinkList);
 
             if (objIds.isEmpty()) {
                 return;
@@ -281,19 +270,15 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
 
             Thread.sleep(500);
             // Get the stored Action Definition from the Archive
-            ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(this.serviceMCStatistic.getCOMServices()
-                                                                                                          .getArchiveService()
-                                                                                                          .getArchiveStub(),
-                                                                                   StatisticHelper.STATISTICLINK_OBJECT_TYPE,
-                                                                                   serviceMCStatistic.getConnectionDetails()
-                                                                                                     .getDomain(),
-                                                                                   objIds.get(0).getObjDefInstanceId());
+            ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(this.serviceMCStatistic
+                .getCOMServices().getArchiveService().getArchiveStub(), StatisticHelper.STATISTICLINK_OBJECT_TYPE,
+                serviceMCStatistic.getConnectionDetails().getDomain(), objIds.get(0).getObjDefInstanceId());
 
             // Add the Statistic Link to the table
             statisticTable.addEntry(new Identifier("MyStat!"), comObject);
         } catch (MALInteractionException | MALException ex) {
             JOptionPane.showMessageDialog(null, "There was an error with the submitted statistic link.", "Error",
-                                          JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.PLAIN_MESSAGE);
             Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InterruptedException ex) {
             Logger.getLogger(StatisticConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -401,7 +386,7 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
         }
 
         Boolean curState = ((StatisticLinkDetails) statisticTable.getSelectedCOMObject().getObject())
-                                                                                                     .getReportingEnabled();
+            .getReportingEnabled();
         InstanceBooleanPairList BoolPairList = new InstanceBooleanPairList();
         BoolPairList.add(new InstanceBooleanPair((long) 0, !curState));  // Zero is the wildcard
 
@@ -420,9 +405,8 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
     public class StatisticConsumerAdapter extends StatisticAdapter {
         @Override
         public void monitorStatisticsNotifyReceived(MALMessageHeader msgHeader, Identifier _Identifier0,
-                                                    UpdateHeaderList lUpdateHeaderList, LongList _LongList2,
-                                                    ObjectIdList _ObjectIdList3,
-                                                    StatisticValueList _StatisticValueList3, Map qosProperties) {
+            UpdateHeaderList lUpdateHeaderList, LongList _LongList2, ObjectIdList _ObjectIdList3,
+            StatisticValueList _StatisticValueList3, Map qosProperties) {
 
             final long iDiff = System.currentTimeMillis() - msgHeader.getTimestamp().getValue();
 
@@ -434,16 +418,8 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
             try {
                 if (msgBoxOn2.isSelected() && lUpdateHeaderList.size() != 0 && _StatisticValueList3.size() != 0) {
                     String str = "";
-                    str += "Statistic Function name: " +
-                           statFunctionName +
-                           " | " +
-                           "Statistic Link id: " +
-                           statLinkObjId +
-                           " | " +
-                           "Parameter obj Id: " +
-                           paramObjId +
-                           " | " +
-                           "\n";
+                    str += "Statistic Function name: " + statFunctionName + " | " + "Statistic Link id: " +
+                        statLinkObjId + " | " + "Parameter obj Id: " + paramObjId + " | " + "\n";
                     final StatisticValue statisticValue = _StatisticValueList3.get(0);
                     str += "startTime: " + HelperTime.time2readableString(statisticValue.getStartTime()) + "\n";
                     str += "endTime: " + HelperTime.time2readableString(statisticValue.getEndTime()) + "\n";
@@ -452,7 +428,7 @@ public class StatisticConsumerPanel extends javax.swing.JPanel {
                     str += "sampleCount: " + statisticValue.getSampleCount().toString() + "\n";
 
                     JOptionPane.showMessageDialog(null, str, "Returned Statistic Value from the Provider",
-                                                  JOptionPane.PLAIN_MESSAGE);
+                        JOptionPane.PLAIN_MESSAGE);
                 }
 
             } catch (NumberFormatException ex) {

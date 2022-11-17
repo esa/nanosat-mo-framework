@@ -51,29 +51,26 @@ public class LogsCommandsDefinitions {
 
         @Option(names = {"-d", "--domain"}, paramLabel = "<domainId>",
                 description = "Restricts the list to NMF apps in a specific domain\n" +
-                              "  - default: search for app in all domains\n" +
-                              "  - format: key1.key2.[...].keyN.\n" +
-                              "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
+                    "  - default: search for app in all domains\n" + "  - format: key1.key2.[...].keyN.\n" +
+                    "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
         String domain;
 
         @Option(names = {"-s", "--start"}, paramLabel = "<startTime>",
                 description = "Restricts the list to NMF apps having logs logged after the given time\n" +
-                              "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" +
-                              "  - example: \"2021-03-04 08:37:58.482\"")
+                    "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" + "  - example: \"2021-03-04 08:37:58.482\"")
         String startTime;
 
         @Option(names = {"-e", "--end"}, paramLabel = "<endTime>",
                 description = "Restricts the list to NMF apps having logs logged before the given time. " +
-                              "If this option is provided without the -s option, returns the single object that has the closest timestamp to, but not greater than <endTime>\n" +
-                              "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" +
-                              "  - example: \"2021-03-05 12:05:45.271\"")
+                    "If this option is provided without the -s option, returns the single object that has the closest timestamp to, but not greater than <endTime>\n" +
+                    "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" + "  - example: \"2021-03-05 12:05:45.271\"")
         String endTime;
 
         /** {@inheritDoc} */
         @Override
         public void run() {
             LogsCommandsImplementations.listLogs(localOrRemote.databaseFile, localOrRemote.providerURI, domain,
-                                                 startTime, endTime);
+                startTime, endTime);
         }
     }
 
@@ -94,22 +91,19 @@ public class LogsCommandsDefinitions {
 
         @Option(names = {"-d", "--domain"}, paramLabel = "<domainId>",
                 description = "Domain of the NMF app we want the logs for\n" +
-                              "  - default: search for app in all domains\n" +
-                              "  - format: key1.key2.[...].keyN.\n" +
-                              "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
+                    "  - default: search for app in all domains\n" + "  - format: key1.key2.[...].keyN.\n" +
+                    "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
         String domain;
 
         @Option(names = {"-s", "--start"}, paramLabel = "<startTime>",
                 description = "Restricts the dump to logs logged after the given time\n" +
-                              "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" +
-                              "  - example: \"2021-03-04 08:37:58.482\"")
+                    "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" + "  - example: \"2021-03-04 08:37:58.482\"")
         String startTime;
 
         @Option(names = {"-e", "--end"}, paramLabel = "<endTime>",
                 description = "Restricts the dump to logs logged before the given time. " +
-                              "If this option is provided without the -s option, returns the single object that has the closest timestamp to, but not greater than <endTime>\n" +
-                              "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" +
-                              "  - example: \"2021-03-05 12:05:45.271\"")
+                    "If this option is provided without the -s option, returns the single object that has the closest timestamp to, but not greater than <endTime>\n" +
+                    "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" + "  - example: \"2021-03-05 12:05:45.271\"")
         String endTime;
 
         @Option(names = {"-t", "--timestamped"}, paramLabel = "<addTimestamps>",
@@ -119,7 +113,7 @@ public class LogsCommandsDefinitions {
         @Override
         public void run() {
             LogsCommandsImplementations.getLogs(localOrRemote.databaseFile, localOrRemote.providerURI, appName, domain,
-                                                startTime, endTime, logFile, addTimestamps);
+                startTime, endTime, logFile, addTimestamps);
         }
     }
 }

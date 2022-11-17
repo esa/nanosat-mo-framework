@@ -85,7 +85,7 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame {
             connection.getServicesDetails().loadURIFromFiles();
         } catch (MalformedURLException ex) {
             JOptionPane.showMessageDialog(null, "The URIs could not be loaded from the file!", "Error",
-                                          JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.PLAIN_MESSAGE);
             LOGGER.log(Level.SEVERE, null, ex);
         } catch (FileNotFoundException ex) {
             LOGGER.log(Level.INFO, "The file with provider URIs is not present.");
@@ -110,10 +110,10 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame {
 
     public void insertDirectoryServiceTab(final String defaultURI, final boolean isS2G) {
         final DirectoryConnectionConsumerPanel directoryTab = new DirectoryConnectionConsumerPanel(isS2G, connection,
-                                                                                                   tabs);
+            tabs);
 
         tabs.insertTab("Communication Settings (Directory)", null, directoryTab, "Communications Tab (Directory)", tabs
-                                                                                                                       .getTabCount());
+            .getTabCount());
 
         directoryTab.setURITextbox(defaultURI);
     }

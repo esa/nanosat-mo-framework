@@ -98,10 +98,8 @@ public final class GPSManager extends DefinitionsManager {
 
             try {
                 LongList objIds = super.getArchiveService().store(true, GPSHelper.NEARBYPOSITION_OBJECT_TYPE,
-                                                                  ConfigurationProviderSingleton.getDomain(),
-                                                                  HelperArchive.generateArchiveDetailsList(null, source,
-                                                                                                           uri), defs,
-                                                                  null);
+                    ConfigurationProviderSingleton.getDomain(), HelperArchive.generateArchiveDetailsList(null, source,
+                        uri), defs, null);
 
                 if (objIds.size() == 1) {  // Was it correctly added to the archive? Did it return a unique objId?
                     this.addDef(objIds.get(0), definition);
@@ -127,10 +125,8 @@ public final class GPSManager extends DefinitionsManager {
 
             try {  // requirement: 3.3.4.2
                 LongList objIds = super.getArchiveService().store(true, GPSHelper.NEARBYPOSITIONALERT_OBJECT_TYPE,
-                                                                  ConfigurationProviderSingleton.getDomain(),
-                                                                  HelperArchive.generateArchiveDetailsList(objId, null,
-                                                                                                           uri),
-                                                                  isEnteringList, null);
+                    ConfigurationProviderSingleton.getDomain(), HelperArchive.generateArchiveDetailsList(objId, null,
+                        uri), isEnteringList, null);
 
                 if (objIds.size() == 1) {
                     return objIds.get(0);

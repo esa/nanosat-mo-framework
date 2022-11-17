@@ -44,7 +44,7 @@ public class MPServiceOperationManager {
     public void register(MPServiceOperation operationName, MPServiceOperationCallback callback) {
         if (operations.get(operationName) != null) {
             LOGGER.warning(String.format("Operation %s is already registered. Ignoring previous registration.",
-                                         operationName));
+                operationName));
         }
         operations.put(operationName, callback);
     }
@@ -56,21 +56,21 @@ public class MPServiceOperationManager {
     }
 
     public void notifyActivityValidation(MPServiceOperation operationName, PlanVersionDetails planVersion,
-                                         ActivityInstanceDetails activityInstance) {
+        ActivityInstanceDetails activityInstance) {
         if (operations.get(operationName) == null)
             return;
         operations.get(operationName).validate(planVersion, activityInstance);
     }
 
     public void notifyEventValidation(MPServiceOperation operationName, PlanVersionDetails planVersion,
-                                      EventInstanceDetails eventInstance) {
+        EventInstanceDetails eventInstance) {
         if (operations.get(operationName) == null)
             return;
         operations.get(operationName).validate(planVersion, eventInstance);
     }
 
-    public void notify(MPServiceOperation operationName,
-                       List<MPServiceOperationArguments> arguments) throws MALException, MALInteractionException {
+    public void notify(MPServiceOperation operationName, List<MPServiceOperationArguments> arguments)
+        throws MALException, MALInteractionException {
         if (operations.get(operationName) == null)
             return;
         operations.get(operationName).onCallback(arguments);

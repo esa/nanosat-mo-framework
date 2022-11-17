@@ -38,7 +38,7 @@ class HelperRemoteArchiveRetrieveAdapter extends ArchiveAdapter implements Helpe
 
     @Override
     public void retrieveResponseReceived(MALMessageHeader msgHeader, ArchiveDetailsList objDetails,
-                                         ElementList objBodies, Map qosProperties) {
+        ElementList objBodies, Map qosProperties) {
 
         if (objBodies != null) {
             if (!objBodies.isEmpty()) {

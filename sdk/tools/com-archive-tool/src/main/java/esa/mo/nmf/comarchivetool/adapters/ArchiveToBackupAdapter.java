@@ -96,7 +96,7 @@ public class ArchiveToBackupAdapter extends ArchiveAdapter implements QueryStatu
         for (ArchiveCOMObjectsOutput objects : objectsToProcess) {
             try {
                 this.archive.store(false, objects.getObjectType(), objects.getDomain(), objects.getArchiveDetailsList(),
-                                   objects.getObjectBodies(), null);
+                    objects.getObjectBodies(), null);
             } catch (MALException | MALInteractionException e) {
                 LOGGER.log(Level.SEVERE, "Failed to store objects of type: " + objects.getObjectType(), e);
                 result = false;
@@ -127,14 +127,14 @@ public class ArchiveToBackupAdapter extends ArchiveAdapter implements QueryStatu
 
     @Override
     public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-                                      ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+        ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
         dumpArchiveObjectsOutput(new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies));
         setIsQueryOver(true);
     }
 
     @Override
     public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-                                    ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+        ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
         dumpArchiveObjectsOutput(new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies));
     }
 

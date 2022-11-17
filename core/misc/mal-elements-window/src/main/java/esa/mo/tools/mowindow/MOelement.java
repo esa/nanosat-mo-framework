@@ -134,20 +134,13 @@ public abstract class MOelement extends javax.swing.JPanel {
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
-        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                                        .addContainerGap()
-                                                        .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                      580, Short.MAX_VALUE)
-                                                        .addContainerGap()));
-        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                      .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout
-                                                                                                  .createSequentialGroup()
-                                                                                                  .addGap(0, 0, 0)
-                                                                                                  .addComponent(mainPanel,
-                                                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                                                Short.MAX_VALUE)));
+        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout
+            .createSequentialGroup().addContainerGap().addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE,
+                580, Short.MAX_VALUE).addContainerGap()));
+        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
+            javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup().addGap(0, 0, 0).addComponent(
+                mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+                Short.MAX_VALUE)));
     }// </editor-fold>//GEN-END:initComponents
 
     private void nullCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nullCBActionPerformed

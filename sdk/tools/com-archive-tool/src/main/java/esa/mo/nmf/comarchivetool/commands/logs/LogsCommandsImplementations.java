@@ -65,12 +65,11 @@ public class LogsCommandsImplementations {
      *        stamp to, but not greater than endTime.
      */
     public static void listLogs(String databaseFile, String providerURI, String domainId, String startTime,
-                                String endTime) {
+        String endTime) {
         // Query all objects from SoftwareManagement area filtering for
         // StandardOutput and StandardError events and App object is done in the query adapter
         ObjectType objectsTypes = new ObjectType(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER, new UShort(0),
-                                                 SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION, new UShort(
-                                                                                                                      0));
+            SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION, new UShort(0));
 
         LocalOrRemoteConsumer consumers = createConsumer(providerURI, databaseFile);
         ArchiveConsumerServiceImpl localConsumer = consumers.getLocalConsumer();
@@ -86,8 +85,7 @@ public class LogsCommandsImplementations {
 
         // execute query
         ArchiveToAppListAdapter adapter = new ArchiveToAppListAdapter();
-        queryArchive(objectsTypes, archiveQueryList, adapter, adapter, remoteConsumer == null ?
-            localConsumer :
+        queryArchive(objectsTypes, archiveQueryList, adapter, adapter, remoteConsumer == null ? localConsumer :
             remoteConsumer.getCOMServices().getArchiveService());
 
         // Display list of NMF apps that have logs
@@ -117,18 +115,16 @@ public class LogsCommandsImplementations {
      * @param logFile target LOG file
      */
     public static void getLogs(String databaseFile, String providerURI, String appName, String domainId,
-                               String startTime, String endTime, String logFile, boolean addTimestamps) {
+        String startTime, String endTime, String logFile, boolean addTimestamps) {
         // Query all objects from SoftwareManagement area and CommandExecutor service,
         // filtering for StandardOutput and StandardError events is done in the query adapter
         ObjectType outputObjectTypes = new ObjectType(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER,
-                                                      CommandExecutorHelper.COMMANDEXECUTOR_SERVICE_NUMBER,
-                                                      SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION,
-                                                      new UShort(0));
+            CommandExecutorHelper.COMMANDEXECUTOR_SERVICE_NUMBER,
+            SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION, new UShort(0));
 
         ObjectType eventObjectTypes = new ObjectType(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER,
-                                                     AppsLauncherHelper.APPSLAUNCHER_SERVICE_NUMBER,
-                                                     SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION,
-                                                     new UShort(0));
+            AppsLauncherHelper.APPSLAUNCHER_SERVICE_NUMBER, SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION,
+            new UShort(0));
 
         LocalOrRemoteConsumer consumers = createConsumer(providerURI, databaseFile, appName);
         ArchiveConsumerServiceImpl localConsumer = consumers.getLocalConsumer();
@@ -136,17 +132,16 @@ public class LogsCommandsImplementations {
 
         // Query archive for the App object id
         IdentifierList domain = domainId == null ? null : HelperMisc.domainId2domain(domainId);
-        ObjectId appObjectId = getAppObjectId(appName, domain, remoteConsumer == null ?
-            localConsumer :
-            remoteConsumer.getCOMServices().getArchiveService());
+        ObjectId appObjectId = getAppObjectId(appName, domain, remoteConsumer == null ? localConsumer : remoteConsumer
+            .getCOMServices().getArchiveService());
 
         if (appObjectId == null) {
             if (databaseFile == null) {
                 LOGGER.log(Level.SEVERE, String.format("Couldn't find App with name %s in provider at %s", appName,
-                                                       providerURI));
+                    providerURI));
             } else {
                 LOGGER.log(Level.SEVERE, String.format("Couldn't find App with name %s in database at %s", appName,
-                                                       databaseFile));
+                    databaseFile));
             }
             closeConsumer(consumers);
             return;
@@ -157,22 +152,20 @@ public class LogsCommandsImplementations {
         FineTime startTimeF = startTime == null ? null : HelperTime.readableString2FineTime(startTime);
         FineTime endTimeF = endTime == null ? null : HelperTime.readableString2FineTime(endTime);
         ArchiveQuery outputArchiveQuery = new ArchiveQuery(domain, null, null, 0L, appObjectId, startTimeF, endTimeF,
-                                                           null, null);
+            null, null);
         archiveQueryList.add(outputArchiveQuery);
 
         // execute query
         ArchiveToLogAdapter adapter = new ArchiveToLogAdapter(logFile, addTimestamps);
-        queryArchive(outputObjectTypes, archiveQueryList, adapter, adapter, remoteConsumer == null ?
-            localConsumer :
+        queryArchive(outputObjectTypes, archiveQueryList, adapter, adapter, remoteConsumer == null ? localConsumer :
             remoteConsumer.getCOMServices().getArchiveService());
 
         archiveQueryList.clear();
         ArchiveQuery eventArchiveQuery = new ArchiveQuery(domain, null, null, appObjectId.getKey().getInstId(), null,
-                                                          startTimeF, endTimeF, null, null);
+            startTimeF, endTimeF, null, null);
         archiveQueryList.add(eventArchiveQuery);
         adapter.resetAdapter();
-        queryArchive(eventObjectTypes, archiveQueryList, adapter, adapter, remoteConsumer == null ?
-            localConsumer :
+        queryArchive(eventObjectTypes, archiveQueryList, adapter, adapter, remoteConsumer == null ? localConsumer :
             remoteConsumer.getCOMServices().getArchiveService());
 
         adapter.dumpArchiveObjectsOutput();

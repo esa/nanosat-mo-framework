@@ -29,8 +29,7 @@ public class TestCOMService {
     @Test
     public void testAddCOMObject2() {
         COMObject input = new COMObject(new ObjectType(new UShort(1), new UShort(2), new UOctet((byte) 3), new UShort(
-                                                                                                                      4)),
-                                        new Identifier("Test2"), new Integer(42), false, null, false, null, false);
+            4)), new Identifier("Test2"), new Integer(42), false, null, false, null, false);
         uut.addCOMObject(input);
         assertEquals(1, uut.getObjects().length);
     }
@@ -49,8 +48,7 @@ public class TestCOMService {
     @Test
     public void testGetCOMObjectByName3() {
         COMObject input = new COMObject(new ObjectType(new UShort(1), new UShort(2), new UOctet((byte) 3), new UShort(
-                                                                                                                      4)),
-                                        new Identifier("Test3"), new Integer(42), false, null, false, null, false);
+            4)), new Identifier("Test3"), new Integer(42), false, null, false, null, false);
         uut.addCOMObject(input);
         COMObject res = uut.getObjectByName(new Identifier("Test3"));
         assertEquals("Test3", res.getObjectName().getValue());
@@ -65,8 +63,7 @@ public class TestCOMService {
     @Test
     public void testGetObjectByNumber2() {
         COMObject input = new COMObject(new ObjectType(new UShort(1), new UShort(2), new UOctet((byte) 3), new UShort(
-                                                                                                                      4)),
-                                        new Identifier("Test2"), new Integer(1337), false, null, false, null, false);
+            4)), new Identifier("Test2"), new Integer(1337), false, null, false, null, false);
         uut.addCOMObject(input);
         COMObject res = uut.getObjectByNumber(new UShort(4));
         assertEquals(1337, res.getBodyShortForm());
@@ -75,12 +72,10 @@ public class TestCOMService {
     @Test
     public void testGetObjects() {
         COMObject input = new COMObject(new ObjectType(new UShort(1), new UShort(2), new UOctet((byte) 3), new UShort(
-                                                                                                                      1)),
-                                        new Identifier("Test1"), new Integer(42), false, null, false, null, false);
+            1)), new Identifier("Test1"), new Integer(42), false, null, false, null, false);
         uut.addCOMObject(input);
         COMObject input2 = new COMObject(new ObjectType(new UShort(1), new UShort(2), new UOctet((byte) 3), new UShort(
-                                                                                                                       2)),
-                                         new Identifier("Test2"), new Integer(42), false, null, false, null, false);
+            2)), new Identifier("Test2"), new Integer(42), false, null, false, null, false);
         uut.addCOMObject(input2);
         COMObject[] res = uut.getObjects();
         assertEquals(2, res.length);

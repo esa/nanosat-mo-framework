@@ -42,8 +42,8 @@ public class PowerControlSoftSimAdapter implements PowerControlAdapterInterface,
     enum SimPayloadDevice {
         FineADCS("Attitude Determination and Control System"), SEPP1("Satellite Experimental Processing Platform 1"),
         SEPP2("Satellite Experimental Processing Platform 2"), SBandTRX("S-Band Transceiver"), XBandTRX(
-                                                                                                        "X-Band Transmitter"),
-        SDR("Software Defined Radio"), OpticalRX("Optical Receiver"), HDCamera("HD Camera"), GPS("GPS");
+            "X-Band Transmitter"), SDR("Software Defined Radio"), OpticalRX("Optical Receiver"), HDCamera("HD Camera"),
+        GPS("GPS");
 
         private Identifier identifier;
 
@@ -65,18 +65,18 @@ public class PowerControlSoftSimAdapter implements PowerControlAdapterInterface,
 
     private void initDevices() {
         addDevice(new Device(true, 0L, SimPayloadDevice.FineADCS.identifier, DeviceType.ADCS),
-                  SimPayloadDevice.FineADCS);
+            SimPayloadDevice.FineADCS);
         addDevice(new Device(true, 10L, SimPayloadDevice.SEPP1.identifier, DeviceType.OBC), SimPayloadDevice.SEPP1);
         addDevice(new Device(true, 11L, SimPayloadDevice.SEPP2.identifier, DeviceType.OBC), SimPayloadDevice.SEPP2);
         addDevice(new Device(true, 2L, SimPayloadDevice.SBandTRX.identifier, DeviceType.SBAND),
-                  SimPayloadDevice.SBandTRX);
+            SimPayloadDevice.SBandTRX);
         addDevice(new Device(true, 3L, SimPayloadDevice.XBandTRX.identifier, DeviceType.XBAND),
-                  SimPayloadDevice.XBandTRX);
+            SimPayloadDevice.XBandTRX);
         addDevice(new Device(true, 4L, SimPayloadDevice.SDR.identifier, DeviceType.SDR), SimPayloadDevice.SDR);
         addDevice(new Device(true, 5L, SimPayloadDevice.OpticalRX.identifier, DeviceType.OPTRX),
-                  SimPayloadDevice.OpticalRX);
+            SimPayloadDevice.OpticalRX);
         addDevice(new Device(true, 6L, SimPayloadDevice.HDCamera.identifier, DeviceType.CAMERA),
-                  SimPayloadDevice.HDCamera);
+            SimPayloadDevice.HDCamera);
         addDevice(new Device(true, 7L, SimPayloadDevice.GPS.identifier, DeviceType.GNSS), SimPayloadDevice.GPS);
     }
 

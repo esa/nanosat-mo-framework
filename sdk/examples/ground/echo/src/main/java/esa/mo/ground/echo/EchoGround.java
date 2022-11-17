@@ -74,7 +74,7 @@ public class EchoGround {
                 gma.setParameter("Data", new Blob("OPS-SAT".getBytes()));
             } else {
                 LOGGER.log(Level.SEVERE, "Failed to connect to the provider. No such provider found - " +
-                                         ECHO_SPACE_PROVIDER);
+                    ECHO_SPACE_PROVIDER);
             }
         } catch (MALException | MalformedURLException | MALInteractionException | InterruptedException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
@@ -112,9 +112,11 @@ public class EchoGround {
         @Override
         public void onDataReceived(ParameterInstance parameterInstance) {
             LOGGER.log(Level.INFO, "\nParameter name: {0}" + "\n" + "Parameter Value: {1}\nSource: {2}", new Object[]{
-                                                                                                                      parameterInstance.getName(),
-                                                                                                                      parameterInstance.getParameterValue()
-                                                                                                                                       .getRawValue(),});
+                                                                                                                      parameterInstance
+                                                                                                                          .getName(),
+                                                                                                                      parameterInstance
+                                                                                                                          .getParameterValue()
+                                                                                                                          .getRawValue(),});
         }
     }
 }

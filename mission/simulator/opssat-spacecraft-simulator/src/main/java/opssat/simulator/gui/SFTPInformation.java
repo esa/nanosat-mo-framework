@@ -157,7 +157,7 @@ public class SFTPInformation extends JFrame implements UserInfo {
     public boolean promptYesNo(String msg) {
         Object[] options = {"Yes", "No"};
         int result = JOptionPane.showOptionDialog(null, msg, "Warning", JOptionPane.DEFAULT_OPTION,
-                                                  JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+            JOptionPane.WARNING_MESSAGE, null, options, options[0]);
         return result == 0;
     }
 

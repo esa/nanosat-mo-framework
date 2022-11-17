@@ -75,12 +75,13 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
         return eventService;
     }
 
-    public EventConsumerServiceImpl(SingleConnectionDetails connectionDetails) throws MALException, MALInteractionException, MalformedURLException {
+    public EventConsumerServiceImpl(SingleConnectionDetails connectionDetails) throws MALException,
+        MALInteractionException, MalformedURLException {
         this(connectionDetails, null, null);
     }
 
     public EventConsumerServiceImpl(SingleConnectionDetails connectionDetails, Blob authenticationId,
-                                    String localNamePrefix) throws MALException, MALInteractionException, MalformedURLException {
+        String localNamePrefix) throws MALException, MALInteractionException, MalformedURLException {
         if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
             MALHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
@@ -89,8 +90,8 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
             COMHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
-        if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION)
-                             .getServiceByName(EventHelper.EVENT_SERVICE_NAME) == null) {
+        if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION).getServiceByName(
+            EventHelper.EVENT_SERVICE_NAME) == null) {
             EventHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
@@ -119,24 +120,22 @@ public class EventConsumerServiceImpl extends ConsumerServiceImpl {
         }
 
         tmConsumer = connection.startService(this.connectionDetails.getProviderURI(), this.connectionDetails
-                                                                                                            .getBrokerURI(),
-                                             this.connectionDetails.getDomain(), EventHelper.EVENT_SERVICE,
-                                             authenticationId, localNamePrefix);
+            .getBrokerURI(), this.connectionDetails.getDomain(), EventHelper.EVENT_SERVICE, authenticationId,
+            localNamePrefix);
 
         this.eventService = new EventStub(tmConsumer);
     }
 
     public void addEventReceivedListener(final Subscription subscription,
-                                         final EventReceivedListener eventReceivedListener) {
+        final EventReceivedListener eventReceivedListener) {
 
         // Make the event adapter to call the eventReceivedListener when there's a new object available
         class EventReceivedAdapter extends EventAdapter {
 
             @Override
             public void monitorEventNotifyReceived(final MALMessageHeader msgHeader, final Identifier lIdentifier,
-                                                   final UpdateHeaderList lUpdateHeaderList,
-                                                   final ObjectDetailsList objectDetailsList,
-                                                   final ElementList elementList, Map qosProperties) {
+                final UpdateHeaderList lUpdateHeaderList, final ObjectDetailsList objectDetailsList,
+                final ElementList elementList, Map qosProperties) {
 
                 if (objectDetailsList.size() == lUpdateHeaderList.size()) { // Something is wrong
                     for (int i = 0; i < lUpdateHeaderList.size(); i++) {

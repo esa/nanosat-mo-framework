@@ -57,7 +57,7 @@ public class PublishedPlanStatusesTable extends SharedTablePanel {
     private final PlanDistributionConsumerServiceImpl pdsService;
 
     public PublishedPlanStatusesTable(ArchiveConsumerServiceImpl archiveService,
-                                      PlanDistributionConsumerServiceImpl pdsService) {
+        PlanDistributionConsumerServiceImpl pdsService) {
         super(archiveService);
         this.archiveService = archiveService;
         this.pdsService = pdsService;
@@ -79,9 +79,8 @@ public class PublishedPlanStatusesTable extends SharedTablePanel {
         ObjectType updateObjectType = PlanDistributionHelper.PLANUPDATE_OBJECT_TYPE;
         LongList objectIds = new LongList();
         objectIds.add(0L);
-        List<ArchivePersistenceObject> updateObjects = HelperArchive.getArchiveCOMObjectList(this.archiveService.getArchiveStub(),
-                                                                                             updateObjectType, domain,
-                                                                                             objectIds);
+        List<ArchivePersistenceObject> updateObjects = HelperArchive.getArchiveCOMObjectList(this.archiveService
+            .getArchiveStub(), updateObjectType, domain, objectIds);
 
         ArchivePersistenceObject comObject = null;
         if (updateObjects != null) {
@@ -94,8 +93,7 @@ public class PublishedPlanStatusesTable extends SharedTablePanel {
         }
 
         tableData.addRow(new Object[]{HelperTime.time2readableString(update.getTimestamp()), instanceId, update
-                                                                                                               .getIsAlternate(),
-                                      update.getStatus(), update.getTerminationInfo()});
+            .getIsAlternate(), update.getStatus(), update.getTerminationInfo()});
 
         comObjects.add(comObject);
         semaphore.release();
@@ -134,8 +132,8 @@ public class PublishedPlanStatusesTable extends SharedTablePanel {
 
         @Override
         public void monitorPlanStatusNotifyReceived(MALMessageHeader msgHeader, Identifier identifier,
-                                                    UpdateHeaderList headerList, ObjectIdList planVersionIdList,
-                                                    PlanUpdateDetailsList updateList, Map qosProperties) {
+            UpdateHeaderList headerList, ObjectIdList planVersionIdList, PlanUpdateDetailsList updateList,
+            Map qosProperties) {
             for (int index = 0; index < headerList.size(); index++) {
                 ObjectId planVersionId = planVersionIdList.get(index);
                 PlanUpdateDetails update = updateList.get(index);

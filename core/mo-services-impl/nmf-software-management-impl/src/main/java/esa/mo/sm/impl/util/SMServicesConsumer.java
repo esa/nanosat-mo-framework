@@ -67,7 +67,7 @@ public class SMServicesConsumer {
      * @param authenticationId authenticationId of the logged in user
      */
     public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices, Blob authenticationId,
-                     String localNamePrefix) {
+        String localNamePrefix) {
 
         SingleConnectionDetails details;
 
@@ -76,29 +76,29 @@ public class SMServicesConsumer {
             details = connectionConsumer.getServicesDetails().get(AppsLauncherHelper.APPSLAUNCHER_SERVICE_NAME);
             if (details != null) {
                 appsLauncherService = new AppsLauncherConsumerServiceImpl(details, comServices, authenticationId,
-                                                                          localNamePrefix);
+                    localNamePrefix);
             }
 
             // Initialize the Command Executor Service service
             details = connectionConsumer.getServicesDetails().get(CommandExecutorHelper.COMMANDEXECUTOR_SERVICE_NAME);
             if (details != null) {
                 commandExecutorService = new CommandExecutorConsumerServiceImpl(details, comServices, authenticationId,
-                                                                                localNamePrefix);
+                    localNamePrefix);
             }
 
             // Initialize the Package Management service
-            details = connectionConsumer.getServicesDetails()
-                                        .get(PackageManagementHelper.PACKAGEMANAGEMENT_SERVICE_NAME);
+            details = connectionConsumer.getServicesDetails().get(
+                PackageManagementHelper.PACKAGEMANAGEMENT_SERVICE_NAME);
             if (details != null) {
                 packageManagementService = new PackageManagementConsumerServiceImpl(details, comServices,
-                                                                                    authenticationId, localNamePrefix);
+                    authenticationId, localNamePrefix);
             }
 
             // Initialize the Heartbeat service
             details = connectionConsumer.getServicesDetails().get(HeartbeatHelper.HEARTBEAT_SERVICE_NAME);
             if (details != null) {
                 heartbeatService = new HeartbeatConsumerServiceImpl(details, comServices, authenticationId,
-                                                                    localNamePrefix);
+                    localNamePrefix);
             }
         } catch (MALException | MalformedURLException | MALInteractionException ex) {
             Logger.getLogger(SMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
@@ -130,9 +130,8 @@ public class SMServicesConsumer {
      * @param commandExecutorService   Command Executor Service consumer
      */
     public void setServices(PackageManagementConsumerServiceImpl packageManagementService,
-                            AppsLauncherConsumerServiceImpl appsLauncherService,
-                            HeartbeatConsumerServiceImpl heartbeatService,
-                            CommandExecutorConsumerServiceImpl commandExecutorService) {
+        AppsLauncherConsumerServiceImpl appsLauncherService, HeartbeatConsumerServiceImpl heartbeatService,
+        CommandExecutorConsumerServiceImpl commandExecutorService) {
         this.packageManagementService = packageManagementService;
         this.appsLauncherService = appsLauncherService;
         this.heartbeatService = heartbeatService;

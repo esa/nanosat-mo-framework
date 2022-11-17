@@ -44,7 +44,8 @@ import esa.mo.mp.impl.com.pattern.COMInstanceArchiveManager;
  *
  * @see COMInstanceArchiveManager
  */
-public class EventArchiveManager extends COMInstanceArchiveManager<EventIdentityDetails, EventIdentityDetailsList, EventDefinitionDetails, EventDefinitionDetailsList, EventInstanceDetails, EventDefinitionDetailsList, EventUpdateDetails, EventUpdateDetailsList> {
+public class EventArchiveManager extends
+    COMInstanceArchiveManager<EventIdentityDetails, EventIdentityDetailsList, EventDefinitionDetails, EventDefinitionDetailsList, EventInstanceDetails, EventDefinitionDetailsList, EventUpdateDetails, EventUpdateDetailsList> {
 
     public EventArchiveManager(COMServicesProvider comServices, COMConfiguration configuration) {
         super(comServices, configuration);

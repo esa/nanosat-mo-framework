@@ -41,25 +41,29 @@ public class TestMPConfiguration {
 
     @Test
     public void testGetInverseRelatedType() {
-        ObjectType inverseRelatedType = configuration.getInverseRelatedType(PlanningRequestHelper.REQUESTIDENTITY_OBJECT_TYPE);
+        ObjectType inverseRelatedType = configuration.getInverseRelatedType(
+            PlanningRequestHelper.REQUESTIDENTITY_OBJECT_TYPE);
         assertEquals(PlanningRequestHelper.REQUESTVERSION_OBJECT_TYPE, inverseRelatedType);
     }
 
     @Test
     public void testGetUnknownInverseRelatedType() {
-        ObjectType unknownInverseRelatedType = configuration.getInverseRelatedType(PlanningRequestHelper.REQUESTSTATUSUPDATE_OBJECT_TYPE);
+        ObjectType unknownInverseRelatedType = configuration.getInverseRelatedType(
+            PlanningRequestHelper.REQUESTSTATUSUPDATE_OBJECT_TYPE);
         assertNull(unknownInverseRelatedType);
     }
 
     @Test
     public void testGetConfigurationType() {
-        ObjectType configurationType = configuration.getConfigurationType(PlanningRequestHelper.REQUESTIDENTITY_OBJECT_TYPE);
+        ObjectType configurationType = configuration.getConfigurationType(
+            PlanningRequestHelper.REQUESTIDENTITY_OBJECT_TYPE);
         assertEquals(PlanningRequestHelper.REQUESTIDENTITYTOREQUESTVERSION_OBJECT_TYPE, configurationType);
     }
 
     @Test
     public void testGetUnknownConfigurationType() {
-        ObjectType unknownConfigurationType = configuration.getConfigurationType(PlanningRequestHelper.REQUESTSTATUSUPDATE_OBJECT_TYPE);
+        ObjectType unknownConfigurationType = configuration.getConfigurationType(
+            PlanningRequestHelper.REQUESTSTATUSUPDATE_OBJECT_TYPE);
         assertNull(unknownConfigurationType);
     }
 }

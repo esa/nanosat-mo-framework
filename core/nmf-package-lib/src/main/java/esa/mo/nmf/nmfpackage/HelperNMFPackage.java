@@ -56,8 +56,8 @@ public class HelperNMFPackage {
         return crc.getValue();
     }
 
-    public static String generateLinuxStartAppScript(String mainclass, String jarFilename,
-                                                     String maxHeap) throws IOException {
+    public static String generateLinuxStartAppScript(String mainclass, String jarFilename, String maxHeap)
+        throws IOException {
         StringBuilder str = new StringBuilder();
         str.append("#!/bin/sh\n");
         str.append("#########################################################\n");
@@ -140,9 +140,12 @@ public class HelperNMFPackage {
         str.append("\n");
 
         str.append("# TCP/IP protocol properties:\n");
-        str.append("org.ccsds.moims.mo.mal.transport.protocol.maltcp=esa.mo.mal.transport.tcpip.TCPIPTransportFactoryImpl\n");
-        str.append("org.ccsds.moims.mo.mal.encoding.protocol.maltcp=esa.mo.mal.encoder.binary.fixed.FixedBinaryStreamFactory\n");
-        str.append("#org.ccsds.moims.mo.mal.encoding.protocol.maltcp=esa.mo.mal.encoder.binary.split.SplitBinaryStreamFactory\n");
+        str.append(
+            "org.ccsds.moims.mo.mal.transport.protocol.maltcp=esa.mo.mal.transport.tcpip.TCPIPTransportFactoryImpl\n");
+        str.append(
+            "org.ccsds.moims.mo.mal.encoding.protocol.maltcp=esa.mo.mal.encoder.binary.fixed.FixedBinaryStreamFactory\n");
+        str.append(
+            "#org.ccsds.moims.mo.mal.encoding.protocol.maltcp=esa.mo.mal.encoder.binary.split.SplitBinaryStreamFactory\n");
         str.append("org.ccsds.moims.mo.mal.transport.tcpip.autohost=true\n");
         str.append("#org.ccsds.moims.mo.mal.transport.tcpip.host=xxx.xxx.xxx.xxx\n");
         str.append("#org.ccsds.moims.mo.mal.transport.tcpip.port=54321\n");

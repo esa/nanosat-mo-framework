@@ -54,9 +54,8 @@ public class BinaryEncoder extends GENEncoder {
     @Override
     public void encodeNullableBlob(final Blob value) throws MALException {
         try {
-            if ((null != value) &&
-                ((value.isURLBased() && (null != value.getURL())) ||
-                 (!value.isURLBased() && (null != value.getValue())))) {
+            if ((null != value) && ((value.isURLBased() && (null != value.getURL())) || (!value.isURLBased() && (null !=
+                value.getValue())))) {
                 encodeBlob(value);
             } else {
                 outputStream.addBytes(null);

@@ -32,8 +32,8 @@ public class ImageLoader {
      * @throws IllegalArgumentException Iff targetWidth <= 0 || targetHeight <= 0 ||
      *                                  input == null.
      */
-    public static BufferedImage rescale(int targetWidth, int targetHeight,
-                                        BufferedImage input) throws IllegalArgumentException {
+    public static BufferedImage rescale(int targetWidth, int targetHeight, BufferedImage input)
+        throws IllegalArgumentException {
         if (targetWidth <= 0 || targetHeight <= 0) {
             throw new IllegalArgumentException("The target dimensions must be positive.");
         }

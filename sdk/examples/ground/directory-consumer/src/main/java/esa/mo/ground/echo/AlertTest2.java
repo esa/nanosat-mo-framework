@@ -61,7 +61,8 @@ public class AlertTest2 {
     private final Random random = new Random();
 
     public AlertTest2() throws Throwable {
-        ProviderSummaryList summaryList = GroundMOAdapterImpl.retrieveProvidersFromDirectory(new URI(URL_DIRECTORY_SERVICE));
+        ProviderSummaryList summaryList = GroundMOAdapterImpl.retrieveProvidersFromDirectory(new URI(
+            URL_DIRECTORY_SERVICE));
 
         if (!summaryList.isEmpty()) {
             groundAdapter = new GroundMOAdapterImpl(summaryList.get(0));
@@ -95,11 +96,11 @@ public class AlertTest2 {
 
         //subscribe to events
         //Get all object numbers from the Activity Tracking Service Events
-        final Long secondEntityKey = 0xFFFFFFFFFF000000L &
-                                     HelperCOM.generateSubKey(AlertHelper.ALERTDEFINITION_OBJECT_TYPE);
+        final Long secondEntityKey = 0xFFFFFFFFFF000000L & HelperCOM.generateSubKey(
+            AlertHelper.ALERTDEFINITION_OBJECT_TYPE);
         this.subscriptionId = new Identifier("AlertEvent" + random.nextInt());  // Add some randomness in the subscriptionId to avoid collisions
         Subscription eventSub = ConnectionConsumer.subscriptionKeys(this.subscriptionId, new Identifier("*"),
-                                                                    secondEntityKey, 0L, 0L);
+            secondEntityKey, 0L, 0L);
 
         eventConsumer.addEventReceivedListener(eventSub, new EventConsumerAdapter());
     }
@@ -138,11 +139,8 @@ public class AlertTest2 {
                     if (attValues.size() > 1) {
                         for (int i = 0; i < attValues.size(); i++) {
                             AttributeValue attValue = attValues.get(i);
-                            messageToDisplay.append("[")
-                                            .append(i)
-                                            .append("] ")
-                                            .append(attValue.getValue().toString())
-                                            .append("\n");
+                            messageToDisplay.append("[").append(i).append("] ").append(attValue.getValue().toString())
+                                .append("\n");
                         }
                     }
                 }

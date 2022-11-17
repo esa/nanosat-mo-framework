@@ -144,7 +144,7 @@ class CheckLinksManager extends MCManager {
     //        this.checkIdentityDefIds.put(identityId, defId);
     //    }
     protected void addCheckLink(Long checkLinkId, ObjectDetails objDetails, Long checkLinkDefId,
-                                CheckLinkDetails checkLinkDetails) {
+        CheckLinkDetails checkLinkDetails) {
         this.checkLinkIds.put(checkLinkId, checkLinkDefId);
         this.checkLinkLinks.put(checkLinkId, objDetails);
         this.checkLinkDetails.put(checkLinkDefId, checkLinkDetails);

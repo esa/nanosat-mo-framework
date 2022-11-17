@@ -66,11 +66,8 @@ public class TimelineItem implements Comparable<TimelineItem> {
 
     @Override
     public String toString() {
-        return this.formatTime(this.earliestStartTime) +
-               " | " +
-               this.formatTime(this.latestStartTime) +
-               " | " +
-               this.itemId;
+        return this.formatTime(this.earliestStartTime) + " | " + this.formatTime(this.latestStartTime) + " | " +
+            this.itemId;
     }
 
     private String formatTime(long timestamp) {

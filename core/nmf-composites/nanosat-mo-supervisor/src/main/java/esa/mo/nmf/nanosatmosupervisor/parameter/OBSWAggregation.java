@@ -234,14 +234,7 @@ public class OBSWAggregation {
     /** {@inheritDoc} */
     @Override
     public String toString() {
-        return "OBSWAggregation [id=" +
-               id +
-               ", name=" +
-               name +
-               ", description=" +
-               description +
-               ", parameters_count=" +
-               parameters.size() +
-               "]";
+        return "OBSWAggregation [id=" + id + ", name=" + name + ", description=" + description + ", parameters_count=" +
+            parameters.size() + "]";
     }
 }

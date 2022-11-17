@@ -44,11 +44,12 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
  * object and puts it inside a MAL Blob type (a byte container).
  *
  */
-public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNMFAdapter implements SimpleMonitorAndControlListener {
+public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNMFAdapter implements
+    SimpleMonitorAndControlListener {
 
     @Override
     public UInteger actionArrived(Identifier identifier, AttributeValueList attributeValues, Long actionInstanceObjId,
-                                  boolean reportProgress, MALInteraction interaction) {
+        boolean reportProgress, MALInteraction interaction) {
         Serializable[] values = new Serializable[attributeValues.size()];
 
         for (int i = 0; i < attributeValues.size(); i++) {

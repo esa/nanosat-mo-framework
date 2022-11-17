@@ -81,7 +81,8 @@ public class ParameterLister {
      * @throws SAXException
      * @throws ParserConfigurationException
      */
-    private HashMap<Identifier, OBSWParameter> readParameters(InputStream datapool) throws IOException, JAXBException, XMLStreamException {
+    private HashMap<Identifier, OBSWParameter> readParameters(InputStream datapool) throws IOException, JAXBException,
+        XMLStreamException {
         HashMap<Identifier, OBSWParameter> map = new HashMap<>();
 
         XMLInputFactory xif = XMLInputFactory.newFactory();

@@ -105,8 +105,7 @@ public class PlanExecutionControlProviderServiceImpl extends PlanExecutionContro
      * @throws MALException            On initialisation error.
      */
     public synchronized void init(COMServicesProvider comServices, MPArchiveManager archiveManager,
-                                  MPServiceOperationManager registration,
-                                  ActivityExecutionEngine activityExecutionEngine) throws MALException {
+        MPServiceOperationManager registration, ActivityExecutionEngine activityExecutionEngine) throws MALException {
         if (!this.initialised) {
             if (MALContextFactory.lookupArea(MALHelper.MAL_AREA_NAME, MALHelper.MAL_AREA_VERSION) == null) {
                 MALHelper.init(MALContextFactory.getElementFactoryRegistry());
@@ -132,15 +131,12 @@ public class PlanExecutionControlProviderServiceImpl extends PlanExecutionContro
             this.connection.closeAll();
         }
 
-        this.provider = this.connection.startService(PlanExecutionControlHelper.PLANEXECUTIONCONTROL_SERVICE_NAME.toString(),
-                                                     PlanExecutionControlHelper.PLANEXECUTIONCONTROL_SERVICE, true,
-                                                     this);
+        this.provider = this.connection.startService(PlanExecutionControlHelper.PLANEXECUTIONCONTROL_SERVICE_NAME
+            .toString(), PlanExecutionControlHelper.PLANEXECUTIONCONTROL_SERVICE, true, this);
 
         activityPublisher = createMonitorActivitiesPublisher(ConfigurationProviderSingleton.getDomain(),
-                                                             ConfigurationProviderSingleton.getNetwork(),
-                                                             SessionType.LIVE, ConfigurationProviderSingleton
-                                                                                                             .getSourceSessionName(),
-                                                             QoSLevel.BESTEFFORT, null, new UInteger(0));
+            ConfigurationProviderSingleton.getNetwork(), SessionType.LIVE, ConfigurationProviderSingleton
+                .getSourceSessionName(), QoSLevel.BESTEFFORT, null, new UInteger(0));
 
         this.archiveManager = archiveManager;
         this.operationCallbackManager = registration;
@@ -149,17 +145,18 @@ public class PlanExecutionControlProviderServiceImpl extends PlanExecutionContro
         // Listen Event Service for Activity updates in COM Archive
         try {
             EventConsumerServiceImpl consumer = new EventConsumerServiceImpl(comServices.getEventService()
-                                                                                        .getConnectionProvider()
-                                                                                        .getConnectionDetails());
+                .getConnectionProvider().getConnectionDetails());
             Subscription subcription = HelperCOM.generateCOMEventSubscriptionBySourceType("ActivityStatusUpdates",
-                                                                                          PlanEditHelper.ACTIVITYUPDATE_OBJECT_TYPE);
+                PlanEditHelper.ACTIVITYUPDATE_OBJECT_TYPE);
             consumer.addEventReceivedListener(subcription, new EventReceivedListener() {
                 @Override
                 public void onDataReceived(EventCOMObject eventCOMObject) {
                     ObjectId statusId = eventCOMObject.getSource();
                     ObjectId activityInstanceId = archiveManager.ACTIVITY.getInstanceIdByStatusId(statusId);
-                    ObjectId activityDefinitionId = archiveManager.ACTIVITY.getDefinitionIdByInstanceId(activityInstanceId);
-                    ObjectId activityIdentityId = archiveManager.ACTIVITY.getIdentityIdByDefinitionId(activityDefinitionId);
+                    ObjectId activityDefinitionId = archiveManager.ACTIVITY.getDefinitionIdByInstanceId(
+                        activityInstanceId);
+                    ObjectId activityIdentityId = archiveManager.ACTIVITY.getIdentityIdByDefinitionId(
+                        activityDefinitionId);
                     Identifier activityIdentity = archiveManager.ACTIVITY.getIdentity(activityIdentityId);
                     ActivityUpdateDetails status = archiveManager.ACTIVITY.getStatus(statusId);
                     try {
@@ -200,8 +197,8 @@ public class PlanExecutionControlProviderServiceImpl extends PlanExecutionContro
     }
 
     @Override
-    public PlanStatus submitPlan(ObjectId planVersionId, PlanVersionDetails planVersion,
-                                 MALInteraction interaction) throws MALInteractionException, MALException {
+    public PlanStatus submitPlan(ObjectId planVersionId, PlanVersionDetails planVersion, MALInteraction interaction)
+        throws MALInteractionException, MALException {
         Long planVersionInstanceId = COMObjectIdHelper.getInstanceId(planVersionId);
         LOGGER.info(String.format("Submitted plan version (id: %s) received...", planVersionInstanceId));
 
@@ -228,7 +225,7 @@ public class PlanExecutionControlProviderServiceImpl extends PlanExecutionContro
         for (PlannedActivity plannedActivity : plannedItems.getPlannedActivities()) {
             ObjectKey activityInstanceIdKey = plannedActivity.getInstanceId();
             ObjectId activityInstanceId = new ObjectId(PlanEditHelper.ACTIVITYINSTANCE_OBJECT_TYPE,
-                                                       activityInstanceIdKey);
+                activityInstanceIdKey);
 
             ObjectId activityDefinitionId = archiveManager.ACTIVITY.getDefinitionIdByInstanceId(activityInstanceId);
             ObjectId activityIdentityId = archiveManager.ACTIVITY.getIdentityIdByDefinitionId(activityDefinitionId);
@@ -247,13 +244,13 @@ public class PlanExecutionControlProviderServiceImpl extends PlanExecutionContro
                 @Override
                 public void execute() {
                     activityExecutionEngine.executeActivity(activityDefinition.getExecDef().getValue(),
-                                                            activityInstanceId);
+                        activityInstanceId);
                 }
 
                 @Override
                 public void missed() {
                     activityExecutionEngine.missedActivity(activityDefinition.getExecDef().getValue(),
-                                                           activityInstanceId);
+                        activityInstanceId);
                 }
             }));
         }
@@ -284,7 +281,7 @@ public class PlanExecutionControlProviderServiceImpl extends PlanExecutionContro
     }
 
     private void updatePlanStatus(ObjectId planVersionId, PlanStatus status, String terminationInfo,
-                                  MALInteraction interaction) {
+        MALInteraction interaction) {
         try {
             PlanUpdateDetails planUpdate = MPFactory.createPlanUpdate(status);
             planUpdate.setTerminationInfo(terminationInfo);
@@ -295,7 +292,7 @@ public class PlanExecutionControlProviderServiceImpl extends PlanExecutionContro
     }
 
     private void publishActivityUpdate(Identifier identity, ObjectId identityId, ObjectId instanceId,
-                                       ActivityUpdateDetails update) throws IllegalArgumentException, MALInteractionException, MALException {
+        ActivityUpdateDetails update) throws IllegalArgumentException, MALInteractionException, MALException {
         if (!this.isPublisherRegistered) {
             final EntityKeyList entityKeys = new EntityKeyList();
             entityKeys.add(new EntityKey(new Identifier("*"), 0L, 0L, 0L));
@@ -312,7 +309,7 @@ public class PlanExecutionControlProviderServiceImpl extends PlanExecutionContro
 
         EntityKey entityKey = new EntityKey(firstSubKey, secondSubKey, thirdSubKey, fourthSubKey);
         headerList.add(new UpdateHeader(update.getTimestamp(), connection.getConnectionDetails().getProviderURI(),
-                                        UpdateType.CREATION, entityKey));
+            UpdateType.CREATION, entityKey));
         ActivityUpdateDetailsList activityStatusList = new ActivityUpdateDetailsList();
         activityStatusList.add(update);
 
@@ -321,26 +318,26 @@ public class PlanExecutionControlProviderServiceImpl extends PlanExecutionContro
 
     private static final class PublishInteractionListener implements MALPublishInteractionListener {
         @Override
-        public void publishDeregisterAckReceived(final MALMessageHeader header,
-                                                 final Map qosProperties) throws MALException {
+        public void publishDeregisterAckReceived(final MALMessageHeader header, final Map qosProperties)
+            throws MALException {
             LOGGER.fine("PublishInteractionListener::publishDeregisterAckReceived");
         }
 
         @Override
         public void publishErrorReceived(final MALMessageHeader header, final MALErrorBody body,
-                                         final Map qosProperties) throws MALException {
+            final Map qosProperties) throws MALException {
             LOGGER.warning("PublishInteractionListener::publishErrorReceived");
         }
 
         @Override
-        public void publishRegisterAckReceived(final MALMessageHeader header,
-                                               final Map qosProperties) throws MALException {
+        public void publishRegisterAckReceived(final MALMessageHeader header, final Map qosProperties)
+            throws MALException {
             LOGGER.fine("PublishInteractionListener::publishRegisterAckReceived");
         }
 
         @Override
         public void publishRegisterErrorReceived(final MALMessageHeader header, final MALErrorBody body,
-                                                 final Map qosProperties) throws MALException {
+            final Map qosProperties) throws MALException {
             LOGGER.warning("PublishInteractionListener::publishRegisterErrorReceived");
         }
     }

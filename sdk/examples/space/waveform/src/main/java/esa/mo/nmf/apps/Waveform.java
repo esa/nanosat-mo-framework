@@ -117,14 +117,13 @@ public class Waveform {
             final IdentifierList names = new IdentifierList();
 
             defs.add(new ParameterDefinitionDetails("Amplitude of the wave", Union.DOUBLE_SHORT_FORM.byteValue(), "",
-                                                    true, new Duration(3), null, null));
+                true, new Duration(3), null, null));
             defs.add(new ParameterDefinitionDetails("Frequency of the wave", Union.DOUBLE_SHORT_FORM.byteValue(), "",
-                                                    true, new Duration(3), null, null));
+                true, new Duration(3), null, null));
             defs.add(new ParameterDefinitionDetails("Result of the wave", Union.DOUBLE_SHORT_FORM.byteValue(), "", true,
-                                                    new Duration(), null, null));
+                new Duration(), null, null));
             defs.add(new ParameterDefinitionDetails("Refreshrate for publishing the result", Union.LONG_SHORT_FORM
-                                                                                                                  .byteValue(),
-                                                    "us", true, new Duration(), null, null));
+                .byteValue(), "us", true, new Duration(), null, null));
             names.add(new Identifier("Amplitude"));
             names.add(new Identifier("Frequency"));
             names.add(new Identifier("Sine"));
@@ -133,14 +132,11 @@ public class Waveform {
             IdentifierList actionNames = new IdentifierList();
             ActionDefinitionDetailsList actionDefs = new ActionDefinitionDetailsList();
             ActionDefinitionDetails actionDef1 = new ActionDefinitionDetails("Start the plotter.", new UOctet(
-                                                                                                              (short) 0),
-                                                                             new UShort(0),
-                                                                             new ArgumentDefinitionDetailsList());
+                (short) 0), new UShort(0), new ArgumentDefinitionDetailsList());
             actionNames.add(new Identifier("start"));
             actionDefs.add(actionDef1);
             ActionDefinitionDetails actionDef2 = new ActionDefinitionDetails("Stop the plotter.", new UOctet((short) 0),
-                                                                             new UShort(0),
-                                                                             new ArgumentDefinitionDetailsList());
+                new UShort(0), new ArgumentDefinitionDetailsList());
             actionNames.add(new Identifier("stop"));
             actionDefs.add(actionDef2);
 
@@ -152,12 +148,11 @@ public class Waveform {
                 Byte convertedType = null;
                 String convertedUnit = null;
                 argDef1.add(new ArgumentDefinitionDetails(new Identifier("Amplitude"), null, rawType, rawUnit,
-                                                          conditionalConversions, convertedType, convertedUnit));
+                    conditionalConversions, convertedType, convertedUnit));
             }
 
             ActionDefinitionDetails actionDef3 = new ActionDefinitionDetails("Update the Amplitude", new UOctet(
-                                                                                                                (short) 0),
-                                                                             new UShort(0), argDef1);
+                (short) 0), new UShort(0), argDef1);
             actionNames.add(new Identifier("updateAmplitude"));
             actionDefs.add(actionDef3);
 
@@ -169,12 +164,11 @@ public class Waveform {
                 Byte convertedType = null;
                 String convertedUnit = null;
                 argDef2.add(new ArgumentDefinitionDetails(new Identifier("Frequency"), null, rawType, rawUnit,
-                                                          conditionalConversions, convertedType, convertedUnit));
+                    conditionalConversions, convertedType, convertedUnit));
             }
 
             ActionDefinitionDetails actionDef4 = new ActionDefinitionDetails("Update the Frequency", new UOctet(
-                                                                                                                (short) 0),
-                                                                             new UShort(0), argDef2);
+                (short) 0), new UShort(0), argDef2);
             actionNames.add(new Identifier("updateFrequency"));
             actionDefs.add(actionDef4);
 
@@ -183,7 +177,7 @@ public class Waveform {
 
         @Override
         public UInteger actionArrived(Identifier idntfr, AttributeValueList avl, Long l, boolean bln,
-                                      MALInteraction mali) {
+            MALInteraction mali) {
             if (idntfr.getValue().equals("start")) {
                 Logger.getLogger(Waveform.class.getName()).log(Level.FINER, "Started wave");
                 startWave();

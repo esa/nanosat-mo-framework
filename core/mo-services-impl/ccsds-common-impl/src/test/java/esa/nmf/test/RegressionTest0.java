@@ -23,7 +23,7 @@ public class RegressionTest0 {
         java.lang.Float[] floatArray5 = new java.lang.Float[]{100.0f, 1.0f, 0.0f, 0.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList6 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList6,
-                                                        floatArray5);
+            floatArray5);
         java.util.ListIterator<java.lang.Float> floatItor8 = floatList6.listIterator();
         java.util.Spliterator<java.lang.Float> floatSpliterator9 = floatList6.spliterator();
         floatList6.clear();
@@ -33,26 +33,26 @@ public class RegressionTest0 {
         java.lang.Short[] shortArray16 = new java.lang.Short[]{(short) -1, (short) 1};
         java.util.ArrayList<java.lang.Short> shortList17 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList17,
-                                                         shortArray16);
+            shortArray16);
         java.lang.String[] strArray21 = new java.lang.String[]{"hi!", "hi!"};
         java.util.ArrayList<java.lang.String> strList22 = new java.util.ArrayList<java.lang.String>();
         boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList22,
-                                                         strArray21);
+            strArray21);
         boolean boolean24 = shortList17.removeAll((java.util.Collection<java.lang.String>) strList22);
         java.lang.String[] strArray27 = new java.lang.String[]{"", "hi!"};
         java.util.ArrayList<java.lang.String> strList28 = new java.util.ArrayList<java.lang.String>();
         boolean boolean29 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList28,
-                                                         strArray27);
+            strArray27);
         boolean boolean31 = strList28.add("hi!");
         java.lang.String[] strArray35 = new java.lang.String[]{"", "hi!"};
         java.util.ArrayList<java.lang.String> strList36 = new java.util.ArrayList<java.lang.String>();
         boolean boolean37 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList36,
-                                                         strArray35);
+            strArray35);
         boolean boolean38 = strList28.addAll(0, (java.util.Collection<java.lang.String>) strList36);
         java.lang.String[] strArray41 = new java.lang.String[]{"", "hi!"};
         java.util.ArrayList<java.lang.String> strList42 = new java.util.ArrayList<java.lang.String>();
         boolean boolean43 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList42,
-                                                         strArray41);
+            strArray41);
         boolean boolean45 = strList42.add("hi!");
         java.util.stream.Stream<java.lang.String> strStream46 = strList42.parallelStream();
         boolean boolean47 = strList28.addAll((java.util.Collection<java.lang.String>) strList42);
@@ -61,13 +61,13 @@ public class RegressionTest0 {
         java.lang.Byte[] byteArray55 = new java.lang.Byte[]{(byte) 10, (byte) 0, (byte) 0, (byte) 10, (byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList56 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean57 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList56,
-                                                         byteArray55);
+            byteArray55);
         int int59 = byteList56.lastIndexOf((java.lang.Object) (-1.0f));
         java.util.stream.Stream<java.lang.Byte> byteStream60 = byteList56.stream();
         java.lang.String[] strArray63 = new java.lang.String[]{"", "hi!"};
         java.util.ArrayList<java.lang.String> strList64 = new java.util.ArrayList<java.lang.String>();
         boolean boolean65 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList64,
-                                                         strArray63);
+            strArray63);
         boolean boolean67 = strList64.add("hi!");
         boolean boolean68 = byteList56.retainAll((java.util.Collection<java.lang.String>) strList64);
         java.lang.String str69 = byteList56.toString();
@@ -143,7 +143,8 @@ public class RegressionTest0 {
     public void test3() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test3");
-        org.ccsds.moims.mo.mal.structures.IntegerList integerList1 = new org.ccsds.moims.mo.mal.structures.IntegerList((int) (byte) 0);
+        org.ccsds.moims.mo.mal.structures.IntegerList integerList1 = new org.ccsds.moims.mo.mal.structures.IntegerList(
+            (int) (byte) 0);
         java.lang.String str2 = integerList1.toString();
         esa.mo.common.impl.util.HelperCommon helperCommon3 = new esa.mo.common.impl.util.HelperCommon();
         esa.mo.common.impl.util.HelperCommon helperCommon4 = new esa.mo.common.impl.util.HelperCommon();
@@ -288,12 +289,12 @@ public class RegressionTest0 {
         java.lang.String[] strArray12 = new java.lang.String[]{"", "hi!"};
         java.util.ArrayList<java.lang.String> strList13 = new java.util.ArrayList<java.lang.String>();
         boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList13,
-                                                         strArray12);
+            strArray12);
         boolean boolean16 = strList13.add("hi!");
         java.lang.String[] strArray20 = new java.lang.String[]{"", "hi!"};
         java.util.ArrayList<java.lang.String> strList21 = new java.util.ArrayList<java.lang.String>();
         boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList21,
-                                                         strArray20);
+            strArray20);
         boolean boolean23 = strList13.addAll(0, (java.util.Collection<java.lang.String>) strList21);
         boolean boolean24 = strList13.isEmpty();
         boolean boolean25 = byteList6.removeAll((java.util.Collection<java.lang.String>) strList13);
@@ -376,12 +377,12 @@ public class RegressionTest0 {
         java.lang.String[] strArray21 = new java.lang.String[]{"", "hi!"};
         java.util.ArrayList<java.lang.String> strList22 = new java.util.ArrayList<java.lang.String>();
         boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList22,
-                                                         strArray21);
+            strArray21);
         boolean boolean25 = strList22.add("hi!");
         java.lang.String[] strArray29 = new java.lang.String[]{"", "hi!"};
         java.util.ArrayList<java.lang.String> strList30 = new java.util.ArrayList<java.lang.String>();
         boolean boolean31 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList30,
-                                                         strArray29);
+            strArray29);
         boolean boolean32 = strList22.addAll(0, (java.util.Collection<java.lang.String>) strList30);
         java.util.Iterator<java.lang.String> strItor33 = strList22.iterator();
         boolean boolean34 = shortList10.removeAll((java.util.Collection<java.lang.String>) strList22);

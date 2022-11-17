@@ -260,16 +260,15 @@ public class GuiMainWindow implements Runnable {
                 final Boolean updateValues = true;
                 final String targetDevice = simulatorDeviceData.getName();
                 checkBox.addItemListener(e -> {
-                    hashTableDataOutAgregate.get(targetDevice)
-                                            .setUpdateValues(e.getStateChange() == ItemEvent.SELECTED);
+                    hashTableDataOutAgregate.get(targetDevice).setUpdateValues(e.getStateChange() ==
+                        ItemEvent.SELECTED);
                     // updateValues = (e.getStateChange() == ItemEvent.SELECTED);
                 });
 
                 copyToClipBoard.addActionListener(e -> {
                     Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
                     StringSelection stringSelection = new StringSelection(hashTableDataOutAgregate.get(targetDevice)
-                                                                                                  .getTextArea()
-                                                                                                  .getText());
+                        .getTextArea().getText());
                     clpbrd.setContents(stringSelection, null);
                 });
 
@@ -345,12 +344,7 @@ public class GuiMainWindow implements Runnable {
         this.panelTop = new JPanel();
         this.panelTabbed = new JTabbedPane();
         panelTabbed.setBorder(new CompoundBorder(new BevelBorder(BevelBorder.RAISED, new Color(204, 204, 204),
-                                                                 new Color(0, 0, 0), null, null), new LineBorder(
-                                                                                                                 new Color(74,
-                                                                                                                           74,
-                                                                                                                           74),
-                                                                                                                 1,
-                                                                                                                 true)));
+            new Color(0, 0, 0), null, null), new LineBorder(new Color(74, 74, 74), 1, true)));
         this.panelMain = new JPanel();
         this.panelTabbed.addTab("Manual Commands", this.panelMain);
         this.panelScheduler = new JPanel();
@@ -390,7 +384,7 @@ public class GuiMainWindow implements Runnable {
         chkBoxPeriodicSending.addItemListener(e -> isEnduranceTest = (e.getStateChange() == ItemEvent.SELECTED));
         startStopButton.addActionListener(e -> parent.addGUIInteraction("ToggleStartStop"));
         editHeaderButton.addActionListener(e -> editForm = new GuiSimulatorHeaderEdit(simulatorHeader,
-                                                                                      GuiMainWindow.this));
+            GuiMainWindow.this));
 
         pauseResumeButton.addActionListener(e -> parent.addGUIInteraction("TogglePauseResume"));
 
@@ -418,10 +412,8 @@ public class GuiMainWindow implements Runnable {
                     JOptionPane.showMessageDialog(frame, "Template name must be alphanumeric.");
                 } else if (((CommandDescriptor) c).addNewEmptyTemplate(test1)) {
                     displayManualMethod(((CommandDescriptor) c));
-                    showMessageConsole("User;Local;AddNewTemplate;" +
-                                       ((CommandDescriptor) c).getMethodBody() +
-                                       "" +
-                                       test1);
+                    showMessageConsole("User;Local;AddNewTemplate;" + ((CommandDescriptor) c).getMethodBody() + "" +
+                        test1);
                 } else {
                     JOptionPane.showMessageDialog(frame, "The description entered is not unique");
                 }
@@ -437,24 +429,21 @@ public class GuiMainWindow implements Runnable {
                 if (dataOk) {
                     if (cTemplateDescription.equals(CommandDescriptor.KEYWORD_DEFAULT)) {
                         JOptionPane.showMessageDialog(frame,
-                                                      "Default template edit cannot be saved, create a new one or edit another one.");
+                            "Default template edit cannot be saved, create a new one or edit another one.");
                     } else if (((CommandDescriptor) c).updateTemplate(cTemplateDescription, txtInputArguments
-                                                                                                             .getText())) {
+                        .getText())) {
                         templateChanged = false;
                     } else {
-                        JOptionPane.showMessageDialog(frame, "Could not find template [" +
-                                                             cTemplateDescription +
-                                                             "] in command [" +
-                                                             ((CommandDescriptor) c).getMethodBody() +
-                                                             "]!");
+                        JOptionPane.showMessageDialog(frame, "Could not find template [" + cTemplateDescription +
+                            "] in command [" + ((CommandDescriptor) c).getMethodBody() + "]!");
                     }
                 }
             }
         });
         btnUpdateServer.addActionListener(e -> {
             int resultConfirm = JOptionPane.showConfirmDialog(frame,
-                                                              "Server will be updated with local copy of commands & templates. Do you want to continue?",
-                                                              "Update server", JOptionPane.YES_NO_OPTION);
+                "Server will be updated with local copy of commands & templates. Do you want to continue?",
+                "Update server", JOptionPane.YES_NO_OPTION);
             if (resultConfirm == JOptionPane.YES_OPTION) {
                 showMessageConsole("User;Local;UpdateServer;");
                 LinkedList<CommandDescriptor> newCommandsList = new LinkedList<>();
@@ -642,10 +631,10 @@ public class GuiMainWindow implements Runnable {
             }
         });
         sl_panelCameraSettings.putConstraint(SpringLayout.NORTH, btnOpenTargetSelect, 0, SpringLayout.NORTH,
-                                             textFieldPath);
+            textFieldPath);
         sl_panelCameraSettings.putConstraint(SpringLayout.WEST, btnOpenTargetSelect, 5, SpringLayout.EAST, selectMode);
         sl_panelCameraSettings.putConstraint(SpringLayout.SOUTH, btnOpenTargetSelect, 0, SpringLayout.SOUTH,
-                                             textFieldPath);
+            textFieldPath);
         panelCameraSettings.add(btnOpenTargetSelect);
 
         JButton btnApplyCamSettings = new JButton("Apply");
@@ -670,7 +659,7 @@ public class GuiMainWindow implements Runnable {
             GuiMainWindow.this.refreshPlatformProperties();
         });
         sl_panelCameraSettings.putConstraint(SpringLayout.NORTH, btnApplyCamSettings, 5, SpringLayout.SOUTH,
-                                             textFieldPath);
+            textFieldPath);
         sl_panelCameraSettings.putConstraint(SpringLayout.WEST, btnApplyCamSettings, 0, SpringLayout.WEST, lblMode);
         panelCameraSettings.add(btnApplyCamSettings);
 
@@ -685,14 +674,14 @@ public class GuiMainWindow implements Runnable {
         JLabel lblTitleSettings = new JLabel("Current Camera Settings");
         sl_panelCameraSettings.putConstraint(SpringLayout.NORTH, lblTitleSettings, 0, SpringLayout.NORTH, lblMode);
         sl_panelCameraSettings.putConstraint(SpringLayout.WEST, lblTitleSettings, 15, SpringLayout.EAST,
-                                             btnOpenTargetSelect);
+            btnOpenTargetSelect);
         panelCameraSettings.add(lblTitleSettings);
 
         JSeparator separator = new JSeparator();
         sl_panelCameraSettings.putConstraint(SpringLayout.NORTH, separator, 0, SpringLayout.NORTH, lblTitleSettings);
         sl_panelCameraSettings.putConstraint(SpringLayout.WEST, separator, 10, SpringLayout.EAST, btnOpenTargetSelect);
         sl_panelCameraSettings.putConstraint(SpringLayout.SOUTH, separator, -10, SpringLayout.SOUTH,
-                                             panelCameraSettings);
+            panelCameraSettings);
         separator.setForeground(new Color(128, 128, 128));
         separator.setOrientation(SwingConstants.VERTICAL);
         panelCameraSettings.add(separator);
@@ -704,7 +693,7 @@ public class GuiMainWindow implements Runnable {
                 int rendererWidth = component.getPreferredSize().width;
                 TableColumn tableColumn = getColumnModel().getColumn(column);
                 tableColumn.setPreferredWidth(Math.max(rendererWidth + getIntercellSpacing().width + 20, tableColumn
-                                                                                                                    .getPreferredWidth()));
+                    .getPreferredWidth()));
                 return component;
             }
         };
@@ -730,9 +719,9 @@ public class GuiMainWindow implements Runnable {
         sl_panelCameraSettings.putConstraint(SpringLayout.NORTH, scrollPane, 0, SpringLayout.NORTH, textFieldPath);
         sl_panelCameraSettings.putConstraint(SpringLayout.WEST, scrollPane, 0, SpringLayout.WEST, lblTitleSettings);
         sl_panelCameraSettings.putConstraint(SpringLayout.SOUTH, scrollPane, -10, SpringLayout.SOUTH,
-                                             panelCameraSettings);
+            panelCameraSettings);
         sl_panelCameraSettings.putConstraint(SpringLayout.EAST, scrollPane, -30, SpringLayout.EAST,
-                                             panelCameraSettings);
+            panelCameraSettings);
         tableCurrentSettings.setFillsViewportHeight(true);
 
         panelCameraSettings.add(scrollPane);
@@ -844,11 +833,8 @@ public class GuiMainWindow implements Runnable {
             for (SimulatorSchedulerPiece piece : data) {
                 CommandDescriptor c = getCommandDescriptorForID(piece.getInternalID());
                 ArgumentTemplate t = getArgTemplateForString(c, piece.getArgumentTemplateDescription());
-                schedulerDataStr.append(piece.getSchedulerOutput())
-                                .append(c.getMethodBody())
-                                .append(CommandDescriptor.SEPARATOR_DATAFILES)
-                                .append(t.getArgContent())
-                                .append("\n");
+                schedulerDataStr.append(piece.getSchedulerOutput()).append(c.getMethodBody()).append(
+                    CommandDescriptor.SEPARATOR_DATAFILES).append(t.getArgContent()).append("\n");
             }
             txtScheduler.setText(schedulerDataStr.toString());
         });
@@ -877,9 +863,8 @@ public class GuiMainWindow implements Runnable {
     }
 
     public void showSimulatorDeviceData(final LinkedList<SimulatorDeviceData> linkedSimulatorDeviceData) {
-        this.logger.log(Level.ALL, "Received list of SimulatorDeviceData with [" +
-                                   linkedSimulatorDeviceData.size() +
-                                   "] items");
+        this.logger.log(Level.ALL, "Received list of SimulatorDeviceData with [" + linkedSimulatorDeviceData.size() +
+            "] items");
         javax.swing.SwingUtilities.invokeLater(() -> {
             for (SimulatorDeviceData simulatorDeviceData : linkedSimulatorDeviceData) {
                 if (hashTableDataOutAgregate.get(simulatorDeviceData.getName()).isUpdateValues()) {
@@ -887,9 +872,8 @@ public class GuiMainWindow implements Runnable {
                     for (ArgumentDescriptor simulatorDeviceDataPiece : simulatorDeviceData.getDataList()) {
                         composite.append(simulatorDeviceDataPiece.toString()).append("\n\n");
                     }
-                    hashTableDataOutAgregate.get(simulatorDeviceData.getName())
-                                            .getTextArea()
-                                            .setText(composite.toString());
+                    hashTableDataOutAgregate.get(simulatorDeviceData.getName()).getTextArea().setText(composite
+                        .toString());
                 }
             }
         });
@@ -961,14 +945,12 @@ public class GuiMainWindow implements Runnable {
             if (simulatorHeader != null) {
                 computedDiff = SimulatorData.computeDiff(simulatorHeader.getStartDate(), data.getCurrentTime());
                 String localMinutes = String.format(simulatorHeader.FROM_START_FORMAT, computedDiff.get(TimeUnit.DAYS),
-                                                    computedDiff.get(TimeUnit.HOURS), computedDiff.get(
-                                                                                                       TimeUnit.MINUTES),
-                                                    computedDiff.get(TimeUnit.SECONDS), computedDiff.get(
-                                                                                                         TimeUnit.MILLISECONDS));
+                    computedDiff.get(TimeUnit.HOURS), computedDiff.get(TimeUnit.MINUTES), computedDiff.get(
+                        TimeUnit.SECONDS), computedDiff.get(TimeUnit.MILLISECONDS));
                 lblSimulatorTimeRunning.setText(localMinutes);
             }
-            if (!txtTimeFactor.isFocusOwner() &&
-                !txtTimeFactor.getText().equals(String.valueOf(data.getTimeFactor()))) {
+            if (!txtTimeFactor.isFocusOwner() && !txtTimeFactor.getText().equals(String.valueOf(data
+                .getTimeFactor()))) {
                 txtTimeFactor.setText(String.valueOf(data.getTimeFactor()));
             }
             if (data.isTimeRunning()) {
@@ -1094,22 +1076,18 @@ public class GuiMainWindow implements Runnable {
                             }
                         }
                         putManualCommandsInCombo(visibleItems <= 0);
-                        showMessageConsole(preamble +
-                                           ";Received commands list with [" +
-                                           commandsList.size() +
-                                           "] methods");
+                        showMessageConsole(preamble + ";Received commands list with [" + commandsList.size() +
+                            "] methods");
                         LinkedList<SimulatorDeviceData> devicesList = new LinkedList<>();// (LinkedList<CommandDescriptor>)
                                                                                          // result;
-                        while (obj < linkedListResult.size() &&
-                               linkedListResult.get(obj) instanceof SimulatorDeviceData) {
+                        while (obj < linkedListResult.size() && linkedListResult.get(
+                            obj) instanceof SimulatorDeviceData) {
                             devicesList.add((SimulatorDeviceData) linkedListResult.get(obj));
                             obj++;
                         }
                         createTabsBasedOnDeviceList(devicesList);
-                        showMessageConsole(preamble +
-                                           ";Received simulator device data list with [" +
-                                           devicesList.size() +
-                                           "] methods");
+                        showMessageConsole(preamble + ";Received simulator device data list with [" + devicesList
+                            .size() + "] methods");
                         showConnectedInfo(true);
                     } else if (testItem instanceof SimulatorDeviceData) {
                         showSimulatorDeviceData(linkedListResult);

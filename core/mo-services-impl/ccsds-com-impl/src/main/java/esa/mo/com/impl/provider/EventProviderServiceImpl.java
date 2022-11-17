@@ -96,8 +96,8 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
                 COMHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
-            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION)
-                                 .getServiceByName(EventHelper.EVENT_SERVICE_NAME) == null) {
+            if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION).getServiceByName(
+                EventHelper.EVENT_SERVICE_NAME) == null) {
                 EventHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
         }
@@ -105,9 +105,8 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
         this.archiveService = archiveService;
 
         publisher = createMonitorEventPublisher(ConfigurationProviderSingleton.getDomain(),
-                                                ConfigurationProviderSingleton.getNetwork(), SessionType.LIVE,
-                                                ConfigurationProviderSingleton.getSourceSessionName(),
-                                                QoSLevel.BESTEFFORT, null, new UInteger(0));
+            ConfigurationProviderSingleton.getNetwork(), SessionType.LIVE, ConfigurationProviderSingleton
+                .getSourceSessionName(), QoSLevel.BESTEFFORT, null, new UInteger(0));
 
         // shut down old service transport
         if (null != eventServiceProvider) {
@@ -115,7 +114,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
         }
 
         eventServiceProvider = connection.startService(EventHelper.EVENT_SERVICE_NAME.toString(),
-                                                       EventHelper.EVENT_SERVICE, this);
+            EventHelper.EVENT_SERVICE, this);
         running = true;
         initialiased = true;
         Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.INFO, "Event service: READY");
@@ -146,7 +145,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
      * @return Object instance identifier of the Event
      */
     public Long generateAndStoreEvent(final ObjectType objType, final IdentifierList domain, final Element eventObjBody,
-                                      final Long related, final ObjectId source, final MALInteraction interaction) {
+        final Long related, final ObjectId source, final MALInteraction interaction) {
         return this.generateAndStoreEvent(objType, domain, eventObjBody, related, source, interaction, null, null);
     }
 
@@ -163,8 +162,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
      * @return Object instance identifier of the Event
      */
     public Long generateAndStoreEvent(final ObjectType objType, final IdentifierList domain, final Element eventObjBody,
-                                      final Long related, final ObjectId source, final URI uri,
-                                      final Identifier network) {
+        final Long related, final ObjectId source, final URI uri, final Identifier network) {
         return this.generateAndStoreEvent(objType, domain, eventObjBody, related, source, null, uri, network);
     }
 
@@ -180,8 +178,8 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
      * @return Object instance identifier of the Event
      */
     private Long generateAndStoreEvent(final ObjectType objType, final IdentifierList domain,
-                                       final Element eventObjBody, final Long related, final ObjectId source,
-                                       final MALInteraction interaction, final URI uri, final Identifier network) {
+        final Element eventObjBody, final Long related, final ObjectId source, final MALInteraction interaction,
+        final URI uri, final Identifier network) {
 
         ObjectDetailsList objectDetailsList = new ObjectDetailsList();
         objectDetailsList.add(new ObjectDetails(related, source));
@@ -226,8 +224,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
      */
     @Deprecated
     public void publishEvent(final MALInteraction interaction, final Long objId, final ObjectType objType,
-                             final Long related, final ObjectId source,
-                             final ElementList eventBodies) throws IOException {
+        final Long related, final ObjectId source, final ElementList eventBodies) throws IOException {
         URI sourceURI = new URI("");
 
         if (interaction != null) {
@@ -253,7 +250,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
      * @throws java.io.IOException if it cannot publish the Event
      */
     public void publishEvent(final URI sourceURI, final Long objId, final ObjectType objType, final Long related,
-                             final ObjectId source, ElementList eventBodies) throws IOException {
+        final ObjectId source, ElementList eventBodies) throws IOException {
         // 3.3.2.1 , 3.3.2.2 , 3.3.2.3 , 3.3.2.4 , 3.3.2.5
         if (!running) {
             throw new IOException("The Event service is not running.");
@@ -269,9 +266,9 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
                 }
             }
 
-            Logger.getLogger(EventProviderServiceImpl.class.getName())
-                  .log(Level.FINE, "Publishing Event for the Event objId: {0}; with Event Object Number: {1}",
-                       new Object[]{objId, objType.getNumber()});
+            Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.FINE,
+                "Publishing Event for the Event objId: {0}; with Event Object Number: {1}", new Object[]{objId, objType
+                    .getNumber()});
 
             // 0xFFFF FFFF FF00 0000
             final Long secondEntityKey = 0xFFFFFFFFFF000000L & HelperCOM.generateSubKey(objType);
@@ -279,7 +276,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
             final Long subKey = (source != null) ? HelperCOM.generateSubKey(source.getType()) : null;
             // requirements: 3.3.4.2.1 , 3.3.4.2.2 , 3.3.4.2.3 , 3.3.4.2.4
             final EntityKey ekey = new EntityKey(new Identifier(objType.getNumber().toString()), secondEntityKey, objId,
-                                                 subKey);
+                subKey);
 
             final Time timestamp = HelperTime.getTimestampMillis(); //  requirement: 3.3.4.2.7
 
@@ -291,8 +288,8 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
 
             if (eventBodies != null) {
                 if (eventBodies.isEmpty()) {
-                    Logger.getLogger(EventProviderServiceImpl.class.getName())
-                          .log(Level.WARNING, "The event bodies list is empty!");
+                    Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.WARNING,
+                        "The event bodies list is empty!");
                 }
             } else {
                 eventBodies = new UIntegerList(hdrlst.size());
@@ -304,14 +301,14 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
 
             publisher.publish(hdrlst, objectDetailsList, eventBodies); // requirement: 3.7.2.15
         } catch (IllegalArgumentException ex) {
-            Logger.getLogger(EventProviderServiceImpl.class.getName())
-                  .log(Level.WARNING, "Exception during publishing process on the provider (0)", ex);
+            Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.WARNING,
+                "Exception during publishing process on the provider (0)", ex);
         } catch (MALException ex) {
-            Logger.getLogger(EventProviderServiceImpl.class.getName())
-                  .log(Level.WARNING, "Exception during publishing process on the provider (1)", ex);
+            Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.WARNING,
+                "Exception during publishing process on the provider (1)", ex);
         } catch (MALInteractionException ex) {
-            Logger.getLogger(EventProviderServiceImpl.class.getName())
-                  .log(Level.WARNING, "Exception during publishing process on the provider (2)", ex);
+            Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.WARNING,
+                "Exception during publishing process on the provider (2)", ex);
         }
     }
 
@@ -327,8 +324,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
      * @throws java.io.IOException if it cannot publish the Event
      */
     public void publishEvents(final URI sourceURI, final LongList objIds, final ObjectType objType,
-                              final LongList relateds, final ObjectIdList sources,
-                              ElementList eventBodies) throws IOException {
+        final LongList relateds, final ObjectIdList sources, ElementList eventBodies) throws IOException {
         // 3.3.2.1 , 3.3.2.2 , 3.3.2.3 , 3.3.2.4 , 3.3.2.5
         if (!running) {
             throw new IOException("The Event service is not running.");
@@ -356,12 +352,11 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
                 // 0xFFFF FFFF FF00 0000
                 final Long secondEntityKey = 0xFFFFFFFFFF000000L & HelperCOM.generateSubKey(objType);
 
-                final Long subKey = (sources.get(i) != null) ?
-                    HelperCOM.generateSubKey(sources.get(i).getType()) :
+                final Long subKey = (sources.get(i) != null) ? HelperCOM.generateSubKey(sources.get(i).getType()) :
                     null;
                 // requirements: 3.3.4.2.1 , 3.3.4.2.2 , 3.3.4.2.3 , 3.3.4.2.4
                 final EntityKey ekey = new EntityKey(new Identifier(objType.getNumber().toString()), secondEntityKey,
-                                                     objIds.get(i), subKey);
+                    objIds.get(i), subKey);
 
                 final Time timestamp = HelperTime.getTimestampMillis(); //  requirement: 3.3.4.2.7
                 final Long related = (relateds == null) ? null : relateds.get(i);
@@ -372,8 +367,8 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
 
             if (eventBodies != null) {
                 if (eventBodies.isEmpty()) {
-                    Logger.getLogger(EventProviderServiceImpl.class.getName())
-                          .log(Level.WARNING, "The event bodies list is empty!");
+                    Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.WARNING,
+                        "The event bodies list is empty!");
                 }
             } else {
                 eventBodies = new UIntegerList(hdrlst.size());
@@ -385,20 +380,19 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
 
             publisher.publish(hdrlst, objectDetailsList, eventBodies); // requirement: 3.7.2.15
         } catch (IllegalArgumentException ex) {
-            Logger.getLogger(EventProviderServiceImpl.class.getName())
-                  .log(Level.WARNING, "Exception during publishing process on the provider (0)", ex);
+            Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.WARNING,
+                "Exception during publishing process on the provider (0)", ex);
         } catch (MALException ex) {
-            Logger.getLogger(EventProviderServiceImpl.class.getName())
-                  .log(Level.WARNING, "Exception during publishing process on the provider (1)", ex);
+            Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.WARNING,
+                "Exception during publishing process on the provider (1)", ex);
         } catch (MALInteractionException ex) {
-            Logger.getLogger(EventProviderServiceImpl.class.getName())
-                  .log(Level.WARNING, "Exception during publishing process on the provider (2)", ex);
+            Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.WARNING,
+                "Exception during publishing process on the provider (2)", ex);
         }
     }
 
     public LongList generateAndStoreEvents(final ObjectType objType, final IdentifierList domain,
-                                           final LongList relateds, final ObjectIdList sourceList,
-                                           final MALInteraction interaction) {
+        final LongList relateds, final ObjectIdList sourceList, final MALInteraction interaction) {
         ObjectDetailsList objectDetailsList = new ObjectDetailsList(sourceList.size());
 
         for (int i = 0; i < sourceList.size(); i++) {
@@ -458,31 +452,31 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
     public static final class PublishInteractionListener implements MALPublishInteractionListener {
 
         @Override
-        public void publishDeregisterAckReceived(final MALMessageHeader header,
-                                                 final Map qosProperties) throws MALException {
-            Logger.getLogger(EventProviderServiceImpl.class.getName())
-                  .fine("PublishInteractionListener::publishDeregisterAckReceived");
+        public void publishDeregisterAckReceived(final MALMessageHeader header, final Map qosProperties)
+            throws MALException {
+            Logger.getLogger(EventProviderServiceImpl.class.getName()).fine(
+                "PublishInteractionListener::publishDeregisterAckReceived");
         }
 
         @Override
         public void publishErrorReceived(final MALMessageHeader header, final MALErrorBody body,
-                                         final Map qosProperties) throws MALException {
-            Logger.getLogger(EventProviderServiceImpl.class.getName())
-                  .warning("PublishInteractionListener::publishErrorReceived");
+            final Map qosProperties) throws MALException {
+            Logger.getLogger(EventProviderServiceImpl.class.getName()).warning(
+                "PublishInteractionListener::publishErrorReceived");
         }
 
         @Override
-        public void publishRegisterAckReceived(final MALMessageHeader header,
-                                               final Map qosProperties) throws MALException {
-            Logger.getLogger(EventProviderServiceImpl.class.getName())
-                  .fine("PublishInteractionListener::publishRegisterAckReceived");
+        public void publishRegisterAckReceived(final MALMessageHeader header, final Map qosProperties)
+            throws MALException {
+            Logger.getLogger(EventProviderServiceImpl.class.getName()).fine(
+                "PublishInteractionListener::publishRegisterAckReceived");
         }
 
         @Override
         public void publishRegisterErrorReceived(final MALMessageHeader header, final MALErrorBody body,
-                                                 final Map qosProperties) throws MALException {
-            Logger.getLogger(EventProviderServiceImpl.class.getName())
-                  .warning("PublishInteractionListener::publishRegisterErrorReceived");
+            final Map qosProperties) throws MALException {
+            Logger.getLogger(EventProviderServiceImpl.class.getName()).warning(
+                "PublishInteractionListener::publishRegisterErrorReceived");
         }
     }
 
@@ -490,12 +484,10 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
      * Stores an Event in the Archive
      */
     private Long storeEventOnArchive(final ObjectDetailsList objectDetailsList, final IdentifierList domain,
-                                     final ObjectType objType, final ElementList events,
-                                     final MALInteraction interaction) {
+        final ObjectType objType, final ElementList events, final MALInteraction interaction) {
         if (interaction != null) {
             return this.storeEventOnArchive(objectDetailsList, domain, objType, events, interaction.getMessageHeader()
-                                                                                                   .getURIFrom(),
-                                            interaction.getMessageHeader().getNetworkZone());
+                .getURIFrom(), interaction.getMessageHeader().getNetworkZone());
         } else {
             return this.storeEventOnArchive(objectDetailsList, domain, objType, events, null, null);
         }
@@ -505,8 +497,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
      * Stores an Event in the Archive
      */
     private Long storeEventOnArchive(final ObjectDetailsList objectDetailsList, final IdentifierList domain,
-                                     final ObjectType objType, final ElementList events, final URI uri,
-                                     final Identifier network) {
+        final ObjectType objType, final ElementList events, final URI uri, final Identifier network) {
 
         if (this.archiveService == null) {
             return null;
@@ -559,8 +550,8 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
             connection.closeAll();
             running = false;
         } catch (MALException ex) {
-            Logger.getLogger(ArchiveProviderServiceImpl.class.getName())
-                  .log(Level.WARNING, "Exception during close down of the provider.", ex);
+            Logger.getLogger(ArchiveProviderServiceImpl.class.getName()).log(Level.WARNING,
+                "Exception during close down of the provider.", ex);
         }
     }
 

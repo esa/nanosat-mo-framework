@@ -43,16 +43,16 @@ public class PictureReceivedAdapter extends CameraAdapter {
     public static final Long INIFINTE_TIMEOUT = null;
 
     private static final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss_SSSS")
-                                                                                 .withZone(ZoneId.systemDefault());
+        .withZone(ZoneId.systemDefault());
 
     private final Path outputFolder;
     private final PictureProcessingExecutor executor;
 
     public PictureReceivedAdapter(ProcessEventListener processEventListener, Long processRequestId, Path outputFolder,
-                                  Integer minProcessDurationSeconds, Integer maxProcessDurationSeconds) {
+        Integer minProcessDurationSeconds, Integer maxProcessDurationSeconds) {
         this.outputFolder = outputFolder;
         this.executor = new PictureProcessingExecutor(processEventListener, processRequestId, minProcessDurationSeconds,
-                                                      maxProcessDurationSeconds);
+            maxProcessDurationSeconds);
     }
 
     @Override
@@ -75,8 +75,8 @@ public class PictureReceivedAdapter extends CameraAdapter {
             // Store it in a file!
             Files.write(outputFile, picture.getContent().getValue());
         } catch (IOException | MALException e) {
-            Logger.getLogger(PictureReceivedAdapter.class.getName())
-                  .log(Level.SEVERE, "Picture could not be saved to file!", e);
+            Logger.getLogger(PictureReceivedAdapter.class.getName()).log(Level.SEVERE,
+                "Picture could not be saved to file!", e);
             return false;
         }
 

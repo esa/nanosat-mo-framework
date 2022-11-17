@@ -17,7 +17,7 @@ final class RunnableUpdate implements Runnable {
     private final ArrayList<COMObjectEntity> newObjs;
 
     RunnableUpdate(TransactionsProcessor transactionsProcessor, Runnable publishEvents,
-                   ArrayList<COMObjectEntity> newObjs) {
+        ArrayList<COMObjectEntity> newObjs) {
         this.transactionsProcessor = transactionsProcessor;
         this.publishEvents = publishEvents;
         this.newObjs = newObjs;

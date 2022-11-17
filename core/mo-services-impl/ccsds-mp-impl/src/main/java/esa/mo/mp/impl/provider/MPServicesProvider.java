@@ -51,7 +51,7 @@ public class MPServicesProvider {
         this.planDistributionService.init(comServices, archiveManager, operationCallbackManager);
         this.planEditService.init(comServices, archiveManager, operationCallbackManager);
         this.planExecutionControlService.init(comServices, archiveManager, operationCallbackManager,
-                                              activityExecutionEngine);
+            activityExecutionEngine);
     }
 
     public MPServiceOperationManager getOperationCallbackManager() {

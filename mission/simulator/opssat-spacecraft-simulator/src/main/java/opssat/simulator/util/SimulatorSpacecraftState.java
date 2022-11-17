@@ -94,53 +94,20 @@ public class SimulatorSpacecraftState {
 
     private String formatVector(String[] labels, float[] vector, String units) {
         DecimalFormat formatter = new DecimalFormat("+#00000.00;-#00000.00");
-        return labels[0] +
-               ":[" +
-               formatter.format(vector[0]) +
-               "] ; " +
-               labels[1] +
-               ":[" +
-               formatter.format(vector[1]) +
-               "] ; " +
-               labels[2] +
-               ": [" +
-               formatter.format(vector[2]) +
-               "] units " +
-               units;
+        return labels[0] + ":[" + formatter.format(vector[0]) + "] ; " + labels[1] + ":[" + formatter.format(
+            vector[1]) + "] ; " + labels[2] + ": [" + formatter.format(vector[2]) + "] units " + units;
     }
 
     private String formatVector(String[] labels, double[] vector, String units) {
         DecimalFormat formatter = new DecimalFormat("+#00000.00;-#00000.00");
-        return labels[0] +
-               ":[" +
-               formatter.format(vector[0]) +
-               "] ; " +
-               labels[1] +
-               ":[" +
-               formatter.format(vector[1]) +
-               "] ; " +
-               labels[2] +
-               ": [" +
-               formatter.format(vector[2]) +
-               "] units " +
-               units;
+        return labels[0] + ":[" + formatter.format(vector[0]) + "] ; " + labels[1] + ":[" + formatter.format(
+            vector[1]) + "] ; " + labels[2] + ": [" + formatter.format(vector[2]) + "] units " + units;
     }
 
     private String formatVectorDecimalsOnly(String[] labels, double[] vector, String units) {
         DecimalFormat formatter = new DecimalFormat("+#.00000;-#.00000");
-        return labels[0] +
-               ":[" +
-               formatter.format(vector[0]) +
-               "] ; " +
-               labels[1] +
-               ":[" +
-               formatter.format(vector[1]) +
-               "] ; " +
-               labels[2] +
-               ": [" +
-               formatter.format(vector[2]) +
-               "] units " +
-               units;
+        return labels[0] + ":[" + formatter.format(vector[0]) + "] ; " + labels[1] + ":[" + formatter.format(
+            vector[1]) + "] ; " + labels[2] + ": [" + formatter.format(vector[2]) + "] units " + units;
     }
 
     public String getMagField() {
@@ -233,35 +200,17 @@ public class SimulatorSpacecraftState {
 
     @Override
     public String toString() {
-        return "SimulatorSpacecraftState{" +
-               "latitude=" +
-               latitude +
-               ", longitude=" +
-               longitude +
-               ", altitude=" +
-               altitude +
-               '}';
+        return "SimulatorSpacecraftState{" + "latitude=" + latitude + ", longitude=" + longitude + ", altitude=" +
+            altitude + '}';
     }
 
     public String getRotationAsString() {
-        return "\n" +
-               String.format(Locale.ROOT, "%+03f", this.rotation[0][0]) +
-               " " +
-               String.format(Locale.ROOT, "%+03f", this.rotation[0][1]) +
-               " " +
-               String.format(Locale.ROOT, "%+03f", this.rotation[0][2]) +
-               "\n" +
-               String.format(Locale.ROOT, "%+03f", this.rotation[1][0]) +
-               " " +
-               String.format(Locale.ROOT, "%+03f", this.rotation[1][1]) +
-               " " +
-               String.format(Locale.ROOT, "%+03f", this.rotation[1][2]) +
-               "\n" +
-               String.format(Locale.ROOT, "%+03f", this.rotation[2][0]) +
-               " " +
-               String.format(Locale.ROOT, "%+03f", this.rotation[2][1]) +
-               " " +
-               String.format(Locale.ROOT, "%+03f", this.rotation[2][2]);
+        return "\n" + String.format(Locale.ROOT, "%+03f", this.rotation[0][0]) + " " + String.format(Locale.ROOT,
+            "%+03f", this.rotation[0][1]) + " " + String.format(Locale.ROOT, "%+03f", this.rotation[0][2]) + "\n" +
+            String.format(Locale.ROOT, "%+03f", this.rotation[1][0]) + " " + String.format(Locale.ROOT, "%+03f",
+                this.rotation[1][1]) + " " + String.format(Locale.ROOT, "%+03f", this.rotation[1][2]) + "\n" + String
+                    .format(Locale.ROOT, "%+03f", this.rotation[2][0]) + " " + String.format(Locale.ROOT, "%+03f",
+                        this.rotation[2][1]) + " " + String.format(Locale.ROOT, "%+03f", this.rotation[2][2]);
     }
 
 }

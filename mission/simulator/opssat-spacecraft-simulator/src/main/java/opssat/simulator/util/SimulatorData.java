@@ -95,14 +95,8 @@ public class SimulatorData implements Serializable {
 
     @Override
     public String toString() {
-        return "{" +
-               "counter=" +
-               counter +
-               ", methodsExecuted=" +
-               methodsExecuted +
-               ", currentTime=" +
-               currentTime +
-               '}';
+        return "{" + "counter=" + counter + ", methodsExecuted=" + methodsExecuted + ", currentTime=" + currentTime +
+            '}';
     }
 
     public void incrementMethods() {

@@ -19,32 +19,32 @@ public class RegressionTest0 {
         java.lang.Short[] shortArray2 = new java.lang.Short[]{(short) 0, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList3 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList3,
-                                                        shortArray2);
+            shortArray2);
         shortList3.trimToSize();
         java.util.ListIterator<java.lang.Short> shortItor6 = shortList3.listIterator();
         shortList3.ensureCapacity((int) ' ');
         boolean boolean10 = shortList3.contains((java.lang.Object) (-1.0f));
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray11 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList12 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean13 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList12,
-                                                         uRIArray11);
+        boolean boolean13 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList12, uRIArray11);
         boolean boolean15 = uRIList12.contains((java.lang.Object) (-18));
         java.lang.Double[] doubleArray20 = new java.lang.Double[]{1.0d, 10.0d, 1.0d, 0.0d};
         java.util.ArrayList<java.lang.Double> doubleList21 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList21,
-                                                         doubleArray20);
+            doubleArray20);
         java.lang.Short[] shortArray26 = new java.lang.Short[]{(short) 0, (short) 10, (short) 1};
         java.util.ArrayList<java.lang.Short> shortList27 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean28 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList27,
-                                                         shortArray26);
+            shortArray26);
         java.lang.Byte[] byteArray30 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList31 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean32 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList31,
-                                                         byteArray30);
+            byteArray30);
         java.lang.Float[] floatArray36 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList37 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean38 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList37,
-                                                         floatArray36);
+            floatArray36);
         boolean boolean39 = byteList31.containsAll((java.util.Collection<java.lang.Float>) floatList37);
         boolean boolean40 = shortList27.containsAll((java.util.Collection<java.lang.Float>) floatList37);
         boolean boolean41 = doubleList21.contains((java.lang.Object) shortList27);
@@ -52,18 +52,19 @@ public class RegressionTest0 {
         int int43 = uRIList12.indexOf((java.lang.Object) doubleList21);
         opssat.simulator.main.ESASimulator eSASimulator44 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter44 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter45 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator44,
-                                                                                                                                                                                   pcAdapter44);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter45 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator44, pcAdapter44);
         boolean boolean46 = doubleList21.remove((java.lang.Object) autonomousADCSSoftSimAdapter45);
         opssat.simulator.main.ESASimulator eSASimulator47 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter47 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter48 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator47,
-                                                                                                                                                                                   pcAdapter47);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter48 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator47, pcAdapter47);
         opssat.simulator.main.ESASimulator eSASimulator49 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter50 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator49,
-                                                                                                                                                                                   pcAdapter49);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode51 = autonomousADCSSoftSimAdapter50.getActiveAttitudeMode();
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter50 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator49, pcAdapter49);
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode51 = autonomousADCSSoftSimAdapter50
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode52 = null;
         java.lang.String str53 = autonomousADCSSoftSimAdapter50.validateAttitudeDescriptor(attitudeMode52);
         boolean boolean54 = autonomousADCSSoftSimAdapter50.isUnitAvailable();
@@ -71,7 +72,8 @@ public class RegressionTest0 {
                                                                                                                                                                                             autonomousADCSSoftSimAdapter48,
                                                                                                                                                                                             autonomousADCSSoftSimAdapter50};
         try {
-            esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter[] autonomousADCSSoftSimAdapterArray56 = shortList3.toArray(autonomousADCSSoftSimAdapterArray55);
+            esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter[] autonomousADCSSoftSimAdapterArray56 = shortList3
+                .toArray(autonomousADCSSoftSimAdapterArray55);
             org.junit.Assert.fail("Expected exception of type java.lang.ArrayStoreException; message: null");
         } catch (java.lang.ArrayStoreException e) {
         }
@@ -107,25 +109,25 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test002");
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1,
-                                                        uRIArray0);
+        boolean boolean2 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1, uRIArray0);
         boolean boolean4 = uRIList1.contains((java.lang.Object) (-18));
         java.lang.Double[] doubleArray9 = new java.lang.Double[]{1.0d, 10.0d, 1.0d, 0.0d};
         java.util.ArrayList<java.lang.Double> doubleList10 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList10,
-                                                         doubleArray9);
+            doubleArray9);
         java.lang.Short[] shortArray15 = new java.lang.Short[]{(short) 0, (short) 10, (short) 1};
         java.util.ArrayList<java.lang.Short> shortList16 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList16,
-                                                         shortArray15);
+            shortArray15);
         java.lang.Byte[] byteArray19 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList20 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20,
-                                                         byteArray19);
+            byteArray19);
         java.lang.Float[] floatArray25 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList26 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList26,
-                                                         floatArray25);
+            floatArray25);
         boolean boolean28 = byteList20.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean29 = shortList16.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean30 = doubleList10.contains((java.lang.Object) shortList16);
@@ -133,8 +135,8 @@ public class RegressionTest0 {
         int int32 = uRIList1.indexOf((java.lang.Object) doubleList10);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator33,
-                                                                                                                                                                                   pcAdapter33);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator33, pcAdapter33);
         boolean boolean35 = doubleList10.remove((java.lang.Object) autonomousADCSSoftSimAdapter34);
         doubleList10.ensureCapacity((-15));
         try {
@@ -167,49 +169,51 @@ public class RegressionTest0 {
         java.lang.Short[] shortArray1 = new java.lang.Short[]{(short) 10};
         java.util.ArrayList<java.lang.Short> shortList2 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList2,
-                                                        shortArray1);
-        org.ccsds.moims.mo.mal.structures.URI uRI5 = new org.ccsds.moims.mo.mal.structures.URI("[, [1], [true, true], ]");
+            shortArray1);
+        org.ccsds.moims.mo.mal.structures.URI uRI5 = new org.ccsds.moims.mo.mal.structures.URI(
+            "[, [1], [true, true], ]");
         java.lang.Long long6 = uRI5.getShortForm();
         org.ccsds.moims.mo.mal.structures.UShort uShort7 = uRI5.getServiceNumber();
         int int8 = shortList2.indexOf((java.lang.Object) uRI5);
         java.lang.Short[] shortArray10 = new java.lang.Short[]{(short) 10};
         java.util.ArrayList<java.lang.Short> shortList11 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean12 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList11,
-                                                         shortArray10);
-        org.ccsds.moims.mo.mal.structures.URI uRI14 = new org.ccsds.moims.mo.mal.structures.URI("[, [1], [true, true], ]");
+            shortArray10);
+        org.ccsds.moims.mo.mal.structures.URI uRI14 = new org.ccsds.moims.mo.mal.structures.URI(
+            "[, [1], [true, true], ]");
         java.lang.Long long15 = uRI14.getShortForm();
         org.ccsds.moims.mo.mal.structures.UShort uShort16 = uRI14.getServiceNumber();
         int int17 = shortList11.indexOf((java.lang.Object) uRI14);
         org.ccsds.moims.mo.mal.structures.UShort uShort18 = uRI14.getAreaNumber();
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray19 = new org.ccsds.moims.mo.mal.structures.URI[]{uRI5, uRI14};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList20 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean21 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList20,
-                                                         uRIArray19);
+        boolean boolean21 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList20, uRIArray19);
         java.lang.Integer[] intArray32 = new java.lang.Integer[]{16, 16, (-18), (-18), (-1), 1, 0, 2, 0, 0};
         java.util.ArrayList<java.lang.Integer> intList33 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean34 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList33,
-                                                         intArray32);
+            intArray32);
         int int35 = intList33.size();
         java.util.Spliterator<java.lang.Integer> intSpliterator36 = intList33.spliterator();
         java.lang.String[] strArray41 = new java.lang.String[]{"[true, true]", "[1]", "[true, true]", "hi!"};
         java.util.ArrayList<java.lang.String> strList42 = new java.util.ArrayList<java.lang.String>();
         boolean boolean43 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList42,
-                                                         strArray41);
+            strArray41);
         java.util.Iterator<java.lang.String> strItor44 = strList42.iterator();
         java.lang.String str46 = strList42.remove((int) (byte) 0);
         java.lang.Byte[] byteArray48 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList49 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean50 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList49,
-                                                         byteArray48);
+            byteArray48);
         java.lang.Float[] floatArray54 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList55 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean56 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList55,
-                                                         floatArray54);
+            floatArray54);
         boolean boolean57 = byteList49.containsAll((java.util.Collection<java.lang.Float>) floatList55);
         java.lang.Float[] floatArray61 = new java.lang.Float[]{(-1.0f), 10.0f, 0.0f};
         java.util.ArrayList<java.lang.Float> floatList62 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean63 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList62,
-                                                         floatArray61);
+            floatArray61);
         int int64 = floatList62.size();
         boolean boolean65 = floatList55.containsAll((java.util.Collection<java.lang.Float>) floatList62);
         boolean boolean66 = strList42.containsAll((java.util.Collection<java.lang.Float>) floatList55);
@@ -219,23 +223,27 @@ public class RegressionTest0 {
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.URI> uRIStream70 = uRIList20.stream();
         opssat.simulator.main.ESASimulator eSASimulator71 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter71 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter72 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator71,
-                                                                                                                                                                                   pcAdapter71);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode73 = autonomousADCSSoftSimAdapter72.getActiveAttitudeMode();
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter72 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator71, pcAdapter71);
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode73 = autonomousADCSSoftSimAdapter72
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode74 = null;
         java.lang.String str75 = autonomousADCSSoftSimAdapter72.validateAttitudeDescriptor(attitudeMode74);
         boolean boolean76 = autonomousADCSSoftSimAdapter72.isUnitAvailable();
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode77 = autonomousADCSSoftSimAdapter72.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode77 = autonomousADCSSoftSimAdapter72
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode78 = null;
         java.lang.String str79 = autonomousADCSSoftSimAdapter72.validateAttitudeDescriptor(attitudeMode78);
         boolean boolean80 = uRIList20.contains((java.lang.Object) attitudeMode78);
-        org.ccsds.moims.mo.mal.structures.URI uRI83 = new org.ccsds.moims.mo.mal.structures.URI("[, [1], [true, true], ]");
+        org.ccsds.moims.mo.mal.structures.URI uRI83 = new org.ccsds.moims.mo.mal.structures.URI(
+            "[, [1], [true, true], ]");
         java.lang.String str84 = uRI83.getValue();
         java.lang.String str85 = uRI83.toString();
         java.lang.Long long86 = uRI83.getShortForm();
         try {
             uRIList20.add(4, uRI83);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 4, Size: 2");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 4, Size: 2");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(shortArray1);
@@ -280,9 +288,9 @@ public class RegressionTest0 {
         org.junit.Assert.assertNull(str79);
         org.junit.Assert.assertTrue("'" + boolean80 + "' != '" + false + "'", !boolean80);
         org.junit.Assert.assertTrue("'" + str84 + "' != '" + "[, [1], [true, true], ]" + "'", str84.equals(
-                                                                                                           "[, [1], [true, true], ]"));
+            "[, [1], [true, true], ]"));
         org.junit.Assert.assertTrue("'" + str85 + "' != '" + "[, [1], [true, true], ]" + "'", str85.equals(
-                                                                                                           "[, [1], [true, true], ]"));
+            "[, [1], [true, true], ]"));
         org.junit.Assert.assertTrue("'" + long86 + "' != '" + 281474993487890L + "'", long86.equals(281474993487890L));
     }
 
@@ -292,25 +300,25 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test004");
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1,
-                                                        uRIArray0);
+        boolean boolean2 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1, uRIArray0);
         boolean boolean4 = uRIList1.contains((java.lang.Object) (-18));
         java.lang.Double[] doubleArray9 = new java.lang.Double[]{1.0d, 10.0d, 1.0d, 0.0d};
         java.util.ArrayList<java.lang.Double> doubleList10 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList10,
-                                                         doubleArray9);
+            doubleArray9);
         java.lang.Short[] shortArray15 = new java.lang.Short[]{(short) 0, (short) 10, (short) 1};
         java.util.ArrayList<java.lang.Short> shortList16 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList16,
-                                                         shortArray15);
+            shortArray15);
         java.lang.Byte[] byteArray19 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList20 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20,
-                                                         byteArray19);
+            byteArray19);
         java.lang.Float[] floatArray25 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList26 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList26,
-                                                         floatArray25);
+            floatArray25);
         boolean boolean28 = byteList20.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean29 = shortList16.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean30 = doubleList10.contains((java.lang.Object) shortList16);
@@ -318,8 +326,8 @@ public class RegressionTest0 {
         int int32 = uRIList1.indexOf((java.lang.Object) doubleList10);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator33,
-                                                                                                                                                                                   pcAdapter33);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator33, pcAdapter33);
         boolean boolean35 = doubleList10.remove((java.lang.Object) autonomousADCSSoftSimAdapter34);
         java.util.Spliterator<java.lang.Double> doubleSpliterator36 = doubleList10.spliterator();
         org.junit.Assert.assertNotNull(uRIArray0);
@@ -347,8 +355,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test005");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                 pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         try {
             org.ccsds.moims.mo.platform.gps.structures.Position position2 = null; // flaky: gPSSoftSimAdapter1.getCurrentPosition();
             // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter.randoop_classUsedFlag from class esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter");
@@ -368,31 +376,32 @@ public class RegressionTest0 {
         java.util.stream.Stream<java.lang.Long> longStream9 = longList4.parallelStream();
         opssat.simulator.main.ESASimulator eSASimulator10 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter10 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter11 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator10,
-                                                                                                                                                  pcAdapter10);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter11 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator10, pcAdapter10);
         opssat.simulator.main.ESASimulator eSASimulator12 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter12 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter13 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator12,
-                                                                                                                                                  pcAdapter12);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter13 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator12, pcAdapter12);
         opssat.simulator.main.ESASimulator eSASimulator14 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter14 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter15 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator14,
-                                                                                                                                                  pcAdapter14);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter15 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator14, pcAdapter14);
         opssat.simulator.main.ESASimulator eSASimulator16 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter16 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter17 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator16,
-                                                                                                                                                  pcAdapter16);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter17 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator16, pcAdapter16);
         opssat.simulator.main.ESASimulator eSASimulator18 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter18 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter19 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator18,
-                                                                                                                                                  pcAdapter18);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter19 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator18, pcAdapter18);
         esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter[] gPSSoftSimAdapterArray20 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter[]{gPSSoftSimAdapter11,
                                                                                                                                                            gPSSoftSimAdapter13,
                                                                                                                                                            gPSSoftSimAdapter15,
                                                                                                                                                            gPSSoftSimAdapter17,
                                                                                                                                                            gPSSoftSimAdapter19};
         try {
-            esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter[] gPSSoftSimAdapterArray21 = longList4.toArray(gPSSoftSimAdapterArray20);
+            esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter[] gPSSoftSimAdapterArray21 = longList4.toArray(
+                gPSSoftSimAdapterArray20);
             org.junit.Assert.fail("Expected exception of type java.lang.ArrayStoreException; message: null");
         } catch (java.lang.ArrayStoreException e) {
         }
@@ -410,8 +419,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test007");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                 pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         try {
             org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList satelliteInfoList2 = null; // flaky: gPSSoftSimAdapter1.getSatelliteInfoList();
             // flaky:             org.junit.Assert.fail("Expected exception of type java.lang.IllegalAccessError; message: tried to access field esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter.randoop_classUsedFlag from class esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter");
@@ -428,36 +437,41 @@ public class RegressionTest0 {
         boolean boolean6 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList5, strArray4);
         java.util.Iterator<java.lang.String> strItor7 = strList5.iterator();
         int int9 = strList5.lastIndexOf((java.lang.Object) "hi!");
-        org.ccsds.moims.mo.mal.structures.StringList stringList11 = new org.ccsds.moims.mo.mal.structures.StringList((int) '4');
+        org.ccsds.moims.mo.mal.structures.StringList stringList11 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) '4');
         boolean boolean13 = stringList11.add("hi!");
         org.ccsds.moims.mo.mal.structures.UShort uShort14 = stringList11.getAreaNumber();
         int int15 = strList5.lastIndexOf((java.lang.Object) stringList11);
         java.util.Spliterator<java.lang.String> strSpliterator16 = strList5.spliterator();
         opssat.simulator.main.ESASimulator eSASimulator17 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter17 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter18 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator17,
-                                                                                                                                                           pcAdapter17);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter18 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator17, pcAdapter17);
         org.ccsds.moims.mo.mal.structures.Duration duration19 = cameraSoftSimAdapter18.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList20 = cameraSoftSimAdapter18.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList20 = cameraSoftSimAdapter18
+            .getAvailableResolutions();
         opssat.simulator.main.ESASimulator eSASimulator21 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter22 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator21,
-                                                                                                                                                           pcAdapter21);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter22 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator21, pcAdapter21);
         java.lang.String str23 = cameraSoftSimAdapter22.getExtraInfo();
         opssat.simulator.main.ESASimulator eSASimulator24 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter24 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter25 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator24,
-                                                                                                                                                           pcAdapter24);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter25 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator24, pcAdapter24);
         org.ccsds.moims.mo.mal.structures.Duration duration26 = cameraSoftSimAdapter25.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList27 = cameraSoftSimAdapter25.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList27 = cameraSoftSimAdapter25
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration28 = cameraSoftSimAdapter25.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList29 = cameraSoftSimAdapter25.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList29 = cameraSoftSimAdapter25
+            .getAvailableResolutions();
         java.lang.String str30 = cameraSoftSimAdapter25.getExtraInfo();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter[] cameraSoftSimAdapterArray31 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter[]{cameraSoftSimAdapter18,
                                                                                                                                                                     cameraSoftSimAdapter22,
                                                                                                                                                                     cameraSoftSimAdapter25};
         try {
-            esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter[] cameraSoftSimAdapterArray32 = strList5.toArray(cameraSoftSimAdapterArray31);
+            esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter[] cameraSoftSimAdapterArray32 = strList5.toArray(
+                cameraSoftSimAdapterArray31);
             org.junit.Assert.fail("Expected exception of type java.lang.ArrayStoreException; message: null");
         } catch (java.lang.ArrayStoreException e) {
         }
@@ -472,13 +486,13 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(duration19);
         org.junit.Assert.assertNotNull(pixelResolutionList20);
         org.junit.Assert.assertTrue("'" + str23 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str23
-                                                                                                                    .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertNotNull(duration26);
         org.junit.Assert.assertNotNull(pixelResolutionList27);
         org.junit.Assert.assertNotNull(duration28);
         org.junit.Assert.assertNotNull(pixelResolutionList29);
         org.junit.Assert.assertTrue("'" + str30 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str30
-                                                                                                                    .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertNotNull(cameraSoftSimAdapterArray31);
     }
 
@@ -488,8 +502,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test009");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                 pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         boolean boolean2 = gPSSoftSimAdapter1.isUnitAvailable();
         try {
             org.ccsds.moims.mo.platform.gps.structures.Position position3 = null; // flaky: gPSSoftSimAdapter1.getCurrentPosition();
@@ -506,13 +520,13 @@ public class RegressionTest0 {
         java.lang.Short[] shortArray5 = new java.lang.Short[]{(short) 1, (short) -1, (short) 10, (short) 1, (short) -1};
         java.util.ArrayList<java.lang.Short> shortList6 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList6,
-                                                        shortArray5);
+            shortArray5);
         int int9 = shortList6.lastIndexOf((java.lang.Object) (byte) 1);
         java.lang.String str10 = shortList6.toString();
         java.lang.Integer[] intArray21 = new java.lang.Integer[]{16, 16, (-18), (-18), (-1), 1, 0, 2, 0, 0};
         java.util.ArrayList<java.lang.Integer> intList22 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList22,
-                                                         intArray21);
+            intArray21);
         int int24 = intList22.size();
         java.util.Spliterator<java.lang.Integer> intSpliterator25 = intList22.spliterator();
         org.ccsds.moims.mo.mal.structures.OctetList octetList27 = new org.ccsds.moims.mo.mal.structures.OctetList(10);
@@ -520,22 +534,22 @@ public class RegressionTest0 {
         java.lang.String[] strArray33 = new java.lang.String[]{"[true, true]", "[1]", "[true, true]", "hi!"};
         java.util.ArrayList<java.lang.String> strList34 = new java.util.ArrayList<java.lang.String>();
         boolean boolean35 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList34,
-                                                         strArray33);
+            strArray33);
         java.util.Iterator<java.lang.String> strItor36 = strList34.iterator();
         java.lang.String str38 = strList34.remove((int) (byte) 0);
         java.lang.Byte[] byteArray40 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList41 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList41,
-                                                         byteArray40);
+            byteArray40);
         java.lang.Float[] floatArray46 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList47 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean48 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList47,
-                                                         floatArray46);
+            floatArray46);
         boolean boolean49 = byteList41.containsAll((java.util.Collection<java.lang.Float>) floatList47);
         java.lang.Float[] floatArray53 = new java.lang.Float[]{(-1.0f), 10.0f, 0.0f};
         java.util.ArrayList<java.lang.Float> floatList54 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean55 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList54,
-                                                         floatArray53);
+            floatArray53);
         int int56 = floatList54.size();
         boolean boolean57 = floatList47.containsAll((java.util.Collection<java.lang.Float>) floatList54);
         boolean boolean58 = strList34.containsAll((java.util.Collection<java.lang.Float>) floatList47);
@@ -549,13 +563,15 @@ public class RegressionTest0 {
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter powerControlSoftSimAdapter66 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
         opssat.simulator.main.ESASimulator eSASimulator67 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter powerControlSoftSimAdapter68 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        java.util.Map<org.ccsds.moims.mo.mal.structures.Identifier, org.ccsds.moims.mo.platform.powercontrol.structures.Device> identifierMap69 = powerControlSoftSimAdapter68.getDeviceMap();
+        java.util.Map<org.ccsds.moims.mo.mal.structures.Identifier, org.ccsds.moims.mo.platform.powercontrol.structures.Device> identifierMap69 = powerControlSoftSimAdapter68
+            .getDeviceMap();
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter[] powerControlSoftSimAdapterArray70 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter[]{powerControlSoftSimAdapter62,
                                                                                                                                                                                       powerControlSoftSimAdapter64,
                                                                                                                                                                                       powerControlSoftSimAdapter66,
                                                                                                                                                                                       powerControlSoftSimAdapter68};
         try {
-            esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter[] powerControlSoftSimAdapterArray71 = shortList6.toArray(powerControlSoftSimAdapterArray70);
+            esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter[] powerControlSoftSimAdapterArray71 = shortList6
+                .toArray(powerControlSoftSimAdapterArray70);
             org.junit.Assert.fail("Expected exception of type java.lang.ArrayStoreException; message: null");
         } catch (java.lang.ArrayStoreException e) {
         }
@@ -563,7 +579,7 @@ public class RegressionTest0 {
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
         org.junit.Assert.assertTrue("'" + int9 + "' != '" + (-1) + "'", int9 == (-1));
         org.junit.Assert.assertTrue("'" + str10 + "' != '" + "[1, -1, 10, 1, -1]" + "'", str10.equals(
-                                                                                                      "[1, -1, 10, 1, -1]"));
+            "[1, -1, 10, 1, -1]"));
         org.junit.Assert.assertNotNull(intArray21);
         org.junit.Assert.assertTrue("'" + boolean23 + "' != '" + true + "'", boolean23);
         org.junit.Assert.assertTrue("'" + int24 + "' != '" + 10 + "'", int24 == 10);
@@ -595,16 +611,17 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test011");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         java.lang.String str3 = cameraSoftSimAdapter1.getExtraInfo();
         boolean boolean4 = cameraSoftSimAdapter1.isUnitAvailable();
         org.ccsds.moims.mo.mal.structures.Duration duration5 = cameraSoftSimAdapter1.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PictureFormatList pictureFormatList6 = cameraSoftSimAdapter1.getAvailableFormats();
+        org.ccsds.moims.mo.platform.camera.structures.PictureFormatList pictureFormatList6 = cameraSoftSimAdapter1
+            .getAvailableFormats();
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertTrue("'" + str3 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str3
-                                                                                                                  .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
         org.junit.Assert.assertNotNull(duration5);
         org.junit.Assert.assertNotNull(pictureFormatList6);
@@ -633,20 +650,21 @@ public class RegressionTest0 {
                                                                                                                   uShort10,
                                                                                                                   uShort11};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList13 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList13,
-                                                         uShortArray12);
+        boolean boolean14 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList13, uShortArray12);
         java.lang.Double[] doubleArray18 = new java.lang.Double[]{100.0d, 100.0d, 1.0d};
         java.util.ArrayList<java.lang.Double> doubleList19 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean20 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList19,
-                                                         doubleArray18);
+            doubleArray18);
         java.lang.Float[] floatArray24 = new java.lang.Float[]{(-1.0f), 10.0f, 0.0f};
         java.util.ArrayList<java.lang.Float> floatList25 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean26 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList25,
-                                                         floatArray24);
+            floatArray24);
         int int27 = floatList25.size();
         boolean boolean28 = doubleList19.containsAll((java.util.Collection<java.lang.Float>) floatList25);
         boolean boolean29 = uShortList13.equals((java.lang.Object) doubleList19);
-        org.ccsds.moims.mo.mal.structures.BooleanList booleanList31 = new org.ccsds.moims.mo.mal.structures.BooleanList((int) (byte) 0);
+        org.ccsds.moims.mo.mal.structures.BooleanList booleanList31 = new org.ccsds.moims.mo.mal.structures.BooleanList(
+            (int) (byte) 0);
         org.ccsds.moims.mo.mal.structures.UShort uShort32 = booleanList31.getAreaNumber();
         int int33 = uShortList13.lastIndexOf((java.lang.Object) booleanList31);
         java.lang.String str34 = uShortList13.toString();
@@ -659,13 +677,15 @@ public class RegressionTest0 {
         int int44 = uShortList13.lastIndexOf((java.lang.Object) boolean43);
         opssat.simulator.main.ESASimulator eSASimulator45 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter45 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter46 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator45,
-                                                                                                                                                                                   pcAdapter45);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode47 = autonomousADCSSoftSimAdapter46.getActiveAttitudeMode();
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter46 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator45, pcAdapter45);
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode47 = autonomousADCSSoftSimAdapter46
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode48 = null;
         java.lang.String str49 = autonomousADCSSoftSimAdapter46.validateAttitudeDescriptor(attitudeMode48);
         boolean boolean50 = autonomousADCSSoftSimAdapter46.isUnitAvailable();
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode51 = autonomousADCSSoftSimAdapter46.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode51 = autonomousADCSSoftSimAdapter46
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode52 = null;
         java.lang.String str53 = autonomousADCSSoftSimAdapter46.validateAttitudeDescriptor(attitudeMode52);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode54 = null;
@@ -694,7 +714,7 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(uShort32);
         org.junit.Assert.assertTrue("'" + int33 + "' != '" + (-1) + "'", int33 == (-1));
         org.junit.Assert.assertTrue("'" + str34 + "' != '" + "[0, 0, 3, 1, 0, 1, 1]" + "'", str34.equals(
-                                                                                                         "[0, 0, 3, 1, 0, 1, 1]"));
+            "[0, 0, 3, 1, 0, 1, 1]"));
         org.junit.Assert.assertNotNull(uShort36);
         org.junit.Assert.assertNotNull(uShort39);
         org.junit.Assert.assertNotNull(uShort40);
@@ -714,14 +734,17 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test013");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration4 = cameraSoftSimAdapter1.getMinimumPeriod();
         boolean boolean5 = cameraSoftSimAdapter1.isUnitAvailable();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1.getAvailableResolutions();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration8 = cameraSoftSimAdapter1.getMinimumPeriod();
         java.lang.String str9 = duration8.toString();
         org.junit.Assert.assertNotNull(duration2);
@@ -740,8 +763,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test014");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                 pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         boolean boolean2 = gPSSoftSimAdapter1.isUnitAvailable();
         try {
             org.ccsds.moims.mo.platform.gps.structures.SatelliteInfoList satelliteInfoList3 = null; // flaky: gPSSoftSimAdapter1.getSatelliteInfoList();
@@ -761,8 +784,8 @@ public class RegressionTest0 {
         integerList0.clear();
         opssat.simulator.main.ESASimulator eSASimulator4 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter5 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator4,
-                                                                                                                                                                                                    pcAdapter4);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter5 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator4, pcAdapter4);
         boolean boolean6 = softwareDefinedRadioSoftSimAdapter5.isUnitAvailable();
         boolean boolean8 = softwareDefinedRadioSoftSimAdapter5.enableSDR((java.lang.Boolean) true);
         boolean boolean9 = integerList0.contains((java.lang.Object) true);
@@ -784,8 +807,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test016");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                 pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         boolean boolean2 = gPSSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = gPSSoftSimAdapter1.isUnitAvailable();
         boolean boolean4 = gPSSoftSimAdapter1.isUnitAvailable();
@@ -808,30 +831,31 @@ public class RegressionTest0 {
         java.lang.Short[] shortArray4 = new java.lang.Short[]{(short) 10, (short) 10, (short) 1, (short) 0};
         java.util.ArrayList<java.lang.Short> shortList5 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean6 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList5,
-                                                        shortArray4);
+            shortArray4);
         java.lang.Object obj7 = shortList5.clone();
         boolean boolean8 = shortList5.isEmpty();
         java.util.Iterator<java.lang.Short> shortItor9 = shortList5.iterator();
         opssat.simulator.main.ESASimulator eSASimulator10 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter10 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter11 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator10,
-                                                                                                                                                  pcAdapter10);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter11 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator10, pcAdapter10);
         esa.mo.platform.impl.provider.gen.GPSAdapterInterface[] gPSAdapterInterfaceArray12 = new esa.mo.platform.impl.provider.gen.GPSAdapterInterface[]{gPSSoftSimAdapter11};
         opssat.simulator.main.ESASimulator eSASimulator13 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter13 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter14 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator13,
-                                                                                                                                                  pcAdapter13);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter14 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator13, pcAdapter13);
         esa.mo.platform.impl.provider.gen.GPSAdapterInterface[] gPSAdapterInterfaceArray15 = new esa.mo.platform.impl.provider.gen.GPSAdapterInterface[]{gPSSoftSimAdapter14};
         opssat.simulator.main.ESASimulator eSASimulator16 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter16 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter17 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator16,
-                                                                                                                                                  pcAdapter16);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter17 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator16, pcAdapter16);
         esa.mo.platform.impl.provider.gen.GPSAdapterInterface[] gPSAdapterInterfaceArray18 = new esa.mo.platform.impl.provider.gen.GPSAdapterInterface[]{gPSSoftSimAdapter17};
         esa.mo.platform.impl.provider.gen.GPSAdapterInterface[][] gPSAdapterInterfaceArray19 = new esa.mo.platform.impl.provider.gen.GPSAdapterInterface[][]{gPSAdapterInterfaceArray12,
                                                                                                                                                              gPSAdapterInterfaceArray15,
                                                                                                                                                              gPSAdapterInterfaceArray18};
         try {
-            esa.mo.platform.impl.provider.gen.GPSAdapterInterface[][] gPSAdapterInterfaceArray20 = shortList5.toArray(gPSAdapterInterfaceArray19);
+            esa.mo.platform.impl.provider.gen.GPSAdapterInterface[][] gPSAdapterInterfaceArray20 = shortList5.toArray(
+                gPSAdapterInterfaceArray19);
             org.junit.Assert.fail("Expected exception of type java.lang.ArrayStoreException; message: null");
         } catch (java.lang.ArrayStoreException e) {
         }
@@ -852,8 +876,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test018");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         double double3 = duration2.getValue();
         java.lang.String str4 = duration2.toString();
@@ -861,12 +885,12 @@ public class RegressionTest0 {
         java.lang.String[] strArray10 = new java.lang.String[]{"", "[1]", "[true, true]", ""};
         java.util.ArrayList<java.lang.String> strList11 = new java.util.ArrayList<java.lang.String>();
         boolean boolean12 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList11,
-                                                         strArray10);
+            strArray10);
         org.ccsds.moims.mo.mal.structures.UShort uShort13 = org.ccsds.moims.mo.mal.structures.DoubleList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray14 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort13};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList15 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean16 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList15,
-                                                         uShortArray14);
+        boolean boolean16 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList15, uShortArray14);
         java.lang.String str17 = uShortList15.toString();
         boolean boolean19 = uShortList15.remove((java.lang.Object) (-1));
         int int20 = strList11.indexOf((java.lang.Object) boolean19);
@@ -890,31 +914,32 @@ public class RegressionTest0 {
                                                                                                                   uShort32,
                                                                                                                   uShort33};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList35 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean36 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList35,
-                                                         uShortArray34);
+        boolean boolean36 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList35, uShortArray34);
         java.lang.Double[] doubleArray40 = new java.lang.Double[]{100.0d, 100.0d, 1.0d};
         java.util.ArrayList<java.lang.Double> doubleList41 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList41,
-                                                         doubleArray40);
+            doubleArray40);
         java.lang.Float[] floatArray46 = new java.lang.Float[]{(-1.0f), 10.0f, 0.0f};
         java.util.ArrayList<java.lang.Float> floatList47 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean48 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList47,
-                                                         floatArray46);
+            floatArray46);
         int int49 = floatList47.size();
         boolean boolean50 = doubleList41.containsAll((java.util.Collection<java.lang.Float>) floatList47);
         boolean boolean51 = uShortList35.equals((java.lang.Object) doubleList41);
-        org.ccsds.moims.mo.mal.structures.BooleanList booleanList53 = new org.ccsds.moims.mo.mal.structures.BooleanList((int) (byte) 0);
+        org.ccsds.moims.mo.mal.structures.BooleanList booleanList53 = new org.ccsds.moims.mo.mal.structures.BooleanList(
+            (int) (byte) 0);
         org.ccsds.moims.mo.mal.structures.UShort uShort54 = booleanList53.getAreaNumber();
         int int55 = uShortList35.lastIndexOf((java.lang.Object) booleanList53);
         java.lang.Integer int56 = booleanList53.getTypeShortForm();
         java.lang.Byte[] byteArray58 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList59 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean60 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList59,
-                                                         byteArray58);
+            byteArray58);
         java.lang.Float[] floatArray64 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList65 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean66 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList65,
-                                                         floatArray64);
+            floatArray64);
         boolean boolean67 = byteList59.containsAll((java.util.Collection<java.lang.Float>) floatList65);
         boolean boolean68 = floatList65.isEmpty();
         boolean boolean69 = booleanList53.retainAll((java.util.Collection<java.lang.Float>) floatList65);
@@ -942,7 +967,7 @@ public class RegressionTest0 {
         org.junit.Assert.assertTrue("'" + boolean19 + "' != '" + false + "'", !boolean19);
         org.junit.Assert.assertTrue("'" + int20 + "' != '" + (-1) + "'", int20 == (-1));
         org.junit.Assert.assertTrue("'" + str21 + "' != '" + "[, [1], [true, true], ]" + "'", str21.equals(
-                                                                                                           "[, [1], [true, true], ]"));
+            "[, [1], [true, true], ]"));
         org.junit.Assert.assertNotNull(uShort22);
         org.junit.Assert.assertNotNull(wildcardClass23);
         org.junit.Assert.assertNotNull(uShort24);
@@ -988,8 +1013,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test019");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                 pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         boolean boolean2 = gPSSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = gPSSoftSimAdapter1.isUnitAvailable();
         boolean boolean4 = gPSSoftSimAdapter1.isUnitAvailable();
@@ -1012,11 +1037,12 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.UShort uShort0 = org.ccsds.moims.mo.mal.structures.DoubleList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray1 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort0};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList2 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList2,
-                                                        uShortArray1);
+        boolean boolean3 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList2, uShortArray1);
         java.lang.String str4 = uShortList2.toString();
         boolean boolean6 = uShortList2.remove((java.lang.Object) (-1));
-        org.ccsds.moims.mo.mal.structures.StringList stringList8 = new org.ccsds.moims.mo.mal.structures.StringList((int) (short) 1);
+        org.ccsds.moims.mo.mal.structures.StringList stringList8 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (short) 1);
         boolean boolean9 = uShortList2.remove((java.lang.Object) stringList8);
         uShortList2.ensureCapacity(13);
         org.ccsds.moims.mo.mal.structures.Duration duration12 = new org.ccsds.moims.mo.mal.structures.Duration();
@@ -1026,24 +1052,26 @@ public class RegressionTest0 {
         java.lang.Boolean[] booleanArray18 = new java.lang.Boolean[]{true, true};
         java.util.ArrayList<java.lang.Boolean> booleanList19 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean20 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList19,
-                                                         booleanArray18);
+            booleanArray18);
         java.lang.String str21 = booleanList19.toString();
         java.util.stream.Stream<java.lang.Boolean> booleanStream22 = booleanList19.parallelStream();
-        org.ccsds.moims.mo.mal.structures.StringList stringList24 = new org.ccsds.moims.mo.mal.structures.StringList((int) (short) 1);
+        org.ccsds.moims.mo.mal.structures.StringList stringList24 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (short) 1);
         boolean boolean25 = booleanList19.remove((java.lang.Object) stringList24);
         java.util.stream.Stream<java.lang.Boolean> booleanStream26 = booleanList19.parallelStream();
         java.lang.Boolean[] booleanArray29 = new java.lang.Boolean[]{true, true};
         java.util.ArrayList<java.lang.Boolean> booleanList30 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean31 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList30,
-                                                         booleanArray29);
+            booleanArray29);
         java.lang.String str32 = booleanList30.toString();
         java.util.stream.Stream<java.lang.Boolean> booleanStream33 = booleanList30.parallelStream();
-        org.ccsds.moims.mo.mal.structures.StringList stringList35 = new org.ccsds.moims.mo.mal.structures.StringList((int) (short) 1);
+        org.ccsds.moims.mo.mal.structures.StringList stringList35 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (short) 1);
         boolean boolean36 = booleanList30.remove((java.lang.Object) stringList35);
         java.lang.Float[] floatArray40 = new java.lang.Float[]{(-1.0f), 10.0f, 0.0f};
         java.util.ArrayList<java.lang.Float> floatList41 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList41,
-                                                         floatArray40);
+            floatArray40);
         int int43 = floatList41.size();
         boolean boolean44 = booleanList30.removeAll((java.util.Collection<java.lang.Float>) floatList41);
         boolean boolean45 = booleanList19.removeAll((java.util.Collection<java.lang.Float>) floatList41);
@@ -1051,41 +1079,43 @@ public class RegressionTest0 {
         java.lang.Integer[] intArray57 = new java.lang.Integer[]{16, 16, (-18), (-18), (-1), 1, 0, 2, 0, 0};
         java.util.ArrayList<java.lang.Integer> intList58 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean59 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList58,
-                                                         intArray57);
+            intArray57);
         int int60 = intList58.size();
         boolean boolean61 = uShortList2.remove((java.lang.Object) int60);
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream62 = uShortList2.parallelStream();
         opssat.simulator.main.ESASimulator eSASimulator63 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter63 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter64 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator63,
-                                                                                                                                                                                   pcAdapter63);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter64 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator63, pcAdapter63);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode65 = null;
         autonomousADCSSoftSimAdapter64.setDesiredAttitude(attitudeMode65);
         boolean boolean67 = autonomousADCSSoftSimAdapter64.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator68 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter68 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter69 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator68,
-                                                                                                                                                                                   pcAdapter68);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter69 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator68, pcAdapter68);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode70 = null;
         autonomousADCSSoftSimAdapter69.setDesiredAttitude(attitudeMode70);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode72 = autonomousADCSSoftSimAdapter69.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode72 = autonomousADCSSoftSimAdapter69
+            .getActiveAttitudeMode();
         opssat.simulator.main.ESASimulator eSASimulator73 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter73 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter74 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator73,
-                                                                                                                                                                                   pcAdapter73);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter74 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator73, pcAdapter73);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode75 = null;
         autonomousADCSSoftSimAdapter74.setDesiredAttitude(attitudeMode75);
         opssat.simulator.main.ESASimulator eSASimulator77 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter77 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter78 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator77,
-                                                                                                                                                                                   pcAdapter77);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter78 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator77, pcAdapter77);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode79 = null;
         autonomousADCSSoftSimAdapter78.setDesiredAttitude(attitudeMode79);
         esa.mo.platform.impl.provider.gen.AutonomousADCSAdapterInterface[] autonomousADCSAdapterInterfaceArray81 = new esa.mo.platform.impl.provider.gen.AutonomousADCSAdapterInterface[]{autonomousADCSSoftSimAdapter64,
                                                                                                                                                                                           autonomousADCSSoftSimAdapter69,
                                                                                                                                                                                           autonomousADCSSoftSimAdapter74,
                                                                                                                                                                                           autonomousADCSSoftSimAdapter78};
-        esa.mo.platform.impl.provider.gen.AutonomousADCSAdapterInterface[] autonomousADCSAdapterInterfaceArray82 = uShortList2.toArray(autonomousADCSAdapterInterfaceArray81);
+        esa.mo.platform.impl.provider.gen.AutonomousADCSAdapterInterface[] autonomousADCSAdapterInterfaceArray82 = uShortList2
+            .toArray(autonomousADCSAdapterInterfaceArray81);
         java.util.Iterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor83 = uShortList2.iterator();
         org.junit.Assert.assertNotNull(uShort0);
         org.junit.Assert.assertNotNull(uShortArray1);
@@ -1132,28 +1162,28 @@ public class RegressionTest0 {
         java.lang.Short[] shortArray2 = new java.lang.Short[]{(short) 0, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList3 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList3,
-                                                        shortArray2);
+            shortArray2);
         shortList3.trimToSize();
         java.util.ListIterator<java.lang.Short> shortItor6 = shortList3.listIterator();
         boolean boolean8 = shortList3.remove((java.lang.Object) (-1L));
         opssat.simulator.main.ESASimulator eSASimulator9 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter9 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter10 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator9,
-                                                                                                                                                                                                     pcAdapter9);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter10 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator9, pcAdapter9);
         boolean boolean11 = softwareDefinedRadioSoftSimAdapter10.isUnitAvailable();
         boolean boolean13 = softwareDefinedRadioSoftSimAdapter10.enableSDR((java.lang.Boolean) false);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration14 = null;
         boolean boolean15 = softwareDefinedRadioSoftSimAdapter10.setConfiguration(sDRConfiguration14);
         opssat.simulator.main.ESASimulator eSASimulator16 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter16 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter17 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator16,
-                                                                                                                                                                                                     pcAdapter16);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter17 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator16, pcAdapter16);
         boolean boolean18 = softwareDefinedRadioSoftSimAdapter17.isUnitAvailable();
         boolean boolean20 = softwareDefinedRadioSoftSimAdapter17.enableSDR((java.lang.Boolean) false);
         opssat.simulator.main.ESASimulator eSASimulator21 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter22 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator21,
-                                                                                                                                                                                                     pcAdapter21);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter22 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator21, pcAdapter21);
         boolean boolean23 = softwareDefinedRadioSoftSimAdapter22.isUnitAvailable();
         boolean boolean24 = softwareDefinedRadioSoftSimAdapter22.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration25 = null;
@@ -1165,8 +1195,8 @@ public class RegressionTest0 {
         boolean boolean34 = softwareDefinedRadioSoftSimAdapter22.enableSDR((java.lang.Boolean) false);
         opssat.simulator.main.ESASimulator eSASimulator35 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter35 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter36 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator35,
-                                                                                                                                                                                                     pcAdapter35);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter36 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator35, pcAdapter35);
         boolean boolean37 = softwareDefinedRadioSoftSimAdapter36.isUnitAvailable();
         boolean boolean38 = softwareDefinedRadioSoftSimAdapter36.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration39 = null;
@@ -1175,8 +1205,8 @@ public class RegressionTest0 {
         boolean boolean43 = softwareDefinedRadioSoftSimAdapter36.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator44 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter44 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter45 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator44,
-                                                                                                                                                                                                     pcAdapter44);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter45 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator44, pcAdapter44);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration46 = null;
         boolean boolean47 = softwareDefinedRadioSoftSimAdapter45.setConfiguration(sDRConfiguration46);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration48 = null;
@@ -1185,8 +1215,8 @@ public class RegressionTest0 {
         boolean boolean51 = softwareDefinedRadioSoftSimAdapter45.setConfiguration(sDRConfiguration50);
         opssat.simulator.main.ESASimulator eSASimulator52 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter52 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter53 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator52,
-                                                                                                                                                                                                     pcAdapter52);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter53 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator52, pcAdapter52);
         boolean boolean54 = softwareDefinedRadioSoftSimAdapter53.isUnitAvailable();
         boolean boolean55 = softwareDefinedRadioSoftSimAdapter53.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration56 = null;
@@ -1200,7 +1230,8 @@ public class RegressionTest0 {
                                                                                                                                                                                                             softwareDefinedRadioSoftSimAdapter45,
                                                                                                                                                                                                             softwareDefinedRadioSoftSimAdapter53};
         try {
-            esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray63 = shortList3.toArray(softwareDefinedRadioAdapterInterfaceArray62);
+            esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray63 = shortList3
+                .toArray(softwareDefinedRadioAdapterInterfaceArray62);
             org.junit.Assert.fail("Expected exception of type java.lang.ArrayStoreException; message: null");
         } catch (java.lang.ArrayStoreException e) {
         }
@@ -1242,17 +1273,18 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test022");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration3 = cameraSoftSimAdapter1.getMinimumPeriod();
         java.lang.String str4 = cameraSoftSimAdapter1.getExtraInfo();
         org.ccsds.moims.mo.mal.structures.Duration duration5 = cameraSoftSimAdapter1.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PictureFormatList pictureFormatList6 = cameraSoftSimAdapter1.getAvailableFormats();
+        org.ccsds.moims.mo.platform.camera.structures.PictureFormatList pictureFormatList6 = cameraSoftSimAdapter1
+            .getAvailableFormats();
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertNotNull(duration3);
         org.junit.Assert.assertTrue("'" + str4 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str4
-                                                                                                                  .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertNotNull(duration5);
         org.junit.Assert.assertNotNull(pictureFormatList6);
     }
@@ -1264,8 +1296,9 @@ public class RegressionTest0 {
         java.lang.Short[] shortArray1 = new java.lang.Short[]{(short) 10};
         java.util.ArrayList<java.lang.Short> shortList2 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList2,
-                                                        shortArray1);
-        org.ccsds.moims.mo.mal.structures.URI uRI5 = new org.ccsds.moims.mo.mal.structures.URI("[, [1], [true, true], ]");
+            shortArray1);
+        org.ccsds.moims.mo.mal.structures.URI uRI5 = new org.ccsds.moims.mo.mal.structures.URI(
+            "[, [1], [true, true], ]");
         java.lang.Long long6 = uRI5.getShortForm();
         org.ccsds.moims.mo.mal.structures.UShort uShort7 = uRI5.getServiceNumber();
         int int8 = shortList2.indexOf((java.lang.Object) uRI5);
@@ -1278,18 +1311,19 @@ public class RegressionTest0 {
         java.lang.Long[] longArray17 = new java.lang.Long[]{281475010265077L, 100L};
         java.util.ArrayList<java.lang.Long> longList18 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList18,
-                                                         longArray17);
+            longArray17);
         longList18.ensureCapacity((int) (byte) 100);
         java.lang.Object[] objArray22 = longList18.toArray();
         boolean boolean24 = longList18.remove((java.lang.Object) '#');
         boolean boolean25 = longList18.isEmpty();
-        org.ccsds.moims.mo.mal.structures.FloatList floatList27 = new org.ccsds.moims.mo.mal.structures.FloatList((int) 'a');
+        org.ccsds.moims.mo.mal.structures.FloatList floatList27 = new org.ccsds.moims.mo.mal.structures.FloatList(
+            (int) 'a');
         boolean boolean28 = longList18.retainAll((java.util.Collection<java.lang.Float>) floatList27);
         boolean boolean29 = doubleList9.containsAll((java.util.Collection<java.lang.Float>) floatList27);
         opssat.simulator.main.ESASimulator eSASimulator30 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter30 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter31 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator30,
-                                                                                                                                                           pcAdapter30);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter31 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator30, pcAdapter30);
         org.ccsds.moims.mo.mal.structures.Duration duration32 = cameraSoftSimAdapter31.getMinimumPeriod();
         java.lang.String str33 = cameraSoftSimAdapter31.getExtraInfo();
         boolean boolean34 = cameraSoftSimAdapter31.isUnitAvailable();
@@ -1299,7 +1333,8 @@ public class RegressionTest0 {
         java.lang.Long long38 = doubleList9.getShortForm();
         try {
             java.lang.Double double40 = doubleList9.remove(2);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 2, Size: 0");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 2, Size: 0");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(shortArray1);
@@ -1321,7 +1356,7 @@ public class RegressionTest0 {
         org.junit.Assert.assertTrue("'" + boolean29 + "' != '" + true + "'", boolean29);
         org.junit.Assert.assertNotNull(duration32);
         org.junit.Assert.assertTrue("'" + str33 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str33
-                                                                                                                    .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertTrue("'" + boolean34 + "' != '" + true + "'", boolean34);
         org.junit.Assert.assertNotNull(duration35);
         org.junit.Assert.assertTrue("'" + boolean36 + "' != '" + false + "'", !boolean36);
@@ -1336,7 +1371,7 @@ public class RegressionTest0 {
         java.lang.Double[] doubleArray1 = new java.lang.Double[]{100.0d};
         java.util.ArrayList<java.lang.Double> doubleList2 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList2,
-                                                        doubleArray1);
+            doubleArray1);
         java.lang.String[] strArray8 = new java.lang.String[]{"[true, true]", "[1]", "[true, true]", "hi!"};
         java.util.ArrayList<java.lang.String> strList9 = new java.util.ArrayList<java.lang.String>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList9, strArray8);
@@ -1345,16 +1380,16 @@ public class RegressionTest0 {
         java.lang.Byte[] byteArray15 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList16 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList16,
-                                                         byteArray15);
+            byteArray15);
         java.lang.Float[] floatArray21 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList22 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList22,
-                                                         floatArray21);
+            floatArray21);
         boolean boolean24 = byteList16.containsAll((java.util.Collection<java.lang.Float>) floatList22);
         java.lang.Float[] floatArray28 = new java.lang.Float[]{(-1.0f), 10.0f, 0.0f};
         java.util.ArrayList<java.lang.Float> floatList29 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList29,
-                                                         floatArray28);
+            floatArray28);
         int int31 = floatList29.size();
         boolean boolean32 = floatList22.containsAll((java.util.Collection<java.lang.Float>) floatList29);
         boolean boolean33 = strList9.containsAll((java.util.Collection<java.lang.Float>) floatList22);
@@ -1362,15 +1397,16 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.UShort uShort35 = org.ccsds.moims.mo.mal.structures.DoubleList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray36 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort35};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList37 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean38 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList37,
-                                                         uShortArray36);
+        boolean boolean38 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList37, uShortArray36);
         java.lang.String str39 = uShortList37.toString();
         int int40 = floatList22.lastIndexOf((java.lang.Object) str39);
         opssat.simulator.main.ESASimulator eSASimulator41 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter41 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter42 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator41,
-                                                                                                                                                                                   pcAdapter41);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode43 = autonomousADCSSoftSimAdapter42.getActiveAttitudeMode();
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter42 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator41, pcAdapter41);
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode43 = autonomousADCSSoftSimAdapter42
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode44 = null;
         java.lang.String str45 = autonomousADCSSoftSimAdapter42.validateAttitudeDescriptor(attitudeMode44);
         boolean boolean46 = autonomousADCSSoftSimAdapter42.isUnitAvailable();
@@ -1412,8 +1448,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test025");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                                    pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration2 = null;
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.setConfiguration(sDRConfiguration2);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration4 = null;
@@ -1434,8 +1470,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test026");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                 pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         boolean boolean2 = gPSSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = gPSSoftSimAdapter1.isUnitAvailable();
         boolean boolean4 = gPSSoftSimAdapter1.isUnitAvailable();
@@ -1456,8 +1492,9 @@ public class RegressionTest0 {
         java.lang.Short[] shortArray1 = new java.lang.Short[]{(short) 10};
         java.util.ArrayList<java.lang.Short> shortList2 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList2,
-                                                        shortArray1);
-        org.ccsds.moims.mo.mal.structures.URI uRI5 = new org.ccsds.moims.mo.mal.structures.URI("[, [1], [true, true], ]");
+            shortArray1);
+        org.ccsds.moims.mo.mal.structures.URI uRI5 = new org.ccsds.moims.mo.mal.structures.URI(
+            "[, [1], [true, true], ]");
         java.lang.Long long6 = uRI5.getShortForm();
         org.ccsds.moims.mo.mal.structures.UShort uShort7 = uRI5.getServiceNumber();
         int int8 = shortList2.indexOf((java.lang.Object) uRI5);
@@ -1470,18 +1507,19 @@ public class RegressionTest0 {
         java.lang.Long[] longArray17 = new java.lang.Long[]{281475010265077L, 100L};
         java.util.ArrayList<java.lang.Long> longList18 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList18,
-                                                         longArray17);
+            longArray17);
         longList18.ensureCapacity((int) (byte) 100);
         java.lang.Object[] objArray22 = longList18.toArray();
         boolean boolean24 = longList18.remove((java.lang.Object) '#');
         boolean boolean25 = longList18.isEmpty();
-        org.ccsds.moims.mo.mal.structures.FloatList floatList27 = new org.ccsds.moims.mo.mal.structures.FloatList((int) 'a');
+        org.ccsds.moims.mo.mal.structures.FloatList floatList27 = new org.ccsds.moims.mo.mal.structures.FloatList(
+            (int) 'a');
         boolean boolean28 = longList18.retainAll((java.util.Collection<java.lang.Float>) floatList27);
         boolean boolean29 = doubleList9.containsAll((java.util.Collection<java.lang.Float>) floatList27);
         opssat.simulator.main.ESASimulator eSASimulator30 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter30 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter31 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator30,
-                                                                                                                                                           pcAdapter30);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter31 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator30, pcAdapter30);
         org.ccsds.moims.mo.mal.structures.Duration duration32 = cameraSoftSimAdapter31.getMinimumPeriod();
         java.lang.String str33 = cameraSoftSimAdapter31.getExtraInfo();
         boolean boolean34 = cameraSoftSimAdapter31.isUnitAvailable();
@@ -1490,7 +1528,8 @@ public class RegressionTest0 {
         java.lang.String str37 = doubleList9.toString();
         try {
             java.util.List<java.lang.Double> doubleList40 = doubleList9.subList((-10), (-18));
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: fromIndex = -10");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: fromIndex = -10");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(shortArray1);
@@ -1512,7 +1551,7 @@ public class RegressionTest0 {
         org.junit.Assert.assertTrue("'" + boolean29 + "' != '" + true + "'", boolean29);
         org.junit.Assert.assertNotNull(duration32);
         org.junit.Assert.assertTrue("'" + str33 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str33
-                                                                                                                    .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertTrue("'" + boolean34 + "' != '" + true + "'", boolean34);
         org.junit.Assert.assertNotNull(duration35);
         org.junit.Assert.assertTrue("'" + boolean36 + "' != '" + false + "'", !boolean36);
@@ -1523,32 +1562,33 @@ public class RegressionTest0 {
     public void test028() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test028");
-        org.ccsds.moims.mo.mal.structures.Union union1 = new org.ccsds.moims.mo.mal.structures.Union((java.lang.Byte) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.Union union1 = new org.ccsds.moims.mo.mal.structures.Union(
+            (java.lang.Byte) (byte) 1);
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = union1.getAreaNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort3 = union1.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort4 = union1.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort5 = union1.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray6 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList7 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean8 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList7,
-                                                        uRIArray6);
+        boolean boolean8 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList7, uRIArray6);
         boolean boolean10 = uRIList7.contains((java.lang.Object) (-18));
         java.lang.Double[] doubleArray15 = new java.lang.Double[]{1.0d, 10.0d, 1.0d, 0.0d};
         java.util.ArrayList<java.lang.Double> doubleList16 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList16,
-                                                         doubleArray15);
+            doubleArray15);
         java.lang.Short[] shortArray21 = new java.lang.Short[]{(short) 0, (short) 10, (short) 1};
         java.util.ArrayList<java.lang.Short> shortList22 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList22,
-                                                         shortArray21);
+            shortArray21);
         java.lang.Byte[] byteArray25 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList26 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList26,
-                                                         byteArray25);
+            byteArray25);
         java.lang.Float[] floatArray31 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList32 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList32,
-                                                         floatArray31);
+            floatArray31);
         boolean boolean34 = byteList26.containsAll((java.util.Collection<java.lang.Float>) floatList32);
         boolean boolean35 = shortList22.containsAll((java.util.Collection<java.lang.Float>) floatList32);
         boolean boolean36 = doubleList16.contains((java.lang.Object) shortList22);
@@ -1557,11 +1597,11 @@ public class RegressionTest0 {
         java.lang.Byte[] byteArray40 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList41 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList41,
-                                                         byteArray40);
+            byteArray40);
         java.lang.Float[] floatArray46 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList47 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean48 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList47,
-                                                         floatArray46);
+            floatArray46);
         boolean boolean49 = byteList41.containsAll((java.util.Collection<java.lang.Float>) floatList47);
         boolean boolean50 = doubleList16.retainAll((java.util.Collection<java.lang.Float>) floatList47);
         int int51 = doubleList16.size();
@@ -1569,8 +1609,8 @@ public class RegressionTest0 {
         java.util.stream.Stream<java.lang.Double> doubleStream54 = doubleList16.parallelStream();
         opssat.simulator.main.ESASimulator eSASimulator55 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter55 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter56 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator55,
-                                                                                                                                                           pcAdapter55);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter56 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator55, pcAdapter55);
         org.ccsds.moims.mo.mal.structures.Duration duration57 = cameraSoftSimAdapter56.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration58 = cameraSoftSimAdapter56.getMinimumPeriod();
         int int59 = doubleList16.lastIndexOf((java.lang.Object) duration58);
@@ -1578,7 +1618,8 @@ public class RegressionTest0 {
         java.util.stream.Stream<java.lang.Double> doubleStream61 = doubleList16.parallelStream();
         try {
             java.util.ListIterator<java.lang.Double> doubleItor63 = doubleList16.listIterator((int) (byte) 100);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 100");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 100");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(uShort2);
@@ -1622,14 +1663,15 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test029");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                  pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = null;
         autonomousADCSSoftSimAdapter1.setDesiredAttitude(attitudeMode2);
         boolean boolean4 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode5 = null;
         java.lang.String str6 = autonomousADCSSoftSimAdapter1.validateAttitudeDescriptor(attitudeMode5);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode7 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode7 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
         org.junit.Assert.assertNull(str6);
         org.junit.Assert.assertNull(attitudeMode7);
@@ -1641,9 +1683,10 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test030");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                  pcAdapter0);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
         java.lang.String str4 = autonomousADCSSoftSimAdapter1.validateAttitudeDescriptor(attitudeMode3);
         boolean boolean5 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
@@ -1669,7 +1712,7 @@ public class RegressionTest0 {
         java.lang.Integer[] intArray10 = new java.lang.Integer[]{16, 16, (-18), (-18), (-1), 1, 0, 2, 0, 0};
         java.util.ArrayList<java.lang.Integer> intList11 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean12 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList11,
-                                                         intArray10);
+            intArray10);
         int int13 = intList11.size();
         java.util.Spliterator<java.lang.Integer> intSpliterator14 = intList11.spliterator();
         org.ccsds.moims.mo.mal.structures.OctetList octetList16 = new org.ccsds.moims.mo.mal.structures.OctetList(10);
@@ -1678,32 +1721,36 @@ public class RegressionTest0 {
         java.util.Iterator<java.lang.Byte> byteItor19 = octetList16.iterator();
         opssat.simulator.main.ESASimulator eSASimulator20 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter20 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter21 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator20,
-                                                                                                                                                           pcAdapter20);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter21 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator20, pcAdapter20);
         org.ccsds.moims.mo.mal.structures.Duration duration22 = cameraSoftSimAdapter21.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration23 = cameraSoftSimAdapter21.getMinimumPeriod();
         java.lang.String str24 = cameraSoftSimAdapter21.getExtraInfo();
         org.ccsds.moims.mo.mal.structures.Duration duration25 = cameraSoftSimAdapter21.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList26 = cameraSoftSimAdapter21.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList26 = cameraSoftSimAdapter21
+            .getAvailableResolutions();
         opssat.simulator.main.ESASimulator eSASimulator27 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter27 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter28 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator27,
-                                                                                                                                                           pcAdapter27);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter28 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator27, pcAdapter27);
         org.ccsds.moims.mo.mal.structures.Duration duration29 = cameraSoftSimAdapter28.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration30 = cameraSoftSimAdapter28.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList31 = cameraSoftSimAdapter28.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList31 = cameraSoftSimAdapter28
+            .getAvailableResolutions();
         opssat.simulator.main.ESASimulator eSASimulator32 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter32 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter33 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator32,
-                                                                                                                                                           pcAdapter32);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter33 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator32, pcAdapter32);
         org.ccsds.moims.mo.mal.structures.Duration duration34 = cameraSoftSimAdapter33.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration35 = cameraSoftSimAdapter33.getMinimumPeriod();
         java.lang.String str36 = cameraSoftSimAdapter33.getExtraInfo();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList37 = cameraSoftSimAdapter33.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList37 = cameraSoftSimAdapter33
+            .getAvailableResolutions();
         esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter[] cameraSoftSimAdapterArray38 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter[]{cameraSoftSimAdapter21,
                                                                                                                                                                     cameraSoftSimAdapter28,
                                                                                                                                                                     cameraSoftSimAdapter33};
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter[] cameraSoftSimAdapterArray39 = octetList16.toArray(cameraSoftSimAdapterArray38);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter[] cameraSoftSimAdapterArray39 = octetList16.toArray(
+            cameraSoftSimAdapterArray38);
         org.junit.Assert.assertNotNull(intArray10);
         org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + true + "'", boolean12);
         org.junit.Assert.assertTrue("'" + int13 + "' != '" + 10 + "'", int13 == 10);
@@ -1714,7 +1761,7 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(duration22);
         org.junit.Assert.assertNotNull(duration23);
         org.junit.Assert.assertTrue("'" + str24 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str24
-                                                                                                                    .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertNotNull(duration25);
         org.junit.Assert.assertNotNull(pixelResolutionList26);
         org.junit.Assert.assertNotNull(duration29);
@@ -1723,7 +1770,7 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(duration34);
         org.junit.Assert.assertNotNull(duration35);
         org.junit.Assert.assertTrue("'" + str36 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str36
-                                                                                                                    .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertNotNull(pixelResolutionList37);
         org.junit.Assert.assertNotNull(cameraSoftSimAdapterArray38);
         org.junit.Assert.assertNotNull(cameraSoftSimAdapterArray39);
@@ -1735,19 +1782,22 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test032");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         java.lang.String str4 = cameraSoftSimAdapter1.getExtraInfo();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList5 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList5 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration6 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration7 = cameraSoftSimAdapter1.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList8 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList8 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertNotNull(pixelResolutionList3);
         org.junit.Assert.assertTrue("'" + str4 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str4
-                                                                                                                  .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertNotNull(pixelResolutionList5);
         org.junit.Assert.assertNotNull(duration6);
         org.junit.Assert.assertNotNull(duration7);
@@ -1766,16 +1816,16 @@ public class RegressionTest0 {
         java.lang.Byte[] byteArray11 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList12 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList12,
-                                                         byteArray11);
+            byteArray11);
         java.lang.Float[] floatArray17 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList18 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList18,
-                                                         floatArray17);
+            floatArray17);
         boolean boolean20 = byteList12.containsAll((java.util.Collection<java.lang.Float>) floatList18);
         java.lang.Float[] floatArray24 = new java.lang.Float[]{(-1.0f), 10.0f, 0.0f};
         java.util.ArrayList<java.lang.Float> floatList25 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean26 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList25,
-                                                         floatArray24);
+            floatArray24);
         int int27 = floatList25.size();
         boolean boolean28 = floatList18.containsAll((java.util.Collection<java.lang.Float>) floatList25);
         boolean boolean29 = strList5.removeAll((java.util.Collection<java.lang.Float>) floatList25);
@@ -1783,8 +1833,8 @@ public class RegressionTest0 {
         int int31 = strList5.lastIndexOf((java.lang.Object) uOctet30);
         opssat.simulator.main.ESASimulator eSASimulator32 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter32 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter33 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator32,
-                                                                                                                                                                                                     pcAdapter32);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter33 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator32, pcAdapter32);
         boolean boolean34 = softwareDefinedRadioSoftSimAdapter33.isUnitAvailable();
         boolean boolean35 = softwareDefinedRadioSoftSimAdapter33.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration36 = null;
@@ -1827,56 +1877,57 @@ public class RegressionTest0 {
         java.lang.String[] strArray14 = new java.lang.String[]{"[true, true]", "[1]", "[true, true]", "hi!"};
         java.util.ArrayList<java.lang.String> strList15 = new java.util.ArrayList<java.lang.String>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList15,
-                                                         strArray14);
+            strArray14);
         java.util.Iterator<java.lang.String> strItor17 = strList15.iterator();
         java.lang.String str19 = strList15.remove((int) (byte) 0);
         java.lang.Byte[] byteArray21 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList22 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList22,
-                                                         byteArray21);
+            byteArray21);
         java.lang.Float[] floatArray27 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList28 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean29 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList28,
-                                                         floatArray27);
+            floatArray27);
         boolean boolean30 = byteList22.containsAll((java.util.Collection<java.lang.Float>) floatList28);
         java.lang.Float[] floatArray34 = new java.lang.Float[]{(-1.0f), 10.0f, 0.0f};
         java.util.ArrayList<java.lang.Float> floatList35 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean36 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList35,
-                                                         floatArray34);
+            floatArray34);
         int int37 = floatList35.size();
         boolean boolean38 = floatList28.containsAll((java.util.Collection<java.lang.Float>) floatList35);
         boolean boolean39 = strList15.containsAll((java.util.Collection<java.lang.Float>) floatList28);
         java.lang.Short[] shortArray43 = new java.lang.Short[]{(short) 0, (short) 10, (short) 1};
         java.util.ArrayList<java.lang.Short> shortList44 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean45 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList44,
-                                                         shortArray43);
+            shortArray43);
         java.lang.Byte[] byteArray47 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList48 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean49 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList48,
-                                                         byteArray47);
+            byteArray47);
         java.lang.Float[] floatArray53 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList54 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean55 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList54,
-                                                         floatArray53);
+            floatArray53);
         boolean boolean56 = byteList48.containsAll((java.util.Collection<java.lang.Float>) floatList54);
         boolean boolean57 = shortList44.containsAll((java.util.Collection<java.lang.Float>) floatList54);
         boolean boolean58 = floatList28.retainAll((java.util.Collection<java.lang.Float>) floatList54);
         boolean boolean59 = longList3.retainAll((java.util.Collection<java.lang.Float>) floatList28);
         opssat.simulator.main.ESASimulator eSASimulator60 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter60 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter61 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator60,
-                                                                                                                                                           pcAdapter60);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter61 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator60, pcAdapter60);
         org.ccsds.moims.mo.mal.structures.Duration duration62 = cameraSoftSimAdapter61.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList63 = cameraSoftSimAdapter61.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList63 = cameraSoftSimAdapter61
+            .getAvailableResolutions();
         boolean boolean64 = longList3.contains((java.lang.Object) cameraSoftSimAdapter61);
         java.lang.Object[] objArray65 = longList3.toArray();
         org.junit.Assert.assertNotNull(longArray2);
         org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
         org.junit.Assert.assertTrue("'" + str7 + "' != '" + "[281475010265077, 100]" + "'", str7.equals(
-                                                                                                        "[281475010265077, 100]"));
+            "[281475010265077, 100]"));
         org.junit.Assert.assertNotNull(longStream8);
         org.junit.Assert.assertTrue("'" + str9 + "' != '" + "[281475010265077, 100]" + "'", str9.equals(
-                                                                                                        "[281475010265077, 100]"));
+            "[281475010265077, 100]"));
         org.junit.Assert.assertNotNull(strArray14);
         org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + true + "'", boolean16);
         org.junit.Assert.assertNotNull(strItor17);
@@ -1913,25 +1964,25 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test035");
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1,
-                                                        uRIArray0);
+        boolean boolean2 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1, uRIArray0);
         boolean boolean4 = uRIList1.contains((java.lang.Object) (-18));
         java.lang.Double[] doubleArray9 = new java.lang.Double[]{1.0d, 10.0d, 1.0d, 0.0d};
         java.util.ArrayList<java.lang.Double> doubleList10 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList10,
-                                                         doubleArray9);
+            doubleArray9);
         java.lang.Short[] shortArray15 = new java.lang.Short[]{(short) 0, (short) 10, (short) 1};
         java.util.ArrayList<java.lang.Short> shortList16 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList16,
-                                                         shortArray15);
+            shortArray15);
         java.lang.Byte[] byteArray19 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList20 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20,
-                                                         byteArray19);
+            byteArray19);
         java.lang.Float[] floatArray25 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList26 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList26,
-                                                         floatArray25);
+            floatArray25);
         boolean boolean28 = byteList20.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean29 = shortList16.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean30 = doubleList10.contains((java.lang.Object) shortList16);
@@ -1939,8 +1990,8 @@ public class RegressionTest0 {
         int int32 = uRIList1.indexOf((java.lang.Object) doubleList10);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator33,
-                                                                                                                                                                                   pcAdapter33);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator33, pcAdapter33);
         boolean boolean35 = doubleList10.remove((java.lang.Object) autonomousADCSSoftSimAdapter34);
         java.lang.Object obj36 = doubleList10.clone();
         java.lang.Object obj37 = null;
@@ -1973,8 +2024,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test036");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                                    pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         boolean boolean2 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration4 = null;
@@ -2001,8 +2052,9 @@ public class RegressionTest0 {
         java.lang.Short[] shortArray1 = new java.lang.Short[]{(short) 10};
         java.util.ArrayList<java.lang.Short> shortList2 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList2,
-                                                        shortArray1);
-        org.ccsds.moims.mo.mal.structures.URI uRI5 = new org.ccsds.moims.mo.mal.structures.URI("[, [1], [true, true], ]");
+            shortArray1);
+        org.ccsds.moims.mo.mal.structures.URI uRI5 = new org.ccsds.moims.mo.mal.structures.URI(
+            "[, [1], [true, true], ]");
         java.lang.Long long6 = uRI5.getShortForm();
         org.ccsds.moims.mo.mal.structures.UShort uShort7 = uRI5.getServiceNumber();
         int int8 = shortList2.indexOf((java.lang.Object) uRI5);
@@ -2015,18 +2067,19 @@ public class RegressionTest0 {
         java.lang.Long[] longArray17 = new java.lang.Long[]{281475010265077L, 100L};
         java.util.ArrayList<java.lang.Long> longList18 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList18,
-                                                         longArray17);
+            longArray17);
         longList18.ensureCapacity((int) (byte) 100);
         java.lang.Object[] objArray22 = longList18.toArray();
         boolean boolean24 = longList18.remove((java.lang.Object) '#');
         boolean boolean25 = longList18.isEmpty();
-        org.ccsds.moims.mo.mal.structures.FloatList floatList27 = new org.ccsds.moims.mo.mal.structures.FloatList((int) 'a');
+        org.ccsds.moims.mo.mal.structures.FloatList floatList27 = new org.ccsds.moims.mo.mal.structures.FloatList(
+            (int) 'a');
         boolean boolean28 = longList18.retainAll((java.util.Collection<java.lang.Float>) floatList27);
         boolean boolean29 = doubleList9.containsAll((java.util.Collection<java.lang.Float>) floatList27);
         opssat.simulator.main.ESASimulator eSASimulator30 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter30 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter31 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator30,
-                                                                                                                                                           pcAdapter30);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter31 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator30, pcAdapter30);
         org.ccsds.moims.mo.mal.structures.Duration duration32 = cameraSoftSimAdapter31.getMinimumPeriod();
         java.lang.String str33 = cameraSoftSimAdapter31.getExtraInfo();
         boolean boolean34 = cameraSoftSimAdapter31.isUnitAvailable();
@@ -2052,7 +2105,7 @@ public class RegressionTest0 {
         org.junit.Assert.assertTrue("'" + boolean29 + "' != '" + true + "'", boolean29);
         org.junit.Assert.assertNotNull(duration32);
         org.junit.Assert.assertTrue("'" + str33 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str33
-                                                                                                                    .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertTrue("'" + boolean34 + "' != '" + true + "'", boolean34);
         org.junit.Assert.assertNotNull(duration35);
         org.junit.Assert.assertTrue("'" + boolean36 + "' != '" + false + "'", !boolean36);
@@ -2069,7 +2122,7 @@ public class RegressionTest0 {
         java.lang.Float[] floatArray5 = new java.lang.Float[]{0.0f, 1.0f};
         java.util.ArrayList<java.lang.Float> floatList6 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList6,
-                                                        floatArray5);
+            floatArray5);
         boolean boolean8 = doubleList0.removeAll((java.util.Collection<java.lang.Float>) floatList6);
         java.util.Spliterator<java.lang.Double> doubleSpliterator9 = doubleList0.spliterator();
         org.ccsds.moims.mo.mal.structures.UShortList uShortList11 = new org.ccsds.moims.mo.mal.structures.UShortList(3);
@@ -2078,32 +2131,33 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.Element element14 = uShortList11.createElement();
         opssat.simulator.main.ESASimulator eSASimulator15 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter15 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter16 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator15,
-                                                                                                                                                  pcAdapter15);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter16 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator15, pcAdapter15);
         opssat.simulator.main.ESASimulator eSASimulator17 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter17 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter18 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator17,
-                                                                                                                                                  pcAdapter17);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter18 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator17, pcAdapter17);
         opssat.simulator.main.ESASimulator eSASimulator19 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter19 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter20 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator19,
-                                                                                                                                                  pcAdapter19);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter20 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator19, pcAdapter19);
         opssat.simulator.main.ESASimulator eSASimulator21 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter22 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator21,
-                                                                                                                                                  pcAdapter21);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter22 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator21, pcAdapter21);
         boolean boolean23 = gPSSoftSimAdapter22.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator24 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter24 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter25 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator24,
-                                                                                                                                                  pcAdapter24);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter25 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator24, pcAdapter24);
         boolean boolean26 = gPSSoftSimAdapter25.isUnitAvailable();
         esa.mo.platform.impl.provider.gen.GPSAdapterInterface[] gPSAdapterInterfaceArray27 = new esa.mo.platform.impl.provider.gen.GPSAdapterInterface[]{gPSSoftSimAdapter16,
                                                                                                                                                          gPSSoftSimAdapter18,
                                                                                                                                                          gPSSoftSimAdapter20,
                                                                                                                                                          gPSSoftSimAdapter22,
                                                                                                                                                          gPSSoftSimAdapter25};
-        esa.mo.platform.impl.provider.gen.GPSAdapterInterface[] gPSAdapterInterfaceArray28 = uShortList11.toArray(gPSAdapterInterfaceArray27);
+        esa.mo.platform.impl.provider.gen.GPSAdapterInterface[] gPSAdapterInterfaceArray28 = uShortList11.toArray(
+            gPSAdapterInterfaceArray27);
         boolean boolean29 = doubleList0.equals((java.lang.Object) gPSAdapterInterfaceArray28);
         java.util.Iterator<java.lang.Double> doubleItor30 = doubleList0.iterator();
         org.junit.Assert.assertNotNull(uOctet1);
@@ -2129,8 +2183,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test039");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                 pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         boolean boolean2 = gPSSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = gPSSoftSimAdapter1.isUnitAvailable();
         try {
@@ -2148,8 +2202,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test040");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                 pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         boolean boolean2 = gPSSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = gPSSoftSimAdapter1.isUnitAvailable();
         boolean boolean4 = gPSSoftSimAdapter1.isUnitAvailable();
@@ -2173,8 +2227,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test041");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                 pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         boolean boolean2 = gPSSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = gPSSoftSimAdapter1.isUnitAvailable();
         try {
@@ -2190,11 +2244,12 @@ public class RegressionTest0 {
     public void test042() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test042");
-        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 100);
+        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 100);
         opssat.simulator.main.ESASimulator eSASimulator2 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter2 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter3 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator2,
-                                                                                                                                                                                                    pcAdapter2);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter3 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator2, pcAdapter2);
         boolean boolean4 = softwareDefinedRadioSoftSimAdapter3.isUnitAvailable();
         boolean boolean5 = softwareDefinedRadioSoftSimAdapter3.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration6 = null;
@@ -2203,28 +2258,30 @@ public class RegressionTest0 {
         boolean boolean11 = softwareDefinedRadioSoftSimAdapter3.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator12 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter12 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter13 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator12,
-                                                                                                                                                                                                     pcAdapter12);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter13 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator12, pcAdapter12);
         boolean boolean14 = softwareDefinedRadioSoftSimAdapter13.isUnitAvailable();
         boolean boolean16 = softwareDefinedRadioSoftSimAdapter13.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator17 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter17 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter18 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator17,
-                                                                                                                                                                                                     pcAdapter17);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter18 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator17, pcAdapter17);
         boolean boolean19 = softwareDefinedRadioSoftSimAdapter18.isUnitAvailable();
         boolean boolean20 = softwareDefinedRadioSoftSimAdapter18.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator21 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter22 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator21,
-                                                                                                                                                                                                     pcAdapter21);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter22 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator21, pcAdapter21);
         esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray23 = new esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[]{softwareDefinedRadioSoftSimAdapter3,
                                                                                                                                                                                                             softwareDefinedRadioSoftSimAdapter13,
                                                                                                                                                                                                             softwareDefinedRadioSoftSimAdapter18,
                                                                                                                                                                                                             softwareDefinedRadioSoftSimAdapter22};
-        esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray24 = stringList1.toArray(softwareDefinedRadioAdapterInterfaceArray23);
+        esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray24 = stringList1
+            .toArray(softwareDefinedRadioAdapterInterfaceArray23);
         try {
             stringList1.add(25, "4");
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 25, Size: 0");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 25, Size: 0");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
@@ -2246,8 +2303,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test043");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                 pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         boolean boolean2 = gPSSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = gPSSoftSimAdapter1.isUnitAvailable();
         boolean boolean4 = gPSSoftSimAdapter1.isUnitAvailable();
@@ -2271,25 +2328,25 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test044");
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1,
-                                                        uRIArray0);
+        boolean boolean2 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1, uRIArray0);
         boolean boolean4 = uRIList1.contains((java.lang.Object) (-18));
         java.lang.Double[] doubleArray9 = new java.lang.Double[]{1.0d, 10.0d, 1.0d, 0.0d};
         java.util.ArrayList<java.lang.Double> doubleList10 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList10,
-                                                         doubleArray9);
+            doubleArray9);
         java.lang.Short[] shortArray15 = new java.lang.Short[]{(short) 0, (short) 10, (short) 1};
         java.util.ArrayList<java.lang.Short> shortList16 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList16,
-                                                         shortArray15);
+            shortArray15);
         java.lang.Byte[] byteArray19 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList20 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20,
-                                                         byteArray19);
+            byteArray19);
         java.lang.Float[] floatArray25 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList26 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList26,
-                                                         floatArray25);
+            floatArray25);
         boolean boolean28 = byteList20.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean29 = shortList16.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean30 = doubleList10.contains((java.lang.Object) shortList16);
@@ -2298,11 +2355,11 @@ public class RegressionTest0 {
         java.lang.Byte[] byteArray34 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList35 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean36 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList35,
-                                                         byteArray34);
+            byteArray34);
         java.lang.Float[] floatArray40 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList41 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList41,
-                                                         floatArray40);
+            floatArray40);
         boolean boolean43 = byteList35.containsAll((java.util.Collection<java.lang.Float>) floatList41);
         boolean boolean44 = doubleList10.retainAll((java.util.Collection<java.lang.Float>) floatList41);
         int int45 = doubleList10.size();
@@ -2310,8 +2367,8 @@ public class RegressionTest0 {
         java.util.stream.Stream<java.lang.Double> doubleStream48 = doubleList10.parallelStream();
         opssat.simulator.main.ESASimulator eSASimulator49 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter50 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator49,
-                                                                                                                                                           pcAdapter49);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter50 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator49, pcAdapter49);
         org.ccsds.moims.mo.mal.structures.Duration duration51 = cameraSoftSimAdapter50.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration52 = cameraSoftSimAdapter50.getMinimumPeriod();
         int int53 = doubleList10.lastIndexOf((java.lang.Object) duration52);
@@ -2354,25 +2411,25 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test045");
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1,
-                                                        uRIArray0);
+        boolean boolean2 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1, uRIArray0);
         boolean boolean4 = uRIList1.contains((java.lang.Object) (-18));
         java.lang.Double[] doubleArray9 = new java.lang.Double[]{1.0d, 10.0d, 1.0d, 0.0d};
         java.util.ArrayList<java.lang.Double> doubleList10 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList10,
-                                                         doubleArray9);
+            doubleArray9);
         java.lang.Short[] shortArray15 = new java.lang.Short[]{(short) 0, (short) 10, (short) 1};
         java.util.ArrayList<java.lang.Short> shortList16 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList16,
-                                                         shortArray15);
+            shortArray15);
         java.lang.Byte[] byteArray19 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList20 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20,
-                                                         byteArray19);
+            byteArray19);
         java.lang.Float[] floatArray25 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList26 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList26,
-                                                         floatArray25);
+            floatArray25);
         boolean boolean28 = byteList20.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean29 = shortList16.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean30 = doubleList10.contains((java.lang.Object) shortList16);
@@ -2380,8 +2437,8 @@ public class RegressionTest0 {
         int int32 = uRIList1.indexOf((java.lang.Object) doubleList10);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator33,
-                                                                                                                                                                                   pcAdapter33);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator33, pcAdapter33);
         boolean boolean35 = doubleList10.remove((java.lang.Object) autonomousADCSSoftSimAdapter34);
         java.lang.Object obj36 = doubleList10.clone();
         java.util.stream.Stream<java.lang.Double> doubleStream37 = doubleList10.stream();
@@ -2423,8 +2480,8 @@ public class RegressionTest0 {
         java.lang.Long long6 = uRIList0.getShortForm();
         opssat.simulator.main.ESASimulator eSASimulator7 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter7 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter8 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator7,
-                                                                                                                                                          pcAdapter7);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter8 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator7, pcAdapter7);
         org.ccsds.moims.mo.mal.structures.Duration duration9 = cameraSoftSimAdapter8.getMinimumPeriod();
         double double10 = duration9.getValue();
         java.lang.String str11 = duration9.toString();
@@ -2450,7 +2507,8 @@ public class RegressionTest0 {
         java.util.ArrayList<java.lang.String> strList5 = new java.util.ArrayList<java.lang.String>();
         boolean boolean6 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList5, strArray4);
         java.util.Iterator<java.lang.String> strItor7 = strList5.iterator();
-        org.ccsds.moims.mo.mal.structures.OctetList octetList9 = new org.ccsds.moims.mo.mal.structures.OctetList((int) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.OctetList octetList9 = new org.ccsds.moims.mo.mal.structures.OctetList(
+            (int) (byte) 1);
         boolean boolean10 = octetList9.isEmpty();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet11 = octetList9.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.IntegerList integerList12 = new org.ccsds.moims.mo.mal.structures.IntegerList();
@@ -2461,15 +2519,16 @@ public class RegressionTest0 {
         java.lang.Boolean[] booleanArray19 = new java.lang.Boolean[]{true, true};
         java.util.ArrayList<java.lang.Boolean> booleanList20 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList20,
-                                                         booleanArray19);
+            booleanArray19);
         java.lang.String str22 = booleanList20.toString();
         java.util.stream.Stream<java.lang.Boolean> booleanStream23 = booleanList20.parallelStream();
-        org.ccsds.moims.mo.mal.structures.StringList stringList25 = new org.ccsds.moims.mo.mal.structures.StringList((int) (short) 1);
+        org.ccsds.moims.mo.mal.structures.StringList stringList25 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (short) 1);
         boolean boolean26 = booleanList20.remove((java.lang.Object) stringList25);
         java.lang.Float[] floatArray30 = new java.lang.Float[]{(-1.0f), 10.0f, 0.0f};
         java.util.ArrayList<java.lang.Float> floatList31 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean32 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList31,
-                                                         floatArray30);
+            floatArray30);
         int int33 = floatList31.size();
         boolean boolean34 = booleanList20.removeAll((java.util.Collection<java.lang.Float>) floatList31);
         boolean boolean35 = strList5.retainAll((java.util.Collection<java.lang.Float>) floatList31);
@@ -2482,8 +2541,8 @@ public class RegressionTest0 {
         java.util.ListIterator<java.lang.String> strItor42 = strList5.listIterator();
         opssat.simulator.main.ESASimulator eSASimulator43 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter43 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter44 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator43,
-                                                                                                                                                  pcAdapter43);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter44 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator43, pcAdapter43);
         boolean boolean45 = gPSSoftSimAdapter44.isUnitAvailable();
         boolean boolean46 = gPSSoftSimAdapter44.isUnitAvailable();
         boolean boolean47 = gPSSoftSimAdapter44.isUnitAvailable();
@@ -2491,33 +2550,33 @@ public class RegressionTest0 {
         boolean boolean49 = gPSSoftSimAdapter44.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator50 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter50 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter51 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator50,
-                                                                                                                                                  pcAdapter50);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter51 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator50, pcAdapter50);
         boolean boolean52 = gPSSoftSimAdapter51.isUnitAvailable();
         boolean boolean53 = gPSSoftSimAdapter51.isUnitAvailable();
         boolean boolean54 = gPSSoftSimAdapter51.isUnitAvailable();
         boolean boolean55 = gPSSoftSimAdapter51.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator56 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter56 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter57 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator56,
-                                                                                                                                                  pcAdapter56);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter57 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator56, pcAdapter56);
         boolean boolean58 = gPSSoftSimAdapter57.isUnitAvailable();
         boolean boolean59 = gPSSoftSimAdapter57.isUnitAvailable();
         boolean boolean60 = gPSSoftSimAdapter57.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator61 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter61 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter62 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator61,
-                                                                                                                                                  pcAdapter61);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter62 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator61, pcAdapter61);
         boolean boolean63 = gPSSoftSimAdapter62.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator64 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter64 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter65 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator64,
-                                                                                                                                                  pcAdapter64);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter65 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator64, pcAdapter64);
         boolean boolean66 = gPSSoftSimAdapter65.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator67 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter67 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter68 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator67,
-                                                                                                                                                  pcAdapter67);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter68 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator67, pcAdapter67);
         boolean boolean69 = gPSSoftSimAdapter68.isUnitAvailable();
         boolean boolean70 = gPSSoftSimAdapter68.isUnitAvailable();
         esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[] gPSNMEAonlyAdapterArray71 = new esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[]{gPSSoftSimAdapter44,
@@ -2527,7 +2586,8 @@ public class RegressionTest0 {
                                                                                                                                                       gPSSoftSimAdapter65,
                                                                                                                                                       gPSSoftSimAdapter68};
         esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[][] gPSNMEAonlyAdapterArray72 = new esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[][]{gPSNMEAonlyAdapterArray71};
-        esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[][] gPSNMEAonlyAdapterArray73 = strList5.toArray(gPSNMEAonlyAdapterArray72);
+        esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[][] gPSNMEAonlyAdapterArray73 = strList5.toArray(
+            gPSNMEAonlyAdapterArray72);
         java.util.Iterator<java.lang.String> strItor74 = strList5.iterator();
         org.junit.Assert.assertNotNull(strArray4);
         org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6);
@@ -2581,25 +2641,25 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test048");
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1,
-                                                        uRIArray0);
+        boolean boolean2 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1, uRIArray0);
         boolean boolean4 = uRIList1.contains((java.lang.Object) (-18));
         java.lang.Double[] doubleArray9 = new java.lang.Double[]{1.0d, 10.0d, 1.0d, 0.0d};
         java.util.ArrayList<java.lang.Double> doubleList10 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList10,
-                                                         doubleArray9);
+            doubleArray9);
         java.lang.Short[] shortArray15 = new java.lang.Short[]{(short) 0, (short) 10, (short) 1};
         java.util.ArrayList<java.lang.Short> shortList16 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList16,
-                                                         shortArray15);
+            shortArray15);
         java.lang.Byte[] byteArray19 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList20 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20,
-                                                         byteArray19);
+            byteArray19);
         java.lang.Float[] floatArray25 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList26 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList26,
-                                                         floatArray25);
+            floatArray25);
         boolean boolean28 = byteList20.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean29 = shortList16.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean30 = doubleList10.contains((java.lang.Object) shortList16);
@@ -2607,13 +2667,14 @@ public class RegressionTest0 {
         int int32 = uRIList1.indexOf((java.lang.Object) doubleList10);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator33,
-                                                                                                                                                                                   pcAdapter33);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator33, pcAdapter33);
         boolean boolean35 = doubleList10.remove((java.lang.Object) autonomousADCSSoftSimAdapter34);
         java.util.Iterator<java.lang.Double> doubleItor36 = doubleList10.iterator();
         try {
             doubleList10.add(13, (java.lang.Double) 0.0d);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 13, Size: 4");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 13, Size: 4");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(uRIArray0);
@@ -2641,10 +2702,11 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test049");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration4 = cameraSoftSimAdapter1.getMinimumPeriod();
         boolean boolean5 = cameraSoftSimAdapter1.isUnitAvailable();
         java.lang.String str6 = cameraSoftSimAdapter1.getExtraInfo();
@@ -2655,7 +2717,7 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(duration4);
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertTrue("'" + str6 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str6
-                                                                                                                  .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
         org.junit.Assert.assertNotNull(duration8);
     }
@@ -2666,25 +2728,25 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test050");
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1,
-                                                        uRIArray0);
+        boolean boolean2 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1, uRIArray0);
         boolean boolean4 = uRIList1.contains((java.lang.Object) (-18));
         java.lang.Double[] doubleArray9 = new java.lang.Double[]{1.0d, 10.0d, 1.0d, 0.0d};
         java.util.ArrayList<java.lang.Double> doubleList10 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList10,
-                                                         doubleArray9);
+            doubleArray9);
         java.lang.Short[] shortArray15 = new java.lang.Short[]{(short) 0, (short) 10, (short) 1};
         java.util.ArrayList<java.lang.Short> shortList16 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList16,
-                                                         shortArray15);
+            shortArray15);
         java.lang.Byte[] byteArray19 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList20 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20,
-                                                         byteArray19);
+            byteArray19);
         java.lang.Float[] floatArray25 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList26 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList26,
-                                                         floatArray25);
+            floatArray25);
         boolean boolean28 = byteList20.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean29 = shortList16.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean30 = doubleList10.contains((java.lang.Object) shortList16);
@@ -2692,8 +2754,8 @@ public class RegressionTest0 {
         int int32 = uRIList1.indexOf((java.lang.Object) doubleList10);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator33,
-                                                                                                                                                                                   pcAdapter33);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator33, pcAdapter33);
         boolean boolean35 = doubleList10.remove((java.lang.Object) autonomousADCSSoftSimAdapter34);
         java.lang.Object obj36 = doubleList10.clone();
         java.util.stream.Stream<java.lang.Double> doubleStream37 = doubleList10.stream();
@@ -2719,14 +2781,15 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(doubleStream37);
         org.junit.Assert.assertTrue("'" + boolean38 + "' != '" + false + "'", !boolean38);
         org.junit.Assert.assertTrue("'" + str39 + "' != '" + "[1.0, 10.0, 1.0, 0.0]" + "'", str39.equals(
-                                                                                                         "[1.0, 10.0, 1.0, 0.0]"));
+            "[1.0, 10.0, 1.0, 0.0]"));
     }
 
     @Test
     public void test051() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test051");
-        org.ccsds.moims.mo.mal.structures.FineTime fineTime1 = new org.ccsds.moims.mo.mal.structures.FineTime(281474993487874L);
+        org.ccsds.moims.mo.mal.structures.FineTime fineTime1 = new org.ccsds.moims.mo.mal.structures.FineTime(
+            281474993487874L);
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = fineTime1.getAreaNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort3 = fineTime1.getAreaNumber();
         java.lang.Long long4 = fineTime1.getShortForm();
@@ -2734,11 +2797,12 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.UShort uShort6 = org.ccsds.moims.mo.mal.structures.DoubleList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray7 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort6};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList8 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList8,
-                                                        uShortArray7);
+        boolean boolean9 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList8, uShortArray7);
         java.lang.String str10 = uShortList8.toString();
         boolean boolean12 = uShortList8.remove((java.lang.Object) (-1));
-        org.ccsds.moims.mo.mal.structures.StringList stringList14 = new org.ccsds.moims.mo.mal.structures.StringList((int) (short) 1);
+        org.ccsds.moims.mo.mal.structures.StringList stringList14 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (short) 1);
         boolean boolean15 = uShortList8.remove((java.lang.Object) stringList14);
         uShortList8.ensureCapacity(13);
         org.ccsds.moims.mo.mal.structures.Duration duration18 = new org.ccsds.moims.mo.mal.structures.Duration();
@@ -2748,24 +2812,26 @@ public class RegressionTest0 {
         java.lang.Boolean[] booleanArray24 = new java.lang.Boolean[]{true, true};
         java.util.ArrayList<java.lang.Boolean> booleanList25 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean26 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList25,
-                                                         booleanArray24);
+            booleanArray24);
         java.lang.String str27 = booleanList25.toString();
         java.util.stream.Stream<java.lang.Boolean> booleanStream28 = booleanList25.parallelStream();
-        org.ccsds.moims.mo.mal.structures.StringList stringList30 = new org.ccsds.moims.mo.mal.structures.StringList((int) (short) 1);
+        org.ccsds.moims.mo.mal.structures.StringList stringList30 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (short) 1);
         boolean boolean31 = booleanList25.remove((java.lang.Object) stringList30);
         java.util.stream.Stream<java.lang.Boolean> booleanStream32 = booleanList25.parallelStream();
         java.lang.Boolean[] booleanArray35 = new java.lang.Boolean[]{true, true};
         java.util.ArrayList<java.lang.Boolean> booleanList36 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean37 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList36,
-                                                         booleanArray35);
+            booleanArray35);
         java.lang.String str38 = booleanList36.toString();
         java.util.stream.Stream<java.lang.Boolean> booleanStream39 = booleanList36.parallelStream();
-        org.ccsds.moims.mo.mal.structures.StringList stringList41 = new org.ccsds.moims.mo.mal.structures.StringList((int) (short) 1);
+        org.ccsds.moims.mo.mal.structures.StringList stringList41 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (short) 1);
         boolean boolean42 = booleanList36.remove((java.lang.Object) stringList41);
         java.lang.Float[] floatArray46 = new java.lang.Float[]{(-1.0f), 10.0f, 0.0f};
         java.util.ArrayList<java.lang.Float> floatList47 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean48 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList47,
-                                                         floatArray46);
+            floatArray46);
         int int49 = floatList47.size();
         boolean boolean50 = booleanList36.removeAll((java.util.Collection<java.lang.Float>) floatList47);
         boolean boolean51 = booleanList25.removeAll((java.util.Collection<java.lang.Float>) floatList47);
@@ -2773,41 +2839,43 @@ public class RegressionTest0 {
         java.lang.Integer[] intArray63 = new java.lang.Integer[]{16, 16, (-18), (-18), (-1), 1, 0, 2, 0, 0};
         java.util.ArrayList<java.lang.Integer> intList64 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean65 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList64,
-                                                         intArray63);
+            intArray63);
         int int66 = intList64.size();
         boolean boolean67 = uShortList8.remove((java.lang.Object) int66);
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream68 = uShortList8.parallelStream();
         opssat.simulator.main.ESASimulator eSASimulator69 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter69 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter70 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator69,
-                                                                                                                                                                                   pcAdapter69);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter70 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator69, pcAdapter69);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode71 = null;
         autonomousADCSSoftSimAdapter70.setDesiredAttitude(attitudeMode71);
         boolean boolean73 = autonomousADCSSoftSimAdapter70.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator74 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter74 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter75 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator74,
-                                                                                                                                                                                   pcAdapter74);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter75 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator74, pcAdapter74);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode76 = null;
         autonomousADCSSoftSimAdapter75.setDesiredAttitude(attitudeMode76);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode78 = autonomousADCSSoftSimAdapter75.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode78 = autonomousADCSSoftSimAdapter75
+            .getActiveAttitudeMode();
         opssat.simulator.main.ESASimulator eSASimulator79 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter79 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter80 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator79,
-                                                                                                                                                                                   pcAdapter79);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter80 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator79, pcAdapter79);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode81 = null;
         autonomousADCSSoftSimAdapter80.setDesiredAttitude(attitudeMode81);
         opssat.simulator.main.ESASimulator eSASimulator83 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter83 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter84 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator83,
-                                                                                                                                                                                   pcAdapter83);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter84 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator83, pcAdapter83);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode85 = null;
         autonomousADCSSoftSimAdapter84.setDesiredAttitude(attitudeMode85);
         esa.mo.platform.impl.provider.gen.AutonomousADCSAdapterInterface[] autonomousADCSAdapterInterfaceArray87 = new esa.mo.platform.impl.provider.gen.AutonomousADCSAdapterInterface[]{autonomousADCSSoftSimAdapter70,
                                                                                                                                                                                           autonomousADCSSoftSimAdapter75,
                                                                                                                                                                                           autonomousADCSSoftSimAdapter80,
                                                                                                                                                                                           autonomousADCSSoftSimAdapter84};
-        esa.mo.platform.impl.provider.gen.AutonomousADCSAdapterInterface[] autonomousADCSAdapterInterfaceArray88 = uShortList8.toArray(autonomousADCSAdapterInterfaceArray87);
+        esa.mo.platform.impl.provider.gen.AutonomousADCSAdapterInterface[] autonomousADCSAdapterInterfaceArray88 = uShortList8
+            .toArray(autonomousADCSAdapterInterfaceArray87);
         boolean boolean89 = fineTime1.equals((java.lang.Object) autonomousADCSAdapterInterfaceArray88);
         java.lang.String str90 = fineTime1.toString();
         org.junit.Assert.assertNotNull(uShort2);
@@ -2857,12 +2925,13 @@ public class RegressionTest0 {
     public void test052() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test052");
-        org.ccsds.moims.mo.mal.structures.Union union1 = new org.ccsds.moims.mo.mal.structures.Union((java.lang.Integer) (-9));
+        org.ccsds.moims.mo.mal.structures.Union union1 = new org.ccsds.moims.mo.mal.structures.Union(
+            (java.lang.Integer) (-9));
         org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = union1.getAreaVersion();
         opssat.simulator.main.ESASimulator eSASimulator3 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter3 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter4 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator3,
-                                                                                                                                                                                                    pcAdapter3);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter4 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator3, pcAdapter3);
         boolean boolean5 = softwareDefinedRadioSoftSimAdapter4.isUnitAvailable();
         boolean boolean6 = softwareDefinedRadioSoftSimAdapter4.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration7 = null;
@@ -2872,7 +2941,8 @@ public class RegressionTest0 {
         boolean boolean13 = union1.equals((java.lang.Object) boolean12);
         try {
             java.lang.Double double14 = union1.getDoubleValue();
-            org.junit.Assert.fail("Expected exception of type java.lang.ClassCastException; message: java.lang.Integer cannot be cast to java.lang.Double");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.ClassCastException; message: java.lang.Integer cannot be cast to java.lang.Double");
         } catch (java.lang.ClassCastException e) {
         }
         org.junit.Assert.assertNotNull(uOctet2);
@@ -2888,32 +2958,33 @@ public class RegressionTest0 {
     public void test053() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test053");
-        org.ccsds.moims.mo.mal.structures.Union union1 = new org.ccsds.moims.mo.mal.structures.Union((java.lang.Byte) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.Union union1 = new org.ccsds.moims.mo.mal.structures.Union(
+            (java.lang.Byte) (byte) 1);
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = union1.getAreaNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort3 = union1.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort4 = union1.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort5 = union1.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray6 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList7 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean8 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList7,
-                                                        uRIArray6);
+        boolean boolean8 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList7, uRIArray6);
         boolean boolean10 = uRIList7.contains((java.lang.Object) (-18));
         java.lang.Double[] doubleArray15 = new java.lang.Double[]{1.0d, 10.0d, 1.0d, 0.0d};
         java.util.ArrayList<java.lang.Double> doubleList16 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList16,
-                                                         doubleArray15);
+            doubleArray15);
         java.lang.Short[] shortArray21 = new java.lang.Short[]{(short) 0, (short) 10, (short) 1};
         java.util.ArrayList<java.lang.Short> shortList22 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList22,
-                                                         shortArray21);
+            shortArray21);
         java.lang.Byte[] byteArray25 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList26 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList26,
-                                                         byteArray25);
+            byteArray25);
         java.lang.Float[] floatArray31 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList32 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList32,
-                                                         floatArray31);
+            floatArray31);
         boolean boolean34 = byteList26.containsAll((java.util.Collection<java.lang.Float>) floatList32);
         boolean boolean35 = shortList22.containsAll((java.util.Collection<java.lang.Float>) floatList32);
         boolean boolean36 = doubleList16.contains((java.lang.Object) shortList22);
@@ -2922,11 +2993,11 @@ public class RegressionTest0 {
         java.lang.Byte[] byteArray40 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList41 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList41,
-                                                         byteArray40);
+            byteArray40);
         java.lang.Float[] floatArray46 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList47 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean48 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList47,
-                                                         floatArray46);
+            floatArray46);
         boolean boolean49 = byteList41.containsAll((java.util.Collection<java.lang.Float>) floatList47);
         boolean boolean50 = doubleList16.retainAll((java.util.Collection<java.lang.Float>) floatList47);
         int int51 = doubleList16.size();
@@ -2934,8 +3005,8 @@ public class RegressionTest0 {
         java.util.stream.Stream<java.lang.Double> doubleStream54 = doubleList16.parallelStream();
         opssat.simulator.main.ESASimulator eSASimulator55 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter55 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter56 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator55,
-                                                                                                                                                           pcAdapter55);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter56 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator55, pcAdapter55);
         org.ccsds.moims.mo.mal.structures.Duration duration57 = cameraSoftSimAdapter56.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration58 = cameraSoftSimAdapter56.getMinimumPeriod();
         int int59 = doubleList16.lastIndexOf((java.lang.Object) duration58);
@@ -2943,8 +3014,8 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.UShort uShort61 = uShort5.getServiceNumber();
         opssat.simulator.main.ESASimulator eSASimulator62 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter62 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter63 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator62,
-                                                                                                                                                                                                     pcAdapter62);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter63 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator62, pcAdapter62);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration64 = null;
         boolean boolean65 = softwareDefinedRadioSoftSimAdapter63.setConfiguration(sDRConfiguration64);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration66 = null;
@@ -3003,20 +3074,23 @@ public class RegressionTest0 {
         java.lang.Boolean[] booleanArray2 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList3 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList3,
-                                                        booleanArray2);
+            booleanArray2);
         opssat.simulator.main.ESASimulator eSASimulator5 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter5 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter6 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator5,
-                                                                                                                                                                                  pcAdapter5);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode7 = autonomousADCSSoftSimAdapter6.getActiveAttitudeMode();
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter6 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator5, pcAdapter5);
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode7 = autonomousADCSSoftSimAdapter6
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode8 = null;
         java.lang.String str9 = autonomousADCSSoftSimAdapter6.validateAttitudeDescriptor(attitudeMode8);
         boolean boolean10 = autonomousADCSSoftSimAdapter6.isUnitAvailable();
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode11 = autonomousADCSSoftSimAdapter6.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode11 = autonomousADCSSoftSimAdapter6
+            .getActiveAttitudeMode();
         boolean boolean12 = booleanList3.contains((java.lang.Object) attitudeMode11);
         try {
             java.lang.Boolean boolean15 = booleanList3.set(2, (java.lang.Boolean) false);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 2, Size: 2");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 2, Size: 2");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(booleanArray2);
@@ -3034,14 +3108,17 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test055");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration4 = cameraSoftSimAdapter1.getMinimumPeriod();
         boolean boolean5 = cameraSoftSimAdapter1.isUnitAvailable();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1.getAvailableResolutions();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration8 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration9 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration10 = cameraSoftSimAdapter1.getMinimumPeriod();
@@ -3064,14 +3141,16 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test056");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                  pcAdapter0);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
         java.lang.String str4 = autonomousADCSSoftSimAdapter1.validateAttitudeDescriptor(attitudeMode3);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode5 = null;
         autonomousADCSSoftSimAdapter1.setDesiredAttitude(attitudeMode5);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode7 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode7 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode8 = null;
         autonomousADCSSoftSimAdapter1.setDesiredAttitude(attitudeMode8);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode10 = null;
@@ -3088,12 +3167,13 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test057");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration3 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration4 = cameraSoftSimAdapter1.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList5 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList5 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertNotNull(duration3);
         org.junit.Assert.assertNotNull(duration4);
@@ -3106,12 +3186,13 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test058");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                  pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = null;
         autonomousADCSSoftSimAdapter1.setDesiredAttitude(attitudeMode2);
         boolean boolean4 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode5 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode5 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
         org.junit.Assert.assertNull(attitudeMode5);
     }
@@ -3122,8 +3203,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test059");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                                    pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         boolean boolean2 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration4 = null;
@@ -3145,25 +3226,25 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test060");
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1,
-                                                        uRIArray0);
+        boolean boolean2 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1, uRIArray0);
         boolean boolean4 = uRIList1.contains((java.lang.Object) (-18));
         java.lang.Double[] doubleArray9 = new java.lang.Double[]{1.0d, 10.0d, 1.0d, 0.0d};
         java.util.ArrayList<java.lang.Double> doubleList10 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList10,
-                                                         doubleArray9);
+            doubleArray9);
         java.lang.Short[] shortArray15 = new java.lang.Short[]{(short) 0, (short) 10, (short) 1};
         java.util.ArrayList<java.lang.Short> shortList16 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList16,
-                                                         shortArray15);
+            shortArray15);
         java.lang.Byte[] byteArray19 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList20 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20,
-                                                         byteArray19);
+            byteArray19);
         java.lang.Float[] floatArray25 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList26 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList26,
-                                                         floatArray25);
+            floatArray25);
         boolean boolean28 = byteList20.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean29 = shortList16.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean30 = doubleList10.contains((java.lang.Object) shortList16);
@@ -3171,8 +3252,8 @@ public class RegressionTest0 {
         int int32 = uRIList1.indexOf((java.lang.Object) doubleList10);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator33,
-                                                                                                                                                                                   pcAdapter33);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator33, pcAdapter33);
         boolean boolean35 = doubleList10.remove((java.lang.Object) autonomousADCSSoftSimAdapter34);
         java.lang.Object obj36 = doubleList10.clone();
         java.lang.Object obj37 = null;
@@ -3205,25 +3286,25 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test061");
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1,
-                                                        uRIArray0);
+        boolean boolean2 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1, uRIArray0);
         boolean boolean4 = uRIList1.contains((java.lang.Object) (-18));
         java.lang.Double[] doubleArray9 = new java.lang.Double[]{1.0d, 10.0d, 1.0d, 0.0d};
         java.util.ArrayList<java.lang.Double> doubleList10 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList10,
-                                                         doubleArray9);
+            doubleArray9);
         java.lang.Short[] shortArray15 = new java.lang.Short[]{(short) 0, (short) 10, (short) 1};
         java.util.ArrayList<java.lang.Short> shortList16 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList16,
-                                                         shortArray15);
+            shortArray15);
         java.lang.Byte[] byteArray19 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList20 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20,
-                                                         byteArray19);
+            byteArray19);
         java.lang.Float[] floatArray25 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList26 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList26,
-                                                         floatArray25);
+            floatArray25);
         boolean boolean28 = byteList20.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean29 = shortList16.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean30 = doubleList10.contains((java.lang.Object) shortList16);
@@ -3231,11 +3312,13 @@ public class RegressionTest0 {
         int int32 = uRIList1.indexOf((java.lang.Object) doubleList10);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator33,
-                                                                                                                                                                                   pcAdapter33);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator33, pcAdapter33);
         boolean boolean35 = doubleList10.remove((java.lang.Object) autonomousADCSSoftSimAdapter34);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode36 = autonomousADCSSoftSimAdapter34.getActiveAttitudeMode();
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode37 = autonomousADCSSoftSimAdapter34.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode36 = autonomousADCSSoftSimAdapter34
+            .getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode37 = autonomousADCSSoftSimAdapter34
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode38 = null;
         java.lang.String str39 = autonomousADCSSoftSimAdapter34.validateAttitudeDescriptor(attitudeMode38);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode40 = null;
@@ -3265,17 +3348,20 @@ public class RegressionTest0 {
     public void test062() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test062");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 100);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 100);
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = uRIList1.getAreaNumber();
         java.lang.Integer int3 = uRIList1.getTypeShortForm();
         opssat.simulator.main.ESASimulator eSASimulator4 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter5 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator4,
-                                                                                                                                                          pcAdapter4);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter5 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator4, pcAdapter4);
         org.ccsds.moims.mo.mal.structures.Duration duration6 = cameraSoftSimAdapter5.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter5.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter5
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration8 = cameraSoftSimAdapter5.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList9 = cameraSoftSimAdapter5.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList9 = cameraSoftSimAdapter5
+            .getAvailableResolutions();
         int int10 = uRIList1.indexOf((java.lang.Object) cameraSoftSimAdapter5);
         java.lang.Integer int11 = uRIList1.getTypeShortForm();
         int int12 = uRIList1.size();
@@ -3294,22 +3380,25 @@ public class RegressionTest0 {
     public void test063() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test063");
-        org.ccsds.moims.mo.mal.structures.UShortList uShortList1 = new org.ccsds.moims.mo.mal.structures.UShortList((int) 'a');
+        org.ccsds.moims.mo.mal.structures.UShortList uShortList1 = new org.ccsds.moims.mo.mal.structures.UShortList(
+            (int) 'a');
         opssat.simulator.main.ESASimulator eSASimulator2 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter2 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter3 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator2,
-                                                                                                                                                          pcAdapter2);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter3 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator2, pcAdapter2);
         org.ccsds.moims.mo.mal.structures.Duration duration4 = cameraSoftSimAdapter3.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList5 = cameraSoftSimAdapter3.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList5 = cameraSoftSimAdapter3
+            .getAvailableResolutions();
         java.lang.String str6 = cameraSoftSimAdapter3.getExtraInfo();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter3.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter3
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration8 = cameraSoftSimAdapter3.getMinimumPeriod();
         boolean boolean9 = uShortList1.contains((java.lang.Object) cameraSoftSimAdapter3);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet10 = uShortList1.getAreaVersion();
         org.junit.Assert.assertNotNull(duration4);
         org.junit.Assert.assertNotNull(pixelResolutionList5);
         org.junit.Assert.assertTrue("'" + str6 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str6
-                                                                                                                  .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertNotNull(pixelResolutionList7);
         org.junit.Assert.assertNotNull(duration8);
         org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + false + "'", !boolean9);
@@ -3322,8 +3411,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test064");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                                    pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration2 = null;
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.setConfiguration(sDRConfiguration2);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration4 = null;
@@ -3345,10 +3434,11 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test065");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration4 = cameraSoftSimAdapter1.getMinimumPeriod();
         java.lang.Integer int5 = duration4.getTypeShortForm();
         java.lang.Integer int6 = duration4.getTypeShortForm();
@@ -3379,14 +3469,17 @@ public class RegressionTest0 {
         uRIList9.ensureCapacity((int) (short) 100);
         opssat.simulator.main.ESASimulator eSASimulator15 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter15 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter16 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator15,
-                                                                                                                                                           pcAdapter15);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter16 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator15, pcAdapter15);
         org.ccsds.moims.mo.mal.structures.Duration duration17 = cameraSoftSimAdapter16.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList18 = cameraSoftSimAdapter16.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList18 = cameraSoftSimAdapter16
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration19 = cameraSoftSimAdapter16.getMinimumPeriod();
         boolean boolean20 = cameraSoftSimAdapter16.isUnitAvailable();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList21 = cameraSoftSimAdapter16.getAvailableResolutions();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList22 = cameraSoftSimAdapter16.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList21 = cameraSoftSimAdapter16
+            .getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList22 = cameraSoftSimAdapter16
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration23 = cameraSoftSimAdapter16.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration24 = cameraSoftSimAdapter16.getMinimumPeriod();
         int int25 = uRIList9.lastIndexOf((java.lang.Object) duration24);
@@ -3424,47 +3517,48 @@ public class RegressionTest0 {
         java.lang.String[] strArray14 = new java.lang.String[]{"[true, true]", "[1]", "[true, true]", "hi!"};
         java.util.ArrayList<java.lang.String> strList15 = new java.util.ArrayList<java.lang.String>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList15,
-                                                         strArray14);
+            strArray14);
         java.util.Iterator<java.lang.String> strItor17 = strList15.iterator();
         java.lang.String str19 = strList15.remove((int) (byte) 0);
         java.lang.Byte[] byteArray21 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList22 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList22,
-                                                         byteArray21);
+            byteArray21);
         java.lang.Float[] floatArray27 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList28 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean29 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList28,
-                                                         floatArray27);
+            floatArray27);
         boolean boolean30 = byteList22.containsAll((java.util.Collection<java.lang.Float>) floatList28);
         java.lang.Float[] floatArray34 = new java.lang.Float[]{(-1.0f), 10.0f, 0.0f};
         java.util.ArrayList<java.lang.Float> floatList35 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean36 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList35,
-                                                         floatArray34);
+            floatArray34);
         int int37 = floatList35.size();
         boolean boolean38 = floatList28.containsAll((java.util.Collection<java.lang.Float>) floatList35);
         boolean boolean39 = strList15.containsAll((java.util.Collection<java.lang.Float>) floatList28);
         java.lang.Short[] shortArray43 = new java.lang.Short[]{(short) 0, (short) 10, (short) 1};
         java.util.ArrayList<java.lang.Short> shortList44 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean45 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList44,
-                                                         shortArray43);
+            shortArray43);
         java.lang.Byte[] byteArray47 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList48 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean49 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList48,
-                                                         byteArray47);
+            byteArray47);
         java.lang.Float[] floatArray53 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList54 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean55 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList54,
-                                                         floatArray53);
+            floatArray53);
         boolean boolean56 = byteList48.containsAll((java.util.Collection<java.lang.Float>) floatList54);
         boolean boolean57 = shortList44.containsAll((java.util.Collection<java.lang.Float>) floatList54);
         boolean boolean58 = floatList28.retainAll((java.util.Collection<java.lang.Float>) floatList54);
         boolean boolean59 = longList3.retainAll((java.util.Collection<java.lang.Float>) floatList28);
         opssat.simulator.main.ESASimulator eSASimulator60 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter60 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter61 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator60,
-                                                                                                                                                           pcAdapter60);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter61 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator60, pcAdapter60);
         org.ccsds.moims.mo.mal.structures.Duration duration62 = cameraSoftSimAdapter61.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList63 = cameraSoftSimAdapter61.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList63 = cameraSoftSimAdapter61
+            .getAvailableResolutions();
         boolean boolean64 = longList3.contains((java.lang.Object) cameraSoftSimAdapter61);
         java.lang.String str65 = cameraSoftSimAdapter61.getExtraInfo();
         org.ccsds.moims.mo.mal.structures.Duration duration66 = cameraSoftSimAdapter61.getMinimumPeriod();
@@ -3474,10 +3568,10 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(longArray2);
         org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
         org.junit.Assert.assertTrue("'" + str7 + "' != '" + "[281475010265077, 100]" + "'", str7.equals(
-                                                                                                        "[281475010265077, 100]"));
+            "[281475010265077, 100]"));
         org.junit.Assert.assertNotNull(longStream8);
         org.junit.Assert.assertTrue("'" + str9 + "' != '" + "[281475010265077, 100]" + "'", str9.equals(
-                                                                                                        "[281475010265077, 100]"));
+            "[281475010265077, 100]"));
         org.junit.Assert.assertNotNull(strArray14);
         org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + true + "'", boolean16);
         org.junit.Assert.assertNotNull(strItor17);
@@ -3506,7 +3600,7 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(pixelResolutionList63);
         org.junit.Assert.assertTrue("'" + boolean64 + "' != '" + false + "'", !boolean64);
         org.junit.Assert.assertTrue("'" + str65 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str65
-                                                                                                                    .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertNotNull(duration66);
         org.junit.Assert.assertTrue("'" + double67 + "' != '" + 10.0d + "'", double67 == 10.0d);
         org.junit.Assert.assertNotNull(uOctet68);
@@ -3517,11 +3611,12 @@ public class RegressionTest0 {
     public void test068() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test068");
-        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 100);
+        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 100);
         opssat.simulator.main.ESASimulator eSASimulator2 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter2 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter3 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator2,
-                                                                                                                                                                                                    pcAdapter2);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter3 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator2, pcAdapter2);
         boolean boolean4 = softwareDefinedRadioSoftSimAdapter3.isUnitAvailable();
         boolean boolean5 = softwareDefinedRadioSoftSimAdapter3.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration6 = null;
@@ -3530,25 +3625,26 @@ public class RegressionTest0 {
         boolean boolean11 = softwareDefinedRadioSoftSimAdapter3.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator12 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter12 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter13 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator12,
-                                                                                                                                                                                                     pcAdapter12);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter13 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator12, pcAdapter12);
         boolean boolean14 = softwareDefinedRadioSoftSimAdapter13.isUnitAvailable();
         boolean boolean16 = softwareDefinedRadioSoftSimAdapter13.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator17 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter17 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter18 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator17,
-                                                                                                                                                                                                     pcAdapter17);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter18 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator17, pcAdapter17);
         boolean boolean19 = softwareDefinedRadioSoftSimAdapter18.isUnitAvailable();
         boolean boolean20 = softwareDefinedRadioSoftSimAdapter18.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator21 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter22 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator21,
-                                                                                                                                                                                                     pcAdapter21);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter22 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator21, pcAdapter21);
         esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray23 = new esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[]{softwareDefinedRadioSoftSimAdapter3,
                                                                                                                                                                                                             softwareDefinedRadioSoftSimAdapter13,
                                                                                                                                                                                                             softwareDefinedRadioSoftSimAdapter18,
                                                                                                                                                                                                             softwareDefinedRadioSoftSimAdapter22};
-        esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray24 = stringList1.toArray(softwareDefinedRadioAdapterInterfaceArray23);
+        esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray24 = stringList1
+            .toArray(softwareDefinedRadioAdapterInterfaceArray23);
         stringList1.clear();
         boolean boolean27 = stringList1.add("281474993487877");
         boolean boolean29 = stringList1.add("[[true, true], [1], [true, true], hi!, hi!]");
@@ -3582,19 +3678,24 @@ public class RegressionTest0 {
         uRIList3.ensureCapacity((int) (short) 100);
         opssat.simulator.main.ESASimulator eSASimulator9 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter9 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter10 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator9,
-                                                                                                                                                           pcAdapter9);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter10 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator9, pcAdapter9);
         org.ccsds.moims.mo.mal.structures.Duration duration11 = cameraSoftSimAdapter10.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList12 = cameraSoftSimAdapter10.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList12 = cameraSoftSimAdapter10
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration13 = cameraSoftSimAdapter10.getMinimumPeriod();
         boolean boolean14 = cameraSoftSimAdapter10.isUnitAvailable();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList15 = cameraSoftSimAdapter10.getAvailableResolutions();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList16 = cameraSoftSimAdapter10.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList15 = cameraSoftSimAdapter10
+            .getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList16 = cameraSoftSimAdapter10
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration17 = cameraSoftSimAdapter10.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration18 = cameraSoftSimAdapter10.getMinimumPeriod();
         int int19 = uRIList3.lastIndexOf((java.lang.Object) duration18);
-        org.ccsds.moims.mo.mal.structures.StringList stringList21 = new org.ccsds.moims.mo.mal.structures.StringList((int) (short) 1);
-        org.ccsds.moims.mo.mal.structures.IntegerList integerList23 = new org.ccsds.moims.mo.mal.structures.IntegerList(3);
+        org.ccsds.moims.mo.mal.structures.StringList stringList21 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (short) 1);
+        org.ccsds.moims.mo.mal.structures.IntegerList integerList23 = new org.ccsds.moims.mo.mal.structures.IntegerList(
+            3);
         int int24 = stringList21.lastIndexOf((java.lang.Object) 3);
         java.util.Iterator<java.lang.String> strItor25 = stringList21.iterator();
         java.util.stream.Stream<java.lang.String> strStream26 = stringList21.parallelStream();
@@ -3626,25 +3727,25 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test070");
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1,
-                                                        uRIArray0);
+        boolean boolean2 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1, uRIArray0);
         boolean boolean4 = uRIList1.contains((java.lang.Object) (-18));
         java.lang.Double[] doubleArray9 = new java.lang.Double[]{1.0d, 10.0d, 1.0d, 0.0d};
         java.util.ArrayList<java.lang.Double> doubleList10 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList10,
-                                                         doubleArray9);
+            doubleArray9);
         java.lang.Short[] shortArray15 = new java.lang.Short[]{(short) 0, (short) 10, (short) 1};
         java.util.ArrayList<java.lang.Short> shortList16 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList16,
-                                                         shortArray15);
+            shortArray15);
         java.lang.Byte[] byteArray19 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList20 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20,
-                                                         byteArray19);
+            byteArray19);
         java.lang.Float[] floatArray25 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList26 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList26,
-                                                         floatArray25);
+            floatArray25);
         boolean boolean28 = byteList20.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean29 = shortList16.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean30 = doubleList10.contains((java.lang.Object) shortList16);
@@ -3653,11 +3754,11 @@ public class RegressionTest0 {
         java.lang.Byte[] byteArray34 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList35 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean36 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList35,
-                                                         byteArray34);
+            byteArray34);
         java.lang.Float[] floatArray40 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList41 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList41,
-                                                         floatArray40);
+            floatArray40);
         boolean boolean43 = byteList35.containsAll((java.util.Collection<java.lang.Float>) floatList41);
         boolean boolean44 = doubleList10.retainAll((java.util.Collection<java.lang.Float>) floatList41);
         int int45 = doubleList10.size();
@@ -3665,8 +3766,8 @@ public class RegressionTest0 {
         java.util.stream.Stream<java.lang.Double> doubleStream48 = doubleList10.parallelStream();
         opssat.simulator.main.ESASimulator eSASimulator49 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter50 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator49,
-                                                                                                                                                           pcAdapter49);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter50 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator49, pcAdapter49);
         org.ccsds.moims.mo.mal.structures.Duration duration51 = cameraSoftSimAdapter50.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration52 = cameraSoftSimAdapter50.getMinimumPeriod();
         int int53 = doubleList10.lastIndexOf((java.lang.Object) duration52);
@@ -3714,18 +3815,20 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test071");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         java.lang.String str4 = cameraSoftSimAdapter1.getExtraInfo();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList5 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList5 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration6 = cameraSoftSimAdapter1.getMinimumPeriod();
         java.lang.String str7 = duration6.toString();
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertNotNull(pixelResolutionList3);
         org.junit.Assert.assertTrue("'" + str4 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str4
-                                                                                                                  .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertNotNull(pixelResolutionList5);
         org.junit.Assert.assertNotNull(duration6);
         org.junit.Assert.assertTrue("'" + str7 + "' != '" + "10.0" + "'", str7.equals("10.0"));
@@ -3737,10 +3840,11 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test072");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                  pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         boolean boolean2 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2);
         org.junit.Assert.assertNull(attitudeMode3);
     }
@@ -3752,20 +3856,23 @@ public class RegressionTest0 {
         java.lang.Boolean[] booleanArray2 = new java.lang.Boolean[]{true, true};
         java.util.ArrayList<java.lang.Boolean> booleanList3 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList3,
-                                                        booleanArray2);
+            booleanArray2);
         java.lang.String str5 = booleanList3.toString();
         java.util.stream.Stream<java.lang.Boolean> booleanStream6 = booleanList3.parallelStream();
-        org.ccsds.moims.mo.mal.structures.StringList stringList8 = new org.ccsds.moims.mo.mal.structures.StringList((int) (short) 1);
+        org.ccsds.moims.mo.mal.structures.StringList stringList8 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (short) 1);
         boolean boolean9 = booleanList3.remove((java.lang.Object) stringList8);
-        org.ccsds.moims.mo.mal.structures.IntegerList integerList11 = new org.ccsds.moims.mo.mal.structures.IntegerList(13);
+        org.ccsds.moims.mo.mal.structures.IntegerList integerList11 = new org.ccsds.moims.mo.mal.structures.IntegerList(
+            13);
         boolean boolean12 = booleanList3.remove((java.lang.Object) integerList11);
-        org.ccsds.moims.mo.mal.structures.FloatList floatList14 = new org.ccsds.moims.mo.mal.structures.FloatList((int) 'a');
+        org.ccsds.moims.mo.mal.structures.FloatList floatList14 = new org.ccsds.moims.mo.mal.structures.FloatList(
+            (int) 'a');
         org.ccsds.moims.mo.mal.structures.UOctet uOctet15 = floatList14.getAreaVersion();
         boolean boolean16 = integerList11.removeAll((java.util.Collection<java.lang.Float>) floatList14);
         opssat.simulator.main.ESASimulator eSASimulator17 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter17 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter18 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator17,
-                                                                                                                                                           pcAdapter17);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter18 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator17, pcAdapter17);
         org.ccsds.moims.mo.mal.structures.Duration duration19 = cameraSoftSimAdapter18.getMinimumPeriod();
         double double20 = duration19.getValue();
         java.lang.String str21 = duration19.toString();
@@ -3791,19 +3898,23 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test074");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration4 = cameraSoftSimAdapter1.getMinimumPeriod();
         boolean boolean5 = cameraSoftSimAdapter1.isUnitAvailable();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1.getAvailableResolutions();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration8 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration9 = cameraSoftSimAdapter1.getMinimumPeriod();
         boolean boolean10 = cameraSoftSimAdapter1.isUnitAvailable();
         org.ccsds.moims.mo.mal.structures.Duration duration11 = cameraSoftSimAdapter1.getMinimumPeriod();
-        org.ccsds.moims.mo.mal.structures.ShortList shortList13 = new org.ccsds.moims.mo.mal.structures.ShortList((int) (short) 10);
+        org.ccsds.moims.mo.mal.structures.ShortList shortList13 = new org.ccsds.moims.mo.mal.structures.ShortList(
+            (int) (short) 10);
         java.lang.CharSequence[] charSequenceArray14 = new java.lang.CharSequence[]{};
         java.lang.CharSequence[] charSequenceArray15 = shortList13.toArray(charSequenceArray14);
         java.util.Iterator<java.lang.Short> shortItor16 = shortList13.iterator();
@@ -3834,25 +3945,25 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test075");
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1,
-                                                        uRIArray0);
+        boolean boolean2 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1, uRIArray0);
         boolean boolean4 = uRIList1.contains((java.lang.Object) (-18));
         java.lang.Double[] doubleArray9 = new java.lang.Double[]{1.0d, 10.0d, 1.0d, 0.0d};
         java.util.ArrayList<java.lang.Double> doubleList10 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList10,
-                                                         doubleArray9);
+            doubleArray9);
         java.lang.Short[] shortArray15 = new java.lang.Short[]{(short) 0, (short) 10, (short) 1};
         java.util.ArrayList<java.lang.Short> shortList16 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList16,
-                                                         shortArray15);
+            shortArray15);
         java.lang.Byte[] byteArray19 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList20 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20,
-                                                         byteArray19);
+            byteArray19);
         java.lang.Float[] floatArray25 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList26 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList26,
-                                                         floatArray25);
+            floatArray25);
         boolean boolean28 = byteList20.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean29 = shortList16.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean30 = doubleList10.contains((java.lang.Object) shortList16);
@@ -3861,11 +3972,11 @@ public class RegressionTest0 {
         java.lang.Byte[] byteArray34 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList35 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean36 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList35,
-                                                         byteArray34);
+            byteArray34);
         java.lang.Float[] floatArray40 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList41 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList41,
-                                                         floatArray40);
+            floatArray40);
         boolean boolean43 = byteList35.containsAll((java.util.Collection<java.lang.Float>) floatList41);
         boolean boolean44 = doubleList10.retainAll((java.util.Collection<java.lang.Float>) floatList41);
         int int45 = doubleList10.size();
@@ -3873,8 +3984,8 @@ public class RegressionTest0 {
         java.util.stream.Stream<java.lang.Double> doubleStream48 = doubleList10.parallelStream();
         opssat.simulator.main.ESASimulator eSASimulator49 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter50 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator49,
-                                                                                                                                                           pcAdapter49);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter50 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator49, pcAdapter49);
         org.ccsds.moims.mo.mal.structures.Duration duration51 = cameraSoftSimAdapter50.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration52 = cameraSoftSimAdapter50.getMinimumPeriod();
         int int53 = doubleList10.lastIndexOf((java.lang.Object) duration52);
@@ -3919,7 +4030,8 @@ public class RegressionTest0 {
     public void test076() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test076");
-        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList((int) '4');
+        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) '4');
         boolean boolean3 = stringList1.add("[true, true]");
         org.ccsds.moims.mo.mal.structures.UShort uShort4 = stringList1.getAreaNumber();
         java.lang.Integer[] intArray35 = new java.lang.Integer[]{65535, 7, 4, (-13), 15, 5, (-1), (-10), 65535, 4, 15,
@@ -3927,8 +4039,9 @@ public class RegressionTest0 {
                                                                  (-18), 8, (-1), (-2), (-13), 52};
         java.util.ArrayList<java.lang.Integer> intList36 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean37 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList36,
-                                                         intArray35);
-        org.ccsds.moims.mo.mal.structures.OctetList octetList39 = new org.ccsds.moims.mo.mal.structures.OctetList((int) (byte) 1);
+            intArray35);
+        org.ccsds.moims.mo.mal.structures.OctetList octetList39 = new org.ccsds.moims.mo.mal.structures.OctetList(
+            (int) (byte) 1);
         boolean boolean40 = octetList39.isEmpty();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet41 = octetList39.getAreaVersion();
         java.util.stream.Stream<java.lang.Byte> byteStream42 = octetList39.stream();
@@ -3938,8 +4051,8 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.Element element46 = stringList1.createElement();
         opssat.simulator.main.ESASimulator eSASimulator47 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter47 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter48 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator47,
-                                                                                                                                                                                                     pcAdapter47);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter48 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator47, pcAdapter47);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration49 = null;
         boolean boolean50 = softwareDefinedRadioSoftSimAdapter48.setConfiguration(sDRConfiguration49);
         int int51 = stringList1.lastIndexOf((java.lang.Object) boolean50);
@@ -3964,8 +4077,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test077");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         double double3 = duration2.getValue();
         java.lang.String str4 = duration2.toString();
@@ -3973,12 +4086,12 @@ public class RegressionTest0 {
         java.lang.String[] strArray10 = new java.lang.String[]{"", "[1]", "[true, true]", ""};
         java.util.ArrayList<java.lang.String> strList11 = new java.util.ArrayList<java.lang.String>();
         boolean boolean12 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList11,
-                                                         strArray10);
+            strArray10);
         org.ccsds.moims.mo.mal.structures.UShort uShort13 = org.ccsds.moims.mo.mal.structures.DoubleList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray14 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort13};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList15 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean16 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList15,
-                                                         uShortArray14);
+        boolean boolean16 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList15, uShortArray14);
         java.lang.String str17 = uShortList15.toString();
         boolean boolean19 = uShortList15.remove((java.lang.Object) (-1));
         int int20 = strList11.indexOf((java.lang.Object) boolean19);
@@ -4002,31 +4115,32 @@ public class RegressionTest0 {
                                                                                                                   uShort32,
                                                                                                                   uShort33};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList35 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean36 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList35,
-                                                         uShortArray34);
+        boolean boolean36 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList35, uShortArray34);
         java.lang.Double[] doubleArray40 = new java.lang.Double[]{100.0d, 100.0d, 1.0d};
         java.util.ArrayList<java.lang.Double> doubleList41 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList41,
-                                                         doubleArray40);
+            doubleArray40);
         java.lang.Float[] floatArray46 = new java.lang.Float[]{(-1.0f), 10.0f, 0.0f};
         java.util.ArrayList<java.lang.Float> floatList47 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean48 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList47,
-                                                         floatArray46);
+            floatArray46);
         int int49 = floatList47.size();
         boolean boolean50 = doubleList41.containsAll((java.util.Collection<java.lang.Float>) floatList47);
         boolean boolean51 = uShortList35.equals((java.lang.Object) doubleList41);
-        org.ccsds.moims.mo.mal.structures.BooleanList booleanList53 = new org.ccsds.moims.mo.mal.structures.BooleanList((int) (byte) 0);
+        org.ccsds.moims.mo.mal.structures.BooleanList booleanList53 = new org.ccsds.moims.mo.mal.structures.BooleanList(
+            (int) (byte) 0);
         org.ccsds.moims.mo.mal.structures.UShort uShort54 = booleanList53.getAreaNumber();
         int int55 = uShortList35.lastIndexOf((java.lang.Object) booleanList53);
         java.lang.Integer int56 = booleanList53.getTypeShortForm();
         java.lang.Byte[] byteArray58 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList59 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean60 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList59,
-                                                         byteArray58);
+            byteArray58);
         java.lang.Float[] floatArray64 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList65 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean66 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList65,
-                                                         floatArray64);
+            floatArray64);
         boolean boolean67 = byteList59.containsAll((java.util.Collection<java.lang.Float>) floatList65);
         boolean boolean68 = floatList65.isEmpty();
         boolean boolean69 = booleanList53.retainAll((java.util.Collection<java.lang.Float>) floatList65);
@@ -4046,7 +4160,7 @@ public class RegressionTest0 {
         org.junit.Assert.assertTrue("'" + boolean19 + "' != '" + false + "'", !boolean19);
         org.junit.Assert.assertTrue("'" + int20 + "' != '" + (-1) + "'", int20 == (-1));
         org.junit.Assert.assertTrue("'" + str21 + "' != '" + "[, [1], [true, true], ]" + "'", str21.equals(
-                                                                                                           "[, [1], [true, true], ]"));
+            "[, [1], [true, true], ]"));
         org.junit.Assert.assertNotNull(uShort22);
         org.junit.Assert.assertNotNull(wildcardClass23);
         org.junit.Assert.assertNotNull(uShort24);
@@ -4087,8 +4201,8 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.UShort uShort0 = org.ccsds.moims.mo.mal.structures.DoubleList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray1 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort0};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList2 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList2,
-                                                        uShortArray1);
+        boolean boolean3 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList2, uShortArray1);
         java.lang.String str4 = uShortList2.toString();
         java.lang.Object[] objArray5 = uShortList2.toArray();
         uShortList2.trimToSize();
@@ -4096,17 +4210,20 @@ public class RegressionTest0 {
         java.util.ListIterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor8 = uShortList2.listIterator();
         uShortList2.trimToSize();
         java.util.Iterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor10 = uShortList2.iterator();
-        org.ccsds.moims.mo.mal.structures.StringList stringList12 = new org.ccsds.moims.mo.mal.structures.StringList((int) (short) 1);
-        org.ccsds.moims.mo.mal.structures.IntegerList integerList14 = new org.ccsds.moims.mo.mal.structures.IntegerList(3);
+        org.ccsds.moims.mo.mal.structures.StringList stringList12 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (short) 1);
+        org.ccsds.moims.mo.mal.structures.IntegerList integerList14 = new org.ccsds.moims.mo.mal.structures.IntegerList(
+            3);
         int int15 = stringList12.lastIndexOf((java.lang.Object) 3);
         org.ccsds.moims.mo.mal.structures.UShort uShort16 = org.ccsds.moims.mo.mal.structures.DoubleList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray17 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort16};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList18 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean19 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList18,
-                                                         uShortArray17);
+        boolean boolean19 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList18, uShortArray17);
         java.lang.String str20 = uShortList18.toString();
         boolean boolean22 = uShortList18.remove((java.lang.Object) (-1));
-        org.ccsds.moims.mo.mal.structures.StringList stringList24 = new org.ccsds.moims.mo.mal.structures.StringList((int) (short) 1);
+        org.ccsds.moims.mo.mal.structures.StringList stringList24 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (short) 1);
         boolean boolean25 = uShortList18.remove((java.lang.Object) stringList24);
         uShortList18.ensureCapacity(13);
         java.util.Iterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor28 = uShortList18.iterator();
@@ -4114,39 +4231,40 @@ public class RegressionTest0 {
         boolean boolean30 = uShortList2.remove((java.lang.Object) uShortItor28);
         org.ccsds.moims.mo.mal.structures.UShortList uShortList32 = new org.ccsds.moims.mo.mal.structures.UShortList(3);
         org.ccsds.moims.mo.mal.structures.Element element33 = uShortList32.createElement();
-        java.util.Spliterator<org.ccsds.moims.mo.mal.structures.UShort> uShortSpliterator34 = uShortList32.spliterator();
+        java.util.Spliterator<org.ccsds.moims.mo.mal.structures.UShort> uShortSpliterator34 = uShortList32
+            .spliterator();
         java.lang.Byte[] byteArray36 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList37 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean38 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList37,
-                                                         byteArray36);
+            byteArray36);
         java.lang.Float[] floatArray42 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList43 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean44 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList43,
-                                                         floatArray42);
+            floatArray42);
         boolean boolean45 = byteList37.containsAll((java.util.Collection<java.lang.Float>) floatList43);
         boolean boolean46 = floatList43.isEmpty();
         org.ccsds.moims.mo.mal.structures.UShort uShort47 = org.ccsds.moims.mo.mal.structures.DoubleList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray48 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort47};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList49 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean50 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList49,
-                                                         uShortArray48);
+        boolean boolean50 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList49, uShortArray48);
         java.lang.String str51 = uShortList49.toString();
         java.lang.Object[] objArray52 = uShortList49.toArray();
         java.lang.Double[] doubleArray56 = new java.lang.Double[]{100.0d, 100.0d, 1.0d};
         java.util.ArrayList<java.lang.Double> doubleList57 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean58 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList57,
-                                                         doubleArray56);
+            doubleArray56);
         java.lang.Float[] floatArray62 = new java.lang.Float[]{(-1.0f), 10.0f, 0.0f};
         java.util.ArrayList<java.lang.Float> floatList63 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean64 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList63,
-                                                         floatArray62);
+            floatArray62);
         int int65 = floatList63.size();
         boolean boolean66 = doubleList57.containsAll((java.util.Collection<java.lang.Float>) floatList63);
         boolean boolean67 = uShortList49.retainAll((java.util.Collection<java.lang.Float>) floatList63);
         java.lang.Boolean[] booleanArray70 = new java.lang.Boolean[]{true, true};
         java.util.ArrayList<java.lang.Boolean> booleanList71 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean72 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList71,
-                                                         booleanArray70);
+            booleanArray70);
         java.lang.String str73 = booleanList71.toString();
         int int74 = booleanList71.size();
         boolean boolean75 = floatList63.contains((java.lang.Object) int74);
@@ -4159,8 +4277,8 @@ public class RegressionTest0 {
         int int82 = uShortList32.indexOf((java.lang.Object) doubleList78);
         opssat.simulator.main.ESASimulator eSASimulator83 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter83 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter84 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator83,
-                                                                                                                                                                                   pcAdapter83);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter84 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator83, pcAdapter83);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode85 = null;
         java.lang.String str86 = autonomousADCSSoftSimAdapter84.validateAttitudeDescriptor(attitudeMode85);
         int int87 = uShortList32.lastIndexOf((java.lang.Object) autonomousADCSSoftSimAdapter84);
@@ -4227,14 +4345,17 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test079");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration4 = cameraSoftSimAdapter1.getMinimumPeriod();
         boolean boolean5 = cameraSoftSimAdapter1.isUnitAvailable();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1.getAvailableResolutions();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration8 = cameraSoftSimAdapter1.getMinimumPeriod();
         boolean boolean9 = cameraSoftSimAdapter1.isUnitAvailable();
         boolean boolean10 = cameraSoftSimAdapter1.isUnitAvailable();
@@ -4253,11 +4374,12 @@ public class RegressionTest0 {
     public void test080() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test080");
-        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 100);
+        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 100);
         opssat.simulator.main.ESASimulator eSASimulator2 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter2 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter3 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator2,
-                                                                                                                                                                                                    pcAdapter2);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter3 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator2, pcAdapter2);
         boolean boolean4 = softwareDefinedRadioSoftSimAdapter3.isUnitAvailable();
         boolean boolean5 = softwareDefinedRadioSoftSimAdapter3.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration6 = null;
@@ -4266,28 +4388,30 @@ public class RegressionTest0 {
         boolean boolean11 = softwareDefinedRadioSoftSimAdapter3.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator12 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter12 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter13 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator12,
-                                                                                                                                                                                                     pcAdapter12);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter13 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator12, pcAdapter12);
         boolean boolean14 = softwareDefinedRadioSoftSimAdapter13.isUnitAvailable();
         boolean boolean16 = softwareDefinedRadioSoftSimAdapter13.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator17 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter17 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter18 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator17,
-                                                                                                                                                                                                     pcAdapter17);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter18 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator17, pcAdapter17);
         boolean boolean19 = softwareDefinedRadioSoftSimAdapter18.isUnitAvailable();
         boolean boolean20 = softwareDefinedRadioSoftSimAdapter18.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator21 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter22 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator21,
-                                                                                                                                                                                                     pcAdapter21);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter22 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator21, pcAdapter21);
         esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray23 = new esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[]{softwareDefinedRadioSoftSimAdapter3,
                                                                                                                                                                                                             softwareDefinedRadioSoftSimAdapter13,
                                                                                                                                                                                                             softwareDefinedRadioSoftSimAdapter18,
                                                                                                                                                                                                             softwareDefinedRadioSoftSimAdapter22};
-        esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray24 = stringList1.toArray(softwareDefinedRadioAdapterInterfaceArray23);
+        esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray24 = stringList1
+            .toArray(softwareDefinedRadioAdapterInterfaceArray23);
         stringList1.clear();
         java.util.ListIterator<java.lang.String> strItor26 = stringList1.listIterator();
-        org.ccsds.moims.mo.mal.structures.FloatList floatList28 = new org.ccsds.moims.mo.mal.structures.FloatList((int) 'a');
+        org.ccsds.moims.mo.mal.structures.FloatList floatList28 = new org.ccsds.moims.mo.mal.structures.FloatList(
+            (int) 'a');
         java.lang.Integer int29 = floatList28.getTypeShortForm();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet30 = floatList28.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.Element element31 = floatList28.createElement();
@@ -4316,7 +4440,8 @@ public class RegressionTest0 {
     public void test081() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test081");
-        org.ccsds.moims.mo.mal.structures.FineTime fineTime1 = new org.ccsds.moims.mo.mal.structures.FineTime(281474993487874L);
+        org.ccsds.moims.mo.mal.structures.FineTime fineTime1 = new org.ccsds.moims.mo.mal.structures.FineTime(
+            281474993487874L);
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = fineTime1.getAreaNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort3 = fineTime1.getAreaNumber();
         java.lang.Long long4 = fineTime1.getShortForm();
@@ -4324,11 +4449,12 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.UShort uShort6 = org.ccsds.moims.mo.mal.structures.DoubleList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray7 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort6};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList8 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList8,
-                                                        uShortArray7);
+        boolean boolean9 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList8, uShortArray7);
         java.lang.String str10 = uShortList8.toString();
         boolean boolean12 = uShortList8.remove((java.lang.Object) (-1));
-        org.ccsds.moims.mo.mal.structures.StringList stringList14 = new org.ccsds.moims.mo.mal.structures.StringList((int) (short) 1);
+        org.ccsds.moims.mo.mal.structures.StringList stringList14 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (short) 1);
         boolean boolean15 = uShortList8.remove((java.lang.Object) stringList14);
         uShortList8.ensureCapacity(13);
         org.ccsds.moims.mo.mal.structures.Duration duration18 = new org.ccsds.moims.mo.mal.structures.Duration();
@@ -4338,24 +4464,26 @@ public class RegressionTest0 {
         java.lang.Boolean[] booleanArray24 = new java.lang.Boolean[]{true, true};
         java.util.ArrayList<java.lang.Boolean> booleanList25 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean26 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList25,
-                                                         booleanArray24);
+            booleanArray24);
         java.lang.String str27 = booleanList25.toString();
         java.util.stream.Stream<java.lang.Boolean> booleanStream28 = booleanList25.parallelStream();
-        org.ccsds.moims.mo.mal.structures.StringList stringList30 = new org.ccsds.moims.mo.mal.structures.StringList((int) (short) 1);
+        org.ccsds.moims.mo.mal.structures.StringList stringList30 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (short) 1);
         boolean boolean31 = booleanList25.remove((java.lang.Object) stringList30);
         java.util.stream.Stream<java.lang.Boolean> booleanStream32 = booleanList25.parallelStream();
         java.lang.Boolean[] booleanArray35 = new java.lang.Boolean[]{true, true};
         java.util.ArrayList<java.lang.Boolean> booleanList36 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean37 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList36,
-                                                         booleanArray35);
+            booleanArray35);
         java.lang.String str38 = booleanList36.toString();
         java.util.stream.Stream<java.lang.Boolean> booleanStream39 = booleanList36.parallelStream();
-        org.ccsds.moims.mo.mal.structures.StringList stringList41 = new org.ccsds.moims.mo.mal.structures.StringList((int) (short) 1);
+        org.ccsds.moims.mo.mal.structures.StringList stringList41 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (short) 1);
         boolean boolean42 = booleanList36.remove((java.lang.Object) stringList41);
         java.lang.Float[] floatArray46 = new java.lang.Float[]{(-1.0f), 10.0f, 0.0f};
         java.util.ArrayList<java.lang.Float> floatList47 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean48 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList47,
-                                                         floatArray46);
+            floatArray46);
         int int49 = floatList47.size();
         boolean boolean50 = booleanList36.removeAll((java.util.Collection<java.lang.Float>) floatList47);
         boolean boolean51 = booleanList25.removeAll((java.util.Collection<java.lang.Float>) floatList47);
@@ -4363,41 +4491,43 @@ public class RegressionTest0 {
         java.lang.Integer[] intArray63 = new java.lang.Integer[]{16, 16, (-18), (-18), (-1), 1, 0, 2, 0, 0};
         java.util.ArrayList<java.lang.Integer> intList64 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean65 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList64,
-                                                         intArray63);
+            intArray63);
         int int66 = intList64.size();
         boolean boolean67 = uShortList8.remove((java.lang.Object) int66);
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream68 = uShortList8.parallelStream();
         opssat.simulator.main.ESASimulator eSASimulator69 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter69 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter70 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator69,
-                                                                                                                                                                                   pcAdapter69);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter70 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator69, pcAdapter69);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode71 = null;
         autonomousADCSSoftSimAdapter70.setDesiredAttitude(attitudeMode71);
         boolean boolean73 = autonomousADCSSoftSimAdapter70.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator74 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter74 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter75 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator74,
-                                                                                                                                                                                   pcAdapter74);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter75 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator74, pcAdapter74);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode76 = null;
         autonomousADCSSoftSimAdapter75.setDesiredAttitude(attitudeMode76);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode78 = autonomousADCSSoftSimAdapter75.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode78 = autonomousADCSSoftSimAdapter75
+            .getActiveAttitudeMode();
         opssat.simulator.main.ESASimulator eSASimulator79 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter79 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter80 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator79,
-                                                                                                                                                                                   pcAdapter79);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter80 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator79, pcAdapter79);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode81 = null;
         autonomousADCSSoftSimAdapter80.setDesiredAttitude(attitudeMode81);
         opssat.simulator.main.ESASimulator eSASimulator83 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter83 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter84 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator83,
-                                                                                                                                                                                   pcAdapter83);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter84 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator83, pcAdapter83);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode85 = null;
         autonomousADCSSoftSimAdapter84.setDesiredAttitude(attitudeMode85);
         esa.mo.platform.impl.provider.gen.AutonomousADCSAdapterInterface[] autonomousADCSAdapterInterfaceArray87 = new esa.mo.platform.impl.provider.gen.AutonomousADCSAdapterInterface[]{autonomousADCSSoftSimAdapter70,
                                                                                                                                                                                           autonomousADCSSoftSimAdapter75,
                                                                                                                                                                                           autonomousADCSSoftSimAdapter80,
                                                                                                                                                                                           autonomousADCSSoftSimAdapter84};
-        esa.mo.platform.impl.provider.gen.AutonomousADCSAdapterInterface[] autonomousADCSAdapterInterfaceArray88 = uShortList8.toArray(autonomousADCSAdapterInterfaceArray87);
+        esa.mo.platform.impl.provider.gen.AutonomousADCSAdapterInterface[] autonomousADCSAdapterInterfaceArray88 = uShortList8
+            .toArray(autonomousADCSAdapterInterfaceArray87);
         boolean boolean89 = fineTime1.equals((java.lang.Object) autonomousADCSAdapterInterfaceArray88);
         org.ccsds.moims.mo.mal.structures.UShort uShort90 = fineTime1.getAreaNumber();
         java.lang.String str91 = uShort90.toString();
@@ -4451,8 +4581,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test082");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                 pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         boolean boolean2 = gPSSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = gPSSoftSimAdapter1.isUnitAvailable();
         boolean boolean4 = gPSSoftSimAdapter1.isUnitAvailable();
@@ -4476,21 +4606,23 @@ public class RegressionTest0 {
     public void test083() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test083");
-        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration((double) (short) 100);
+        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) (short) 100);
         byte[] byteArray2 = new byte[]{};
         org.ccsds.moims.mo.mal.structures.Blob blob3 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray2);
         int int4 = blob3.getLength();
         byte[] byteArray5 = blob3.getValue();
         org.ccsds.moims.mo.mal.structures.Blob blob6 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray5);
-        org.ccsds.moims.mo.mal.structures.Union union8 = new org.ccsds.moims.mo.mal.structures.Union("[1, -1, 10, 1, -1]");
+        org.ccsds.moims.mo.mal.structures.Union union8 = new org.ccsds.moims.mo.mal.structures.Union(
+            "[1, -1, 10, 1, -1]");
         java.lang.Long long9 = union8.getShortForm();
         boolean boolean10 = blob6.equals((java.lang.Object) union8);
         byte[] byteArray11 = blob6.getValue();
         boolean boolean12 = duration1.equals((java.lang.Object) blob6);
         opssat.simulator.main.ESASimulator eSASimulator13 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter13 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter14 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator13,
-                                                                                                                                                                                                     pcAdapter13);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter14 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator13, pcAdapter13);
         boolean boolean15 = softwareDefinedRadioSoftSimAdapter14.isUnitAvailable();
         boolean boolean16 = blob6.equals((java.lang.Object) boolean15);
         org.junit.Assert.assertNotNull(byteArray2);
@@ -4510,8 +4642,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test084");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                                    pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration2 = null;
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.setConfiguration(sDRConfiguration2);
         boolean boolean4 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
@@ -4532,13 +4664,15 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test085");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration4 = cameraSoftSimAdapter1.getMinimumPeriod();
         boolean boolean5 = cameraSoftSimAdapter1.isUnitAvailable();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         boolean boolean7 = cameraSoftSimAdapter1.isUnitAvailable();
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertNotNull(pixelResolutionList3);
@@ -4562,33 +4696,35 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.Element element9 = uShortList6.createElement();
         opssat.simulator.main.ESASimulator eSASimulator10 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter10 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter11 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator10,
-                                                                                                                                                  pcAdapter10);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter11 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator10, pcAdapter10);
         opssat.simulator.main.ESASimulator eSASimulator12 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter12 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter13 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator12,
-                                                                                                                                                  pcAdapter12);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter13 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator12, pcAdapter12);
         opssat.simulator.main.ESASimulator eSASimulator14 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter14 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter15 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator14,
-                                                                                                                                                  pcAdapter14);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter15 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator14, pcAdapter14);
         opssat.simulator.main.ESASimulator eSASimulator16 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter16 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter17 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator16,
-                                                                                                                                                  pcAdapter16);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter17 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator16, pcAdapter16);
         boolean boolean18 = gPSSoftSimAdapter17.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator19 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter19 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter20 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator19,
-                                                                                                                                                  pcAdapter19);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter20 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator19, pcAdapter19);
         boolean boolean21 = gPSSoftSimAdapter20.isUnitAvailable();
         esa.mo.platform.impl.provider.gen.GPSAdapterInterface[] gPSAdapterInterfaceArray22 = new esa.mo.platform.impl.provider.gen.GPSAdapterInterface[]{gPSSoftSimAdapter11,
                                                                                                                                                          gPSSoftSimAdapter13,
                                                                                                                                                          gPSSoftSimAdapter15,
                                                                                                                                                          gPSSoftSimAdapter17,
                                                                                                                                                          gPSSoftSimAdapter20};
-        esa.mo.platform.impl.provider.gen.GPSAdapterInterface[] gPSAdapterInterfaceArray23 = uShortList6.toArray(gPSAdapterInterfaceArray22);
-        esa.mo.platform.impl.provider.gen.GPSAdapterInterface[] gPSAdapterInterfaceArray24 = uShortList1.toArray(gPSAdapterInterfaceArray23);
+        esa.mo.platform.impl.provider.gen.GPSAdapterInterface[] gPSAdapterInterfaceArray23 = uShortList6.toArray(
+            gPSAdapterInterfaceArray22);
+        esa.mo.platform.impl.provider.gen.GPSAdapterInterface[] gPSAdapterInterfaceArray24 = uShortList1.toArray(
+            gPSAdapterInterfaceArray23);
         org.ccsds.moims.mo.mal.structures.Element element25 = uShortList1.createElement();
         java.lang.String str26 = uShortList1.toString();
         org.junit.Assert.assertNotNull(uShort2);
@@ -4611,13 +4747,15 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test087");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                  pcAdapter0);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
         java.lang.String str4 = autonomousADCSSoftSimAdapter1.validateAttitudeDescriptor(attitudeMode3);
         boolean boolean5 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode6 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode6 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode7 = null;
         autonomousADCSSoftSimAdapter1.setDesiredAttitude(attitudeMode7);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode9 = null;
@@ -4637,10 +4775,11 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test088");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration4 = cameraSoftSimAdapter1.getMinimumPeriod();
         java.lang.Integer int5 = duration4.getTypeShortForm();
         java.lang.Integer int6 = duration4.getTypeShortForm();
@@ -4660,30 +4799,31 @@ public class RegressionTest0 {
         java.lang.Double[] doubleArray4 = new java.lang.Double[]{1.0d, 10.0d, 1.0d, 0.0d};
         java.util.ArrayList<java.lang.Double> doubleList5 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean6 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList5,
-                                                        doubleArray4);
+            doubleArray4);
         java.lang.Short[] shortArray10 = new java.lang.Short[]{(short) 0, (short) 10, (short) 1};
         java.util.ArrayList<java.lang.Short> shortList11 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean12 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList11,
-                                                         shortArray10);
+            shortArray10);
         java.lang.Byte[] byteArray14 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList15 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean16 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList15,
-                                                         byteArray14);
+            byteArray14);
         java.lang.Float[] floatArray20 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList21 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList21,
-                                                         floatArray20);
+            floatArray20);
         boolean boolean23 = byteList15.containsAll((java.util.Collection<java.lang.Float>) floatList21);
         boolean boolean24 = shortList11.containsAll((java.util.Collection<java.lang.Float>) floatList21);
         boolean boolean25 = doubleList5.contains((java.lang.Object) shortList11);
         java.util.Iterator<java.lang.Short> shortItor26 = shortList11.iterator();
-        org.ccsds.moims.mo.mal.structures.StringList stringList28 = new org.ccsds.moims.mo.mal.structures.StringList((int) (short) 10);
+        org.ccsds.moims.mo.mal.structures.StringList stringList28 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (short) 10);
         stringList28.clear();
         org.ccsds.moims.mo.mal.structures.Element element30 = stringList28.createElement();
         opssat.simulator.main.ESASimulator eSASimulator31 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter31 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter32 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator31,
-                                                                                                                                                                                                     pcAdapter31);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter32 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator31, pcAdapter31);
         boolean boolean33 = softwareDefinedRadioSoftSimAdapter32.isUnitAvailable();
         boolean boolean34 = softwareDefinedRadioSoftSimAdapter32.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration35 = null;
@@ -4694,8 +4834,8 @@ public class RegressionTest0 {
         boolean boolean42 = softwareDefinedRadioSoftSimAdapter32.setConfiguration(sDRConfiguration41);
         opssat.simulator.main.ESASimulator eSASimulator43 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter43 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter44 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator43,
-                                                                                                                                                                                                     pcAdapter43);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter44 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator43, pcAdapter43);
         boolean boolean45 = softwareDefinedRadioSoftSimAdapter44.isUnitAvailable();
         boolean boolean46 = softwareDefinedRadioSoftSimAdapter44.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration47 = null;
@@ -4704,22 +4844,22 @@ public class RegressionTest0 {
         boolean boolean52 = softwareDefinedRadioSoftSimAdapter44.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator53 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter53 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter54 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator53,
-                                                                                                                                                                                                     pcAdapter53);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter54 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator53, pcAdapter53);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration55 = null;
         boolean boolean56 = softwareDefinedRadioSoftSimAdapter54.setConfiguration(sDRConfiguration55);
         boolean boolean57 = softwareDefinedRadioSoftSimAdapter54.isUnitAvailable();
         boolean boolean59 = softwareDefinedRadioSoftSimAdapter54.enableSDR((java.lang.Boolean) false);
         opssat.simulator.main.ESASimulator eSASimulator60 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter60 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter61 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator60,
-                                                                                                                                                                                                     pcAdapter60);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter61 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator60, pcAdapter60);
         boolean boolean62 = softwareDefinedRadioSoftSimAdapter61.isUnitAvailable();
         boolean boolean64 = softwareDefinedRadioSoftSimAdapter61.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator65 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter65 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter66 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator65,
-                                                                                                                                                                                                     pcAdapter65);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter66 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator65, pcAdapter65);
         boolean boolean67 = softwareDefinedRadioSoftSimAdapter66.isUnitAvailable();
         boolean boolean68 = softwareDefinedRadioSoftSimAdapter66.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration69 = null;
@@ -4730,8 +4870,8 @@ public class RegressionTest0 {
         boolean boolean76 = softwareDefinedRadioSoftSimAdapter66.setConfiguration(sDRConfiguration75);
         opssat.simulator.main.ESASimulator eSASimulator77 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter77 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter78 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator77,
-                                                                                                                                                                                                     pcAdapter77);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter78 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator77, pcAdapter77);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration79 = null;
         boolean boolean80 = softwareDefinedRadioSoftSimAdapter78.setConfiguration(sDRConfiguration79);
         boolean boolean82 = softwareDefinedRadioSoftSimAdapter78.enableSDR((java.lang.Boolean) true);
@@ -4742,9 +4882,11 @@ public class RegressionTest0 {
                                                                                                                                                                                                               softwareDefinedRadioSoftSimAdapter61,
                                                                                                                                                                                                               softwareDefinedRadioSoftSimAdapter66,
                                                                                                                                                                                                               softwareDefinedRadioSoftSimAdapter78};
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter[] softwareDefinedRadioSoftSimAdapterArray86 = stringList28.toArray(softwareDefinedRadioSoftSimAdapterArray85);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter[] softwareDefinedRadioSoftSimAdapterArray86 = stringList28
+            .toArray(softwareDefinedRadioSoftSimAdapterArray85);
         try {
-            esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter[] softwareDefinedRadioSoftSimAdapterArray87 = shortList11.toArray(softwareDefinedRadioSoftSimAdapterArray85);
+            esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter[] softwareDefinedRadioSoftSimAdapterArray87 = shortList11
+                .toArray(softwareDefinedRadioSoftSimAdapterArray85);
             org.junit.Assert.fail("Expected exception of type java.lang.ArrayStoreException; message: null");
         } catch (java.lang.ArrayStoreException e) {
         }
@@ -4796,14 +4938,17 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test090");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration4 = cameraSoftSimAdapter1.getMinimumPeriod();
         boolean boolean5 = cameraSoftSimAdapter1.isUnitAvailable();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1.getAvailableResolutions();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration8 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.UShort uShort9 = duration8.getAreaNumber();
         org.ccsds.moims.mo.mal.structures.Element element10 = uShort9.createElement();
@@ -4831,14 +4976,17 @@ public class RegressionTest0 {
         uRIList3.ensureCapacity((int) (short) 100);
         opssat.simulator.main.ESASimulator eSASimulator9 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter9 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter10 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator9,
-                                                                                                                                                           pcAdapter9);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter10 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator9, pcAdapter9);
         org.ccsds.moims.mo.mal.structures.Duration duration11 = cameraSoftSimAdapter10.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList12 = cameraSoftSimAdapter10.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList12 = cameraSoftSimAdapter10
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration13 = cameraSoftSimAdapter10.getMinimumPeriod();
         boolean boolean14 = cameraSoftSimAdapter10.isUnitAvailable();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList15 = cameraSoftSimAdapter10.getAvailableResolutions();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList16 = cameraSoftSimAdapter10.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList15 = cameraSoftSimAdapter10
+            .getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList16 = cameraSoftSimAdapter10
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration17 = cameraSoftSimAdapter10.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration18 = cameraSoftSimAdapter10.getMinimumPeriod();
         int int19 = uRIList3.lastIndexOf((java.lang.Object) duration18);
@@ -4868,13 +5016,15 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test092");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration4 = cameraSoftSimAdapter1.getMinimumPeriod();
         boolean boolean5 = cameraSoftSimAdapter1.isUnitAvailable();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration7 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration8 = cameraSoftSimAdapter1.getMinimumPeriod();
         boolean boolean9 = cameraSoftSimAdapter1.isUnitAvailable();
@@ -4894,8 +5044,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test093");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration3 = cameraSoftSimAdapter1.getMinimumPeriod();
         java.lang.Integer int4 = duration3.getTypeShortForm();
@@ -4916,8 +5066,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test094");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                                    pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration2 = null;
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.setConfiguration(sDRConfiguration2);
         boolean boolean4 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
@@ -4936,17 +5086,20 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test095");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                  pcAdapter0);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
         java.lang.String str4 = autonomousADCSSoftSimAdapter1.validateAttitudeDescriptor(attitudeMode3);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode5 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode5 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode6 = null;
         autonomousADCSSoftSimAdapter1.setDesiredAttitude(attitudeMode6);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode8 = null;
         java.lang.String str9 = autonomousADCSSoftSimAdapter1.validateAttitudeDescriptor(attitudeMode8);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode10 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode10 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.junit.Assert.assertNull(attitudeMode2);
         org.junit.Assert.assertNull(str4);
         org.junit.Assert.assertNull(attitudeMode5);
@@ -4961,16 +5114,18 @@ public class RegressionTest0 {
         java.lang.Boolean[] booleanArray2 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList3 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList3,
-                                                        booleanArray2);
+            booleanArray2);
         opssat.simulator.main.ESASimulator eSASimulator5 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter5 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter6 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator5,
-                                                                                                                                                                                  pcAdapter5);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode7 = autonomousADCSSoftSimAdapter6.getActiveAttitudeMode();
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter6 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator5, pcAdapter5);
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode7 = autonomousADCSSoftSimAdapter6
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode8 = null;
         java.lang.String str9 = autonomousADCSSoftSimAdapter6.validateAttitudeDescriptor(attitudeMode8);
         boolean boolean10 = autonomousADCSSoftSimAdapter6.isUnitAvailable();
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode11 = autonomousADCSSoftSimAdapter6.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode11 = autonomousADCSSoftSimAdapter6
+            .getActiveAttitudeMode();
         boolean boolean12 = booleanList3.contains((java.lang.Object) attitudeMode11);
         boolean boolean14 = booleanList3.add((java.lang.Boolean) false);
         java.util.Iterator<java.lang.Boolean> booleanItor15 = booleanList3.iterator();
@@ -5008,25 +5163,25 @@ public class RegressionTest0 {
         int int17 = doubleList6.indexOf((java.lang.Object) longList9);
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray18 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList19 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean20 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList19,
-                                                         uRIArray18);
+        boolean boolean20 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList19, uRIArray18);
         boolean boolean22 = uRIList19.contains((java.lang.Object) (-18));
         java.lang.Double[] doubleArray27 = new java.lang.Double[]{1.0d, 10.0d, 1.0d, 0.0d};
         java.util.ArrayList<java.lang.Double> doubleList28 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean29 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList28,
-                                                         doubleArray27);
+            doubleArray27);
         java.lang.Short[] shortArray33 = new java.lang.Short[]{(short) 0, (short) 10, (short) 1};
         java.util.ArrayList<java.lang.Short> shortList34 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean35 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList34,
-                                                         shortArray33);
+            shortArray33);
         java.lang.Byte[] byteArray37 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList38 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList38,
-                                                         byteArray37);
+            byteArray37);
         java.lang.Float[] floatArray43 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList44 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean45 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList44,
-                                                         floatArray43);
+            floatArray43);
         boolean boolean46 = byteList38.containsAll((java.util.Collection<java.lang.Float>) floatList44);
         boolean boolean47 = shortList34.containsAll((java.util.Collection<java.lang.Float>) floatList44);
         boolean boolean48 = doubleList28.contains((java.lang.Object) shortList34);
@@ -5034,11 +5189,13 @@ public class RegressionTest0 {
         int int50 = uRIList19.indexOf((java.lang.Object) doubleList28);
         opssat.simulator.main.ESASimulator eSASimulator51 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter51 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter52 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator51,
-                                                                                                                                                                                   pcAdapter51);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter52 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator51, pcAdapter51);
         boolean boolean53 = doubleList28.remove((java.lang.Object) autonomousADCSSoftSimAdapter52);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode54 = autonomousADCSSoftSimAdapter52.getActiveAttitudeMode();
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode55 = autonomousADCSSoftSimAdapter52.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode54 = autonomousADCSSoftSimAdapter52
+            .getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode55 = autonomousADCSSoftSimAdapter52
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode56 = null;
         java.lang.String str57 = autonomousADCSSoftSimAdapter52.validateAttitudeDescriptor(attitudeMode56);
         boolean boolean58 = doubleList6.equals((java.lang.Object) attitudeMode56);
@@ -5083,11 +5240,12 @@ public class RegressionTest0 {
     public void test098() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test098");
-        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 100);
+        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 100);
         opssat.simulator.main.ESASimulator eSASimulator2 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter2 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter3 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator2,
-                                                                                                                                                                                                    pcAdapter2);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter3 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator2, pcAdapter2);
         boolean boolean4 = softwareDefinedRadioSoftSimAdapter3.isUnitAvailable();
         boolean boolean5 = softwareDefinedRadioSoftSimAdapter3.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration6 = null;
@@ -5096,25 +5254,26 @@ public class RegressionTest0 {
         boolean boolean11 = softwareDefinedRadioSoftSimAdapter3.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator12 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter12 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter13 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator12,
-                                                                                                                                                                                                     pcAdapter12);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter13 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator12, pcAdapter12);
         boolean boolean14 = softwareDefinedRadioSoftSimAdapter13.isUnitAvailable();
         boolean boolean16 = softwareDefinedRadioSoftSimAdapter13.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator17 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter17 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter18 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator17,
-                                                                                                                                                                                                     pcAdapter17);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter18 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator17, pcAdapter17);
         boolean boolean19 = softwareDefinedRadioSoftSimAdapter18.isUnitAvailable();
         boolean boolean20 = softwareDefinedRadioSoftSimAdapter18.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator21 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter22 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator21,
-                                                                                                                                                                                                     pcAdapter21);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter22 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator21, pcAdapter21);
         esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray23 = new esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[]{softwareDefinedRadioSoftSimAdapter3,
                                                                                                                                                                                                             softwareDefinedRadioSoftSimAdapter13,
                                                                                                                                                                                                             softwareDefinedRadioSoftSimAdapter18,
                                                                                                                                                                                                             softwareDefinedRadioSoftSimAdapter22};
-        esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray24 = stringList1.toArray(softwareDefinedRadioAdapterInterfaceArray23);
+        esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray24 = stringList1
+            .toArray(softwareDefinedRadioAdapterInterfaceArray23);
         stringList1.clear();
         java.lang.Object obj26 = null;
         boolean boolean27 = stringList1.remove(obj26);
@@ -5140,8 +5299,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test099");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                                    pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration2 = null;
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.setConfiguration(sDRConfiguration2);
         boolean boolean4 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
@@ -5160,18 +5319,20 @@ public class RegressionTest0 {
     public void test100() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test100");
-        org.ccsds.moims.mo.mal.structures.BooleanList booleanList1 = new org.ccsds.moims.mo.mal.structures.BooleanList((int) (byte) 0);
+        org.ccsds.moims.mo.mal.structures.BooleanList booleanList1 = new org.ccsds.moims.mo.mal.structures.BooleanList(
+            (int) (byte) 0);
         java.lang.Object obj2 = null;
         int int3 = booleanList1.indexOf(obj2);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet4 = booleanList1.getAreaVersion();
         java.lang.Long long5 = booleanList1.getShortForm();
         java.lang.Integer int6 = booleanList1.getTypeShortForm();
         java.util.stream.Stream<java.lang.Boolean> booleanStream7 = booleanList1.stream();
-        org.ccsds.moims.mo.mal.structures.StringList stringList9 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 100);
+        org.ccsds.moims.mo.mal.structures.StringList stringList9 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 100);
         opssat.simulator.main.ESASimulator eSASimulator10 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter10 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter11 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator10,
-                                                                                                                                                                                                     pcAdapter10);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter11 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator10, pcAdapter10);
         boolean boolean12 = softwareDefinedRadioSoftSimAdapter11.isUnitAvailable();
         boolean boolean13 = softwareDefinedRadioSoftSimAdapter11.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration14 = null;
@@ -5180,25 +5341,26 @@ public class RegressionTest0 {
         boolean boolean19 = softwareDefinedRadioSoftSimAdapter11.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator20 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter20 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter21 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator20,
-                                                                                                                                                                                                     pcAdapter20);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter21 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator20, pcAdapter20);
         boolean boolean22 = softwareDefinedRadioSoftSimAdapter21.isUnitAvailable();
         boolean boolean24 = softwareDefinedRadioSoftSimAdapter21.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator25 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter25 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter26 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator25,
-                                                                                                                                                                                                     pcAdapter25);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter26 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator25, pcAdapter25);
         boolean boolean27 = softwareDefinedRadioSoftSimAdapter26.isUnitAvailable();
         boolean boolean28 = softwareDefinedRadioSoftSimAdapter26.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator29 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter29 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter30 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator29,
-                                                                                                                                                                                                     pcAdapter29);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter30 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator29, pcAdapter29);
         esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray31 = new esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[]{softwareDefinedRadioSoftSimAdapter11,
                                                                                                                                                                                                             softwareDefinedRadioSoftSimAdapter21,
                                                                                                                                                                                                             softwareDefinedRadioSoftSimAdapter26,
                                                                                                                                                                                                             softwareDefinedRadioSoftSimAdapter30};
-        esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray32 = stringList9.toArray(softwareDefinedRadioAdapterInterfaceArray31);
+        esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray32 = stringList9
+            .toArray(softwareDefinedRadioAdapterInterfaceArray31);
         stringList9.clear();
         boolean boolean35 = stringList9.add("281474993487877");
         boolean boolean37 = stringList9.add("[[true, true], [1], [true, true], hi!, hi!]");
@@ -5234,7 +5396,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test101");
         org.ccsds.moims.mo.mal.structures.Union union1 = new org.ccsds.moims.mo.mal.structures.Union("[]");
         boolean boolean3 = union1.equals((java.lang.Object) 1.0f);
-        org.ccsds.moims.mo.mal.structures.OctetList octetList5 = new org.ccsds.moims.mo.mal.structures.OctetList((int) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.OctetList octetList5 = new org.ccsds.moims.mo.mal.structures.OctetList(
+            (int) (byte) 1);
         boolean boolean6 = octetList5.isEmpty();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet7 = octetList5.getAreaVersion();
         java.util.stream.Stream<java.lang.Byte> byteStream8 = octetList5.stream();
@@ -5246,8 +5409,8 @@ public class RegressionTest0 {
         boolean boolean15 = union1.equals((java.lang.Object) longList11);
         opssat.simulator.main.ESASimulator eSASimulator16 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter16 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter opticalDataReceiverSoftSimAdapter17 = new esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter(eSASimulator16,
-                                                                                                                                                                                                  pcAdapter16);
+        esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter opticalDataReceiverSoftSimAdapter17 = new esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter(
+            eSASimulator16, pcAdapter16);
         boolean boolean18 = opticalDataReceiverSoftSimAdapter17.isUnitAvailable();
         boolean boolean19 = opticalDataReceiverSoftSimAdapter17.isUnitAvailable();
         boolean boolean20 = opticalDataReceiverSoftSimAdapter17.isUnitAvailable();
@@ -5275,39 +5438,41 @@ public class RegressionTest0 {
     public void test102() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test102");
-        org.ccsds.moims.mo.mal.structures.UShortList uShortList1 = new org.ccsds.moims.mo.mal.structures.UShortList((int) (byte) 0);
+        org.ccsds.moims.mo.mal.structures.UShortList uShortList1 = new org.ccsds.moims.mo.mal.structures.UShortList(
+            (int) (byte) 0);
         org.ccsds.moims.mo.mal.structures.OctetList octetList3 = new org.ccsds.moims.mo.mal.structures.OctetList();
         octetList3.clear();
         org.ccsds.moims.mo.mal.structures.UShort uShort5 = octetList3.getAreaNumber();
         uShortList1.add(0, uShort5);
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray7 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList8 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList8,
-                                                        uRIArray7);
+        boolean boolean9 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList8, uRIArray7);
         boolean boolean11 = uRIList8.contains((java.lang.Object) (-18));
         java.lang.Double[] doubleArray16 = new java.lang.Double[]{1.0d, 10.0d, 1.0d, 0.0d};
         java.util.ArrayList<java.lang.Double> doubleList17 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList17,
-                                                         doubleArray16);
+            doubleArray16);
         java.lang.Short[] shortArray22 = new java.lang.Short[]{(short) 0, (short) 10, (short) 1};
         java.util.ArrayList<java.lang.Short> shortList23 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean24 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList23,
-                                                         shortArray22);
+            shortArray22);
         java.lang.Byte[] byteArray26 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList27 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean28 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList27,
-                                                         byteArray26);
+            byteArray26);
         java.lang.Float[] floatArray32 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList33 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean34 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList33,
-                                                         floatArray32);
+            floatArray32);
         boolean boolean35 = byteList27.containsAll((java.util.Collection<java.lang.Float>) floatList33);
         boolean boolean36 = shortList23.containsAll((java.util.Collection<java.lang.Float>) floatList33);
         boolean boolean37 = doubleList17.contains((java.lang.Object) shortList23);
         doubleList17.trimToSize();
         int int39 = uRIList8.indexOf((java.lang.Object) doubleList17);
         boolean boolean40 = doubleList17.isEmpty();
-        org.ccsds.moims.mo.mal.structures.FloatList floatList42 = new org.ccsds.moims.mo.mal.structures.FloatList((int) 'a');
+        org.ccsds.moims.mo.mal.structures.FloatList floatList42 = new org.ccsds.moims.mo.mal.structures.FloatList(
+            (int) 'a');
         byte[] byteArray43 = new byte[]{};
         org.ccsds.moims.mo.mal.structures.Blob blob44 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray43);
         int int45 = blob44.getOffset();
@@ -5321,14 +5486,17 @@ public class RegressionTest0 {
         boolean boolean53 = uShortList1.retainAll((java.util.Collection<java.lang.Float>) floatList42);
         opssat.simulator.main.ESASimulator eSASimulator54 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter54 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter55 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator54,
-                                                                                                                                                           pcAdapter54);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter55 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator54, pcAdapter54);
         org.ccsds.moims.mo.mal.structures.Duration duration56 = cameraSoftSimAdapter55.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList57 = cameraSoftSimAdapter55.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList57 = cameraSoftSimAdapter55
+            .getAvailableResolutions();
         java.lang.String str58 = cameraSoftSimAdapter55.getExtraInfo();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList59 = cameraSoftSimAdapter55.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList59 = cameraSoftSimAdapter55
+            .getAvailableResolutions();
         boolean boolean60 = cameraSoftSimAdapter55.isUnitAvailable();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList61 = cameraSoftSimAdapter55.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList61 = cameraSoftSimAdapter55
+            .getAvailableResolutions();
         boolean boolean62 = floatList42.equals((java.lang.Object) cameraSoftSimAdapter55);
         try {
             java.util.ListIterator<java.lang.Float> floatItor64 = floatList42.listIterator(11);
@@ -5365,7 +5533,7 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(duration56);
         org.junit.Assert.assertNotNull(pixelResolutionList57);
         org.junit.Assert.assertTrue("'" + str58 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str58
-                                                                                                                    .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertNotNull(pixelResolutionList59);
         org.junit.Assert.assertTrue("'" + boolean60 + "' != '" + true + "'", boolean60);
         org.junit.Assert.assertNotNull(pixelResolutionList61);
@@ -5379,8 +5547,9 @@ public class RegressionTest0 {
         java.lang.Short[] shortArray1 = new java.lang.Short[]{(short) 10};
         java.util.ArrayList<java.lang.Short> shortList2 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList2,
-                                                        shortArray1);
-        org.ccsds.moims.mo.mal.structures.URI uRI5 = new org.ccsds.moims.mo.mal.structures.URI("[, [1], [true, true], ]");
+            shortArray1);
+        org.ccsds.moims.mo.mal.structures.URI uRI5 = new org.ccsds.moims.mo.mal.structures.URI(
+            "[, [1], [true, true], ]");
         java.lang.Long long6 = uRI5.getShortForm();
         org.ccsds.moims.mo.mal.structures.UShort uShort7 = uRI5.getServiceNumber();
         int int8 = shortList2.indexOf((java.lang.Object) uRI5);
@@ -5393,18 +5562,19 @@ public class RegressionTest0 {
         java.lang.Long[] longArray17 = new java.lang.Long[]{281475010265077L, 100L};
         java.util.ArrayList<java.lang.Long> longList18 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList18,
-                                                         longArray17);
+            longArray17);
         longList18.ensureCapacity((int) (byte) 100);
         java.lang.Object[] objArray22 = longList18.toArray();
         boolean boolean24 = longList18.remove((java.lang.Object) '#');
         boolean boolean25 = longList18.isEmpty();
-        org.ccsds.moims.mo.mal.structures.FloatList floatList27 = new org.ccsds.moims.mo.mal.structures.FloatList((int) 'a');
+        org.ccsds.moims.mo.mal.structures.FloatList floatList27 = new org.ccsds.moims.mo.mal.structures.FloatList(
+            (int) 'a');
         boolean boolean28 = longList18.retainAll((java.util.Collection<java.lang.Float>) floatList27);
         boolean boolean29 = doubleList9.containsAll((java.util.Collection<java.lang.Float>) floatList27);
         opssat.simulator.main.ESASimulator eSASimulator30 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter30 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter31 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator30,
-                                                                                                                                                           pcAdapter30);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter31 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator30, pcAdapter30);
         org.ccsds.moims.mo.mal.structures.Duration duration32 = cameraSoftSimAdapter31.getMinimumPeriod();
         java.lang.String str33 = cameraSoftSimAdapter31.getExtraInfo();
         boolean boolean34 = cameraSoftSimAdapter31.isUnitAvailable();
@@ -5433,7 +5603,7 @@ public class RegressionTest0 {
         org.junit.Assert.assertTrue("'" + boolean29 + "' != '" + true + "'", boolean29);
         org.junit.Assert.assertNotNull(duration32);
         org.junit.Assert.assertTrue("'" + str33 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str33
-                                                                                                                    .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertTrue("'" + boolean34 + "' != '" + true + "'", boolean34);
         org.junit.Assert.assertNotNull(duration35);
         org.junit.Assert.assertTrue("'" + boolean36 + "' != '" + false + "'", !boolean36);
@@ -5448,25 +5618,25 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test104");
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1,
-                                                        uRIArray0);
+        boolean boolean2 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1, uRIArray0);
         boolean boolean4 = uRIList1.contains((java.lang.Object) (-18));
         java.lang.Double[] doubleArray9 = new java.lang.Double[]{1.0d, 10.0d, 1.0d, 0.0d};
         java.util.ArrayList<java.lang.Double> doubleList10 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList10,
-                                                         doubleArray9);
+            doubleArray9);
         java.lang.Short[] shortArray15 = new java.lang.Short[]{(short) 0, (short) 10, (short) 1};
         java.util.ArrayList<java.lang.Short> shortList16 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList16,
-                                                         shortArray15);
+            shortArray15);
         java.lang.Byte[] byteArray19 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList20 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20,
-                                                         byteArray19);
+            byteArray19);
         java.lang.Float[] floatArray25 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList26 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList26,
-                                                         floatArray25);
+            floatArray25);
         boolean boolean28 = byteList20.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean29 = shortList16.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean30 = doubleList10.contains((java.lang.Object) shortList16);
@@ -5475,11 +5645,11 @@ public class RegressionTest0 {
         java.lang.Byte[] byteArray34 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList35 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean36 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList35,
-                                                         byteArray34);
+            byteArray34);
         java.lang.Float[] floatArray40 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList41 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList41,
-                                                         floatArray40);
+            floatArray40);
         boolean boolean43 = byteList35.containsAll((java.util.Collection<java.lang.Float>) floatList41);
         boolean boolean44 = doubleList10.retainAll((java.util.Collection<java.lang.Float>) floatList41);
         int int45 = doubleList10.size();
@@ -5487,8 +5657,8 @@ public class RegressionTest0 {
         java.util.stream.Stream<java.lang.Double> doubleStream48 = doubleList10.parallelStream();
         opssat.simulator.main.ESASimulator eSASimulator49 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter50 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator49,
-                                                                                                                                                           pcAdapter49);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter50 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator49, pcAdapter49);
         org.ccsds.moims.mo.mal.structures.Duration duration51 = cameraSoftSimAdapter50.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration52 = cameraSoftSimAdapter50.getMinimumPeriod();
         int int53 = doubleList10.lastIndexOf((java.lang.Object) duration52);
@@ -5534,8 +5704,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test105");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                                    pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         boolean boolean2 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration4 = null;
@@ -5567,14 +5737,17 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test106");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration4 = cameraSoftSimAdapter1.getMinimumPeriod();
         boolean boolean5 = cameraSoftSimAdapter1.isUnitAvailable();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1.getAvailableResolutions();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration8 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration9 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration10 = cameraSoftSimAdapter1.getMinimumPeriod();
@@ -5597,9 +5770,10 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test107");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                  pcAdapter0);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
         java.lang.String str4 = autonomousADCSSoftSimAdapter1.validateAttitudeDescriptor(attitudeMode3);
         boolean boolean5 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
@@ -5620,13 +5794,15 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test108");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration4 = cameraSoftSimAdapter1.getMinimumPeriod();
         boolean boolean5 = cameraSoftSimAdapter1.isUnitAvailable();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration7 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration8 = cameraSoftSimAdapter1.getMinimumPeriod();
         java.lang.String str9 = duration8.toString();
@@ -5646,8 +5822,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test109");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         java.lang.String str3 = cameraSoftSimAdapter1.getExtraInfo();
         boolean boolean4 = cameraSoftSimAdapter1.isUnitAvailable();
@@ -5656,7 +5832,7 @@ public class RegressionTest0 {
         java.lang.Integer int7 = duration5.getTypeShortForm();
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertTrue("'" + str3 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str3
-                                                                                                                  .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
         org.junit.Assert.assertNotNull(duration5);
         org.junit.Assert.assertNotNull(element6);
@@ -5669,8 +5845,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test110");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                                    pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         boolean boolean2 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration4 = null;
@@ -5695,7 +5871,8 @@ public class RegressionTest0 {
     public void test111() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test111");
-        org.ccsds.moims.mo.mal.structures.FineTime fineTime1 = new org.ccsds.moims.mo.mal.structures.FineTime(281474993487874L);
+        org.ccsds.moims.mo.mal.structures.FineTime fineTime1 = new org.ccsds.moims.mo.mal.structures.FineTime(
+            281474993487874L);
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = fineTime1.getAreaNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort3 = fineTime1.getAreaNumber();
         java.lang.Long long4 = fineTime1.getShortForm();
@@ -5703,11 +5880,12 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.UShort uShort6 = org.ccsds.moims.mo.mal.structures.DoubleList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray7 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort6};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList8 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList8,
-                                                        uShortArray7);
+        boolean boolean9 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList8, uShortArray7);
         java.lang.String str10 = uShortList8.toString();
         boolean boolean12 = uShortList8.remove((java.lang.Object) (-1));
-        org.ccsds.moims.mo.mal.structures.StringList stringList14 = new org.ccsds.moims.mo.mal.structures.StringList((int) (short) 1);
+        org.ccsds.moims.mo.mal.structures.StringList stringList14 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (short) 1);
         boolean boolean15 = uShortList8.remove((java.lang.Object) stringList14);
         uShortList8.ensureCapacity(13);
         org.ccsds.moims.mo.mal.structures.Duration duration18 = new org.ccsds.moims.mo.mal.structures.Duration();
@@ -5717,24 +5895,26 @@ public class RegressionTest0 {
         java.lang.Boolean[] booleanArray24 = new java.lang.Boolean[]{true, true};
         java.util.ArrayList<java.lang.Boolean> booleanList25 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean26 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList25,
-                                                         booleanArray24);
+            booleanArray24);
         java.lang.String str27 = booleanList25.toString();
         java.util.stream.Stream<java.lang.Boolean> booleanStream28 = booleanList25.parallelStream();
-        org.ccsds.moims.mo.mal.structures.StringList stringList30 = new org.ccsds.moims.mo.mal.structures.StringList((int) (short) 1);
+        org.ccsds.moims.mo.mal.structures.StringList stringList30 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (short) 1);
         boolean boolean31 = booleanList25.remove((java.lang.Object) stringList30);
         java.util.stream.Stream<java.lang.Boolean> booleanStream32 = booleanList25.parallelStream();
         java.lang.Boolean[] booleanArray35 = new java.lang.Boolean[]{true, true};
         java.util.ArrayList<java.lang.Boolean> booleanList36 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean37 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList36,
-                                                         booleanArray35);
+            booleanArray35);
         java.lang.String str38 = booleanList36.toString();
         java.util.stream.Stream<java.lang.Boolean> booleanStream39 = booleanList36.parallelStream();
-        org.ccsds.moims.mo.mal.structures.StringList stringList41 = new org.ccsds.moims.mo.mal.structures.StringList((int) (short) 1);
+        org.ccsds.moims.mo.mal.structures.StringList stringList41 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (short) 1);
         boolean boolean42 = booleanList36.remove((java.lang.Object) stringList41);
         java.lang.Float[] floatArray46 = new java.lang.Float[]{(-1.0f), 10.0f, 0.0f};
         java.util.ArrayList<java.lang.Float> floatList47 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean48 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList47,
-                                                         floatArray46);
+            floatArray46);
         int int49 = floatList47.size();
         boolean boolean50 = booleanList36.removeAll((java.util.Collection<java.lang.Float>) floatList47);
         boolean boolean51 = booleanList25.removeAll((java.util.Collection<java.lang.Float>) floatList47);
@@ -5742,41 +5922,43 @@ public class RegressionTest0 {
         java.lang.Integer[] intArray63 = new java.lang.Integer[]{16, 16, (-18), (-18), (-1), 1, 0, 2, 0, 0};
         java.util.ArrayList<java.lang.Integer> intList64 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean65 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList64,
-                                                         intArray63);
+            intArray63);
         int int66 = intList64.size();
         boolean boolean67 = uShortList8.remove((java.lang.Object) int66);
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream68 = uShortList8.parallelStream();
         opssat.simulator.main.ESASimulator eSASimulator69 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter69 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter70 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator69,
-                                                                                                                                                                                   pcAdapter69);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter70 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator69, pcAdapter69);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode71 = null;
         autonomousADCSSoftSimAdapter70.setDesiredAttitude(attitudeMode71);
         boolean boolean73 = autonomousADCSSoftSimAdapter70.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator74 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter74 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter75 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator74,
-                                                                                                                                                                                   pcAdapter74);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter75 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator74, pcAdapter74);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode76 = null;
         autonomousADCSSoftSimAdapter75.setDesiredAttitude(attitudeMode76);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode78 = autonomousADCSSoftSimAdapter75.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode78 = autonomousADCSSoftSimAdapter75
+            .getActiveAttitudeMode();
         opssat.simulator.main.ESASimulator eSASimulator79 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter79 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter80 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator79,
-                                                                                                                                                                                   pcAdapter79);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter80 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator79, pcAdapter79);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode81 = null;
         autonomousADCSSoftSimAdapter80.setDesiredAttitude(attitudeMode81);
         opssat.simulator.main.ESASimulator eSASimulator83 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter83 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter84 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator83,
-                                                                                                                                                                                   pcAdapter83);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter84 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator83, pcAdapter83);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode85 = null;
         autonomousADCSSoftSimAdapter84.setDesiredAttitude(attitudeMode85);
         esa.mo.platform.impl.provider.gen.AutonomousADCSAdapterInterface[] autonomousADCSAdapterInterfaceArray87 = new esa.mo.platform.impl.provider.gen.AutonomousADCSAdapterInterface[]{autonomousADCSSoftSimAdapter70,
                                                                                                                                                                                           autonomousADCSSoftSimAdapter75,
                                                                                                                                                                                           autonomousADCSSoftSimAdapter80,
                                                                                                                                                                                           autonomousADCSSoftSimAdapter84};
-        esa.mo.platform.impl.provider.gen.AutonomousADCSAdapterInterface[] autonomousADCSAdapterInterfaceArray88 = uShortList8.toArray(autonomousADCSAdapterInterfaceArray87);
+        esa.mo.platform.impl.provider.gen.AutonomousADCSAdapterInterface[] autonomousADCSAdapterInterfaceArray88 = uShortList8
+            .toArray(autonomousADCSAdapterInterfaceArray87);
         boolean boolean89 = fineTime1.equals((java.lang.Object) autonomousADCSAdapterInterfaceArray88);
         org.ccsds.moims.mo.mal.structures.UShort uShort90 = fineTime1.getAreaNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort91 = fineTime1.getServiceNumber();
@@ -5830,9 +6012,10 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test112");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                  pcAdapter0);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
         java.lang.String str4 = autonomousADCSSoftSimAdapter1.validateAttitudeDescriptor(attitudeMode3);
         boolean boolean5 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
@@ -5851,8 +6034,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test113");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                                    pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         boolean boolean2 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration4 = null;
@@ -5879,8 +6062,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test114");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                                    pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         boolean boolean2 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration4 = null;
@@ -5902,15 +6085,17 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test115");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                  pcAdapter0);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
         java.lang.String str4 = autonomousADCSSoftSimAdapter1.validateAttitudeDescriptor(attitudeMode3);
         boolean boolean5 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode6 = null;
         autonomousADCSSoftSimAdapter1.setDesiredAttitude(attitudeMode6);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode8 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode8 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         boolean boolean9 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode10 = null;
         autonomousADCSSoftSimAdapter1.setDesiredAttitude(attitudeMode10);
@@ -5928,17 +6113,18 @@ public class RegressionTest0 {
         java.lang.Short[] shortArray2 = new java.lang.Short[]{(short) 0, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList3 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList3,
-                                                        shortArray2);
+            shortArray2);
         shortList3.trimToSize();
         java.util.ListIterator<java.lang.Short> shortItor6 = shortList3.listIterator();
         shortList3.ensureCapacity((int) ' ');
         boolean boolean10 = shortList3.add((java.lang.Short) (short) -1);
         java.util.stream.Stream<java.lang.Short> shortStream11 = shortList3.parallelStream();
-        org.ccsds.moims.mo.mal.structures.StringList stringList13 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 100);
+        org.ccsds.moims.mo.mal.structures.StringList stringList13 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 100);
         opssat.simulator.main.ESASimulator eSASimulator14 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter14 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter15 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator14,
-                                                                                                                                                                                                     pcAdapter14);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter15 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator14, pcAdapter14);
         boolean boolean16 = softwareDefinedRadioSoftSimAdapter15.isUnitAvailable();
         boolean boolean17 = softwareDefinedRadioSoftSimAdapter15.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration18 = null;
@@ -5947,27 +6133,29 @@ public class RegressionTest0 {
         boolean boolean23 = softwareDefinedRadioSoftSimAdapter15.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator24 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter24 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter25 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator24,
-                                                                                                                                                                                                     pcAdapter24);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter25 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator24, pcAdapter24);
         boolean boolean26 = softwareDefinedRadioSoftSimAdapter25.isUnitAvailable();
         boolean boolean28 = softwareDefinedRadioSoftSimAdapter25.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator29 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter29 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter30 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator29,
-                                                                                                                                                                                                     pcAdapter29);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter30 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator29, pcAdapter29);
         boolean boolean31 = softwareDefinedRadioSoftSimAdapter30.isUnitAvailable();
         boolean boolean32 = softwareDefinedRadioSoftSimAdapter30.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator33,
-                                                                                                                                                                                                     pcAdapter33);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator33, pcAdapter33);
         esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray35 = new esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[]{softwareDefinedRadioSoftSimAdapter15,
                                                                                                                                                                                                             softwareDefinedRadioSoftSimAdapter25,
                                                                                                                                                                                                             softwareDefinedRadioSoftSimAdapter30,
                                                                                                                                                                                                             softwareDefinedRadioSoftSimAdapter34};
-        esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray36 = stringList13.toArray(softwareDefinedRadioAdapterInterfaceArray35);
+        esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray36 = stringList13
+            .toArray(softwareDefinedRadioAdapterInterfaceArray35);
         try {
-            esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray37 = shortList3.toArray(softwareDefinedRadioAdapterInterfaceArray35);
+            esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray37 = shortList3
+                .toArray(softwareDefinedRadioAdapterInterfaceArray35);
             org.junit.Assert.fail("Expected exception of type java.lang.ArrayStoreException; message: null");
         } catch (java.lang.ArrayStoreException e) {
         }
@@ -5995,12 +6183,14 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test117");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration4 = cameraSoftSimAdapter1.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList5 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList5 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         java.lang.String str6 = cameraSoftSimAdapter1.getExtraInfo();
         boolean boolean7 = cameraSoftSimAdapter1.isUnitAvailable();
         org.junit.Assert.assertNotNull(duration2);
@@ -6008,7 +6198,7 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(duration4);
         org.junit.Assert.assertNotNull(pixelResolutionList5);
         org.junit.Assert.assertTrue("'" + str6 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str6
-                                                                                                                  .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
     }
 
@@ -6030,7 +6220,8 @@ public class RegressionTest0 {
         int int12 = shortList5.size();
         shortList5.clear();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet14 = shortList5.getAreaVersion();
-        org.ccsds.moims.mo.mal.structures.OctetList octetList16 = new org.ccsds.moims.mo.mal.structures.OctetList((int) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.OctetList octetList16 = new org.ccsds.moims.mo.mal.structures.OctetList(
+            (int) (byte) 1);
         boolean boolean17 = octetList16.isEmpty();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet18 = octetList16.getAreaVersion();
         java.util.stream.Stream<java.lang.Byte> byteStream19 = octetList16.stream();
@@ -6039,29 +6230,29 @@ public class RegressionTest0 {
         int int23 = octetList16.lastIndexOf((java.lang.Object) longList22);
         opssat.simulator.main.ESASimulator eSASimulator24 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter24 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter25 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator24,
-                                                                                                                                                  pcAdapter24);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter25 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator24, pcAdapter24);
         boolean boolean26 = gPSSoftSimAdapter25.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator27 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter27 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter28 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator27,
-                                                                                                                                                  pcAdapter27);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter28 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator27, pcAdapter27);
         boolean boolean29 = gPSSoftSimAdapter28.isUnitAvailable();
         boolean boolean30 = gPSSoftSimAdapter28.isUnitAvailable();
         boolean boolean31 = gPSSoftSimAdapter28.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator32 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter32 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter33 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator32,
-                                                                                                                                                  pcAdapter32);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter33 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator32, pcAdapter32);
         boolean boolean34 = gPSSoftSimAdapter33.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator35 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter35 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter36 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator35,
-                                                                                                                                                  pcAdapter35);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter36 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator35, pcAdapter35);
         opssat.simulator.main.ESASimulator eSASimulator37 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter37 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter38 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator37,
-                                                                                                                                                  pcAdapter37);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter38 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator37, pcAdapter37);
         boolean boolean39 = gPSSoftSimAdapter38.isUnitAvailable();
         boolean boolean40 = gPSSoftSimAdapter38.isUnitAvailable();
         boolean boolean41 = gPSSoftSimAdapter38.isUnitAvailable();
@@ -6071,7 +6262,8 @@ public class RegressionTest0 {
                                                                                                                                                       gPSSoftSimAdapter33,
                                                                                                                                                       gPSSoftSimAdapter36,
                                                                                                                                                       gPSSoftSimAdapter38};
-        esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[] gPSNMEAonlyAdapterArray44 = longList22.toArray(gPSNMEAonlyAdapterArray43);
+        esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[] gPSNMEAonlyAdapterArray44 = longList22.toArray(
+            gPSNMEAonlyAdapterArray43);
         boolean boolean45 = shortList5.equals((java.lang.Object) gPSNMEAonlyAdapterArray43);
         boolean boolean46 = uShortList0.remove((java.lang.Object) boolean45);
         org.junit.Assert.assertTrue("'" + long1 + "' != '" + 281475010265078L + "'", long1.equals(281475010265078L));
@@ -6109,8 +6301,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test119");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                                    pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         boolean boolean2 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration4 = null;
@@ -6138,22 +6330,26 @@ public class RegressionTest0 {
         java.lang.Boolean[] booleanArray2 = new java.lang.Boolean[]{true, true};
         java.util.ArrayList<java.lang.Boolean> booleanList3 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList3,
-                                                        booleanArray2);
+            booleanArray2);
         int int6 = booleanList3.indexOf((java.lang.Object) "hi!");
-        org.ccsds.moims.mo.mal.structures.OctetList octetList8 = new org.ccsds.moims.mo.mal.structures.OctetList((int) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.OctetList octetList8 = new org.ccsds.moims.mo.mal.structures.OctetList(
+            (int) (byte) 1);
         java.lang.Long long9 = octetList8.getShortForm();
         int int10 = booleanList3.indexOf((java.lang.Object) octetList8);
-        org.ccsds.moims.mo.mal.structures.URIList uRIList12 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 100);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList12 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 100);
         org.ccsds.moims.mo.mal.structures.UShort uShort13 = uRIList12.getAreaNumber();
         java.lang.Integer int14 = uRIList12.getTypeShortForm();
         opssat.simulator.main.ESASimulator eSASimulator15 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter15 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter16 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator15,
-                                                                                                                                                           pcAdapter15);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter16 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator15, pcAdapter15);
         org.ccsds.moims.mo.mal.structures.Duration duration17 = cameraSoftSimAdapter16.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList18 = cameraSoftSimAdapter16.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList18 = cameraSoftSimAdapter16
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration19 = cameraSoftSimAdapter16.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList20 = cameraSoftSimAdapter16.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList20 = cameraSoftSimAdapter16
+            .getAvailableResolutions();
         int int21 = uRIList12.indexOf((java.lang.Object) cameraSoftSimAdapter16);
         boolean boolean22 = booleanList3.contains((java.lang.Object) uRIList12);
         int int23 = booleanList3.size();
@@ -6179,13 +6375,15 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test121");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                  pcAdapter0);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
         java.lang.String str4 = autonomousADCSSoftSimAdapter1.validateAttitudeDescriptor(attitudeMode3);
         boolean boolean5 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode6 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode6 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode7 = null;
         java.lang.String str8 = autonomousADCSSoftSimAdapter1.validateAttitudeDescriptor(attitudeMode7);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode9 = null;
@@ -6208,12 +6406,14 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test122");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                  pcAdapter0);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
         java.lang.String str4 = autonomousADCSSoftSimAdapter1.validateAttitudeDescriptor(attitudeMode3);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode5 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode5 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         boolean boolean6 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode7 = null;
         autonomousADCSSoftSimAdapter1.setDesiredAttitude(attitudeMode7);
@@ -6232,25 +6432,25 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test123");
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1,
-                                                        uRIArray0);
+        boolean boolean2 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1, uRIArray0);
         boolean boolean4 = uRIList1.contains((java.lang.Object) (-18));
         java.lang.Double[] doubleArray9 = new java.lang.Double[]{1.0d, 10.0d, 1.0d, 0.0d};
         java.util.ArrayList<java.lang.Double> doubleList10 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList10,
-                                                         doubleArray9);
+            doubleArray9);
         java.lang.Short[] shortArray15 = new java.lang.Short[]{(short) 0, (short) 10, (short) 1};
         java.util.ArrayList<java.lang.Short> shortList16 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList16,
-                                                         shortArray15);
+            shortArray15);
         java.lang.Byte[] byteArray19 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList20 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20,
-                                                         byteArray19);
+            byteArray19);
         java.lang.Float[] floatArray25 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList26 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList26,
-                                                         floatArray25);
+            floatArray25);
         boolean boolean28 = byteList20.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean29 = shortList16.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean30 = doubleList10.contains((java.lang.Object) shortList16);
@@ -6258,11 +6458,13 @@ public class RegressionTest0 {
         int int32 = uRIList1.indexOf((java.lang.Object) doubleList10);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator33,
-                                                                                                                                                                                   pcAdapter33);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator33, pcAdapter33);
         boolean boolean35 = doubleList10.remove((java.lang.Object) autonomousADCSSoftSimAdapter34);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode36 = autonomousADCSSoftSimAdapter34.getActiveAttitudeMode();
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode37 = autonomousADCSSoftSimAdapter34.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode36 = autonomousADCSSoftSimAdapter34
+            .getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode37 = autonomousADCSSoftSimAdapter34
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode38 = null;
         autonomousADCSSoftSimAdapter34.setDesiredAttitude(attitudeMode38);
         org.junit.Assert.assertNotNull(uRIArray0);
@@ -6294,17 +6496,20 @@ public class RegressionTest0 {
         java.lang.Integer int2 = uRIList0.getTypeShortForm();
         uRIList0.ensureCapacity(18);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet5 = uRIList0.getAreaVersion();
-        org.ccsds.moims.mo.mal.structures.OctetList octetList7 = new org.ccsds.moims.mo.mal.structures.OctetList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.OctetList octetList7 = new org.ccsds.moims.mo.mal.structures.OctetList(
+            (int) (short) 0);
         java.util.stream.Stream<java.lang.Byte> byteStream8 = octetList7.stream();
         boolean boolean9 = uRIList0.equals((java.lang.Object) byteStream8);
         opssat.simulator.main.ESASimulator eSASimulator10 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter10 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter11 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator10,
-                                                                                                                                                           pcAdapter10);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter11 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator10, pcAdapter10);
         org.ccsds.moims.mo.mal.structures.Duration duration12 = cameraSoftSimAdapter11.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList13 = cameraSoftSimAdapter11.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList13 = cameraSoftSimAdapter11
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration14 = cameraSoftSimAdapter11.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList15 = cameraSoftSimAdapter11.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList15 = cameraSoftSimAdapter11
+            .getAvailableResolutions();
         boolean boolean16 = cameraSoftSimAdapter11.isUnitAvailable();
         org.ccsds.moims.mo.mal.structures.Duration duration17 = cameraSoftSimAdapter11.getMinimumPeriod();
         java.lang.Long long18 = duration17.getShortForm();
@@ -6332,8 +6537,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test125");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                 pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         boolean boolean2 = gPSSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = gPSSoftSimAdapter1.isUnitAvailable();
         boolean boolean4 = gPSSoftSimAdapter1.isUnitAvailable();
@@ -6361,8 +6566,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test126");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                                    pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         boolean boolean2 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration4 = null;
@@ -6399,7 +6604,8 @@ public class RegressionTest0 {
         int int8 = shortList1.size();
         shortList1.clear();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet10 = shortList1.getAreaVersion();
-        org.ccsds.moims.mo.mal.structures.OctetList octetList12 = new org.ccsds.moims.mo.mal.structures.OctetList((int) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.OctetList octetList12 = new org.ccsds.moims.mo.mal.structures.OctetList(
+            (int) (byte) 1);
         boolean boolean13 = octetList12.isEmpty();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet14 = octetList12.getAreaVersion();
         java.util.stream.Stream<java.lang.Byte> byteStream15 = octetList12.stream();
@@ -6408,29 +6614,29 @@ public class RegressionTest0 {
         int int19 = octetList12.lastIndexOf((java.lang.Object) longList18);
         opssat.simulator.main.ESASimulator eSASimulator20 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter20 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter21 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator20,
-                                                                                                                                                  pcAdapter20);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter21 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator20, pcAdapter20);
         boolean boolean22 = gPSSoftSimAdapter21.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator23 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter23 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter24 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator23,
-                                                                                                                                                  pcAdapter23);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter24 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator23, pcAdapter23);
         boolean boolean25 = gPSSoftSimAdapter24.isUnitAvailable();
         boolean boolean26 = gPSSoftSimAdapter24.isUnitAvailable();
         boolean boolean27 = gPSSoftSimAdapter24.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator28 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter28 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter29 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator28,
-                                                                                                                                                  pcAdapter28);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter29 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator28, pcAdapter28);
         boolean boolean30 = gPSSoftSimAdapter29.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator31 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter31 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter32 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator31,
-                                                                                                                                                  pcAdapter31);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter32 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator31, pcAdapter31);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator33,
-                                                                                                                                                  pcAdapter33);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator33, pcAdapter33);
         boolean boolean35 = gPSSoftSimAdapter34.isUnitAvailable();
         boolean boolean36 = gPSSoftSimAdapter34.isUnitAvailable();
         boolean boolean37 = gPSSoftSimAdapter34.isUnitAvailable();
@@ -6440,11 +6646,13 @@ public class RegressionTest0 {
                                                                                                                                                       gPSSoftSimAdapter29,
                                                                                                                                                       gPSSoftSimAdapter32,
                                                                                                                                                       gPSSoftSimAdapter34};
-        esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[] gPSNMEAonlyAdapterArray40 = longList18.toArray(gPSNMEAonlyAdapterArray39);
+        esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[] gPSNMEAonlyAdapterArray40 = longList18.toArray(
+            gPSNMEAonlyAdapterArray39);
         boolean boolean41 = shortList1.equals((java.lang.Object) gPSNMEAonlyAdapterArray39);
         try {
             shortList1.add((-1), (java.lang.Short) (short) 0);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: -1, Size: 0");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: -1, Size: 0");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(uShort2);
@@ -6478,8 +6686,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test128");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         java.lang.String str3 = cameraSoftSimAdapter1.getExtraInfo();
         boolean boolean4 = cameraSoftSimAdapter1.isUnitAvailable();
@@ -6488,7 +6696,7 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.Element element7 = duration5.createElement();
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertTrue("'" + str3 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str3
-                                                                                                                  .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
         org.junit.Assert.assertNotNull(duration5);
         org.junit.Assert.assertNotNull(element6);
@@ -6505,44 +6713,45 @@ public class RegressionTest0 {
         java.lang.Float[] floatArray7 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList8 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList8,
-                                                        floatArray7);
+            floatArray7);
         boolean boolean10 = byteList2.containsAll((java.util.Collection<java.lang.Float>) floatList8);
         boolean boolean11 = floatList8.isEmpty();
         org.ccsds.moims.mo.mal.structures.UShort uShort12 = org.ccsds.moims.mo.mal.structures.DoubleList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray13 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort12};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList14 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean15 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList14,
-                                                         uShortArray13);
+        boolean boolean15 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList14, uShortArray13);
         java.lang.String str16 = uShortList14.toString();
         java.lang.Object[] objArray17 = uShortList14.toArray();
         java.lang.Double[] doubleArray21 = new java.lang.Double[]{100.0d, 100.0d, 1.0d};
         java.util.ArrayList<java.lang.Double> doubleList22 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList22,
-                                                         doubleArray21);
+            doubleArray21);
         java.lang.Float[] floatArray27 = new java.lang.Float[]{(-1.0f), 10.0f, 0.0f};
         java.util.ArrayList<java.lang.Float> floatList28 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean29 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList28,
-                                                         floatArray27);
+            floatArray27);
         int int30 = floatList28.size();
         boolean boolean31 = doubleList22.containsAll((java.util.Collection<java.lang.Float>) floatList28);
         boolean boolean32 = uShortList14.retainAll((java.util.Collection<java.lang.Float>) floatList28);
         java.lang.Boolean[] booleanArray35 = new java.lang.Boolean[]{true, true};
         java.util.ArrayList<java.lang.Boolean> booleanList36 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean37 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList36,
-                                                         booleanArray35);
+            booleanArray35);
         java.lang.String str38 = booleanList36.toString();
         int int39 = booleanList36.size();
         boolean boolean40 = floatList28.contains((java.lang.Object) int39);
         boolean boolean41 = floatList8.addAll((java.util.Collection<java.lang.Float>) floatList28);
-        org.ccsds.moims.mo.mal.structures.Union union43 = new org.ccsds.moims.mo.mal.structures.Union((java.lang.Byte) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.Union union43 = new org.ccsds.moims.mo.mal.structures.Union(
+            (java.lang.Byte) (byte) 10);
         java.lang.String str44 = union43.toString();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet45 = union43.getAreaVersion();
         int int46 = floatList28.lastIndexOf((java.lang.Object) union43);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet47 = union43.getAreaVersion();
         opssat.simulator.main.ESASimulator eSASimulator48 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter48 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter49 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator48,
-                                                                                                                                                           pcAdapter48);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter49 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator48, pcAdapter48);
         org.ccsds.moims.mo.mal.structures.Duration duration50 = cameraSoftSimAdapter49.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration51 = cameraSoftSimAdapter49.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration52 = cameraSoftSimAdapter49.getMinimumPeriod();
@@ -6587,25 +6796,25 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test130");
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1,
-                                                        uRIArray0);
+        boolean boolean2 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1, uRIArray0);
         boolean boolean4 = uRIList1.contains((java.lang.Object) (-18));
         java.lang.Double[] doubleArray9 = new java.lang.Double[]{1.0d, 10.0d, 1.0d, 0.0d};
         java.util.ArrayList<java.lang.Double> doubleList10 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList10,
-                                                         doubleArray9);
+            doubleArray9);
         java.lang.Short[] shortArray15 = new java.lang.Short[]{(short) 0, (short) 10, (short) 1};
         java.util.ArrayList<java.lang.Short> shortList16 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList16,
-                                                         shortArray15);
+            shortArray15);
         java.lang.Byte[] byteArray19 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList20 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20,
-                                                         byteArray19);
+            byteArray19);
         java.lang.Float[] floatArray25 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList26 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList26,
-                                                         floatArray25);
+            floatArray25);
         boolean boolean28 = byteList20.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean29 = shortList16.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean30 = doubleList10.contains((java.lang.Object) shortList16);
@@ -6613,8 +6822,8 @@ public class RegressionTest0 {
         int int32 = uRIList1.indexOf((java.lang.Object) doubleList10);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator33,
-                                                                                                                                                                                   pcAdapter33);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator33, pcAdapter33);
         boolean boolean35 = doubleList10.remove((java.lang.Object) autonomousADCSSoftSimAdapter34);
         java.util.Iterator<java.lang.Double> doubleItor36 = doubleList10.iterator();
         doubleList10.ensureCapacity((-13));
@@ -6647,8 +6856,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test131");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                                    pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         boolean boolean2 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration3 = null;
         boolean boolean4 = softwareDefinedRadioSoftSimAdapter1.setConfiguration(sDRConfiguration3);
@@ -6668,11 +6877,12 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.UShort uShort0 = org.ccsds.moims.mo.mal.structures.DoubleList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray1 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort0};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList2 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean3 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList2,
-                                                        uShortArray1);
+        boolean boolean3 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList2, uShortArray1);
         java.lang.String str4 = uShortList2.toString();
         boolean boolean6 = uShortList2.remove((java.lang.Object) (-1));
-        org.ccsds.moims.mo.mal.structures.StringList stringList8 = new org.ccsds.moims.mo.mal.structures.StringList((int) (short) 1);
+        org.ccsds.moims.mo.mal.structures.StringList stringList8 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (short) 1);
         boolean boolean9 = uShortList2.remove((java.lang.Object) stringList8);
         java.util.Iterator<org.ccsds.moims.mo.mal.structures.UShort> uShortItor10 = uShortList2.iterator();
         org.ccsds.moims.mo.mal.structures.URIList uRIList11 = new org.ccsds.moims.mo.mal.structures.URIList();
@@ -6683,8 +6893,8 @@ public class RegressionTest0 {
         uShortList2.ensureCapacity(0);
         opssat.simulator.main.ESASimulator eSASimulator18 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter18 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter19 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator18,
-                                                                                                                                                           pcAdapter18);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter19 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator18, pcAdapter18);
         org.ccsds.moims.mo.mal.structures.Duration duration20 = cameraSoftSimAdapter19.getMinimumPeriod();
         double double21 = duration20.getValue();
         java.lang.String str22 = duration20.toString();
@@ -6715,8 +6925,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test133");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.UShort uShort3 = duration2.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UShortList uShortList5 = new org.ccsds.moims.mo.mal.structures.UShortList(3);
@@ -6741,13 +6951,15 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test134");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                  pcAdapter0);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
         java.lang.String str4 = autonomousADCSSoftSimAdapter1.validateAttitudeDescriptor(attitudeMode3);
         boolean boolean5 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode6 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode6 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode7 = null;
         java.lang.String str8 = autonomousADCSSoftSimAdapter1.validateAttitudeDescriptor(attitudeMode7);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode9 = null;
@@ -6756,7 +6968,8 @@ public class RegressionTest0 {
         autonomousADCSSoftSimAdapter1.setDesiredAttitude(attitudeMode11);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode13 = null;
         autonomousADCSSoftSimAdapter1.setDesiredAttitude(attitudeMode13);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode15 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode15 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.junit.Assert.assertNull(attitudeMode2);
         org.junit.Assert.assertNull(str4);
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
@@ -6773,13 +6986,14 @@ public class RegressionTest0 {
         octetList1.trimToSize();
         java.util.stream.Stream<java.lang.Byte> byteStream3 = octetList1.parallelStream();
         boolean boolean4 = octetList1.isEmpty();
-        org.ccsds.moims.mo.mal.structures.StringList stringList6 = new org.ccsds.moims.mo.mal.structures.StringList((int) (short) 10);
+        org.ccsds.moims.mo.mal.structures.StringList stringList6 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (short) 10);
         stringList6.clear();
         org.ccsds.moims.mo.mal.structures.Element element8 = stringList6.createElement();
         opssat.simulator.main.ESASimulator eSASimulator9 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter9 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter10 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator9,
-                                                                                                                                                                                                     pcAdapter9);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter10 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator9, pcAdapter9);
         boolean boolean11 = softwareDefinedRadioSoftSimAdapter10.isUnitAvailable();
         boolean boolean12 = softwareDefinedRadioSoftSimAdapter10.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration13 = null;
@@ -6790,8 +7004,8 @@ public class RegressionTest0 {
         boolean boolean20 = softwareDefinedRadioSoftSimAdapter10.setConfiguration(sDRConfiguration19);
         opssat.simulator.main.ESASimulator eSASimulator21 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter22 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator21,
-                                                                                                                                                                                                     pcAdapter21);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter22 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator21, pcAdapter21);
         boolean boolean23 = softwareDefinedRadioSoftSimAdapter22.isUnitAvailable();
         boolean boolean24 = softwareDefinedRadioSoftSimAdapter22.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration25 = null;
@@ -6800,22 +7014,22 @@ public class RegressionTest0 {
         boolean boolean30 = softwareDefinedRadioSoftSimAdapter22.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator31 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter31 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter32 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator31,
-                                                                                                                                                                                                     pcAdapter31);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter32 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator31, pcAdapter31);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration33 = null;
         boolean boolean34 = softwareDefinedRadioSoftSimAdapter32.setConfiguration(sDRConfiguration33);
         boolean boolean35 = softwareDefinedRadioSoftSimAdapter32.isUnitAvailable();
         boolean boolean37 = softwareDefinedRadioSoftSimAdapter32.enableSDR((java.lang.Boolean) false);
         opssat.simulator.main.ESASimulator eSASimulator38 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter38 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter39 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator38,
-                                                                                                                                                                                                     pcAdapter38);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter39 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator38, pcAdapter38);
         boolean boolean40 = softwareDefinedRadioSoftSimAdapter39.isUnitAvailable();
         boolean boolean42 = softwareDefinedRadioSoftSimAdapter39.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator43 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter43 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter44 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator43,
-                                                                                                                                                                                                     pcAdapter43);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter44 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator43, pcAdapter43);
         boolean boolean45 = softwareDefinedRadioSoftSimAdapter44.isUnitAvailable();
         boolean boolean46 = softwareDefinedRadioSoftSimAdapter44.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration47 = null;
@@ -6826,8 +7040,8 @@ public class RegressionTest0 {
         boolean boolean54 = softwareDefinedRadioSoftSimAdapter44.setConfiguration(sDRConfiguration53);
         opssat.simulator.main.ESASimulator eSASimulator55 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter55 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter56 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator55,
-                                                                                                                                                                                                     pcAdapter55);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter56 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator55, pcAdapter55);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration57 = null;
         boolean boolean58 = softwareDefinedRadioSoftSimAdapter56.setConfiguration(sDRConfiguration57);
         boolean boolean60 = softwareDefinedRadioSoftSimAdapter56.enableSDR((java.lang.Boolean) true);
@@ -6838,8 +7052,11 @@ public class RegressionTest0 {
                                                                                                                                                                                                               softwareDefinedRadioSoftSimAdapter39,
                                                                                                                                                                                                               softwareDefinedRadioSoftSimAdapter44,
                                                                                                                                                                                                               softwareDefinedRadioSoftSimAdapter56};
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter[] softwareDefinedRadioSoftSimAdapterArray64 = stringList6.toArray(softwareDefinedRadioSoftSimAdapterArray63);
-        esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray65 = octetList1.toArray((esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[]) softwareDefinedRadioSoftSimAdapterArray64);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter[] softwareDefinedRadioSoftSimAdapterArray64 = stringList6
+            .toArray(softwareDefinedRadioSoftSimAdapterArray63);
+        esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray65 = octetList1
+            .toArray(
+                (esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[]) softwareDefinedRadioSoftSimAdapterArray64);
         org.junit.Assert.assertNotNull(byteStream3);
         org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
         org.junit.Assert.assertNotNull(element8);
@@ -6879,11 +7096,12 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test136");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                  pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = null;
         autonomousADCSSoftSimAdapter1.setDesiredAttitude(attitudeMode2);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode4 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode4 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode5 = null;
         java.lang.String str6 = autonomousADCSSoftSimAdapter1.validateAttitudeDescriptor(attitudeMode5);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode7 = null;
@@ -6902,14 +7120,17 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test137");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration4 = cameraSoftSimAdapter1.getMinimumPeriod();
         boolean boolean5 = cameraSoftSimAdapter1.isUnitAvailable();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1.getAvailableResolutions();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         java.lang.String str8 = cameraSoftSimAdapter1.getExtraInfo();
         boolean boolean9 = cameraSoftSimAdapter1.isUnitAvailable();
         java.lang.String str10 = cameraSoftSimAdapter1.getExtraInfo();
@@ -6920,10 +7141,10 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(pixelResolutionList6);
         org.junit.Assert.assertNotNull(pixelResolutionList7);
         org.junit.Assert.assertTrue("'" + str8 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str8
-                                                                                                                  .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9);
         org.junit.Assert.assertTrue("'" + str10 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str10
-                                                                                                                    .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
     }
 
     @Test
@@ -6940,7 +7161,8 @@ public class RegressionTest0 {
         int int8 = shortList1.size();
         shortList1.clear();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet10 = shortList1.getAreaVersion();
-        org.ccsds.moims.mo.mal.structures.OctetList octetList12 = new org.ccsds.moims.mo.mal.structures.OctetList((int) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.OctetList octetList12 = new org.ccsds.moims.mo.mal.structures.OctetList(
+            (int) (byte) 1);
         boolean boolean13 = octetList12.isEmpty();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet14 = octetList12.getAreaVersion();
         java.util.stream.Stream<java.lang.Byte> byteStream15 = octetList12.stream();
@@ -6949,29 +7171,29 @@ public class RegressionTest0 {
         int int19 = octetList12.lastIndexOf((java.lang.Object) longList18);
         opssat.simulator.main.ESASimulator eSASimulator20 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter20 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter21 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator20,
-                                                                                                                                                  pcAdapter20);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter21 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator20, pcAdapter20);
         boolean boolean22 = gPSSoftSimAdapter21.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator23 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter23 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter24 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator23,
-                                                                                                                                                  pcAdapter23);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter24 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator23, pcAdapter23);
         boolean boolean25 = gPSSoftSimAdapter24.isUnitAvailable();
         boolean boolean26 = gPSSoftSimAdapter24.isUnitAvailable();
         boolean boolean27 = gPSSoftSimAdapter24.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator28 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter28 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter29 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator28,
-                                                                                                                                                  pcAdapter28);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter29 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator28, pcAdapter28);
         boolean boolean30 = gPSSoftSimAdapter29.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator31 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter31 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter32 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator31,
-                                                                                                                                                  pcAdapter31);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter32 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator31, pcAdapter31);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator33,
-                                                                                                                                                  pcAdapter33);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator33, pcAdapter33);
         boolean boolean35 = gPSSoftSimAdapter34.isUnitAvailable();
         boolean boolean36 = gPSSoftSimAdapter34.isUnitAvailable();
         boolean boolean37 = gPSSoftSimAdapter34.isUnitAvailable();
@@ -6981,7 +7203,8 @@ public class RegressionTest0 {
                                                                                                                                                       gPSSoftSimAdapter29,
                                                                                                                                                       gPSSoftSimAdapter32,
                                                                                                                                                       gPSSoftSimAdapter34};
-        esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[] gPSNMEAonlyAdapterArray40 = longList18.toArray(gPSNMEAonlyAdapterArray39);
+        esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[] gPSNMEAonlyAdapterArray40 = longList18.toArray(
+            gPSNMEAonlyAdapterArray39);
         boolean boolean41 = shortList1.equals((java.lang.Object) gPSNMEAonlyAdapterArray39);
         org.ccsds.moims.mo.mal.structures.Element element42 = shortList1.createElement();
         org.junit.Assert.assertNotNull(uShort2);
@@ -7016,8 +7239,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test139");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                                    pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         boolean boolean2 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration4 = null;
@@ -7046,14 +7269,17 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test140");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration4 = cameraSoftSimAdapter1.getMinimumPeriod();
         boolean boolean5 = cameraSoftSimAdapter1.isUnitAvailable();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1.getAvailableResolutions();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration8 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration9 = cameraSoftSimAdapter1.getMinimumPeriod();
         boolean boolean10 = cameraSoftSimAdapter1.isUnitAvailable();
@@ -7076,12 +7302,13 @@ public class RegressionTest0 {
     public void test141() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test141");
-        org.ccsds.moims.mo.mal.structures.Union union1 = new org.ccsds.moims.mo.mal.structures.Union((java.lang.Integer) (-9));
+        org.ccsds.moims.mo.mal.structures.Union union1 = new org.ccsds.moims.mo.mal.structures.Union(
+            (java.lang.Integer) (-9));
         org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = union1.getAreaVersion();
         opssat.simulator.main.ESASimulator eSASimulator3 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter3 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter4 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator3,
-                                                                                                                                                                                                    pcAdapter3);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter4 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator3, pcAdapter3);
         boolean boolean5 = softwareDefinedRadioSoftSimAdapter4.isUnitAvailable();
         boolean boolean6 = softwareDefinedRadioSoftSimAdapter4.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration7 = null;
@@ -7091,7 +7318,8 @@ public class RegressionTest0 {
         boolean boolean13 = union1.equals((java.lang.Object) boolean12);
         try {
             java.lang.Float float14 = union1.getFloatValue();
-            org.junit.Assert.fail("Expected exception of type java.lang.ClassCastException; message: java.lang.Integer cannot be cast to java.lang.Float");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.ClassCastException; message: java.lang.Integer cannot be cast to java.lang.Float");
         } catch (java.lang.ClassCastException e) {
         }
         org.junit.Assert.assertNotNull(uOctet2);
@@ -7109,32 +7337,33 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test142");
         org.ccsds.moims.mo.mal.structures.LongList longList1 = new org.ccsds.moims.mo.mal.structures.LongList(4);
         boolean boolean2 = longList1.isEmpty();
-        org.ccsds.moims.mo.mal.structures.Union union4 = new org.ccsds.moims.mo.mal.structures.Union((java.lang.Byte) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.Union union4 = new org.ccsds.moims.mo.mal.structures.Union(
+            (java.lang.Byte) (byte) 1);
         org.ccsds.moims.mo.mal.structures.UShort uShort5 = union4.getAreaNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort6 = union4.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort7 = union4.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort8 = union4.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray9 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList10 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean11 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList10,
-                                                         uRIArray9);
+        boolean boolean11 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList10, uRIArray9);
         boolean boolean13 = uRIList10.contains((java.lang.Object) (-18));
         java.lang.Double[] doubleArray18 = new java.lang.Double[]{1.0d, 10.0d, 1.0d, 0.0d};
         java.util.ArrayList<java.lang.Double> doubleList19 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean20 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList19,
-                                                         doubleArray18);
+            doubleArray18);
         java.lang.Short[] shortArray24 = new java.lang.Short[]{(short) 0, (short) 10, (short) 1};
         java.util.ArrayList<java.lang.Short> shortList25 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean26 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList25,
-                                                         shortArray24);
+            shortArray24);
         java.lang.Byte[] byteArray28 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList29 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList29,
-                                                         byteArray28);
+            byteArray28);
         java.lang.Float[] floatArray34 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList35 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean36 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList35,
-                                                         floatArray34);
+            floatArray34);
         boolean boolean37 = byteList29.containsAll((java.util.Collection<java.lang.Float>) floatList35);
         boolean boolean38 = shortList25.containsAll((java.util.Collection<java.lang.Float>) floatList35);
         boolean boolean39 = doubleList19.contains((java.lang.Object) shortList25);
@@ -7143,11 +7372,11 @@ public class RegressionTest0 {
         java.lang.Byte[] byteArray43 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList44 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean45 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList44,
-                                                         byteArray43);
+            byteArray43);
         java.lang.Float[] floatArray49 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList50 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean51 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList50,
-                                                         floatArray49);
+            floatArray49);
         boolean boolean52 = byteList44.containsAll((java.util.Collection<java.lang.Float>) floatList50);
         boolean boolean53 = doubleList19.retainAll((java.util.Collection<java.lang.Float>) floatList50);
         int int54 = doubleList19.size();
@@ -7155,8 +7384,8 @@ public class RegressionTest0 {
         java.util.stream.Stream<java.lang.Double> doubleStream57 = doubleList19.parallelStream();
         opssat.simulator.main.ESASimulator eSASimulator58 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter58 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter59 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator58,
-                                                                                                                                                           pcAdapter58);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter59 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator58, pcAdapter58);
         org.ccsds.moims.mo.mal.structures.Duration duration60 = cameraSoftSimAdapter59.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration61 = cameraSoftSimAdapter59.getMinimumPeriod();
         int int62 = doubleList19.lastIndexOf((java.lang.Object) duration61);
@@ -7208,25 +7437,25 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test143");
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1,
-                                                        uRIArray0);
+        boolean boolean2 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1, uRIArray0);
         boolean boolean4 = uRIList1.contains((java.lang.Object) (-18));
         java.lang.Double[] doubleArray9 = new java.lang.Double[]{1.0d, 10.0d, 1.0d, 0.0d};
         java.util.ArrayList<java.lang.Double> doubleList10 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList10,
-                                                         doubleArray9);
+            doubleArray9);
         java.lang.Short[] shortArray15 = new java.lang.Short[]{(short) 0, (short) 10, (short) 1};
         java.util.ArrayList<java.lang.Short> shortList16 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList16,
-                                                         shortArray15);
+            shortArray15);
         java.lang.Byte[] byteArray19 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList20 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20,
-                                                         byteArray19);
+            byteArray19);
         java.lang.Float[] floatArray25 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList26 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList26,
-                                                         floatArray25);
+            floatArray25);
         boolean boolean28 = byteList20.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean29 = shortList16.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean30 = doubleList10.contains((java.lang.Object) shortList16);
@@ -7234,8 +7463,8 @@ public class RegressionTest0 {
         int int32 = uRIList1.indexOf((java.lang.Object) doubleList10);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator33,
-                                                                                                                                                                                   pcAdapter33);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator33, pcAdapter33);
         boolean boolean35 = doubleList10.remove((java.lang.Object) autonomousADCSSoftSimAdapter34);
         java.lang.Object obj36 = doubleList10.clone();
         java.util.stream.Stream<java.lang.Double> doubleStream37 = doubleList10.stream();
@@ -7269,17 +7498,20 @@ public class RegressionTest0 {
     public void test144() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test144");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 100);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 100);
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = uRIList1.getAreaNumber();
         java.lang.Integer int3 = uRIList1.getTypeShortForm();
         opssat.simulator.main.ESASimulator eSASimulator4 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter5 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator4,
-                                                                                                                                                          pcAdapter4);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter5 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator4, pcAdapter4);
         org.ccsds.moims.mo.mal.structures.Duration duration6 = cameraSoftSimAdapter5.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter5.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter5
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration8 = cameraSoftSimAdapter5.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList9 = cameraSoftSimAdapter5.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList9 = cameraSoftSimAdapter5
+            .getAvailableResolutions();
         int int10 = uRIList1.indexOf((java.lang.Object) cameraSoftSimAdapter5);
         java.util.Spliterator<org.ccsds.moims.mo.mal.structures.URI> uRISpliterator11 = uRIList1.spliterator();
         try {
@@ -7321,7 +7553,8 @@ public class RegressionTest0 {
         java.lang.String str19 = duration18.toString();
         double double20 = duration18.getValue();
         org.ccsds.moims.mo.mal.structures.UShort uShort21 = duration18.getAreaNumber();
-        org.ccsds.moims.mo.mal.structures.Union union23 = new org.ccsds.moims.mo.mal.structures.Union((java.lang.Byte) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.Union union23 = new org.ccsds.moims.mo.mal.structures.Union(
+            (java.lang.Byte) (byte) 1);
         org.ccsds.moims.mo.mal.structures.UShort uShort24 = union23.getAreaNumber();
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray25 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort17,
                                                                                                                   uShort21,
@@ -7332,16 +7565,18 @@ public class RegressionTest0 {
         java.lang.Boolean[] booleanArray31 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList32 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList32,
-                                                         booleanArray31);
+            booleanArray31);
         opssat.simulator.main.ESASimulator eSASimulator34 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter34 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter35 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator34,
-                                                                                                                                                                                   pcAdapter34);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode36 = autonomousADCSSoftSimAdapter35.getActiveAttitudeMode();
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter35 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator34, pcAdapter34);
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode36 = autonomousADCSSoftSimAdapter35
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode37 = null;
         java.lang.String str38 = autonomousADCSSoftSimAdapter35.validateAttitudeDescriptor(attitudeMode37);
         boolean boolean39 = autonomousADCSSoftSimAdapter35.isUnitAvailable();
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode40 = autonomousADCSSoftSimAdapter35.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode40 = autonomousADCSSoftSimAdapter35
+            .getActiveAttitudeMode();
         boolean boolean41 = booleanList32.contains((java.lang.Object) attitudeMode40);
         org.ccsds.moims.mo.mal.structures.LongList longList42 = new org.ccsds.moims.mo.mal.structures.LongList();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet43 = longList42.getAreaVersion();
@@ -7374,7 +7609,7 @@ public class RegressionTest0 {
         java.lang.Short[] shortArray73 = new java.lang.Short[]{(short) 0, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList74 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean75 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList74,
-                                                         shortArray73);
+            shortArray73);
         shortList74.trimToSize();
         java.util.ListIterator<java.lang.Short> shortItor77 = shortList74.listIterator();
         shortList74.ensureCapacity((int) ' ');
@@ -7439,8 +7674,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test146");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         double double3 = duration2.getValue();
         java.lang.String str4 = duration2.toString();
@@ -7459,17 +7694,18 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test147");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         java.lang.String str3 = cameraSoftSimAdapter1.getExtraInfo();
         boolean boolean4 = cameraSoftSimAdapter1.isUnitAvailable();
         boolean boolean5 = cameraSoftSimAdapter1.isUnitAvailable();
         boolean boolean6 = cameraSoftSimAdapter1.isUnitAvailable();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertTrue("'" + str3 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str3
-                                                                                                                  .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6);
@@ -7482,16 +7718,20 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test148");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                  pcAdapter0);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
         java.lang.String str4 = autonomousADCSSoftSimAdapter1.validateAttitudeDescriptor(attitudeMode3);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode5 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode5 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode6 = null;
         autonomousADCSSoftSimAdapter1.setDesiredAttitude(attitudeMode6);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode8 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode9 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode8 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode9 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.junit.Assert.assertNull(attitudeMode2);
         org.junit.Assert.assertNull(str4);
         org.junit.Assert.assertNull(attitudeMode5);
@@ -7505,8 +7745,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test149");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration3 = cameraSoftSimAdapter1.getMinimumPeriod();
         java.lang.String str4 = cameraSoftSimAdapter1.getExtraInfo();
@@ -7514,9 +7754,9 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertNotNull(duration3);
         org.junit.Assert.assertTrue("'" + str4 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str4
-                                                                                                                  .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertTrue("'" + str5 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str5
-                                                                                                                  .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
     }
 
     @Test
@@ -7525,18 +7765,20 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test150");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         java.lang.String str4 = cameraSoftSimAdapter1.getExtraInfo();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList5 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList5 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration6 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.UShort uShort7 = duration6.getServiceNumber();
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertNotNull(pixelResolutionList3);
         org.junit.Assert.assertTrue("'" + str4 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str4
-                                                                                                                  .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertNotNull(pixelResolutionList5);
         org.junit.Assert.assertNotNull(duration6);
         org.junit.Assert.assertNotNull(uShort7);
@@ -7548,8 +7790,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test151");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         double double3 = duration2.getValue();
         java.lang.String str4 = duration2.toString();
@@ -7570,8 +7812,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test152");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration3 = cameraSoftSimAdapter1.getMinimumPeriod();
         java.lang.Integer int4 = duration3.getTypeShortForm();
@@ -7590,17 +7832,20 @@ public class RegressionTest0 {
     public void test153() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test153");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 100);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 100);
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = uRIList1.getAreaNumber();
         java.lang.Integer int3 = uRIList1.getTypeShortForm();
         opssat.simulator.main.ESASimulator eSASimulator4 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter5 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator4,
-                                                                                                                                                          pcAdapter4);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter5 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator4, pcAdapter4);
         org.ccsds.moims.mo.mal.structures.Duration duration6 = cameraSoftSimAdapter5.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter5.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter5
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration8 = cameraSoftSimAdapter5.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList9 = cameraSoftSimAdapter5.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList9 = cameraSoftSimAdapter5
+            .getAvailableResolutions();
         int int10 = uRIList1.indexOf((java.lang.Object) cameraSoftSimAdapter5);
         java.lang.String str11 = cameraSoftSimAdapter5.getExtraInfo();
         boolean boolean12 = cameraSoftSimAdapter5.isUnitAvailable();
@@ -7612,7 +7857,7 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(pixelResolutionList9);
         org.junit.Assert.assertTrue("'" + int10 + "' != '" + (-1) + "'", int10 == (-1));
         org.junit.Assert.assertTrue("'" + str11 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str11
-                                                                                                                    .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + true + "'", boolean12);
     }
 
@@ -7622,8 +7867,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test154");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                                    pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration2 = null;
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.setConfiguration(sDRConfiguration2);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration4 = null;
@@ -7649,8 +7894,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test155");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         double double3 = duration2.getValue();
         java.lang.String str4 = duration2.toString();
@@ -7658,12 +7903,12 @@ public class RegressionTest0 {
         java.lang.String[] strArray10 = new java.lang.String[]{"", "[1]", "[true, true]", ""};
         java.util.ArrayList<java.lang.String> strList11 = new java.util.ArrayList<java.lang.String>();
         boolean boolean12 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList11,
-                                                         strArray10);
+            strArray10);
         org.ccsds.moims.mo.mal.structures.UShort uShort13 = org.ccsds.moims.mo.mal.structures.DoubleList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray14 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort13};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList15 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean16 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList15,
-                                                         uShortArray14);
+        boolean boolean16 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList15, uShortArray14);
         java.lang.String str17 = uShortList15.toString();
         boolean boolean19 = uShortList15.remove((java.lang.Object) (-1));
         int int20 = strList11.indexOf((java.lang.Object) boolean19);
@@ -7687,31 +7932,32 @@ public class RegressionTest0 {
                                                                                                                   uShort32,
                                                                                                                   uShort33};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList35 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean36 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList35,
-                                                         uShortArray34);
+        boolean boolean36 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList35, uShortArray34);
         java.lang.Double[] doubleArray40 = new java.lang.Double[]{100.0d, 100.0d, 1.0d};
         java.util.ArrayList<java.lang.Double> doubleList41 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList41,
-                                                         doubleArray40);
+            doubleArray40);
         java.lang.Float[] floatArray46 = new java.lang.Float[]{(-1.0f), 10.0f, 0.0f};
         java.util.ArrayList<java.lang.Float> floatList47 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean48 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList47,
-                                                         floatArray46);
+            floatArray46);
         int int49 = floatList47.size();
         boolean boolean50 = doubleList41.containsAll((java.util.Collection<java.lang.Float>) floatList47);
         boolean boolean51 = uShortList35.equals((java.lang.Object) doubleList41);
-        org.ccsds.moims.mo.mal.structures.BooleanList booleanList53 = new org.ccsds.moims.mo.mal.structures.BooleanList((int) (byte) 0);
+        org.ccsds.moims.mo.mal.structures.BooleanList booleanList53 = new org.ccsds.moims.mo.mal.structures.BooleanList(
+            (int) (byte) 0);
         org.ccsds.moims.mo.mal.structures.UShort uShort54 = booleanList53.getAreaNumber();
         int int55 = uShortList35.lastIndexOf((java.lang.Object) booleanList53);
         java.lang.Integer int56 = booleanList53.getTypeShortForm();
         java.lang.Byte[] byteArray58 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList59 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean60 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList59,
-                                                         byteArray58);
+            byteArray58);
         java.lang.Float[] floatArray64 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList65 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean66 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList65,
-                                                         floatArray64);
+            floatArray64);
         boolean boolean67 = byteList59.containsAll((java.util.Collection<java.lang.Float>) floatList65);
         boolean boolean68 = floatList65.isEmpty();
         boolean boolean69 = booleanList53.retainAll((java.util.Collection<java.lang.Float>) floatList65);
@@ -7732,7 +7978,7 @@ public class RegressionTest0 {
         org.junit.Assert.assertTrue("'" + boolean19 + "' != '" + false + "'", !boolean19);
         org.junit.Assert.assertTrue("'" + int20 + "' != '" + (-1) + "'", int20 == (-1));
         org.junit.Assert.assertTrue("'" + str21 + "' != '" + "[, [1], [true, true], ]" + "'", str21.equals(
-                                                                                                           "[, [1], [true, true], ]"));
+            "[, [1], [true, true], ]"));
         org.junit.Assert.assertNotNull(uShort22);
         org.junit.Assert.assertNotNull(wildcardClass23);
         org.junit.Assert.assertNotNull(uShort24);
@@ -7773,8 +8019,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test156");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                  pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         boolean boolean2 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
         autonomousADCSSoftSimAdapter1.setDesiredAttitude(attitudeMode3);
@@ -7790,13 +8036,15 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test157");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration4 = cameraSoftSimAdapter1.getMinimumPeriod();
         boolean boolean5 = cameraSoftSimAdapter1.isUnitAvailable();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration7 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Element element8 = duration7.createElement();
         double double9 = duration7.getValue();
@@ -7816,8 +8064,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test158");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                                    pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration2 = null;
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.setConfiguration(sDRConfiguration2);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration4 = null;
@@ -7843,13 +8091,13 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test159");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         java.lang.String str2 = cameraSoftSimAdapter1.getExtraInfo();
         org.ccsds.moims.mo.mal.structures.Duration duration3 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration4 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.junit.Assert.assertTrue("'" + str2 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str2
-                                                                                                                  .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertNotNull(duration3);
         org.junit.Assert.assertNotNull(duration4);
     }
@@ -7860,8 +8108,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test160");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                                    pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration2 = null;
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.setConfiguration(sDRConfiguration2);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration4 = null;
@@ -7899,8 +8147,8 @@ public class RegressionTest0 {
         boolean boolean16 = longList3.isEmpty();
         opssat.simulator.main.ESASimulator eSASimulator17 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter17 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter18 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator17,
-                                                                                                                                                                                                     pcAdapter17);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter18 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator17, pcAdapter17);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration19 = null;
         boolean boolean20 = softwareDefinedRadioSoftSimAdapter18.setConfiguration(sDRConfiguration19);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration21 = null;
@@ -7914,12 +8162,12 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(longArray2);
         org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
         org.junit.Assert.assertTrue("'" + str7 + "' != '" + "[281475010265077, 100]" + "'", str7.equals(
-                                                                                                        "[281475010265077, 100]"));
+            "[281475010265077, 100]"));
         org.junit.Assert.assertNotNull(longStream8);
         org.junit.Assert.assertTrue("'" + str9 + "' != '" + "[281475010265077, 100]" + "'", str9.equals(
-                                                                                                        "[281475010265077, 100]"));
+            "[281475010265077, 100]"));
         org.junit.Assert.assertTrue("'" + str10 + "' != '" + "[281475010265077, 100]" + "'", str10.equals(
-                                                                                                          "[281475010265077, 100]"));
+            "[281475010265077, 100]"));
         org.junit.Assert.assertNotNull(longItor11);
         org.junit.Assert.assertNotNull(longStream12);
         org.junit.Assert.assertTrue("'" + boolean13 + "' != '" + false + "'", !boolean13);
@@ -7941,17 +8189,21 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test162");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                  pcAdapter0);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
         java.lang.String str4 = autonomousADCSSoftSimAdapter1.validateAttitudeDescriptor(attitudeMode3);
         boolean boolean5 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode6 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode6 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         boolean boolean7 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode8 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode8 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         boolean boolean9 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode10 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode10 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.junit.Assert.assertNull(attitudeMode2);
         org.junit.Assert.assertNull(str4);
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
@@ -7968,8 +8220,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test163");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                                    pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         boolean boolean2 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration4 = null;
@@ -8000,12 +8252,13 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test164");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration3 = cameraSoftSimAdapter1.getMinimumPeriod();
         boolean boolean4 = cameraSoftSimAdapter1.isUnitAvailable();
-        org.ccsds.moims.mo.platform.camera.structures.PictureFormatList pictureFormatList5 = cameraSoftSimAdapter1.getAvailableFormats();
+        org.ccsds.moims.mo.platform.camera.structures.PictureFormatList pictureFormatList5 = cameraSoftSimAdapter1
+            .getAvailableFormats();
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertNotNull(duration3);
         org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
@@ -8018,8 +8271,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test165");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                  pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         boolean boolean2 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
         autonomousADCSSoftSimAdapter1.setDesiredAttitude(attitudeMode3);
@@ -8027,7 +8280,8 @@ public class RegressionTest0 {
         autonomousADCSSoftSimAdapter1.setDesiredAttitude(attitudeMode5);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode7 = null;
         autonomousADCSSoftSimAdapter1.setDesiredAttitude(attitudeMode7);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode9 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode9 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2);
         org.junit.Assert.assertNull(attitudeMode9);
     }
@@ -8038,25 +8292,25 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test166");
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1,
-                                                        uRIArray0);
+        boolean boolean2 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1, uRIArray0);
         boolean boolean4 = uRIList1.contains((java.lang.Object) (-18));
         java.lang.Double[] doubleArray9 = new java.lang.Double[]{1.0d, 10.0d, 1.0d, 0.0d};
         java.util.ArrayList<java.lang.Double> doubleList10 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList10,
-                                                         doubleArray9);
+            doubleArray9);
         java.lang.Short[] shortArray15 = new java.lang.Short[]{(short) 0, (short) 10, (short) 1};
         java.util.ArrayList<java.lang.Short> shortList16 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList16,
-                                                         shortArray15);
+            shortArray15);
         java.lang.Byte[] byteArray19 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList20 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20,
-                                                         byteArray19);
+            byteArray19);
         java.lang.Float[] floatArray25 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList26 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList26,
-                                                         floatArray25);
+            floatArray25);
         boolean boolean28 = byteList20.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean29 = shortList16.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean30 = doubleList10.contains((java.lang.Object) shortList16);
@@ -8065,11 +8319,11 @@ public class RegressionTest0 {
         java.lang.Byte[] byteArray34 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList35 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean36 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList35,
-                                                         byteArray34);
+            byteArray34);
         java.lang.Float[] floatArray40 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList41 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList41,
-                                                         floatArray40);
+            floatArray40);
         boolean boolean43 = byteList35.containsAll((java.util.Collection<java.lang.Float>) floatList41);
         boolean boolean44 = doubleList10.retainAll((java.util.Collection<java.lang.Float>) floatList41);
         int int45 = doubleList10.size();
@@ -8077,8 +8331,8 @@ public class RegressionTest0 {
         java.util.stream.Stream<java.lang.Double> doubleStream48 = doubleList10.parallelStream();
         opssat.simulator.main.ESASimulator eSASimulator49 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter50 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator49,
-                                                                                                                                                           pcAdapter49);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter50 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator49, pcAdapter49);
         org.ccsds.moims.mo.mal.structures.Duration duration51 = cameraSoftSimAdapter50.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration52 = cameraSoftSimAdapter50.getMinimumPeriod();
         int int53 = doubleList10.lastIndexOf((java.lang.Object) duration52);
@@ -8132,25 +8386,25 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test167");
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1,
-                                                        uRIArray0);
+        boolean boolean2 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1, uRIArray0);
         boolean boolean4 = uRIList1.contains((java.lang.Object) (-18));
         java.lang.Double[] doubleArray9 = new java.lang.Double[]{1.0d, 10.0d, 1.0d, 0.0d};
         java.util.ArrayList<java.lang.Double> doubleList10 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList10,
-                                                         doubleArray9);
+            doubleArray9);
         java.lang.Short[] shortArray15 = new java.lang.Short[]{(short) 0, (short) 10, (short) 1};
         java.util.ArrayList<java.lang.Short> shortList16 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList16,
-                                                         shortArray15);
+            shortArray15);
         java.lang.Byte[] byteArray19 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList20 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20,
-                                                         byteArray19);
+            byteArray19);
         java.lang.Float[] floatArray25 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList26 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList26,
-                                                         floatArray25);
+            floatArray25);
         boolean boolean28 = byteList20.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean29 = shortList16.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean30 = doubleList10.contains((java.lang.Object) shortList16);
@@ -8158,8 +8412,8 @@ public class RegressionTest0 {
         int int32 = uRIList1.indexOf((java.lang.Object) doubleList10);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator33,
-                                                                                                                                                                                   pcAdapter33);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator33, pcAdapter33);
         boolean boolean35 = doubleList10.remove((java.lang.Object) autonomousADCSSoftSimAdapter34);
         java.lang.Object obj36 = doubleList10.clone();
         java.util.stream.Stream<java.lang.Double> doubleStream37 = doubleList10.stream();
@@ -8195,8 +8449,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test168");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration3 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet4 = duration3.getAreaVersion();
@@ -8211,25 +8465,25 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test169");
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1,
-                                                        uRIArray0);
+        boolean boolean2 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1, uRIArray0);
         boolean boolean4 = uRIList1.contains((java.lang.Object) (-18));
         java.lang.Double[] doubleArray9 = new java.lang.Double[]{1.0d, 10.0d, 1.0d, 0.0d};
         java.util.ArrayList<java.lang.Double> doubleList10 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList10,
-                                                         doubleArray9);
+            doubleArray9);
         java.lang.Short[] shortArray15 = new java.lang.Short[]{(short) 0, (short) 10, (short) 1};
         java.util.ArrayList<java.lang.Short> shortList16 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList16,
-                                                         shortArray15);
+            shortArray15);
         java.lang.Byte[] byteArray19 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList20 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20,
-                                                         byteArray19);
+            byteArray19);
         java.lang.Float[] floatArray25 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList26 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList26,
-                                                         floatArray25);
+            floatArray25);
         boolean boolean28 = byteList20.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean29 = shortList16.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean30 = doubleList10.contains((java.lang.Object) shortList16);
@@ -8237,8 +8491,8 @@ public class RegressionTest0 {
         int int32 = uRIList1.indexOf((java.lang.Object) doubleList10);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator33,
-                                                                                                                                                                                   pcAdapter33);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator33, pcAdapter33);
         boolean boolean35 = doubleList10.remove((java.lang.Object) autonomousADCSSoftSimAdapter34);
         java.lang.Object obj36 = doubleList10.clone();
         java.lang.Object obj37 = null;
@@ -8270,14 +8524,16 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test170");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                  pcAdapter0);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
         java.lang.String str4 = autonomousADCSSoftSimAdapter1.validateAttitudeDescriptor(attitudeMode3);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode5 = null;
         autonomousADCSSoftSimAdapter1.setDesiredAttitude(attitudeMode5);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode7 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode7 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode8 = null;
         java.lang.String str9 = autonomousADCSSoftSimAdapter1.validateAttitudeDescriptor(attitudeMode8);
         org.junit.Assert.assertNull(attitudeMode2);
@@ -8292,21 +8548,23 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test171");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration4 = cameraSoftSimAdapter1.getMinimumPeriod();
         boolean boolean5 = cameraSoftSimAdapter1.isUnitAvailable();
         java.lang.String str6 = cameraSoftSimAdapter1.getExtraInfo();
         org.ccsds.moims.mo.mal.structures.Duration duration7 = cameraSoftSimAdapter1.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList8 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList8 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertNotNull(pixelResolutionList3);
         org.junit.Assert.assertNotNull(duration4);
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertTrue("'" + str6 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str6
-                                                                                                                  .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertNotNull(duration7);
         org.junit.Assert.assertNotNull(pixelResolutionList8);
     }
@@ -8317,8 +8575,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test172");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                                    pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         boolean boolean2 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration4 = null;
@@ -8344,17 +8602,20 @@ public class RegressionTest0 {
     public void test173() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test173");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 100);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 100);
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = uRIList1.getAreaNumber();
         java.lang.Integer int3 = uRIList1.getTypeShortForm();
         opssat.simulator.main.ESASimulator eSASimulator4 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter5 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator4,
-                                                                                                                                                          pcAdapter4);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter5 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator4, pcAdapter4);
         org.ccsds.moims.mo.mal.structures.Duration duration6 = cameraSoftSimAdapter5.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter5.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter5
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration8 = cameraSoftSimAdapter5.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList9 = cameraSoftSimAdapter5.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList9 = cameraSoftSimAdapter5
+            .getAvailableResolutions();
         int int10 = uRIList1.indexOf((java.lang.Object) cameraSoftSimAdapter5);
         java.lang.Integer int11 = uRIList1.getTypeShortForm();
         java.util.ListIterator<org.ccsds.moims.mo.mal.structures.URI> uRIItor12 = uRIList1.listIterator();
@@ -8376,18 +8637,21 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test174");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                  pcAdapter0);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
         java.lang.String str4 = autonomousADCSSoftSimAdapter1.validateAttitudeDescriptor(attitudeMode3);
         boolean boolean5 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode6 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode6 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode7 = null;
         autonomousADCSSoftSimAdapter1.setDesiredAttitude(attitudeMode7);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode9 = null;
         autonomousADCSSoftSimAdapter1.setDesiredAttitude(attitudeMode9);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode11 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode11 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode12 = null;
         autonomousADCSSoftSimAdapter1.setDesiredAttitude(attitudeMode12);
         org.junit.Assert.assertNull(attitudeMode2);
@@ -8403,8 +8667,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test175");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                                    pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration2 = null;
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.setConfiguration(sDRConfiguration2);
         boolean boolean5 = softwareDefinedRadioSoftSimAdapter1.enableSDR((java.lang.Boolean) true);
@@ -8422,21 +8686,23 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test176");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         java.lang.String str4 = cameraSoftSimAdapter1.getExtraInfo();
         java.lang.String str5 = cameraSoftSimAdapter1.getExtraInfo();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration7 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration8 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertNotNull(pixelResolutionList3);
         org.junit.Assert.assertTrue("'" + str4 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str4
-                                                                                                                  .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertTrue("'" + str5 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str5
-                                                                                                                  .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertNotNull(pixelResolutionList6);
         org.junit.Assert.assertNotNull(duration7);
         org.junit.Assert.assertNotNull(duration8);
@@ -8448,14 +8714,17 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test177");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration4 = cameraSoftSimAdapter1.getMinimumPeriod();
         boolean boolean5 = cameraSoftSimAdapter1.isUnitAvailable();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1.getAvailableResolutions();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration8 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration9 = cameraSoftSimAdapter1.getMinimumPeriod();
         boolean boolean10 = cameraSoftSimAdapter1.isUnitAvailable();
@@ -8482,14 +8751,17 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test178");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration4 = cameraSoftSimAdapter1.getMinimumPeriod();
         boolean boolean5 = cameraSoftSimAdapter1.isUnitAvailable();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1.getAvailableResolutions();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration8 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration9 = cameraSoftSimAdapter1.getMinimumPeriod();
         boolean boolean10 = cameraSoftSimAdapter1.isUnitAvailable();
@@ -8514,13 +8786,14 @@ public class RegressionTest0 {
     public void test179() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test179");
-        org.ccsds.moims.mo.mal.structures.BooleanList booleanList1 = new org.ccsds.moims.mo.mal.structures.BooleanList((int) (byte) 0);
+        org.ccsds.moims.mo.mal.structures.BooleanList booleanList1 = new org.ccsds.moims.mo.mal.structures.BooleanList(
+            (int) (byte) 0);
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = booleanList1.getAreaNumber();
         java.lang.Object obj3 = booleanList1.clone();
         opssat.simulator.main.ESASimulator eSASimulator4 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter5 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator4,
-                                                                                                                                                 pcAdapter4);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter5 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator4, pcAdapter4);
         boolean boolean6 = gPSSoftSimAdapter5.isUnitAvailable();
         boolean boolean7 = gPSSoftSimAdapter5.isUnitAvailable();
         boolean boolean8 = gPSSoftSimAdapter5.isUnitAvailable();
@@ -8546,8 +8819,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test180");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration3 = cameraSoftSimAdapter1.getMinimumPeriod();
         java.lang.String str4 = cameraSoftSimAdapter1.getExtraInfo();
@@ -8556,7 +8829,7 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertNotNull(duration3);
         org.junit.Assert.assertTrue("'" + str4 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str4
-                                                                                                                  .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertNotNull(duration5);
         org.junit.Assert.assertTrue("'" + str6 + "' != '" + "10.0" + "'", str6.equals("10.0"));
     }
@@ -8574,12 +8847,12 @@ public class RegressionTest0 {
         java.lang.Float[] floatArray11 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList12 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList12,
-                                                         floatArray11);
+            floatArray11);
         boolean boolean14 = byteList6.containsAll((java.util.Collection<java.lang.Float>) floatList12);
         java.lang.Float[] floatArray18 = new java.lang.Float[]{(-1.0f), 10.0f, 0.0f};
         java.util.ArrayList<java.lang.Float> floatList19 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean20 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList19,
-                                                         floatArray18);
+            floatArray18);
         int int21 = floatList19.size();
         boolean boolean22 = floatList12.containsAll((java.util.Collection<java.lang.Float>) floatList19);
         java.lang.String str23 = floatList12.toString();
@@ -8588,13 +8861,15 @@ public class RegressionTest0 {
         java.util.stream.Stream<java.lang.Short> shortStream26 = shortList1.parallelStream();
         opssat.simulator.main.ESASimulator eSASimulator27 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter27 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter28 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator27,
-                                                                                                                                                                                   pcAdapter27);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode29 = autonomousADCSSoftSimAdapter28.getActiveAttitudeMode();
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter28 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator27, pcAdapter27);
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode29 = autonomousADCSSoftSimAdapter28
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode30 = null;
         java.lang.String str31 = autonomousADCSSoftSimAdapter28.validateAttitudeDescriptor(attitudeMode30);
         boolean boolean32 = autonomousADCSSoftSimAdapter28.isUnitAvailable();
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode33 = autonomousADCSSoftSimAdapter28.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode33 = autonomousADCSSoftSimAdapter28
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode34 = null;
         java.lang.String str35 = autonomousADCSSoftSimAdapter28.validateAttitudeDescriptor(attitudeMode34);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode36 = null;
@@ -8626,9 +8901,9 @@ public class RegressionTest0 {
         org.junit.Assert.assertTrue("'" + int21 + "' != '" + 3 + "'", int21 == 3);
         org.junit.Assert.assertTrue("'" + boolean22 + "' != '" + false + "'", !boolean22);
         org.junit.Assert.assertTrue("'" + str23 + "' != '" + "[-1.0, 10.0, 10.0]" + "'", str23.equals(
-                                                                                                      "[-1.0, 10.0, 10.0]"));
+            "[-1.0, 10.0, 10.0]"));
         org.junit.Assert.assertTrue("'" + str24 + "' != '" + "[-1.0, 10.0, 10.0]" + "'", str24.equals(
-                                                                                                      "[-1.0, 10.0, 10.0]"));
+            "[-1.0, 10.0, 10.0]"));
         org.junit.Assert.assertTrue("'" + boolean25 + "' != '" + false + "'", !boolean25);
         org.junit.Assert.assertNotNull(shortStream26);
         org.junit.Assert.assertNull(attitudeMode29);
@@ -8656,44 +8931,47 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.Element element4 = uShortList1.createElement();
         opssat.simulator.main.ESASimulator eSASimulator5 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter5 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter6 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator5,
-                                                                                                                                                 pcAdapter5);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter6 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator5, pcAdapter5);
         opssat.simulator.main.ESASimulator eSASimulator7 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter7 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter8 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator7,
-                                                                                                                                                 pcAdapter7);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter8 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator7, pcAdapter7);
         opssat.simulator.main.ESASimulator eSASimulator9 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter9 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter10 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator9,
-                                                                                                                                                  pcAdapter9);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter10 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator9, pcAdapter9);
         opssat.simulator.main.ESASimulator eSASimulator11 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter11 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter12 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator11,
-                                                                                                                                                  pcAdapter11);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter12 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator11, pcAdapter11);
         boolean boolean13 = gPSSoftSimAdapter12.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator14 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter14 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter15 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator14,
-                                                                                                                                                  pcAdapter14);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter15 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator14, pcAdapter14);
         boolean boolean16 = gPSSoftSimAdapter15.isUnitAvailable();
         esa.mo.platform.impl.provider.gen.GPSAdapterInterface[] gPSAdapterInterfaceArray17 = new esa.mo.platform.impl.provider.gen.GPSAdapterInterface[]{gPSSoftSimAdapter6,
                                                                                                                                                          gPSSoftSimAdapter8,
                                                                                                                                                          gPSSoftSimAdapter10,
                                                                                                                                                          gPSSoftSimAdapter12,
                                                                                                                                                          gPSSoftSimAdapter15};
-        esa.mo.platform.impl.provider.gen.GPSAdapterInterface[] gPSAdapterInterfaceArray18 = uShortList1.toArray(gPSAdapterInterfaceArray17);
-        org.ccsds.moims.mo.mal.structures.OctetList octetList20 = new org.ccsds.moims.mo.mal.structures.OctetList((int) (byte) 1);
+        esa.mo.platform.impl.provider.gen.GPSAdapterInterface[] gPSAdapterInterfaceArray18 = uShortList1.toArray(
+            gPSAdapterInterfaceArray17);
+        org.ccsds.moims.mo.mal.structures.OctetList octetList20 = new org.ccsds.moims.mo.mal.structures.OctetList(
+            (int) (byte) 1);
         boolean boolean21 = octetList20.isEmpty();
         java.util.stream.Stream<java.lang.Byte> byteStream22 = octetList20.stream();
         java.lang.Long[] longArray25 = new java.lang.Long[]{281475010265077L, 100L};
         java.util.ArrayList<java.lang.Long> longList26 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList26,
-                                                         longArray25);
+            longArray25);
         longList26.ensureCapacity((int) (byte) 100);
         java.lang.Object[] objArray30 = longList26.toArray();
         boolean boolean32 = longList26.remove((java.lang.Object) '#');
         boolean boolean33 = longList26.isEmpty();
-        org.ccsds.moims.mo.mal.structures.IntegerList integerList35 = new org.ccsds.moims.mo.mal.structures.IntegerList((int) 'a');
+        org.ccsds.moims.mo.mal.structures.IntegerList integerList35 = new org.ccsds.moims.mo.mal.structures.IntegerList(
+            (int) 'a');
         java.lang.Integer int36 = integerList35.getTypeShortForm();
         boolean boolean37 = longList26.contains((java.lang.Object) int36);
         boolean boolean38 = octetList20.contains((java.lang.Object) boolean37);
@@ -8742,8 +9020,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test183");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                  pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         boolean boolean2 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
         autonomousADCSSoftSimAdapter1.setDesiredAttitude(attitudeMode3);
@@ -8760,21 +9038,24 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test184");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration4 = cameraSoftSimAdapter1.getMinimumPeriod();
         boolean boolean5 = cameraSoftSimAdapter1.isUnitAvailable();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1.getAvailableResolutions();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration8 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration9 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Time time10 = new org.ccsds.moims.mo.mal.structures.Time();
         java.lang.String[] strArray15 = new java.lang.String[]{"[true, true]", "[1]", "[true, true]", "hi!"};
         java.util.ArrayList<java.lang.String> strList16 = new java.util.ArrayList<java.lang.String>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList16,
-                                                         strArray15);
+            strArray15);
         java.util.Iterator<java.lang.String> strItor18 = strList16.iterator();
         java.lang.String str20 = strList16.remove((int) (byte) 0);
         boolean boolean21 = time10.equals((java.lang.Object) str20);
@@ -8811,25 +9092,25 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test185");
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1,
-                                                        uRIArray0);
+        boolean boolean2 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1, uRIArray0);
         boolean boolean4 = uRIList1.contains((java.lang.Object) (-18));
         java.lang.Double[] doubleArray9 = new java.lang.Double[]{1.0d, 10.0d, 1.0d, 0.0d};
         java.util.ArrayList<java.lang.Double> doubleList10 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList10,
-                                                         doubleArray9);
+            doubleArray9);
         java.lang.Short[] shortArray15 = new java.lang.Short[]{(short) 0, (short) 10, (short) 1};
         java.util.ArrayList<java.lang.Short> shortList16 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList16,
-                                                         shortArray15);
+            shortArray15);
         java.lang.Byte[] byteArray19 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList20 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20,
-                                                         byteArray19);
+            byteArray19);
         java.lang.Float[] floatArray25 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList26 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList26,
-                                                         floatArray25);
+            floatArray25);
         boolean boolean28 = byteList20.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean29 = shortList16.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean30 = doubleList10.contains((java.lang.Object) shortList16);
@@ -8837,38 +9118,38 @@ public class RegressionTest0 {
         int int32 = uRIList1.indexOf((java.lang.Object) doubleList10);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator33,
-                                                                                                                                                                                   pcAdapter33);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator33, pcAdapter33);
         boolean boolean35 = doubleList10.remove((java.lang.Object) autonomousADCSSoftSimAdapter34);
         doubleList10.ensureCapacity((-15));
         java.lang.Short[] shortArray40 = new java.lang.Short[]{(short) 0, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList41 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList41,
-                                                         shortArray40);
+            shortArray40);
         shortList41.trimToSize();
         java.lang.Double[] doubleArray45 = new java.lang.Double[]{100.0d};
         java.util.ArrayList<java.lang.Double> doubleList46 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean47 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList46,
-                                                         doubleArray45);
+            doubleArray45);
         java.lang.String[] strArray52 = new java.lang.String[]{"[true, true]", "[1]", "[true, true]", "hi!"};
         java.util.ArrayList<java.lang.String> strList53 = new java.util.ArrayList<java.lang.String>();
         boolean boolean54 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList53,
-                                                         strArray52);
+            strArray52);
         java.util.Iterator<java.lang.String> strItor55 = strList53.iterator();
         java.lang.String str57 = strList53.remove((int) (byte) 0);
         java.lang.Byte[] byteArray59 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList60 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean61 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList60,
-                                                         byteArray59);
+            byteArray59);
         java.lang.Float[] floatArray65 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList66 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean67 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList66,
-                                                         floatArray65);
+            floatArray65);
         boolean boolean68 = byteList60.containsAll((java.util.Collection<java.lang.Float>) floatList66);
         java.lang.Float[] floatArray72 = new java.lang.Float[]{(-1.0f), 10.0f, 0.0f};
         java.util.ArrayList<java.lang.Float> floatList73 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean74 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList73,
-                                                         floatArray72);
+            floatArray72);
         int int75 = floatList73.size();
         boolean boolean76 = floatList66.containsAll((java.util.Collection<java.lang.Float>) floatList73);
         boolean boolean77 = strList53.containsAll((java.util.Collection<java.lang.Float>) floatList66);
@@ -8876,7 +9157,7 @@ public class RegressionTest0 {
         java.lang.Float[] floatArray82 = new java.lang.Float[]{(-1.0f), 10.0f, 0.0f};
         java.util.ArrayList<java.lang.Float> floatList83 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean84 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList83,
-                                                         floatArray82);
+            floatArray82);
         int int85 = floatList83.size();
         boolean boolean86 = floatList66.containsAll((java.util.Collection<java.lang.Float>) floatList83);
         boolean boolean87 = shortList41.removeAll((java.util.Collection<java.lang.Float>) floatList83);
@@ -8945,8 +9226,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test186");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                                    pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         boolean boolean2 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration4 = null;
@@ -8977,25 +9258,25 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test187");
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1,
-                                                        uRIArray0);
+        boolean boolean2 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1, uRIArray0);
         boolean boolean4 = uRIList1.contains((java.lang.Object) (-18));
         java.lang.Double[] doubleArray9 = new java.lang.Double[]{1.0d, 10.0d, 1.0d, 0.0d};
         java.util.ArrayList<java.lang.Double> doubleList10 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList10,
-                                                         doubleArray9);
+            doubleArray9);
         java.lang.Short[] shortArray15 = new java.lang.Short[]{(short) 0, (short) 10, (short) 1};
         java.util.ArrayList<java.lang.Short> shortList16 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList16,
-                                                         shortArray15);
+            shortArray15);
         java.lang.Byte[] byteArray19 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList20 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20,
-                                                         byteArray19);
+            byteArray19);
         java.lang.Float[] floatArray25 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList26 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList26,
-                                                         floatArray25);
+            floatArray25);
         boolean boolean28 = byteList20.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean29 = shortList16.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean30 = doubleList10.contains((java.lang.Object) shortList16);
@@ -9003,8 +9284,8 @@ public class RegressionTest0 {
         int int32 = uRIList1.indexOf((java.lang.Object) doubleList10);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator33,
-                                                                                                                                                                                   pcAdapter33);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator33, pcAdapter33);
         boolean boolean35 = doubleList10.remove((java.lang.Object) autonomousADCSSoftSimAdapter34);
         java.util.Iterator<java.lang.Double> doubleItor36 = doubleList10.iterator();
         java.util.stream.Stream<java.lang.Double> doubleStream37 = doubleList10.stream();
@@ -9034,8 +9315,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test188");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         double double3 = duration2.getValue();
         java.lang.String str4 = duration2.toString();
@@ -9043,12 +9324,12 @@ public class RegressionTest0 {
         java.lang.String[] strArray10 = new java.lang.String[]{"", "[1]", "[true, true]", ""};
         java.util.ArrayList<java.lang.String> strList11 = new java.util.ArrayList<java.lang.String>();
         boolean boolean12 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList11,
-                                                         strArray10);
+            strArray10);
         org.ccsds.moims.mo.mal.structures.UShort uShort13 = org.ccsds.moims.mo.mal.structures.DoubleList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray14 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort13};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList15 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean16 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList15,
-                                                         uShortArray14);
+        boolean boolean16 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList15, uShortArray14);
         java.lang.String str17 = uShortList15.toString();
         boolean boolean19 = uShortList15.remove((java.lang.Object) (-1));
         int int20 = strList11.indexOf((java.lang.Object) boolean19);
@@ -9072,31 +9353,32 @@ public class RegressionTest0 {
                                                                                                                   uShort32,
                                                                                                                   uShort33};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList35 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean36 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList35,
-                                                         uShortArray34);
+        boolean boolean36 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList35, uShortArray34);
         java.lang.Double[] doubleArray40 = new java.lang.Double[]{100.0d, 100.0d, 1.0d};
         java.util.ArrayList<java.lang.Double> doubleList41 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList41,
-                                                         doubleArray40);
+            doubleArray40);
         java.lang.Float[] floatArray46 = new java.lang.Float[]{(-1.0f), 10.0f, 0.0f};
         java.util.ArrayList<java.lang.Float> floatList47 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean48 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList47,
-                                                         floatArray46);
+            floatArray46);
         int int49 = floatList47.size();
         boolean boolean50 = doubleList41.containsAll((java.util.Collection<java.lang.Float>) floatList47);
         boolean boolean51 = uShortList35.equals((java.lang.Object) doubleList41);
-        org.ccsds.moims.mo.mal.structures.BooleanList booleanList53 = new org.ccsds.moims.mo.mal.structures.BooleanList((int) (byte) 0);
+        org.ccsds.moims.mo.mal.structures.BooleanList booleanList53 = new org.ccsds.moims.mo.mal.structures.BooleanList(
+            (int) (byte) 0);
         org.ccsds.moims.mo.mal.structures.UShort uShort54 = booleanList53.getAreaNumber();
         int int55 = uShortList35.lastIndexOf((java.lang.Object) booleanList53);
         java.lang.Integer int56 = booleanList53.getTypeShortForm();
         java.lang.Byte[] byteArray58 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList59 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean60 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList59,
-                                                         byteArray58);
+            byteArray58);
         java.lang.Float[] floatArray64 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList65 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean66 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList65,
-                                                         floatArray64);
+            floatArray64);
         boolean boolean67 = byteList59.containsAll((java.util.Collection<java.lang.Float>) floatList65);
         boolean boolean68 = floatList65.isEmpty();
         boolean boolean69 = booleanList53.retainAll((java.util.Collection<java.lang.Float>) floatList65);
@@ -9116,7 +9398,7 @@ public class RegressionTest0 {
         org.junit.Assert.assertTrue("'" + boolean19 + "' != '" + false + "'", !boolean19);
         org.junit.Assert.assertTrue("'" + int20 + "' != '" + (-1) + "'", int20 == (-1));
         org.junit.Assert.assertTrue("'" + str21 + "' != '" + "[, [1], [true, true], ]" + "'", str21.equals(
-                                                                                                           "[, [1], [true, true], ]"));
+            "[, [1], [true, true], ]"));
         org.junit.Assert.assertNotNull(uShort22);
         org.junit.Assert.assertNotNull(wildcardClass23);
         org.junit.Assert.assertNotNull(uShort24);
@@ -9156,8 +9438,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test189");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                                    pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         boolean boolean2 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration4 = null;
@@ -9180,8 +9462,10 @@ public class RegressionTest0 {
     public void test190() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test190");
-        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList((int) (short) 1);
-        org.ccsds.moims.mo.mal.structures.IntegerList integerList3 = new org.ccsds.moims.mo.mal.structures.IntegerList(3);
+        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (short) 1);
+        org.ccsds.moims.mo.mal.structures.IntegerList integerList3 = new org.ccsds.moims.mo.mal.structures.IntegerList(
+            3);
         int int4 = stringList1.lastIndexOf((java.lang.Object) 3);
         java.util.Iterator<java.lang.String> strItor5 = stringList1.iterator();
         java.lang.Long[] longArray8 = new java.lang.Long[]{281475010265077L, 100L};
@@ -9194,25 +9478,28 @@ public class RegressionTest0 {
         java.lang.String str16 = longList9.toString();
         longList9.add(0, (java.lang.Long) 10L);
         java.util.ListIterator<java.lang.Long> longItor20 = longList9.listIterator();
-        org.ccsds.moims.mo.mal.structures.IntegerList integerList22 = new org.ccsds.moims.mo.mal.structures.IntegerList((int) 'a');
+        org.ccsds.moims.mo.mal.structures.IntegerList integerList22 = new org.ccsds.moims.mo.mal.structures.IntegerList(
+            (int) 'a');
         java.lang.Integer int23 = integerList22.getTypeShortForm();
         org.ccsds.moims.mo.mal.structures.URIList uRIList24 = new org.ccsds.moims.mo.mal.structures.URIList();
         org.ccsds.moims.mo.mal.structures.UShort uShort25 = uRIList24.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort26 = uRIList24.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.Element element27 = uRIList24.createElement();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet28 = uRIList24.getAreaVersion();
-        org.ccsds.moims.mo.mal.structures.FloatList floatList30 = new org.ccsds.moims.mo.mal.structures.FloatList((int) 'a');
+        org.ccsds.moims.mo.mal.structures.FloatList floatList30 = new org.ccsds.moims.mo.mal.structures.FloatList(
+            (int) 'a');
         java.lang.Integer int31 = floatList30.getTypeShortForm();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet32 = floatList30.getAreaVersion();
         boolean boolean33 = uRIList24.containsAll((java.util.Collection<java.lang.Float>) floatList30);
         boolean boolean34 = integerList22.containsAll((java.util.Collection<java.lang.Float>) floatList30);
         boolean boolean35 = longList9.removeAll((java.util.Collection<java.lang.Float>) floatList30);
         boolean boolean36 = stringList1.retainAll((java.util.Collection<java.lang.Float>) floatList30);
-        org.ccsds.moims.mo.mal.structures.StringList stringList38 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 100);
+        org.ccsds.moims.mo.mal.structures.StringList stringList38 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 100);
         opssat.simulator.main.ESASimulator eSASimulator39 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter39 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter40 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator39,
-                                                                                                                                                                                                     pcAdapter39);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter40 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator39, pcAdapter39);
         boolean boolean41 = softwareDefinedRadioSoftSimAdapter40.isUnitAvailable();
         boolean boolean42 = softwareDefinedRadioSoftSimAdapter40.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration43 = null;
@@ -9221,37 +9508,39 @@ public class RegressionTest0 {
         boolean boolean48 = softwareDefinedRadioSoftSimAdapter40.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator49 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter50 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator49,
-                                                                                                                                                                                                     pcAdapter49);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter50 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator49, pcAdapter49);
         boolean boolean51 = softwareDefinedRadioSoftSimAdapter50.isUnitAvailable();
         boolean boolean53 = softwareDefinedRadioSoftSimAdapter50.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator54 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter54 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter55 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator54,
-                                                                                                                                                                                                     pcAdapter54);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter55 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator54, pcAdapter54);
         boolean boolean56 = softwareDefinedRadioSoftSimAdapter55.isUnitAvailable();
         boolean boolean57 = softwareDefinedRadioSoftSimAdapter55.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator58 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter58 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter59 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator58,
-                                                                                                                                                                                                     pcAdapter58);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter59 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator58, pcAdapter58);
         esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray60 = new esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[]{softwareDefinedRadioSoftSimAdapter40,
                                                                                                                                                                                                             softwareDefinedRadioSoftSimAdapter50,
                                                                                                                                                                                                             softwareDefinedRadioSoftSimAdapter55,
                                                                                                                                                                                                             softwareDefinedRadioSoftSimAdapter59};
-        esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray61 = stringList38.toArray(softwareDefinedRadioAdapterInterfaceArray60);
-        esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray62 = stringList1.toArray(softwareDefinedRadioAdapterInterfaceArray61);
+        esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray61 = stringList38
+            .toArray(softwareDefinedRadioAdapterInterfaceArray60);
+        esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray62 = stringList1
+            .toArray(softwareDefinedRadioAdapterInterfaceArray61);
         org.junit.Assert.assertTrue("'" + int4 + "' != '" + (-1) + "'", int4 == (-1));
         org.junit.Assert.assertNotNull(strItor5);
         org.junit.Assert.assertNotNull(longArray8);
         org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10);
         org.junit.Assert.assertTrue("'" + str13 + "' != '" + "[281475010265077, 100]" + "'", str13.equals(
-                                                                                                          "[281475010265077, 100]"));
+            "[281475010265077, 100]"));
         org.junit.Assert.assertNotNull(longStream14);
         org.junit.Assert.assertTrue("'" + str15 + "' != '" + "[281475010265077, 100]" + "'", str15.equals(
-                                                                                                          "[281475010265077, 100]"));
+            "[281475010265077, 100]"));
         org.junit.Assert.assertTrue("'" + str16 + "' != '" + "[281475010265077, 100]" + "'", str16.equals(
-                                                                                                          "[281475010265077, 100]"));
+            "[281475010265077, 100]"));
         org.junit.Assert.assertNotNull(longItor20);
         org.junit.Assert.assertTrue("'" + int23 + "' != '" + (-11) + "'", int23.equals((-11)));
         org.junit.Assert.assertNotNull(uShort25);
@@ -9284,17 +9573,20 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test191");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                  pcAdapter0);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
         java.lang.String str4 = autonomousADCSSoftSimAdapter1.validateAttitudeDescriptor(attitudeMode3);
         boolean boolean5 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode6 = null;
         autonomousADCSSoftSimAdapter1.setDesiredAttitude(attitudeMode6);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode8 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode8 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         boolean boolean9 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode10 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode10 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         boolean boolean11 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
         org.junit.Assert.assertNull(attitudeMode2);
         org.junit.Assert.assertNull(str4);
@@ -9311,12 +9603,14 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test192");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                  pcAdapter0);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
         java.lang.String str4 = autonomousADCSSoftSimAdapter1.validateAttitudeDescriptor(attitudeMode3);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode5 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode5 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         boolean boolean6 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
         boolean boolean7 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
         org.junit.Assert.assertNull(attitudeMode2);
@@ -9330,7 +9624,8 @@ public class RegressionTest0 {
     public void test193() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test193");
-        org.ccsds.moims.mo.mal.structures.BooleanList booleanList1 = new org.ccsds.moims.mo.mal.structures.BooleanList((int) (byte) 0);
+        org.ccsds.moims.mo.mal.structures.BooleanList booleanList1 = new org.ccsds.moims.mo.mal.structures.BooleanList(
+            (int) (byte) 0);
         boolean boolean3 = booleanList1.add((java.lang.Boolean) false);
         boolean boolean4 = booleanList1.isEmpty();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet5 = booleanList1.getAreaVersion();
@@ -9340,8 +9635,8 @@ public class RegressionTest0 {
         integerList6.clear();
         opssat.simulator.main.ESASimulator eSASimulator10 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter10 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter11 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator10,
-                                                                                                                                                                                                     pcAdapter10);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter11 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator10, pcAdapter10);
         boolean boolean12 = softwareDefinedRadioSoftSimAdapter11.isUnitAvailable();
         boolean boolean14 = softwareDefinedRadioSoftSimAdapter11.enableSDR((java.lang.Boolean) true);
         boolean boolean15 = integerList6.contains((java.lang.Object) true);
@@ -9367,8 +9662,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test194");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                                    pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration2 = null;
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.setConfiguration(sDRConfiguration2);
         boolean boolean5 = softwareDefinedRadioSoftSimAdapter1.enableSDR((java.lang.Boolean) true);
@@ -9386,13 +9681,15 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test195");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                  pcAdapter0);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
         java.lang.String str4 = autonomousADCSSoftSimAdapter1.validateAttitudeDescriptor(attitudeMode3);
         boolean boolean5 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode6 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode6 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode7 = null;
         java.lang.String str8 = autonomousADCSSoftSimAdapter1.validateAttitudeDescriptor(attitudeMode7);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode9 = null;
@@ -9420,24 +9717,27 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = duration0.getAreaNumber();
         opssat.simulator.main.ESASimulator eSASimulator3 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter3 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter4 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator3,
-                                                                                                                                                          pcAdapter3);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter4 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator3, pcAdapter3);
         org.ccsds.moims.mo.mal.structures.Duration duration5 = cameraSoftSimAdapter4.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter4.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter4
+            .getAvailableResolutions();
         java.lang.String str7 = cameraSoftSimAdapter4.getExtraInfo();
         java.lang.String str8 = cameraSoftSimAdapter4.getExtraInfo();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList9 = cameraSoftSimAdapter4.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList9 = cameraSoftSimAdapter4
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration10 = cameraSoftSimAdapter4.getMinimumPeriod();
         boolean boolean11 = duration0.equals((java.lang.Object) cameraSoftSimAdapter4);
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList12 = cameraSoftSimAdapter4.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList12 = cameraSoftSimAdapter4
+            .getAvailableResolutions();
         org.junit.Assert.assertTrue("'" + double1 + "' != '" + 0.0d + "'", double1 == 0.0d);
         org.junit.Assert.assertNotNull(uShort2);
         org.junit.Assert.assertNotNull(duration5);
         org.junit.Assert.assertNotNull(pixelResolutionList6);
         org.junit.Assert.assertTrue("'" + str7 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str7
-                                                                                                                  .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertTrue("'" + str8 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str8
-                                                                                                                  .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertNotNull(pixelResolutionList9);
         org.junit.Assert.assertNotNull(duration10);
         org.junit.Assert.assertTrue("'" + boolean11 + "' != '" + false + "'", !boolean11);
@@ -9448,12 +9748,13 @@ public class RegressionTest0 {
     public void test197() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test197");
-        org.ccsds.moims.mo.mal.structures.IntegerList integerList1 = new org.ccsds.moims.mo.mal.structures.IntegerList((int) 'a');
+        org.ccsds.moims.mo.mal.structures.IntegerList integerList1 = new org.ccsds.moims.mo.mal.structures.IntegerList(
+            (int) 'a');
         java.lang.Long long2 = integerList1.getShortForm();
         java.lang.Boolean[] booleanArray5 = new java.lang.Boolean[]{true, true};
         java.util.ArrayList<java.lang.Boolean> booleanList6 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean7 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList6,
-                                                        booleanArray5);
+            booleanArray5);
         java.lang.String str8 = booleanList6.toString();
         java.util.stream.Stream<java.lang.Boolean> booleanStream9 = booleanList6.parallelStream();
         boolean boolean10 = booleanList6.isEmpty();
@@ -9465,40 +9766,41 @@ public class RegressionTest0 {
         java.lang.Byte[] byteArray17 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList18 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean19 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList18,
-                                                         byteArray17);
+            byteArray17);
         java.lang.Float[] floatArray23 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList24 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean25 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList24,
-                                                         floatArray23);
+            floatArray23);
         boolean boolean26 = byteList18.containsAll((java.util.Collection<java.lang.Float>) floatList24);
         boolean boolean27 = floatList24.isEmpty();
         org.ccsds.moims.mo.mal.structures.UShort uShort28 = org.ccsds.moims.mo.mal.structures.DoubleList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray29 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort28};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList30 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean31 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList30,
-                                                         uShortArray29);
+        boolean boolean31 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList30, uShortArray29);
         java.lang.String str32 = uShortList30.toString();
         java.lang.Object[] objArray33 = uShortList30.toArray();
         java.lang.Double[] doubleArray37 = new java.lang.Double[]{100.0d, 100.0d, 1.0d};
         java.util.ArrayList<java.lang.Double> doubleList38 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList38,
-                                                         doubleArray37);
+            doubleArray37);
         java.lang.Float[] floatArray43 = new java.lang.Float[]{(-1.0f), 10.0f, 0.0f};
         java.util.ArrayList<java.lang.Float> floatList44 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean45 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList44,
-                                                         floatArray43);
+            floatArray43);
         int int46 = floatList44.size();
         boolean boolean47 = doubleList38.containsAll((java.util.Collection<java.lang.Float>) floatList44);
         boolean boolean48 = uShortList30.retainAll((java.util.Collection<java.lang.Float>) floatList44);
         java.lang.Boolean[] booleanArray51 = new java.lang.Boolean[]{true, true};
         java.util.ArrayList<java.lang.Boolean> booleanList52 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean53 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList52,
-                                                         booleanArray51);
+            booleanArray51);
         java.lang.String str54 = booleanList52.toString();
         int int55 = booleanList52.size();
         boolean boolean56 = floatList44.contains((java.lang.Object) int55);
         boolean boolean57 = floatList24.addAll((java.util.Collection<java.lang.Float>) floatList44);
-        org.ccsds.moims.mo.mal.structures.Union union59 = new org.ccsds.moims.mo.mal.structures.Union((java.lang.Byte) (byte) 10);
+        org.ccsds.moims.mo.mal.structures.Union union59 = new org.ccsds.moims.mo.mal.structures.Union(
+            (java.lang.Byte) (byte) 10);
         java.lang.String str60 = union59.toString();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet61 = union59.getAreaVersion();
         int int62 = floatList44.lastIndexOf((java.lang.Object) union59);
@@ -9507,13 +9809,15 @@ public class RegressionTest0 {
         java.lang.Integer int65 = integerList1.getTypeShortForm();
         opssat.simulator.main.ESASimulator eSASimulator66 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter66 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter67 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator66,
-                                                                                                                                                           pcAdapter66);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter67 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator66, pcAdapter66);
         org.ccsds.moims.mo.mal.structures.Duration duration68 = cameraSoftSimAdapter67.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList69 = cameraSoftSimAdapter67.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList69 = cameraSoftSimAdapter67
+            .getAvailableResolutions();
         java.lang.String str70 = cameraSoftSimAdapter67.getExtraInfo();
         java.lang.String str71 = cameraSoftSimAdapter67.getExtraInfo();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList72 = cameraSoftSimAdapter67.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList72 = cameraSoftSimAdapter67
+            .getAvailableResolutions();
         boolean boolean73 = integerList1.equals((java.lang.Object) pixelResolutionList72);
         org.junit.Assert.assertTrue("'" + long2 + "' != '" + 281475010265077L + "'", long2.equals(281475010265077L));
         org.junit.Assert.assertNotNull(booleanArray5);
@@ -9558,9 +9862,9 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(duration68);
         org.junit.Assert.assertNotNull(pixelResolutionList69);
         org.junit.Assert.assertTrue("'" + str70 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str70
-                                                                                                                    .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertTrue("'" + str71 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str71
-                                                                                                                    .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertNotNull(pixelResolutionList72);
         org.junit.Assert.assertTrue("'" + boolean73 + "' != '" + false + "'", !boolean73);
     }
@@ -9571,9 +9875,10 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test198");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                  pcAdapter0);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
         java.lang.String str4 = autonomousADCSSoftSimAdapter1.validateAttitudeDescriptor(attitudeMode3);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode5 = null;
@@ -9594,17 +9899,20 @@ public class RegressionTest0 {
         java.lang.Integer int2 = uRIList0.getTypeShortForm();
         uRIList0.ensureCapacity(18);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet5 = uRIList0.getAreaVersion();
-        org.ccsds.moims.mo.mal.structures.OctetList octetList7 = new org.ccsds.moims.mo.mal.structures.OctetList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.OctetList octetList7 = new org.ccsds.moims.mo.mal.structures.OctetList(
+            (int) (short) 0);
         java.util.stream.Stream<java.lang.Byte> byteStream8 = octetList7.stream();
         boolean boolean9 = uRIList0.equals((java.lang.Object) byteStream8);
         opssat.simulator.main.ESASimulator eSASimulator10 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter10 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter11 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator10,
-                                                                                                                                                           pcAdapter10);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter11 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator10, pcAdapter10);
         org.ccsds.moims.mo.mal.structures.Duration duration12 = cameraSoftSimAdapter11.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList13 = cameraSoftSimAdapter11.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList13 = cameraSoftSimAdapter11
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration14 = cameraSoftSimAdapter11.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList15 = cameraSoftSimAdapter11.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList15 = cameraSoftSimAdapter11
+            .getAvailableResolutions();
         boolean boolean16 = cameraSoftSimAdapter11.isUnitAvailable();
         org.ccsds.moims.mo.mal.structures.Duration duration17 = cameraSoftSimAdapter11.getMinimumPeriod();
         java.lang.Long long18 = duration17.getShortForm();
@@ -9615,37 +9923,37 @@ public class RegressionTest0 {
         java.lang.String[] strArray28 = new java.lang.String[]{"[true, true]", "[1]", "[true, true]", "hi!"};
         java.util.ArrayList<java.lang.String> strList29 = new java.util.ArrayList<java.lang.String>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList29,
-                                                         strArray28);
+            strArray28);
         java.util.Iterator<java.lang.String> strItor31 = strList29.iterator();
         java.lang.String str33 = strList29.remove((int) (byte) 0);
         java.lang.Byte[] byteArray35 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList36 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean37 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList36,
-                                                         byteArray35);
+            byteArray35);
         java.lang.Float[] floatArray41 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList42 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean43 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList42,
-                                                         floatArray41);
+            floatArray41);
         boolean boolean44 = byteList36.containsAll((java.util.Collection<java.lang.Float>) floatList42);
         java.lang.Float[] floatArray48 = new java.lang.Float[]{(-1.0f), 10.0f, 0.0f};
         java.util.ArrayList<java.lang.Float> floatList49 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean50 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList49,
-                                                         floatArray48);
+            floatArray48);
         int int51 = floatList49.size();
         boolean boolean52 = floatList42.containsAll((java.util.Collection<java.lang.Float>) floatList49);
         boolean boolean53 = strList29.containsAll((java.util.Collection<java.lang.Float>) floatList42);
         java.lang.Short[] shortArray57 = new java.lang.Short[]{(short) 0, (short) 10, (short) 1};
         java.util.ArrayList<java.lang.Short> shortList58 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean59 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList58,
-                                                         shortArray57);
+            shortArray57);
         java.lang.Byte[] byteArray61 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList62 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean63 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList62,
-                                                         byteArray61);
+            byteArray61);
         java.lang.Float[] floatArray67 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList68 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean69 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList68,
-                                                         floatArray67);
+            floatArray67);
         boolean boolean70 = byteList62.containsAll((java.util.Collection<java.lang.Float>) floatList68);
         boolean boolean71 = shortList58.containsAll((java.util.Collection<java.lang.Float>) floatList68);
         boolean boolean72 = floatList42.retainAll((java.util.Collection<java.lang.Float>) floatList68);
@@ -9657,7 +9965,8 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.Element element78 = shortList22.createElement();
         int int79 = uRIList0.lastIndexOf((java.lang.Object) shortList22);
         try {
-            java.util.ListIterator<org.ccsds.moims.mo.mal.structures.URI> uRIItor81 = uRIList0.listIterator((int) (byte) 10);
+            java.util.ListIterator<org.ccsds.moims.mo.mal.structures.URI> uRIItor81 = uRIList0.listIterator(
+                (int) (byte) 10);
             org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 10");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
@@ -9712,13 +10021,15 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test200");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration4 = cameraSoftSimAdapter1.getMinimumPeriod();
         boolean boolean5 = cameraSoftSimAdapter1.isUnitAvailable();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration7 = cameraSoftSimAdapter1.getMinimumPeriod();
         java.lang.String str8 = cameraSoftSimAdapter1.getExtraInfo();
         org.junit.Assert.assertNotNull(duration2);
@@ -9728,7 +10039,7 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(pixelResolutionList6);
         org.junit.Assert.assertNotNull(duration7);
         org.junit.Assert.assertTrue("'" + str8 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str8
-                                                                                                                  .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
     }
 
     @Test
@@ -9744,17 +10055,20 @@ public class RegressionTest0 {
         java.lang.Integer int6 = uRIList4.getTypeShortForm();
         uRIList4.ensureCapacity(18);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet9 = uRIList4.getAreaVersion();
-        org.ccsds.moims.mo.mal.structures.OctetList octetList11 = new org.ccsds.moims.mo.mal.structures.OctetList((int) (short) 0);
+        org.ccsds.moims.mo.mal.structures.OctetList octetList11 = new org.ccsds.moims.mo.mal.structures.OctetList(
+            (int) (short) 0);
         java.util.stream.Stream<java.lang.Byte> byteStream12 = octetList11.stream();
         boolean boolean13 = uRIList4.equals((java.lang.Object) byteStream12);
         opssat.simulator.main.ESASimulator eSASimulator14 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter14 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter15 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator14,
-                                                                                                                                                           pcAdapter14);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter15 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator14, pcAdapter14);
         org.ccsds.moims.mo.mal.structures.Duration duration16 = cameraSoftSimAdapter15.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList17 = cameraSoftSimAdapter15.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList17 = cameraSoftSimAdapter15
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration18 = cameraSoftSimAdapter15.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList19 = cameraSoftSimAdapter15.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList19 = cameraSoftSimAdapter15
+            .getAvailableResolutions();
         boolean boolean20 = cameraSoftSimAdapter15.isUnitAvailable();
         org.ccsds.moims.mo.mal.structures.Duration duration21 = cameraSoftSimAdapter15.getMinimumPeriod();
         java.lang.Long long22 = duration21.getShortForm();
@@ -9765,37 +10079,37 @@ public class RegressionTest0 {
         java.lang.String[] strArray32 = new java.lang.String[]{"[true, true]", "[1]", "[true, true]", "hi!"};
         java.util.ArrayList<java.lang.String> strList33 = new java.util.ArrayList<java.lang.String>();
         boolean boolean34 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList33,
-                                                         strArray32);
+            strArray32);
         java.util.Iterator<java.lang.String> strItor35 = strList33.iterator();
         java.lang.String str37 = strList33.remove((int) (byte) 0);
         java.lang.Byte[] byteArray39 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList40 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean41 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList40,
-                                                         byteArray39);
+            byteArray39);
         java.lang.Float[] floatArray45 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList46 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean47 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList46,
-                                                         floatArray45);
+            floatArray45);
         boolean boolean48 = byteList40.containsAll((java.util.Collection<java.lang.Float>) floatList46);
         java.lang.Float[] floatArray52 = new java.lang.Float[]{(-1.0f), 10.0f, 0.0f};
         java.util.ArrayList<java.lang.Float> floatList53 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean54 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList53,
-                                                         floatArray52);
+            floatArray52);
         int int55 = floatList53.size();
         boolean boolean56 = floatList46.containsAll((java.util.Collection<java.lang.Float>) floatList53);
         boolean boolean57 = strList33.containsAll((java.util.Collection<java.lang.Float>) floatList46);
         java.lang.Short[] shortArray61 = new java.lang.Short[]{(short) 0, (short) 10, (short) 1};
         java.util.ArrayList<java.lang.Short> shortList62 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean63 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList62,
-                                                         shortArray61);
+            shortArray61);
         java.lang.Byte[] byteArray65 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList66 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean67 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList66,
-                                                         byteArray65);
+            byteArray65);
         java.lang.Float[] floatArray71 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList72 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean73 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList72,
-                                                         floatArray71);
+            floatArray71);
         boolean boolean74 = byteList66.containsAll((java.util.Collection<java.lang.Float>) floatList72);
         boolean boolean75 = shortList62.containsAll((java.util.Collection<java.lang.Float>) floatList72);
         boolean boolean76 = floatList46.retainAll((java.util.Collection<java.lang.Float>) floatList72);
@@ -9863,14 +10177,17 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test202");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration4 = cameraSoftSimAdapter1.getMinimumPeriod();
         boolean boolean5 = cameraSoftSimAdapter1.isUnitAvailable();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1.getAvailableResolutions();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration8 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration9 = cameraSoftSimAdapter1.getMinimumPeriod();
         java.lang.Integer int10 = duration9.getTypeShortForm();
@@ -9889,7 +10206,8 @@ public class RegressionTest0 {
     public void test203() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test203");
-        org.ccsds.moims.mo.mal.structures.OctetList octetList1 = new org.ccsds.moims.mo.mal.structures.OctetList((int) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.OctetList octetList1 = new org.ccsds.moims.mo.mal.structures.OctetList(
+            (int) (byte) 1);
         boolean boolean2 = octetList1.isEmpty();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet3 = octetList1.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.IntegerList integerList4 = new org.ccsds.moims.mo.mal.structures.IntegerList();
@@ -9899,22 +10217,22 @@ public class RegressionTest0 {
         java.lang.String[] strArray12 = new java.lang.String[]{"[true, true]", "[1]", "[true, true]", "hi!"};
         java.util.ArrayList<java.lang.String> strList13 = new java.util.ArrayList<java.lang.String>();
         boolean boolean14 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList13,
-                                                         strArray12);
+            strArray12);
         java.util.Iterator<java.lang.String> strItor15 = strList13.iterator();
         java.lang.String str17 = strList13.remove((int) (byte) 0);
         java.lang.Byte[] byteArray19 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList20 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20,
-                                                         byteArray19);
+            byteArray19);
         java.lang.Float[] floatArray25 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList26 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList26,
-                                                         floatArray25);
+            floatArray25);
         boolean boolean28 = byteList20.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         java.lang.Float[] floatArray32 = new java.lang.Float[]{(-1.0f), 10.0f, 0.0f};
         java.util.ArrayList<java.lang.Float> floatList33 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean34 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList33,
-                                                         floatArray32);
+            floatArray32);
         int int35 = floatList33.size();
         boolean boolean36 = floatList26.containsAll((java.util.Collection<java.lang.Float>) floatList33);
         boolean boolean37 = strList13.removeAll((java.util.Collection<java.lang.Float>) floatList33);
@@ -9927,16 +10245,16 @@ public class RegressionTest0 {
         java.lang.Long long45 = shortList41.getShortForm();
         opssat.simulator.main.ESASimulator eSASimulator46 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter46 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter opticalDataReceiverSoftSimAdapter47 = new esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter(eSASimulator46,
-                                                                                                                                                                                                  pcAdapter46);
+        esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter opticalDataReceiverSoftSimAdapter47 = new esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter(
+            eSASimulator46, pcAdapter46);
         boolean boolean48 = opticalDataReceiverSoftSimAdapter47.isUnitAvailable();
         boolean boolean49 = opticalDataReceiverSoftSimAdapter47.isUnitAvailable();
         boolean boolean50 = opticalDataReceiverSoftSimAdapter47.isUnitAvailable();
         boolean boolean51 = opticalDataReceiverSoftSimAdapter47.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator52 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter52 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter opticalDataReceiverSoftSimAdapter53 = new esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter(eSASimulator52,
-                                                                                                                                                                                                  pcAdapter52);
+        esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter opticalDataReceiverSoftSimAdapter53 = new esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter(
+            eSASimulator52, pcAdapter52);
         boolean boolean54 = opticalDataReceiverSoftSimAdapter53.isUnitAvailable();
         boolean boolean55 = opticalDataReceiverSoftSimAdapter53.isUnitAvailable();
         boolean boolean56 = opticalDataReceiverSoftSimAdapter53.isUnitAvailable();
@@ -9944,8 +10262,10 @@ public class RegressionTest0 {
         boolean boolean58 = opticalDataReceiverSoftSimAdapter53.isUnitAvailable();
         esa.mo.platform.impl.provider.gen.OpticalDataReceiverAdapterInterface[] opticalDataReceiverAdapterInterfaceArray59 = new esa.mo.platform.impl.provider.gen.OpticalDataReceiverAdapterInterface[]{opticalDataReceiverSoftSimAdapter47,
                                                                                                                                                                                                          opticalDataReceiverSoftSimAdapter53};
-        esa.mo.platform.impl.provider.gen.OpticalDataReceiverAdapterInterface[] opticalDataReceiverAdapterInterfaceArray60 = shortList41.toArray(opticalDataReceiverAdapterInterfaceArray59);
-        esa.mo.platform.impl.provider.gen.OpticalDataReceiverAdapterInterface[] opticalDataReceiverAdapterInterfaceArray61 = octetList1.toArray(opticalDataReceiverAdapterInterfaceArray60);
+        esa.mo.platform.impl.provider.gen.OpticalDataReceiverAdapterInterface[] opticalDataReceiverAdapterInterfaceArray60 = shortList41
+            .toArray(opticalDataReceiverAdapterInterfaceArray59);
+        esa.mo.platform.impl.provider.gen.OpticalDataReceiverAdapterInterface[] opticalDataReceiverAdapterInterfaceArray61 = octetList1
+            .toArray(opticalDataReceiverAdapterInterfaceArray60);
         org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + true + "'", boolean2);
         org.junit.Assert.assertNotNull(uOctet3);
         org.junit.Assert.assertTrue("'" + str6 + "' != '" + "[]" + "'", str6.equals("[]"));
@@ -9988,20 +10308,24 @@ public class RegressionTest0 {
     public void test204() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test204");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 100);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 100);
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = uRIList1.getAreaNumber();
         java.lang.Integer int3 = uRIList1.getTypeShortForm();
         opssat.simulator.main.ESASimulator eSASimulator4 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter5 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator4,
-                                                                                                                                                          pcAdapter4);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter5 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator4, pcAdapter4);
         org.ccsds.moims.mo.mal.structures.Duration duration6 = cameraSoftSimAdapter5.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter5.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter5
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration8 = cameraSoftSimAdapter5.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList9 = cameraSoftSimAdapter5.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList9 = cameraSoftSimAdapter5
+            .getAvailableResolutions();
         int int10 = uRIList1.indexOf((java.lang.Object) cameraSoftSimAdapter5);
         java.lang.String str11 = cameraSoftSimAdapter5.getExtraInfo();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList12 = cameraSoftSimAdapter5.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList12 = cameraSoftSimAdapter5
+            .getAvailableResolutions();
         org.junit.Assert.assertNotNull(uShort2);
         org.junit.Assert.assertTrue("'" + int3 + "' != '" + (-18) + "'", int3.equals((-18)));
         org.junit.Assert.assertNotNull(duration6);
@@ -10010,7 +10334,7 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(pixelResolutionList9);
         org.junit.Assert.assertTrue("'" + int10 + "' != '" + (-1) + "'", int10 == (-1));
         org.junit.Assert.assertTrue("'" + str11 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str11
-                                                                                                                    .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertNotNull(pixelResolutionList12);
     }
 
@@ -10020,25 +10344,25 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test205");
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1,
-                                                        uRIArray0);
+        boolean boolean2 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1, uRIArray0);
         boolean boolean4 = uRIList1.contains((java.lang.Object) (-18));
         java.lang.Double[] doubleArray9 = new java.lang.Double[]{1.0d, 10.0d, 1.0d, 0.0d};
         java.util.ArrayList<java.lang.Double> doubleList10 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList10,
-                                                         doubleArray9);
+            doubleArray9);
         java.lang.Short[] shortArray15 = new java.lang.Short[]{(short) 0, (short) 10, (short) 1};
         java.util.ArrayList<java.lang.Short> shortList16 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList16,
-                                                         shortArray15);
+            shortArray15);
         java.lang.Byte[] byteArray19 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList20 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20,
-                                                         byteArray19);
+            byteArray19);
         java.lang.Float[] floatArray25 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList26 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList26,
-                                                         floatArray25);
+            floatArray25);
         boolean boolean28 = byteList20.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean29 = shortList16.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean30 = doubleList10.contains((java.lang.Object) shortList16);
@@ -10046,11 +10370,13 @@ public class RegressionTest0 {
         int int32 = uRIList1.indexOf((java.lang.Object) doubleList10);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator33,
-                                                                                                                                                                                   pcAdapter33);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator33, pcAdapter33);
         boolean boolean35 = doubleList10.remove((java.lang.Object) autonomousADCSSoftSimAdapter34);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode36 = autonomousADCSSoftSimAdapter34.getActiveAttitudeMode();
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode37 = autonomousADCSSoftSimAdapter34.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode36 = autonomousADCSSoftSimAdapter34
+            .getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode37 = autonomousADCSSoftSimAdapter34
+            .getActiveAttitudeMode();
         boolean boolean38 = autonomousADCSSoftSimAdapter34.isUnitAvailable();
         org.junit.Assert.assertNotNull(uRIArray0);
         org.junit.Assert.assertTrue("'" + boolean2 + "' != '" + false + "'", !boolean2);
@@ -10079,15 +10405,17 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test206");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                  pcAdapter0);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
         java.lang.String str4 = autonomousADCSSoftSimAdapter1.validateAttitudeDescriptor(attitudeMode3);
         boolean boolean5 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode6 = null;
         java.lang.String str7 = autonomousADCSSoftSimAdapter1.validateAttitudeDescriptor(attitudeMode6);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode8 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode8 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         boolean boolean9 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
         org.junit.Assert.assertNull(attitudeMode2);
         org.junit.Assert.assertNull(str4);
@@ -10103,10 +10431,11 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test207");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration4 = cameraSoftSimAdapter1.getMinimumPeriod();
         boolean boolean5 = cameraSoftSimAdapter1.isUnitAvailable();
         java.lang.String str6 = cameraSoftSimAdapter1.getExtraInfo();
@@ -10117,7 +10446,7 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(duration4);
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertTrue("'" + str6 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str6
-                                                                                                                  .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertNotNull(duration7);
         org.junit.Assert.assertTrue("'" + boolean8 + "' != '" + true + "'", boolean8);
     }
@@ -10128,14 +10457,14 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test208");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         java.lang.String str3 = cameraSoftSimAdapter1.getExtraInfo();
         org.ccsds.moims.mo.mal.structures.Duration duration4 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertTrue("'" + str3 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str3
-                                                                                                                  .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertNotNull(duration4);
     }
 
@@ -10145,11 +10474,12 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test209");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                  pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = null;
         autonomousADCSSoftSimAdapter1.setDesiredAttitude(attitudeMode2);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode4 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode4 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode5 = null;
         java.lang.String str6 = autonomousADCSSoftSimAdapter1.validateAttitudeDescriptor(attitudeMode5);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode7 = null;
@@ -10166,23 +10496,27 @@ public class RegressionTest0 {
     public void test210() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test210");
-        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList((int) (short) 1);
-        org.ccsds.moims.mo.mal.structures.IntegerList integerList3 = new org.ccsds.moims.mo.mal.structures.IntegerList(3);
+        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (short) 1);
+        org.ccsds.moims.mo.mal.structures.IntegerList integerList3 = new org.ccsds.moims.mo.mal.structures.IntegerList(
+            3);
         int int4 = stringList1.lastIndexOf((java.lang.Object) 3);
-        org.ccsds.moims.mo.mal.structures.StringList stringList6 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 100);
+        org.ccsds.moims.mo.mal.structures.StringList stringList6 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 100);
         java.lang.Long[] longArray10 = new java.lang.Long[]{(-1L), 10L, 100L};
         java.util.ArrayList<java.lang.Long> longList11 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean12 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList11,
-                                                         longArray10);
+            longArray10);
         java.util.ListIterator<java.lang.Long> longItor14 = longList11.listIterator(3);
         int int15 = stringList6.lastIndexOf((java.lang.Object) longList11);
         java.lang.Boolean[] booleanArray18 = new java.lang.Boolean[]{true, true};
         java.util.ArrayList<java.lang.Boolean> booleanList19 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean20 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList19,
-                                                         booleanArray18);
+            booleanArray18);
         java.lang.String str21 = booleanList19.toString();
         java.util.stream.Stream<java.lang.Boolean> booleanStream22 = booleanList19.parallelStream();
-        org.ccsds.moims.mo.mal.structures.StringList stringList24 = new org.ccsds.moims.mo.mal.structures.StringList((int) (short) 1);
+        org.ccsds.moims.mo.mal.structures.StringList stringList24 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (short) 1);
         boolean boolean25 = booleanList19.remove((java.lang.Object) stringList24);
         java.lang.Integer int26 = stringList24.getTypeShortForm();
         org.ccsds.moims.mo.mal.structures.UShort uShort27 = stringList24.getAreaNumber();
@@ -10191,7 +10525,8 @@ public class RegressionTest0 {
         java.lang.Object obj30 = null;
         boolean boolean31 = stringList1.contains(obj30);
         java.util.ListIterator<java.lang.String> strItor32 = stringList1.listIterator();
-        org.ccsds.moims.mo.mal.structures.OctetList octetList34 = new org.ccsds.moims.mo.mal.structures.OctetList((int) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.OctetList octetList34 = new org.ccsds.moims.mo.mal.structures.OctetList(
+            (int) (byte) 1);
         boolean boolean35 = octetList34.isEmpty();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet36 = octetList34.getAreaVersion();
         java.util.stream.Stream<java.lang.Byte> byteStream37 = octetList34.stream();
@@ -10200,29 +10535,29 @@ public class RegressionTest0 {
         int int41 = octetList34.lastIndexOf((java.lang.Object) longList40);
         opssat.simulator.main.ESASimulator eSASimulator42 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter42 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter43 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator42,
-                                                                                                                                                  pcAdapter42);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter43 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator42, pcAdapter42);
         boolean boolean44 = gPSSoftSimAdapter43.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator45 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter45 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter46 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator45,
-                                                                                                                                                  pcAdapter45);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter46 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator45, pcAdapter45);
         boolean boolean47 = gPSSoftSimAdapter46.isUnitAvailable();
         boolean boolean48 = gPSSoftSimAdapter46.isUnitAvailable();
         boolean boolean49 = gPSSoftSimAdapter46.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator50 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter50 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter51 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator50,
-                                                                                                                                                  pcAdapter50);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter51 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator50, pcAdapter50);
         boolean boolean52 = gPSSoftSimAdapter51.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator53 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter53 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter54 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator53,
-                                                                                                                                                  pcAdapter53);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter54 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator53, pcAdapter53);
         opssat.simulator.main.ESASimulator eSASimulator55 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter55 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter56 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator55,
-                                                                                                                                                  pcAdapter55);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter56 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator55, pcAdapter55);
         boolean boolean57 = gPSSoftSimAdapter56.isUnitAvailable();
         boolean boolean58 = gPSSoftSimAdapter56.isUnitAvailable();
         boolean boolean59 = gPSSoftSimAdapter56.isUnitAvailable();
@@ -10232,8 +10567,10 @@ public class RegressionTest0 {
                                                                                                                                                       gPSSoftSimAdapter51,
                                                                                                                                                       gPSSoftSimAdapter54,
                                                                                                                                                       gPSSoftSimAdapter56};
-        esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[] gPSNMEAonlyAdapterArray62 = longList40.toArray(gPSNMEAonlyAdapterArray61);
-        esa.mo.platform.impl.provider.gen.GPSAdapterInterface[] gPSAdapterInterfaceArray63 = stringList1.toArray((esa.mo.platform.impl.provider.gen.GPSAdapterInterface[]) gPSNMEAonlyAdapterArray61);
+        esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[] gPSNMEAonlyAdapterArray62 = longList40.toArray(
+            gPSNMEAonlyAdapterArray61);
+        esa.mo.platform.impl.provider.gen.GPSAdapterInterface[] gPSAdapterInterfaceArray63 = stringList1.toArray(
+            (esa.mo.platform.impl.provider.gen.GPSAdapterInterface[]) gPSNMEAonlyAdapterArray61);
         org.ccsds.moims.mo.mal.structures.Element element64 = stringList1.createElement();
         org.junit.Assert.assertTrue("'" + int4 + "' != '" + (-1) + "'", int4 == (-1));
         org.junit.Assert.assertNotNull(longArray10);
@@ -10277,25 +10614,25 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test211");
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1,
-                                                        uRIArray0);
+        boolean boolean2 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1, uRIArray0);
         boolean boolean4 = uRIList1.contains((java.lang.Object) (-18));
         java.lang.Double[] doubleArray9 = new java.lang.Double[]{1.0d, 10.0d, 1.0d, 0.0d};
         java.util.ArrayList<java.lang.Double> doubleList10 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList10,
-                                                         doubleArray9);
+            doubleArray9);
         java.lang.Short[] shortArray15 = new java.lang.Short[]{(short) 0, (short) 10, (short) 1};
         java.util.ArrayList<java.lang.Short> shortList16 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList16,
-                                                         shortArray15);
+            shortArray15);
         java.lang.Byte[] byteArray19 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList20 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20,
-                                                         byteArray19);
+            byteArray19);
         java.lang.Float[] floatArray25 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList26 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList26,
-                                                         floatArray25);
+            floatArray25);
         boolean boolean28 = byteList20.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean29 = shortList16.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean30 = doubleList10.contains((java.lang.Object) shortList16);
@@ -10304,11 +10641,11 @@ public class RegressionTest0 {
         java.lang.Byte[] byteArray34 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList35 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean36 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList35,
-                                                         byteArray34);
+            byteArray34);
         java.lang.Float[] floatArray40 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList41 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList41,
-                                                         floatArray40);
+            floatArray40);
         boolean boolean43 = byteList35.containsAll((java.util.Collection<java.lang.Float>) floatList41);
         boolean boolean44 = doubleList10.retainAll((java.util.Collection<java.lang.Float>) floatList41);
         int int45 = doubleList10.size();
@@ -10316,8 +10653,8 @@ public class RegressionTest0 {
         java.util.stream.Stream<java.lang.Double> doubleStream48 = doubleList10.parallelStream();
         opssat.simulator.main.ESASimulator eSASimulator49 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter50 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator49,
-                                                                                                                                                           pcAdapter49);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter50 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator49, pcAdapter49);
         org.ccsds.moims.mo.mal.structures.Duration duration51 = cameraSoftSimAdapter50.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration52 = cameraSoftSimAdapter50.getMinimumPeriod();
         int int53 = doubleList10.lastIndexOf((java.lang.Object) duration52);
@@ -10367,7 +10704,8 @@ public class RegressionTest0 {
     public void test212() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test212");
-        org.ccsds.moims.mo.mal.structures.FineTime fineTime1 = new org.ccsds.moims.mo.mal.structures.FineTime(281474993487874L);
+        org.ccsds.moims.mo.mal.structures.FineTime fineTime1 = new org.ccsds.moims.mo.mal.structures.FineTime(
+            281474993487874L);
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = fineTime1.getAreaNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort3 = fineTime1.getAreaNumber();
         java.lang.Long long4 = fineTime1.getShortForm();
@@ -10375,11 +10713,12 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.UShort uShort6 = org.ccsds.moims.mo.mal.structures.DoubleList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray7 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort6};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList8 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean9 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList8,
-                                                        uShortArray7);
+        boolean boolean9 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList8, uShortArray7);
         java.lang.String str10 = uShortList8.toString();
         boolean boolean12 = uShortList8.remove((java.lang.Object) (-1));
-        org.ccsds.moims.mo.mal.structures.StringList stringList14 = new org.ccsds.moims.mo.mal.structures.StringList((int) (short) 1);
+        org.ccsds.moims.mo.mal.structures.StringList stringList14 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (short) 1);
         boolean boolean15 = uShortList8.remove((java.lang.Object) stringList14);
         uShortList8.ensureCapacity(13);
         org.ccsds.moims.mo.mal.structures.Duration duration18 = new org.ccsds.moims.mo.mal.structures.Duration();
@@ -10389,24 +10728,26 @@ public class RegressionTest0 {
         java.lang.Boolean[] booleanArray24 = new java.lang.Boolean[]{true, true};
         java.util.ArrayList<java.lang.Boolean> booleanList25 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean26 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList25,
-                                                         booleanArray24);
+            booleanArray24);
         java.lang.String str27 = booleanList25.toString();
         java.util.stream.Stream<java.lang.Boolean> booleanStream28 = booleanList25.parallelStream();
-        org.ccsds.moims.mo.mal.structures.StringList stringList30 = new org.ccsds.moims.mo.mal.structures.StringList((int) (short) 1);
+        org.ccsds.moims.mo.mal.structures.StringList stringList30 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (short) 1);
         boolean boolean31 = booleanList25.remove((java.lang.Object) stringList30);
         java.util.stream.Stream<java.lang.Boolean> booleanStream32 = booleanList25.parallelStream();
         java.lang.Boolean[] booleanArray35 = new java.lang.Boolean[]{true, true};
         java.util.ArrayList<java.lang.Boolean> booleanList36 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean37 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList36,
-                                                         booleanArray35);
+            booleanArray35);
         java.lang.String str38 = booleanList36.toString();
         java.util.stream.Stream<java.lang.Boolean> booleanStream39 = booleanList36.parallelStream();
-        org.ccsds.moims.mo.mal.structures.StringList stringList41 = new org.ccsds.moims.mo.mal.structures.StringList((int) (short) 1);
+        org.ccsds.moims.mo.mal.structures.StringList stringList41 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (short) 1);
         boolean boolean42 = booleanList36.remove((java.lang.Object) stringList41);
         java.lang.Float[] floatArray46 = new java.lang.Float[]{(-1.0f), 10.0f, 0.0f};
         java.util.ArrayList<java.lang.Float> floatList47 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean48 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList47,
-                                                         floatArray46);
+            floatArray46);
         int int49 = floatList47.size();
         boolean boolean50 = booleanList36.removeAll((java.util.Collection<java.lang.Float>) floatList47);
         boolean boolean51 = booleanList25.removeAll((java.util.Collection<java.lang.Float>) floatList47);
@@ -10414,41 +10755,43 @@ public class RegressionTest0 {
         java.lang.Integer[] intArray63 = new java.lang.Integer[]{16, 16, (-18), (-18), (-1), 1, 0, 2, 0, 0};
         java.util.ArrayList<java.lang.Integer> intList64 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean65 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList64,
-                                                         intArray63);
+            intArray63);
         int int66 = intList64.size();
         boolean boolean67 = uShortList8.remove((java.lang.Object) int66);
         java.util.stream.Stream<org.ccsds.moims.mo.mal.structures.UShort> uShortStream68 = uShortList8.parallelStream();
         opssat.simulator.main.ESASimulator eSASimulator69 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter69 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter70 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator69,
-                                                                                                                                                                                   pcAdapter69);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter70 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator69, pcAdapter69);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode71 = null;
         autonomousADCSSoftSimAdapter70.setDesiredAttitude(attitudeMode71);
         boolean boolean73 = autonomousADCSSoftSimAdapter70.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator74 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter74 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter75 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator74,
-                                                                                                                                                                                   pcAdapter74);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter75 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator74, pcAdapter74);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode76 = null;
         autonomousADCSSoftSimAdapter75.setDesiredAttitude(attitudeMode76);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode78 = autonomousADCSSoftSimAdapter75.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode78 = autonomousADCSSoftSimAdapter75
+            .getActiveAttitudeMode();
         opssat.simulator.main.ESASimulator eSASimulator79 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter79 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter80 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator79,
-                                                                                                                                                                                   pcAdapter79);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter80 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator79, pcAdapter79);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode81 = null;
         autonomousADCSSoftSimAdapter80.setDesiredAttitude(attitudeMode81);
         opssat.simulator.main.ESASimulator eSASimulator83 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter83 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter84 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator83,
-                                                                                                                                                                                   pcAdapter83);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter84 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator83, pcAdapter83);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode85 = null;
         autonomousADCSSoftSimAdapter84.setDesiredAttitude(attitudeMode85);
         esa.mo.platform.impl.provider.gen.AutonomousADCSAdapterInterface[] autonomousADCSAdapterInterfaceArray87 = new esa.mo.platform.impl.provider.gen.AutonomousADCSAdapterInterface[]{autonomousADCSSoftSimAdapter70,
                                                                                                                                                                                           autonomousADCSSoftSimAdapter75,
                                                                                                                                                                                           autonomousADCSSoftSimAdapter80,
                                                                                                                                                                                           autonomousADCSSoftSimAdapter84};
-        esa.mo.platform.impl.provider.gen.AutonomousADCSAdapterInterface[] autonomousADCSAdapterInterfaceArray88 = uShortList8.toArray(autonomousADCSAdapterInterfaceArray87);
+        esa.mo.platform.impl.provider.gen.AutonomousADCSAdapterInterface[] autonomousADCSAdapterInterfaceArray88 = uShortList8
+            .toArray(autonomousADCSAdapterInterfaceArray87);
         boolean boolean89 = fineTime1.equals((java.lang.Object) autonomousADCSAdapterInterfaceArray88);
         org.ccsds.moims.mo.mal.structures.UShort uShort90 = fineTime1.getServiceNumber();
         org.junit.Assert.assertNotNull(uShort2);
@@ -10502,8 +10845,10 @@ public class RegressionTest0 {
         java.lang.Object obj2 = null;
         boolean boolean3 = identifier1.equals(obj2);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet4 = identifier1.getAreaVersion();
-        org.ccsds.moims.mo.mal.structures.StringList stringList6 = new org.ccsds.moims.mo.mal.structures.StringList((int) (short) 1);
-        org.ccsds.moims.mo.mal.structures.IntegerList integerList8 = new org.ccsds.moims.mo.mal.structures.IntegerList(3);
+        org.ccsds.moims.mo.mal.structures.StringList stringList6 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (short) 1);
+        org.ccsds.moims.mo.mal.structures.IntegerList integerList8 = new org.ccsds.moims.mo.mal.structures.IntegerList(
+            3);
         int int9 = stringList6.lastIndexOf((java.lang.Object) 3);
         java.util.Iterator<java.lang.String> strItor10 = stringList6.iterator();
         java.util.stream.Stream<java.lang.String> strStream11 = stringList6.parallelStream();
@@ -10511,8 +10856,8 @@ public class RegressionTest0 {
         java.util.ListIterator<java.lang.String> strItor13 = stringList6.listIterator();
         opssat.simulator.main.ESASimulator eSASimulator14 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter14 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter15 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator14,
-                                                                                                                                                           pcAdapter14);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter15 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator14, pcAdapter14);
         org.ccsds.moims.mo.mal.structures.Duration duration16 = cameraSoftSimAdapter15.getMinimumPeriod();
         java.lang.String str17 = cameraSoftSimAdapter15.getExtraInfo();
         boolean boolean18 = cameraSoftSimAdapter15.isUnitAvailable();
@@ -10528,7 +10873,7 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(strItor13);
         org.junit.Assert.assertNotNull(duration16);
         org.junit.Assert.assertTrue("'" + str17 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str17
-                                                                                                                    .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertTrue("'" + boolean18 + "' != '" + true + "'", boolean18);
         org.junit.Assert.assertTrue("'" + boolean19 + "' != '" + true + "'", boolean19);
         org.junit.Assert.assertTrue("'" + boolean20 + "' != '" + true + "'", boolean20);
@@ -10541,25 +10886,25 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test214");
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1,
-                                                        uRIArray0);
+        boolean boolean2 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1, uRIArray0);
         boolean boolean4 = uRIList1.contains((java.lang.Object) (-18));
         java.lang.Double[] doubleArray9 = new java.lang.Double[]{1.0d, 10.0d, 1.0d, 0.0d};
         java.util.ArrayList<java.lang.Double> doubleList10 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList10,
-                                                         doubleArray9);
+            doubleArray9);
         java.lang.Short[] shortArray15 = new java.lang.Short[]{(short) 0, (short) 10, (short) 1};
         java.util.ArrayList<java.lang.Short> shortList16 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList16,
-                                                         shortArray15);
+            shortArray15);
         java.lang.Byte[] byteArray19 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList20 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20,
-                                                         byteArray19);
+            byteArray19);
         java.lang.Float[] floatArray25 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList26 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList26,
-                                                         floatArray25);
+            floatArray25);
         boolean boolean28 = byteList20.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean29 = shortList16.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean30 = doubleList10.contains((java.lang.Object) shortList16);
@@ -10568,11 +10913,11 @@ public class RegressionTest0 {
         java.lang.Byte[] byteArray34 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList35 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean36 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList35,
-                                                         byteArray34);
+            byteArray34);
         java.lang.Float[] floatArray40 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList41 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList41,
-                                                         floatArray40);
+            floatArray40);
         boolean boolean43 = byteList35.containsAll((java.util.Collection<java.lang.Float>) floatList41);
         boolean boolean44 = doubleList10.retainAll((java.util.Collection<java.lang.Float>) floatList41);
         int int45 = doubleList10.size();
@@ -10580,8 +10925,8 @@ public class RegressionTest0 {
         java.util.stream.Stream<java.lang.Double> doubleStream48 = doubleList10.parallelStream();
         opssat.simulator.main.ESASimulator eSASimulator49 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter50 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator49,
-                                                                                                                                                           pcAdapter49);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter50 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator49, pcAdapter49);
         org.ccsds.moims.mo.mal.structures.Duration duration51 = cameraSoftSimAdapter50.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration52 = cameraSoftSimAdapter50.getMinimumPeriod();
         int int53 = doubleList10.lastIndexOf((java.lang.Object) duration52);
@@ -10636,13 +10981,14 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.UShort uShort4 = fineTime0.getAreaNumber();
         opssat.simulator.main.ESASimulator eSASimulator5 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter5 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter6 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator5,
-                                                                                                                                                          pcAdapter5);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter6 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator5, pcAdapter5);
         org.ccsds.moims.mo.mal.structures.Duration duration7 = cameraSoftSimAdapter6.getMinimumPeriod();
         java.lang.String str8 = cameraSoftSimAdapter6.getExtraInfo();
         boolean boolean9 = cameraSoftSimAdapter6.isUnitAvailable();
         boolean boolean10 = cameraSoftSimAdapter6.isUnitAvailable();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList11 = cameraSoftSimAdapter6.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList11 = cameraSoftSimAdapter6
+            .getAvailableResolutions();
         boolean boolean12 = fineTime0.equals((java.lang.Object) pixelResolutionList11);
         org.ccsds.moims.mo.mal.structures.UShort uShort13 = fineTime0.getAreaNumber();
         org.junit.Assert.assertTrue("'" + long1 + "' != '" + 281474993487889L + "'", long1.equals(281474993487889L));
@@ -10651,7 +10997,7 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(uShort4);
         org.junit.Assert.assertNotNull(duration7);
         org.junit.Assert.assertTrue("'" + str8 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str8
-                                                                                                                  .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + true + "'", boolean9);
         org.junit.Assert.assertTrue("'" + boolean10 + "' != '" + true + "'", boolean10);
         org.junit.Assert.assertNotNull(pixelResolutionList11);
@@ -10665,13 +11011,15 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test216");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                  pcAdapter0);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
         java.lang.String str4 = autonomousADCSSoftSimAdapter1.validateAttitudeDescriptor(attitudeMode3);
         boolean boolean5 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode6 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode6 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode7 = null;
         java.lang.String str8 = autonomousADCSSoftSimAdapter1.validateAttitudeDescriptor(attitudeMode7);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode9 = null;
@@ -10692,16 +11040,19 @@ public class RegressionTest0 {
     public void test217() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test217");
-        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration((double) 281475010265086L);
+        org.ccsds.moims.mo.mal.structures.Duration duration1 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) 281475010265086L);
         opssat.simulator.main.ESASimulator eSASimulator2 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter2 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter3 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator2,
-                                                                                                                                                          pcAdapter2);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter3 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator2, pcAdapter2);
         org.ccsds.moims.mo.mal.structures.Duration duration4 = cameraSoftSimAdapter3.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList5 = cameraSoftSimAdapter3.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList5 = cameraSoftSimAdapter3
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration6 = cameraSoftSimAdapter3.getMinimumPeriod();
         boolean boolean7 = cameraSoftSimAdapter3.isUnitAvailable();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList8 = cameraSoftSimAdapter3.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList8 = cameraSoftSimAdapter3
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration9 = cameraSoftSimAdapter3.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Element element10 = duration9.createElement();
         boolean boolean11 = duration1.equals((java.lang.Object) element10);
@@ -10721,25 +11072,25 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test218");
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1,
-                                                        uRIArray0);
+        boolean boolean2 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1, uRIArray0);
         boolean boolean4 = uRIList1.contains((java.lang.Object) (-18));
         java.lang.Double[] doubleArray9 = new java.lang.Double[]{1.0d, 10.0d, 1.0d, 0.0d};
         java.util.ArrayList<java.lang.Double> doubleList10 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList10,
-                                                         doubleArray9);
+            doubleArray9);
         java.lang.Short[] shortArray15 = new java.lang.Short[]{(short) 0, (short) 10, (short) 1};
         java.util.ArrayList<java.lang.Short> shortList16 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList16,
-                                                         shortArray15);
+            shortArray15);
         java.lang.Byte[] byteArray19 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList20 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20,
-                                                         byteArray19);
+            byteArray19);
         java.lang.Float[] floatArray25 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList26 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList26,
-                                                         floatArray25);
+            floatArray25);
         boolean boolean28 = byteList20.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean29 = shortList16.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean30 = doubleList10.contains((java.lang.Object) shortList16);
@@ -10747,12 +11098,13 @@ public class RegressionTest0 {
         int int32 = uRIList1.indexOf((java.lang.Object) doubleList10);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator33,
-                                                                                                                                                                                   pcAdapter33);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator33, pcAdapter33);
         boolean boolean35 = doubleList10.remove((java.lang.Object) autonomousADCSSoftSimAdapter34);
         java.lang.Object obj36 = doubleList10.clone();
         java.util.stream.Stream<java.lang.Double> doubleStream37 = doubleList10.stream();
-        org.ccsds.moims.mo.mal.structures.FineTime fineTime39 = new org.ccsds.moims.mo.mal.structures.FineTime((long) 'a');
+        org.ccsds.moims.mo.mal.structures.FineTime fineTime39 = new org.ccsds.moims.mo.mal.structures.FineTime(
+            (long) 'a');
         java.lang.String str40 = fineTime39.toString();
         org.ccsds.moims.mo.mal.structures.Element element41 = fineTime39.createElement();
         org.ccsds.moims.mo.mal.structures.UShort uShort42 = fineTime39.getAreaNumber();
@@ -10793,11 +11145,12 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test219");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration3 = cameraSoftSimAdapter1.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList4 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList4 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         java.lang.String str5 = cameraSoftSimAdapter1.getExtraInfo();
         boolean boolean6 = cameraSoftSimAdapter1.isUnitAvailable();
         java.lang.String str7 = cameraSoftSimAdapter1.getExtraInfo();
@@ -10805,10 +11158,10 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(duration3);
         org.junit.Assert.assertNotNull(pixelResolutionList4);
         org.junit.Assert.assertTrue("'" + str5 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str5
-                                                                                                                  .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertTrue("'" + boolean6 + "' != '" + true + "'", boolean6);
         org.junit.Assert.assertTrue("'" + str7 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str7
-                                                                                                                  .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
     }
 
     @Test
@@ -10821,7 +11174,7 @@ public class RegressionTest0 {
         java.lang.Float[] floatArray7 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList8 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList8,
-                                                        floatArray7);
+            floatArray7);
         boolean boolean10 = byteList2.containsAll((java.util.Collection<java.lang.Float>) floatList8);
         int int11 = byteList2.size();
         java.util.stream.Stream<java.lang.Byte> byteStream12 = byteList2.parallelStream();
@@ -10836,7 +11189,7 @@ public class RegressionTest0 {
         java.lang.Integer[] intArray33 = new java.lang.Integer[]{16, 16, (-18), (-18), (-1), 1, 0, 2, 0, 0};
         java.util.ArrayList<java.lang.Integer> intList34 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean35 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList34,
-                                                         intArray33);
+            intArray33);
         int int36 = intList34.size();
         java.util.Spliterator<java.lang.Integer> intSpliterator37 = intList34.spliterator();
         org.ccsds.moims.mo.mal.structures.OctetList octetList39 = new org.ccsds.moims.mo.mal.structures.OctetList(10);
@@ -10850,7 +11203,8 @@ public class RegressionTest0 {
         java.lang.String str48 = duration47.toString();
         double double49 = duration47.getValue();
         org.ccsds.moims.mo.mal.structures.UShort uShort50 = duration47.getAreaNumber();
-        org.ccsds.moims.mo.mal.structures.Union union52 = new org.ccsds.moims.mo.mal.structures.Union((java.lang.Byte) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.Union union52 = new org.ccsds.moims.mo.mal.structures.Union(
+            (java.lang.Byte) (byte) 1);
         org.ccsds.moims.mo.mal.structures.UShort uShort53 = union52.getAreaNumber();
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray54 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort46,
                                                                                                                   uShort50,
@@ -10866,13 +11220,15 @@ public class RegressionTest0 {
         java.lang.Long long64 = fineTime20.getShortForm();
         opssat.simulator.main.ESASimulator eSASimulator65 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter65 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter66 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator65,
-                                                                                                                                                                                   pcAdapter65);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode67 = autonomousADCSSoftSimAdapter66.getActiveAttitudeMode();
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter66 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator65, pcAdapter65);
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode67 = autonomousADCSSoftSimAdapter66
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode68 = null;
         java.lang.String str69 = autonomousADCSSoftSimAdapter66.validateAttitudeDescriptor(attitudeMode68);
         boolean boolean70 = autonomousADCSSoftSimAdapter66.isUnitAvailable();
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode71 = autonomousADCSSoftSimAdapter66.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode71 = autonomousADCSSoftSimAdapter66
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode72 = null;
         java.lang.String str73 = autonomousADCSSoftSimAdapter66.validateAttitudeDescriptor(attitudeMode72);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode74 = null;
@@ -10931,8 +11287,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test221");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                                    pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         boolean boolean2 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration4 = null;
@@ -10957,7 +11313,8 @@ public class RegressionTest0 {
     public void test222() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test222");
-        org.ccsds.moims.mo.mal.structures.BooleanList booleanList1 = new org.ccsds.moims.mo.mal.structures.BooleanList((int) (byte) 0);
+        org.ccsds.moims.mo.mal.structures.BooleanList booleanList1 = new org.ccsds.moims.mo.mal.structures.BooleanList(
+            (int) (byte) 0);
         boolean boolean3 = booleanList1.add((java.lang.Boolean) false);
         boolean boolean4 = booleanList1.isEmpty();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet5 = booleanList1.getAreaVersion();
@@ -10967,8 +11324,8 @@ public class RegressionTest0 {
         integerList6.clear();
         opssat.simulator.main.ESASimulator eSASimulator10 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter10 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter11 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator10,
-                                                                                                                                                                                                     pcAdapter10);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter11 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator10, pcAdapter10);
         boolean boolean12 = softwareDefinedRadioSoftSimAdapter11.isUnitAvailable();
         boolean boolean14 = softwareDefinedRadioSoftSimAdapter11.enableSDR((java.lang.Boolean) true);
         boolean boolean15 = integerList6.contains((java.lang.Object) true);
@@ -10994,17 +11351,20 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test223");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                  pcAdapter0);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
         java.lang.String str4 = autonomousADCSSoftSimAdapter1.validateAttitudeDescriptor(attitudeMode3);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode5 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode5 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode6 = null;
         java.lang.String str7 = autonomousADCSSoftSimAdapter1.validateAttitudeDescriptor(attitudeMode6);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode8 = null;
         java.lang.String str9 = autonomousADCSSoftSimAdapter1.validateAttitudeDescriptor(attitudeMode8);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode10 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode10 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.junit.Assert.assertNull(attitudeMode2);
         org.junit.Assert.assertNull(str4);
         org.junit.Assert.assertNull(attitudeMode5);
@@ -11019,8 +11379,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test224");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                                    pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration2 = null;
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.setConfiguration(sDRConfiguration2);
         boolean boolean4 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
@@ -11039,16 +11399,18 @@ public class RegressionTest0 {
         java.lang.Boolean[] booleanArray2 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList3 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList3,
-                                                        booleanArray2);
+            booleanArray2);
         opssat.simulator.main.ESASimulator eSASimulator5 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter5 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter6 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator5,
-                                                                                                                                                                                  pcAdapter5);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode7 = autonomousADCSSoftSimAdapter6.getActiveAttitudeMode();
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter6 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator5, pcAdapter5);
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode7 = autonomousADCSSoftSimAdapter6
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode8 = null;
         java.lang.String str9 = autonomousADCSSoftSimAdapter6.validateAttitudeDescriptor(attitudeMode8);
         boolean boolean10 = autonomousADCSSoftSimAdapter6.isUnitAvailable();
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode11 = autonomousADCSSoftSimAdapter6.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode11 = autonomousADCSSoftSimAdapter6
+            .getActiveAttitudeMode();
         boolean boolean12 = booleanList3.contains((java.lang.Object) attitudeMode11);
         org.ccsds.moims.mo.mal.structures.LongList longList13 = new org.ccsds.moims.mo.mal.structures.LongList();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet14 = longList13.getAreaVersion();
@@ -11075,7 +11437,8 @@ public class RegressionTest0 {
         boolean boolean36 = floatList19.equals(obj35);
         boolean boolean37 = longList13.retainAll((java.util.Collection<java.lang.Float>) floatList19);
         boolean boolean38 = booleanList3.removeAll((java.util.Collection<java.lang.Float>) floatList19);
-        org.ccsds.moims.mo.mal.structures.BooleanList booleanList40 = new org.ccsds.moims.mo.mal.structures.BooleanList((int) (byte) 0);
+        org.ccsds.moims.mo.mal.structures.BooleanList booleanList40 = new org.ccsds.moims.mo.mal.structures.BooleanList(
+            (int) (byte) 0);
         java.lang.Object obj41 = null;
         int int42 = booleanList40.indexOf(obj41);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet43 = booleanList40.getAreaVersion();
@@ -11122,8 +11485,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test226");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                                    pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         boolean boolean2 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration4 = null;
@@ -11156,7 +11519,8 @@ public class RegressionTest0 {
         java.lang.String str5 = duration4.toString();
         double double6 = duration4.getValue();
         org.ccsds.moims.mo.mal.structures.UShort uShort7 = duration4.getAreaNumber();
-        org.ccsds.moims.mo.mal.structures.Union union9 = new org.ccsds.moims.mo.mal.structures.Union((java.lang.Byte) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.Union union9 = new org.ccsds.moims.mo.mal.structures.Union(
+            (java.lang.Byte) (byte) 1);
         org.ccsds.moims.mo.mal.structures.UShort uShort10 = union9.getAreaNumber();
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray11 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort3,
                                                                                                                   uShort7,
@@ -11167,43 +11531,43 @@ public class RegressionTest0 {
         longList1.clear();
         opssat.simulator.main.ESASimulator eSASimulator16 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter16 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter17 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator16,
-                                                                                                                                                  pcAdapter16);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter17 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator16, pcAdapter16);
         boolean boolean18 = gPSSoftSimAdapter17.isUnitAvailable();
         boolean boolean19 = gPSSoftSimAdapter17.isUnitAvailable();
         esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[] gPSNMEAonlyAdapterArray20 = new esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[]{gPSSoftSimAdapter17};
         opssat.simulator.main.ESASimulator eSASimulator21 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter22 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator21,
-                                                                                                                                                  pcAdapter21);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter22 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator21, pcAdapter21);
         boolean boolean23 = gPSSoftSimAdapter22.isUnitAvailable();
         boolean boolean24 = gPSSoftSimAdapter22.isUnitAvailable();
         esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[] gPSNMEAonlyAdapterArray25 = new esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[]{gPSSoftSimAdapter22};
         opssat.simulator.main.ESASimulator eSASimulator26 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter26 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter27 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator26,
-                                                                                                                                                  pcAdapter26);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter27 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator26, pcAdapter26);
         boolean boolean28 = gPSSoftSimAdapter27.isUnitAvailable();
         boolean boolean29 = gPSSoftSimAdapter27.isUnitAvailable();
         esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[] gPSNMEAonlyAdapterArray30 = new esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[]{gPSSoftSimAdapter27};
         opssat.simulator.main.ESASimulator eSASimulator31 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter31 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter32 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator31,
-                                                                                                                                                  pcAdapter31);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter32 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator31, pcAdapter31);
         boolean boolean33 = gPSSoftSimAdapter32.isUnitAvailable();
         boolean boolean34 = gPSSoftSimAdapter32.isUnitAvailable();
         esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[] gPSNMEAonlyAdapterArray35 = new esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[]{gPSSoftSimAdapter32};
         opssat.simulator.main.ESASimulator eSASimulator36 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter36 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter37 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator36,
-                                                                                                                                                  pcAdapter36);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter37 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator36, pcAdapter36);
         boolean boolean38 = gPSSoftSimAdapter37.isUnitAvailable();
         boolean boolean39 = gPSSoftSimAdapter37.isUnitAvailable();
         esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[] gPSNMEAonlyAdapterArray40 = new esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[]{gPSSoftSimAdapter37};
         opssat.simulator.main.ESASimulator eSASimulator41 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter41 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter42 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator41,
-                                                                                                                                                  pcAdapter41);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter42 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator41, pcAdapter41);
         boolean boolean43 = gPSSoftSimAdapter42.isUnitAvailable();
         boolean boolean44 = gPSSoftSimAdapter42.isUnitAvailable();
         esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[] gPSNMEAonlyAdapterArray45 = new esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[]{gPSSoftSimAdapter42};
@@ -11215,43 +11579,43 @@ public class RegressionTest0 {
                                                                                                                                                           gPSNMEAonlyAdapterArray45};
         opssat.simulator.main.ESASimulator eSASimulator47 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter47 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter48 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator47,
-                                                                                                                                                  pcAdapter47);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter48 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator47, pcAdapter47);
         boolean boolean49 = gPSSoftSimAdapter48.isUnitAvailable();
         boolean boolean50 = gPSSoftSimAdapter48.isUnitAvailable();
         esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[] gPSNMEAonlyAdapterArray51 = new esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[]{gPSSoftSimAdapter48};
         opssat.simulator.main.ESASimulator eSASimulator52 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter52 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter53 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator52,
-                                                                                                                                                  pcAdapter52);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter53 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator52, pcAdapter52);
         boolean boolean54 = gPSSoftSimAdapter53.isUnitAvailable();
         boolean boolean55 = gPSSoftSimAdapter53.isUnitAvailable();
         esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[] gPSNMEAonlyAdapterArray56 = new esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[]{gPSSoftSimAdapter53};
         opssat.simulator.main.ESASimulator eSASimulator57 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter57 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter58 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator57,
-                                                                                                                                                  pcAdapter57);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter58 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator57, pcAdapter57);
         boolean boolean59 = gPSSoftSimAdapter58.isUnitAvailable();
         boolean boolean60 = gPSSoftSimAdapter58.isUnitAvailable();
         esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[] gPSNMEAonlyAdapterArray61 = new esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[]{gPSSoftSimAdapter58};
         opssat.simulator.main.ESASimulator eSASimulator62 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter62 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter63 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator62,
-                                                                                                                                                  pcAdapter62);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter63 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator62, pcAdapter62);
         boolean boolean64 = gPSSoftSimAdapter63.isUnitAvailable();
         boolean boolean65 = gPSSoftSimAdapter63.isUnitAvailable();
         esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[] gPSNMEAonlyAdapterArray66 = new esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[]{gPSSoftSimAdapter63};
         opssat.simulator.main.ESASimulator eSASimulator67 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter67 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter68 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator67,
-                                                                                                                                                  pcAdapter67);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter68 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator67, pcAdapter67);
         boolean boolean69 = gPSSoftSimAdapter68.isUnitAvailable();
         boolean boolean70 = gPSSoftSimAdapter68.isUnitAvailable();
         esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[] gPSNMEAonlyAdapterArray71 = new esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[]{gPSSoftSimAdapter68};
         opssat.simulator.main.ESASimulator eSASimulator72 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter72 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter73 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator72,
-                                                                                                                                                  pcAdapter72);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter73 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator72, pcAdapter72);
         boolean boolean74 = gPSSoftSimAdapter73.isUnitAvailable();
         boolean boolean75 = gPSSoftSimAdapter73.isUnitAvailable();
         esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[] gPSNMEAonlyAdapterArray76 = new esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[]{gPSSoftSimAdapter73};
@@ -11263,7 +11627,8 @@ public class RegressionTest0 {
                                                                                                                                                           gPSNMEAonlyAdapterArray76};
         esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[][][] gPSNMEAonlyAdapterArray78 = new esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[][][]{gPSNMEAonlyAdapterArray46,
                                                                                                                                                               gPSNMEAonlyAdapterArray77};
-        esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[][][] gPSNMEAonlyAdapterArray79 = longList1.toArray(gPSNMEAonlyAdapterArray78);
+        esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter[][][] gPSNMEAonlyAdapterArray79 = longList1.toArray(
+            gPSNMEAonlyAdapterArray78);
         org.junit.Assert.assertNotNull(longItor2);
         org.junit.Assert.assertNotNull(uShort3);
         org.junit.Assert.assertTrue("'" + str5 + "' != '" + "0.0" + "'", str5.equals("0.0"));
@@ -11321,8 +11686,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test228");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                                    pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         boolean boolean2 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration4 = null;
@@ -11351,25 +11716,25 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test229");
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1,
-                                                        uRIArray0);
+        boolean boolean2 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1, uRIArray0);
         boolean boolean4 = uRIList1.contains((java.lang.Object) (-18));
         java.lang.Double[] doubleArray9 = new java.lang.Double[]{1.0d, 10.0d, 1.0d, 0.0d};
         java.util.ArrayList<java.lang.Double> doubleList10 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList10,
-                                                         doubleArray9);
+            doubleArray9);
         java.lang.Short[] shortArray15 = new java.lang.Short[]{(short) 0, (short) 10, (short) 1};
         java.util.ArrayList<java.lang.Short> shortList16 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList16,
-                                                         shortArray15);
+            shortArray15);
         java.lang.Byte[] byteArray19 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList20 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20,
-                                                         byteArray19);
+            byteArray19);
         java.lang.Float[] floatArray25 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList26 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList26,
-                                                         floatArray25);
+            floatArray25);
         boolean boolean28 = byteList20.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean29 = shortList16.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean30 = doubleList10.contains((java.lang.Object) shortList16);
@@ -11378,11 +11743,11 @@ public class RegressionTest0 {
         java.lang.Byte[] byteArray34 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList35 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean36 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList35,
-                                                         byteArray34);
+            byteArray34);
         java.lang.Float[] floatArray40 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList41 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList41,
-                                                         floatArray40);
+            floatArray40);
         boolean boolean43 = byteList35.containsAll((java.util.Collection<java.lang.Float>) floatList41);
         boolean boolean44 = doubleList10.retainAll((java.util.Collection<java.lang.Float>) floatList41);
         int int45 = doubleList10.size();
@@ -11390,8 +11755,8 @@ public class RegressionTest0 {
         java.util.stream.Stream<java.lang.Double> doubleStream48 = doubleList10.parallelStream();
         opssat.simulator.main.ESASimulator eSASimulator49 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter50 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator49,
-                                                                                                                                                           pcAdapter49);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter50 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator49, pcAdapter49);
         org.ccsds.moims.mo.mal.structures.Duration duration51 = cameraSoftSimAdapter50.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration52 = cameraSoftSimAdapter50.getMinimumPeriod();
         int int53 = doubleList10.lastIndexOf((java.lang.Object) duration52);
@@ -11400,13 +11765,15 @@ public class RegressionTest0 {
         java.lang.Object obj56 = doubleList10.clone();
         opssat.simulator.main.ESASimulator eSASimulator57 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter57 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter58 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator57,
-                                                                                                                                                           pcAdapter57);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter58 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator57, pcAdapter57);
         org.ccsds.moims.mo.mal.structures.Duration duration59 = cameraSoftSimAdapter58.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList60 = cameraSoftSimAdapter58.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList60 = cameraSoftSimAdapter58
+            .getAvailableResolutions();
         java.lang.String str61 = cameraSoftSimAdapter58.getExtraInfo();
         java.lang.String str62 = cameraSoftSimAdapter58.getExtraInfo();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList63 = cameraSoftSimAdapter58.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList63 = cameraSoftSimAdapter58
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration64 = cameraSoftSimAdapter58.getMinimumPeriod();
         int int65 = doubleList10.lastIndexOf((java.lang.Object) cameraSoftSimAdapter58);
         org.junit.Assert.assertNotNull(uRIArray0);
@@ -11442,9 +11809,9 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(duration59);
         org.junit.Assert.assertNotNull(pixelResolutionList60);
         org.junit.Assert.assertTrue("'" + str61 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str61
-                                                                                                                    .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertTrue("'" + str62 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str62
-                                                                                                                    .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertNotNull(pixelResolutionList63);
         org.junit.Assert.assertNotNull(duration64);
         org.junit.Assert.assertTrue("'" + int65 + "' != '" + (-1) + "'", int65 == (-1));
@@ -11467,25 +11834,25 @@ public class RegressionTest0 {
         int int11 = doubleList0.indexOf((java.lang.Object) longList3);
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray12 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList13 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList13,
-                                                         uRIArray12);
+        boolean boolean14 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList13, uRIArray12);
         boolean boolean16 = uRIList13.contains((java.lang.Object) (-18));
         java.lang.Double[] doubleArray21 = new java.lang.Double[]{1.0d, 10.0d, 1.0d, 0.0d};
         java.util.ArrayList<java.lang.Double> doubleList22 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList22,
-                                                         doubleArray21);
+            doubleArray21);
         java.lang.Short[] shortArray27 = new java.lang.Short[]{(short) 0, (short) 10, (short) 1};
         java.util.ArrayList<java.lang.Short> shortList28 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean29 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList28,
-                                                         shortArray27);
+            shortArray27);
         java.lang.Byte[] byteArray31 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList32 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean33 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList32,
-                                                         byteArray31);
+            byteArray31);
         java.lang.Float[] floatArray37 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList38 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean39 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList38,
-                                                         floatArray37);
+            floatArray37);
         boolean boolean40 = byteList32.containsAll((java.util.Collection<java.lang.Float>) floatList38);
         boolean boolean41 = shortList28.containsAll((java.util.Collection<java.lang.Float>) floatList38);
         boolean boolean42 = doubleList22.contains((java.lang.Object) shortList28);
@@ -11493,17 +11860,20 @@ public class RegressionTest0 {
         int int44 = uRIList13.indexOf((java.lang.Object) doubleList22);
         opssat.simulator.main.ESASimulator eSASimulator45 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter45 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter46 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator45,
-                                                                                                                                                                                   pcAdapter45);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter46 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator45, pcAdapter45);
         boolean boolean47 = doubleList22.remove((java.lang.Object) autonomousADCSSoftSimAdapter46);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode48 = autonomousADCSSoftSimAdapter46.getActiveAttitudeMode();
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode49 = autonomousADCSSoftSimAdapter46.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode48 = autonomousADCSSoftSimAdapter46
+            .getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode49 = autonomousADCSSoftSimAdapter46
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode50 = null;
         java.lang.String str51 = autonomousADCSSoftSimAdapter46.validateAttitudeDescriptor(attitudeMode50);
         boolean boolean52 = doubleList0.equals((java.lang.Object) attitudeMode50);
         try {
             java.lang.Double double54 = doubleList0.get(6);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 6, Size: 0");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 6, Size: 0");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(uOctet1);
@@ -11540,11 +11910,12 @@ public class RegressionTest0 {
     public void test231() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test231");
-        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 100);
+        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 100);
         opssat.simulator.main.ESASimulator eSASimulator2 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter2 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter3 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator2,
-                                                                                                                                                                                                    pcAdapter2);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter3 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator2, pcAdapter2);
         boolean boolean4 = softwareDefinedRadioSoftSimAdapter3.isUnitAvailable();
         boolean boolean5 = softwareDefinedRadioSoftSimAdapter3.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration6 = null;
@@ -11553,25 +11924,26 @@ public class RegressionTest0 {
         boolean boolean11 = softwareDefinedRadioSoftSimAdapter3.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator12 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter12 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter13 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator12,
-                                                                                                                                                                                                     pcAdapter12);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter13 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator12, pcAdapter12);
         boolean boolean14 = softwareDefinedRadioSoftSimAdapter13.isUnitAvailable();
         boolean boolean16 = softwareDefinedRadioSoftSimAdapter13.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator17 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter17 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter18 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator17,
-                                                                                                                                                                                                     pcAdapter17);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter18 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator17, pcAdapter17);
         boolean boolean19 = softwareDefinedRadioSoftSimAdapter18.isUnitAvailable();
         boolean boolean20 = softwareDefinedRadioSoftSimAdapter18.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator21 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter22 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator21,
-                                                                                                                                                                                                     pcAdapter21);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter22 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator21, pcAdapter21);
         esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray23 = new esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[]{softwareDefinedRadioSoftSimAdapter3,
                                                                                                                                                                                                             softwareDefinedRadioSoftSimAdapter13,
                                                                                                                                                                                                             softwareDefinedRadioSoftSimAdapter18,
                                                                                                                                                                                                             softwareDefinedRadioSoftSimAdapter22};
-        esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray24 = stringList1.toArray(softwareDefinedRadioAdapterInterfaceArray23);
+        esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray24 = stringList1
+            .toArray(softwareDefinedRadioAdapterInterfaceArray23);
         stringList1.clear();
         boolean boolean27 = stringList1.add("281474993487877");
         boolean boolean28 = stringList1.isEmpty();
@@ -11596,8 +11968,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test232");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         double double3 = duration2.getValue();
         java.lang.String str4 = duration2.toString();
@@ -11614,8 +11986,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test233");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                                    pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         boolean boolean2 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean4 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
@@ -11631,24 +12003,30 @@ public class RegressionTest0 {
     public void test234() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test234");
-        org.ccsds.moims.mo.mal.structures.IntegerList integerList1 = new org.ccsds.moims.mo.mal.structures.IntegerList(13);
+        org.ccsds.moims.mo.mal.structures.IntegerList integerList1 = new org.ccsds.moims.mo.mal.structures.IntegerList(
+            13);
         int int2 = integerList1.size();
-        org.ccsds.moims.mo.mal.structures.FineTime fineTime4 = new org.ccsds.moims.mo.mal.structures.FineTime(281474993487874L);
+        org.ccsds.moims.mo.mal.structures.FineTime fineTime4 = new org.ccsds.moims.mo.mal.structures.FineTime(
+            281474993487874L);
         org.ccsds.moims.mo.mal.structures.UShort uShort5 = fineTime4.getAreaNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort6 = fineTime4.getAreaNumber();
         java.lang.Integer int7 = fineTime4.getTypeShortForm();
         opssat.simulator.main.ESASimulator eSASimulator8 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter8 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter9 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator8,
-                                                                                                                                                          pcAdapter8);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter9 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator8, pcAdapter8);
         org.ccsds.moims.mo.mal.structures.Duration duration10 = cameraSoftSimAdapter9.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList11 = cameraSoftSimAdapter9.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList11 = cameraSoftSimAdapter9
+            .getAvailableResolutions();
         java.lang.String str12 = cameraSoftSimAdapter9.getExtraInfo();
         java.lang.String str13 = cameraSoftSimAdapter9.getExtraInfo();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList14 = cameraSoftSimAdapter9.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList14 = cameraSoftSimAdapter9
+            .getAvailableResolutions();
         boolean boolean15 = fineTime4.equals((java.lang.Object) cameraSoftSimAdapter9);
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList16 = cameraSoftSimAdapter9.getAvailableResolutions();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList17 = cameraSoftSimAdapter9.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList16 = cameraSoftSimAdapter9
+            .getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList17 = cameraSoftSimAdapter9
+            .getAvailableResolutions();
         boolean boolean18 = integerList1.contains((java.lang.Object) pixelResolutionList17);
         org.junit.Assert.assertTrue("'" + int2 + "' != '" + 0 + "'", int2 == 0);
         org.junit.Assert.assertNotNull(uShort5);
@@ -11657,9 +12035,9 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(duration10);
         org.junit.Assert.assertNotNull(pixelResolutionList11);
         org.junit.Assert.assertTrue("'" + str12 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str12
-                                                                                                                    .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertTrue("'" + str13 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str13
-                                                                                                                    .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertNotNull(pixelResolutionList14);
         org.junit.Assert.assertTrue("'" + boolean15 + "' != '" + false + "'", !boolean15);
         org.junit.Assert.assertNotNull(pixelResolutionList16);
@@ -11671,19 +12049,23 @@ public class RegressionTest0 {
     public void test235() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test235");
-        org.ccsds.moims.mo.mal.structures.IntegerList integerList1 = new org.ccsds.moims.mo.mal.structures.IntegerList((int) (short) 10);
+        org.ccsds.moims.mo.mal.structures.IntegerList integerList1 = new org.ccsds.moims.mo.mal.structures.IntegerList(
+            (int) (short) 10);
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = integerList1.getAreaNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort3 = uShort2.getAreaNumber();
         opssat.simulator.main.ESASimulator eSASimulator4 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter5 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator4,
-                                                                                                                                                          pcAdapter4);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter5 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator4, pcAdapter4);
         org.ccsds.moims.mo.mal.structures.Duration duration6 = cameraSoftSimAdapter5.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter5.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter5
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration8 = cameraSoftSimAdapter5.getMinimumPeriod();
         boolean boolean9 = cameraSoftSimAdapter5.isUnitAvailable();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList10 = cameraSoftSimAdapter5.getAvailableResolutions();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList11 = cameraSoftSimAdapter5.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList10 = cameraSoftSimAdapter5
+            .getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList11 = cameraSoftSimAdapter5
+            .getAvailableResolutions();
         java.lang.String str12 = cameraSoftSimAdapter5.getExtraInfo();
         boolean boolean13 = uShort2.equals((java.lang.Object) str12);
         org.junit.Assert.assertNotNull(uShort2);
@@ -11695,7 +12077,7 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(pixelResolutionList10);
         org.junit.Assert.assertNotNull(pixelResolutionList11);
         org.junit.Assert.assertTrue("'" + str12 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str12
-                                                                                                                    .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertTrue("'" + boolean13 + "' != '" + false + "'", !boolean13);
     }
 
@@ -11703,7 +12085,8 @@ public class RegressionTest0 {
     public void test236() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test236");
-        org.ccsds.moims.mo.mal.structures.OctetList octetList1 = new org.ccsds.moims.mo.mal.structures.OctetList((int) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.OctetList octetList1 = new org.ccsds.moims.mo.mal.structures.OctetList(
+            (int) (byte) 1);
         java.lang.Long long2 = octetList1.getShortForm();
         java.lang.Object[] objArray3 = octetList1.toArray();
         java.util.stream.Stream<java.lang.Byte> byteStream4 = octetList1.parallelStream();
@@ -11716,7 +12099,8 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.Element element11 = doubleList6.createElement();
         int int12 = doubleList6.size();
         boolean boolean13 = octetList1.contains((java.lang.Object) doubleList6);
-        org.ccsds.moims.mo.mal.structures.OctetList octetList15 = new org.ccsds.moims.mo.mal.structures.OctetList((int) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.OctetList octetList15 = new org.ccsds.moims.mo.mal.structures.OctetList(
+            (int) (byte) 1);
         boolean boolean16 = octetList15.isEmpty();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet17 = octetList15.getAreaVersion();
         java.util.stream.Stream<java.lang.Byte> byteStream18 = octetList15.stream();
@@ -11731,7 +12115,7 @@ public class RegressionTest0 {
         java.lang.Long[] longArray30 = new java.lang.Long[]{(-1L), 10L, 100L};
         java.util.ArrayList<java.lang.Long> longList31 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean32 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList31,
-                                                         longArray30);
+            longArray30);
         java.util.ListIterator<java.lang.Long> longItor34 = longList31.listIterator(3);
         java.lang.String str35 = longList31.toString();
         java.lang.Long long37 = longList31.get((int) (short) 0);
@@ -11739,11 +12123,12 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.UShort uShort39 = org.ccsds.moims.mo.mal.structures.DoubleList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray40 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort39};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList41 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean42 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList41,
-                                                         uShortArray40);
+        boolean boolean42 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList41, uShortArray40);
         java.lang.String str43 = uShortList41.toString();
         boolean boolean45 = uShortList41.remove((java.lang.Object) (-1));
-        org.ccsds.moims.mo.mal.structures.StringList stringList47 = new org.ccsds.moims.mo.mal.structures.StringList((int) (short) 1);
+        org.ccsds.moims.mo.mal.structures.StringList stringList47 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (short) 1);
         boolean boolean48 = uShortList41.remove((java.lang.Object) stringList47);
         int int49 = uRIList22.indexOf((java.lang.Object) stringList47);
         boolean boolean50 = octetList15.contains((java.lang.Object) stringList47);
@@ -11751,8 +12136,8 @@ public class RegressionTest0 {
         boolean boolean52 = doubleList6.remove((java.lang.Object) octetList15);
         opssat.simulator.main.ESASimulator eSASimulator53 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter53 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter54 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator53,
-                                                                                                                                                                                                     pcAdapter53);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter54 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator53, pcAdapter53);
         boolean boolean55 = softwareDefinedRadioSoftSimAdapter54.isUnitAvailable();
         boolean boolean57 = softwareDefinedRadioSoftSimAdapter54.enableSDR((java.lang.Boolean) true);
         boolean boolean58 = octetList15.remove((java.lang.Object) softwareDefinedRadioSoftSimAdapter54);
@@ -11814,12 +12199,12 @@ public class RegressionTest0 {
         java.lang.Float[] floatArray11 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList12 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean13 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList12,
-                                                         floatArray11);
+            floatArray11);
         boolean boolean14 = byteList6.containsAll((java.util.Collection<java.lang.Float>) floatList12);
         java.lang.Float[] floatArray18 = new java.lang.Float[]{(-1.0f), 10.0f, 0.0f};
         java.util.ArrayList<java.lang.Float> floatList19 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean20 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList19,
-                                                         floatArray18);
+            floatArray18);
         int int21 = floatList19.size();
         boolean boolean22 = floatList12.containsAll((java.util.Collection<java.lang.Float>) floatList19);
         int int23 = floatList12.size();
@@ -11827,26 +12212,26 @@ public class RegressionTest0 {
         java.lang.Double[] doubleArray26 = new java.lang.Double[]{100.0d};
         java.util.ArrayList<java.lang.Double> doubleList27 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean28 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList27,
-                                                         doubleArray26);
+            doubleArray26);
         java.lang.String[] strArray33 = new java.lang.String[]{"[true, true]", "[1]", "[true, true]", "hi!"};
         java.util.ArrayList<java.lang.String> strList34 = new java.util.ArrayList<java.lang.String>();
         boolean boolean35 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList34,
-                                                         strArray33);
+            strArray33);
         java.util.Iterator<java.lang.String> strItor36 = strList34.iterator();
         java.lang.String str38 = strList34.remove((int) (byte) 0);
         java.lang.Byte[] byteArray40 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList41 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean42 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList41,
-                                                         byteArray40);
+            byteArray40);
         java.lang.Float[] floatArray46 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList47 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean48 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList47,
-                                                         floatArray46);
+            floatArray46);
         boolean boolean49 = byteList41.containsAll((java.util.Collection<java.lang.Float>) floatList47);
         java.lang.Float[] floatArray53 = new java.lang.Float[]{(-1.0f), 10.0f, 0.0f};
         java.util.ArrayList<java.lang.Float> floatList54 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean55 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList54,
-                                                         floatArray53);
+            floatArray53);
         int int56 = floatList54.size();
         boolean boolean57 = floatList47.containsAll((java.util.Collection<java.lang.Float>) floatList54);
         boolean boolean58 = strList34.containsAll((java.util.Collection<java.lang.Float>) floatList47);
@@ -11854,42 +12239,45 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.UShort uShort60 = org.ccsds.moims.mo.mal.structures.DoubleList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray61 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort60};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList62 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean63 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList62,
-                                                         uShortArray61);
+        boolean boolean63 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList62, uShortArray61);
         java.lang.String str64 = uShortList62.toString();
         int int65 = floatList47.lastIndexOf((java.lang.Object) str64);
         java.lang.Float[] floatArray67 = new java.lang.Float[]{1.0f};
         java.util.ArrayList<java.lang.Float> floatList68 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean69 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList68,
-                                                         floatArray67);
+            floatArray67);
         boolean boolean70 = floatList47.addAll((java.util.Collection<java.lang.Float>) floatList68);
         boolean boolean71 = floatList12.containsAll((java.util.Collection<java.lang.Float>) floatList68);
         floatList12.clear();
         java.lang.Byte[] byteArray74 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList75 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean76 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList75,
-                                                         byteArray74);
+            byteArray74);
         java.lang.Float[] floatArray80 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList81 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean82 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList81,
-                                                         floatArray80);
+            floatArray80);
         boolean boolean83 = byteList75.containsAll((java.util.Collection<java.lang.Float>) floatList81);
         boolean boolean84 = floatList81.isEmpty();
         boolean boolean85 = floatList12.removeAll((java.util.Collection<java.lang.Float>) floatList81);
         boolean boolean86 = longList0.containsAll((java.util.Collection<java.lang.Float>) floatList81);
         opssat.simulator.main.ESASimulator eSASimulator87 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter87 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter88 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator87,
-                                                                                                                                                           pcAdapter87);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter88 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator87, pcAdapter87);
         org.ccsds.moims.mo.mal.structures.Duration duration89 = cameraSoftSimAdapter88.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList90 = cameraSoftSimAdapter88.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList90 = cameraSoftSimAdapter88
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration91 = cameraSoftSimAdapter88.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList92 = cameraSoftSimAdapter88.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList92 = cameraSoftSimAdapter88
+            .getAvailableResolutions();
         boolean boolean93 = cameraSoftSimAdapter88.isUnitAvailable();
         int int94 = floatList81.lastIndexOf((java.lang.Object) boolean93);
         try {
             java.lang.Float float96 = floatList81.get(6);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 6, Size: 3");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 6, Size: 3");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(uShort1);
@@ -11951,23 +12339,29 @@ public class RegressionTest0 {
     public void test238() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test238");
-        org.ccsds.moims.mo.mal.structures.Union union1 = new org.ccsds.moims.mo.mal.structures.Union((java.lang.Long) 281475010265073L);
+        org.ccsds.moims.mo.mal.structures.Union union1 = new org.ccsds.moims.mo.mal.structures.Union(
+            (java.lang.Long) 281475010265073L);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet2 = union1.getAreaVersion();
-        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 100);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList4 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 100);
         org.ccsds.moims.mo.mal.structures.UShort uShort5 = uRIList4.getAreaNumber();
         java.lang.Integer int6 = uRIList4.getTypeShortForm();
         opssat.simulator.main.ESASimulator eSASimulator7 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter7 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter8 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator7,
-                                                                                                                                                          pcAdapter7);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter8 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator7, pcAdapter7);
         org.ccsds.moims.mo.mal.structures.Duration duration9 = cameraSoftSimAdapter8.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList10 = cameraSoftSimAdapter8.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList10 = cameraSoftSimAdapter8
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration11 = cameraSoftSimAdapter8.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList12 = cameraSoftSimAdapter8.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList12 = cameraSoftSimAdapter8
+            .getAvailableResolutions();
         int int13 = uRIList4.indexOf((java.lang.Object) cameraSoftSimAdapter8);
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList14 = cameraSoftSimAdapter8.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList14 = cameraSoftSimAdapter8
+            .getAvailableResolutions();
         java.lang.String str15 = cameraSoftSimAdapter8.getExtraInfo();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList16 = cameraSoftSimAdapter8.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList16 = cameraSoftSimAdapter8
+            .getAvailableResolutions();
         boolean boolean17 = union1.equals((java.lang.Object) pixelResolutionList16);
         org.junit.Assert.assertNotNull(uOctet2);
         org.junit.Assert.assertNotNull(uShort5);
@@ -11979,7 +12373,7 @@ public class RegressionTest0 {
         org.junit.Assert.assertTrue("'" + int13 + "' != '" + (-1) + "'", int13 == (-1));
         org.junit.Assert.assertNotNull(pixelResolutionList14);
         org.junit.Assert.assertTrue("'" + str15 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str15
-                                                                                                                    .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertNotNull(pixelResolutionList16);
         org.junit.Assert.assertTrue("'" + boolean17 + "' != '" + false + "'", !boolean17);
     }
@@ -11990,14 +12384,17 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test239");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration4 = cameraSoftSimAdapter1.getMinimumPeriod();
         boolean boolean5 = cameraSoftSimAdapter1.isUnitAvailable();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1.getAvailableResolutions();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration8 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.UShort uShort9 = duration8.getAreaNumber();
         java.lang.String str10 = duration8.toString();
@@ -12018,8 +12415,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test240");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                                    pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         boolean boolean2 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration4 = null;
@@ -12054,8 +12451,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test241");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration3 = cameraSoftSimAdapter1.getMinimumPeriod();
         java.lang.Integer int4 = duration3.getTypeShortForm();
@@ -12073,15 +12470,15 @@ public class RegressionTest0 {
         java.lang.Boolean[] booleanArray2 = new java.lang.Boolean[]{true, true};
         java.util.ArrayList<java.lang.Boolean> booleanList3 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList3,
-                                                        booleanArray2);
+            booleanArray2);
         java.lang.String str5 = booleanList3.toString();
         int int6 = booleanList3.size();
         booleanList3.trimToSize();
         java.lang.String str8 = booleanList3.toString();
         opssat.simulator.main.ESASimulator eSASimulator9 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter9 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter10 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator9,
-                                                                                                                                                                                                     pcAdapter9);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter10 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator9, pcAdapter9);
         boolean boolean11 = softwareDefinedRadioSoftSimAdapter10.isUnitAvailable();
         boolean boolean12 = softwareDefinedRadioSoftSimAdapter10.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration13 = null;
@@ -12092,7 +12489,8 @@ public class RegressionTest0 {
         java.util.ListIterator<java.lang.Boolean> booleanItor20 = booleanList3.listIterator();
         try {
             java.util.List<java.lang.Boolean> booleanList23 = booleanList3.subList((int) (short) 1, (int) (byte) 10);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: toIndex = 10");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: toIndex = 10");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(booleanArray2);
@@ -12115,25 +12513,25 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test243");
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1,
-                                                        uRIArray0);
+        boolean boolean2 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1, uRIArray0);
         boolean boolean4 = uRIList1.contains((java.lang.Object) (-18));
         java.lang.Double[] doubleArray9 = new java.lang.Double[]{1.0d, 10.0d, 1.0d, 0.0d};
         java.util.ArrayList<java.lang.Double> doubleList10 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList10,
-                                                         doubleArray9);
+            doubleArray9);
         java.lang.Short[] shortArray15 = new java.lang.Short[]{(short) 0, (short) 10, (short) 1};
         java.util.ArrayList<java.lang.Short> shortList16 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList16,
-                                                         shortArray15);
+            shortArray15);
         java.lang.Byte[] byteArray19 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList20 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20,
-                                                         byteArray19);
+            byteArray19);
         java.lang.Float[] floatArray25 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList26 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList26,
-                                                         floatArray25);
+            floatArray25);
         boolean boolean28 = byteList20.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean29 = shortList16.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean30 = doubleList10.contains((java.lang.Object) shortList16);
@@ -12141,8 +12539,8 @@ public class RegressionTest0 {
         int int32 = uRIList1.indexOf((java.lang.Object) doubleList10);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator33,
-                                                                                                                                                                                   pcAdapter33);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator33, pcAdapter33);
         boolean boolean35 = doubleList10.remove((java.lang.Object) autonomousADCSSoftSimAdapter34);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode36 = null;
         java.lang.String str37 = autonomousADCSSoftSimAdapter34.validateAttitudeDescriptor(attitudeMode36);
@@ -12173,8 +12571,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test244");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                                    pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         boolean boolean2 = softwareDefinedRadioSoftSimAdapter1.isUnitAvailable();
         boolean boolean4 = softwareDefinedRadioSoftSimAdapter1.enableSDR((java.lang.Boolean) false);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration5 = null;
@@ -12192,8 +12590,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test245");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                  pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         boolean boolean2 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
         autonomousADCSSoftSimAdapter1.setDesiredAttitude(attitudeMode3);
@@ -12211,25 +12609,25 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test246");
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1,
-                                                        uRIArray0);
+        boolean boolean2 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1, uRIArray0);
         boolean boolean4 = uRIList1.contains((java.lang.Object) (-18));
         java.lang.Double[] doubleArray9 = new java.lang.Double[]{1.0d, 10.0d, 1.0d, 0.0d};
         java.util.ArrayList<java.lang.Double> doubleList10 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList10,
-                                                         doubleArray9);
+            doubleArray9);
         java.lang.Short[] shortArray15 = new java.lang.Short[]{(short) 0, (short) 10, (short) 1};
         java.util.ArrayList<java.lang.Short> shortList16 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList16,
-                                                         shortArray15);
+            shortArray15);
         java.lang.Byte[] byteArray19 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList20 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20,
-                                                         byteArray19);
+            byteArray19);
         java.lang.Float[] floatArray25 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList26 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList26,
-                                                         floatArray25);
+            floatArray25);
         boolean boolean28 = byteList20.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean29 = shortList16.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean30 = doubleList10.contains((java.lang.Object) shortList16);
@@ -12237,8 +12635,8 @@ public class RegressionTest0 {
         int int32 = uRIList1.indexOf((java.lang.Object) doubleList10);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator33,
-                                                                                                                                                                                   pcAdapter33);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator33, pcAdapter33);
         boolean boolean35 = doubleList10.remove((java.lang.Object) autonomousADCSSoftSimAdapter34);
         boolean boolean36 = autonomousADCSSoftSimAdapter34.isUnitAvailable();
         boolean boolean37 = autonomousADCSSoftSimAdapter34.isUnitAvailable();
@@ -12268,16 +12666,16 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test247");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         java.lang.String str2 = cameraSoftSimAdapter1.getExtraInfo();
         org.ccsds.moims.mo.mal.structures.Duration duration3 = cameraSoftSimAdapter1.getMinimumPeriod();
         java.lang.String str4 = cameraSoftSimAdapter1.getExtraInfo();
         org.junit.Assert.assertTrue("'" + str2 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str2
-                                                                                                                  .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertNotNull(duration3);
         org.junit.Assert.assertTrue("'" + str4 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str4
-                                                                                                                  .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
     }
 
     @Test
@@ -12286,17 +12684,19 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test248");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration3 = cameraSoftSimAdapter1.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList4 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList4 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration5 = cameraSoftSimAdapter1.getMinimumPeriod();
         java.lang.Short[] shortArray7 = new java.lang.Short[]{(short) 10};
         java.util.ArrayList<java.lang.Short> shortList8 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean9 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList8,
-                                                        shortArray7);
-        org.ccsds.moims.mo.mal.structures.URI uRI11 = new org.ccsds.moims.mo.mal.structures.URI("[, [1], [true, true], ]");
+            shortArray7);
+        org.ccsds.moims.mo.mal.structures.URI uRI11 = new org.ccsds.moims.mo.mal.structures.URI(
+            "[, [1], [true, true], ]");
         java.lang.Long long12 = uRI11.getShortForm();
         org.ccsds.moims.mo.mal.structures.UShort uShort13 = uRI11.getServiceNumber();
         int int14 = shortList8.indexOf((java.lang.Object) uRI11);
@@ -12324,7 +12724,7 @@ public class RegressionTest0 {
         java.lang.Double[] doubleArray1 = new java.lang.Double[]{100.0d};
         java.util.ArrayList<java.lang.Double> doubleList2 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList2,
-                                                        doubleArray1);
+            doubleArray1);
         java.lang.String[] strArray8 = new java.lang.String[]{"[true, true]", "[1]", "[true, true]", "hi!"};
         java.util.ArrayList<java.lang.String> strList9 = new java.util.ArrayList<java.lang.String>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList9, strArray8);
@@ -12333,16 +12733,16 @@ public class RegressionTest0 {
         java.lang.Byte[] byteArray15 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList16 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList16,
-                                                         byteArray15);
+            byteArray15);
         java.lang.Float[] floatArray21 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList22 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList22,
-                                                         floatArray21);
+            floatArray21);
         boolean boolean24 = byteList16.containsAll((java.util.Collection<java.lang.Float>) floatList22);
         java.lang.Float[] floatArray28 = new java.lang.Float[]{(-1.0f), 10.0f, 0.0f};
         java.util.ArrayList<java.lang.Float> floatList29 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList29,
-                                                         floatArray28);
+            floatArray28);
         int int31 = floatList29.size();
         boolean boolean32 = floatList22.containsAll((java.util.Collection<java.lang.Float>) floatList29);
         boolean boolean33 = strList9.containsAll((java.util.Collection<java.lang.Float>) floatList22);
@@ -12350,23 +12750,24 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.UShort uShort35 = org.ccsds.moims.mo.mal.structures.DoubleList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray36 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort35};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList37 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean38 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList37,
-                                                         uShortArray36);
+        boolean boolean38 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList37, uShortArray36);
         java.lang.String str39 = uShortList37.toString();
         int int40 = floatList22.lastIndexOf((java.lang.Object) str39);
         java.lang.Float[] floatArray42 = new java.lang.Float[]{1.0f};
         java.util.ArrayList<java.lang.Float> floatList43 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean44 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList43,
-                                                         floatArray42);
+            floatArray42);
         boolean boolean45 = floatList22.addAll((java.util.Collection<java.lang.Float>) floatList43);
         org.ccsds.moims.mo.mal.structures.FloatList floatList46 = new org.ccsds.moims.mo.mal.structures.FloatList();
         boolean boolean47 = floatList22.removeAll((java.util.Collection<java.lang.Float>) floatList46);
         org.ccsds.moims.mo.mal.structures.Element element48 = floatList46.createElement();
         opssat.simulator.main.ESASimulator eSASimulator49 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter50 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator49,
-                                                                                                                                                                                   pcAdapter49);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode51 = autonomousADCSSoftSimAdapter50.getActiveAttitudeMode();
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter50 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator49, pcAdapter49);
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode51 = autonomousADCSSoftSimAdapter50
+            .getActiveAttitudeMode();
         int int52 = floatList46.indexOf((java.lang.Object) autonomousADCSSoftSimAdapter50);
         org.ccsds.moims.mo.mal.structures.UShort uShort53 = floatList46.getAreaNumber();
         org.junit.Assert.assertNotNull(doubleArray1);
@@ -12408,15 +12809,15 @@ public class RegressionTest0 {
         java.lang.Boolean[] booleanArray2 = new java.lang.Boolean[]{true, true};
         java.util.ArrayList<java.lang.Boolean> booleanList3 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList3,
-                                                        booleanArray2);
+            booleanArray2);
         java.lang.String str5 = booleanList3.toString();
         int int6 = booleanList3.size();
         booleanList3.trimToSize();
         java.lang.String str8 = booleanList3.toString();
         opssat.simulator.main.ESASimulator eSASimulator9 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter9 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter10 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator9,
-                                                                                                                                                                                                     pcAdapter9);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter10 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator9, pcAdapter9);
         boolean boolean11 = softwareDefinedRadioSoftSimAdapter10.isUnitAvailable();
         boolean boolean12 = softwareDefinedRadioSoftSimAdapter10.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration13 = null;
@@ -12447,25 +12848,25 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test251");
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1,
-                                                        uRIArray0);
+        boolean boolean2 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1, uRIArray0);
         boolean boolean4 = uRIList1.contains((java.lang.Object) (-18));
         java.lang.Double[] doubleArray9 = new java.lang.Double[]{1.0d, 10.0d, 1.0d, 0.0d};
         java.util.ArrayList<java.lang.Double> doubleList10 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList10,
-                                                         doubleArray9);
+            doubleArray9);
         java.lang.Short[] shortArray15 = new java.lang.Short[]{(short) 0, (short) 10, (short) 1};
         java.util.ArrayList<java.lang.Short> shortList16 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList16,
-                                                         shortArray15);
+            shortArray15);
         java.lang.Byte[] byteArray19 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList20 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20,
-                                                         byteArray19);
+            byteArray19);
         java.lang.Float[] floatArray25 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList26 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList26,
-                                                         floatArray25);
+            floatArray25);
         boolean boolean28 = byteList20.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean29 = shortList16.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean30 = doubleList10.contains((java.lang.Object) shortList16);
@@ -12473,15 +12874,16 @@ public class RegressionTest0 {
         int int32 = uRIList1.indexOf((java.lang.Object) doubleList10);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator33,
-                                                                                                                                                                                   pcAdapter33);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator33, pcAdapter33);
         boolean boolean35 = doubleList10.remove((java.lang.Object) autonomousADCSSoftSimAdapter34);
         java.util.Iterator<java.lang.Double> doubleItor36 = doubleList10.iterator();
         doubleList10.ensureCapacity((-13));
         java.util.Iterator<java.lang.Double> doubleItor39 = doubleList10.iterator();
         try {
             java.util.List<java.lang.Double> doubleList42 = doubleList10.subList(12, (-5));
-            org.junit.Assert.fail("Expected exception of type java.lang.IllegalArgumentException; message: fromIndex(12) > toIndex(-5)");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IllegalArgumentException; message: fromIndex(12) > toIndex(-5)");
         } catch (java.lang.IllegalArgumentException e) {
         }
         org.junit.Assert.assertNotNull(uRIArray0);
@@ -12508,21 +12910,25 @@ public class RegressionTest0 {
     public void test252() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test252");
-        org.ccsds.moims.mo.mal.structures.FineTime fineTime1 = new org.ccsds.moims.mo.mal.structures.FineTime(281474993487874L);
+        org.ccsds.moims.mo.mal.structures.FineTime fineTime1 = new org.ccsds.moims.mo.mal.structures.FineTime(
+            281474993487874L);
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = fineTime1.getAreaNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort3 = fineTime1.getAreaNumber();
         java.lang.Integer int4 = fineTime1.getTypeShortForm();
         opssat.simulator.main.ESASimulator eSASimulator5 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter5 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter6 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator5,
-                                                                                                                                                          pcAdapter5);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter6 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator5, pcAdapter5);
         org.ccsds.moims.mo.mal.structures.Duration duration7 = cameraSoftSimAdapter6.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList8 = cameraSoftSimAdapter6.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList8 = cameraSoftSimAdapter6
+            .getAvailableResolutions();
         java.lang.String str9 = cameraSoftSimAdapter6.getExtraInfo();
         java.lang.String str10 = cameraSoftSimAdapter6.getExtraInfo();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList11 = cameraSoftSimAdapter6.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList11 = cameraSoftSimAdapter6
+            .getAvailableResolutions();
         boolean boolean12 = fineTime1.equals((java.lang.Object) cameraSoftSimAdapter6);
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList13 = cameraSoftSimAdapter6.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList13 = cameraSoftSimAdapter6
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration14 = cameraSoftSimAdapter6.getMinimumPeriod();
         org.junit.Assert.assertNotNull(uShort2);
         org.junit.Assert.assertNotNull(uShort3);
@@ -12530,9 +12936,9 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(duration7);
         org.junit.Assert.assertNotNull(pixelResolutionList8);
         org.junit.Assert.assertTrue("'" + str9 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str9
-                                                                                                                  .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertTrue("'" + str10 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str10
-                                                                                                                    .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertNotNull(pixelResolutionList11);
         org.junit.Assert.assertTrue("'" + boolean12 + "' != '" + false + "'", !boolean12);
         org.junit.Assert.assertNotNull(pixelResolutionList13);
@@ -12545,14 +12951,17 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test253");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration4 = cameraSoftSimAdapter1.getMinimumPeriod();
         boolean boolean5 = cameraSoftSimAdapter1.isUnitAvailable();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1.getAvailableResolutions();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration8 = cameraSoftSimAdapter1.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration9 = cameraSoftSimAdapter1.getMinimumPeriod();
         boolean boolean10 = cameraSoftSimAdapter1.isUnitAvailable();
@@ -12577,17 +12986,20 @@ public class RegressionTest0 {
     public void test254() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test254");
-        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList((int) (short) 100);
+        org.ccsds.moims.mo.mal.structures.URIList uRIList1 = new org.ccsds.moims.mo.mal.structures.URIList(
+            (int) (short) 100);
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = uRIList1.getAreaNumber();
         java.lang.Integer int3 = uRIList1.getTypeShortForm();
         opssat.simulator.main.ESASimulator eSASimulator4 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter5 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator4,
-                                                                                                                                                          pcAdapter4);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter5 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator4, pcAdapter4);
         org.ccsds.moims.mo.mal.structures.Duration duration6 = cameraSoftSimAdapter5.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter5.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter5
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration8 = cameraSoftSimAdapter5.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList9 = cameraSoftSimAdapter5.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList9 = cameraSoftSimAdapter5
+            .getAvailableResolutions();
         int int10 = uRIList1.indexOf((java.lang.Object) cameraSoftSimAdapter5);
         java.lang.Integer int11 = uRIList1.getTypeShortForm();
         java.util.ListIterator<org.ccsds.moims.mo.mal.structures.URI> uRIItor12 = uRIList1.listIterator();
@@ -12611,13 +13023,13 @@ public class RegressionTest0 {
         java.lang.Short[] shortArray2 = new java.lang.Short[]{(short) 0, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList3 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean4 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList3,
-                                                        shortArray2);
+            shortArray2);
         shortList3.trimToSize();
         shortList3.trimToSize();
         opssat.simulator.main.ESASimulator eSASimulator7 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter7 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter8 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator7,
-                                                                                                                                                                                                    pcAdapter7);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter8 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator7, pcAdapter7);
         boolean boolean9 = softwareDefinedRadioSoftSimAdapter8.isUnitAvailable();
         boolean boolean10 = softwareDefinedRadioSoftSimAdapter8.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration11 = null;
@@ -12627,7 +13039,8 @@ public class RegressionTest0 {
         boolean boolean16 = shortList3.contains((java.lang.Object) boolean15);
         try {
             shortList3.add((int) 'a', (java.lang.Short) (short) 0);
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 97, Size: 2");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: Index: 97, Size: 2");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(shortArray2);
@@ -12647,7 +13060,7 @@ public class RegressionTest0 {
         java.lang.Double[] doubleArray1 = new java.lang.Double[]{100.0d};
         java.util.ArrayList<java.lang.Double> doubleList2 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean3 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList2,
-                                                        doubleArray1);
+            doubleArray1);
         java.lang.String[] strArray8 = new java.lang.String[]{"[true, true]", "[1]", "[true, true]", "hi!"};
         java.util.ArrayList<java.lang.String> strList9 = new java.util.ArrayList<java.lang.String>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList9, strArray8);
@@ -12656,16 +13069,16 @@ public class RegressionTest0 {
         java.lang.Byte[] byteArray15 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList16 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList16,
-                                                         byteArray15);
+            byteArray15);
         java.lang.Float[] floatArray21 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList22 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList22,
-                                                         floatArray21);
+            floatArray21);
         boolean boolean24 = byteList16.containsAll((java.util.Collection<java.lang.Float>) floatList22);
         java.lang.Float[] floatArray28 = new java.lang.Float[]{(-1.0f), 10.0f, 0.0f};
         java.util.ArrayList<java.lang.Float> floatList29 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean30 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList29,
-                                                         floatArray28);
+            floatArray28);
         int int31 = floatList29.size();
         boolean boolean32 = floatList22.containsAll((java.util.Collection<java.lang.Float>) floatList29);
         boolean boolean33 = strList9.containsAll((java.util.Collection<java.lang.Float>) floatList22);
@@ -12673,23 +13086,24 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.UShort uShort35 = org.ccsds.moims.mo.mal.structures.DoubleList.AREA_SHORT_FORM;
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray36 = new org.ccsds.moims.mo.mal.structures.UShort[]{uShort35};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList37 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean38 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList37,
-                                                         uShortArray36);
+        boolean boolean38 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList37, uShortArray36);
         java.lang.String str39 = uShortList37.toString();
         int int40 = floatList22.lastIndexOf((java.lang.Object) str39);
         java.lang.Float[] floatArray42 = new java.lang.Float[]{1.0f};
         java.util.ArrayList<java.lang.Float> floatList43 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean44 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList43,
-                                                         floatArray42);
+            floatArray42);
         boolean boolean45 = floatList22.addAll((java.util.Collection<java.lang.Float>) floatList43);
         org.ccsds.moims.mo.mal.structures.FloatList floatList46 = new org.ccsds.moims.mo.mal.structures.FloatList();
         boolean boolean47 = floatList22.removeAll((java.util.Collection<java.lang.Float>) floatList46);
         org.ccsds.moims.mo.mal.structures.Element element48 = floatList46.createElement();
         opssat.simulator.main.ESASimulator eSASimulator49 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter49 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter50 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator49,
-                                                                                                                                                                                   pcAdapter49);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode51 = autonomousADCSSoftSimAdapter50.getActiveAttitudeMode();
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter50 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator49, pcAdapter49);
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode51 = autonomousADCSSoftSimAdapter50
+            .getActiveAttitudeMode();
         int int52 = floatList46.indexOf((java.lang.Object) autonomousADCSSoftSimAdapter50);
         boolean boolean53 = floatList46.isEmpty();
         org.junit.Assert.assertNotNull(doubleArray1);
@@ -12728,15 +13142,18 @@ public class RegressionTest0 {
     public void test257() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test257");
-        org.ccsds.moims.mo.mal.structures.UShortList uShortList1 = new org.ccsds.moims.mo.mal.structures.UShortList((int) 'a');
+        org.ccsds.moims.mo.mal.structures.UShortList uShortList1 = new org.ccsds.moims.mo.mal.structures.UShortList(
+            (int) 'a');
         opssat.simulator.main.ESASimulator eSASimulator2 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter2 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter3 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator2,
-                                                                                                                                                          pcAdapter2);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter3 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator2, pcAdapter2);
         org.ccsds.moims.mo.mal.structures.Duration duration4 = cameraSoftSimAdapter3.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList5 = cameraSoftSimAdapter3.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList5 = cameraSoftSimAdapter3
+            .getAvailableResolutions();
         java.lang.String str6 = cameraSoftSimAdapter3.getExtraInfo();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter3.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList7 = cameraSoftSimAdapter3
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration8 = cameraSoftSimAdapter3.getMinimumPeriod();
         boolean boolean9 = uShortList1.contains((java.lang.Object) cameraSoftSimAdapter3);
         org.ccsds.moims.mo.mal.structures.URIList uRIList10 = new org.ccsds.moims.mo.mal.structures.URIList();
@@ -12748,14 +13165,14 @@ public class RegressionTest0 {
                                                                (short) -1};
         java.util.ArrayList<java.lang.Short> shortList22 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean23 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList22,
-                                                         shortArray21);
+            shortArray21);
         int int25 = shortList22.lastIndexOf((java.lang.Object) (byte) 1);
         java.util.ListIterator<java.lang.Short> shortItor26 = shortList22.listIterator();
         java.util.stream.Stream<java.lang.Short> shortStream27 = shortList22.parallelStream();
         java.lang.Long[] longArray30 = new java.lang.Long[]{281475010265077L, 100L};
         java.util.ArrayList<java.lang.Long> longList31 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean32 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList31,
-                                                         longArray30);
+            longArray30);
         longList31.ensureCapacity((int) (byte) 100);
         java.lang.String str35 = longList31.toString();
         java.util.stream.Stream<java.lang.Long> longStream36 = longList31.stream();
@@ -12763,14 +13180,16 @@ public class RegressionTest0 {
         java.lang.String str38 = longList31.toString();
         longList31.add(0, (java.lang.Long) 10L);
         java.util.ListIterator<java.lang.Long> longItor42 = longList31.listIterator();
-        org.ccsds.moims.mo.mal.structures.IntegerList integerList44 = new org.ccsds.moims.mo.mal.structures.IntegerList((int) 'a');
+        org.ccsds.moims.mo.mal.structures.IntegerList integerList44 = new org.ccsds.moims.mo.mal.structures.IntegerList(
+            (int) 'a');
         java.lang.Integer int45 = integerList44.getTypeShortForm();
         org.ccsds.moims.mo.mal.structures.URIList uRIList46 = new org.ccsds.moims.mo.mal.structures.URIList();
         org.ccsds.moims.mo.mal.structures.UShort uShort47 = uRIList46.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort48 = uRIList46.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.Element element49 = uRIList46.createElement();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet50 = uRIList46.getAreaVersion();
-        org.ccsds.moims.mo.mal.structures.FloatList floatList52 = new org.ccsds.moims.mo.mal.structures.FloatList((int) 'a');
+        org.ccsds.moims.mo.mal.structures.FloatList floatList52 = new org.ccsds.moims.mo.mal.structures.FloatList(
+            (int) 'a');
         java.lang.Integer int53 = floatList52.getTypeShortForm();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet54 = floatList52.getAreaVersion();
         boolean boolean55 = uRIList46.containsAll((java.util.Collection<java.lang.Float>) floatList52);
@@ -12780,7 +13199,8 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.UShort uShort59 = floatList52.getAreaNumber();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet60 = floatList52.getAreaVersion();
         boolean boolean61 = shortList22.retainAll((java.util.Collection<java.lang.Float>) floatList52);
-        org.ccsds.moims.mo.mal.structures.FloatList floatList63 = new org.ccsds.moims.mo.mal.structures.FloatList((int) 'a');
+        org.ccsds.moims.mo.mal.structures.FloatList floatList63 = new org.ccsds.moims.mo.mal.structures.FloatList(
+            (int) 'a');
         byte[] byteArray64 = new byte[]{};
         org.ccsds.moims.mo.mal.structures.Blob blob65 = new org.ccsds.moims.mo.mal.structures.Blob(byteArray64);
         int int66 = blob65.getOffset();
@@ -12788,7 +13208,8 @@ public class RegressionTest0 {
         java.lang.Long long68 = floatList63.getShortForm();
         org.ccsds.moims.mo.mal.structures.UShort uShort69 = floatList63.getAreaNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort70 = floatList63.getServiceNumber();
-        org.ccsds.moims.mo.mal.structures.FloatList floatList72 = new org.ccsds.moims.mo.mal.structures.FloatList((int) 'a');
+        org.ccsds.moims.mo.mal.structures.FloatList floatList72 = new org.ccsds.moims.mo.mal.structures.FloatList(
+            (int) 'a');
         org.ccsds.moims.mo.mal.structures.Element element73 = floatList72.createElement();
         boolean boolean74 = floatList63.removeAll((java.util.Collection<java.lang.Float>) floatList72);
         boolean boolean75 = shortList22.retainAll((java.util.Collection<java.lang.Float>) floatList63);
@@ -12798,11 +13219,12 @@ public class RegressionTest0 {
         java.lang.String str79 = floatList63.toString();
         opssat.simulator.main.ESASimulator eSASimulator80 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter80 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter81 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator80,
-                                                                                                                                                           pcAdapter80);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter81 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator80, pcAdapter80);
         org.ccsds.moims.mo.mal.structures.Duration duration82 = cameraSoftSimAdapter81.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration83 = cameraSoftSimAdapter81.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList84 = cameraSoftSimAdapter81.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList84 = cameraSoftSimAdapter81
+            .getAvailableResolutions();
         java.lang.String str85 = cameraSoftSimAdapter81.getExtraInfo();
         boolean boolean86 = cameraSoftSimAdapter81.isUnitAvailable();
         org.ccsds.moims.mo.mal.structures.Duration duration87 = cameraSoftSimAdapter81.getMinimumPeriod();
@@ -12810,7 +13232,7 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(duration4);
         org.junit.Assert.assertNotNull(pixelResolutionList5);
         org.junit.Assert.assertTrue("'" + str6 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str6
-                                                                                                                  .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertNotNull(pixelResolutionList7);
         org.junit.Assert.assertNotNull(duration8);
         org.junit.Assert.assertTrue("'" + boolean9 + "' != '" + false + "'", !boolean9);
@@ -12824,12 +13246,12 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(longArray30);
         org.junit.Assert.assertTrue("'" + boolean32 + "' != '" + true + "'", boolean32);
         org.junit.Assert.assertTrue("'" + str35 + "' != '" + "[281475010265077, 100]" + "'", str35.equals(
-                                                                                                          "[281475010265077, 100]"));
+            "[281475010265077, 100]"));
         org.junit.Assert.assertNotNull(longStream36);
         org.junit.Assert.assertTrue("'" + str37 + "' != '" + "[281475010265077, 100]" + "'", str37.equals(
-                                                                                                          "[281475010265077, 100]"));
+            "[281475010265077, 100]"));
         org.junit.Assert.assertTrue("'" + str38 + "' != '" + "[281475010265077, 100]" + "'", str38.equals(
-                                                                                                          "[281475010265077, 100]"));
+            "[281475010265077, 100]"));
         org.junit.Assert.assertNotNull(longItor42);
         org.junit.Assert.assertTrue("'" + int45 + "' != '" + (-11) + "'", int45.equals((-11)));
         org.junit.Assert.assertNotNull(uShort47);
@@ -12862,7 +13284,7 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(duration83);
         org.junit.Assert.assertNotNull(pixelResolutionList84);
         org.junit.Assert.assertTrue("'" + str85 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str85
-                                                                                                                    .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertTrue("'" + boolean86 + "' != '" + true + "'", boolean86);
         org.junit.Assert.assertNotNull(duration87);
         org.junit.Assert.assertTrue("'" + boolean88 + "' != '" + false + "'", !boolean88);
@@ -12874,8 +13296,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test258");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                 pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         boolean boolean2 = gPSSoftSimAdapter1.isUnitAvailable();
         boolean boolean3 = gPSSoftSimAdapter1.isUnitAvailable();
         boolean boolean4 = gPSSoftSimAdapter1.isUnitAvailable();
@@ -12899,7 +13321,8 @@ public class RegressionTest0 {
     public void test259() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test259");
-        org.ccsds.moims.mo.mal.structures.UShortList uShortList1 = new org.ccsds.moims.mo.mal.structures.UShortList((int) 'a');
+        org.ccsds.moims.mo.mal.structures.UShortList uShortList1 = new org.ccsds.moims.mo.mal.structures.UShortList(
+            (int) 'a');
         org.ccsds.moims.mo.mal.structures.Element element2 = uShortList1.createElement();
         uShortList1.trimToSize();
         java.lang.Long long4 = uShortList1.getShortForm();
@@ -12907,19 +13330,22 @@ public class RegressionTest0 {
         java.lang.Boolean[] booleanArray8 = new java.lang.Boolean[]{true, false};
         java.util.ArrayList<java.lang.Boolean> booleanList9 = new java.util.ArrayList<java.lang.Boolean>();
         boolean boolean10 = java.util.Collections.addAll((java.util.Collection<java.lang.Boolean>) booleanList9,
-                                                         booleanArray8);
+            booleanArray8);
         opssat.simulator.main.ESASimulator eSASimulator11 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter11 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter12 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator11,
-                                                                                                                                                                                   pcAdapter11);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode13 = autonomousADCSSoftSimAdapter12.getActiveAttitudeMode();
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter12 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator11, pcAdapter11);
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode13 = autonomousADCSSoftSimAdapter12
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode14 = null;
         java.lang.String str15 = autonomousADCSSoftSimAdapter12.validateAttitudeDescriptor(attitudeMode14);
         boolean boolean16 = autonomousADCSSoftSimAdapter12.isUnitAvailable();
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode17 = autonomousADCSSoftSimAdapter12.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode17 = autonomousADCSSoftSimAdapter12
+            .getActiveAttitudeMode();
         boolean boolean18 = booleanList9.contains((java.lang.Object) attitudeMode17);
         boolean boolean20 = booleanList9.add((java.lang.Boolean) false);
-        org.ccsds.moims.mo.mal.structures.FloatList floatList22 = new org.ccsds.moims.mo.mal.structures.FloatList((int) 'a');
+        org.ccsds.moims.mo.mal.structures.FloatList floatList22 = new org.ccsds.moims.mo.mal.structures.FloatList(
+            (int) 'a');
         java.lang.Integer int23 = floatList22.getTypeShortForm();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet24 = floatList22.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.Element element25 = floatList22.createElement();
@@ -12960,13 +13386,15 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test260");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                  pcAdapter0);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode3 = null;
         java.lang.String str4 = autonomousADCSSoftSimAdapter1.validateAttitudeDescriptor(attitudeMode3);
         boolean boolean5 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode6 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode6 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode7 = null;
         java.lang.String str8 = autonomousADCSSoftSimAdapter1.validateAttitudeDescriptor(attitudeMode7);
         boolean boolean9 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
@@ -12984,25 +13412,25 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test261");
         org.ccsds.moims.mo.mal.structures.URI[] uRIArray0 = new org.ccsds.moims.mo.mal.structures.URI[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI> uRIList1 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.URI>();
-        boolean boolean2 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1,
-                                                        uRIArray0);
+        boolean boolean2 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.URI>) uRIList1, uRIArray0);
         boolean boolean4 = uRIList1.contains((java.lang.Object) (-18));
         java.lang.Double[] doubleArray9 = new java.lang.Double[]{1.0d, 10.0d, 1.0d, 0.0d};
         java.util.ArrayList<java.lang.Double> doubleList10 = new java.util.ArrayList<java.lang.Double>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.Double>) doubleList10,
-                                                         doubleArray9);
+            doubleArray9);
         java.lang.Short[] shortArray15 = new java.lang.Short[]{(short) 0, (short) 10, (short) 1};
         java.util.ArrayList<java.lang.Short> shortList16 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean17 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList16,
-                                                         shortArray15);
+            shortArray15);
         java.lang.Byte[] byteArray19 = new java.lang.Byte[]{(byte) -1};
         java.util.ArrayList<java.lang.Byte> byteList20 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean21 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList20,
-                                                         byteArray19);
+            byteArray19);
         java.lang.Float[] floatArray25 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f};
         java.util.ArrayList<java.lang.Float> floatList26 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean27 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList26,
-                                                         floatArray25);
+            floatArray25);
         boolean boolean28 = byteList20.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean29 = shortList16.containsAll((java.util.Collection<java.lang.Float>) floatList26);
         boolean boolean30 = doubleList10.contains((java.lang.Object) shortList16);
@@ -13010,10 +13438,11 @@ public class RegressionTest0 {
         int int32 = uRIList1.indexOf((java.lang.Object) doubleList10);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator33,
-                                                                                                                                                                                   pcAdapter33);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator33, pcAdapter33);
         boolean boolean35 = doubleList10.remove((java.lang.Object) autonomousADCSSoftSimAdapter34);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode36 = autonomousADCSSoftSimAdapter34.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode36 = autonomousADCSSoftSimAdapter34
+            .getActiveAttitudeMode();
         boolean boolean37 = autonomousADCSSoftSimAdapter34.isUnitAvailable();
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode38 = null;
         java.lang.String str39 = autonomousADCSSoftSimAdapter34.validateAttitudeDescriptor(attitudeMode38);
@@ -13046,7 +13475,8 @@ public class RegressionTest0 {
     public void test262() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test262");
-        org.ccsds.moims.mo.mal.structures.OctetList octetList1 = new org.ccsds.moims.mo.mal.structures.OctetList((int) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.OctetList octetList1 = new org.ccsds.moims.mo.mal.structures.OctetList(
+            (int) (byte) 1);
         java.util.Iterator<java.lang.Byte> byteItor2 = octetList1.iterator();
         java.lang.Integer int3 = octetList1.getTypeShortForm();
         java.lang.Long long4 = octetList1.getShortForm();
@@ -13056,17 +13486,19 @@ public class RegressionTest0 {
         boolean boolean9 = octetList1.isEmpty();
         opssat.simulator.main.ESASimulator eSASimulator10 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter10 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter11 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator10,
-                                                                                                                                                           pcAdapter10);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter11 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator10, pcAdapter10);
         org.ccsds.moims.mo.mal.structures.Duration duration12 = cameraSoftSimAdapter11.getMinimumPeriod();
         org.ccsds.moims.mo.mal.structures.Duration duration13 = cameraSoftSimAdapter11.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList14 = cameraSoftSimAdapter11.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList14 = cameraSoftSimAdapter11
+            .getAvailableResolutions();
         java.lang.String str15 = cameraSoftSimAdapter11.getExtraInfo();
         boolean boolean16 = cameraSoftSimAdapter11.isUnitAvailable();
         org.ccsds.moims.mo.mal.structures.Duration duration17 = cameraSoftSimAdapter11.getMinimumPeriod();
         java.lang.String str18 = cameraSoftSimAdapter11.getExtraInfo();
         int int19 = octetList1.lastIndexOf((java.lang.Object) str18);
-        org.ccsds.moims.mo.mal.structures.OctetList octetList21 = new org.ccsds.moims.mo.mal.structures.OctetList((int) (byte) 1);
+        org.ccsds.moims.mo.mal.structures.OctetList octetList21 = new org.ccsds.moims.mo.mal.structures.OctetList(
+            (int) (byte) 1);
         boolean boolean22 = octetList21.isEmpty();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet23 = octetList21.getAreaVersion();
         org.ccsds.moims.mo.mal.structures.Union union25 = new org.ccsds.moims.mo.mal.structures.Union("[]");
@@ -13093,11 +13525,11 @@ public class RegressionTest0 {
         org.junit.Assert.assertNotNull(duration13);
         org.junit.Assert.assertNotNull(pixelResolutionList14);
         org.junit.Assert.assertTrue("'" + str15 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str15
-                                                                                                                    .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertTrue("'" + boolean16 + "' != '" + true + "'", boolean16);
         org.junit.Assert.assertNotNull(duration17);
         org.junit.Assert.assertTrue("'" + str18 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str18
-                                                                                                                    .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertTrue("'" + int19 + "' != '" + (-1) + "'", int19 == (-1));
         org.junit.Assert.assertTrue("'" + boolean22 + "' != '" + true + "'", boolean22);
         org.junit.Assert.assertNotNull(uOctet23);
@@ -13118,13 +13550,15 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test263");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList3 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration4 = cameraSoftSimAdapter1.getMinimumPeriod();
         boolean boolean5 = cameraSoftSimAdapter1.isUnitAvailable();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         java.lang.String str7 = cameraSoftSimAdapter1.getExtraInfo();
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertNotNull(pixelResolutionList3);
@@ -13132,7 +13566,7 @@ public class RegressionTest0 {
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertNotNull(pixelResolutionList6);
         org.junit.Assert.assertTrue("'" + str7 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str7
-                                                                                                                  .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
     }
 
     @Test
@@ -13145,12 +13579,14 @@ public class RegressionTest0 {
         java.lang.Object obj4 = null;
         boolean boolean5 = identifier3.equals(obj4);
         org.ccsds.moims.mo.mal.structures.UOctet uOctet6 = identifier3.getAreaVersion();
-        org.ccsds.moims.mo.mal.structures.Duration duration8 = new org.ccsds.moims.mo.mal.structures.Duration((double) '4');
+        org.ccsds.moims.mo.mal.structures.Duration duration8 = new org.ccsds.moims.mo.mal.structures.Duration(
+            (double) '4');
         java.lang.Short[] shortArray10 = new java.lang.Short[]{(short) 10};
         java.util.ArrayList<java.lang.Short> shortList11 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean12 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList11,
-                                                         shortArray10);
-        org.ccsds.moims.mo.mal.structures.URI uRI14 = new org.ccsds.moims.mo.mal.structures.URI("[, [1], [true, true], ]");
+            shortArray10);
+        org.ccsds.moims.mo.mal.structures.URI uRI14 = new org.ccsds.moims.mo.mal.structures.URI(
+            "[, [1], [true, true], ]");
         java.lang.Long long15 = uRI14.getShortForm();
         org.ccsds.moims.mo.mal.structures.UShort uShort16 = uRI14.getServiceNumber();
         int int17 = shortList11.indexOf((java.lang.Object) uRI14);
@@ -13168,8 +13604,9 @@ public class RegressionTest0 {
         java.lang.Short[] shortArray30 = new java.lang.Short[]{(short) 10};
         java.util.ArrayList<java.lang.Short> shortList31 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean32 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList31,
-                                                         shortArray30);
-        org.ccsds.moims.mo.mal.structures.URI uRI34 = new org.ccsds.moims.mo.mal.structures.URI("[, [1], [true, true], ]");
+            shortArray30);
+        org.ccsds.moims.mo.mal.structures.URI uRI34 = new org.ccsds.moims.mo.mal.structures.URI(
+            "[, [1], [true, true], ]");
         java.lang.Long long35 = uRI34.getShortForm();
         org.ccsds.moims.mo.mal.structures.UShort uShort36 = uRI34.getServiceNumber();
         int int37 = shortList31.indexOf((java.lang.Object) uRI34);
@@ -13182,18 +13619,19 @@ public class RegressionTest0 {
         java.lang.Long[] longArray46 = new java.lang.Long[]{281475010265077L, 100L};
         java.util.ArrayList<java.lang.Long> longList47 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean48 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList47,
-                                                         longArray46);
+            longArray46);
         longList47.ensureCapacity((int) (byte) 100);
         java.lang.Object[] objArray51 = longList47.toArray();
         boolean boolean53 = longList47.remove((java.lang.Object) '#');
         boolean boolean54 = longList47.isEmpty();
-        org.ccsds.moims.mo.mal.structures.FloatList floatList56 = new org.ccsds.moims.mo.mal.structures.FloatList((int) 'a');
+        org.ccsds.moims.mo.mal.structures.FloatList floatList56 = new org.ccsds.moims.mo.mal.structures.FloatList(
+            (int) 'a');
         boolean boolean57 = longList47.retainAll((java.util.Collection<java.lang.Float>) floatList56);
         boolean boolean58 = doubleList38.containsAll((java.util.Collection<java.lang.Float>) floatList56);
         opssat.simulator.main.ESASimulator eSASimulator59 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter59 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter60 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator59,
-                                                                                                                                                           pcAdapter59);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter60 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator59, pcAdapter59);
         org.ccsds.moims.mo.mal.structures.Duration duration61 = cameraSoftSimAdapter60.getMinimumPeriod();
         java.lang.String str62 = cameraSoftSimAdapter60.getExtraInfo();
         boolean boolean63 = cameraSoftSimAdapter60.isUnitAvailable();
@@ -13212,7 +13650,7 @@ public class RegressionTest0 {
         org.junit.Assert.assertTrue("'" + int17 + "' != '" + (-1) + "'", int17 == (-1));
         org.junit.Assert.assertNotNull(uShort18);
         org.junit.Assert.assertTrue("'" + str19 + "' != '" + "[, [1], [true, true], ]" + "'", str19.equals(
-                                                                                                           "[, [1], [true, true], ]"));
+            "[, [1], [true, true], ]"));
         org.junit.Assert.assertTrue("'" + boolean20 + "' != '" + false + "'", !boolean20);
         org.junit.Assert.assertNotNull(uShort21);
         org.junit.Assert.assertTrue("'" + boolean22 + "' != '" + false + "'", !boolean22);
@@ -13241,7 +13679,7 @@ public class RegressionTest0 {
         org.junit.Assert.assertTrue("'" + boolean58 + "' != '" + true + "'", boolean58);
         org.junit.Assert.assertNotNull(duration61);
         org.junit.Assert.assertTrue("'" + str62 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str62
-                                                                                                                    .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertTrue("'" + boolean63 + "' != '" + true + "'", boolean63);
         org.junit.Assert.assertNotNull(duration64);
         org.junit.Assert.assertTrue("'" + boolean65 + "' != '" + false + "'", !boolean65);
@@ -13264,33 +13702,35 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.Element element9 = uShortList6.createElement();
         opssat.simulator.main.ESASimulator eSASimulator10 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter10 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter11 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator10,
-                                                                                                                                                  pcAdapter10);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter11 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator10, pcAdapter10);
         opssat.simulator.main.ESASimulator eSASimulator12 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter12 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter13 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator12,
-                                                                                                                                                  pcAdapter12);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter13 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator12, pcAdapter12);
         opssat.simulator.main.ESASimulator eSASimulator14 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter14 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter15 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator14,
-                                                                                                                                                  pcAdapter14);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter15 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator14, pcAdapter14);
         opssat.simulator.main.ESASimulator eSASimulator16 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter16 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter17 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator16,
-                                                                                                                                                  pcAdapter16);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter17 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator16, pcAdapter16);
         boolean boolean18 = gPSSoftSimAdapter17.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator19 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter19 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter20 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator19,
-                                                                                                                                                  pcAdapter19);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter20 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator19, pcAdapter19);
         boolean boolean21 = gPSSoftSimAdapter20.isUnitAvailable();
         esa.mo.platform.impl.provider.gen.GPSAdapterInterface[] gPSAdapterInterfaceArray22 = new esa.mo.platform.impl.provider.gen.GPSAdapterInterface[]{gPSSoftSimAdapter11,
                                                                                                                                                          gPSSoftSimAdapter13,
                                                                                                                                                          gPSSoftSimAdapter15,
                                                                                                                                                          gPSSoftSimAdapter17,
                                                                                                                                                          gPSSoftSimAdapter20};
-        esa.mo.platform.impl.provider.gen.GPSAdapterInterface[] gPSAdapterInterfaceArray23 = uShortList6.toArray(gPSAdapterInterfaceArray22);
-        esa.mo.platform.impl.provider.gen.GPSAdapterInterface[] gPSAdapterInterfaceArray24 = uShortList1.toArray(gPSAdapterInterfaceArray23);
+        esa.mo.platform.impl.provider.gen.GPSAdapterInterface[] gPSAdapterInterfaceArray23 = uShortList6.toArray(
+            gPSAdapterInterfaceArray22);
+        esa.mo.platform.impl.provider.gen.GPSAdapterInterface[] gPSAdapterInterfaceArray24 = uShortList1.toArray(
+            gPSAdapterInterfaceArray23);
         org.ccsds.moims.mo.mal.structures.Element element25 = uShortList1.createElement();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet26 = uShortList1.getAreaVersion();
         org.junit.Assert.assertNotNull(uShort2);
@@ -13311,13 +13751,14 @@ public class RegressionTest0 {
     public void test266() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test266");
-        org.ccsds.moims.mo.mal.structures.BooleanList booleanList1 = new org.ccsds.moims.mo.mal.structures.BooleanList((int) (byte) 0);
+        org.ccsds.moims.mo.mal.structures.BooleanList booleanList1 = new org.ccsds.moims.mo.mal.structures.BooleanList(
+            (int) (byte) 0);
         org.ccsds.moims.mo.mal.structures.UShort uShort2 = booleanList1.getAreaNumber();
         java.lang.Object obj3 = booleanList1.clone();
         opssat.simulator.main.ESASimulator eSASimulator4 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter5 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator4,
-                                                                                                                                                 pcAdapter4);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gPSSoftSimAdapter5 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator4, pcAdapter4);
         boolean boolean6 = gPSSoftSimAdapter5.isUnitAvailable();
         boolean boolean7 = gPSSoftSimAdapter5.isUnitAvailable();
         boolean boolean8 = gPSSoftSimAdapter5.isUnitAvailable();
@@ -13351,7 +13792,8 @@ public class RegressionTest0 {
         org.ccsds.moims.mo.mal.structures.ShortList shortList6 = new org.ccsds.moims.mo.mal.structures.ShortList(2);
         java.lang.Integer int7 = shortList6.getTypeShortForm();
         boolean boolean8 = stringList4.equals((java.lang.Object) shortList6);
-        org.ccsds.moims.mo.mal.structures.IntegerList integerList10 = new org.ccsds.moims.mo.mal.structures.IntegerList((int) 'a');
+        org.ccsds.moims.mo.mal.structures.IntegerList integerList10 = new org.ccsds.moims.mo.mal.structures.IntegerList(
+            (int) 'a');
         boolean boolean12 = integerList10.add((java.lang.Integer) (-1));
         integerList10.clear();
         org.ccsds.moims.mo.mal.structures.Element element14 = integerList10.createElement();
@@ -13368,76 +13810,76 @@ public class RegressionTest0 {
         boolean boolean25 = uShort3.equals((java.lang.Object) stringList4);
         opssat.simulator.main.ESASimulator eSASimulator26 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter26 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter opticalDataReceiverSoftSimAdapter27 = new esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter(eSASimulator26,
-                                                                                                                                                                                                  pcAdapter26);
+        esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter opticalDataReceiverSoftSimAdapter27 = new esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter(
+            eSASimulator26, pcAdapter26);
         boolean boolean28 = opticalDataReceiverSoftSimAdapter27.isUnitAvailable();
         boolean boolean29 = opticalDataReceiverSoftSimAdapter27.isUnitAvailable();
         boolean boolean30 = opticalDataReceiverSoftSimAdapter27.isUnitAvailable();
         boolean boolean31 = opticalDataReceiverSoftSimAdapter27.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator32 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter32 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter opticalDataReceiverSoftSimAdapter33 = new esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter(eSASimulator32,
-                                                                                                                                                                                                  pcAdapter32);
+        esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter opticalDataReceiverSoftSimAdapter33 = new esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter(
+            eSASimulator32, pcAdapter32);
         boolean boolean34 = opticalDataReceiverSoftSimAdapter33.isUnitAvailable();
         esa.mo.platform.impl.provider.gen.OpticalDataReceiverAdapterInterface[] opticalDataReceiverAdapterInterfaceArray35 = new esa.mo.platform.impl.provider.gen.OpticalDataReceiverAdapterInterface[]{opticalDataReceiverSoftSimAdapter27,
                                                                                                                                                                                                          opticalDataReceiverSoftSimAdapter33};
         opssat.simulator.main.ESASimulator eSASimulator36 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter36 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter opticalDataReceiverSoftSimAdapter37 = new esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter(eSASimulator36,
-                                                                                                                                                                                                  pcAdapter36);
+        esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter opticalDataReceiverSoftSimAdapter37 = new esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter(
+            eSASimulator36, pcAdapter36);
         boolean boolean38 = opticalDataReceiverSoftSimAdapter37.isUnitAvailable();
         boolean boolean39 = opticalDataReceiverSoftSimAdapter37.isUnitAvailable();
         boolean boolean40 = opticalDataReceiverSoftSimAdapter37.isUnitAvailable();
         boolean boolean41 = opticalDataReceiverSoftSimAdapter37.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator42 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter42 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter opticalDataReceiverSoftSimAdapter43 = new esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter(eSASimulator42,
-                                                                                                                                                                                                  pcAdapter42);
+        esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter opticalDataReceiverSoftSimAdapter43 = new esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter(
+            eSASimulator42, pcAdapter42);
         boolean boolean44 = opticalDataReceiverSoftSimAdapter43.isUnitAvailable();
         esa.mo.platform.impl.provider.gen.OpticalDataReceiverAdapterInterface[] opticalDataReceiverAdapterInterfaceArray45 = new esa.mo.platform.impl.provider.gen.OpticalDataReceiverAdapterInterface[]{opticalDataReceiverSoftSimAdapter37,
                                                                                                                                                                                                          opticalDataReceiverSoftSimAdapter43};
         opssat.simulator.main.ESASimulator eSASimulator46 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter46 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter opticalDataReceiverSoftSimAdapter47 = new esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter(eSASimulator46,
-                                                                                                                                                                                                  pcAdapter46);
+        esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter opticalDataReceiverSoftSimAdapter47 = new esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter(
+            eSASimulator46, pcAdapter46);
         boolean boolean48 = opticalDataReceiverSoftSimAdapter47.isUnitAvailable();
         boolean boolean49 = opticalDataReceiverSoftSimAdapter47.isUnitAvailable();
         boolean boolean50 = opticalDataReceiverSoftSimAdapter47.isUnitAvailable();
         boolean boolean51 = opticalDataReceiverSoftSimAdapter47.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator52 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter52 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter opticalDataReceiverSoftSimAdapter53 = new esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter(eSASimulator52,
-                                                                                                                                                                                                  pcAdapter52);
+        esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter opticalDataReceiverSoftSimAdapter53 = new esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter(
+            eSASimulator52, pcAdapter52);
         boolean boolean54 = opticalDataReceiverSoftSimAdapter53.isUnitAvailable();
         esa.mo.platform.impl.provider.gen.OpticalDataReceiverAdapterInterface[] opticalDataReceiverAdapterInterfaceArray55 = new esa.mo.platform.impl.provider.gen.OpticalDataReceiverAdapterInterface[]{opticalDataReceiverSoftSimAdapter47,
                                                                                                                                                                                                          opticalDataReceiverSoftSimAdapter53};
         opssat.simulator.main.ESASimulator eSASimulator56 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter56 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter opticalDataReceiverSoftSimAdapter57 = new esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter(eSASimulator56,
-                                                                                                                                                                                                  pcAdapter56);
+        esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter opticalDataReceiverSoftSimAdapter57 = new esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter(
+            eSASimulator56, pcAdapter56);
         boolean boolean58 = opticalDataReceiverSoftSimAdapter57.isUnitAvailable();
         boolean boolean59 = opticalDataReceiverSoftSimAdapter57.isUnitAvailable();
         boolean boolean60 = opticalDataReceiverSoftSimAdapter57.isUnitAvailable();
         boolean boolean61 = opticalDataReceiverSoftSimAdapter57.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator62 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter62 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter opticalDataReceiverSoftSimAdapter63 = new esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter(eSASimulator62,
-                                                                                                                                                                                                  pcAdapter62);
+        esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter opticalDataReceiverSoftSimAdapter63 = new esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter(
+            eSASimulator62, pcAdapter62);
         boolean boolean64 = opticalDataReceiverSoftSimAdapter63.isUnitAvailable();
         esa.mo.platform.impl.provider.gen.OpticalDataReceiverAdapterInterface[] opticalDataReceiverAdapterInterfaceArray65 = new esa.mo.platform.impl.provider.gen.OpticalDataReceiverAdapterInterface[]{opticalDataReceiverSoftSimAdapter57,
                                                                                                                                                                                                          opticalDataReceiverSoftSimAdapter63};
         opssat.simulator.main.ESASimulator eSASimulator66 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter66 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter opticalDataReceiverSoftSimAdapter67 = new esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter(eSASimulator66,
-                                                                                                                                                                                                  pcAdapter66);
+        esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter opticalDataReceiverSoftSimAdapter67 = new esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter(
+            eSASimulator66, pcAdapter66);
         boolean boolean68 = opticalDataReceiverSoftSimAdapter67.isUnitAvailable();
         boolean boolean69 = opticalDataReceiverSoftSimAdapter67.isUnitAvailable();
         boolean boolean70 = opticalDataReceiverSoftSimAdapter67.isUnitAvailable();
         boolean boolean71 = opticalDataReceiverSoftSimAdapter67.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator72 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter72 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter opticalDataReceiverSoftSimAdapter73 = new esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter(eSASimulator72,
-                                                                                                                                                                                                  pcAdapter72);
+        esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter opticalDataReceiverSoftSimAdapter73 = new esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter(
+            eSASimulator72, pcAdapter72);
         boolean boolean74 = opticalDataReceiverSoftSimAdapter73.isUnitAvailable();
         esa.mo.platform.impl.provider.gen.OpticalDataReceiverAdapterInterface[] opticalDataReceiverAdapterInterfaceArray75 = new esa.mo.platform.impl.provider.gen.OpticalDataReceiverAdapterInterface[]{opticalDataReceiverSoftSimAdapter67,
                                                                                                                                                                                                          opticalDataReceiverSoftSimAdapter73};
@@ -13446,7 +13888,8 @@ public class RegressionTest0 {
                                                                                                                                                                                                              opticalDataReceiverAdapterInterfaceArray55,
                                                                                                                                                                                                              opticalDataReceiverAdapterInterfaceArray65,
                                                                                                                                                                                                              opticalDataReceiverAdapterInterfaceArray75};
-        esa.mo.platform.impl.provider.gen.OpticalDataReceiverAdapterInterface[][] opticalDataReceiverAdapterInterfaceArray77 = stringList4.toArray(opticalDataReceiverAdapterInterfaceArray76);
+        esa.mo.platform.impl.provider.gen.OpticalDataReceiverAdapterInterface[][] opticalDataReceiverAdapterInterfaceArray77 = stringList4
+            .toArray(opticalDataReceiverAdapterInterfaceArray76);
         org.junit.Assert.assertNotNull(uShort1);
         org.junit.Assert.assertTrue("'" + long2 + "' != '" + 0L + "'", long2 == 0L);
         org.junit.Assert.assertNotNull(uShort3);
@@ -13504,18 +13947,19 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test268");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         java.lang.String str3 = cameraSoftSimAdapter1.getExtraInfo();
         boolean boolean4 = cameraSoftSimAdapter1.isUnitAvailable();
         boolean boolean5 = cameraSoftSimAdapter1.isUnitAvailable();
-        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1.getAvailableResolutions();
+        org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList pixelResolutionList6 = cameraSoftSimAdapter1
+            .getAvailableResolutions();
         org.ccsds.moims.mo.mal.structures.Duration duration7 = cameraSoftSimAdapter1.getMinimumPeriod();
         boolean boolean8 = cameraSoftSimAdapter1.isUnitAvailable();
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertTrue("'" + str3 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str3
-                                                                                                                  .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4);
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertNotNull(pixelResolutionList6);
@@ -13529,13 +13973,15 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test269");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                  pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter autonomousADCSSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode2 = null;
         autonomousADCSSoftSimAdapter1.setDesiredAttitude(attitudeMode2);
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode4 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode4 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         boolean boolean5 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
-        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode6 = autonomousADCSSoftSimAdapter1.getActiveAttitudeMode();
+        org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeMode attitudeMode6 = autonomousADCSSoftSimAdapter1
+            .getActiveAttitudeMode();
         boolean boolean7 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
         boolean boolean8 = autonomousADCSSoftSimAdapter1.isUnitAvailable();
         org.junit.Assert.assertNull(attitudeMode4);
@@ -13549,11 +13995,12 @@ public class RegressionTest0 {
     public void test270() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test270");
-        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList((int) (byte) 100);
+        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (byte) 100);
         opssat.simulator.main.ESASimulator eSASimulator2 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter2 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter3 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator2,
-                                                                                                                                                                                                    pcAdapter2);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter3 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator2, pcAdapter2);
         boolean boolean4 = softwareDefinedRadioSoftSimAdapter3.isUnitAvailable();
         boolean boolean5 = softwareDefinedRadioSoftSimAdapter3.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration6 = null;
@@ -13562,25 +14009,26 @@ public class RegressionTest0 {
         boolean boolean11 = softwareDefinedRadioSoftSimAdapter3.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator12 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter12 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter13 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator12,
-                                                                                                                                                                                                     pcAdapter12);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter13 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator12, pcAdapter12);
         boolean boolean14 = softwareDefinedRadioSoftSimAdapter13.isUnitAvailable();
         boolean boolean16 = softwareDefinedRadioSoftSimAdapter13.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator17 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter17 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter18 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator17,
-                                                                                                                                                                                                     pcAdapter17);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter18 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator17, pcAdapter17);
         boolean boolean19 = softwareDefinedRadioSoftSimAdapter18.isUnitAvailable();
         boolean boolean20 = softwareDefinedRadioSoftSimAdapter18.isUnitAvailable();
         opssat.simulator.main.ESASimulator eSASimulator21 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter21 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter22 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator21,
-                                                                                                                                                                                                     pcAdapter21);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter22 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator21, pcAdapter21);
         esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray23 = new esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[]{softwareDefinedRadioSoftSimAdapter3,
                                                                                                                                                                                                             softwareDefinedRadioSoftSimAdapter13,
                                                                                                                                                                                                             softwareDefinedRadioSoftSimAdapter18,
                                                                                                                                                                                                             softwareDefinedRadioSoftSimAdapter22};
-        esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray24 = stringList1.toArray(softwareDefinedRadioAdapterInterfaceArray23);
+        esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface[] softwareDefinedRadioAdapterInterfaceArray24 = stringList1
+            .toArray(softwareDefinedRadioAdapterInterfaceArray23);
         stringList1.clear();
         org.ccsds.moims.mo.mal.structures.DoubleList doubleList26 = new org.ccsds.moims.mo.mal.structures.DoubleList();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet27 = doubleList26.getAreaVersion();
@@ -13620,13 +14068,14 @@ public class RegressionTest0 {
     public void test271() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest0.test271");
-        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList((int) (short) 10);
+        org.ccsds.moims.mo.mal.structures.StringList stringList1 = new org.ccsds.moims.mo.mal.structures.StringList(
+            (int) (short) 10);
         stringList1.clear();
         org.ccsds.moims.mo.mal.structures.Element element3 = stringList1.createElement();
         opssat.simulator.main.ESASimulator eSASimulator4 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter4 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter5 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator4,
-                                                                                                                                                                                                    pcAdapter4);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter5 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator4, pcAdapter4);
         boolean boolean6 = softwareDefinedRadioSoftSimAdapter5.isUnitAvailable();
         boolean boolean7 = softwareDefinedRadioSoftSimAdapter5.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration8 = null;
@@ -13637,8 +14086,8 @@ public class RegressionTest0 {
         boolean boolean15 = softwareDefinedRadioSoftSimAdapter5.setConfiguration(sDRConfiguration14);
         opssat.simulator.main.ESASimulator eSASimulator16 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter16 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter17 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator16,
-                                                                                                                                                                                                     pcAdapter16);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter17 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator16, pcAdapter16);
         boolean boolean18 = softwareDefinedRadioSoftSimAdapter17.isUnitAvailable();
         boolean boolean19 = softwareDefinedRadioSoftSimAdapter17.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration20 = null;
@@ -13647,22 +14096,22 @@ public class RegressionTest0 {
         boolean boolean25 = softwareDefinedRadioSoftSimAdapter17.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator26 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter26 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter27 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator26,
-                                                                                                                                                                                                     pcAdapter26);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter27 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator26, pcAdapter26);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration28 = null;
         boolean boolean29 = softwareDefinedRadioSoftSimAdapter27.setConfiguration(sDRConfiguration28);
         boolean boolean30 = softwareDefinedRadioSoftSimAdapter27.isUnitAvailable();
         boolean boolean32 = softwareDefinedRadioSoftSimAdapter27.enableSDR((java.lang.Boolean) false);
         opssat.simulator.main.ESASimulator eSASimulator33 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter33 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator33,
-                                                                                                                                                                                                     pcAdapter33);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter34 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator33, pcAdapter33);
         boolean boolean35 = softwareDefinedRadioSoftSimAdapter34.isUnitAvailable();
         boolean boolean37 = softwareDefinedRadioSoftSimAdapter34.enableSDR((java.lang.Boolean) true);
         opssat.simulator.main.ESASimulator eSASimulator38 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter38 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter39 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator38,
-                                                                                                                                                                                                     pcAdapter38);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter39 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator38, pcAdapter38);
         boolean boolean40 = softwareDefinedRadioSoftSimAdapter39.isUnitAvailable();
         boolean boolean41 = softwareDefinedRadioSoftSimAdapter39.isUnitAvailable();
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration42 = null;
@@ -13673,8 +14122,8 @@ public class RegressionTest0 {
         boolean boolean49 = softwareDefinedRadioSoftSimAdapter39.setConfiguration(sDRConfiguration48);
         opssat.simulator.main.ESASimulator eSASimulator50 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter50 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter51 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator50,
-                                                                                                                                                                                                     pcAdapter50);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter softwareDefinedRadioSoftSimAdapter51 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator50, pcAdapter50);
         org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration sDRConfiguration52 = null;
         boolean boolean53 = softwareDefinedRadioSoftSimAdapter51.setConfiguration(sDRConfiguration52);
         boolean boolean55 = softwareDefinedRadioSoftSimAdapter51.enableSDR((java.lang.Boolean) true);
@@ -13685,10 +14134,12 @@ public class RegressionTest0 {
                                                                                                                                                                                                               softwareDefinedRadioSoftSimAdapter34,
                                                                                                                                                                                                               softwareDefinedRadioSoftSimAdapter39,
                                                                                                                                                                                                               softwareDefinedRadioSoftSimAdapter51};
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter[] softwareDefinedRadioSoftSimAdapterArray59 = stringList1.toArray(softwareDefinedRadioSoftSimAdapterArray58);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter[] softwareDefinedRadioSoftSimAdapterArray59 = stringList1
+            .toArray(softwareDefinedRadioSoftSimAdapterArray58);
         try {
             java.util.List<java.lang.String> strList62 = stringList1.subList((int) (byte) -1, (-5));
-            org.junit.Assert.fail("Expected exception of type java.lang.IndexOutOfBoundsException; message: fromIndex = -1");
+            org.junit.Assert.fail(
+                "Expected exception of type java.lang.IndexOutOfBoundsException; message: fromIndex = -1");
         } catch (java.lang.IndexOutOfBoundsException e) {
         }
         org.junit.Assert.assertNotNull(element3);
@@ -13732,16 +14183,17 @@ public class RegressionTest0 {
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
 
         // Camera
-        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(eSASimulator0,
-                                                                                                                                                          pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter cameraSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.CameraSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         org.ccsds.moims.mo.mal.structures.Duration duration2 = cameraSoftSimAdapter1.getMinimumPeriod();
         java.lang.String str3 = cameraSoftSimAdapter1.getExtraInfo();
         boolean boolean1 = cameraSoftSimAdapter1.isUnitAvailable();
         org.ccsds.moims.mo.mal.structures.Duration duration5 = cameraSoftSimAdapter1.getMinimumPeriod();
-        org.ccsds.moims.mo.platform.camera.structures.PictureFormatList pictureFormatList6 = cameraSoftSimAdapter1.getAvailableFormats();
+        org.ccsds.moims.mo.platform.camera.structures.PictureFormatList pictureFormatList6 = cameraSoftSimAdapter1
+            .getAvailableFormats();
         org.junit.Assert.assertNotNull(duration2);
         org.junit.Assert.assertTrue("'" + str3 + "' != '" + "NMF Satellite Simulator - Camera Adapter" + "'", str3
-                                                                                                                  .equals("NMF Satellite Simulator - Camera Adapter"));
+            .equals("NMF Satellite Simulator - Camera Adapter"));
         org.junit.Assert.assertTrue("'" + boolean1 + "' != '" + true + "'", boolean1);
         DeviceList deviceList = new DeviceList();
         deviceList.add(new Device(false, null, null, DeviceType.CAMERA));
@@ -13761,8 +14213,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test273");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter adcsSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                        pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter adcsSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.AutonomousADCSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         boolean boolean1 = adcsSoftSimAdapter1.isUnitAvailable();
         org.junit.Assert.assertTrue("'" + boolean1 + "' != '" + true + "'", boolean1);
         DeviceList deviceList = new DeviceList();
@@ -13782,8 +14234,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test274");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter sdrSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                   pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter sdrSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.SoftwareDefinedRadioSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         boolean boolean1 = sdrSoftSimAdapter1.isUnitAvailable();
         org.junit.Assert.assertTrue("'" + boolean1 + "' != '" + true + "'", boolean1);
         DeviceList deviceList = new DeviceList();
@@ -13803,8 +14255,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test275");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter optxSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter(eSASimulator0,
-                                                                                                                                                                                  pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter optxSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.OpticalDataReceiverSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         boolean boolean1 = optxSoftSimAdapter1.isUnitAvailable();
         org.junit.Assert.assertTrue("'" + boolean1 + "' != '" + true + "'", boolean1);
         DeviceList deviceList = new DeviceList();
@@ -13824,8 +14276,8 @@ public class RegressionTest0 {
             System.out.format("%n%s%n", "RegressionTest0.test276");
         opssat.simulator.main.ESASimulator eSASimulator0 = null;
         esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter pcAdapter0 = new esa.mo.platform.impl.provider.softsim.PowerControlSoftSimAdapter();
-        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gpsSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(eSASimulator0,
-                                                                                                                                                 pcAdapter0);
+        esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter gpsSoftSimAdapter1 = new esa.mo.platform.impl.provider.softsim.GPSSoftSimAdapter(
+            eSASimulator0, pcAdapter0);
         boolean boolean1 = gpsSoftSimAdapter1.isUnitAvailable();
         org.junit.Assert.assertTrue("'" + boolean1 + "' != '" + true + "'", boolean1);
         DeviceList deviceList = new DeviceList();

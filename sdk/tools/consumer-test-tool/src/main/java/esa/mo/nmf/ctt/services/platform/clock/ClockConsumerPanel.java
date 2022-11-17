@@ -85,39 +85,21 @@ public class ClockConsumerPanel extends javax.swing.JPanel {
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
-        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(parameterTab, javax.swing.GroupLayout.PREFERRED_SIZE, 0,
-                                                      Short.MAX_VALUE)
-                                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 882,
-                                                      Short.MAX_VALUE)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addGroup(layout.createSequentialGroup()
-                                                                        .addContainerGap()
-                                                                        .addComponent(timeLabel,
-                                                                                      javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                                      858, Short.MAX_VALUE)
-                                                                        .addContainerGap())));
-        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                      .addGroup(layout.createSequentialGroup()
-                                                      .addContainerGap()
-                                                      .addComponent(jLabel6)
-                                                      .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-                                                                       277, Short.MAX_VALUE)
-                                                      .addComponent(parameterTab,
-                                                                    javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                    javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                    javax.swing.GroupLayout.PREFERRED_SIZE))
-                                      .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                      .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout
-                                                                                                                  .createSequentialGroup()
-                                                                                                                  .addContainerGap(46,
-                                                                                                                                   Short.MAX_VALUE)
-                                                                                                                  .addComponent(timeLabel,
-                                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                                                                                258,
-                                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                                                  .addContainerGap(45,
-                                                                                                                                   Short.MAX_VALUE))));
+        layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
+            parameterTab, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE).addComponent(jLabel6,
+                javax.swing.GroupLayout.DEFAULT_SIZE, 882, Short.MAX_VALUE).addGroup(layout.createParallelGroup(
+                    javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup().addContainerGap()
+                        .addComponent(timeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 858, Short.MAX_VALUE)
+                        .addContainerGap())));
+        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout
+            .createSequentialGroup().addContainerGap().addComponent(jLabel6).addPreferredGap(
+                javax.swing.LayoutStyle.ComponentPlacement.RELATED, 277, Short.MAX_VALUE).addComponent(parameterTab,
+                    javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+                    javax.swing.GroupLayout.PREFERRED_SIZE)).addGroup(layout.createParallelGroup(
+                        javax.swing.GroupLayout.Alignment.LEADING).addGroup(javax.swing.GroupLayout.Alignment.TRAILING,
+                            layout.createSequentialGroup().addContainerGap(46, Short.MAX_VALUE).addComponent(timeLabel,
+                                javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(45, Short.MAX_VALUE))));
     }// </editor-fold>//GEN-END:initComponents
 
     private void getTimeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getTimeButtonActionPerformed

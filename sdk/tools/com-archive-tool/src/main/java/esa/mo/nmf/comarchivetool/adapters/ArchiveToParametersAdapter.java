@@ -91,7 +91,7 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
 
     @Override
     public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-                                      ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+        ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
         if (objDetails == null) {
             setIsQueryOver(true);
             return;
@@ -105,8 +105,8 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
 
             Map<Long, List<TimestampedParameterValue>> parameters = valuesMap.get(domainKey);
             for (Map.Entry<Long, List<TimestampedParameterValue>> entry : parameters.entrySet()) {
-                Identifier identity = identitiesMap.get(domainKey)
-                                                   .get(definitionsMap.get(domainKey).get(entry.getKey()));
+                Identifier identity = identitiesMap.get(domainKey).get(definitionsMap.get(domainKey).get(entry
+                    .getKey()));
                 parameterValues.get(domainKey).put(identity, entry.getValue());
             }
         }
@@ -116,7 +116,7 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
 
     @Override
     public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-                                    ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
+        ArchiveDetailsList objDetails, ElementList objBodies, Map qosProperties) {
         processObjects(objType, objDetails, objBodies, domain);
     }
 
@@ -127,7 +127,7 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
      * @param bodiesList Bodies of the objects
      */
     private void processObjects(ObjectType type, ArchiveDetailsList detailsList, ElementList bodiesList,
-                                IdentifierList domain) {
+        IdentifierList domain) {
 
         if (!parameterIdentities.containsKey(domain)) {
             parameterIdentities.put(domain, new ArrayList<>());
@@ -157,14 +157,13 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
         } else if (type.equals(parameterValueType)) {
             for (int i = 0; i < detailsList.size(); ++i) {
                 if (valuesMap.get(domain).containsKey(detailsList.get(i).getDetails().getRelated())) {
-                    valuesMap.get(domain)
-                             .get(detailsList.get(i).getDetails().getRelated())
-                             .add(new TimestampedParameterValue((ParameterValue) bodiesList.get(i), detailsList.get(i)
-                                                                                                               .getTimestamp()));
+                    valuesMap.get(domain).get(detailsList.get(i).getDetails().getRelated()).add(
+                        new TimestampedParameterValue((ParameterValue) bodiesList.get(i), detailsList.get(i)
+                            .getTimestamp()));
                 } else {
                     List<TimestampedParameterValue> values = new ArrayList<>();
                     values.add(new TimestampedParameterValue((ParameterValue) bodiesList.get(i), detailsList.get(i)
-                                                                                                            .getTimestamp()));
+                        .getTimestamp()));
                     valuesMap.get(domain).put(detailsList.get(i).getDetails().getRelated(), values);
                 }
             }

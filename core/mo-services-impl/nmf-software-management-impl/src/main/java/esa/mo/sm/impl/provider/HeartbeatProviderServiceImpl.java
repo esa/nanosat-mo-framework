@@ -80,21 +80,20 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
             }
 
             if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
-                                             SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
+                SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION) == null) {
                 SoftwareManagementHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
             if (MALContextFactory.lookupArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NAME,
-                                             SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION)
-                                 .getServiceByName(HeartbeatHelper.HEARTBEAT_SERVICE_NAME) == null) {
+                SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION).getServiceByName(
+                    HeartbeatHelper.HEARTBEAT_SERVICE_NAME) == null) {
                 HeartbeatHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
         }
 
         publisher = createBeatPublisher(ConfigurationProviderSingleton.getDomain(), ConfigurationProviderSingleton
-                                                                                                                  .getNetwork(),
-                                        SessionType.LIVE, ConfigurationProviderSingleton.getSourceSessionName(),
-                                        QoSLevel.BESTEFFORT, null, new UInteger(0));
+            .getNetwork(), SessionType.LIVE, ConfigurationProviderSingleton.getSourceSessionName(), QoSLevel.BESTEFFORT,
+            null, new UInteger(0));
 
         // Shut down old service transport
         if (null != heartbeatServiceProvider) {
@@ -102,7 +101,7 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
         }
 
         heartbeatServiceProvider = connection.startService(HeartbeatHelper.HEARTBEAT_SERVICE_NAME.toString(),
-                                                           HeartbeatHelper.HEARTBEAT_SERVICE, true, this);
+            HeartbeatHelper.HEARTBEAT_SERVICE, true, this);
 
         running = true;
         initialiased = true;
@@ -149,8 +148,7 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
 
             final UpdateHeaderList hdrlst = new UpdateHeaderList(1);
             hdrlst.add(new UpdateHeader(HelperTime.getTimestampMillis(), connection.getConnectionDetails()
-                                                                                   .getProviderURI(), UpdateType.UPDATE,
-                                        new EntityKey(null, null, null, null)));
+                .getProviderURI(), UpdateType.UPDATE, new EntityKey(null, null, null, null)));
 
             publisher.publish(hdrlst);
         } catch (IllegalArgumentException | MALException | MALInteractionException ex) {
@@ -167,26 +165,26 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
     public static final class PublishInteractionListener implements MALPublishInteractionListener {
 
         @Override
-        public void publishDeregisterAckReceived(final MALMessageHeader header,
-                                                 final Map qosProperties) throws MALException {
+        public void publishDeregisterAckReceived(final MALMessageHeader header, final Map qosProperties)
+            throws MALException {
             LOGGER.fine("PublishInteractionListener::publishDeregisterAckReceived");
         }
 
         @Override
         public void publishErrorReceived(final MALMessageHeader header, final MALErrorBody body,
-                                         final Map qosProperties) throws MALException {
+            final Map qosProperties) throws MALException {
             LOGGER.warning("PublishInteractionListener::publishErrorReceived");
         }
 
         @Override
-        public void publishRegisterAckReceived(final MALMessageHeader header,
-                                               final Map qosProperties) throws MALException {
+        public void publishRegisterAckReceived(final MALMessageHeader header, final Map qosProperties)
+            throws MALException {
             LOGGER.log(Level.INFO, "Registration Ack: {0}", header.toString());
         }
 
         @Override
         public void publishRegisterErrorReceived(final MALMessageHeader header, final MALErrorBody body,
-                                                 final Map qosProperties) throws MALException {
+            final Map qosProperties) throws MALException {
             LOGGER.warning("PublishInteractionListener::publishRegisterErrorReceived");
         }
     }

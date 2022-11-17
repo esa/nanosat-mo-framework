@@ -106,8 +106,8 @@ public class ArchiveManager {
         this.eventService = eventService;
 
         if (MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION) != null &&
-            MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION)
-                             .getServiceByName(ArchiveHelper.ARCHIVE_SERVICE_NAME) == null) {
+            MALContextFactory.lookupArea(COMHelper.COM_AREA_NAME, COMHelper.COM_AREA_VERSION).getServiceByName(
+                ArchiveHelper.ARCHIVE_SERVICE_NAME) == null) {
             try {
                 ArchiveHelper.init(MALContextFactory.getElementFactoryRegistry());
             } catch (MALException ex) {
@@ -116,7 +116,7 @@ public class ArchiveManager {
         }
 
         this.globalGenerateEvents = Boolean.parseBoolean(System.getProperty(Const.ARCHIVE_GENERATE_EVENTS_PROPERTY,
-                                                                            Const.ARCHIVE_GENERATE_EVENTS_DEFAULT));
+            Const.ARCHIVE_GENERATE_EVENTS_DEFAULT));
         this.dbBackend = new DatabaseBackend();
         this.dbProcessor = new TransactionsProcessor(dbBackend);
 
@@ -209,7 +209,7 @@ public class ArchiveManager {
     }
 
     public synchronized ArchivePersistenceObject getPersistenceObject(final ObjectType objType,
-                                                                      final IdentifierList domain, final Long objId) {
+        final IdentifierList domain, final Long objId) {
         final Integer domainId = this.fastDomain.getDomainId(domain);
         final Integer objTypeId = this.fastObjectType.getObjectTypeId(objType);
         COMObjectEntity comEntity = this.dbProcessor.getCOMObject(objTypeId, domainId, objId);
@@ -222,8 +222,7 @@ public class ArchiveManager {
     }
 
     public synchronized List<ArchivePersistenceObject> getPersistenceObjects(final ObjectType objType,
-                                                                             final IdentifierList domain,
-                                                                             final LongList objIds) {
+        final IdentifierList domain, final LongList objIds) {
         final Integer domainId = this.fastDomain.getDomainId(domain);
         final Integer objTypeId = this.fastObjectType.getObjectTypeId(objType);
         List<COMObjectEntity> comEntities = this.dbProcessor.getCOMObjects(objTypeId, domainId, objIds);
@@ -231,7 +230,7 @@ public class ArchiveManager {
     }
 
     public synchronized List<ArchivePersistenceObject> getAllPersistenceObjects(final ObjectType objType,
-                                                                                final IdentifierList domain) {
+        final IdentifierList domain) {
         final Integer domainId = this.fastDomain.getDomainId(domain);
         final Integer objTypeId = this.fastObjectType.getObjectTypeId(objType);
         List<COMObjectEntity> comEntities = this.dbProcessor.getAllCOMObjects(objTypeId, domainId);
@@ -239,20 +238,17 @@ public class ArchiveManager {
     }
 
     private List<ArchivePersistenceObject> convert2ArchivePersistenceObjects(final List<COMObjectEntity> comEntities,
-                                                                             final IdentifierList domain) {
+        final IdentifierList domain) {
         if (comEntities == null) {
             return null;
         }
 
-        return comEntities.stream()
-                          .map(entity -> entity == null ?
-                              null :
-                              convert2ArchivePersistenceObject(entity, domain, entity.getObjectId()))
-                          .collect(Collectors.toList());
+        return comEntities.stream().map(entity -> entity == null ? null : convert2ArchivePersistenceObject(entity,
+            domain, entity.getObjectId())).collect(Collectors.toList());
     }
 
     private ArchivePersistenceObject convert2ArchivePersistenceObject(final COMObjectEntity comEntity,
-                                                                      final IdentifierList domain, final Long objId) {
+        final IdentifierList domain, final Long objId) {
         Identifier network = null;
         URI providerURI = null;
         ObjectType objType = null;
@@ -271,7 +267,7 @@ public class ArchiveManager {
         if (sourceLink.getObjectTypeId() != null || sourceLink.getDomainId() != null || sourceLink.getObjId() != null) {
             try {
                 ObjectKey ok = new ObjectKey(this.fastDomain.getDomain(sourceLink.getDomainId()), sourceLink
-                                                                                                            .getObjId());
+                    .getObjId());
                 objectId = new ObjectId(this.fastObjectType.getObjectType(sourceLink.getObjectTypeId()), ok);
             } catch (Exception ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
@@ -279,9 +275,7 @@ public class ArchiveManager {
         }
 
         ArchiveDetails archiveDetails = new ArchiveDetails(comEntity.getObjectId(), new ObjectDetails(comEntity
-                                                                                                               .getRelatedLink(),
-                                                                                                      objectId),
-                                                           network, comEntity.getTimestamp(), providerURI);
+            .getRelatedLink(), objectId), network, comEntity.getTimestamp(), providerURI);
 
         return new ArchivePersistenceObject(objType, domain, objId, archiveDetails, comEntity.getObject());
     }
@@ -302,7 +296,7 @@ public class ArchiveManager {
 
     public LongList getAllObjIds(final ObjectType objType, final IdentifierList domain) {
         return this.dbProcessor.getAllCOMObjectsIds(this.fastObjectType.getObjectTypeId(objType), this.fastDomain
-                                                                                                                 .getDomainId(domain));
+            .getDomainId(domain));
     }
 
     private SourceLinkContainer createSourceContainerFromObjectId(final ObjectId source) {
@@ -326,21 +320,19 @@ public class ArchiveManager {
     }
 
     public void insertEntriesFast(final ObjectType objType, final IdentifierList domain,
-                                  final ArchiveDetailsList lArchiveDetails, final ElementList objects,
-                                  final MALInteraction interaction) {
+        final ArchiveDetailsList lArchiveDetails, final ElementList objects, final MALInteraction interaction) {
         // It is quite hard to improve this method...
         insertEntries(objType, domain, lArchiveDetails, objects, interaction);
     }
 
     public synchronized LongList insertEntries(final ObjectType objType, final IdentifierList domain,
-                                               final ArchiveDetailsList lArchiveDetails, final ElementList objects,
-                                               final MALInteraction interaction) {
+        final ArchiveDetailsList lArchiveDetails, final ElementList objects, final MALInteraction interaction) {
         return insertEntries(objType, domain, lArchiveDetails, objects, interaction, true);
     }
 
     public LongList insertEntries(final ObjectType objType, final IdentifierList domain,
-                                  final ArchiveDetailsList lArchiveDetails, final ElementList objects,
-                                  final MALInteraction interaction, boolean generateEvents) {
+        final ArchiveDetailsList lArchiveDetails, final ElementList objects, final MALInteraction interaction,
+        boolean generateEvents) {
         final LongList objIds = new LongList(lArchiveDetails.size());
         final ArrayList<COMObjectEntity> perObjsEntities = new ArrayList<>(lArchiveDetails.size());
         final int domainId = this.fastDomain.getDomainId(domain);
@@ -351,27 +343,20 @@ public class ArchiveManager {
             final int providerURIId = this.fastProviderURI.getProviderURIId(lArchiveDetails.get(i).getProvider());
             final int networkId = this.fastNetwork.getNetworkId(lArchiveDetails.get(i).getNetwork());
             final SourceLinkContainer sourceLink = this.createSourceContainerFromObjectId(lArchiveDetails.get(i)
-                                                                                                         .getDetails()
-                                                                                                         .getSource());
+                .getDetails().getSource());
             final Long objId = this.fastObjId.getUniqueObjId(objTypeId, domainId, lArchiveDetails.get(i).getInstId());
 
             // If there are no objects in the list, inject null...
             final Object objBody = (objects == null) ? null : ((objects.get(i) == null) ? null : objects.get(i));
 
-            perObjsEntities.add(new COMObjectEntity(objTypeId, domainId, objId, lArchiveDetails.get(i)
-                                                                                               .getTimestamp()
-                                                                                               .getValue(),
-                                                    providerURIId, networkId, sourceLink, lArchiveDetails.get(i)
-                                                                                                         .getDetails()
-                                                                                                         .getRelated(),
-                                                    objBody));
+            perObjsEntities.add(new COMObjectEntity(objTypeId, domainId, objId, lArchiveDetails.get(i).getTimestamp()
+                .getValue(), providerURIId, networkId, sourceLink, lArchiveDetails.get(i).getDetails().getRelated(),
+                objBody));
             objIds.add(objId);
         }
 
-        final Runnable publishEvents = (globalGenerateEvents && generateEvents) ?
-            this.generatePublishEventsThread(ArchiveHelper.OBJECTSTORED_OBJECT_TYPE, objType, domain, objIds,
-                                             interaction) :
-            null;
+        final Runnable publishEvents = (globalGenerateEvents && generateEvents) ? this.generatePublishEventsThread(
+            ArchiveHelper.OBJECTSTORED_OBJECT_TYPE, objType, domain, objIds, interaction) : null;
 
         this.dbProcessor.insert(perObjsEntities, publishEvents);
 
@@ -379,14 +364,13 @@ public class ArchiveManager {
     }
 
     public void updateEntries(final ObjectType objType, final IdentifierList domain,
-                              final ArchiveDetailsList lArchiveDetails, final ElementList objects,
-                              final MALInteraction interaction) {
+        final ArchiveDetailsList lArchiveDetails, final ElementList objects, final MALInteraction interaction) {
         updateEntries(objType, domain, lArchiveDetails, objects, interaction, true);
     }
 
     public void updateEntries(final ObjectType objType, final IdentifierList domain,
-                              final ArchiveDetailsList lArchiveDetails, final ElementList objects,
-                              final MALInteraction interaction, boolean generateEvents) {
+        final ArchiveDetailsList lArchiveDetails, final ElementList objects, final MALInteraction interaction,
+        boolean generateEvents) {
         final int domainId = this.fastDomain.getDomainId(domain);
         final Integer objTypeId = this.fastObjectType.getObjectTypeId(objType);
         final ArrayList<COMObjectEntity> newObjs = new ArrayList<>();
@@ -400,51 +384,42 @@ public class ArchiveManager {
             // If there are no objects in the list, inject null...
             Object objBody = (objects == null) ? null : ((objects.get(i) == null) ? null : objects.get(i));
 
-            SourceLinkContainer sourceLink = this.createSourceContainerFromObjectId(lArchiveDetails.get(i)
-                                                                                                   .getDetails()
-                                                                                                   .getSource());
+            SourceLinkContainer sourceLink = this.createSourceContainerFromObjectId(lArchiveDetails.get(i).getDetails()
+                .getSource());
 
             final COMObjectEntity newObj = new COMObjectEntity(objTypeId, domainId, lArchiveDetails.get(i).getInstId(),
-                                                               lArchiveDetails.get(i).getTimestamp().getValue(),
-                                                               providerURIId, networkId, sourceLink, lArchiveDetails
-                                                                                                                    .get(i)
-                                                                                                                    .getDetails()
-                                                                                                                    .getRelated(),
-                                                               objBody); // 0.170 ms
+                lArchiveDetails.get(i).getTimestamp().getValue(), providerURIId, networkId, sourceLink, lArchiveDetails
+                    .get(i).getDetails().getRelated(), objBody); // 0.170 ms
 
             newObjs.add(newObj);
             objIds.add(lArchiveDetails.get(i).getInstId());
         }
 
-        Runnable publishEvents = (globalGenerateEvents && generateEvents) ?
-            this.generatePublishEventsThread(ArchiveHelper.OBJECTUPDATED_OBJECT_TYPE, objType, domain, objIds,
-                                             interaction) :
-            null;
+        Runnable publishEvents = (globalGenerateEvents && generateEvents) ? this.generatePublishEventsThread(
+            ArchiveHelper.OBJECTUPDATED_OBJECT_TYPE, objType, domain, objIds, interaction) : null;
 
         this.dbProcessor.update(newObjs, publishEvents);
     }
 
     public LongList removeEntries(final ObjectType objType, final IdentifierList domain, final LongList objIds,
-                                  final MALInteraction interaction) {
+        final MALInteraction interaction) {
         return removeEntries(objType, domain, objIds, interaction, true);
     }
 
     public LongList removeEntries(final ObjectType objType, final IdentifierList domain, final LongList objIds,
-                                  final MALInteraction interaction, boolean generateEvents) {
+        final MALInteraction interaction, boolean generateEvents) {
         final Integer objTypeId = this.fastObjectType.getObjectTypeId(objType);
         final int domainId = this.fastDomain.getDomainId(domain);
 
-        Runnable publishEvents = (globalGenerateEvents && generateEvents) ?
-            this.generatePublishEventsThread(ArchiveHelper.OBJECTDELETED_OBJECT_TYPE, objType, domain, objIds,
-                                             interaction) :
-            null;
+        Runnable publishEvents = (globalGenerateEvents && generateEvents) ? this.generatePublishEventsThread(
+            ArchiveHelper.OBJECTDELETED_OBJECT_TYPE, objType, domain, objIds, interaction) : null;
         this.dbProcessor.remove(objTypeId, domainId, objIds, publishEvents);
         this.fastObjId.delete(objTypeId, domainId);
         return objIds;
     }
 
     public ArrayList<ArchivePersistenceObject> query(final ObjectType objType, final ArchiveQuery archiveQuery,
-                                                     final QueryFilter filter) {
+        final QueryFilter filter) {
         final ArrayList<COMObjectEntity> perObjs = this.queryCOMObjectEntity(objType, archiveQuery, filter);
 
         // Convert COMObjectEntity to ArchivePersistenceObject
@@ -464,77 +439,71 @@ public class ArchiveManager {
     }
 
     public int deleteCOMObjectEntities(final ObjectType objType, final ArchiveQuery archiveQuery,
-                                       final QueryFilter filter) {
+        final QueryFilter filter) {
         final IntegerList objTypeIds = this.fastObjectType.getObjectTypeIds(objType);
 
         if (null != objTypeIds && !objTypeIds.isEmpty()) {
 
             final IntegerList domainIds = this.fastDomain.getDomainIds(archiveQuery.getDomain());
-            final Integer providerURIId = (archiveQuery.getProvider() != null) ?
-                this.fastProviderURI.getProviderURIId(archiveQuery.getProvider()) :
-                null;
-            final Integer networkId = (archiveQuery.getNetwork() != null) ?
-                this.fastNetwork.getNetworkId(archiveQuery.getNetwork()) :
-                null;
+            final Integer providerURIId = (archiveQuery.getProvider() != null) ? this.fastProviderURI.getProviderURIId(
+                archiveQuery.getProvider()) : null;
+            final Integer networkId = (archiveQuery.getNetwork() != null) ? this.fastNetwork.getNetworkId(archiveQuery
+                .getNetwork()) : null;
             final SourceLinkContainer sourceLink = this.createSourceContainerFromObjectId(archiveQuery.getSource());
 
             if (archiveQuery.getSource() != null) {
                 if (archiveQuery.getSource().getKey().getDomain() != null) {
-                    sourceLink.setDomainIds(this.fastDomain.getDomainIds(archiveQuery.getSource()
-                                                                                     .getKey()
-                                                                                     .getDomain()));
+                    sourceLink.setDomainIds(this.fastDomain.getDomainIds(archiveQuery.getSource().getKey()
+                        .getDomain()));
                 }
 
                 if (archiveQuery.getSource().getKey().getTypeShortForm() != null) {
                     sourceLink.setObjectTypeIds(this.fastObjectType.getObjectTypeIds(archiveQuery.getSource()
-                                                                                                 .getType()));
+                        .getType()));
                 }
             }
 
             return this.dbProcessor.delete(objTypeIds, archiveQuery, domainIds, providerURIId, networkId, sourceLink,
-                                           filter);
+                filter);
         } else {
             return 0;
         }
     }
 
     public ArrayList<COMObjectEntity> queryCOMObjectEntity(final ObjectType objType, final ArchiveQuery archiveQuery,
-                                                           final QueryFilter filter) {
+        final QueryFilter filter) {
         final IntegerList objTypeIds = this.fastObjectType.getObjectTypeIds(objType);
 
         if (null != objTypeIds && !objTypeIds.isEmpty()) {
 
             final IntegerList domainIds = this.fastDomain.getDomainIds(archiveQuery.getDomain());
-            final Integer providerURIId = (archiveQuery.getProvider() != null) ?
-                this.fastProviderURI.getProviderURIId(archiveQuery.getProvider()) :
-                null;
-            final Integer networkId = (archiveQuery.getNetwork() != null) ?
-                this.fastNetwork.getNetworkId(archiveQuery.getNetwork()) :
-                null;
+            final Integer providerURIId = (archiveQuery.getProvider() != null) ? this.fastProviderURI.getProviderURIId(
+                archiveQuery.getProvider()) : null;
+            final Integer networkId = (archiveQuery.getNetwork() != null) ? this.fastNetwork.getNetworkId(archiveQuery
+                .getNetwork()) : null;
             final SourceLinkContainer sourceLink = this.createSourceContainerFromObjectId(archiveQuery.getSource());
 
             if (archiveQuery.getSource() != null) {
                 if (archiveQuery.getSource().getKey().getDomain() != null) {
-                    sourceLink.setDomainIds(this.fastDomain.getDomainIds(archiveQuery.getSource()
-                                                                                     .getKey()
-                                                                                     .getDomain()));
+                    sourceLink.setDomainIds(this.fastDomain.getDomainIds(archiveQuery.getSource().getKey()
+                        .getDomain()));
                 }
 
                 if (archiveQuery.getSource().getKey().getTypeShortForm() != null) {
                     sourceLink.setObjectTypeIds(this.fastObjectType.getObjectTypeIds(archiveQuery.getSource()
-                                                                                                 .getType()));
+                        .getType()));
                 }
             }
 
             return this.dbProcessor.query(objTypeIds, archiveQuery, domainIds, providerURIId, networkId, sourceLink,
-                                          filter);
+                filter);
         } else {
             return new ArrayList<>();
         }
     }
 
     public ArrayList<COMObjectEntity> queryCOMObjectEntity(final ObjectTypeList objTypes,
-                                                           final ArchiveQuery archiveQuery, final QueryFilter filter) {
+        final ArchiveQuery archiveQuery, final QueryFilter filter) {
         final IntegerList objTypeIds = new IntegerList();
         for (ObjectType objType : objTypes) {
             objTypeIds.addAll(this.fastObjectType.getObjectTypeIds(objType));
@@ -543,36 +512,33 @@ public class ArchiveManager {
         if (!objTypeIds.isEmpty()) {
 
             final IntegerList domainIds = this.fastDomain.getDomainIds(archiveQuery.getDomain());
-            final Integer providerURIId = (archiveQuery.getProvider() != null) ?
-                this.fastProviderURI.getProviderURIId(archiveQuery.getProvider()) :
-                null;
-            final Integer networkId = (archiveQuery.getNetwork() != null) ?
-                this.fastNetwork.getNetworkId(archiveQuery.getNetwork()) :
-                null;
+            final Integer providerURIId = (archiveQuery.getProvider() != null) ? this.fastProviderURI.getProviderURIId(
+                archiveQuery.getProvider()) : null;
+            final Integer networkId = (archiveQuery.getNetwork() != null) ? this.fastNetwork.getNetworkId(archiveQuery
+                .getNetwork()) : null;
             final SourceLinkContainer sourceLink = this.createSourceContainerFromObjectId(archiveQuery.getSource());
 
             if (archiveQuery.getSource() != null) {
                 if (archiveQuery.getSource().getKey().getDomain() != null) {
-                    sourceLink.setDomainIds(this.fastDomain.getDomainIds(archiveQuery.getSource()
-                                                                                     .getKey()
-                                                                                     .getDomain()));
+                    sourceLink.setDomainIds(this.fastDomain.getDomainIds(archiveQuery.getSource().getKey()
+                        .getDomain()));
                 }
 
                 if (archiveQuery.getSource().getKey().getTypeShortForm() != null) {
                     sourceLink.setObjectTypeIds(this.fastObjectType.getObjectTypeIds(archiveQuery.getSource()
-                                                                                                 .getType()));
+                        .getType()));
                 }
             }
 
             return this.dbProcessor.query(objTypeIds, archiveQuery, domainIds, providerURIId, networkId, sourceLink,
-                                          filter);
+                filter);
         } else {
             return new ArrayList<>();
         }
     }
 
     public static ArrayList<ArchivePersistenceObject> filterQuery(final ArrayList<ArchivePersistenceObject> perObjs,
-                                                                  final CompositeFilterSet filterSet) throws MALInteractionException {
+        final CompositeFilterSet filterSet) throws MALInteractionException {
         if (filterSet == null) {
             return perObjs;
         }
@@ -611,7 +577,7 @@ public class ArchiveManager {
 
                 Element leftHandSide = (Element) HelperAttributes.javaType2Attribute(obj);
                 Boolean evaluation = HelperCOM.evaluateExpression(leftHandSide, compositeFilter.getType(),
-                                                                  compositeFilter.getFieldValue());
+                    compositeFilter.getFieldValue());
 
                 if (evaluation == null) {
                     continue;
@@ -629,16 +595,15 @@ public class ArchiveManager {
     }
 
     private static ObjectIdList generateSources(final ObjectType objType, final IdentifierList domain,
-                                                final LongList objIds) {
+        final LongList objIds) {
         final ObjectIdList sourceList = new ObjectIdList(objIds.size());
 
         for (int i = 0; i < objIds.size(); i++) {
             final ObjectId source = new ObjectId(objType, new ObjectKey(domain, objIds.get(i)));
 
             // Is the COM Object an Event coming from the archive?
-            if (source.getType()
-                      .equals(HelperCOM.generateCOMObjectType(ArchiveHelper.ARCHIVE_SERVICE, source.getType()
-                                                                                                   .getNumber()))) {
+            if (source.getType().equals(HelperCOM.generateCOMObjectType(ArchiveHelper.ARCHIVE_SERVICE, source.getType()
+                .getNumber()))) {
                 continue; // requirement: 3.4.2.5
             }
 
@@ -649,7 +614,7 @@ public class ArchiveManager {
     }
 
     private void generateAndPublishEvents(final ObjectType objType, final ObjectIdList sourceList,
-                                          final MALInteraction interaction) {
+        final MALInteraction interaction) {
         if (eventService == null) {
             return;
         }
@@ -664,8 +629,7 @@ public class ArchiveManager {
          */
         // requirement: 3.4.2.4
         final LongList eventObjIds = eventService.generateAndStoreEvents(objType, ConfigurationProviderSingleton
-                                                                                                                .getDomain(),
-                                                                         null, sourceList, interaction);
+            .getDomain(), null, sourceList, interaction);
 
         /* Just use it for debugging
         LOGGER.log(Level.FINE, "The eventObjIds are: " + eventObjIds.toString());
@@ -690,10 +654,8 @@ public class ArchiveManager {
     }
 
     public static Boolean objectTypeContainsWildcard(final ObjectType objType) {
-        return (objType.getArea().getValue() == 0 ||
-                objType.getService().getValue() == 0 ||
-                objType.getVersion().getValue() == 0 ||
-                objType.getNumber().getValue() == 0);
+        return (objType.getArea().getValue() == 0 || objType.getService().getValue() == 0 || objType.getVersion()
+            .getValue() == 0 || objType.getNumber().getValue() == 0);
     }
 
     public static UIntegerList checkForDuplicates(ArchiveDetailsList archiveDetailsList) {
@@ -705,8 +667,8 @@ public class ArchiveManager {
             }
 
             for (int j = i + 1; j < archiveDetailsList.size(); j++) {
-                if (archiveDetailsList.get(i).getInstId().intValue() ==
-                    archiveDetailsList.get(j).getInstId().intValue()) {
+                if (archiveDetailsList.get(i).getInstId().intValue() == archiveDetailsList.get(j).getInstId()
+                    .intValue()) {
                     dupList.add(new UInteger(j));
                 }
             }
@@ -731,12 +693,10 @@ public class ArchiveManager {
         ExpressionOperator expressionOperator = compositeFilter.getType();
 
         if (compositeFilter.getFieldValue() == null) {
-            if (expressionOperator.equals(ExpressionOperator.CONTAINS) ||
-                expressionOperator.equals(ExpressionOperator.ICONTAINS) ||
-                expressionOperator.equals(ExpressionOperator.GREATER) ||
-                expressionOperator.equals(ExpressionOperator.GREATER_OR_EQUAL) ||
-                expressionOperator.equals(ExpressionOperator.LESS) ||
-                expressionOperator.equals(ExpressionOperator.LESS_OR_EQUAL)) {
+            if (expressionOperator.equals(ExpressionOperator.CONTAINS) || expressionOperator.equals(
+                ExpressionOperator.ICONTAINS) || expressionOperator.equals(ExpressionOperator.GREATER) ||
+                expressionOperator.equals(ExpressionOperator.GREATER_OR_EQUAL) || expressionOperator.equals(
+                    ExpressionOperator.LESS) || expressionOperator.equals(ExpressionOperator.LESS_OR_EQUAL)) {
                 return false;
             }
         }
@@ -750,14 +710,14 @@ public class ArchiveManager {
         }
 
         if (obj instanceof Blob) {
-            if (!(expressionOperator.equals(ExpressionOperator.EQUAL)) &&
-                !(expressionOperator.equals(ExpressionOperator.DIFFER))) {
+            if (!(expressionOperator.equals(ExpressionOperator.EQUAL)) && !(expressionOperator.equals(
+                ExpressionOperator.DIFFER))) {
                 return false;
             }
         }
 
-        if (expressionOperator.equals(ExpressionOperator.CONTAINS) ||
-            expressionOperator.equals(ExpressionOperator.ICONTAINS)) {
+        if (expressionOperator.equals(ExpressionOperator.CONTAINS) || expressionOperator.equals(
+            ExpressionOperator.ICONTAINS)) {
             if (compositeFilter.getFieldValue().getTypeShortForm() != 15) {  // Is it String?
                 return false;
             }
@@ -767,8 +727,7 @@ public class ArchiveManager {
     }
 
     private Runnable generatePublishEventsThread(final ObjectType comObject, final ObjectType objType,
-                                                 final IdentifierList domain, final LongList objIds,
-                                                 final MALInteraction interaction) {
+        final IdentifierList domain, final LongList objIds, final MALInteraction interaction) {
         return () -> {
             // Generate and Publish the Events - requirement: 3.4.2.1
             generateAndPublishEvents(comObject, ArchiveManager.generateSources(objType, domain, objIds), interaction);

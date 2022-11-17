@@ -121,7 +121,8 @@ public class TestCOMArchiveManager {
     @Test
     public void testListAllIdentityIds() throws MALException, MALInteractionException {
         ObjectIdPair pair = this.addTestActivity("List Identity");
-        ObjectIdList ids = archiveManager.listAllIdentityIds(PlanInformationManagementHelper.ACTIVITYIDENTITY_OBJECT_TYPE);
+        ObjectIdList ids = archiveManager.listAllIdentityIds(
+            PlanInformationManagementHelper.ACTIVITYIDENTITY_OBJECT_TYPE);
         assertNotNull(ids);
         assertTrue(ids.size() >= 1);
         assertTrue(ids.contains(pair.getIdentityId()));
@@ -130,7 +131,8 @@ public class TestCOMArchiveManager {
     @Test
     public void testListAllObjectIds() throws MALException, MALInteractionException {
         ObjectIdPair pair = this.addTestActivity("List Object");
-        ObjectIdList ids = archiveManager.listAllObjectIds(PlanInformationManagementHelper.ACTIVITYDEFINITION_OBJECT_TYPE);
+        ObjectIdList ids = archiveManager.listAllObjectIds(
+            PlanInformationManagementHelper.ACTIVITYDEFINITION_OBJECT_TYPE);
         assertNotNull(ids);
         assertTrue(ids.size() >= 1);
         assertTrue(ids.contains(pair.getObjectId()));
@@ -141,7 +143,7 @@ public class TestCOMArchiveManager {
         String identityName = "Get Identity Id";
         ObjectIdPair pair = this.addTestActivity(identityName);
         ObjectId id = archiveManager.getIdentityId(new Identifier(identityName),
-                                                   PlanInformationManagementHelper.ACTIVITYIDENTITY_OBJECT_TYPE);
+            PlanInformationManagementHelper.ACTIVITYIDENTITY_OBJECT_TYPE);
         assertNotNull(id);
         assertEquals(pair.getIdentityId(), id);
     }
@@ -151,7 +153,7 @@ public class TestCOMArchiveManager {
         String identityName = "Get Object By Identity";
         this.addTestActivity(identityName);
         Element object = archiveManager.getObject(new Identifier(identityName),
-                                                  PlanInformationManagementHelper.ACTIVITYIDENTITY_OBJECT_TYPE);
+            PlanInformationManagementHelper.ACTIVITYIDENTITY_OBJECT_TYPE);
         assertNotNull(object);
         assertTrue(object instanceof ActivityDefinitionDetails);
     }
@@ -242,8 +244,8 @@ public class TestCOMArchiveManager {
         return addTestActivity(identityName, null);
     }
 
-    private ObjectIdPair addTestActivity(String identityName,
-                                         ObjectId source) throws MALException, MALInteractionException {
+    private ObjectIdPair addTestActivity(String identityName, ObjectId source) throws MALException,
+        MALInteractionException {
         Identifier identity = new Identifier(identityName);
         ActivityDefinitionDetails definition = MPFactory.createActivityDefinition();
         return archiveManager.addCOMObject(identity, definition, source, interaction);

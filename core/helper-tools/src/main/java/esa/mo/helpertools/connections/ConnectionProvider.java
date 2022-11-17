@@ -104,8 +104,8 @@ public class ConnectionProvider {
      * @return MALProvider
      * @throws MALException On error.
      */
-    public MALProvider startService(String serviceName, MALService malService,
-                                    MALInteractionHandler handler) throws MALException {
+    public MALProvider startService(String serviceName, MALService malService, MALInteractionHandler handler)
+        throws MALException {
         return startService(serviceName, malService, true, handler);
     }
 
@@ -121,7 +121,7 @@ public class ConnectionProvider {
      * @throws MALException On error.
      */
     public MALProvider startService(String serviceName, MALService malService, boolean isPublisher,
-                                    MALInteractionHandler handler) throws MALException {
+        MALInteractionHandler handler) throws MALException {
         return startService(serviceName, malService, isPublisher, handler, null);
     }
 
@@ -138,13 +138,13 @@ public class ConnectionProvider {
      * @throws MALException On error.
      */
     public MALProvider startService(String serviceName, MALService malService, boolean isPublisher,
-                                    MALInteractionHandler handler, Blob authenticationId) throws MALException {
+        MALInteractionHandler handler, Blob authenticationId) throws MALException {
         try {
             malFactory = MALContextFactory.newFactory();
         } catch (MALException ex) {
-            Logger.getLogger(ConnectionProvider.class.getName())
-                  .log(Level.SEVERE, "Check if the MAL implementation is included in your project!! " +
-                                     "This error usually happens when the MAL layer is missing.", ex);
+            Logger.getLogger(ConnectionProvider.class.getName()).log(Level.SEVERE,
+                "Check if the MAL implementation is included in your project!! " +
+                    "This error usually happens when the MAL layer is missing.", ex);
         }
 
         mal = malFactory.createMALContext(System.getProperties());
@@ -163,9 +163,8 @@ public class ConnectionProvider {
         props.putAll(System.getProperties());
 
         MALProvider serviceProvider = providerMgr.createProvider(uriName, null, malService, null == authenticationId ?
-            new Blob("".getBytes()) :
-            authenticationId, handler, new QoSLevel[]{QoSLevel.ASSURED}, new UInteger(1), props, isPublisher,
-                                                                 sharedBrokerURI);
+            new Blob("".getBytes()) : authenticationId, handler, new QoSLevel[]{QoSLevel.ASSURED}, new UInteger(1),
+            props, isPublisher, sharedBrokerURI);
 
         IntegerList serviceKey = new IntegerList();
         serviceKey.add(malService.getArea().getNumber().getValue()); // Area
@@ -177,22 +176,16 @@ public class ConnectionProvider {
         primaryConnectionDetails.setDomain(ConfigurationProviderSingleton.getDomain());
         primaryConnectionDetails.setServiceKey(serviceKey);
 
-        Logger.getLogger(ConnectionProvider.class.getName())
-              .log(Level.FINE, "\n" +
-                               serviceName +
-                               " Service URI        : {0}" +
-                               "\n" +
-                               serviceName +
-                               " Service broker URI : {1}" +
-                               "\n" +
-                               serviceName +
-                               " Service domain     : {2}" +
-                               "\n" +
-                               serviceName +
-                               " Service key        : {3}", new Object[]{primaryConnectionDetails.getProviderURI(),
-                                                                         primaryConnectionDetails.getBrokerURI(),
-                                                                         primaryConnectionDetails.getDomain(),
-                                                                         serviceKey});
+        Logger.getLogger(ConnectionProvider.class.getName()).log(Level.FINE, "\n" + serviceName +
+            " Service URI        : {0}" + "\n" + serviceName + " Service broker URI : {1}" + "\n" + serviceName +
+            " Service domain     : {2}" + "\n" + serviceName + " Service key        : {3}", new Object[]{
+                                                                                                         primaryConnectionDetails
+                                                                                                             .getProviderURI(),
+                                                                                                         primaryConnectionDetails
+                                                                                                             .getBrokerURI(),
+                                                                                                         primaryConnectionDetails
+                                                                                                             .getDomain(),
+                                                                                                         serviceKey});
 
         if (shouldInitUriFiles()) {
             this.writeURIsOnFile(primaryConnectionDetails, serviceName, HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME);
@@ -208,39 +201,29 @@ public class ConnectionProvider {
             secondaryConnectionDetails = new SingleConnectionDetails();
 
             MALProvider serviceProvider2 = providerMgr.createProvider(uriName, secondaryProtocol, malService, null ==
-                                                                                                              authenticationId ?
-                                                                                                                  new Blob("".getBytes()) :
-                                                                                                                  authenticationId,
-                                                                      handler, new QoSLevel[]{QoSLevel.ASSURED},
-                                                                      new UInteger(1), props, isPublisher,
-                                                                      sharedBrokerURI);
+                authenticationId ? new Blob("".getBytes()) : authenticationId, handler, new QoSLevel[]{
+                                                                                                       QoSLevel.ASSURED},
+                new UInteger(1), props, isPublisher, sharedBrokerURI);
 
             secondaryConnectionDetails.setProviderURI(serviceProvider2.getURI());
             secondaryConnectionDetails.setBrokerURI(serviceProvider2.getBrokerURI());
             secondaryConnectionDetails.setDomain(ConfigurationProviderSingleton.getDomain());
             secondaryConnectionDetails.setServiceKey(serviceKey);
 
-            Logger.getLogger(ConnectionProvider.class.getName())
-                  .log(Level.FINE, "\n" +
-                                   serviceName +
-                                   " Service URI        : {0}" +
-                                   "\n" +
-                                   serviceName +
-                                   " Service broker URI : {1}" +
-                                   "\n" +
-                                   serviceName +
-                                   " Service domain     : {2}" +
-                                   "\n" +
-                                   serviceName +
-                                   " Service key        : {3}", new Object[]{secondaryConnectionDetails
-                                                                                                       .getProviderURI(),
-                                                                             secondaryConnectionDetails.getBrokerURI(),
-                                                                             secondaryConnectionDetails.getDomain(),
-                                                                             serviceKey});
+            Logger.getLogger(ConnectionProvider.class.getName()).log(Level.FINE, "\n" + serviceName +
+                " Service URI        : {0}" + "\n" + serviceName + " Service broker URI : {1}" + "\n" + serviceName +
+                " Service domain     : {2}" + "\n" + serviceName + " Service key        : {3}", new Object[]{
+                                                                                                             secondaryConnectionDetails
+                                                                                                                 .getProviderURI(),
+                                                                                                             secondaryConnectionDetails
+                                                                                                                 .getBrokerURI(),
+                                                                                                             secondaryConnectionDetails
+                                                                                                                 .getDomain(),
+                                                                                                             serviceKey});
 
             if (shouldInitUriFiles()) {
                 this.writeURIsOnFile(secondaryConnectionDetails, serviceName,
-                                     HelperMisc.PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME);
+                    HelperMisc.PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME);
             }
             globalProvidersDetailsSecondary.add(serviceName, secondaryConnectionDetails);
 
@@ -265,8 +248,8 @@ public class ConnectionProvider {
                 mal.close();
             }
         } catch (MALException ex) {
-            Logger.getLogger(ConnectionProvider.class.getName())
-                  .log(Level.WARNING, "Exception during close down of the provider {0}", ex);
+            Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING,
+                "Exception during close down of the provider {0}", ex);
         }
     }
 
@@ -284,8 +267,8 @@ public class ConnectionProvider {
                 secondaryMALServiceProvider.close();
             }
         } catch (MALException ex) {
-            Logger.getLogger(ConnectionProvider.class.getName())
-                  .log(Level.WARNING, "Exception during close down of the provider {0}", ex);
+            Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING,
+                "Exception during close down of the provider {0}", ex);
         }
 
         try {
@@ -297,8 +280,8 @@ public class ConnectionProvider {
                 mal.close();
             }
         } catch (MALException ex) {
-            Logger.getLogger(ConnectionProvider.class.getName())
-                  .log(Level.WARNING, "Exception during close down of the provider {0}", ex);
+            Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING,
+                "Exception during close down of the provider {0}", ex);
         }
     }
 
@@ -321,18 +304,18 @@ public class ConnectionProvider {
 
         if (shouldInitUriFiles()) {
             try (BufferedWriter wrt = new BufferedWriter(new FileWriter(HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME,
-                                                                        false))) {
+                false))) {
             } catch (IOException ex) {
-                Logger.getLogger(ConnectionProvider.class.getName())
-                      .log(Level.WARNING, "Unable to reset URI information from properties file {0}", ex);
+                Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING,
+                    "Unable to reset URI information from properties file {0}", ex);
             }
 
             if (System.getProperty(HelperMisc.SECONDARY_PROTOCOL) != null) {
-                try (BufferedWriter wrt2 = new BufferedWriter(new FileWriter(HelperMisc.PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME,
-                                                                             false))) {
+                try (BufferedWriter wrt2 = new BufferedWriter(new FileWriter(
+                    HelperMisc.PROVIDER_URIS_SECONDARY_PROPERTIES_FILENAME, false))) {
                 } catch (IOException ex) {
-                    Logger.getLogger(ConnectionProvider.class.getName())
-                          .log(Level.WARNING, "Unable to reset URI information from properties file {0}", ex);
+                    Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING,
+                        "Unable to reset URI information from properties file {0}", ex);
                 }
             }
         }
@@ -365,16 +348,14 @@ public class ConnectionProvider {
             wrt.newLine();
             wrt.append(serviceName + HelperConnections.SUFFIX_BROKER + "=" + connectionDetails.getBrokerURI());
             wrt.newLine();
-            wrt.append(serviceName +
-                       HelperConnections.SUFFIX_DOMAIN +
-                       "=" +
-                       HelperMisc.domain2domainId(connectionDetails.getDomain()));
+            wrt.append(serviceName + HelperConnections.SUFFIX_DOMAIN + "=" + HelperMisc.domain2domainId(
+                connectionDetails.getDomain()));
             wrt.newLine();
             wrt.append(serviceName + HelperConnections.SUFFIX_SERVICE_KEY + "=" + connectionDetails.getServiceKey());
             wrt.newLine();
         } catch (IOException ex) {
-            Logger.getLogger(ConnectionProvider.class.getName())
-                  .log(Level.WARNING, "Unable to write URI information to properties file {0}", ex);
+            Logger.getLogger(ConnectionProvider.class.getName()).log(Level.WARNING,
+                "Unable to write URI information to properties file {0}", ex);
         }
     }
 

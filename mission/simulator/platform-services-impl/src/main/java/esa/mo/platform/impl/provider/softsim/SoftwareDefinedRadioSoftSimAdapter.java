@@ -38,7 +38,7 @@ public class SoftwareDefinedRadioSoftSimAdapter implements SoftwareDefinedRadioA
     private PowerControlAdapterInterface pcAdapter;
 
     public SoftwareDefinedRadioSoftSimAdapter(ESASimulator instrumentsSimulator,
-                                              PowerControlAdapterInterface pcAdapter) {
+        PowerControlAdapterInterface pcAdapter) {
         this.instrumentsSimulator = instrumentsSimulator;
         this.pcAdapter = pcAdapter;
     }

@@ -262,9 +262,8 @@ public class PGPS extends GenericPeripheral implements IGPS {
 
         public static double DDMMpMMMM2degrees(String DDMMpMMMM) {
             if (DDMMpMMMM.length() == 9) {
-                return Double.parseDouble(DDMMpMMMM.substring(0, 2)) +
-                       (Double.parseDouble(DDMMpMMMM.substring(2, 4)) +
-                        Double.parseDouble(DDMMpMMMM.substring(5, 9)) / 1000) / 60;
+                return Double.parseDouble(DDMMpMMMM.substring(0, 2)) + (Double.parseDouble(DDMMpMMMM.substring(2, 4)) +
+                    Double.parseDouble(DDMMpMMMM.substring(5, 9)) / 1000) / 60;
             } else {
                 return 0;
             }
@@ -273,9 +272,8 @@ public class PGPS extends GenericPeripheral implements IGPS {
         public static double DDDMMpMMMM2degrees(String DDMMpMMMM) {
             if (DDMMpMMMM.length() == 10) {
                 // DDDMMpMMMM sentence
-                return Double.parseDouble(DDMMpMMMM.substring(0, 3)) +
-                       (Double.parseDouble(DDMMpMMMM.substring(3, 5)) +
-                        Double.parseDouble(DDMMpMMMM.substring(6, 10)) / 1000) / 60;
+                return Double.parseDouble(DDMMpMMMM.substring(0, 3)) + (Double.parseDouble(DDMMpMMMM.substring(3, 5)) +
+                    Double.parseDouble(DDMMpMMMM.substring(6, 10)) / 1000) / 60;
             } else {
                 return 0;
             }
@@ -287,9 +285,8 @@ public class PGPS extends GenericPeripheral implements IGPS {
                 // System.out.println(DDMMpMMMMMMM.substring(2, 4));
                 // System.out.println(DDMMpMMMMMMM.substring(5, 12));
                 // System.out.println(Double.parseDouble(DDMMpMMMMMMM.substring(5, 12)) / 1000);
-                return Double.parseDouble(DDMMpMMMMMMM.substring(0, 2)) +
-                       (Double.parseDouble(DDMMpMMMMMMM.substring(2, 4)) +
-                        Double.parseDouble(DDMMpMMMMMMM.substring(5, 12)) / 1000000) / 60;
+                return Double.parseDouble(DDMMpMMMMMMM.substring(0, 2)) + (Double.parseDouble(DDMMpMMMMMMM.substring(2,
+                    4)) + Double.parseDouble(DDMMpMMMMMMM.substring(5, 12)) / 1000000) / 60;
             } else {
                 return 0;
             }
@@ -297,9 +294,8 @@ public class PGPS extends GenericPeripheral implements IGPS {
 
         public static double degMinutes2Degrees(String DDDMMpMMMMMMM) {
             if (DDDMMpMMMMMMM.length() == 13) {
-                return Double.parseDouble(DDDMMpMMMMMMM.substring(0, 3)) +
-                       (Double.parseDouble(DDDMMpMMMMMMM.substring(3, 5)) +
-                        Double.parseDouble(DDDMMpMMMMMMM.substring(6, 13)) / 1000000) / 60;
+                return Double.parseDouble(DDDMMpMMMMMMM.substring(0, 3)) + (Double.parseDouble(DDDMMpMMMMMMM.substring(
+                    3, 5)) + Double.parseDouble(DDDMMpMMMMMMM.substring(6, 13)) / 1000000) / 60;
             } else {
                 return 0;
             }

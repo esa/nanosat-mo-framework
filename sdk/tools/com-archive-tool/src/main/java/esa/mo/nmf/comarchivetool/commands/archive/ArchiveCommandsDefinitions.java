@@ -40,7 +40,7 @@ public class ArchiveCommandsDefinitions {
         boolean helpRequested;
 
         @Parameters(arity = "1", paramLabel = "<databaseFile>", description = "Local SQLite database file\n" +
-                                                                              "  - example: ../nanosat-mo-supervisor-sim/comArchive.db")
+            "  - example: ../nanosat-mo-supervisor-sim/comArchive.db")
         String databaseFile;
 
         @Parameters(arity = "1", paramLabel = "<jsonFile>", description = "target JSON file")
@@ -65,8 +65,7 @@ public class ArchiveCommandsDefinitions {
 
         @Parameters(arity = "1", index = "0", paramLabel = "<domainId>",
                     description = "Restricts the dump to objects in a specific domain\n" +
-                                  "  - format: key1.key2.[...].keyN.\n" +
-                                  "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
+                        "  - format: key1.key2.[...].keyN.\n" + "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
         String domain;
 
         @Option(names = {"-p", "--provider"}, paramLabel = "<appName>",
@@ -76,7 +75,7 @@ public class ArchiveCommandsDefinitions {
         @Override
         public void run() {
             ArchiveCommandsImplementations.backupProvider(localOrRemote.databaseFile, localOrRemote.providerURI, domain,
-                                                          appName, filename);
+                appName, filename);
         }
     }
 
@@ -93,33 +92,30 @@ public class ArchiveCommandsDefinitions {
 
         @Option(names = {"-d", "--domain"}, paramLabel = "<domainId>",
                 description = "Restricts the dump to objects in a specific domain\n" +
-                              "  - format: key1.key2.[...].keyN.\n" +
-                              "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
+                    "  - format: key1.key2.[...].keyN.\n" + "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
         String domain;
 
         @Option(names = {"-t", "--type"}, paramLabel = "<comType>",
                 description = "Restricts the dump to objects that are instances of <comType>\n" +
-                              "  - format: areaNumber.serviceNumber.areaVersion.objectNumber.\n" +
-                              "  - examples (0=wildcard): 4.2.1.1, 4.2.1.0 ")
+                    "  - format: areaNumber.serviceNumber.areaVersion.objectNumber.\n" +
+                    "  - examples (0=wildcard): 4.2.1.1, 4.2.1.0 ")
         String comType;
 
         @Option(names = {"-s", "--start"}, paramLabel = "<startTime>",
                 description = "Restricts the dump to objects created after the given time\n" +
-                              "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" +
-                              "  - example: \"2021-03-04 08:37:58.482\"")
+                    "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" + "  - example: \"2021-03-04 08:37:58.482\"")
         String startTime;
 
         @Option(names = {"-e", "--end"}, paramLabel = "<endTime>",
                 description = "Restricts the dump to objects created before the given time. " +
-                              "If this option is provided without the -s option, returns the single object that has the closest timestamp to, but not greater than <endTime>\n" +
-                              "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" +
-                              "  - example: \"2021-03-05 12:05:45.271\"")
+                    "If this option is provided without the -s option, returns the single object that has the closest timestamp to, but not greater than <endTime>\n" +
+                    "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" + "  - example: \"2021-03-05 12:05:45.271\"")
         String endTime;
 
         @Override
         public void run() {
             ArchiveCommandsImplementations.dumpFormattedArchive(localOrRemote.databaseFile, localOrRemote.providerURI,
-                                                                domain, comType, startTime, endTime, jsonFile);
+                domain, comType, startTime, endTime, jsonFile);
         }
     }
 

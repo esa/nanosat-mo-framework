@@ -58,8 +58,7 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
 
         tableData.addRow(new Object[]{comObject.getArchiveDetails().getInstId(), appDetails.getName().toString(),
                                       appDetails.getDescription(), appDetails.getCategory().toString(), appDetails
-                                                                                                                  .getRunAtStartup(),
-                                      appDetails.getRunning(), ""});
+                                          .getRunAtStartup(), appDetails.getRunning(), ""});
 
         comObjects.add(comObject);
         semaphore.release();

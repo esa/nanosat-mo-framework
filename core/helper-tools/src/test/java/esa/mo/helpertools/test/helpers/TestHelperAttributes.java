@@ -1308,7 +1308,7 @@ public class TestHelperAttributes {
         String ref = "I am the string of the legends.";
         try {
             assertEquals(ref, HelperAttributes.blobAttribute2serialObject(HelperAttributes.serialObject2blobAttribute(
-                                                                                                                      ref)));
+                ref)));
         } catch (IOException e) {
             e.printStackTrace();
             fail("IOException!");

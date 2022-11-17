@@ -60,7 +60,7 @@ public class AttitudeProviderWrapper implements AttitudeProvider {
 
     @Override
     public <T extends RealFieldElement<T>> FieldAttitude<T> getAttitude(FieldPVCoordinatesProvider<T> pvProv,
-                                                                        FieldAbsoluteDate<T> date, Frame frame) {
+        FieldAbsoluteDate<T> date, Frame frame) {
         return this.provider.getAttitude(pvProv, date, frame);
     }
 }

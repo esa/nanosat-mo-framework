@@ -61,8 +61,8 @@ public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface {
             }
         } catch (IOException ex) {
             LOGGER.log(Level.FINE,
-                       "The current position could not be retrieved! The receiver is likely offline or not returning proper position.",
-                       ex);
+                "The current position could not be retrieved! The receiver is likely offline or not returning proper position.",
+                ex);
         }
         lastPositionTime = System.currentTimeMillis();
         return lastPosition;

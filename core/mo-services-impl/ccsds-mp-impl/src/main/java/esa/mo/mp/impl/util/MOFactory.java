@@ -59,7 +59,7 @@ public class MOFactory {
 
         EntityRequestList entities = new EntityRequestList();
         EntityRequest entityRequest = new EntityRequest(subDomain, allAreas, allServices, allOperations, onlyOnChange,
-                                                        entityKeys);
+            entityKeys);
         entities.add(entityRequest);
 
         Subscription subscription = new Subscription(subscriptionId, entities);

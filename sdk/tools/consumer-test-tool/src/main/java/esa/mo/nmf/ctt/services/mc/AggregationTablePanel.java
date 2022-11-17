@@ -41,8 +41,8 @@ public class AggregationTablePanel extends SharedTablePanel {
     @Override
     public void addEntry(final Identifier name, final ArchivePersistenceObject comObject) {
         if (comObject == null) {
-            Logger.getLogger(SharedTablePanel.class.getName())
-                  .log(Level.SEVERE, "The table cannot process a null COM Object.");
+            Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE,
+                "The table cannot process a null COM Object.");
             return;
         }
 
@@ -55,12 +55,8 @@ public class AggregationTablePanel extends SharedTablePanel {
         AggregationDefinitionDetails pDef = (AggregationDefinitionDetails) comObject.getObject();
 
         tableData.addRow(new Object[]{comObject.getArchiveDetails().getDetails().getRelated(), name.toString(), pDef
-                                                                                                                    .getDescription(),
-                                      pDef.getCategory().toString(), pDef.getGenerationEnabled(), pDef
-                                                                                                      .getReportInterval()
-                                                                                                      .toString(), pDef
-                                                                                                                       .getFilterEnabled(),
-                                      pDef.getFilteredTimeout().getValue()});
+            .getDescription(), pDef.getCategory().toString(), pDef.getGenerationEnabled(), pDef.getReportInterval()
+                .toString(), pDef.getFilterEnabled(), pDef.getFilteredTimeout().getValue()});
 
         comObjects.add(comObject);
         semaphore.release();

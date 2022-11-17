@@ -66,8 +66,8 @@ public class PushClock {
             try {
                 pushClock();
             } catch (NMFException ex) {
-                Logger.getLogger(PushClock.class.getName())
-                      .log(Level.SEVERE, "The Clock could not be pushed to the consumer!", ex);
+                Logger.getLogger(PushClock.class.getName()).log(Level.SEVERE,
+                    "The Clock could not be pushed to the consumer!", ex);
             }
         }), 5, REFRESH_RATE, TimeUnit.SECONDS, true); // conversion to milliseconds
     }
@@ -115,7 +115,7 @@ public class PushClock {
 
         @Override
         public UInteger actionArrived(Identifier idntfr, AttributeValueList avl, Long l, boolean bln,
-                                      MALInteraction mali) {
+            MALInteraction mali) {
             throw new UnsupportedOperationException("Not supported.");
         }
 

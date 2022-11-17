@@ -148,11 +148,12 @@ public class HelperMisc {
      * @return The loaded properties or an empty list if no file loaded.
      * @throws java.lang.IllegalArgumentException If chainProperty == null.
      */
-    public static Properties loadProperties(final java.net.URL url,
-                                            final String chainProperty) throws IllegalArgumentException {
+    public static Properties loadProperties(final java.net.URL url, final String chainProperty)
+        throws IllegalArgumentException {
         final Properties topProps = new Properties();
         if (chainProperty == null) {
-            throw new IllegalArgumentException("ChainProperty must not be null. Provide an empty String if you do not want to provide a chainProperty.");
+            throw new IllegalArgumentException(
+                "ChainProperty must not be null. Provide an empty String if you do not want to provide a chainProperty.");
         }
 
         if (null != url) {
@@ -164,9 +165,8 @@ public class HelperMisc {
 
                 final Properties subProps = loadProperties(myProps.getProperty(chainProperty), chainProperty);
 
-                String loadingString = (LOADED_PROPERTIES.contains(url.toString())) ?
-                    "Reloading properties " + url.toString() :
-                    "Loading properties " + url.toString();
+                String loadingString = (LOADED_PROPERTIES.contains(url.toString())) ? "Reloading properties " + url
+                    .toString() : "Loading properties " + url.toString();
 
                 Logger.getLogger(HelperMisc.class.getName()).log(Level.INFO, loadingString);
                 topProps.putAll(subProps);
@@ -234,10 +234,9 @@ public class HelperMisc {
                 if (file.exists()) {
                     sysProps.putAll(HelperMisc.loadProperties(file.toURI().toURL(), "provider.properties"));
                 } else {
-                    Logger.getLogger(HelperMisc.class.getName())
-                          .log(Level.WARNING,
-                               "The file provider.properties does not exist on the path: {}. Is the application working directory configured properly?",
-                               providerFile);
+                    Logger.getLogger(HelperMisc.class.getName()).log(Level.WARNING,
+                        "The file provider.properties does not exist on the path: {}. Is the application working directory configured properly?",
+                        providerFile);
                 }
             }
 
@@ -248,10 +247,9 @@ public class HelperMisc {
                 if (file.exists()) {
                     sysProps.putAll(HelperMisc.loadProperties(file.toURI().toURL(), "settings.properties"));
                 } else {
-                    Logger.getLogger(HelperMisc.class.getName())
-                          .log(Level.WARNING,
-                               "The file settings.properties does not exist on the path: {}. Is the application working directory configured properly?",
-                               settingsFile);
+                    Logger.getLogger(HelperMisc.class.getName()).log(Level.WARNING,
+                        "The file settings.properties does not exist on the path: {}. Is the application working directory configured properly?",
+                        settingsFile);
                 }
             }
 
@@ -266,10 +264,9 @@ public class HelperMisc {
             if (file.exists()) {
                 sysProps.putAll(HelperMisc.loadProperties(file.toURI().toURL(), "transport.properties"));
             } else {
-                Logger.getLogger(HelperMisc.class.getName())
-                      .log(Level.WARNING,
-                           "The file transport.properties does not exist on the path: {}. Is the application working directory configured properly?",
-                           transport_file_path);
+                Logger.getLogger(HelperMisc.class.getName()).log(Level.WARNING,
+                    "The file transport.properties does not exist on the path: {}. Is the application working directory configured properly?",
+                    transport_file_path);
             }
 
             if (useSharedBroker) {
@@ -363,12 +360,10 @@ public class HelperMisc {
             MALElementFactory eleFact = MALContextFactory.getElementFactoryRegistry().lookupElementFactory(ll);
 
             if (eleFact == null) {
-                Logger.getLogger(HelperMisc.class.getName())
-                      .log(Level.SEVERE,
-                           "The element could not be found in the MAL ElementFactory! The object type is: ''{0}''." +
-                                         " Maybe the service Helper for this object was not initialized." +
-                                         " Try initializing the Service Helper of this object.", obj.getClass()
-                                                                                                    .getSimpleName());
+                Logger.getLogger(HelperMisc.class.getName()).log(Level.SEVERE,
+                    "The element could not be found in the MAL ElementFactory! The object type is: ''{0}''." +
+                        " Maybe the service Helper for this object was not initialized." +
+                        " Try initializing the Service Helper of this object.", obj.getClass().getSimpleName());
                 throw new MALException("Cannot instantiate a list of " + obj.getClass().getSimpleName());
             }
             return (ElementList) eleFact.createElement();
@@ -395,10 +390,9 @@ public class HelperMisc {
         MALElementFactory eleFact = MALContextFactory.getElementFactoryRegistry().lookupElementFactory(ll);
 
         if (eleFact == null) {
-            Logger.getLogger(HelperMisc.class.getName())
-                  .log(Level.SEVERE,
-                       "The element could not be found in the MAL ElementFactory! The object type is: ''{0}''. Maybe the service Helper for this object was not initialized. Try initializing the Service Helper of this object.",
-                       obj.getClass().getSimpleName());
+            Logger.getLogger(HelperMisc.class.getName()).log(Level.SEVERE,
+                "The element could not be found in the MAL ElementFactory! The object type is: ''{0}''. Maybe the service Helper for this object was not initialized. Try initializing the Service Helper of this object.",
+                obj.getClass().getSimpleName());
         }
 
         return (Element) eleFact.createElement();
@@ -463,27 +457,15 @@ public class HelperMisc {
         MALArea malArea = MALContextFactory.lookupArea(area, areaVersion);
 
         if (malArea == null) {
-            throw new MALException("(" +
-                                   area.getValue() +
-                                   "," +
-                                   areaVersion.getValue() +
-                                   "," +
-                                   service.getValue() +
-                                   ") " +
-                                   "Unknown area to the MAL! Maybe the API was not initialized.");
+            throw new MALException("(" + area.getValue() + "," + areaVersion.getValue() + "," + service.getValue() +
+                ") " + "Unknown area to the MAL! Maybe the API was not initialized.");
         }
 
         MALService malSer = malArea.getServiceByNumber(service);
 
         if (malSer == null) {
-            throw new MALException("(" +
-                                   area.getValue() +
-                                   "," +
-                                   areaVersion.getValue() +
-                                   "," +
-                                   service.getValue() +
-                                   ") " +
-                                   "Unknown service to the MAL! Maybe the API was not initialized.");
+            throw new MALException("(" + area.getValue() + "," + areaVersion.getValue() + "," + service.getValue() +
+                ") " + "Unknown service to the MAL! Maybe the API was not initialized.");
         }
 
         return malSer.getName().toString();

@@ -39,7 +39,7 @@ public class ParameterInstance {
     private final Time timestamp;
 
     public ParameterInstance(final Identifier name, final Attribute value, final ObjectId source,
-                             final Time timestamp) {
+        final Time timestamp) {
         this.name = name;
         this.parameterValue = new ParameterValue();
         this.source = source;
@@ -51,7 +51,7 @@ public class ParameterInstance {
     }
 
     public ParameterInstance(final Identifier name, final ParameterValue pValue, final ObjectId source,
-                             final Time timestamp) {
+        final Time timestamp) {
         this.name = name;
         this.parameterValue = pValue;
         this.source = source;

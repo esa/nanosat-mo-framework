@@ -40,7 +40,8 @@ import esa.mo.mp.impl.com.pattern.COMStaticItemArchiveManager;
  *
  * @see COMStaticItemArchiveManager
  */
-public class RequestTemplateArchiveManager extends COMStaticItemArchiveManager<RequestTemplateIdentityDetails, RequestTemplateIdentityDetailsList, RequestTemplateDetails, RequestTemplateDetailsList> {
+public class RequestTemplateArchiveManager extends
+    COMStaticItemArchiveManager<RequestTemplateIdentityDetails, RequestTemplateIdentityDetailsList, RequestTemplateDetails, RequestTemplateDetailsList> {
 
     public RequestTemplateArchiveManager(COMServicesProvider comServices, COMConfiguration configuration) {
         super(comServices, configuration);

@@ -450,9 +450,8 @@ public abstract class GENEncoder implements MALListEncoder {
     @Override
     public void encodeNullableBlob(final Blob value) throws MALException {
         try {
-            if ((null != value) &&
-                ((value.isURLBased() && (null != value.getURL())) ||
-                 (!value.isURLBased() && (null != value.getValue())))) {
+            if ((null != value) && ((value.isURLBased() && (null != value.getURL())) || (!value.isURLBased() && (null !=
+                value.getValue())))) {
                 outputStream.addNotNull();
                 encodeBlob(value);
             } else {
@@ -561,8 +560,8 @@ public abstract class GENEncoder implements MALListEncoder {
         try {
             outputStream.close();
         } catch (IOException ex) {
-            Logger.getLogger("org.ccsds.moims.mo.mal.encoding.gen")
-                  .log(Level.WARNING, "Exception thrown on Encoder.close", ex);
+            Logger.getLogger("org.ccsds.moims.mo.mal.encoding.gen").log(Level.WARNING,
+                "Exception thrown on Encoder.close", ex);
         }
     }
 

@@ -22,9 +22,8 @@ abstract class CallableGenericQuery<T> implements Callable<T> {
     private final QueryFilter filter;
 
     public CallableGenericQuery(TransactionsProcessor transactionsProcessor, final IntegerList objTypeIds,
-                                final ArchiveQuery archiveQuery, final IntegerList domainIds,
-                                final Integer providerURIId, final Integer networkId,
-                                final SourceLinkContainer sourceLink, final QueryFilter filter) {
+        final ArchiveQuery archiveQuery, final IntegerList domainIds, final Integer providerURIId,
+        final Integer networkId, final SourceLinkContainer sourceLink, final QueryFilter filter) {
         this.transactionsProcessor = transactionsProcessor;
         this.objTypeIds = objTypeIds;
         this.archiveQuery = archiveQuery;
@@ -53,13 +52,13 @@ abstract class CallableGenericQuery<T> implements Callable<T> {
         this.transactionsProcessor.dbBackend.createIndexesIfFirstTime();
 
         if (!sourceContainsWildcard) {
-            sourceObjIdContainsWildcard = (archiveQuery.getSource().getKey().getInstId() == null ||
-                                           archiveQuery.getSource().getKey().getInstId() == 0);
+            sourceObjIdContainsWildcard = (archiveQuery.getSource().getKey().getInstId() == null || archiveQuery
+                .getSource().getKey().getInstId() == 0);
         }
 
         // Generate the query string
         String fieldsList = "objectTypeId, domainId, objId, timestampArchiveDetails, providerURI, " +
-                            "network, sourceLinkObjectTypeId, sourceLinkDomainId, sourceLinkObjId, relatedLink, objBody";
+            "network, sourceLinkObjectTypeId, sourceLinkDomainId, sourceLinkObjId, relatedLink, objBody";
         String queryString = assembleQueryPrefix(fieldsList);
 
         queryString += "WHERE ";
@@ -68,20 +67,18 @@ abstract class CallableGenericQuery<T> implements Callable<T> {
         queryString += CallableGenericQuery.generateQueryStringFromLists("objectTypeId", objTypeIds);
 
         queryString += (relatedContainsWildcard) ? "" : "relatedLink=" + archiveQuery.getRelated() + " AND ";
-        queryString += (startTimeContainsWildcard) ?
-            "" :
-            "timestampArchiveDetails>=" + archiveQuery.getStartTime().getValue() + " AND ";
-        queryString += (endTimeContainsWildcard) ?
-            "" :
-            "timestampArchiveDetails<=" + archiveQuery.getEndTime().getValue() + " AND ";
+        queryString += (startTimeContainsWildcard) ? "" : "timestampArchiveDetails>=" + archiveQuery.getStartTime()
+            .getValue() + " AND ";
+        queryString += (endTimeContainsWildcard) ? "" : "timestampArchiveDetails<=" + archiveQuery.getEndTime()
+            .getValue() + " AND ";
         queryString += (providerURIContainsWildcard) ? "" : "providerURI=" + providerURIId + " AND ";
         queryString += (networkContainsWildcard) ? "" : "network=" + networkId + " AND ";
 
         if (!sourceContainsWildcard) {
             queryString += CallableGenericQuery.generateQueryStringFromLists("sourceLinkObjectTypeId", sourceLink
-                                                                                                                 .getObjectTypeIds());
+                .getObjectTypeIds());
             queryString += CallableGenericQuery.generateQueryStringFromLists("sourceLinkDomainId", sourceLink
-                                                                                                             .getDomainIds());
+                .getDomainIds());
             queryString += (sourceObjIdContainsWildcard) ? "" : "sourceLinkObjId=" + sourceLink.getObjId() + " AND ";
         }
 
@@ -100,12 +97,8 @@ abstract class CallableGenericQuery<T> implements Callable<T> {
                         sortOrder = (archiveQuery.getSortOrder()) ? "ASC " : "DESC ";
                     }
 
-                    queryString += "ORDER BY timestampArchiveDetails " +
-                                   sortOrder +
-                                   "LIMIT " +
-                                   pfilter.getLimit().getValue() +
-                                   " OFFSET " +
-                                   pfilter.getOffset().getValue();
+                    queryString += "ORDER BY timestampArchiveDetails " + sortOrder + "LIMIT " + pfilter.getLimit()
+                        .getValue() + " OFFSET " + pfilter.getOffset().getValue();
                 }
             }
         }

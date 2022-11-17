@@ -89,9 +89,11 @@ public class DemoGroundDirectory {
         @Override
         public void onDataReceived(ParameterInstance parameterInstance) {
             LOGGER.log(Level.INFO, "\nParameter name: {0}" + "\n" + "Parameter Value: {1}", new Object[]{
-                                                                                                         parameterInstance.getName(),
-                                                                                                         parameterInstance.getParameterValue()
-                                                                                                                          .toString()});
+                                                                                                         parameterInstance
+                                                                                                             .getName(),
+                                                                                                         parameterInstance
+                                                                                                             .getParameterValue()
+                                                                                                             .toString()});
         }
     }
 }

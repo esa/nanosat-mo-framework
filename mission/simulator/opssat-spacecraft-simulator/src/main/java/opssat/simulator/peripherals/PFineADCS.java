@@ -1224,9 +1224,8 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
     }
 
     @Override
-    @InternalData(internalID = 1130, commandIDs = {"0x31", "0x15"}, argNames = {""}, description = "MyCustom\n" +
-                                                                                                   "" +
-                                                                                                   "Again")
+    @InternalData(internalID = 1130, commandIDs = {"0x31", "0x15"}, argNames = {""}, description = "MyCustom\n" + "" +
+        "Again")
     public byte[] controlLoopsGetTargetMTWDipoleMoment3D() {
         ArrayList<Object> argObject = null;
         return (byte[]) super.getSimulatorNode().runGenericMethod(1130, argObject);
@@ -1384,7 +1383,7 @@ public class PFineADCS extends GenericPeripheral implements IFineADCS {
                                                                                 "targetAngularVelocityMagnitude",
                                                                                 "inertialTargetVector"})
     public void singleSpinningStartControlLoop(float[] targetBodyAxis, float targetAngularVelocityMagnitude,
-                                               float[] inertialTargetVector) {
+        float[] inertialTargetVector) {
         ArrayList<Object> argObject = new ArrayList<>();
         argObject.add(targetBodyAxis);
         argObject.add(targetAngularVelocityMagnitude);

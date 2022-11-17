@@ -46,43 +46,43 @@ public class CheckLinkMonitorAdapter extends EventAdapter {
     @Override
     public void monitorEventRegisterAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
         //save the value of the register-time to test the periodic update later on
-        Logger.getLogger(CheckLinkMonitorAdapter.class.getName())
-              .log(Level.INFO, "successfully registered for monitorEvents");
+        Logger.getLogger(CheckLinkMonitorAdapter.class.getName()).log(Level.INFO,
+            "successfully registered for monitorEvents");
         super.monitorEventRegisterAckReceived(msgHeader, qosProperties);
     }
 
     @Override
     public void monitorEventRegisterErrorReceived(MALMessageHeader msgHeader, MALStandardError error,
-                                                  Map qosProperties) {
-        Logger.getLogger(CheckLinkMonitorAdapter.class.getName())
-              .log(Level.SEVERE, "registration for monitorEvents failed with error {0}", error.getErrorName());
+        Map qosProperties) {
+        Logger.getLogger(CheckLinkMonitorAdapter.class.getName()).log(Level.SEVERE,
+            "registration for monitorEvents failed with error {0}", error.getErrorName());
         super.monitorEventRegisterErrorReceived(msgHeader, error, qosProperties);
     }
 
     @Override
     public void monitorEventNotifyErrorReceived(MALMessageHeader msgHeader, MALStandardError error, Map qosProperties) {
-        Logger.getLogger(CheckLinkMonitorAdapter.class.getName())
-              .log(Level.SEVERE, "monitorEvents notification failed with error {0}", error.getErrorName());
+        Logger.getLogger(CheckLinkMonitorAdapter.class.getName()).log(Level.SEVERE,
+            "monitorEvents notification failed with error {0}", error.getErrorName());
         super.monitorEventNotifyErrorReceived(msgHeader, error, qosProperties);
     }
 
     @Override
     public void monitorEventNotifyReceived(MALMessageHeader msgHeader, Identifier _Identifier0,
-                                           UpdateHeaderList _UpdateHeaderList1, ObjectDetailsList _ObjectDetailsList2,
-                                           ElementList elementList, Map qosProperties) {
+        UpdateHeaderList _UpdateHeaderList1, ObjectDetailsList _ObjectDetailsList2, ElementList elementList,
+        Map qosProperties) {
         Logger.getLogger(CheckLinkMonitorAdapter.class.getName()).log(Level.INFO, "monitorEvents-update received");
         for (ObjectDetails objectDetails : _ObjectDetailsList2) {
             manager.updatedCheckLinkEvaluation(objectDetails.getRelated(), msgHeader.getDomain());
         }
 
         super.monitorEventNotifyReceived(msgHeader, _Identifier0, _UpdateHeaderList1, _ObjectDetailsList2, elementList,
-                                         qosProperties);
+            qosProperties);
     }
 
     @Override
     public void monitorEventDeregisterAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
-        Logger.getLogger(CheckLinkMonitorAdapter.class.getName())
-              .log(Level.INFO, "successfully deregistered monitorEvents");
+        Logger.getLogger(CheckLinkMonitorAdapter.class.getName()).log(Level.INFO,
+            "successfully deregistered monitorEvents");
         super.monitorEventDeregisterAckReceived(msgHeader, qosProperties); //To change body of generated methods, choose Tools | Templates.
     }
 }

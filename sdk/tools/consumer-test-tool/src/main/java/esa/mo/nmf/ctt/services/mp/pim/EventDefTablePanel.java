@@ -54,7 +54,7 @@ public class EventDefTablePanel extends SharedTablePanel {
         EventDefinitionDetails definition = (EventDefinitionDetails) comObject.getObject();
 
         tableData.addRow(new Object[]{identity, comObject.getArchiveDetails().getInstId(), definition
-                                                                                                     .getDescription(),});
+            .getDescription(),});
 
         comObjects.add(comObject);
         semaphore.release();

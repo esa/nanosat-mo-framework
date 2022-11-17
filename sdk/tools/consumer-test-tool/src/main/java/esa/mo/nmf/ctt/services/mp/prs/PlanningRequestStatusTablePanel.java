@@ -48,7 +48,7 @@ public class PlanningRequestStatusTablePanel extends SharedTablePanel {
 
         tableData.addRow(new Object[]{requestIdentityId, requestVersionId, status.getErrCode(), status.getErrInfo(),
                                       status.getStatus().toString(), HelperTime.time2readableString(status
-                                                                                                          .getTimestamp())});
+                                          .getTimestamp())});
 
         comObjects.add(null);
 
@@ -71,9 +71,7 @@ public class PlanningRequestStatusTablePanel extends SharedTablePanel {
         RequestUpdateDetails status = (RequestUpdateDetails) comObject.getObject();
 
         tableData.addRow(new Object[]{identity.toString(), comObject.getArchiveDetails().getInstId(), status
-                                                                                                            .getErrCode(),
-                                      status.getErrInfo(), status.getStatus().toString(), status.getTimestamp()
-                                                                                                .toString()});
+            .getErrCode(), status.getErrInfo(), status.getStatus().toString(), status.getTimestamp().toString()});
 
         comObjects.add(comObject);
         semaphore.release();

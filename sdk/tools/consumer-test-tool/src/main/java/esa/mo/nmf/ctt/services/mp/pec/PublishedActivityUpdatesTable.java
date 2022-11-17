@@ -60,7 +60,7 @@ public class PublishedActivityUpdatesTable extends SharedTablePanel {
     private final PlanExecutionControlConsumerServiceImpl planExecutionControlService;
 
     public PublishedActivityUpdatesTable(ArchiveConsumerServiceImpl archiveService,
-                                         PlanExecutionControlConsumerServiceImpl planExecutionControlService) {
+        PlanExecutionControlConsumerServiceImpl planExecutionControlService) {
         super(archiveService);
         this.archiveService = archiveService;
         this.planExecutionControlService = planExecutionControlService;
@@ -95,9 +95,8 @@ public class PublishedActivityUpdatesTable extends SharedTablePanel {
         ObjectType updateObjectType = PlanEditHelper.ACTIVITYUPDATE_OBJECT_TYPE;
         LongList objectIds = new LongList();
         objectIds.add(0L);
-        List<ArchivePersistenceObject> updateObjects = HelperArchive.getArchiveCOMObjectList(this.archiveService.getArchiveStub(),
-                                                                                             updateObjectType, domain,
-                                                                                             objectIds);
+        List<ArchivePersistenceObject> updateObjects = HelperArchive.getArchiveCOMObjectList(this.archiveService
+            .getArchiveStub(), updateObjectType, domain, objectIds);
 
         ArchivePersistenceObject comObject = null;
         if (updateObjects != null) {
@@ -110,9 +109,8 @@ public class PublishedActivityUpdatesTable extends SharedTablePanel {
         }
 
         ObjectType instanceObjectType = PlanEditHelper.ACTIVITYINSTANCE_OBJECT_TYPE;
-        ArchivePersistenceObject instanceComObject = HelperArchive.getArchiveCOMObject(this.archiveService.getArchiveStub(),
-                                                                                       instanceObjectType, domain,
-                                                                                       instanceId);
+        ArchivePersistenceObject instanceComObject = HelperArchive.getArchiveCOMObject(this.archiveService
+            .getArchiveStub(), instanceObjectType, domain, instanceId);
 
         String info = "";
         if (instanceComObject != null) {
@@ -127,9 +125,8 @@ public class PublishedActivityUpdatesTable extends SharedTablePanel {
         }
 
         tableData.addRow(new Object[]{HelperTime.time2readableString(update.getTimestamp()), identity, COMObjectIdHelper
-                                                                                                                        .getInstanceId(update.getPlanVersionId()),
-                                      instanceId, update.getStatus(), plannedTrigger, actualTime, update.getErrCode(),
-                                      info});
+            .getInstanceId(update.getPlanVersionId()), instanceId, update.getStatus(), plannedTrigger, actualTime,
+                                      update.getErrCode(), info});
 
         comObjects.add(comObject);
         semaphore.release();
@@ -163,16 +160,15 @@ public class PublishedActivityUpdatesTable extends SharedTablePanel {
     public void monitorActivities() throws MALInteractionException, MALException {
         // Subscribe to Activity updates
         final Subscription subscription = MOFactory.createSubscription();
-        this.planExecutionControlService.getPlanExecutionControlStub()
-                                        .monitorActivitiesRegister(subscription, new ActivityUpdatesMonitor());
+        this.planExecutionControlService.getPlanExecutionControlStub().monitorActivitiesRegister(subscription,
+            new ActivityUpdatesMonitor());
     }
 
     class ActivityUpdatesMonitor extends PlanExecutionControlAdapter {
 
         @Override
         public void monitorActivitiesNotifyReceived(MALMessageHeader msgHeader, Identifier identifier,
-                                                    UpdateHeaderList headerList, ActivityUpdateDetailsList updateList,
-                                                    Map qosProperties) {
+            UpdateHeaderList headerList, ActivityUpdateDetailsList updateList, Map qosProperties) {
             for (int index = 0; index < updateList.size(); index++) {
                 UpdateHeader updateHeader = headerList.get(index);
                 ActivityUpdateDetails update = updateList.get(index);

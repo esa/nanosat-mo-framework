@@ -80,7 +80,7 @@ public class Push2Facebook {
     public static void main(final String[] args) throws Exception {
         if (args.length != 2) {
             System.err.println("Please give supervisor directory URI as a first argument and a provider name," +
-                               " which to connect as the second argument!");
+                " which to connect as the second argument!");
             System.err.println("e.g. maltcp://123.123.123.123:1024/nanosat-mo-supervisor-Directory publish-clock");
             System.exit(1);
         }
@@ -96,8 +96,8 @@ public class Push2Facebook {
      * @throws MALInteractionException
      * @throws MALException
      */
-    private void registerDataListener(String directoryURI,
-                                      String providerName) throws MalformedURLException, MALInteractionException, MALException {
+    private void registerDataListener(String directoryURI, String providerName) throws MalformedURLException,
+        MALInteractionException, MALException {
 
         ProviderSummaryList providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(new URI(directoryURI));
 
@@ -113,7 +113,7 @@ public class Push2Facebook {
 
             if (gma == null) {
                 throw new RuntimeException("Failed to connect to the provider. No such provider found - " +
-                                           providerName);
+                    providerName);
             }
         }
     }
@@ -124,7 +124,7 @@ public class Push2Facebook {
         public void onDataReceived(String parameterName, Serializable data) {
 
             LOGGER.log(Level.INFO, "\nPosting on facebook...\nParameter name: {0}" + "\nData content:\n{1}",
-                       new Object[]{parameterName, data.toString()});
+                new Object[]{parameterName, data.toString()});
 
             // Get the Token here: https://developers.facebook.com/tools/explorer/
             FacebookClient facebookClient = new DefaultFacebookClient(ACCESS_TOKEN, Version.VERSION_2_4);
@@ -136,8 +136,7 @@ public class Push2Facebook {
             }
 
             FacebookType publishMessageResponse = facebookClient.publish("me/feed", FacebookType.class, Parameter.with(
-                                                                                                                       "message",
-                                                                                                                       data.toString()));
+                "message", data.toString()));
 
             String str = "";
 

@@ -86,8 +86,7 @@ public class Pass implements EventHandler<BooleanDetector> {
             this.optimalTime = this.passStart.shiftedBy(elapsedTime / 2);
             this.resultTime = this.optimalTime.toString();
             if (this.optimalTime.durationFrom(CameraAcquisitorSystemMCAdapter.getNow()) <=
-                worstCaseRotationTimeSeconds &&
-                this.optimalTime.compareTo(this.notBeforeDate) > 0) {
+                worstCaseRotationTimeSeconds && this.optimalTime.compareTo(this.notBeforeDate) > 0) {
 
                 // time too close, try again
                 startIsSet = false;

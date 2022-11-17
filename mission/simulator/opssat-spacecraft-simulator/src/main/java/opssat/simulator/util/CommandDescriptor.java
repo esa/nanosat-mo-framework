@@ -279,7 +279,7 @@ public class CommandDescriptor implements Serializable {
     }
 
     private String checkSingleFloat(String argument, int argIndex, boolean multiOperation, boolean replace,
-                                    int subIndex) {
+        int subIndex) {
         String dataOk = "ParseOk";
         try {
             float result = Float.parseFloat(argument);
@@ -305,7 +305,7 @@ public class CommandDescriptor implements Serializable {
     }
 
     private String checkSingleInt(String argument, int argIndex, boolean multiOperation, boolean replace,
-                                  int subIndex) {
+        int subIndex) {
         String dataOk = "ParseOk";
         try {
             int result = Integer.parseInt(argument);
@@ -331,7 +331,7 @@ public class CommandDescriptor implements Serializable {
     }
 
     private String checkSingleLong(String argument, int argIndex, boolean multiOperation, boolean replace,
-                                   int subIndex) {
+        int subIndex) {
         String dataOk = "ParseOk";
         try {
             long result = Long.parseLong(argument);
@@ -357,7 +357,7 @@ public class CommandDescriptor implements Serializable {
     }
 
     private String checkSingleDouble(String argument, int argIndex, boolean multiOperation, boolean replace,
-                                     int subIndex) {
+        int subIndex) {
         String dataOk = "ParseOk";
         try {
             double result = Double.parseDouble(argument);
@@ -383,7 +383,7 @@ public class CommandDescriptor implements Serializable {
     }
 
     private String checkSingleByte(String argument, int argIndex, boolean multiOperation, boolean replace,
-                                   int subIndex) {
+        int subIndex) {
         String dataOk = "ParseOk";
         if (argument.length() == 4) {
             String reducedArg = argument.substring(2, 4);
@@ -421,7 +421,7 @@ public class CommandDescriptor implements Serializable {
         int index2 = inputArgListString.indexOf("}");
         if (index1 > -1 && index2 > -1 && index2 > index1) {
             String argument = inputArgListString.substring(inputArgListString.indexOf("{") + 1, inputArgListString
-                                                                                                                  .indexOf("}"));
+                .indexOf("}"));
             if (this.inputArgList.get(argIndex).getType() instanceof String) {
                 this.inputArgList.get(argIndex).setType(argument);
             } else if (this.inputArgList.get(argIndex).getType() instanceof Byte) {
@@ -547,9 +547,8 @@ public class CommandDescriptor implements Serializable {
                     }
                 }
             } else {
-                dataOk = "setInputArgsFromString;-5;Class type [" +
-                         this.inputArgList.get(argIndex).getType().getClass().toString() +
-                         "] not treated";
+                dataOk = "setInputArgsFromString;-5;Class type [" + this.inputArgList.get(argIndex).getType().getClass()
+                    .toString() + "] not treated";
             }
         } else {
             dataOk = "setInputArgsFromString;-6;No matching pair of {} found in " + inputArgListString;

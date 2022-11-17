@@ -56,7 +56,7 @@ public class PublishedRequestsTable extends SharedTablePanel {
     private final PlanningRequestConsumerServiceImpl planningRequestService;
 
     public PublishedRequestsTable(ArchiveConsumerServiceImpl archiveService,
-                                  PlanningRequestConsumerServiceImpl planningRequestService) {
+        PlanningRequestConsumerServiceImpl planningRequestService) {
         super(archiveService);
         this.archiveService = archiveService;
         this.planningRequestService = planningRequestService;
@@ -78,9 +78,8 @@ public class PublishedRequestsTable extends SharedTablePanel {
         ObjectType updateObjectType = PlanningRequestHelper.REQUESTSTATUSUPDATE_OBJECT_TYPE;
         LongList objectIds = new LongList();
         objectIds.add(0L);
-        List<ArchivePersistenceObject> updateObjects = HelperArchive.getArchiveCOMObjectList(this.archiveService.getArchiveStub(),
-                                                                                             updateObjectType, domain,
-                                                                                             objectIds);
+        List<ArchivePersistenceObject> updateObjects = HelperArchive.getArchiveCOMObjectList(this.archiveService
+            .getArchiveStub(), updateObjectType, domain, objectIds);
 
         ArchivePersistenceObject comObject = null;
         if (updateObjects != null) {
@@ -93,10 +92,8 @@ public class PublishedRequestsTable extends SharedTablePanel {
         }
 
         tableData.addRow(new Object[]{HelperTime.time2readableString(update.getTimestamp()), identity, COMObjectIdHelper
-                                                                                                                        .getInstanceId(update.getRequestId()),
-                                      COMObjectIdHelper.getInstanceId(update.getPlanRef()), update.getStatus(), update
-                                                                                                                      .getErrCode(),
-                                      update.getErrInfo()});
+            .getInstanceId(update.getRequestId()), COMObjectIdHelper.getInstanceId(update.getPlanRef()), update
+                .getStatus(), update.getErrCode(), update.getErrInfo()});
 
         comObjects.add(comObject);
         semaphore.release();
@@ -129,8 +126,8 @@ public class PublishedRequestsTable extends SharedTablePanel {
     public void monitorRequests() throws MALInteractionException, MALException {
         // Subscribe to Request updates
         final Subscription subscription = MOFactory.createSubscription();
-        this.planningRequestService.getPlanningRequestStub()
-                                   .monitorRequestsRegister(subscription, new PlanningRequestsMonitor());
+        this.planningRequestService.getPlanningRequestStub().monitorRequestsRegister(subscription,
+            new PlanningRequestsMonitor());
     }
 
     class PlanningRequestsMonitor extends PlanningRequestAdapter {
@@ -139,8 +136,7 @@ public class PublishedRequestsTable extends SharedTablePanel {
 
         @Override
         public void monitorRequestsNotifyReceived(MALMessageHeader msgHeader, Identifier identifier,
-                                                  UpdateHeaderList headerList, RequestUpdateDetailsList updateList,
-                                                  Map qosProperties) {
+            UpdateHeaderList headerList, RequestUpdateDetailsList updateList, Map qosProperties) {
             for (int index = 0; index < updateList.size(); index++) {
                 UpdateHeader updateHeader = headerList.get(index);
                 RequestUpdateDetails update = updateList.get(index);

@@ -47,8 +47,8 @@ public class GroupConsumerServiceImpl {
             MCHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 
-        if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION)
-                             .getServiceByName(GroupHelper.GROUP_SERVICE_NAME) == null) {
+        if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION).getServiceByName(
+            GroupHelper.GROUP_SERVICE_NAME) == null) {
             GroupHelper.init(MALContextFactory.getElementFactoryRegistry());
         }
 

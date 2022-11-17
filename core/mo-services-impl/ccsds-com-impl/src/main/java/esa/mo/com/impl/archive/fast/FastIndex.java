@@ -56,9 +56,8 @@ public abstract class FastIndex<T> {
         QUERY_DELETE = "DELETE FROM " + table;
         QUERY_SELECT = "SELECT id, value FROM " + table;
         QUERY_INSERT = "INSERT INTO " + table + " (id, value) VALUES (?, ?)";
-        CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " +
-                       table +
-                       " (id INTEGER NOT NULL, value VARCHAR, PRIMARY KEY (id))";
+        CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + table +
+            " (id INTEGER NOT NULL, value VARCHAR, PRIMARY KEY (id))";
     }
 
     public synchronized void init() {

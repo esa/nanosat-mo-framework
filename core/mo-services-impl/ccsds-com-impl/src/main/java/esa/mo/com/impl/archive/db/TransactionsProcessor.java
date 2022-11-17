@@ -59,12 +59,13 @@ public class TransactionsProcessor {
 
     // This executor is responsible for the interactions with the db
     // Guarantees sequential order
-    private final ExecutorService dbTransactionsExecutor = Executors.newSingleThreadExecutor(new DBThreadFactory("Archive_DBTransactionsProcessor"));
+    private final ExecutorService dbTransactionsExecutor = Executors.newSingleThreadExecutor(new DBThreadFactory(
+        "Archive_DBTransactionsProcessor"));
 
     // This executor is expecting "short-lived" runnables that generate Events.
     // 2 Threads minimum because we need to acquire the lock from 2 different tasks during startup
     final ExecutorService generalExecutor = Executors.newFixedThreadPool(2, new DBThreadFactory(
-                                                                                                "Archive_GeneralProcessor"));
+        "Archive_GeneralProcessor"));
     private final AtomicBoolean sequencialStoring;
 
     final LinkedBlockingQueue<StoreCOMObjectsContainer> storeQueue;
@@ -113,8 +114,7 @@ public class TransactionsProcessor {
         LongList ids = new LongList();
         ids.add(objId);
         Future<List<COMObjectEntity>> future = dbTransactionsExecutor.submit(new CallableGetCOMObjects(this, ids,
-                                                                                                       domainId,
-                                                                                                       objTypeId));
+            domainId, objTypeId));
 
         try {
             List<COMObjectEntity> ret = future.get();
@@ -138,8 +138,7 @@ public class TransactionsProcessor {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
 
         Future<List<COMObjectEntity>> future = dbTransactionsExecutor.submit(new CallableGetCOMObjects(this, ids,
-                                                                                                       domainId,
-                                                                                                       objTypeId));
+            domainId, objTypeId));
 
         try {
             return future.get();
@@ -174,7 +173,7 @@ public class TransactionsProcessor {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
 
         Future<LongList> future = dbTransactionsExecutor.submit(new CallableGetAllCOMObjectIds(this, domainId,
-                                                                                               objTypeId));
+            objTypeId));
 
         try {
             return future.get();
@@ -201,7 +200,7 @@ public class TransactionsProcessor {
     }
 
     public void remove(final Integer objTypeId, final Integer domainId, final LongList objIds,
-                       final Runnable publishEvents) {
+        final Runnable publishEvents) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
 
         dbTransactionsExecutor.execute(new RunnableRemove(this, publishEvents, objTypeId, domainId, objIds));
@@ -214,12 +213,11 @@ public class TransactionsProcessor {
     }
 
     public ArrayList<COMObjectEntity> query(final IntegerList objTypeIds, final ArchiveQuery archiveQuery,
-                                            final IntegerList domainIds, final Integer providerURIId,
-                                            final Integer networkId, final SourceLinkContainer sourceLink,
-                                            final QueryFilter filter) {
+        final IntegerList domainIds, final Integer providerURIId, final Integer networkId,
+        final SourceLinkContainer sourceLink, final QueryFilter filter) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
         final CallableSelectQuery task = new CallableSelectQuery(this, objTypeIds, archiveQuery, domainIds,
-                                                                 providerURIId, networkId, sourceLink, filter);
+            providerURIId, networkId, sourceLink, filter);
 
         Future<ArrayList<COMObjectEntity>> future = dbTransactionsExecutor.submit(task);
 
@@ -233,11 +231,11 @@ public class TransactionsProcessor {
     }
 
     public int delete(final IntegerList objTypeIds, final ArchiveQuery archiveQuery, final IntegerList domainIds,
-                      final Integer providerURIId, final Integer networkId, final SourceLinkContainer sourceLink,
-                      final QueryFilter filter) {
+        final Integer providerURIId, final Integer networkId, final SourceLinkContainer sourceLink,
+        final QueryFilter filter) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
         final CallableDeleteQuery task = new CallableDeleteQuery(this, objTypeIds, archiveQuery, domainIds,
-                                                                 providerURIId, networkId, sourceLink, filter);
+            providerURIId, networkId, sourceLink, filter);
 
         Future<Integer> future = dbTransactionsExecutor.submit(task);
 

@@ -117,9 +117,7 @@ public class CheckLinkMonitorManager {
         if (checkLinksToNotify != null) {
             for (Long checkLinkToNotify : checkLinksToNotify) {
                 checkManager.executeCheck(checkLinkToNotify, null, false, false, new ObjectId(
-                                                                                              CheckHelper.CHECKLINK_OBJECT_TYPE,
-                                                                                              new ObjectKey(domain,
-                                                                                                            sourceCheckLinkId)));
+                    CheckHelper.CHECKLINK_OBJECT_TYPE, new ObjectKey(domain, sourceCheckLinkId)));
             }
         }
     }
@@ -130,8 +128,7 @@ public class CheckLinkMonitorManager {
     private synchronized void registerForCheckTranisitionEvents() {
         try {
             eventService.monitorEventRegister(subscriptionKeys(new Identifier("AllCheckTransitions"), new Identifier(
-                                                                                                                     "4"),
-                                                               0L, 0L, 0L), adapter);
+                "4"), 0L, 0L, 0L), adapter);
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(CheckLinkMonitorManager.class.getName()).log(Level.SEVERE, null, ex);
         }

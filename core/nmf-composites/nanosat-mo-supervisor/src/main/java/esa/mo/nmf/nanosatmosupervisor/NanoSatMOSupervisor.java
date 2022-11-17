@@ -81,7 +81,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
      * @param packageManagementBackend The Package Management services backend.
      */
     public void init(MonitorAndControlNMFAdapter mcAdapter, PlatformServicesConsumer platformServices,
-                     PMBackend packageManagementBackend) {
+        PMBackend packageManagementBackend) {
         super.startTime = System.currentTimeMillis();
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
         ConnectionProvider.resetURILinks();
@@ -110,7 +110,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
             this.initPlatformServices(comServices);
         } catch (MALException ex) {
             LOGGER.log(Level.SEVERE, "The services could not be initialized. " +
-                                     "Perhaps there's something wrong with the Transport Layer.", ex);
+                "Perhaps there's something wrong with the Transport Layer.", ex);
             return;
         }
 
@@ -120,11 +120,10 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
 
             // Activate the previous configuration
             final ObjectId confId = new ObjectId(ConfigurationHelper.PROVIDERCONFIGURATION_OBJECT_TYPE, new ObjectKey(
-                                                                                                                      ConfigurationProviderSingleton.getDomain(),
-                                                                                                                      DEFAULT_PROVIDER_CONFIGURATION_OBJID));
+                ConfigurationProviderSingleton.getDomain(), DEFAULT_PROVIDER_CONFIGURATION_OBJID));
 
             super.providerConfiguration = new PersistProviderConfiguration(this, confId, comServices
-                                                                                                    .getArchiveService());
+                .getArchiveService());
 
             try {
                 super.providerConfiguration.loadPreviousConfigurations();
@@ -135,9 +134,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
 
         if (mcAdapter != null) {
             MCRegistration registration = new MCRegistration(comServices, mcServices.getParameterService(), mcServices
-                                                                                                                      .getAggregationService(),
-                                                             mcServices.getAlertService(), mcServices
-                                                                                                     .getActionService());
+                .getAggregationService(), mcServices.getAlertService(), mcServices.getActionService());
             mcAdapter.initialRegistrations(registration);
         }
 
@@ -145,17 +142,14 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
         LOGGER.log(Level.INFO, "Populating Directory service...");
         this.directoryService.loadURIs(Const.NANOSAT_MO_SUPERVISOR_NAME);
 
-        final String primaryURI = this.directoryService.getConnection()
-                                                       .getPrimaryConnectionDetails()
-                                                       .getProviderURI()
-                                                       .toString();
+        final String primaryURI = this.directoryService.getConnection().getPrimaryConnectionDetails().getProviderURI()
+            .toString();
 
         final SingleConnectionDetails det = this.directoryService.getConnection().getSecondaryConnectionDetails();
         final String secondaryURI = (det != null) ? det.getProviderURI().toString() : null;
         this.writeCentralDirectoryServiceURI(primaryURI, secondaryURI);
-        LOGGER.log(Level.INFO, "NanoSat MO Supervisor initialized in " +
-                               (((float) (System.currentTimeMillis() - super.startTime)) / 1000) +
-                               " seconds!");
+        LOGGER.log(Level.INFO, "NanoSat MO Supervisor initialized in " + (((float) (System.currentTimeMillis() -
+            super.startTime)) / 1000) + " seconds!");
         LOGGER.log(Level.INFO, "URI: {0}\n", primaryURI);
 
         //Once all services are loaded and configured, enable status parameter and subscribe to it
@@ -163,9 +157,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
         IdentifierList identifierList = new IdentifierList();
         identifierList.add(identifier);
         ParameterDefinitionDetails details = new ParameterDefinitionDetails("PowerStatusChecks", Union.USHORT_SHORT_FORM
-                                                                                                                        .byteValue(),
-                                                                            "N/A", true, PDU_CHANNEL_REPORTING_PERIOD,
-                                                                            null, null);
+            .byteValue(), "N/A", true, PDU_CHANNEL_REPORTING_PERIOD, null, null);
 
         ParameterCreationRequest request = new ParameterCreationRequest(identifier, details);
         ParameterCreationRequestList reqList = new ParameterCreationRequestList();
@@ -210,22 +202,16 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
             long timestamp = System.currentTimeMillis();
 
             // Acknowledge the reception of the request to close (Closing...)
-            Long eventId = this.getCOMServices()
-                               .getEventService()
-                               .generateAndStoreEvent(AppsLauncherHelper.STOPPING_OBJECT_TYPE,
-                                                      ConfigurationProviderSingleton.getDomain(), null, null, source,
-                                                      null);
+            Long eventId = this.getCOMServices().getEventService().generateAndStoreEvent(
+                AppsLauncherHelper.STOPPING_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), null, null, source,
+                null);
 
-            final URI uri = this.getCOMServices()
-                                .getEventService()
-                                .getConnectionProvider()
-                                .getConnectionDetails()
-                                .getProviderURI();
+            final URI uri = this.getCOMServices().getEventService().getConnectionProvider().getConnectionDetails()
+                .getProviderURI();
 
             try {
-                this.getCOMServices()
-                    .getEventService()
-                    .publishEvent(uri, eventId, AppsLauncherHelper.STOPPING_OBJECT_TYPE, null, source, null);
+                this.getCOMServices().getEventService().publishEvent(uri, eventId,
+                    AppsLauncherHelper.STOPPING_OBJECT_TYPE, null, source, null);
             } catch (IOException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
             }
@@ -237,16 +223,13 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
                 this.closeAppAdapter.onClose(); // Time to sleep, boy!
             }
 
-            Long eventId2 = this.getCOMServices()
-                                .getEventService()
-                                .generateAndStoreEvent(AppsLauncherHelper.STOPPED_OBJECT_TYPE,
-                                                       ConfigurationProviderSingleton.getDomain(), null, null, source,
-                                                       null);
+            Long eventId2 = this.getCOMServices().getEventService().generateAndStoreEvent(
+                AppsLauncherHelper.STOPPED_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), null, null, source,
+                null);
 
             try {
-                this.getCOMServices()
-                    .getEventService()
-                    .publishEvent(uri, eventId2, AppsLauncherHelper.STOPPED_OBJECT_TYPE, null, source, null);
+                this.getCOMServices().getEventService().publishEvent(uri, eventId2,
+                    AppsLauncherHelper.STOPPED_OBJECT_TYPE, null, source, null);
             } catch (IOException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
             }
@@ -258,9 +241,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
 
             // Exit the Java application
             LOGGER.log(Level.INFO, "Success! The currently running Java Virtual Machine will now terminate. " +
-                                   "(NanoSat MO Supervisor closed in: " +
-                                   (System.currentTimeMillis() - timestamp) +
-                                   " ms)\n");
+                "(NanoSat MO Supervisor closed in: " + (System.currentTimeMillis() - timestamp) + " ms)\n");
 
         } catch (NMFException ex) {
             LOGGER.log(Level.SEVERE, null, ex);

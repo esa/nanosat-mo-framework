@@ -73,7 +73,7 @@ public class MCServicesConsumer {
      * @param authenticationId authenticationId of the logged in user
      */
     public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices, Blob authenticationId,
-                     String localNamePrefix) {
+        String localNamePrefix) {
         SingleConnectionDetails details;
 
         try {
@@ -87,7 +87,7 @@ public class MCServicesConsumer {
             details = connectionConsumer.getServicesDetails().get(ParameterHelper.PARAMETER_SERVICE_NAME);
             if (details != null) {
                 parameterService = new ParameterConsumerServiceImpl(details, comServices, authenticationId,
-                                                                    localNamePrefix);
+                    localNamePrefix);
             }
 
             // Initialize the Alert service
@@ -106,14 +106,14 @@ public class MCServicesConsumer {
             details = connectionConsumer.getServicesDetails().get(StatisticHelper.STATISTIC_SERVICE_NAME);
             if (details != null) {
                 statisticService = new StatisticConsumerServiceImpl(details, comServices, authenticationId,
-                                                                    localNamePrefix);
+                    localNamePrefix);
             }
 
             // Initialize the Aggregation service
             details = connectionConsumer.getServicesDetails().get(AggregationHelper.AGGREGATION_SERVICE_NAME);
             if (details != null) {
                 aggregationService = new AggregationConsumerServiceImpl(details, comServices, authenticationId,
-                                                                        localNamePrefix);
+                    localNamePrefix);
             }
         } catch (MALException | MALInteractionException | MalformedURLException ex) {
             Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
@@ -145,9 +145,8 @@ public class MCServicesConsumer {
     }
 
     public void setServices(ActionConsumerServiceImpl actionService, ParameterConsumerServiceImpl parameterService,
-                            AlertConsumerServiceImpl alertService, CheckConsumerServiceImpl checkService,
-                            StatisticConsumerServiceImpl statisticService,
-                            AggregationConsumerServiceImpl aggregationService) {
+        AlertConsumerServiceImpl alertService, CheckConsumerServiceImpl checkService,
+        StatisticConsumerServiceImpl statisticService, AggregationConsumerServiceImpl aggregationService) {
         this.actionService = actionService;
         this.parameterService = parameterService;
         this.alertService = alertService;

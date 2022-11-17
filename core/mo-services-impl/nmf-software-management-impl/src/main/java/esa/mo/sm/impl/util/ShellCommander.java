@@ -79,8 +79,8 @@ public class ShellCommander {
 
             return output.getMessage() + error.getMessage();
         } catch (InterruptedException ex) {
-            Logger.getLogger(ShellCommander.class.getName())
-                  .log(Level.SEVERE, "The command could not be executed!", ex);
+            Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE, "The command could not be executed!",
+                ex);
         }
 
         return "";
@@ -95,15 +95,15 @@ public class ShellCommander {
             } else if (osValidator.isWindows()) {
                 proc = Runtime.getRuntime().exec(new String[]{"cmd", "/c", cmd}, null, dirPath);
             } else {
-                Logger.getLogger(ShellCommander.class.getName())
-                      .log(Level.SEVERE, "The command could not executed due to an Unknown OS!");
+                Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE,
+                    "The command could not executed due to an Unknown OS!");
                 return null;
             }
 
             return proc;
         } catch (IOException ex) {
-            Logger.getLogger(ShellCommander.class.getName())
-                  .log(Level.SEVERE, "The command could not be executed!", ex);
+            Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE, "The command could not be executed!",
+                ex);
         }
 
         return null;

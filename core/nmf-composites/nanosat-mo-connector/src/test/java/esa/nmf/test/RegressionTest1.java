@@ -16,17 +16,19 @@ public class RegressionTest1 {
         java.lang.Float[] floatArray3 = new java.lang.Float[]{10.0f, 100.0f, (-1.0f)};
         java.util.ArrayList<java.lang.Float> floatList4 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean5 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList4,
-                                                        floatArray3);
+            floatArray3);
         boolean boolean7 = floatList4.add((java.lang.Float) 10.0f);
         floatList4.trimToSize();
         boolean boolean9 = floatList4.isEmpty();
         java.util.stream.Stream<java.lang.Float> floatStream10 = floatList4.parallelStream();
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl11 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         java.lang.Long long12 = nanoSatMOConnectorImpl11.getAppDirectoryId();
-        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener13 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl11);
+        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener13 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(
+            nanoSatMOConnectorImpl11);
         nanoSatMOConnectorImpl11.initAdditionalServices();
         java.lang.Long long15 = nanoSatMOConnectorImpl11.getAppDirectoryId();
-        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener16 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl11);
+        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener16 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(
+            nanoSatMOConnectorImpl11);
         boolean boolean17 = floatList4.equals((java.lang.Object) nanoSatMOConnectorImpl11);
         try {
             esa.mo.platform.impl.util.PlatformServicesConsumer platformServicesConsumer18 = null; // flaky: nanoSatMOConnectorImpl11.getPlatformServices();
@@ -49,7 +51,8 @@ public class RegressionTest1 {
             System.out.format("%n%s%n", "RegressionTest1.test502");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         java.lang.Long long1 = nanoSatMOConnectorImpl0.getAppDirectoryId();
-        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
+        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(
+            nanoSatMOConnectorImpl0);
         nanoSatMOConnectorImpl0.initAdditionalServices();
         nanoSatMOConnectorImpl0.initAdditionalServices();
         java.lang.Long long5 = nanoSatMOConnectorImpl0.getAppDirectoryId();
@@ -67,7 +70,8 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test503");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
-        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener1 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
+        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener1 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(
+            nanoSatMOConnectorImpl0);
         nanoSatMOConnectorImpl0.initAdditionalServices();
         org.ccsds.moims.mo.mal.structures.LongList longList4 = new org.ccsds.moims.mo.mal.structures.LongList();
         org.ccsds.moims.mo.mal.structures.UShort uShort5 = longList4.getAreaNumber();
@@ -77,12 +81,12 @@ public class RegressionTest1 {
         java.lang.Integer[] intArray13 = new java.lang.Integer[]{16, 100, 10, 1};
         java.util.ArrayList<java.lang.Integer> intList14 = new java.util.ArrayList<java.lang.Integer>();
         boolean boolean15 = java.util.Collections.addAll((java.util.Collection<java.lang.Integer>) intList14,
-                                                         intArray13);
+            intArray13);
         int int17 = intList14.indexOf((java.lang.Object) 0);
         java.lang.Byte[] byteArray20 = new java.lang.Byte[]{(byte) 100, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList21 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean22 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList21,
-                                                         byteArray20);
+            byteArray20);
         java.util.ListIterator<java.lang.Byte> byteItor24 = byteList21.listIterator((int) (short) 1);
         int int25 = byteList21.size();
         int int26 = intList14.lastIndexOf((java.lang.Object) int25);
@@ -129,9 +133,12 @@ public class RegressionTest1 {
         if (debug)
             System.out.format("%n%s%n", "RegressionTest1.test504");
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl0 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
-        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener1 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
-        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
-        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener3 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl0);
+        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener1 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(
+            nanoSatMOConnectorImpl0);
+        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener2 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(
+            nanoSatMOConnectorImpl0);
+        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener3 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(
+            nanoSatMOConnectorImpl0);
         java.lang.Long long4 = nanoSatMOConnectorImpl0.getAppDirectoryId();
         try {
             // flaky:             nanoSatMOConnectorImpl0.reportActionExecutionProgress(false, (int) (short) 0, 17, 100, (long) 4);
@@ -153,7 +160,8 @@ public class RegressionTest1 {
         longList6.add(0, (java.lang.Long) (-1L));
         int int14 = longList6.indexOf((java.lang.Object) 10);
         int int15 = longList6.size();
-        org.ccsds.moims.mo.mal.structures.Union union17 = new org.ccsds.moims.mo.mal.structures.Union((java.lang.Byte) (byte) 100);
+        org.ccsds.moims.mo.mal.structures.Union union17 = new org.ccsds.moims.mo.mal.structures.Union(
+            (java.lang.Byte) (byte) 100);
         java.lang.Long long18 = union17.getShortForm();
         java.lang.Integer int19 = union17.getTypeShortForm();
         java.lang.Byte byte20 = union17.getOctetValue();
@@ -161,7 +169,7 @@ public class RegressionTest1 {
         java.lang.Byte[] byteArray24 = new java.lang.Byte[]{(byte) 100, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList25 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean26 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList25,
-                                                         byteArray24);
+            byteArray24);
         java.util.ListIterator<java.lang.Byte> byteItor28 = byteList25.listIterator((int) (short) 1);
         int int29 = byteList25.size();
         int int31 = byteList25.indexOf((java.lang.Object) (short) 100);
@@ -173,29 +181,37 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet38 = longList32.getAreaVersion();
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl39 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         java.lang.Long long40 = nanoSatMOConnectorImpl39.getAppDirectoryId();
-        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener41 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl39);
+        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener41 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(
+            nanoSatMOConnectorImpl39);
         nanoSatMOConnectorImpl39.initAdditionalServices();
         java.lang.Long long43 = nanoSatMOConnectorImpl39.getAppDirectoryId();
-        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener44 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl39);
+        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener44 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(
+            nanoSatMOConnectorImpl39);
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl45 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
-        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener46 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl45);
+        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener46 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(
+            nanoSatMOConnectorImpl45);
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl47 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         java.lang.Long long48 = nanoSatMOConnectorImpl47.getAppDirectoryId();
-        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener49 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl47);
+        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener49 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(
+            nanoSatMOConnectorImpl47);
         nanoSatMOConnectorImpl47.initAdditionalServices();
         nanoSatMOConnectorImpl47.initAdditionalServices();
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl52 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
-        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener53 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl52);
+        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener53 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(
+            nanoSatMOConnectorImpl52);
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl54 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
-        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener55 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl54);
-        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener56 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl54);
+        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener55 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(
+            nanoSatMOConnectorImpl54);
+        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener56 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(
+            nanoSatMOConnectorImpl54);
         java.lang.Long long57 = nanoSatMOConnectorImpl54.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray58 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[]{nanoSatMOConnectorImpl39,
                                                                                                                                                           nanoSatMOConnectorImpl45,
                                                                                                                                                           nanoSatMOConnectorImpl47,
                                                                                                                                                           nanoSatMOConnectorImpl52,
                                                                                                                                                           nanoSatMOConnectorImpl54};
-        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray59 = longList32.toArray(nanoSatMOConnectorImplArray58);
+        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray59 = longList32.toArray(
+            nanoSatMOConnectorImplArray58);
         int int60 = longList32.size();
         boolean boolean61 = byteList25.remove((java.lang.Object) longList32);
         org.ccsds.moims.mo.mal.structures.UShort uShort62 = longList32.getServiceNumber();
@@ -245,7 +261,7 @@ public class RegressionTest1 {
         java.lang.Float[] floatArray16 = new java.lang.Float[]{(-1.0f), 10.0f, 10.0f, 1.0f};
         java.util.ArrayList<java.lang.Float> floatList17 = new java.util.ArrayList<java.lang.Float>();
         boolean boolean18 = java.util.Collections.addAll((java.util.Collection<java.lang.Float>) floatList17,
-                                                         floatArray16);
+            floatArray16);
         int int20 = floatList17.lastIndexOf((java.lang.Object) (-1L));
         java.util.Iterator<java.lang.Float> floatItor21 = floatList17.iterator();
         org.ccsds.moims.mo.mal.structures.Identifier identifier22 = new org.ccsds.moims.mo.mal.structures.Identifier();
@@ -254,34 +270,46 @@ public class RegressionTest1 {
         boolean boolean26 = floatList17.contains((java.lang.Object) identifier22);
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray27 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList28 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean29 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList28,
-                                                         uShortArray27);
+        boolean boolean29 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList28, uShortArray27);
         int int31 = uShortList28.lastIndexOf((java.lang.Object) 'a');
         boolean boolean32 = uShortList28.isEmpty();
-        boolean boolean33 = floatList17.retainAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList28);
-        boolean boolean34 = longList6.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList28);
+        boolean boolean33 = floatList17.retainAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList28);
+        boolean boolean34 = longList6.containsAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList28);
         uShortList28.trimToSize();
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl36 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
-        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener37 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl36);
+        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener37 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(
+            nanoSatMOConnectorImpl36);
         nanoSatMOConnectorImpl36.initAdditionalServices();
-        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener39 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl36);
-        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener40 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl36);
+        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener39 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(
+            nanoSatMOConnectorImpl36);
+        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener40 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(
+            nanoSatMOConnectorImpl36);
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl41 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
-        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener42 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl41);
-        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener43 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl41);
-        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener44 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl41);
-        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener45 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl41);
+        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener42 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(
+            nanoSatMOConnectorImpl41);
+        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener43 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(
+            nanoSatMOConnectorImpl41);
+        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener44 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(
+            nanoSatMOConnectorImpl41);
+        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener45 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(
+            nanoSatMOConnectorImpl41);
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl46 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         java.lang.Long long47 = nanoSatMOConnectorImpl46.getAppDirectoryId();
-        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener48 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl46);
+        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener48 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(
+            nanoSatMOConnectorImpl46);
         nanoSatMOConnectorImpl46.initAdditionalServices();
         nanoSatMOConnectorImpl46.initAdditionalServices();
         java.lang.Long long51 = nanoSatMOConnectorImpl46.getAppDirectoryId();
-        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener52 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl46);
+        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener52 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(
+            nanoSatMOConnectorImpl46);
         esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray53 = new esa.mo.com.impl.util.EventReceivedListener[]{closeAppEventListener40,
                                                                                                                                      closeAppEventListener45,
                                                                                                                                      closeAppEventListener52};
-        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray54 = uShortList28.toArray(eventReceivedListenerArray53);
+        esa.mo.com.impl.util.EventReceivedListener[] eventReceivedListenerArray54 = uShortList28.toArray(
+            eventReceivedListenerArray53);
         org.junit.Assert.assertNotNull(longArray5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7);
         org.junit.Assert.assertTrue("'" + int9 + "' != '" + 5 + "'", int9 == 5);
@@ -320,7 +348,8 @@ public class RegressionTest1 {
         java.lang.String str14 = longList9.toString();
         java.util.ListIterator<java.lang.Long> longItor15 = longList9.listIterator();
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl16 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
-        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener17 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl16);
+        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener17 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(
+            nanoSatMOConnectorImpl16);
         java.lang.Long long18 = nanoSatMOConnectorImpl16.getAppDirectoryId();
         boolean boolean19 = longList9.remove((java.lang.Object) nanoSatMOConnectorImpl16);
         org.junit.Assert.assertTrue("'" + long1 + "' != '" + 281475010265073L + "'", long1.equals(281475010265073L));
@@ -330,7 +359,7 @@ public class RegressionTest1 {
         org.junit.Assert.assertNotNull(longStream12);
         org.junit.Assert.assertTrue("'" + boolean13 + "' != '" + false + "'", !boolean13);
         org.junit.Assert.assertTrue("'" + str14 + "' != '" + "[0, 1, 10, 10, 100]" + "'", str14.equals(
-                                                                                                       "[0, 1, 10, 10, 100]"));
+            "[0, 1, 10, 10, 100]"));
         org.junit.Assert.assertNotNull(longItor15);
         org.junit.Assert.assertNull(long18);
         org.junit.Assert.assertTrue("'" + boolean19 + "' != '" + false + "'", !boolean19);
@@ -343,18 +372,20 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray3 = new java.lang.Short[]{(short) 1, (short) 100, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList4 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean5 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList4,
-                                                        shortArray3);
+            shortArray3);
         boolean boolean7 = shortList4.equals((java.lang.Object) "hi!");
         java.lang.String[] strArray9 = new java.lang.String[]{"hi!"};
         java.util.ArrayList<java.lang.String> strList10 = new java.util.ArrayList<java.lang.String>();
         boolean boolean11 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList10, strArray9);
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray12 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList13 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean14 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList13,
-                                                         uShortArray12);
+        boolean boolean14 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList13, uShortArray12);
         int int16 = uShortList13.indexOf((java.lang.Object) 1.0f);
-        boolean boolean17 = strList10.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList13);
-        boolean boolean18 = shortList4.containsAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList13);
+        boolean boolean17 = strList10.containsAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList13);
+        boolean boolean18 = shortList4.containsAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList13);
         shortList4.clear();
         boolean boolean21 = shortList4.add((java.lang.Short) (short) 0);
         int int22 = shortList4.size();
@@ -369,18 +400,21 @@ public class RegressionTest1 {
                                                                "[-1, 281475010265070, 281474993487873]"};
         java.util.ArrayList<java.lang.String> strList47 = new java.util.ArrayList<java.lang.String>();
         boolean boolean48 = java.util.Collections.addAll((java.util.Collection<java.lang.String>) strList47,
-                                                         strArray46);
-        org.ccsds.moims.mo.mal.structures.UShortList uShortList50 = new org.ccsds.moims.mo.mal.structures.UShortList((int) ' ');
+            strArray46);
+        org.ccsds.moims.mo.mal.structures.UShortList uShortList50 = new org.ccsds.moims.mo.mal.structures.UShortList(
+            (int) ' ');
         org.ccsds.moims.mo.mal.structures.UShort uShort51 = uShortList50.getServiceNumber();
         org.ccsds.moims.mo.mal.structures.UOctet uOctet52 = uShortList50.getAreaVersion();
         java.lang.Long long53 = uShortList50.getShortForm();
-        boolean boolean54 = strList47.retainAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList50);
+        boolean boolean54 = strList47.retainAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList50);
         org.ccsds.moims.mo.mal.structures.UShort uShort55 = uShortList50.getServiceNumber();
-        boolean boolean56 = shortList4.retainAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList50);
+        boolean boolean56 = shortList4.retainAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList50);
         java.lang.Byte[] byteArray59 = new java.lang.Byte[]{(byte) 100, (byte) 100};
         java.util.ArrayList<java.lang.Byte> byteList60 = new java.util.ArrayList<java.lang.Byte>();
         boolean boolean61 = java.util.Collections.addAll((java.util.Collection<java.lang.Byte>) byteList60,
-                                                         byteArray59);
+            byteArray59);
         java.util.ListIterator<java.lang.Byte> byteItor63 = byteList60.listIterator((int) (short) 1);
         int int64 = byteList60.size();
         java.util.Iterator<java.lang.Byte> byteItor65 = byteList60.iterator();
@@ -395,31 +429,40 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet76 = longList70.getAreaVersion();
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl77 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         java.lang.Long long78 = nanoSatMOConnectorImpl77.getAppDirectoryId();
-        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener79 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl77);
+        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener79 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(
+            nanoSatMOConnectorImpl77);
         nanoSatMOConnectorImpl77.initAdditionalServices();
         java.lang.Long long81 = nanoSatMOConnectorImpl77.getAppDirectoryId();
-        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener82 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl77);
+        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener82 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(
+            nanoSatMOConnectorImpl77);
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl83 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
-        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener84 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl83);
+        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener84 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(
+            nanoSatMOConnectorImpl83);
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl85 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         java.lang.Long long86 = nanoSatMOConnectorImpl85.getAppDirectoryId();
-        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener87 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl85);
+        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener87 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(
+            nanoSatMOConnectorImpl85);
         nanoSatMOConnectorImpl85.initAdditionalServices();
         nanoSatMOConnectorImpl85.initAdditionalServices();
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl90 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
-        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener91 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl90);
+        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener91 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(
+            nanoSatMOConnectorImpl90);
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl92 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
-        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener93 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl92);
-        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener94 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl92);
+        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener93 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(
+            nanoSatMOConnectorImpl92);
+        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener94 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(
+            nanoSatMOConnectorImpl92);
         java.lang.Long long95 = nanoSatMOConnectorImpl92.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray96 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[]{nanoSatMOConnectorImpl77,
                                                                                                                                                           nanoSatMOConnectorImpl83,
                                                                                                                                                           nanoSatMOConnectorImpl85,
                                                                                                                                                           nanoSatMOConnectorImpl90,
                                                                                                                                                           nanoSatMOConnectorImpl92};
-        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray97 = longList70.toArray(nanoSatMOConnectorImplArray96);
+        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray97 = longList70.toArray(
+            nanoSatMOConnectorImplArray96);
         int int98 = byteList60.lastIndexOf((java.lang.Object) nanoSatMOConnectorImplArray96);
-        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray99 = uShortList50.toArray(nanoSatMOConnectorImplArray96);
+        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray99 = uShortList50.toArray(
+            nanoSatMOConnectorImplArray96);
         org.junit.Assert.assertNotNull(shortArray3);
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", !boolean7);
@@ -471,24 +514,25 @@ public class RegressionTest1 {
         java.lang.Short[] shortArray3 = new java.lang.Short[]{(short) 1, (short) 100, (short) 100};
         java.util.ArrayList<java.lang.Short> shortList4 = new java.util.ArrayList<java.lang.Short>();
         boolean boolean5 = java.util.Collections.addAll((java.util.Collection<java.lang.Short>) shortList4,
-                                                        shortArray3);
+            shortArray3);
         boolean boolean7 = shortList4.equals((java.lang.Object) "hi!");
         java.lang.Long[] longArray13 = new java.lang.Long[]{0L, 1L, 10L, 10L, 100L};
         java.util.ArrayList<java.lang.Long> longList14 = new java.util.ArrayList<java.lang.Long>();
         boolean boolean15 = java.util.Collections.addAll((java.util.Collection<java.lang.Long>) longList14,
-                                                         longArray13);
+            longArray13);
         longList14.trimToSize();
         java.lang.Object[] objArray17 = longList14.toArray();
         org.ccsds.moims.mo.mal.structures.UShort[] uShortArray18 = new org.ccsds.moims.mo.mal.structures.UShort[]{};
         java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort> uShortList19 = new java.util.ArrayList<org.ccsds.moims.mo.mal.structures.UShort>();
-        boolean boolean20 = java.util.Collections.addAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList19,
-                                                         uShortArray18);
+        boolean boolean20 = java.util.Collections.addAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList19, uShortArray18);
         int int22 = uShortList19.lastIndexOf((java.lang.Object) 'a');
         boolean boolean23 = uShortList19.isEmpty();
         uShortList19.clear();
         uShortList19.trimToSize();
         boolean boolean26 = longList14.remove((java.lang.Object) uShortList19);
-        boolean boolean27 = shortList4.retainAll((java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList19);
+        boolean boolean27 = shortList4.retainAll(
+            (java.util.Collection<org.ccsds.moims.mo.mal.structures.UShort>) uShortList19);
         org.ccsds.moims.mo.mal.structures.LongList longList28 = new org.ccsds.moims.mo.mal.structures.LongList();
         org.ccsds.moims.mo.mal.structures.UShort uShort29 = longList28.getAreaNumber();
         org.ccsds.moims.mo.mal.structures.UShort uShort30 = longList28.getServiceNumber();
@@ -497,30 +541,39 @@ public class RegressionTest1 {
         org.ccsds.moims.mo.mal.structures.UOctet uOctet34 = longList28.getAreaVersion();
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl35 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         java.lang.Long long36 = nanoSatMOConnectorImpl35.getAppDirectoryId();
-        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener37 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl35);
+        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener37 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(
+            nanoSatMOConnectorImpl35);
         nanoSatMOConnectorImpl35.initAdditionalServices();
         java.lang.Long long39 = nanoSatMOConnectorImpl35.getAppDirectoryId();
-        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener40 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl35);
+        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener40 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(
+            nanoSatMOConnectorImpl35);
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl41 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
-        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener42 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl41);
+        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener42 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(
+            nanoSatMOConnectorImpl41);
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl43 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
         java.lang.Long long44 = nanoSatMOConnectorImpl43.getAppDirectoryId();
-        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener45 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl43);
+        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener45 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(
+            nanoSatMOConnectorImpl43);
         nanoSatMOConnectorImpl43.initAdditionalServices();
         nanoSatMOConnectorImpl43.initAdditionalServices();
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl48 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
-        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener49 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl48);
+        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener49 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(
+            nanoSatMOConnectorImpl48);
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl nanoSatMOConnectorImpl50 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl();
-        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener51 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl50);
-        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener52 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(nanoSatMOConnectorImpl50);
+        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener51 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(
+            nanoSatMOConnectorImpl50);
+        esa.mo.nmf.nanosatmoconnector.CloseAppEventListener closeAppEventListener52 = new esa.mo.nmf.nanosatmoconnector.CloseAppEventListener(
+            nanoSatMOConnectorImpl50);
         java.lang.Long long53 = nanoSatMOConnectorImpl50.getAppDirectoryId();
         esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray54 = new esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[]{nanoSatMOConnectorImpl35,
                                                                                                                                                           nanoSatMOConnectorImpl41,
                                                                                                                                                           nanoSatMOConnectorImpl43,
                                                                                                                                                           nanoSatMOConnectorImpl48,
                                                                                                                                                           nanoSatMOConnectorImpl50};
-        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray55 = longList28.toArray(nanoSatMOConnectorImplArray54);
-        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray56 = shortList4.toArray(nanoSatMOConnectorImplArray54);
+        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray55 = longList28.toArray(
+            nanoSatMOConnectorImplArray54);
+        esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl[] nanoSatMOConnectorImplArray56 = shortList4.toArray(
+            nanoSatMOConnectorImplArray54);
         org.junit.Assert.assertNotNull(shortArray3);
         org.junit.Assert.assertTrue("'" + boolean5 + "' != '" + true + "'", boolean5);
         org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + false + "'", !boolean7);

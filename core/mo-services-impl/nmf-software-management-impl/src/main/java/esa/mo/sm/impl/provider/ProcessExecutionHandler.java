@@ -135,11 +135,9 @@ public class ProcessExecutionHandler {
             pid = -1;
         }
         stdoutReader = createReaderThread(stdoutBuf, new BufferedReader(new InputStreamReader(process
-                                                                                                     .getInputStream())),
-                                          "STDOUT_" + pid);
+            .getInputStream())), "STDOUT_" + pid);
         stderrReader = createReaderThread(stderrBuf, new BufferedReader(new InputStreamReader(process
-                                                                                                     .getErrorStream())),
-                                          "STDERR_" + pid);
+            .getErrorStream())), "STDERR_" + pid);
         stdoutReader.start();
         stderrReader.start();
         new Thread(() -> {

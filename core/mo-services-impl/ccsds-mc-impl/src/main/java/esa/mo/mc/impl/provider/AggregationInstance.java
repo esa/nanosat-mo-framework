@@ -37,7 +37,7 @@ public class AggregationInstance {
     private final Time timestamp;
 
     public AggregationInstance(final Identifier name, final AggregationValue pValue, final ObjectId source,
-                               final Time timestamp) {
+        final Time timestamp) {
         this.name = name;
         this.aggregationValue = pValue;
         this.source = source;

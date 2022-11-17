@@ -42,5 +42,6 @@ public abstract class MPServiceOperationCallback {
     public void validate(PlanVersionDetails planVersion, EventInstanceDetails eventInstance) {
     }
 
-    public abstract void onCallback(List<MPServiceOperationArguments> arguments) throws MALException, MALInteractionException;
+    public abstract void onCallback(List<MPServiceOperationArguments> arguments) throws MALException,
+        MALInteractionException;
 }

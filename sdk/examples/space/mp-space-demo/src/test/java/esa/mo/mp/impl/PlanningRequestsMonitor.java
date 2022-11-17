@@ -17,8 +17,7 @@ public class PlanningRequestsMonitor extends PlanningRequestAdapter {
 
     @Override
     public void monitorRequestsNotifyReceived(MALMessageHeader msgHeader, Identifier identifier,
-                                              UpdateHeaderList headerList, RequestUpdateDetailsList updateList,
-                                              Map qosProperties) {
+        UpdateHeaderList headerList, RequestUpdateDetailsList updateList, Map qosProperties) {
         receivedUpdateList.addAll(updateList);
         synchronized (this) {
             this.notifyAll();

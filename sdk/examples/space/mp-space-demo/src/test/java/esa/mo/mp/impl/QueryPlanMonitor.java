@@ -22,7 +22,7 @@ public class QueryPlanMonitor extends PlanDistributionAdapter {
 
     @Override
     public void queryPlanResponseReceived(MALMessageHeader msgHeader, LongList planVersionIds,
-                                          PlanVersionDetailsList planVersions, Map qosProperties) {
+        PlanVersionDetailsList planVersions, Map qosProperties) {
         this.receivedPlanVersions.addAll(planVersions);
         synchronized (this) {
             this.notifyAll();

@@ -89,8 +89,8 @@ public class MCRegistration {
     public final ActionProviderServiceImpl actionService;
 
     public MCRegistration(COMServicesProvider comServices, ParameterProviderServiceImpl parameterService,
-                          AggregationProviderServiceImpl aggregationService, AlertProviderServiceImpl alertService,
-                          ActionProviderServiceImpl actionService) {
+        AggregationProviderServiceImpl aggregationService, AlertProviderServiceImpl alertService,
+        ActionProviderServiceImpl actionService) {
         this.comServices = comServices;
         this.parameterService = parameterService;
         this.aggregationService = aggregationService;
@@ -193,7 +193,7 @@ public class MCRegistration {
      * AggregationIdentity objects.
      */
     public LongList registerAggregations(final IdentifierList names,
-                                         final AggregationDefinitionDetailsList definitions) {
+        final AggregationDefinitionDetailsList definitions) {
         // Some validation
         if (names == null || definitions == null) {
             return null;
@@ -433,7 +433,8 @@ public class MCRegistration {
      * @throws org.ccsds.moims.mo.mal.MALInteractionException if there is a
      * problem while storing the registrations in the COM Archive.
      */
-    public ObjectIdList registerConversions(ElementList conversions) throws NMFException, MALException, MALInteractionException {
+    public ObjectIdList registerConversions(ElementList conversions) throws NMFException, MALException,
+        MALInteractionException {
         if (conversions == null) {
             throw new NMFException("The conversions object cannot be null!");
         }
@@ -469,11 +470,11 @@ public class MCRegistration {
      * @param objType The Object Type of the conversions
      * @return The list of ObjIds of the Identity objects of the conversions.
      */
-    private ObjectIdList registerConversionsGen(final ElementList conversions,
-                                                final ObjectType objType) throws MALException, MALInteractionException {
+    private ObjectIdList registerConversionsGen(final ElementList conversions, final ObjectType objType)
+        throws MALException, MALInteractionException {
         final IdentifierList domain = ConfigurationProviderSingleton.getDomain();
         final ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(null, null,
-                                                                                               PROVIDER_URI);
+            PROVIDER_URI);
         final IdentifierList names = new IdentifierList();
 
         Random rand = new Random();
@@ -486,10 +487,8 @@ public class MCRegistration {
             archiveDetailsList.add(archiveDetailsList.get(0));
         }
 
-        final LongList conversionIdentityObjIds = comServices.getArchiveService()
-                                                             .store(true,
-                                                                    ConversionHelper.CONVERSIONIDENTITY_OBJECT_TYPE,
-                                                                    domain, archiveDetailsList, names, null);
+        final LongList conversionIdentityObjIds = comServices.getArchiveService().store(true,
+            ConversionHelper.CONVERSIONIDENTITY_OBJECT_TYPE, domain, archiveDetailsList, names, null);
 
         for (int i = 0; i < archiveDetailsList.size(); i++) {
             archiveDetailsList.get(i).setDetails(new ObjectDetails(conversionIdentityObjIds.get(i), null));

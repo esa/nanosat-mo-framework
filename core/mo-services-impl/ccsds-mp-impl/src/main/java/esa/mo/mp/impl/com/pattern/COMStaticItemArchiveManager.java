@@ -43,19 +43,21 @@ import esa.mo.mp.impl.com.COMConfiguration;
  *
  * @see COMArchiveManager
  */
-public class COMStaticItemArchiveManager<IdentityT extends Element, IdentityListT extends ElementList, DefinitionT extends Element, DefinitionListT extends ElementList> extends COMArchiveManager<IdentityT, IdentityListT, DefinitionT, DefinitionListT, Element, ElementList, Element, ElementList> {
+public class COMStaticItemArchiveManager<IdentityT extends Element, IdentityListT extends ElementList, DefinitionT extends Element, DefinitionListT extends ElementList>
+    extends
+    COMArchiveManager<IdentityT, IdentityListT, DefinitionT, DefinitionListT, Element, ElementList, Element, ElementList> {
 
     public COMStaticItemArchiveManager(COMServicesProvider comServices, COMConfiguration configuration) {
         super(comServices, configuration);
     }
 
     public ObjectIdPair addDefinition(Identifier identity, DefinitionT definition, ObjectId source,
-                                      MALInteraction interaction) throws MALException, MALInteractionException {
+        MALInteraction interaction) throws MALException, MALInteractionException {
         return super.addCOMObject(identity, definition, source, interaction);
     }
 
     public ObjectIdPairList addDefinitions(IdentifierList identities, DefinitionListT definitions, ObjectId source,
-                                           MALInteraction interaction) throws MALException, MALInteractionException {
+        MALInteraction interaction) throws MALException, MALInteractionException {
         return super.addCOMObjects(identities, definitions, source, interaction);
     }
 
@@ -120,22 +122,22 @@ public class COMStaticItemArchiveManager<IdentityT extends Element, IdentityList
     }
 
     public ObjectId updateDefinition(ObjectId identityId, DefinitionT definition, ObjectId source,
-                                     MALInteraction interaction) throws MALException, MALInteractionException {
+        MALInteraction interaction) throws MALException, MALInteractionException {
         return super.updateCOMObject(identityId, definition, source, interaction);
     }
 
     public ObjectIdList updateDefinitions(ObjectIdList identityIds, DefinitionListT definitions, ObjectId source,
-                                          MALInteraction interaction) throws MALException, MALInteractionException {
+        MALInteraction interaction) throws MALException, MALInteractionException {
         return super.updateCOMObjects(identityIds, definitions, source, interaction);
     }
 
-    public void removeDefinition(ObjectId identityId,
-                                 MALInteraction interaction) throws MALException, MALInteractionException {
+    public void removeDefinition(ObjectId identityId, MALInteraction interaction) throws MALException,
+        MALInteractionException {
         super.removeObject(identityId, interaction);
     }
 
-    public void removeDefinitions(ObjectIdList identityIds,
-                                  MALInteraction interaction) throws MALException, MALInteractionException {
+    public void removeDefinitions(ObjectIdList identityIds, MALInteraction interaction) throws MALException,
+        MALInteractionException {
         super.removeObjects(identityIds, interaction);
     }
 }

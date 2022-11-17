@@ -43,7 +43,8 @@ import esa.mo.mp.impl.com.pattern.COMStateArchiveManager;
  *
  * @see COMStateArchiveManager
  */
-public class ResourceArchiveManager extends COMStateArchiveManager<ResourceIdentityDetails, ResourceIdentityDetailsList, ResourceDefinitionDetails, ResourceDefinitionDetailsList, ResourceUpdateDetails, ResourceUpdateDetailsList> {
+public class ResourceArchiveManager extends
+    COMStateArchiveManager<ResourceIdentityDetails, ResourceIdentityDetailsList, ResourceDefinitionDetails, ResourceDefinitionDetailsList, ResourceUpdateDetails, ResourceUpdateDetailsList> {
 
     public ResourceArchiveManager(COMServicesProvider comServices, COMConfiguration configuration) {
         super(comServices, configuration);

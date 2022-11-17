@@ -98,16 +98,14 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
             }
 
             if (MALContextFactory.lookupArea(PlatformHelper.PLATFORM_AREA_NAME, PlatformHelper.PLATFORM_AREA_VERSION)
-                                 .getServiceByName(SoftwareDefinedRadioHelper.SOFTWAREDEFINEDRADIO_SERVICE_NAME) ==
-                null) {
+                .getServiceByName(SoftwareDefinedRadioHelper.SOFTWAREDEFINEDRADIO_SERVICE_NAME) == null) {
                 SoftwareDefinedRadioHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
         }
 
         publisher = createStreamRadioPublisher(ConfigurationProviderSingleton.getDomain(),
-                                               ConfigurationProviderSingleton.getNetwork(), SessionType.LIVE,
-                                               ConfigurationProviderSingleton.getSourceSessionName(),
-                                               QoSLevel.BESTEFFORT, null, new UInteger(0));
+            ConfigurationProviderSingleton.getNetwork(), SessionType.LIVE, ConfigurationProviderSingleton
+                .getSourceSessionName(), QoSLevel.BESTEFFORT, null, new UInteger(0));
 
         // Shut down old service transport
         if (null != softwareDefinedRadioServiceProvider) {
@@ -115,14 +113,14 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
         }
 
         this.adapter = adapter;
-        softwareDefinedRadioServiceProvider = connection.startService(SoftwareDefinedRadioHelper.SOFTWAREDEFINEDRADIO_SERVICE_NAME.toString(),
-                                                                      SoftwareDefinedRadioHelper.SOFTWAREDEFINEDRADIO_SERVICE,
-                                                                      this);
+        softwareDefinedRadioServiceProvider = connection.startService(
+            SoftwareDefinedRadioHelper.SOFTWAREDEFINEDRADIO_SERVICE_NAME.toString(),
+            SoftwareDefinedRadioHelper.SOFTWAREDEFINEDRADIO_SERVICE, this);
 
         running = true;
         initialiased = true;
-        Logger.getLogger(SoftwareDefinedRadioProviderServiceImpl.class.getName())
-              .info("Software-defined Radio service READY");
+        Logger.getLogger(SoftwareDefinedRadioProviderServiceImpl.class.getName()).info(
+            "Software-defined Radio service READY");
     }
 
     /**
@@ -137,8 +135,8 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
             connection.closeAll();
             running = false;
         } catch (MALException ex) {
-            Logger.getLogger(SoftwareDefinedRadioProviderServiceImpl.class.getName())
-                  .log(Level.WARNING, "Exception during close down of the provider {0}", ex);
+            Logger.getLogger(SoftwareDefinedRadioProviderServiceImpl.class.getName()).log(Level.WARNING,
+                "Exception during close down of the provider {0}", ex);
         }
     }
 
@@ -162,27 +160,26 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
                 objId = uniqueObjId.incrementAndGet();
             }
 
-            Logger.getLogger(SoftwareDefinedRadioProviderServiceImpl.class.getName())
-                  .log(Level.FINER, "Generating streaming Radio update with objId: " + objId);
+            Logger.getLogger(SoftwareDefinedRadioProviderServiceImpl.class.getName()).log(Level.FINER,
+                "Generating streaming Radio update with objId: " + objId);
 
             final EntityKey ekey = new EntityKey(null, null, null, null);
             final UpdateHeaderList hdrlst = new UpdateHeaderList();
             hdrlst.add(new UpdateHeader(HelperTime.getTimestampMillis(), connection.getConnectionDetails()
-                                                                                   .getProviderURI(), UpdateType.UPDATE,
-                                        ekey));
+                .getProviderURI(), UpdateType.UPDATE, ekey));
 
             publisher.publish(hdrlst, iqComponentsList);
 
         } catch (IllegalArgumentException | MALInteractionException | MALException ex) {
-            Logger.getLogger(SoftwareDefinedRadioProviderServiceImpl.class.getName())
-                  .log(Level.WARNING, "Exception during publishing process on the provider {0}", ex);
+            Logger.getLogger(SoftwareDefinedRadioProviderServiceImpl.class.getName()).log(Level.WARNING,
+                "Exception during publishing process on the provider {0}", ex);
         }
     }
 
     @Override
     public synchronized void enableSDR(final Boolean enable, final SDRConfiguration initialConfiguration,
-                                       final Duration publishingPeriod,
-                                       final MALInteraction interaction) throws MALInteractionException, MALException {
+        final Duration publishingPeriod, final MALInteraction interaction) throws MALInteractionException,
+        MALException {
         publishTimer.cancel();
 
         if (!enable) {
@@ -190,7 +187,7 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
         } else {
             if (!adapter.isUnitAvailable()) {
                 throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
-                                                                       null));
+                    null));
             }
             if (!adapter.setConfiguration(initialConfiguration)) {
                 throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
@@ -217,10 +214,10 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
 
     @Override
     public synchronized void updateConfiguration(final SDRConfiguration sdrConfiguration,
-                                                 final MALInteraction interaction) throws MALInteractionException, MALException {
+        final MALInteraction interaction) throws MALInteractionException, MALException {
         if (!adapter.isUnitAvailable()) {
             throw new MALInteractionException(new MALStandardError(PlatformHelper.DEVICE_NOT_AVAILABLE_ERROR_NUMBER,
-                                                                   null));
+                null));
         }
         if (!adapter.setConfiguration(sdrConfiguration)) {
             throw new MALInteractionException(new MALStandardError(COMHelper.INVALID_ERROR_NUMBER, null));
@@ -230,31 +227,31 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
     public static final class PublishInteractionListener implements MALPublishInteractionListener {
 
         @Override
-        public void publishDeregisterAckReceived(final MALMessageHeader header,
-                                                 final Map qosProperties) throws MALException {
-            Logger.getLogger(SoftwareDefinedRadioProviderServiceImpl.class.getName())
-                  .fine("PublishInteractionListener::publishDeregisterAckReceived");
+        public void publishDeregisterAckReceived(final MALMessageHeader header, final Map qosProperties)
+            throws MALException {
+            Logger.getLogger(SoftwareDefinedRadioProviderServiceImpl.class.getName()).fine(
+                "PublishInteractionListener::publishDeregisterAckReceived");
         }
 
         @Override
         public void publishErrorReceived(final MALMessageHeader header, final MALErrorBody body,
-                                         final Map qosProperties) throws MALException {
-            Logger.getLogger(SoftwareDefinedRadioProviderServiceImpl.class.getName())
-                  .warning("PublishInteractionListener::publishErrorReceived");
+            final Map qosProperties) throws MALException {
+            Logger.getLogger(SoftwareDefinedRadioProviderServiceImpl.class.getName()).warning(
+                "PublishInteractionListener::publishErrorReceived");
         }
 
         @Override
-        public void publishRegisterAckReceived(final MALMessageHeader header,
-                                               final Map qosProperties) throws MALException {
-            Logger.getLogger(SoftwareDefinedRadioProviderServiceImpl.class.getName())
-                  .log(Level.INFO, "Registration Ack: {0}", header.toString());
+        public void publishRegisterAckReceived(final MALMessageHeader header, final Map qosProperties)
+            throws MALException {
+            Logger.getLogger(SoftwareDefinedRadioProviderServiceImpl.class.getName()).log(Level.INFO,
+                "Registration Ack: {0}", header.toString());
         }
 
         @Override
         public void publishRegisterErrorReceived(final MALMessageHeader header, final MALErrorBody body,
-                                                 final Map qosProperties) throws MALException {
-            Logger.getLogger(SoftwareDefinedRadioProviderServiceImpl.class.getName())
-                  .warning("PublishInteractionListener::publishRegisterErrorReceived");
+            final Map qosProperties) throws MALException {
+            Logger.getLogger(SoftwareDefinedRadioProviderServiceImpl.class.getName()).warning(
+                "PublishInteractionListener::publishRegisterErrorReceived");
         }
     }
 

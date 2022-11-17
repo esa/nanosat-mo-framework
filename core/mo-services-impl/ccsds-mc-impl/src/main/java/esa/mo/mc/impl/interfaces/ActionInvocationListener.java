@@ -48,7 +48,7 @@ public interface ActionInvocationListener {
      * returned value should hold the error number
      */
     UInteger actionArrived(Identifier identifier, AttributeValueList attributeValues, Long actionInstanceObjId,
-                           boolean reportProgress, MALInteraction interaction);
+        boolean reportProgress, MALInteraction interaction);
 
     boolean preCheck(ActionDefinitionDetails defDetails, ActionInstanceDetails instDetails, UIntegerList errorList);
     //	public void setForcePreCheckInvalidException(boolean force);

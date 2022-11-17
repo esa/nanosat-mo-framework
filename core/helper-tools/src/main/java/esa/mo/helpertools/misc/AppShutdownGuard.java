@@ -48,8 +48,8 @@ public class AppShutdownGuard {
                     return;
                 }
                 LOGGER.log(Level.WARNING,
-                           "The application failed to exit gracefully within predefined {0} ms. Performing a thread dump...",
-                           Const.APP_SHUTDOWN_GUARD_MS);
+                    "The application failed to exit gracefully within predefined {0} ms. Performing a thread dump...",
+                    Const.APP_SHUTDOWN_GUARD_MS);
                 LOGGER.log(Level.WARNING, threadDump(true, true));
                 LOGGER.log(Level.WARNING, "Forcing exit with code -1");
                 System.exit(-1);

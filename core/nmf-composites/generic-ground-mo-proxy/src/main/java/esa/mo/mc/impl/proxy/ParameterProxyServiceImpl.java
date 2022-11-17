@@ -87,12 +87,12 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
             }
 
             if (MALContextFactory.lookupArea(CommonHelper.COMMON_AREA_NAME, CommonHelper.COMMON_AREA_VERSION)
-                                 .getServiceByName(ConfigurationHelper.CONFIGURATION_SERVICE_NAME) == null) {
+                .getServiceByName(ConfigurationHelper.CONFIGURATION_SERVICE_NAME) == null) {
                 ConfigurationHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
-            if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION)
-                                 .getServiceByName(ParameterHelper.PARAMETER_SERVICE_NAME) == null) {
+            if (MALContextFactory.lookupArea(MCHelper.MC_AREA_NAME, MCHelper.MC_AREA_VERSION).getServiceByName(
+                ParameterHelper.PARAMETER_SERVICE_NAME) == null) {
                 ParameterHelper.init(MALContextFactory.getElementFactoryRegistry());
             }
 
@@ -117,7 +117,7 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
         }
 
         parameterServiceProvider = connection.startService(ParameterHelper.PARAMETER_SERVICE_NAME.toString(),
-                                                           ParameterHelper.PARAMETER_SERVICE, this);
+            ParameterHelper.PARAMETER_SERVICE, this);
 
         running = true;
 
@@ -127,8 +127,8 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
     }
 
     @Override
-    public ParameterValueDetailsList getValue(LongList ll,
-                                              MALInteraction interaction) throws MALInteractionException, MALException {
+    public ParameterValueDetailsList getValue(LongList ll, MALInteraction interaction) throws MALInteractionException,
+        MALException {
         // In this case, the object this.consumer represents the connection 
         // between the consumer part of the proxy to the provider on Space
 
@@ -195,7 +195,7 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
 
     @Override
     public LongList enableGeneration(final Boolean isGroupIds, final InstanceBooleanPairList enableInstances,
-                                     final MALInteraction interaction) throws MALException, MALInteractionException {
+        final MALInteraction interaction) throws MALException, MALInteractionException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -209,8 +209,8 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
     }
 
     @Override
-    public ObjectInstancePairList addParameter(ParameterCreationRequestList pcrl,
-                                               MALInteraction mali) throws MALInteractionException, MALException {
+    public ObjectInstancePairList addParameter(ParameterCreationRequestList pcrl, MALInteraction mali)
+        throws MALInteractionException, MALException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -220,14 +220,14 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
     }
 
     @Override
-    public ObjectInstancePairList listDefinition(IdentifierList il,
-                                                 MALInteraction mali) throws MALInteractionException, MALException {
+    public ObjectInstancePairList listDefinition(IdentifierList il, MALInteraction mali) throws MALInteractionException,
+        MALException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public LongList updateDefinition(LongList ll, ParameterDefinitionDetailsList pddl,
-                                     MALInteraction mali) throws MALInteractionException, MALException {
+    public LongList updateDefinition(LongList ll, ParameterDefinitionDetailsList pddl, MALInteraction mali)
+        throws MALInteractionException, MALException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

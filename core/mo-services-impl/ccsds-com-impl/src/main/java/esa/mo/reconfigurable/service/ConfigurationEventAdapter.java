@@ -62,7 +62,7 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
     private final URI providerURI;
 
     public ConfigurationEventAdapter(COMServicesProvider comServices, ReconfigurableService serviceImpl,
-                                     IdentifierList providerDomain, URI providerURI) {
+        IdentifierList providerDomain, URI providerURI) {
         this.comServices = comServices;
         this.serviceImpl = serviceImpl;
         this.providerDomain = providerDomain;
@@ -71,8 +71,8 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
 
     @Override
     public void monitorEventNotifyReceived(MALMessageHeader msgHeader, Identifier _Identifier0,
-                                           UpdateHeaderList updateHeaderList, ObjectDetailsList objectDetailsList,
-                                           ElementList objects, Map qosProperties) {
+        UpdateHeaderList updateHeaderList, ObjectDetailsList objectDetailsList, ElementList objects,
+        Map qosProperties) {
         // Notification received from the Configuration serviceImpl...
         for (int i = 0; i < objectDetailsList.size(); i++) {
             Identifier eventObjNumber = updateHeaderList.get(i).getKey().getFirstSubKey();
@@ -101,17 +101,14 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
                 }
 
                 // Check if it is a Configuration event for this particular service (based on the service type, domain ?)
-                if (obj.getType().getArea().equals(serviceImpl.getCOMService().getArea().getNumber()) &&
-                    obj.getType().getNumber().equals(serviceImpl.getCOMService().getNumber()) &&
-                    obj.getKey().getDomain().equals(providerDomain)) {
+                if (obj.getType().getArea().equals(serviceImpl.getCOMService().getArea().getNumber()) && obj.getType()
+                    .getNumber().equals(serviceImpl.getCOMService().getNumber()) && obj.getKey().getDomain().equals(
+                        providerDomain)) {
 
                     // Retrieve it from the Archive
-                    ConfigurationObjectDetails configurationObj = (ConfigurationObjectDetails) HelperArchive.getObjectBodyFromArchive(comServices.getArchiveService(),
-                                                                                                                                      obj.getType(),
-                                                                                                                                      obj.getKey()
-                                                                                                                                         .getDomain(),
-                                                                                                                                      obj.getKey()
-                                                                                                                                         .getInstId());
+                    ConfigurationObjectDetails configurationObj = (ConfigurationObjectDetails) HelperArchive
+                        .getObjectBodyFromArchive(comServices.getArchiveService(), obj.getType(), obj.getKey()
+                            .getDomain(), obj.getKey().getInstId());
 
                     // Reload the retrieved configuration
                     Boolean confChanged = serviceImpl.reloadConfiguration(configurationObj);
@@ -146,9 +143,8 @@ public class ConfigurationEventAdapter extends EventAdapter implements Serializa
 
                 try {
                     // Store the Configuration Object in the COM Archive
-                    LongList objIds = comServices.getArchiveService()
-                                                 .store(true, objType, providerDomain, archiveDetailsList, bodies,
-                                                        null);
+                    LongList objIds = comServices.getArchiveService().store(true, objType, providerDomain,
+                        archiveDetailsList, bodies, null);
 
                     Long objId = objIds.get(0);
 

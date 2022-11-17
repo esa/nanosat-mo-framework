@@ -101,8 +101,8 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
             inputFiles.add(myAppFilename.getAbsolutePath());
             locations.add("apps" + SEPARATOR + name + SEPARATOR + myAppFilename.getName());
         } catch (IOException ex) {
-            Logger.getLogger(GenerateNMFPackageMojo.class.getName())
-                  .log(Level.SEVERE, "The Jar file was not found!", ex);
+            Logger.getLogger(GenerateNMFPackageMojo.class.getName()).log(Level.SEVERE, "The Jar file was not found!",
+                ex);
         }
 
         getLog().info("\n------------- NMF Package - Generator -------------\n");
@@ -116,12 +116,12 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
 
         if (mainClass == null) {
             throw new MojoExecutionException("The mainClass property needs to be defined!\n" +
-                                             "Please use the <mainClass> tag inside the <configuration> tag!\n");
+                "Please use the <mainClass> tag inside the <configuration> tag!\n");
         }
 
         if ("${esa.nmf.version-qualifier}".equals(nmfVersion)) {
             throw new MojoExecutionException("The nmfVersion property needs to be defined!\n" +
-                                             "Please use the <nmfVersion> tag inside the <configuration> tag!\n");
+                "Please use the <nmfVersion> tag inside the <configuration> tag!\n");
         }
 
         final Time time = new Time(System.currentTimeMillis());

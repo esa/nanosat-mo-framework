@@ -78,7 +78,7 @@ public class ClockProviderServiceImpl extends ClockInheritanceSkeleton {
 
         this.adapter = adapter;
         clockServiceProvider = connection.startService(ClockHelper.CLOCK_SERVICE_NAME.toString(),
-                                                       ClockHelper.CLOCK_SERVICE, this);
+            ClockHelper.CLOCK_SERVICE, this);
 
         initialiased = true;
         LOGGER.info("Clock service READY");
