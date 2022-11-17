@@ -34,6 +34,7 @@ import esa.mo.nmf.CloseAppListener;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MissionPlanningNMFAdapter;
 import esa.mo.nmf.NMFException;
+import esa.mo.nmf.OneInstanceLock;
 import esa.mo.nmf.nmfpackage.Deployment;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.reconfigurable.provider.PersistProviderConfiguration;
@@ -84,6 +85,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
       PlatformServicesConsumer platformServices,
       PMBackend packageManagementBackend) {
     super.startTime = System.currentTimeMillis();
+    OneInstanceLock lock = new OneInstanceLock();
     HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
     ConnectionProvider.resetURILinks();
 
