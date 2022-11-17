@@ -57,6 +57,7 @@ public class LinuxUsersGroups {
      * with no intervening whitespace.
      * @throws IOException if the user could not be created.
      */
+    @Deprecated
     public static void useradd(String username, String password,
             boolean withGroup, String extraGroups) throws IOException {
         // Second, we need to check if we have permissions to run the commands
@@ -105,31 +106,32 @@ public class LinuxUsersGroups {
     public static void adduser(String username, String password,
             boolean withGroup) throws IOException {
         // First, we need to check if the "useradd" is from BusyBox or not
-        String[] cmd1 = {"sudo", "adduser", "--help"};
-        String out1 = runCommand(cmd1);
-
         // Different Linux Systems have different syntaxes for the same command
         // So we need to check if we are using the adduser from "BusyBox" or not
+        String[] cmd1 = {"sudo", "adduser", "--help"};
+        String out1 = runCommand(cmd1);
         boolean isBusyBox = out1.contains("BusyBox");
 
-        // Second, we need to check if we have permissions to run the commands
+        // Second, we execute the adduser command
         String[] cmd2;
 
         if (isBusyBox) {
             if (withGroup) {
                 LinuxUsersGroups.addgroup(username, true);
-            }
 
-            cmd2 = new String[]{"sudo", "adduser", "-s", DEFAULT_SHELL,
-                withGroup ? " -G " : "", withGroup ? username : "",
-                "-S", username};
+                cmd2 = new String[]{"sudo", "adduser", "-s", DEFAULT_SHELL,
+                    "-G", username, "-S", username};
+            } else {
+                cmd2 = new String[]{"sudo", "adduser", "-s", DEFAULT_SHELL,
+                    "-S", username};
+            }
         } else {
+            // It is NOT BusyBox:
             cmd2 = new String[]{"sudo", "adduser", "--system",
                 "--shell", DEFAULT_SHELL, withGroup ? "--group" : "",
                 username};
         }
-        //String cmd = "useradd $user_nmf_admin -m -s /bin/bash --user-group";
-        //String cmd = "useradd $user_nmf_admin --create-home --shell /bin/bash --user-group";
+
         String out2 = runCommand(cmd2);
         checkIfPermissionDenied(cmd2, out2);
 
@@ -274,7 +276,7 @@ public class LinuxUsersGroups {
                 String error = extractString(p.getErrorStream());
                 throw new IOException("There was an error with code " + exitValue
                         + ". For command:\n >> " + String.join(" ", cmd) + "\n"
-                        + out + "\nError:\n" + error);
+                        + out + "\nError:\n" + error + "\n----");
             }
 
             return out;
